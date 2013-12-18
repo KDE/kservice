@@ -1,0 +1,114 @@
+include(CheckSymbolExists)
+include(CheckFunctionExists)
+check_function_exists(mmap HAVE_MMAP)
+check_symbol_exists(posix_madvise "sys/mman.h" HAVE_MADVISE)
+configure_file(config-ksycoca.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-ksycoca.h )
+
+set(kservice_SRCS
+   kdeinit/ktoolinvocation.cpp
+   services/kautostart.cpp
+   services/kmimetypefactory.cpp
+   services/kmimetypetrader.cpp
+   services/kservice.cpp
+   services/kserviceaction.cpp
+   services/kservicefactory.cpp
+   services/kservicegroup.cpp
+   services/kservicegroupfactory.cpp
+   services/kserviceoffer.cpp
+   services/kservicetype.cpp
+   services/kservicetypefactory.cpp
+   services/kservicetypeprofile.cpp
+   services/kservicetypetrader.cpp
+   services/ktraderparse.cpp
+   services/ktraderparsetree.cpp
+   services/yacc.c
+   services/lex.c
+   services/kplugininfo.cpp
+   sycoca/ksycoca.cpp
+   sycoca/ksycocadict.cpp
+   sycoca/ksycocaentry.cpp
+   sycoca/ksycocafactory.cpp
+   sycoca/ksycocautils.cpp
+   sycoca/kmemfile.cpp
+   plugin/klibrary.cpp
+   plugin/kpluginfactory.cpp
+   plugin/kpluginloader.cpp
+   plugin/kplugintrader.cpp
+   plugin/kdbusservicestarter.cpp
+)
+if (WIN32)
+   LIST(APPEND kservice_SRCS
+      kdeinit/ktoolinvocation_win.cpp
+   )
+endif()
+if (UNIX)
+   LIST(APPEND kservice_SRCS
+      kdeinit/ktoolinvocation_x11.cpp
+   )
+endif()
+
+# Temporary until we can depend on the kinit framework being installed and can generate it from klauncher_adaptor.h
+qt5_add_dbus_interface(kservice_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
+
+add_library(KF5Service ${kservice_SRCS})
+generate_export_header(KF5Service BASE_NAME KService)
+add_library(KF5::Service ALIAS KF5Service)
+set(kservice_includes
+   ${CMAKE_CURRENT_BINARY_DIR}/.. # Since we publicly include kservice_version.h
+   ${CMAKE_CURRENT_SOURCE_DIR}/services
+   ${CMAKE_CURRENT_SOURCE_DIR}/sycoca
+   ${CMAKE_CURRENT_SOURCE_DIR}/plugin
+   ${CMAKE_CURRENT_SOURCE_DIR}/kdeinit
+)
+target_include_directories(KF5Service PUBLIC "$<BUILD_INTERFACE:${kservice_includes}>")
+
+target_link_libraries(KF5Service
+  PUBLIC
+    KF5::ConfigCore   # KConfig and friends
+  PRIVATE
+    KF5::CoreAddons   # KShell
+    KF5::I18n
+    KF5::DBusAddons   # KDEInitInterface
+)
+
+set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION_STRING}
+                                            SOVERSION ${KSERVICE_SOVERSION}
+                                            EXPORT_NAME Service
+)
+
+install(TARGETS KF5Service EXPORT KF5ServiceTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+
+install(FILES
+   "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
+   kdeinit/ktoolinvocation.h
+   services/kautostart.h
+   services/kmimetypetrader.h
+   services/kservice.h
+   services/kserviceaction.h
+   services/kservicegroup.h
+   #services/kservicefactory.h: do not install, internal API
+   services/kservicetype.h
+   #services/kservicetypefactory.h: do not install, internal API
+   services/kservicetypeprofile.h
+   services/kservicetypetrader.h
+   #services/kserviceoffer.h: do not install, internal API
+   services/kplugininfo.h
+   sycoca/ksycoca.h
+   sycoca/ksycocaentry.h
+   sycoca/ksycocatype.h
+   plugin/klibrary.h
+   plugin/kpluginfactory.h
+   plugin/kpluginloader.h
+   plugin/kexportplugin.h
+   plugin/kplugintrader.h
+   DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel
+)
+
+install(FILES
+   services/kplugininfo.desktop
+   services/application.desktop
+   DESTINATION ${SERVICETYPES_INSTALL_DIR}
+)
+
+add_subdirectory(kbuildsycoca)
+add_subdirectory(desktoptojson)

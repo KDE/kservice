@@ -1,0 +1,266 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+  <!ENTITY % English "INCLUDE"><!-- change language only here -->
+]>
+
+<refentry>
+
+<refentryinfo>
+<title>&kde; User's Manual</title>
+<author>
+<firstname>Darian</firstname>
+<surname>Lanx</surname>
+<affiliation>
+<address><email>content@openprojects.net</email></address>
+</affiliation>
+</author>
+
+<date>2010-01-04</date>
+<releaseinfo>1.1 (&kde; 4.4)</releaseinfo>
+
+</refentryinfo>
+
+<refmeta>
+<refentrytitle><command>kbuildsycoca5</command></refentrytitle>
+<manvolnum>8</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname><command>kbuildsycoca5</command></refname>
+<refpurpose>Rebuilds the system configuration cache.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<title>Synopsis</title>
+
+<cmdsynopsis>
+<command>kbuildsycoca5</command>
+
+<group>
+<arg choice="opt">--nosignal</arg>
+<arg choice="opt">--noincremental</arg>
+<arg choice="opt">--checkstamps</arg>
+<arg choice="opt">--nocheckfiles</arg>
+<arg choice="opt">--global</arg>
+<arg choice="opt">--menutest</arg>
+<arg choice="opt">--track <replaceable>menu-id</replaceable></arg>
+<arg choice="opt">--help</arg>
+<arg choice="opt">--help-qt</arg>
+<arg choice="opt">--help-kde</arg>
+<arg choice="opt">--help-all</arg>
+<arg choice="opt">--author</arg>
+<arg choice="opt">-v, --version</arg>
+<arg choice="opt">--license</arg>
+</group>
+</cmdsynopsis>
+
+</refsynopsisdiv>
+
+<refsect1>
+<title>Description</title>
+
+<para>
+<command>kbuildsycoca5</command>, as part of the &kde; command line
+tools ensures the proper operation of &kde; by reading in all the
+<literal role="extension">.desktop</literal>, <literal
+role="extension">.xml</literal>, and <literal
+role="extension">.protocol</literal> files to construct a binary
+database. 
+</para>
+
+<para>
+&kde; itself accesses this database during operation to provide
+configuration information a program needs to run.
+</para>
+
+<para>
+This tool is part of ksycoca4, which stands for &kde; System
+Configuration Cache
+</para>
+
+</refsect1>
+
+<refsect1>
+<title>Options</title>
+
+<variablelist>
+<varlistentry>
+<term><option>--nosignal</option></term>
+<listitem>
+<para>Do not signal applications to update</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--noincremental</option></term>
+<listitem>
+<para>Disable incremental update, re-read everything</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--checkstamps</option></term>
+<listitem>
+<para>Check file timestamps</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--nocheckfiles</option></term>
+<listitem>
+<para>Disable checking files (dangerous)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--global</option></term>
+<listitem>
+<para>Create global database</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--menutest</option></term>
+<listitem>
+<para>Perform menu generation test run only</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--track <replaceable>menu-id</replaceable></option></term>
+<listitem>
+<para>Track menu id for debug purposes</para>
+</listitem>
+</varlistentry>
+
+<!-- this entire section from here to the end of the section could be an -->
+<!-- entity.. or maybe just so irrelevant as to leave it out -->
+
+<varlistentry>
+<term><option>--help</option></term>
+<listitem>
+<para>
+Show help about options
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--help-qt</option></term>
+<listitem>
+<para>
+Show Qt specific options
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--help-kde</option></term>
+<listitem>
+<para>
+Show KDE specific options
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--help-all</option></term>
+<listitem>
+<para>
+Show all options
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--author</option></term>
+<listitem>
+<para>
+Show author information
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>-v , --version</option></term>
+<listitem>
+<para>
+Show version information
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--license</option></term>
+<listitem>
+<para>
+Show license information
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title>Usage</title>
+<para>
+A standard way to run this program is by simply specifying the following
+command at the prompt
+<userinput><command>kbuildsycoca5</command></userinput>
+</para>
+
+</refsect1>
+
+<refsect1>
+<title>Files</title>
+
+<variablelist>
+<varlistentry>
+<term><filename>/var/tmp/kde-$USER/ksycoca5</filename></term>
+<listitem>
+<para>The default directory where the cache files are stored.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title>Environment Variables</title>
+<variablelist>
+<varlistentry>
+<term>$<envar>KDEDIRS</envar></term>
+<listitem>
+<para>Specifies which directories are part of the KDE
+installations</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>$<envar>KDESYCOCA</envar></term>
+<listitem>
+<para>Specifies the path to the sycoca database file</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title>See Also</title>
+
+<para>kdeinit4</para>
+
+</refsect1>
+
+<refsect1>
+<title>Bugs</title>
+
+<para>There are probably tons of bugs. Use <ulink url="http://bugs.kde.org">bugs.kde.org</ulink> to report them.</para>
+
+</refsect1>
+
+</refentry>
+
+
+
