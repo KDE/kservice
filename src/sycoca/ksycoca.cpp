@@ -410,6 +410,9 @@ bool KSycocaPrivate::checkVersion()
     }
 }
 
+// Allow unittests to skip the kded requirement
+KSERVICE_EXPORT bool kservice_require_kded = true;
+
 // If it returns true, we have a valid database and the stream has rewinded to the beginning
 // and past the version number.
 bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
@@ -429,7 +432,7 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
                              qAppName() == "kbuildsycoca5";
 
     // Check if new database already available
-    if (kdedRunning && openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
+    if ((kdedRunning || !kservice_require_kded) && openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
         if (checkVersion()) {
             // Database exists, and version is ok.
             return true;

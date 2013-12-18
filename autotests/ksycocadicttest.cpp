@@ -24,6 +24,8 @@
 #include <kservicetype.h>
 #include <ksycocadict_p.h>
 
+extern KSERVICE_EXPORT bool kservice_require_kded;
+
 class KSycocaDictTest : public QObject
 {
     Q_OBJECT
@@ -32,6 +34,7 @@ private Q_SLOTS:
     void initTestCase()
     {
         QStandardPaths::enableTestMode(true);
+        kservice_require_kded = false;
     }
     void testStandardDict();
     //void testExtensionDict();
@@ -48,9 +51,32 @@ private:
 
 QTEST_MAIN(KSycocaDictTest)
 
+static void runKBuildSycoca()
+{
+    QProcess proc;
+    const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
+    QVERIFY(!kbuildsycoca.isEmpty());
+    QStringList args;
+    args << "--testmode";
+    proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
+    proc.start(kbuildsycoca, args);
+
+    //qDebug() << "waiting for signal";
+    //QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
+    //QVERIFY(spy.wait(10000));
+    //qDebug() << "got signal";
+
+    proc.waitForFinished();
+    QCOMPARE(proc.exitStatus(), QProcess::NormalExit);
+}
+
 // Standard use of KSycocaDict: mapping entry name to entry
 void KSycocaDictTest::testStandardDict()
 {
+    if (!KSycoca::isAvailable()) {
+        runKBuildSycoca();
+    }
+
     if (!KServiceType::serviceType("KCModule")) {
         QSKIP("Missing servicetypes");
     }

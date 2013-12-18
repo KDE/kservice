@@ -160,11 +160,15 @@ public:
     }
 };
 
+extern KSERVICE_EXPORT bool kservice_require_kded;
+
 class KSycocaThreadTest : public QObject
 {
     Q_OBJECT
 public:
-    KSycocaThreadTest() {}
+    KSycocaThreadTest() {
+        kservice_require_kded = false;
+    }
     void launch();
 
 private Q_SLOTS:
