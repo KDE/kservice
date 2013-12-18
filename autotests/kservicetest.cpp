@@ -104,7 +104,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("Type", "Service");
         group.writeEntry("X-KDE-Library", "fakepart");
         group.writeEntry("X-KDE-Protocols", "http,ftp");
-        group.writeEntry("X-KDE-ServiceTypes", "KParts/ReadOnlyPart,Browser/View,KParts/ReadWritePart");
+        group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart,FakeDerivedPart");
         group.writeEntry("MimeType", "text/plain;text/html;");
     }
 
@@ -116,7 +116,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("Name", "FakePart2");
         group.writeEntry("Type", "Service");
         group.writeEntry("X-KDE-Library", "fakepart2");
-        group.writeEntry("X-KDE-ServiceTypes", "KParts/ReadOnlyPart");
+        group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart");
         group.writeEntry("MimeType", "text/plain;");
     }
 
@@ -128,7 +128,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("Name", "PreferredPart");
         group.writeEntry("Type", "Service");
         group.writeEntry("X-KDE-Library", "preferredpart");
-        group.writeEntry("X-KDE-ServiceTypes", "KParts/ReadOnlyPart");
+        group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart");
         group.writeEntry("MimeType", "text/plain;");
     }
 
@@ -140,7 +140,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("Name", "OtherPart");
         group.writeEntry("Type", "Service");
         group.writeEntry("X-KDE-Library", "otherpart");
-        group.writeEntry("X-KDE-ServiceTypes", "KParts/ReadOnlyPart");
+        group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart");
         group.writeEntry("MimeType", "text/plain;");
     }
 
@@ -175,11 +175,42 @@ void KServiceTest::initTestCase()
         file.group("PropertyDef::X-KDE-Version").writeEntry("Type", "double"); // like in ktexteditorplugin.desktop
     }
 
+    // fakebasepart: a servicetype (like ReadOnlyPart)
+    if (!KServiceType::serviceType("FakeBasePart")) {
+        mustUpdateKSycoca = true;
+    }
+    const QString fakeBasePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/servicetypes/") + "fakebasepart.desktop";
+    if (!QFile::exists(fakeBasePart)) {
+        mustUpdateKSycoca = true;
+        KDesktopFile file(fakeBasePart);
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Comment", "Fake Base Part");
+        group.writeEntry("Type", "ServiceType");
+        group.writeEntry("X-KDE-ServiceType", "FakeBasePart");
+    }
+
+    // fakederivedpart: a servicetype deriving from FakeBasePart (like ReadWritePart derives from ReadOnlyPart)
+    if (!KServiceType::serviceType("FakeDerivedPart")) {
+        mustUpdateKSycoca = true;
+    }
+    const QString fakeDerivedPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/servicetypes/") + "fakederivedpart.desktop";
+    if (!QFile::exists(fakeDerivedPart)) {
+        mustUpdateKSycoca = true;
+        KDesktopFile file(fakeDerivedPart);
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Comment", "Fake Derived Part");
+        group.writeEntry("Type", "ServiceType");
+        group.writeEntry("X-KDE-ServiceType", "FakeDerivedPart");
+        group.writeEntry("X-KDE-Derived", "FakeBasePart");
+    }
+
     if (mustUpdateKSycoca) {
         // Update ksycoca in ~/.kde-unit-test after creating the above
         runKBuildSycoca(true);
     }
     QVERIFY(KServiceType::serviceType("FakePluginType"));
+    QVERIFY(KServiceType::serviceType("FakeBasePart"));
+    QVERIFY(KServiceType::serviceType("FakeDerivedPart"));
 }
 
 void KServiceTest::runKBuildSycoca(bool noincremental)
@@ -227,9 +258,9 @@ void KServiceTest::testByName()
         QSKIP("ksycoca not available");
     }
 
-    KServiceType::Ptr s0 = KServiceType::serviceType("KParts/ReadOnlyPart");
-    QVERIFY2(s0, "KServiceType::serviceType(\"KParts/ReadOnlyPart\") failed!");
-    QCOMPARE(s0->name(), QString::fromLatin1("KParts/ReadOnlyPart"));
+    KServiceType::Ptr s0 = KServiceType::serviceType("FakeBasePart");
+    QVERIFY2(s0, "KServiceType::serviceType(\"FakeBasePart\") failed!");
+    QCOMPARE(s0->name(), QString::fromLatin1("FakeBasePart"));
 
     KService::Ptr myService = KService::serviceByDesktopPath("fakepart.desktop");
     QVERIFY(myService);
@@ -384,8 +415,8 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
         QSKIP("ksycoca not available");
     }
 
-    // Querying trader for services associated with KParts/ReadOnlyPart
-    KService::List offers = KServiceTypeTrader::self()->query("KParts/ReadOnlyPart");
+    // Querying trader for services associated with FakeBasePart
+    KService::List offers = KServiceTypeTrader::self()->query("FakeBasePart");
     QVERIFY(offers.count() > 0);
     //foreach( KService::Ptr service, offers )
     //    qDebug( "%s %s", qPrintable( service->name() ), qPrintable( service->entryPath() ) );
@@ -458,34 +489,34 @@ void KServiceTest::testHasServiceType1() // with services constructed with a ful
     QString fakepartPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "fakepart.desktop");
     QVERIFY(!fakepartPath.isEmpty());
     KService fakepart(fakepartPath);
-    QVERIFY(fakepart.hasServiceType("KParts/ReadOnlyPart"));
-    QVERIFY(fakepart.hasServiceType("KParts/ReadWritePart"));
+    QVERIFY(fakepart.hasServiceType("FakeBasePart"));
+    QVERIFY(fakepart.hasServiceType("FakeDerivedPart"));
     QCOMPARE(fakepart.mimeTypes(), QStringList() << "text/plain" << "text/html");
 
     QString faketextPluginPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "faketextplugin.desktop");
     QVERIFY(!faketextPluginPath.isEmpty());
     KService faketextPlugin(faketextPluginPath);
     QVERIFY(faketextPlugin.hasServiceType("FakePluginType"));
-    QVERIFY(!faketextPlugin.hasServiceType("KParts/ReadOnlyPart"));
+    QVERIFY(!faketextPlugin.hasServiceType("FakeBasePart"));
 }
 
 void KServiceTest::testHasServiceType2() // with services coming from ksycoca
 {
     KService::Ptr fakepart = KService::serviceByDesktopPath("fakepart.desktop");
     QVERIFY(fakepart);
-    QVERIFY(fakepart->hasServiceType("KParts/ReadOnlyPart"));
-    QVERIFY(fakepart->hasServiceType("KParts/ReadWritePart"));
+    QVERIFY(fakepart->hasServiceType("FakeBasePart"));
+    QVERIFY(fakepart->hasServiceType("FakeDerivedPart"));
     QCOMPARE(fakepart->mimeTypes(), QStringList() << "text/plain" << "text/html");
 
     KService::Ptr faketextPlugin = KService::serviceByDesktopPath("faketextplugin.desktop");
     QVERIFY(faketextPlugin);
     QVERIFY(faketextPlugin->hasServiceType("FakePluginType"));
-    QVERIFY(!faketextPlugin->hasServiceType("KParts/ReadOnlyPart"));
+    QVERIFY(!faketextPlugin->hasServiceType("FakeBasePart"));
 }
 
 void KServiceTest::testWriteServiceTypeProfile()
 {
-    const QString serviceType = "KParts/ReadOnlyPart";
+    const QString serviceType = "FakeBasePart";
     KService::List services, disabledServices;
     services.append(KService::serviceByDesktopPath("preferredpart.desktop"));
     services.append(KService::serviceByDesktopPath("fakepart.desktop"));
@@ -521,7 +552,7 @@ void KServiceTest::testWriteServiceTypeProfile()
 void KServiceTest::testDefaultOffers()
 {
     // Now that we have a user-profile, let's see if defaultOffers indeed gives us the default ordering.
-    const QString serviceType = "KParts/ReadOnlyPart";
+    const QString serviceType = "FakeBasePart";
     KService::List offers = KServiceTypeTrader::self()->defaultOffers(serviceType);
     QVERIFY(offers.count() > 0);   // not empty
     QVERIFY(offerListHasService(offers, "fakepart2.desktop"));     // it's here even though it's disabled in the profile
@@ -534,7 +565,7 @@ void KServiceTest::testDefaultOffers()
 
 void KServiceTest::testDeleteServiceTypeProfile()
 {
-    const QString serviceType = "KParts/ReadOnlyPart";
+    const QString serviceType = "FakeBasePart";
     KServiceTypeProfile::deleteServiceTypeProfile(serviceType);
 
     KService::List offers = KServiceTypeTrader::self()->query(serviceType);
