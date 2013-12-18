@@ -166,7 +166,8 @@ class KSycocaThreadTest : public QObject
 {
     Q_OBJECT
 public:
-    KSycocaThreadTest() {
+    KSycocaThreadTest()
+    {
         kservice_require_kded = false;
     }
     void launch();

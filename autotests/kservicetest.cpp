@@ -132,6 +132,20 @@ void KServiceTest::initTestCase()
         group.writeEntry("MimeType", "text/plain;");
     }
 
+    const QString fakeCookie = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/kded/") + "fakekcookiejar.desktop";
+    if (!QFile::exists(fakeCookie)) {
+        mustUpdateKSycoca = true;
+        KDesktopFile file(fakeCookie);
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Name", "OtherPart");
+        group.writeEntry("Type", "Service");
+        group.writeEntry("X-KDE-ServiceTypes", "KDEDModule");
+        group.writeEntry("X-KDE-Library", "kcookiejar");
+        group.writeEntry("X-KDE-DBus-ModuleName", "kcookiejar");
+        group.writeEntry("X-KDE-Kded-autoload", "false");
+        group.writeEntry("X-KDE-Kded-load-on-demand", "true");
+    }
+
     const QString otherPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + "otherpart.desktop";
     if (!QFile::exists(otherPart)) {
         mustUpdateKSycoca = true;
@@ -269,9 +283,9 @@ void KServiceTest::testByName()
 
 void KServiceTest::testProperty()
 {
-    KService::Ptr kdedkcookiejar = KService::serviceByDesktopPath("kded/kcookiejar.desktop");
+    KService::Ptr kdedkcookiejar = KService::serviceByDesktopPath("kded/fakekcookiejar.desktop");
     QVERIFY(kdedkcookiejar);
-    QCOMPARE(kdedkcookiejar->entryPath(), QString("kded/kcookiejar.desktop"));
+    QCOMPARE(kdedkcookiejar->entryPath(), QString("kded/fakekcookiejar.desktop"));
 
     QCOMPARE(kdedkcookiejar->property("ServiceTypes").toStringList().join(","), QString("KDEDModule"));
     QCOMPARE(kdedkcookiejar->property("X-KDE-Kded-autoload").toBool(), false);
@@ -418,8 +432,15 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
     // Querying trader for services associated with FakeBasePart
     KService::List offers = KServiceTypeTrader::self()->query("FakeBasePart");
     QVERIFY(offers.count() > 0);
-    //foreach( KService::Ptr service, offers )
-    //    qDebug( "%s %s", qPrintable( service->name() ), qPrintable( service->entryPath() ) );
+
+    if (!offerListHasService(offers, "fakepart.desktop")
+        || !offerListHasService(offers, "fakepart2.desktop")
+        || !offerListHasService(offers, "otherpart.desktop")
+        || !offerListHasService(offers, "preferredpart.desktop")) {
+        foreach (KService::Ptr service, offers) {
+            qDebug("%s %s", qPrintable(service->name()), qPrintable(service->entryPath()));
+        }
+    }
 
     m_firstOffer = offers[0]->entryPath();
 
