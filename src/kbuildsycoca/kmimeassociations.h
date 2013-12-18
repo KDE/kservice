@@ -37,21 +37,22 @@ class KOfferHash
 {
 public:
     KOfferHash() {}
-    QList<KServiceOffer> offersFor(const QString& serviceType) const {
+    QList<KServiceOffer> offersFor(const QString &serviceType) const
+    {
         QHash<QString, ServiceTypeOffersData>::const_iterator it = m_serviceTypeData.find(serviceType);
-        if (it != m_serviceTypeData.end())
+        if (it != m_serviceTypeData.end()) {
             return (*it).offers;
+        }
         return QList<KServiceOffer>();
     }
-    void addServiceOffer(const QString& serviceType, const KServiceOffer& offer);
-    void removeServiceOffer(const QString& serviceType, KService::Ptr service);
-    bool hasRemovedOffer(const QString& serviceType, KService::Ptr service) const;
+    void addServiceOffer(const QString &serviceType, const KServiceOffer &offer);
+    void removeServiceOffer(const QString &serviceType, KService::Ptr service);
+    bool hasRemovedOffer(const QString &serviceType, KService::Ptr service) const;
 
 private:
-    KOfferHash(const KOfferHash&); // forbidden
+    KOfferHash(const KOfferHash &); // forbidden
     QHash<QString, ServiceTypeOffersData> m_serviceTypeData;
 };
-
 
 /**
  * Parse mimeapps.list files and:
@@ -61,18 +62,18 @@ private:
 class KMimeAssociations
 {
 public:
-    explicit KMimeAssociations(KOfferHash& offerHash);
+    explicit KMimeAssociations(KOfferHash &offerHash);
 
     // Read mimeapps.list files
     bool parseAllMimeAppsList();
 
-    void parseMimeAppsList(const QString& file, int basePreference);
+    void parseMimeAppsList(const QString &file, int basePreference);
 
 private:
-    void parseAddedAssociations(const KConfigGroup& group, const QString& file, int basePreference);
-    void parseRemovedAssociations(const KConfigGroup& group, const QString& file);
+    void parseAddedAssociations(const KConfigGroup &group, const QString &file, int basePreference);
+    void parseRemovedAssociations(const KConfigGroup &group, const QString &file);
 
-    KOfferHash& m_offerHash;
+    KOfferHash &m_offerHash;
 };
 
 #endif /* KMIMEASSOCIATIONS_H */

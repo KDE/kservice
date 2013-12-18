@@ -74,7 +74,7 @@ void PluginTest::loadPlugin()
     const QString serviceType("KService/NSA");
     const QString constraint = QString("[X-KDE-PluginInfo-Name] == '%1'").arg(pluginName);
 
-    QObject* plugin = KPluginTrader::createInstanceFromQuery<QObject>(QString(), serviceType, constraint, this);
+    QObject *plugin = KPluginTrader::createInstanceFromQuery<QObject>(QString(), serviceType, constraint, this);
     QVERIFY(plugin != 0);
     QCOMPARE(plugin->objectName(), QStringLiteral("Test Plugin Spy"));
 }

@@ -32,7 +32,7 @@ class NSAPlugin : public QObject
     Q_OBJECT
 
 public:
-    explicit NSAPlugin(QObject* parent, const QVariantList &args);
+    explicit NSAPlugin(QObject *parent, const QVariantList &args);
 
 private:
     KPluginInfo m_pluginInfo;

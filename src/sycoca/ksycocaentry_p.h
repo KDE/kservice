@@ -22,16 +22,15 @@
 #include "ksycocaentry.h"
 
 #define K_SYCOCATYPE( type, baseclass ) \
- virtual bool isType(KSycocaType t) const { if (t == type) return true; return baseclass::isType(t);} \
- virtual KSycocaType sycocaType() const { return type; }
-
+    virtual bool isType(KSycocaType t) const { if (t == type) return true; return baseclass::isType(t);} \
+    virtual KSycocaType sycocaType() const { return type; }
 
 class KSycocaEntryPrivate
 {
 public:
     KSycocaEntryPrivate(const QString &path_)
-        : offset( 0 ),
-          deleted( false ), path(path_)
+        : offset(0),
+          deleted(false), path(path_)
     {}
 
     KSycocaEntryPrivate(QDataStream &_str, int iOffset);
@@ -70,13 +69,14 @@ public:
 
     virtual QString name() const = 0;
 
-    virtual QString storageId() const { return name(); }
+    virtual QString storageId() const
+    {
+        return name();
+    }
 
     int offset;
     bool deleted;
     QString path;
 };
-
-
 
 #endif

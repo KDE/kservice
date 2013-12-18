@@ -42,53 +42,56 @@ class KServiceType;
  */
 class KSERVICE_EXPORT KServiceTypeFactory : public KSycocaFactory
 {
-  K_SYCOCAFACTORY( KST_KServiceTypeFactory )
+    K_SYCOCAFACTORY(KST_KServiceTypeFactory)
 public:
-  /**
-   * Create factory
-   */
-  KServiceTypeFactory();
+    /**
+     * Create factory
+     */
+    KServiceTypeFactory();
 
-  virtual ~KServiceTypeFactory();
+    virtual ~KServiceTypeFactory();
 
-  /**
-   * Not meant to be called at this level
-   */
-  virtual KSycocaEntry *createEntry(const QString &) const
-    { assert(0); return 0; }
+    /**
+     * Not meant to be called at this level
+     */
+    virtual KSycocaEntry *createEntry(const QString &) const
+    {
+        assert(0);
+        return 0;
+    }
 
-  /**
-   * Find a service type in the database file (allocates it)
-   * Overloaded by KBuildServiceTypeFactory to return a memory one.
-   */
-  virtual KServiceType::Ptr findServiceTypeByName(const QString &_name);
+    /**
+     * Find a service type in the database file (allocates it)
+     * Overloaded by KBuildServiceTypeFactory to return a memory one.
+     */
+    virtual KServiceType::Ptr findServiceTypeByName(const QString &_name);
 
-  /**
-   * Find a the property type of a named property.
-   */
-  QVariant::Type findPropertyTypeByName(const QString &_name);
+    /**
+     * Find a the property type of a named property.
+     */
+    QVariant::Type findPropertyTypeByName(const QString &_name);
 
-  /**
-   * @return all servicetypes
-   * Slow and memory consuming, avoid using
-   */
-  KServiceType::List allServiceTypes();
+    /**
+     * @return all servicetypes
+     * Slow and memory consuming, avoid using
+     */
+    KServiceType::List allServiceTypes();
 
-  /**
-   * @return the unique servicetype factory, creating it if necessary
-   */
-  static KServiceTypeFactory * self();
-
-protected:
-  virtual KServiceType *createEntry(int offset) const;
-
-  // protected for KBuildServiceTypeFactory
-  QMap<QString,int> m_propertyTypeDict;
+    /**
+     * @return the unique servicetype factory, creating it if necessary
+     */
+    static KServiceTypeFactory *self();
 
 protected:
-  virtual void virtual_hook( int id, void* data );
+    virtual KServiceType *createEntry(int offset) const;
+
+    // protected for KBuildServiceTypeFactory
+    QMap<QString, int> m_propertyTypeDict;
+
+protected:
+    virtual void virtual_hook(int id, void *data);
 private:
-  class KServiceTypeFactoryPrivate* d;
+    class KServiceTypeFactoryPrivate *d;
 };
 
 #endif

@@ -25,14 +25,14 @@
 class PluginTest : public QObject
 {
     Q_OBJECT
-    public:
-        PluginTest() {}
+public:
+    PluginTest() {}
 
-    private Q_SLOTS:
-        void findPlugin_data();
-        void findPlugin();
-        void findSomething();
-        void loadPlugin();
+private Q_SLOTS:
+    void findPlugin_data();
+    void findPlugin();
+    void findSomething();
+    void loadPlugin();
 };
 
 #endif

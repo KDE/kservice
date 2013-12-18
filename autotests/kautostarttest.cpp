@@ -23,7 +23,7 @@
 
 #include <QtCore/QFile>
 
-QTEST_MAIN( KAutostartTest ) // Qt5 TODO: QTEST_GUILESS_MAIN
+QTEST_MAIN(KAutostartTest)   // Qt5 TODO: QTEST_GUILESS_MAIN
 
 #include <kautostart.h>
 
@@ -31,10 +31,12 @@ void KAutostartTest::testStartDetection_data()
 {
     QTest::addColumn<QString>("service");
     QTest::addColumn<bool>("doesAutostart");
-    if ( KAutostart::isServiceRegistered("plasma-desktop") )
+    if (KAutostart::isServiceRegistered("plasma-desktop")) {
         QTest::newRow("plasma-desktop") << "plasma-desktop" << true;
-    if ( KAutostart::isServiceRegistered("khotkeys") )
+    }
+    if (KAutostart::isServiceRegistered("khotkeys")) {
         QTest::newRow("khotkeys") << "khotkeys" << false;
+    }
     QTest::newRow("does not exist") << "doesnotexist" << false;
 }
 
@@ -62,22 +64,26 @@ void KAutostartTest::testStartInEnvDetection()
 
     KAutostart autostart("plasma-desktop");
     // Let's see if plasma.desktop actually exists
-    if ( QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("autostart/") + "plasma-desktop.desktop").isEmpty() )
-        QSKIP( "plasma-desktop.desktop not found, kdebase not installed" );
-    else
+    if (QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("autostart/") + "plasma-desktop.desktop").isEmpty()) {
+        QSKIP("plasma-desktop.desktop not found, kdebase not installed");
+    } else {
         QCOMPARE(autostart.autostarts(env), doesAutostart);
+    }
 }
 
 void KAutostartTest::testStartphase_data()
 {
     QTest::addColumn<QString>("service");
     QTest::addColumn<int>("startPhase");
-    if ( KAutostart::isServiceRegistered("plasma-desktop") )
+    if (KAutostart::isServiceRegistered("plasma-desktop")) {
         QTest::newRow("plasma-desktop") << "plasma-desktop" << (int)KAutostart::BaseDesktop;
-    if ( KAutostart::isServiceRegistered("klipper") )
+    }
+    if (KAutostart::isServiceRegistered("klipper")) {
         QTest::newRow("klipper") << "klipper" << (int)KAutostart::Applications;
-    if ( KAutostart::isServiceRegistered("khotkeys") )
+    }
+    if (KAutostart::isServiceRegistered("khotkeys")) {
         QTest::newRow("khotkeys") << "ktip" << (int)KAutostart::Applications;
+    }
     QTest::newRow("does not exist") << "doesnotexist"
                                     << (int)KAutostart::Applications;
 }
@@ -93,8 +99,9 @@ void KAutostartTest::testStartphase()
 
 void KAutostartTest::testStartName()
 {
-    if ( !KAutostart::isServiceRegistered("plasma-desktop") )
-        QSKIP( "plasma-desktop.desktop not found, kdebase not installed" );
+    if (!KAutostart::isServiceRegistered("plasma-desktop")) {
+        QSKIP("plasma-desktop.desktop not found, kdebase not installed");
+    }
     KAutostart autostart("plasma-desktop");
     QCOMPARE(autostart.visibleName(), QString("Plasma Desktop Workspace"));
 }
@@ -104,8 +111,9 @@ void KAutostartTest::testServiceRegistered()
     KAutostart autostart;
     QCOMPARE(KAutostart::isServiceRegistered("doesnotexist"), false);
 
-    if ( QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("autostart/") + "plasma-desktop.desktop").isEmpty() )
-        QSKIP( "plasma-desktop.desktop not found, kdebase not installed" );
+    if (QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("autostart/") + "plasma-desktop.desktop").isEmpty()) {
+        QSKIP("plasma-desktop.desktop not found, kdebase not installed");
+    }
     QCOMPARE(KAutostart::isServiceRegistered("plasma-desktop"), true);
 }
 

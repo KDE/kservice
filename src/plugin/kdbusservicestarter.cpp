@@ -27,18 +27,18 @@
 
 class KDBusServiceStarterPrivate
 {
-    public:
-        KDBusServiceStarterPrivate() : q(0) {}
-        ~KDBusServiceStarterPrivate()
-        {
-            delete q;
-        }
-        KDBusServiceStarter *q;
+public:
+    KDBusServiceStarterPrivate() : q(0) {}
+    ~KDBusServiceStarterPrivate()
+    {
+        delete q;
+    }
+    KDBusServiceStarter *q;
 };
 
 Q_GLOBAL_STATIC(KDBusServiceStarterPrivate, privateObject)
 
-KDBusServiceStarter* KDBusServiceStarter::self()
+KDBusServiceStarter *KDBusServiceStarter::self()
 {
     if (!privateObject()->q) {
         new KDBusServiceStarter;
@@ -59,50 +59,52 @@ KDBusServiceStarter::~KDBusServiceStarter()
 {
 }
 
-int KDBusServiceStarter::findServiceFor( const QString& serviceType,
-                                         const QString& _constraint,
-                                         QString *error, QString* pDBusService,
-                                         int flags )
+int KDBusServiceStarter::findServiceFor(const QString &serviceType,
+                                        const QString &_constraint,
+                                        QString *error, QString *pDBusService,
+                                        int flags)
 {
     // Ask the trader which service is preferred for this servicetype
     // We want one that provides a DBus interface
     QString constraint = _constraint;
-    if ( !constraint.isEmpty() )
+    if (!constraint.isEmpty()) {
         constraint += QLatin1String(" and ");
+    }
     constraint += QLatin1String("exist [X-DBUS-ServiceName]");
     const KService::List offers = KServiceTypeTrader::self()->query(serviceType, constraint);
-    if ( offers.isEmpty() ) {
-        if ( error )
-            *error = i18n("No service implementing %1",  serviceType );
+    if (offers.isEmpty()) {
+        if (error) {
+            *error = i18n("No service implementing %1",  serviceType);
+        }
         qWarning() << "KDBusServiceStarter: No service implementing " << serviceType;
         return -1;
     }
     KService::Ptr ptr = offers.first();
     QString dbusService = ptr->property(QStringLiteral("X-DBUS-ServiceName")).toString();
 
-    if ( !QDBusConnection::sessionBus().interface()->isServiceRegistered( dbusService ) )
-    {
+    if (!QDBusConnection::sessionBus().interface()->isServiceRegistered(dbusService)) {
         QString error;
-        if ( startServiceFor( serviceType, constraint, &error, &dbusService, flags ) != 0 )
-        {
+        if (startServiceFor(serviceType, constraint, &error, &dbusService, flags) != 0) {
             //qDebug() << "Couldn't start service:" << error;
             return -2;
         }
     }
     //qDebug() << "DBus service is available now, as" << dbusService;
-    if ( pDBusService )
+    if (pDBusService) {
         *pDBusService = dbusService;
+    }
     return 0;
 }
 
-int KDBusServiceStarter::startServiceFor( const QString& serviceType,
-                                          const QString& constraint,
-                                          QString *error, QString* dbusService, int /*flags*/ )
+int KDBusServiceStarter::startServiceFor(const QString &serviceType,
+        const QString &constraint,
+        QString *error, QString *dbusService, int /*flags*/)
 {
     const KService::List offers = KServiceTypeTrader::self()->query(serviceType, constraint);
-    if ( offers.isEmpty() )
+    if (offers.isEmpty()) {
         return -1;
+    }
     KService::Ptr ptr = offers.first();
     //qDebug() << "starting" << ptr->entryPath();
-    return KToolInvocation::startServiceByDesktopPath( ptr->entryPath(), QStringList(), error, dbusService );
+    return KToolInvocation::startServiceByDesktopPath(ptr->entryPath(), QStringList(), error, dbusService);
 }

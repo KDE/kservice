@@ -35,14 +35,13 @@
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
 
-
 static QTextStream cout(stdout);
 static QTextStream cerr(stderr);
 
 KConfigToJson::KConfigToJson(QCommandLineParser *parser, const QCommandLineOption &i, const QCommandLineOption &o)
-  : m_parser(parser),
-    input(i),
-    output(o)
+    : m_parser(parser),
+      input(i),
+      output(o)
 {
 }
 
@@ -91,7 +90,7 @@ bool KConfigToJson::convert(const QString &src, const QString &dest)
     KConfigGroup c = df.desktopGroup();
 
     static const QSet<QString> boolkeys = QSet<QString>()
-            << QStringLiteral("Hidden") << QStringLiteral("X-KDE-PluginInfo-EnabledByDefault");
+                                          << QStringLiteral("Hidden") << QStringLiteral("X-KDE-PluginInfo-EnabledByDefault");
     static const QSet<QString> stringlistkeys = QSet<QString>()
             << QStringLiteral("X-KDE-ServiceTypes") << QStringLiteral("X-KDE-PluginInfo-Depends");
 

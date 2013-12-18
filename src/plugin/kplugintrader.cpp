@@ -25,11 +25,9 @@
 #include <QtCore/QDirIterator>
 #include <QtCore/QJsonObject>
 
-
 #include <QDebug>
 
 using namespace KTraderParse;
-
 
 static inline QStringList suffixFilters()
 {
@@ -37,9 +35,9 @@ static inline QStringList suffixFilters()
     return QStringList() << QStringLiteral(".dll");
 #else
     return QStringList() << QStringLiteral("*.so")
-                         << QStringLiteral("*.dylib")
-                         << QStringLiteral("*.bundle")
-                         << QStringLiteral("*.sl");
+           << QStringLiteral("*.dylib")
+           << QStringLiteral("*.bundle")
+           << QStringLiteral("*.sl");
 #endif
 }
 
@@ -51,7 +49,7 @@ public:
 
 Q_GLOBAL_STATIC(KPluginTraderSingleton, s_globalPluginTrader)
 
-KPluginTrader* KPluginTrader::self()
+KPluginTrader *KPluginTrader::self()
 {
     return &s_globalPluginTrader()->instance;
 }
@@ -65,21 +63,21 @@ KPluginTrader::~KPluginTrader()
 {
 }
 
-void KPluginTrader::applyConstraints(KPluginInfo::List& lst, const QString& constraint )
+void KPluginTrader::applyConstraints(KPluginInfo::List &lst, const QString &constraint)
 {
     if (lst.isEmpty() || constraint.isEmpty()) {
         return;
     }
 
     const ParseTreeBase::Ptr constr = parseConstraints(constraint); // for ownership
-    const ParseTreeBase* pConstraintTree = constr.data(); // for speed
+    const ParseTreeBase *pConstraintTree = constr.data(); // for speed
 
     if (!constr) { // parse error
         lst.clear();
     } else {
         // Find all plugin infos matching the constraint and remove the rest
         KPluginInfo::List::iterator it = lst.begin();
-        while(it != lst.end()) {
+        while (it != lst.end()) {
             if (matchConstraintPlugin(pConstraintTree, *it, lst) != 1) {
                 it = lst.erase(it);
             } else {
@@ -89,7 +87,7 @@ void KPluginTrader::applyConstraints(KPluginInfo::List& lst, const QString& cons
     }
 }
 
-KPluginInfo::List KPluginTrader::query(const QString& subDirectory, const QString& servicetype, const QString& constraint)
+KPluginInfo::List KPluginTrader::query(const QString &subDirectory, const QString &servicetype, const QString &constraint)
 {
     QPluginLoader loader;
     QStringList libraryPaths;
@@ -99,11 +97,11 @@ KPluginInfo::List KPluginTrader::query(const QString& subDirectory, const QStrin
         //qDebug() << "ABSOLUTE path: " << subDirectory;
         libraryPaths << subDirectory;
     } else {
-        Q_FOREACH (const QString& dir, QCoreApplication::libraryPaths()) {
+        Q_FOREACH (const QString &dir, QCoreApplication::libraryPaths()) {
             libraryPaths << dir + QDir::separator() + subDirectory;
         }
     }
-    Q_FOREACH (const QString& plugindir, libraryPaths) {
+    Q_FOREACH (const QString &plugindir, libraryPaths) {
         QDirIterator it(plugindir, suffixFilters(), QDir::Files);
         while (it.hasNext()) {
             it.next();

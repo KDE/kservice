@@ -37,7 +37,7 @@ KBuildMimeTypeFactory::KBuildMimeTypeFactory() :
 
 // return all resource types for this factory
 // i.e. first arguments to m_resourceList->add() above
- QStringList KBuildMimeTypeFactory::resourceDirs()
+QStringList KBuildMimeTypeFactory::resourceDirs()
 {
     return QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "mime", QStandardPaths::LocateDirectory);
 }
@@ -49,35 +49,39 @@ KBuildMimeTypeFactory::~KBuildMimeTypeFactory()
 
 KSycocaEntry::List KBuildMimeTypeFactory::allEntries() const
 {
-    assert (KSycoca::self()->isBuilding());
+    assert(KSycoca::self()->isBuilding());
     KSycocaEntry::List lst;
     KSycocaEntryDict::Iterator itmime = m_entryDict->begin();
     const KSycocaEntryDict::Iterator endmime = m_entryDict->end();
-    for( ; itmime != endmime ; ++itmime )
-        lst.append( *itmime );
+    for (; itmime != endmime; ++itmime) {
+        lst.append(*itmime);
+    }
     return lst;
 }
 
-KSycocaEntry* KBuildMimeTypeFactory::createEntry(const QString &file) const
+KSycocaEntry *KBuildMimeTypeFactory::createEntry(const QString &file) const
 {
     // file=text/plain.xml  ->  name=plain.xml dirName=text
     Q_ASSERT(!file.startsWith("mime/"));
 
     const int pos = file.lastIndexOf('/');
-    if (pos == -1) // huh?
+    if (pos == -1) { // huh?
         return 0;
+    }
     const QString dirName = file.left(pos);
-    if (dirName == "packages") // special subdir
+    if (dirName == "packages") { // special subdir
         return 0;
+    }
 
     const int dot = file.lastIndexOf('.');
-    if (dot == -1) // huh?
+    if (dot == -1) { // huh?
         return 0;
+    }
     const QString name = file.left(dot);
 
     //qDebug() << "Creating mimetype" << name << "from file" << file;
 
-    MimeTypeEntry* e = new MimeTypeEntry(file, name);
+    MimeTypeEntry *e = new MimeTypeEntry(file, name);
     return e;
 }
 
@@ -101,15 +105,15 @@ void KBuildMimeTypeFactory::save(QDataStream &str)
     str.device()->seek(endOfFactoryData);
 }
 
-void KBuildMimeTypeFactory::createFakeMimeType(const QString& name)
+void KBuildMimeTypeFactory::createFakeMimeType(const QString &name)
 {
-   const QString file = name; // hack
-   KSycocaEntry::Ptr entry = m_entryDict->value(file);
-   if (!entry) {
-       MimeTypeEntry* e = new MimeTypeEntry(file, name);
-       entry = e;
-   }
+    const QString file = name; // hack
+    KSycocaEntry::Ptr entry = m_entryDict->value(file);
+    if (!entry) {
+        MimeTypeEntry *e = new MimeTypeEntry(file, name);
+        entry = e;
+    }
 
-   Q_ASSERT(entry && entry->isValid());
-   addEntry(entry);
+    Q_ASSERT(entry && entry->isValid());
+    addEntry(entry);
 }

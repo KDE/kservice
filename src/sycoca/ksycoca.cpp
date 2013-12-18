@@ -79,15 +79,14 @@ static bool s_autoRebuild = true;
 // The purpose of these limitations is to limit the impact
 // of database corruption.
 
-
 Q_DECLARE_OPERATORS_FOR_FLAGS(KSycocaPrivate::BehaviorsIfNotFound)
 
 KSycocaPrivate::KSycocaPrivate()
-    : databaseStatus( DatabaseNotOpen ),
-      readError( false ),
-      timeStamp( 0 ),
+    : databaseStatus(DatabaseNotOpen),
+      readError(false),
+      timeStamp(0),
       m_databasePath(),
-      updateSig( 0 ),
+      updateSig(0),
       sycoca_size(0),
       sycoca_mmap(0),
       m_mmapFile(0),
@@ -106,15 +105,17 @@ KSycocaPrivate::KSycocaPrivate()
     setStrategyFromString(config.readEntry("strategy"));
 }
 
-void KSycocaPrivate::setStrategyFromString(const QString& strategy) {
-    if (strategy == QLatin1String("mmap"))
+void KSycocaPrivate::setStrategyFromString(const QString &strategy)
+{
+    if (strategy == QLatin1String("mmap")) {
         m_sycocaStrategy = StrategyMmap;
-    else if (strategy == QLatin1String("file"))
+    } else if (strategy == QLatin1String("file")) {
         m_sycocaStrategy = StrategyFile;
-    else if (strategy == QLatin1String("sharedmem"))
+    } else if (strategy == QLatin1String("sharedmem")) {
         m_sycocaStrategy = StrategyMemFile;
-    else if (!strategy.isEmpty())
+    } else if (!strategy.isEmpty()) {
         qWarning() << "Unknown sycoca strategy:" << strategy;
+    }
 }
 
 bool KSycocaPrivate::tryMmap()
@@ -124,8 +125,9 @@ bool KSycocaPrivate::tryMmap()
     m_mmapFile = new QFile(m_databasePath);
     const bool canRead = m_mmapFile->open(QIODevice::ReadOnly);
     Q_ASSERT(canRead);
-    if (!canRead)
+    if (!canRead) {
         return false;
+    }
     fcntl(m_mmapFile->handle(), F_SETFD, FD_CLOEXEC);
     sycoca_size = m_mmapFile->size();
     sycoca_mmap = (const char *) mmap(0, sycoca_size,
@@ -133,13 +135,13 @@ bool KSycocaPrivate::tryMmap()
                                       m_mmapFile->handle(), 0);
     /* POSIX mandates only MAP_FAILED, but we are paranoid so check for
        null pointer too.  */
-    if (sycoca_mmap == (const char*) MAP_FAILED || sycoca_mmap == 0) {
+    if (sycoca_mmap == (const char *) MAP_FAILED || sycoca_mmap == 0) {
         qDebug().nospace() << "mmap failed. (length = " << sycoca_size << ")";
         sycoca_mmap = 0;
         return false;
     } else {
 #if HAVE_MADVISE
-        (void) posix_madvise((void*)sycoca_mmap, sycoca_size, POSIX_MADV_WILLNEED);
+        (void) posix_madvise((void *)sycoca_mmap, sycoca_size, POSIX_MADV_WILLNEED);
 #endif // HAVE_MADVISE
         return true;
     }
@@ -149,7 +151,7 @@ bool KSycocaPrivate::tryMmap()
 
 int KSycoca::version()
 {
-   return KSYCOCA_VERSION;
+    return KSYCOCA_VERSION;
 }
 
 class KSycocaSingleton
@@ -158,27 +160,31 @@ public:
     KSycocaSingleton() { }
     ~KSycocaSingleton() { }
 
-    bool hasSycoca() const {
+    bool hasSycoca() const
+    {
         return m_threadSycocas.hasLocalData();
     }
-    KSycoca* sycoca() {
-        if (!m_threadSycocas.hasLocalData())
+    KSycoca *sycoca()
+    {
+        if (!m_threadSycocas.hasLocalData()) {
             m_threadSycocas.setLocalData(new KSycoca);
+        }
         return m_threadSycocas.localData();
     }
-    void setSycoca(KSycoca* s) {
+    void setSycoca(KSycoca *s)
+    {
         m_threadSycocas.setLocalData(s);
     }
 
 private:
-    QThreadStorage<KSycoca*> m_threadSycocas;
+    QThreadStorage<KSycoca *> m_threadSycocas;
 };
 
 Q_GLOBAL_STATIC(KSycocaSingleton, ksycocaInstance)
 
 // Read-only constructor
 KSycoca::KSycoca()
-  : d(new KSycocaPrivate)
+    : d(new KSycocaPrivate)
 {
     QDBusConnection::sessionBus().connect(QString(), QString(),
                                           QString::fromLatin1("org.kde.KSycoca"),
@@ -216,7 +222,7 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
             //qDebug() << "No database, opening a dummy one.";
 
             m_sycocaStrategy = StrategyDummyBuffer;
-            QDataStream* str = stream();
+            QDataStream *str = stream();
             *str << qint32(KSYCOCA_VERSION);
             *str << qint32(0);
         } else {
@@ -226,14 +232,15 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
     return result;
 }
 
-KSycocaAbstractDevice* KSycocaPrivate::device()
+KSycocaAbstractDevice *KSycocaPrivate::device()
 {
-    if (m_device)
+    if (m_device) {
         return m_device;
+    }
 
     Q_ASSERT(!m_databasePath.isEmpty());
 
-    KSycocaAbstractDevice* device = m_device;
+    KSycocaAbstractDevice *device = m_device;
     if (m_sycocaStrategy == StrategyDummyBuffer) {
         device = new KSycocaBufferDevice;
         device->device()->open(QIODevice::ReadOnly); // can't fail
@@ -269,7 +276,7 @@ KSycocaAbstractDevice* KSycocaPrivate::device()
     return m_device;
 }
 
-QDataStream*& KSycocaPrivate::stream()
+QDataStream *&KSycocaPrivate::stream()
 {
     if (!m_device) {
         if (databaseStatus == DatabaseNotOpen) {
@@ -283,16 +290,16 @@ QDataStream*& KSycocaPrivate::stream()
 }
 
 // Read-write constructor - only for KBuildSycoca
-KSycoca::KSycoca( bool /* dummy */ )
-  : d(new KSycocaPrivate)
+KSycoca::KSycoca(bool /* dummy */)
+    : d(new KSycocaPrivate)
 {
     // This instance was not created by the singleton, but by a direct call to new!
     ksycocaInstance()->setSycoca(this);
 }
 
-KSycoca * KSycoca::self()
+KSycoca *KSycoca::self()
 {
-    KSycoca* s = ksycocaInstance()->sycoca();
+    KSycoca *s = ksycocaInstance()->sycoca();
     Q_ASSERT(s);
     return s;
 }
@@ -328,7 +335,7 @@ void KSycocaPrivate::closeDatabase()
         //buf->buffer().clear();
         // Solaris has munmap(char*, size_t) and everything else should
         // be happy with a char* for munmap(void*, size_t)
-        munmap(const_cast<char*>(sycoca_mmap), sycoca_size);
+        munmap(const_cast<char *>(sycoca_mmap), sycoca_size);
         sycoca_mmap = 0;
     }
     delete m_mmapFile; m_mmapFile = 0;
@@ -338,7 +345,7 @@ void KSycocaPrivate::closeDatabase()
     timeStamp = 0;
 }
 
-void KSycoca::addFactory( KSycocaFactory *factory )
+void KSycoca::addFactory(KSycocaFactory *factory)
 {
     d->addFactory(factory);
 }
@@ -367,20 +374,20 @@ void KSycoca::notifyDatabaseChanged(const QStringList &changeList)
     emit databaseChanged(changeList);
 }
 
-QDataStream * KSycoca::findEntry(int offset, KSycocaType &type)
+QDataStream *KSycoca::findEntry(int offset, KSycocaType &type)
 {
-   QDataStream* str = stream();
-   Q_ASSERT(str);
-   //qDebug() << QString("KSycoca::_findEntry(offset=%1)").arg(offset,8,16);
-   str->device()->seek(offset);
-   qint32 aType;
-   *str >> aType;
-   type = KSycocaType(aType);
-   //qDebug() << QString("KSycoca::found type %1").arg(aType);
-   return str;
+    QDataStream *str = stream();
+    Q_ASSERT(str);
+    //qDebug() << QString("KSycoca::_findEntry(offset=%1)").arg(offset,8,16);
+    str->device()->seek(offset);
+    qint32 aType;
+    *str >> aType;
+    type = KSycocaType(aType);
+    //qDebug() << QString("KSycoca::found type %1").arg(aType);
+    return str;
 }
 
-KSycocaFactoryList* KSycoca::factories()
+KSycocaFactoryList *KSycoca::factories()
 {
     return d->factories();
 }
@@ -393,7 +400,7 @@ bool KSycocaPrivate::checkVersion()
     m_str->device()->seek(0);
     qint32 aVersion;
     *m_str >> aVersion;
-    if ( aVersion < KSYCOCA_VERSION ) {
+    if (aVersion < KSYCOCA_VERSION) {
         qDebug() << "Found version" << aVersion << ", expecting version" << KSYCOCA_VERSION << "or higher.";
         databaseStatus = BadVersion;
         return false;
@@ -408,15 +415,16 @@ bool KSycocaPrivate::checkVersion()
 bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
 {
     if (databaseStatus == DatabaseOK) {
-        if (checkVersion()) // we know the version is ok, but we must rewind the stream anyway
+        if (checkVersion()) { // we know the version is ok, but we must rewind the stream anyway
             return true;
+        }
     }
 
     closeDatabase(); // close the dummy one
 
     // We can only use the installed ksycoca file if kded is running,
     // since kded is what keeps the file uptodate.
-    QDBusConnectionInterface* bus = QDBusConnection::sessionBus().interface();
+    QDBusConnectionInterface *bus = QDBusConnection::sessionBus().interface();
     const bool kdedRunning = bus->isServiceRegistered(QString::fromLatin1("org.kde.kded5")) ||
                              qAppName() == "kbuildsycoca5";
 
@@ -482,19 +490,19 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
     return false;
 }
 
-QDataStream * KSycoca::findFactory(KSycocaFactoryId id)
+QDataStream *KSycoca::findFactory(KSycocaFactoryId id)
 {
     // Ensure we have a valid database (right version, and rewinded to beginning)
     if (!d->checkDatabase(KSycocaPrivate::IfNotFoundRecreate)) {
         return 0;
     }
 
-    QDataStream* str = stream();
+    QDataStream *str = stream();
     Q_ASSERT(str);
 
     qint32 aId;
     qint32 aOffset;
-    while(true) {
+    while (true) {
         *str >> aId;
         if (aId == 0) {
             qWarning() << "Error, KSycocaFactory (id =" << int(id) << ") not found!";
@@ -513,51 +521,55 @@ QDataStream * KSycoca::findFactory(KSycocaFactoryId id)
 QString KSycoca::kfsstnd_prefixes()
 {
     // do not try to launch kbuildsycoca from here; this code is also called by kbuildsycoca.
-   if (!d->checkDatabase(KSycocaPrivate::IfNotFoundDoNothing))
-       return QString();
-   QDataStream* str = stream();
-   Q_ASSERT(str);
-   qint32 aId;
-   qint32 aOffset;
-   // skip factories offsets
-   while(true)
-   {
-      *str >> aId;
-      if ( aId )
-        *str >> aOffset;
-      else
-        break; // just read 0
-   }
-   // We now point to the header
-   QString prefixes;
-   KSycocaUtilsPrivate::read(*str, prefixes);
-   *str >> d->timeStamp;
-   KSycocaUtilsPrivate::read(*str, d->language);
-   *str >> d->updateSig;
-   KSycocaUtilsPrivate::read(*str, d->allResourceDirs);
-   return prefixes;
+    if (!d->checkDatabase(KSycocaPrivate::IfNotFoundDoNothing)) {
+        return QString();
+    }
+    QDataStream *str = stream();
+    Q_ASSERT(str);
+    qint32 aId;
+    qint32 aOffset;
+    // skip factories offsets
+    while (true) {
+        *str >> aId;
+        if (aId) {
+            *str >> aOffset;
+        } else {
+            break;    // just read 0
+        }
+    }
+    // We now point to the header
+    QString prefixes;
+    KSycocaUtilsPrivate::read(*str, prefixes);
+    *str >> d->timeStamp;
+    KSycocaUtilsPrivate::read(*str, d->language);
+    *str >> d->updateSig;
+    KSycocaUtilsPrivate::read(*str, d->allResourceDirs);
+    return prefixes;
 }
 
 quint32 KSycoca::timeStamp()
 {
-   if (!d->timeStamp)
-      (void) kfsstnd_prefixes();
-   return d->timeStamp;
+    if (!d->timeStamp) {
+        (void) kfsstnd_prefixes();
+    }
+    return d->timeStamp;
 }
 
 quint32 KSycoca::updateSignature()
 {
-   if (!d->timeStamp)
-      (void) kfsstnd_prefixes();
-   return d->updateSig;
+    if (!d->timeStamp) {
+        (void) kfsstnd_prefixes();
+    }
+    return d->updateSig;
 }
 
 QString KSycoca::absoluteFilePath(DatabaseType type)
 {
     if (type == GlobalDatabase) {
         QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString::fromLatin1("kde5/services/" KSYCOCA_FILENAME));
-        if (path.isEmpty())
+        if (path.isEmpty()) {
             return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString::fromLatin1("/kde5/services/" KSYCOCA_FILENAME);
+        }
         return path;
     }
 
@@ -571,29 +583,33 @@ QString KSycoca::absoluteFilePath(DatabaseType type)
 
 QString KSycoca::language()
 {
-   if (d->language.isEmpty())
-      (void) kfsstnd_prefixes();
-   return d->language;
+    if (d->language.isEmpty()) {
+        (void) kfsstnd_prefixes();
+    }
+    return d->language;
 }
 
 QStringList KSycoca::allResourceDirs()
 {
-   if (!d->timeStamp)
-      (void) kfsstnd_prefixes();
-   return d->allResourceDirs;
+    if (!d->timeStamp) {
+        (void) kfsstnd_prefixes();
+    }
+    return d->allResourceDirs;
 }
 
 void KSycoca::flagError()
 {
     qWarning() << "ERROR: KSycoca database corruption!";
-    KSycocaPrivate* d = ksycocaInstance()->sycoca()->d;
-    if (d->readError)
+    KSycocaPrivate *d = ksycocaInstance()->sycoca()->d;
+    if (d->readError) {
         return;
+    }
     d->readError = true;
     if (s_autoRebuild) {
         // Rebuild the damned thing.
-        if (QProcess::execute(QStandardPaths::findExecutable(QString::fromLatin1(KBUILDSYCOCA_EXENAME))) != 0)
+        if (QProcess::execute(QStandardPaths::findExecutable(QString::fromLatin1(KBUILDSYCOCA_EXENAME))) != 0) {
             qWarning("ERROR: Running %s failed", KBUILDSYCOCA_EXENAME);
+        }
         // Old comment, maybe not true anymore:
         // Do not wait until the DBUS signal from kbuildsycoca here.
         // It deletes m_str which is a problem when flagError is called during the KSycocaFactory ctor...
@@ -607,10 +623,10 @@ bool KSycoca::isBuilding()
 
 void KSycoca::disableAutoRebuild()
 {
-   s_autoRebuild = false;
+    s_autoRebuild = false;
 }
 
-QDataStream*& KSycoca::stream()
+QDataStream *&KSycoca::stream()
 {
     return d->stream();
 }

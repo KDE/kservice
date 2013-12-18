@@ -37,7 +37,8 @@ class FakeServiceFactory : public KServiceFactory
 public:
     FakeServiceFactory() : KServiceFactory() {}
 
-    virtual KService::Ptr findServiceByMenuId(const QString &name) {
+    virtual KService::Ptr findServiceByMenuId(const QString &name)
+    {
         //qDebug() << name;
         KService::Ptr result = m_cache.value(name);
         if (!result) {
@@ -61,15 +62,15 @@ private:
 };
 
 // Helper method for all the trader tests, comes from kmimetypetest.cpp
-static bool offerListHasService( const KService::List& offers,
-                                 const QString& entryPath,
-                                 bool expected /* if set, show error if not found */ )
+static bool offerListHasService(const KService::List &offers,
+                                const QString &entryPath,
+                                bool expected /* if set, show error if not found */)
 {
     bool found = false;
-    Q_FOREACH(const KService::Ptr &serv, offers) {
-        if ( serv->entryPath() == entryPath ) {
-            if( found ) { // should be there only once
-                qWarning( "ERROR: %s was found twice in the list", qPrintable( entryPath ) );
+    Q_FOREACH (const KService::Ptr &serv, offers) {
+        if (serv->entryPath() == entryPath) {
+            if (found) {  // should be there only once
+                qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
                 return false; // make test fail
             }
             found = true;
@@ -77,14 +78,14 @@ static bool offerListHasService( const KService::List& offers,
     }
     if (!found && expected) {
         qWarning() << "ERROR:" << entryPath << "not found in offer list. Here's the full list:";
-        Q_FOREACH(const KService::Ptr &serv, offers) {
+        Q_FOREACH (const KService::Ptr &serv, offers) {
             qDebug() << serv->entryPath();
         }
     }
     return found;
 }
 
-static void writeAppDesktopFile(const QString& path, const QStringList& mimeTypes, int initialPreference = 1)
+static void writeAppDesktopFile(const QString &path, const QStringList &mimeTypes, int initialPreference = 1)
 {
     KDesktopFile file(path);
     KConfigGroup group = file.desktopGroup();
@@ -110,10 +111,10 @@ private Q_SLOTS:
 
         // Create factory on the heap and don't delete it.
         // It registers to KSycoca, which deletes it at end of program execution.
-        KServiceFactory* factory = new FakeServiceFactory;
+        KServiceFactory *factory = new FakeServiceFactory;
         QCOMPARE(KServiceFactory::self(), factory); // ctor sets s_self
         bool mustUpdateKSycoca = false;
-        if ( !KSycoca::isAvailable() ) {
+        if (!KSycoca::isAvailable()) {
             mustUpdateKSycoca = true;
         }
         if (QFile::exists(m_localApps + "/mimeapps.list")) {
@@ -165,8 +166,7 @@ private Q_SLOTS:
             writeAppDesktopFile(fakeHtmlApplication, QStringList() << "text/html");
         }
 
-
-        if ( mustUpdateKSycoca ) {
+        if (mustUpdateKSycoca) {
             // Update ksycoca in ~/.kde-unit-test after creating the above
             runKBuildSycoca();
         }
@@ -174,8 +174,8 @@ private Q_SLOTS:
         // For debugging: print all services and their storageId
 #if 0
         const KService::List lst = KService::allServices();
-        QVERIFY( !lst.isEmpty() );
-        Q_FOREACH(const KService::Ptr& serv, lst) {
+        QVERIFY(!lst.isEmpty());
+        Q_FOREACH (const KService::Ptr &serv, lst) {
             qDebug() << serv->entryPath() << serv->storageId() /*<< serv->desktopEntryName()*/;
         }
 #endif
@@ -184,17 +184,17 @@ private Q_SLOTS:
         QVERIFY(fakeApplicationService);
 
         m_mimeAppsFileContents = "[Added Associations]\n"
-                               "image/jpeg=fakejpegapplication.desktop;\n"
-                               "text/html=fakehtmlapplication.desktop;\n"
-                               // konsole.desktop is without kde4- to test fallback lookup
-                               "text/plain=faketextapplication.desktop;kde4-kwrite.desktop;konsole.desktop;idontexist.desktop;\n"
-                               // test alias resolution
-                               "application/x-pdf=fakejpegapplication.desktop;\n"
-                               "[Added KParts/ReadOnlyPart Associations]\n"
-                               "text/plain=katepart.desktop;\n"
-                               "[Removed Associations]\n"
-                               "image/jpeg=firefox.desktop;\n"
-                               "text/html=kde4-dolphin.desktop;kde4-kwrite.desktop;\n";
+                                 "image/jpeg=fakejpegapplication.desktop;\n"
+                                 "text/html=fakehtmlapplication.desktop;\n"
+                                 // konsole.desktop is without kde4- to test fallback lookup
+                                 "text/plain=faketextapplication.desktop;kde4-kwrite.desktop;konsole.desktop;idontexist.desktop;\n"
+                                 // test alias resolution
+                                 "application/x-pdf=fakejpegapplication.desktop;\n"
+                                 "[Added KParts/ReadOnlyPart Associations]\n"
+                                 "text/plain=katepart.desktop;\n"
+                                 "[Removed Associations]\n"
+                                 "image/jpeg=firefox.desktop;\n"
+                                 "text/html=kde4-dolphin.desktop;kde4-kwrite.desktop;\n";
         // Expected results
         preferredApps["image/jpeg"] << "fakejpegapplication.desktop";
         preferredApps["application/pdf"] << "fakejpegapplication.desktop";
@@ -231,17 +231,18 @@ private Q_SLOTS:
         parser.parseMimeAppsList(fileName, 100);
 
         for (ExpectedResultsMap::const_iterator it = preferredApps.constBegin(),
-                                               end = preferredApps.constEnd() ; it != end ; ++it) {
+                end = preferredApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
             // The data for derived types and aliases isn't for this test (which only looks at mimeapps.list)
-            if (mime == QLatin1String("text/x-csrc") || mime == QLatin1String("application/msword"))
+            if (mime == QLatin1String("text/x-csrc") || mime == QLatin1String("application/msword")) {
                 continue;
+            }
             const QList<KServiceOffer> offers = offerHash.offersFor(mime);
-            Q_FOREACH(const QString& service, it.value()) {
+            Q_FOREACH (const QString &service, it.value()) {
                 KService::Ptr serv = KService::serviceByStorageId(service);
                 if (serv && !offersContains(offers, serv)) {
                     qDebug() << "expected offer" << serv->entryPath() << "not in offers for" << mime << ":";
-                    Q_FOREACH(const KServiceOffer& offer, offers) {
+                    Q_FOREACH (const KServiceOffer &offer, offers) {
                         qDebug() << offer.service()->storageId();
                     }
                     QFAIL("offer does not have servicetype");
@@ -250,10 +251,10 @@ private Q_SLOTS:
         }
 
         for (ExpectedResultsMap::const_iterator it = removedApps.constBegin(),
-                                               end = removedApps.constEnd() ; it != end ; ++it) {
+                end = removedApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
             const QList<KServiceOffer> offers = offerHash.offersFor(mime);
-            Q_FOREACH(const QString& service, it.value()) {
+            Q_FOREACH (const QString &service, it.value()) {
                 KService::Ptr serv = KService::serviceByStorageId(service);
                 if (serv && offersContains(offers, serv)) {
                     //qDebug() << serv.data() << serv->entryPath() << "does not have" << mime;
@@ -297,8 +298,9 @@ private Q_SLOTS:
         offers = offerHash.offersFor("text/html");
         qStableSort(offers);
         QStringList textHtmlApps = preferredApps["text/html"];
-        if (KService::serviceByStorageId("firefox.desktop"))
+        if (KService::serviceByStorageId("firefox.desktop")) {
             textHtmlApps.append("firefox.desktop");
+        }
         qDebug() << assembleOffers(offers);
         QCOMPARE(assembleOffers(offers), textHtmlApps);
 
@@ -322,7 +324,7 @@ private Q_SLOTS:
 
         // Now the generic variant of the above test:
         // for each mimetype, check that the preferred apps are as specified
-        for (ExpectedResultsMap::const_iterator it = preferredApps.constBegin(), end = preferredApps.constEnd() ; it != end ; ++it) {
+        for (ExpectedResultsMap::const_iterator it = preferredApps.constBegin(), end = preferredApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
             const KService::List offers = KMimeTypeTrader::self()->query(mime);
             const QStringList offerIds = assembleServices(offers, it.value().count());
@@ -442,7 +444,7 @@ private:
         loop.exec();
     }
 
-    void writeToMimeApps(const QByteArray& contents)
+    void writeToMimeApps(const QByteArray &contents)
     {
         QString mimeAppsPath = m_localApps + "/mimeapps.list";
         QFile mimeAppsFile(mimeAppsPath);
@@ -453,34 +455,39 @@ private:
         runKBuildSycoca();
     }
 
-    static bool offersContains(const QList<KServiceOffer>& offers, KService::Ptr serv)
+    static bool offersContains(const QList<KServiceOffer> &offers, KService::Ptr serv)
     {
-        Q_FOREACH(const KServiceOffer& offer, offers) {
-            if (offer.service()->storageId() == serv->storageId())
+        Q_FOREACH (const KServiceOffer &offer, offers) {
+            if (offer.service()->storageId() == serv->storageId()) {
                 return true;
+            }
         }
         return false;
     }
-    static QStringList assembleOffers(const QList<KServiceOffer>& offers) {
+    static QStringList assembleOffers(const QList<KServiceOffer> &offers)
+    {
         QStringList lst;
-        Q_FOREACH(const KServiceOffer& offer, offers) {
+        Q_FOREACH (const KServiceOffer &offer, offers) {
             lst.append(offer.service()->storageId());
         }
         return lst;
     }
-    static QStringList assembleServices(const QList<KService::Ptr>& services, int maxCount = -1) {
+    static QStringList assembleServices(const QList<KService::Ptr> &services, int maxCount = -1)
+    {
         QStringList lst;
-        Q_FOREACH(const KService::Ptr& service, services) {
+        Q_FOREACH (const KService::Ptr &service, services) {
             lst.append(service->storageId());
-            if (maxCount > -1 && lst.count() == maxCount)
+            if (maxCount > -1 && lst.count() == maxCount) {
                 break;
+            }
         }
         return lst;
     }
 
-    void removeNonExisting(ExpectedResultsMap& erm) {
-        for (ExpectedResultsMap::iterator it = erm.begin(), end = erm.end() ; it != end ; ++it) {
-            QMutableStringListIterator serv_it( it.value() );
+    void removeNonExisting(ExpectedResultsMap &erm)
+    {
+        for (ExpectedResultsMap::iterator it = erm.begin(), end = erm.end(); it != end; ++it) {
+            QMutableStringListIterator serv_it(it.value());
             while (serv_it.hasNext()) {
                 if (!KService::serviceByStorageId(serv_it.next())) {
                     //qDebug() << "removing non-existing entry" << serv_it.value();

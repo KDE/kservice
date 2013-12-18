@@ -45,13 +45,15 @@ QTEST_MAIN(KServiceTest)
 
 static void eraseProfiles()
 {
-    QString profilerc = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/profilerc" ;
-    if ( !profilerc.isEmpty() )
-        QFile::remove( profilerc );
+    QString profilerc = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/profilerc";
+    if (!profilerc.isEmpty()) {
+        QFile::remove(profilerc);
+    }
 
-    profilerc = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/servicetype_profilerc" ;
-    if ( !profilerc.isEmpty() )
-        QFile::remove( profilerc );
+    profilerc = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/servicetype_profilerc";
+    if (!profilerc.isEmpty()) {
+        QFile::remove(profilerc);
+    }
 }
 
 void KServiceTest::initTestCase()
@@ -165,7 +167,7 @@ void KServiceTest::initTestCase()
         file.group("PropertyDef::X-KDE-Version").writeEntry("Type", "double"); // like in ktexteditorplugin.desktop
     }
 
-    if ( mustUpdateKSycoca ) {
+    if (mustUpdateKSycoca) {
         // Update ksycoca in ~/.kde-unit-test after creating the above
         runKBuildSycoca(true);
     }
@@ -179,8 +181,9 @@ void KServiceTest::runKBuildSycoca(bool noincremental)
     QVERIFY(!kbuildsycoca.isEmpty());
     QStringList args;
     args << "--testmode";
-    if (noincremental)
+    if (noincremental) {
         args << "--noincremental";
+    }
     //proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
     proc.start(kbuildsycoca, args);
     proc.waitForFinished();
@@ -195,12 +198,12 @@ void KServiceTest::cleanupTestCase()
     // If I want the konqueror unit tests to work, then I better not have a non-working part
     // as the preferred part for text/plain...
     QStringList services; services << "fakeservice.desktop" << "fakepart.desktop" << "faketextplugin.desktop";
-    Q_FOREACH(const QString& service, services) {
+    Q_FOREACH (const QString &service, services) {
         const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + service;
         QFile::remove(fakeService);
     }
     QStringList serviceTypes; serviceTypes << "fakeplugintype.desktop";
-    Q_FOREACH(const QString& serviceType, serviceTypes) {
+    Q_FOREACH (const QString &serviceType, serviceTypes) {
         const QString fakeServiceType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/servicetypes/") + serviceType;
         //QFile::remove(fakeServiceType);
     }
@@ -212,16 +215,17 @@ void KServiceTest::cleanupTestCase()
 
 void KServiceTest::testByName()
 {
-    if ( !KSycoca::isAvailable() )
-        QSKIP( "ksycoca not available" );
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
 
     KServiceType::Ptr s0 = KServiceType::serviceType("KParts/ReadOnlyPart");
-    QVERIFY2(s0, "KServiceType::serviceType(\"KParts/ReadOnlyPart\") failed!" );
-    QCOMPARE( s0->name(), QString::fromLatin1("KParts/ReadOnlyPart") );
+    QVERIFY2(s0, "KServiceType::serviceType(\"KParts/ReadOnlyPart\") failed!");
+    QCOMPARE(s0->name(), QString::fromLatin1("KParts/ReadOnlyPart"));
 
     KService::Ptr myService = KService::serviceByDesktopPath("fakepart.desktop");
     QVERIFY(myService);
-    QCOMPARE( myService->name(), QString::fromLatin1("FakePart"));
+    QCOMPARE(myService->name(), QString::fromLatin1("FakePart"));
 }
 
 void KServiceTest::testProperty()
@@ -252,70 +256,71 @@ void KServiceTest::testProperty()
 
 void KServiceTest::testAllServiceTypes()
 {
-    if ( !KSycoca::isAvailable() )
-        QSKIP( "ksycoca not available" );
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
 
     const KServiceType::List allServiceTypes = KServiceType::allServiceTypes();
 
     // A bit of checking on the allServiceTypes list itself
     KServiceType::List::ConstIterator stit = allServiceTypes.begin();
     const KServiceType::List::ConstIterator stend = allServiceTypes.end();
-    for ( ; stit != stend; ++stit ) {
+    for (; stit != stend; ++stit) {
         const KServiceType::Ptr servtype = (*stit);
         const QString name = servtype->name();
-        QVERIFY( !name.isEmpty() );
-        QVERIFY( servtype->sycocaType() == KST_KServiceType );
+        QVERIFY(!name.isEmpty());
+        QVERIFY(servtype->sycocaType() == KST_KServiceType);
     }
 }
 
 void KServiceTest::testAllServices()
 {
-    if ( !KSycoca::isAvailable() )
-        QSKIP( "ksycoca not available" );
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
     const KService::List lst = KService::allServices();
-    QVERIFY( !lst.isEmpty() );
+    QVERIFY(!lst.isEmpty());
 
-    for ( KService::List::ConstIterator it = lst.begin();
-          it != lst.end(); ++it ) {
+    for (KService::List::ConstIterator it = lst.begin();
+            it != lst.end(); ++it) {
         const KService::Ptr service = (*it);
-        QVERIFY( service->isType( KST_KService ) );
+        QVERIFY(service->isType(KST_KService));
 
         const QString name = service->name();
         const QString entryPath = service->entryPath();
         //qDebug() << name << "entryPath=" << entryPath << "menuId=" << service->menuId();
-        QVERIFY( !name.isEmpty() );
-        QVERIFY( !entryPath.isEmpty() );
+        QVERIFY(!name.isEmpty());
+        QVERIFY(!entryPath.isEmpty());
 
-        KService::Ptr lookedupService = KService::serviceByDesktopPath( entryPath );
-        QVERIFY( lookedupService ); // not null
-        QCOMPARE( lookedupService->entryPath(), entryPath );
+        KService::Ptr lookedupService = KService::serviceByDesktopPath(entryPath);
+        QVERIFY(lookedupService);   // not null
+        QCOMPARE(lookedupService->entryPath(), entryPath);
 
-        if ( service->isApplication() )
-        {
+        if (service->isApplication()) {
             const QString menuId = service->menuId();
-            if ( menuId.isEmpty() )
-                qWarning( "%s has an empty menuId!", qPrintable( entryPath ) );
-            else if ( menuId == "kde5-konsole.desktop" )
+            if (menuId.isEmpty()) {
+                qWarning("%s has an empty menuId!", qPrintable(entryPath));
+            } else if (menuId == "kde5-konsole.desktop") {
                 m_hasKde5Konsole = true;
-            QVERIFY( !menuId.isEmpty() );
-            lookedupService = KService::serviceByMenuId( menuId );
-            QVERIFY( lookedupService ); // not null
-            QCOMPARE( lookedupService->menuId(), menuId );
+            }
+            QVERIFY(!menuId.isEmpty());
+            lookedupService = KService::serviceByMenuId(menuId);
+            QVERIFY(lookedupService);   // not null
+            QCOMPARE(lookedupService->menuId(), menuId);
         }
     }
 }
 
 // Helper method for all the trader tests
-static bool offerListHasService( const KService::List& offers,
-                                 const QString& entryPath )
+static bool offerListHasService(const KService::List &offers,
+                                const QString &entryPath)
 {
     bool found = false;
     KService::List::const_iterator it = offers.begin();
-    for ( ; it != offers.end() ; ++it )
-    {
-        if ( (*it)->entryPath() == entryPath ) {
-            if( found ) { // should be there only once
-                qWarning( "ERROR: %s was found twice in the list", qPrintable( entryPath ) );
+    for (; it != offers.end(); ++it) {
+        if ((*it)->entryPath() == entryPath) {
+            if (found) {  // should be there only once
+                qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
                 return false; // make test fail
             }
             found = true;
@@ -326,12 +331,14 @@ static bool offerListHasService( const KService::List& offers,
 
 void KServiceTest::testDBUSStartupType()
 {
-    if ( !KSycoca::isAvailable() )
-        QSKIP( "ksycoca not available" );
-    if ( !m_hasKde5Konsole )
-        QSKIP( "kde5-konsole.desktop not available" );
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
+    if (!m_hasKde5Konsole) {
+        QSKIP("kde5-konsole.desktop not available");
+    }
     //KService::Ptr konsole = KService::serviceByMenuId( "kde5-konsole.desktop" );
-    KService::Ptr konsole = KService::serviceByDesktopName( "konsole" );
+    KService::Ptr konsole = KService::serviceByDesktopName("konsole");
     QVERIFY(konsole);
     QCOMPARE(konsole->menuId(), QString("kde5-konsole.desktop"));
     //qDebug() << konsole->entryPath();
@@ -340,8 +347,9 @@ void KServiceTest::testDBUSStartupType()
 
 void KServiceTest::testByStorageId()
 {
-    if ( !KSycoca::isAvailable() )
+    if (!KSycoca::isAvailable()) {
         QSKIP("ksycoca not available");
+    }
     if (QStandardPaths::locate(QStandardPaths::ApplicationsLocation, "kde5/kmailservice.desktop").isEmpty()) {
         QSKIP("kde5/kmailservice.desktop not available");
     }
@@ -364,69 +372,72 @@ void KServiceTest::testByStorageId()
 
 void KServiceTest::testServiceTypeTraderForReadOnlyPart()
 {
-    if ( !KSycoca::isAvailable() )
-        QSKIP( "ksycoca not available" );
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
 
     // Querying trader for services associated with KParts/ReadOnlyPart
     KService::List offers = KServiceTypeTrader::self()->query("KParts/ReadOnlyPart");
-    QVERIFY( offers.count() > 0 );
+    QVERIFY(offers.count() > 0);
     //foreach( KService::Ptr service, offers )
     //    qDebug( "%s %s", qPrintable( service->name() ), qPrintable( service->entryPath() ) );
 
     m_firstOffer = offers[0]->entryPath();
 
-    QVERIFY( offerListHasService( offers, "fakepart.desktop" ) );
-    QVERIFY( offerListHasService( offers, "fakepart2.desktop" ) );
-    QVERIFY( offerListHasService( offers, "otherpart.desktop" ) );
-    QVERIFY( offerListHasService( offers, "preferredpart.desktop" ) );
+    QVERIFY(offerListHasService(offers, "fakepart.desktop"));
+    QVERIFY(offerListHasService(offers, "fakepart2.desktop"));
+    QVERIFY(offerListHasService(offers, "otherpart.desktop"));
+    QVERIFY(offerListHasService(offers, "preferredpart.desktop"));
 
     // Check ordering according to InitialPreference
     int lastPreference = -1;
     bool lastAllowedAsDefault = true;
-    Q_FOREACH(KService::Ptr service, offers) {
+    Q_FOREACH (KService::Ptr service, offers) {
         const QString path = service->entryPath();
         const int preference = service->initialPreference(); // ## might be wrong if we use per-servicetype preferences...
         //qDebug( "%s has preference %d, allowAsDefault=%d", qPrintable( path ), preference, service->allowAsDefault() );
-        if ( lastAllowedAsDefault && !service->allowAsDefault() ) {
+        if (lastAllowedAsDefault && !service->allowAsDefault()) {
             // first "not allowed as default" offer
             lastAllowedAsDefault = false;
             lastPreference = -1; // restart
         }
-        if ( lastPreference != -1 )
-            QVERIFY( preference <= lastPreference );
+        if (lastPreference != -1) {
+            QVERIFY(preference <= lastPreference);
+        }
         lastPreference = preference;
     }
 
     // Now look for any FakePluginType
     offers = KServiceTypeTrader::self()->query("FakePluginType");
-    QVERIFY( offerListHasService( offers, "fakeservice.desktop" ) );
-    QVERIFY( offerListHasService( offers, "faketextplugin.desktop" ) );
+    QVERIFY(offerListHasService(offers, "fakeservice.desktop"));
+    QVERIFY(offerListHasService(offers, "faketextplugin.desktop"));
 }
 
 void KServiceTest::testTraderConstraints()
 {
-    if ( !KSycoca::isAvailable() )
-        QSKIP( "ksycoca not available" );
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
 
     KService::List offers;
 
     // Baseline: no constraints
     offers = KServiceTypeTrader::self()->query("FakePluginType");
     QCOMPARE(offers.count(), 2);
-    QVERIFY(offerListHasService( offers, "faketextplugin.desktop"));
-    QVERIFY(offerListHasService( offers, "fakeservice.desktop"));
+    QVERIFY(offerListHasService(offers, "faketextplugin.desktop"));
+    QVERIFY(offerListHasService(offers, "fakeservice.desktop"));
 
     // String-based constraint
     offers = KServiceTypeTrader::self()->query("FakePluginType", "Library == 'faketextplugin'");
     QCOMPARE(offers.count(), 1);
-    QVERIFY( offerListHasService( offers, "faketextplugin.desktop" ) );
+    QVERIFY(offerListHasService(offers, "faketextplugin.desktop"));
 
     if (m_hasNonCLocale) {
 
         // Test float parsing, must use dot as decimal separator independent of locale.
         offers = KServiceTypeTrader::self()->query("FakePluginType", "([X-KDE-Version] > 4.559) and ([X-KDE-Version] < 4.561)");
         QCOMPARE(offers.count(), 1);
-        QVERIFY(offerListHasService( offers, "fakeservice.desktop"));
+        QVERIFY(offerListHasService(offers, "fakeservice.desktop"));
     }
 
     // A test with an invalid query, to test for memleaks
@@ -436,32 +447,32 @@ void KServiceTest::testTraderConstraints()
 
 void KServiceTest::testHasServiceType1() // with services constructed with a full path (rare)
 {
-    QString fakepartPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "fakepart.desktop" );
-    QVERIFY( !fakepartPath.isEmpty() );
-    KService fakepart( fakepartPath );
-    QVERIFY( fakepart.hasServiceType( "KParts/ReadOnlyPart" ) );
-    QVERIFY( fakepart.hasServiceType( "KParts/ReadWritePart" ) );
+    QString fakepartPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "fakepart.desktop");
+    QVERIFY(!fakepartPath.isEmpty());
+    KService fakepart(fakepartPath);
+    QVERIFY(fakepart.hasServiceType("KParts/ReadOnlyPart"));
+    QVERIFY(fakepart.hasServiceType("KParts/ReadWritePart"));
     QCOMPARE(fakepart.mimeTypes(), QStringList() << "text/plain" << "text/html");
 
-    QString faketextPluginPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "faketextplugin.desktop" );
-    QVERIFY( !faketextPluginPath.isEmpty() );
-    KService faketextPlugin( faketextPluginPath );
-    QVERIFY( faketextPlugin.hasServiceType( "FakePluginType" ) );
-    QVERIFY( !faketextPlugin.hasServiceType( "KParts/ReadOnlyPart" ) );
+    QString faketextPluginPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "faketextplugin.desktop");
+    QVERIFY(!faketextPluginPath.isEmpty());
+    KService faketextPlugin(faketextPluginPath);
+    QVERIFY(faketextPlugin.hasServiceType("FakePluginType"));
+    QVERIFY(!faketextPlugin.hasServiceType("KParts/ReadOnlyPart"));
 }
 
 void KServiceTest::testHasServiceType2() // with services coming from ksycoca
 {
-    KService::Ptr fakepart = KService::serviceByDesktopPath( "fakepart.desktop" );
-    QVERIFY( fakepart );
-    QVERIFY( fakepart->hasServiceType( "KParts/ReadOnlyPart" ) );
-    QVERIFY( fakepart->hasServiceType( "KParts/ReadWritePart" ) );
+    KService::Ptr fakepart = KService::serviceByDesktopPath("fakepart.desktop");
+    QVERIFY(fakepart);
+    QVERIFY(fakepart->hasServiceType("KParts/ReadOnlyPart"));
+    QVERIFY(fakepart->hasServiceType("KParts/ReadWritePart"));
     QCOMPARE(fakepart->mimeTypes(), QStringList() << "text/plain" << "text/html");
 
-    KService::Ptr faketextPlugin = KService::serviceByDesktopPath( "faketextplugin.desktop" );
-    QVERIFY( faketextPlugin );
-    QVERIFY( faketextPlugin->hasServiceType( "FakePluginType" ) );
-    QVERIFY( !faketextPlugin->hasServiceType( "KParts/ReadOnlyPart" ) );
+    KService::Ptr faketextPlugin = KService::serviceByDesktopPath("faketextplugin.desktop");
+    QVERIFY(faketextPlugin);
+    QVERIFY(faketextPlugin->hasServiceType("FakePluginType"));
+    QVERIFY(!faketextPlugin->hasServiceType("KParts/ReadOnlyPart"));
 }
 
 void KServiceTest::testWriteServiceTypeProfile()
@@ -472,62 +483,69 @@ void KServiceTest::testWriteServiceTypeProfile()
     services.append(KService::serviceByDesktopPath("fakepart.desktop"));
     disabledServices.append(KService::serviceByDesktopPath("fakepart2.desktop"));
 
-    Q_FOREACH(KService::Ptr serv, services) { QVERIFY(serv); }
-    Q_FOREACH(KService::Ptr serv, disabledServices) { QVERIFY(serv); }
+    Q_FOREACH (KService::Ptr serv, services) {
+        QVERIFY(serv);
+    }
+    Q_FOREACH (KService::Ptr serv, disabledServices) {
+        QVERIFY(serv);
+    }
 
-    KServiceTypeProfile::writeServiceTypeProfile( serviceType, services, disabledServices );
+    KServiceTypeProfile::writeServiceTypeProfile(serviceType, services, disabledServices);
 
     // Check that the file got written
-    QString profilerc = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/servicetype_profilerc" ;
+    QString profilerc = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/servicetype_profilerc";
     QVERIFY(!profilerc.isEmpty());
     QVERIFY(QFile::exists(profilerc));
 
-    KService::List offers = KServiceTypeTrader::self()->query( serviceType );
-    QVERIFY( offers.count() > 0 ); // not empty
+    KService::List offers = KServiceTypeTrader::self()->query(serviceType);
+    QVERIFY(offers.count() > 0);   // not empty
 
     //foreach( KService::Ptr service, offers )
     //    qDebug( "%s %s", qPrintable( service->name() ), qPrintable( service->entryPath() ) );
 
-    QVERIFY( offers.count() >= 2 );
-    QCOMPARE( offers[0]->entryPath(), QString("preferredpart.desktop") );
-    QCOMPARE( offers[1]->entryPath(), QString("fakepart.desktop") );
-    QVERIFY( offerListHasService( offers, "otherpart.desktop" ) ); // should still be somewhere in there
-    QVERIFY( !offerListHasService( offers, "fakepart2.desktop" ) ); // it got disabled above
+    QVERIFY(offers.count() >= 2);
+    QCOMPARE(offers[0]->entryPath(), QString("preferredpart.desktop"));
+    QCOMPARE(offers[1]->entryPath(), QString("fakepart.desktop"));
+    QVERIFY(offerListHasService(offers, "otherpart.desktop"));     // should still be somewhere in there
+    QVERIFY(!offerListHasService(offers, "fakepart2.desktop"));     // it got disabled above
 }
 
 void KServiceTest::testDefaultOffers()
 {
     // Now that we have a user-profile, let's see if defaultOffers indeed gives us the default ordering.
     const QString serviceType = "KParts/ReadOnlyPart";
-    KService::List offers = KServiceTypeTrader::self()->defaultOffers( serviceType );
-    QVERIFY( offers.count() > 0 ); // not empty
-    QVERIFY( offerListHasService( offers, "fakepart2.desktop" ) ); // it's here even though it's disabled in the profile
-    QVERIFY( offerListHasService( offers, "otherpart.desktop" ) );
-    if ( m_firstOffer.isEmpty() )
-        QSKIP( "testServiceTypeTraderForReadOnlyPart not run" );
-    QCOMPARE( offers[0]->entryPath(), m_firstOffer );
+    KService::List offers = KServiceTypeTrader::self()->defaultOffers(serviceType);
+    QVERIFY(offers.count() > 0);   // not empty
+    QVERIFY(offerListHasService(offers, "fakepart2.desktop"));     // it's here even though it's disabled in the profile
+    QVERIFY(offerListHasService(offers, "otherpart.desktop"));
+    if (m_firstOffer.isEmpty()) {
+        QSKIP("testServiceTypeTraderForReadOnlyPart not run");
+    }
+    QCOMPARE(offers[0]->entryPath(), m_firstOffer);
 }
 
 void KServiceTest::testDeleteServiceTypeProfile()
 {
     const QString serviceType = "KParts/ReadOnlyPart";
-    KServiceTypeProfile::deleteServiceTypeProfile( serviceType );
+    KServiceTypeProfile::deleteServiceTypeProfile(serviceType);
 
-    KService::List offers = KServiceTypeTrader::self()->query( serviceType );
-    QVERIFY( offers.count() > 0 ); // not empty
-    QVERIFY( offerListHasService( offers, "fakepart2.desktop" ) ); // it's back
+    KService::List offers = KServiceTypeTrader::self()->query(serviceType);
+    QVERIFY(offers.count() > 0);   // not empty
+    QVERIFY(offerListHasService(offers, "fakepart2.desktop"));     // it's back
 
-    if ( m_firstOffer.isEmpty() )
-        QSKIP( "testServiceTypeTraderForReadOnlyPart not run" );
-    QCOMPARE( offers[0]->entryPath(), m_firstOffer );
+    if (m_firstOffer.isEmpty()) {
+        QSKIP("testServiceTypeTraderForReadOnlyPart not run");
+    }
+    QCOMPARE(offers[0]->entryPath(), m_firstOffer);
 }
 
 void KServiceTest::testActionsAndDataStream()
 {
-    const QString servicePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "ScreenSavers/krandom.desktop" );
-    if (servicePath.isEmpty() )
+    const QString servicePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "ScreenSavers/krandom.desktop");
+    if (servicePath.isEmpty()) {
         QSKIP("kdebase not installed, krandom.desktop not found");
-    KService service( servicePath );
+    }
+    KService service(servicePath);
     QVERIFY(!service.property("Name[fr]", QVariant::String).isValid());
     const QList<KServiceAction> actions = service.actions();
     QCOMPARE(actions.count(), 3);
@@ -569,12 +587,12 @@ void KServiceTest::testServiceGroups()
     KServiceGroup::Ptr group = root;
     QVERIFY(group);
     const KServiceGroup::List list = group->entries(true /* sorted */,
-                                                   true /* exclude no display entries */,
-                                                   false /* allow separators */,
-                                                   true /* sort by generic name */);
+                                     true /* exclude no display entries */,
+                                     false /* allow separators */,
+                                     true /* sort by generic name */);
 
     qDebug() << list.count();
-    Q_FOREACH(KServiceGroup::SPtr s, list) {
+    Q_FOREACH (KServiceGroup::SPtr s, list) {
         qDebug() << s->name() << s->entryPath();
     }
 
@@ -593,8 +611,9 @@ void KServiceTest::testKSycocaUpdate()
     QVERIFY(spy.isValid());
     QFile::remove(servPath);
     runKBuildSycoca();
-    while (spy.isEmpty())
+    while (spy.isEmpty()) {
         QTest::qWait(50);
+    }
     QVERIFY(!spy.isEmpty());
     QVERIFY(!KService::serviceByDesktopPath("fakeservice.desktop")); // not in ksycoca anymore
     QVERIFY(spy[0][0].toStringList().contains("services"));
@@ -609,12 +628,14 @@ void KServiceTest::testKSycocaUpdate()
     QVERIFY(QFile::exists(servPath));
     qDebug() << "executing kbuildsycoca (2)";
     runKBuildSycoca();
-    while (spy.isEmpty())
+    while (spy.isEmpty()) {
         QTest::qWait(50);
+    }
     qDebug() << "got signal ok (2)";
     QVERIFY(spy[0][0].toStringList().contains("services"));
-    if (QThread::currentThread() != QCoreApplication::instance()->thread())
+    if (QThread::currentThread() != QCoreApplication::instance()->thread()) {
         m_sycocaUpdateDone.ref();
+    }
 }
 
 void KServiceTest::createFakeService()
@@ -661,8 +682,9 @@ void KServiceTest::testThreads()
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testHasServiceType1));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testKSycocaUpdate));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testTraderConstraints));
-    while (m_sycocaUpdateDone.load() == 0) // not using a bool, just to silence helgrind
-        QTest::qWait(100); // process D-Bus events!
+    while (m_sycocaUpdateDone.load() == 0) { // not using a bool, just to silence helgrind
+        QTest::qWait(100);    // process D-Bus events!
+    }
     qDebug() << "Joining all threads";
     sync.waitForFinished();
 }

@@ -24,25 +24,24 @@
 
 #include <assert.h>
 
-
 // NOTE: the storing of "resource" here is now completely useless (since everything is under GenericDataLocation),
 // except for remainingResourceList() which is used for the compat signal databaseChanged(...)
 // We could possibly replace this with a subdir->old_resource mapping (applications -> apps, kde5/services -> services, etc.)
 // Alternatively, we could use an enum in the signal...
 
-static inline QString key(const QString &path, const QByteArray& resource)
+static inline QString key(const QString &path, const QByteArray &resource)
 {
     return QString::fromLatin1(resource) + QLatin1Char('|') + path;
 }
 
-void KCTimeDict::addCTime(const QString &path, const QByteArray& resource, quint32 ctime)
+void KCTimeDict::addCTime(const QString &path, const QByteArray &resource, quint32 ctime)
 {
     Q_ASSERT(ctime != 0);
     assert(!path.isEmpty());
-    m_hash.insert(key(path, resource), ctime );
+    m_hash.insert(key(path, resource), ctime);
 }
 
-quint32 KCTimeDict::ctime(const QString &path, const QByteArray& resource) const
+quint32 KCTimeDict::ctime(const QString &path, const QByteArray &resource) const
 {
     return m_hash.value(key(path, resource), 0);
 }
@@ -62,7 +61,7 @@ QStringList KCTimeDict::remainingResourceList() const
     QSet<QString> resources;
     Hash::const_iterator it = m_hash.constBegin();
     const Hash::const_iterator end = m_hash.constEnd();
-    for ( ; it != end; ++it ) {
+    for (; it != end; ++it) {
         const QString key = it.key();
         const QString res = key.left(key.indexOf('|'));
         resources.insert(res);
@@ -74,11 +73,12 @@ void KCTimeDict::load(QDataStream &str)
 {
     QString key;
     quint32 ctime;
-    while(true)
-    {
+    while (true) {
         KSycocaUtilsPrivate::read(str, key);
         str >> ctime;
-        if (key.isEmpty()) break;
+        if (key.isEmpty()) {
+            break;
+        }
         m_hash.insert(key, ctime);
     }
 }
@@ -87,8 +87,8 @@ void KCTimeDict::save(QDataStream &str) const
 {
     Hash::const_iterator it = m_hash.constBegin();
     const Hash::const_iterator end = m_hash.constEnd();
-    for ( ; it != end; ++it ) {
-       str << it.key() << it.value();
+    for (; it != end; ++it) {
+        str << it.key() << it.value();
     }
     str << QString() << (quint32) 0;
 }
@@ -96,10 +96,10 @@ void KCTimeDict::save(QDataStream &str) const
 ///////////
 
 KCTimeInfo::KCTimeInfo()
-    : KSycocaFactory( KST_CTimeInfo ), m_ctimeDict()
+    : KSycocaFactory(KST_CTimeInfo), m_ctimeDict()
 {
     if (!KSycoca::self()->isBuilding()) {
-        QDataStream* str = stream();
+        QDataStream *str = stream();
         (*str) >> m_dictOffset;
     } else {
         m_dictOffset = 0;
@@ -113,9 +113,9 @@ KCTimeInfo::~KCTimeInfo()
 void
 KCTimeInfo::saveHeader(QDataStream &str)
 {
-  KSycocaFactory::saveHeader(str);
+    KSycocaFactory::saveHeader(str);
 
-  str << m_dictOffset;
+    str << m_dictOffset;
 }
 
 void KCTimeInfo::save(QDataStream &str)
@@ -132,7 +132,7 @@ void KCTimeInfo::save(QDataStream &str)
 KCTimeDict KCTimeInfo::loadDict() const
 {
     KCTimeDict dict;
-    QDataStream* str = stream();
+    QDataStream *str = stream();
     assert(str);
     str->device()->seek(m_dictOffset);
     dict.load(*str);

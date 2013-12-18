@@ -57,33 +57,32 @@ static const char s_xKDEServiceTypes[] = "X-KDE-ServiceTypes";
 static const char s_enabledbyDefaultKey[] = "X-KDE-PluginInfo-EnabledByDefault";
 static const char s_enabledKey[] = "Enabled";
 
-
 class KPluginInfoPrivate : public QSharedData
 {
-    public:
-        KPluginInfoPrivate()
-            : hidden(false)
-            , enabledbydefault(false)
-            , pluginenabled(false)
-            , kcmservicesCached(false)
-            {}
+public:
+    KPluginInfoPrivate()
+        : hidden(false)
+        , enabledbydefault(false)
+        , pluginenabled(false)
+        , kcmservicesCached(false)
+    {}
 
-        QString entryPath; // the filename of the file containing all the info
-        QString libraryPath;
+    QString entryPath; // the filename of the file containing all the info
+    QString libraryPath;
 
-        bool hidden : 1;
-        bool enabledbydefault : 1;
-        bool pluginenabled : 1;
-        mutable bool kcmservicesCached : 1;
+    bool hidden : 1;
+    bool enabledbydefault : 1;
+    bool pluginenabled : 1;
+    mutable bool kcmservicesCached : 1;
 
-        QVariantMap metaData;
-        KConfigGroup config;
-        KService::Ptr service;
-        mutable QList<KService::Ptr> kcmservices;
+    QVariantMap metaData;
+    KConfigGroup config;
+    KService::Ptr service;
+    mutable QList<KService::Ptr> kcmservices;
 };
 
-KPluginInfo::KPluginInfo(const QString & filename /*, QStandardPaths::StandardLocation resource*/)
-: d( new KPluginInfoPrivate )
+KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLocation resource*/)
+    : d(new KPluginInfoPrivate)
 {
     KDesktopFile file(/*resource,*/ filename);
 
@@ -91,14 +90,15 @@ KPluginInfo::KPluginInfo(const QString & filename /*, QStandardPaths::StandardLo
 
     KConfigGroup cg = file.desktopGroup();
     d->hidden = cg.readEntry(s_hiddenKey, false);
-    if( d->hidden )
+    if (d->hidden) {
         return;
+    }
 
     d->metaData.insert(s_nameKey, file.readName());
     d->metaData.insert(s_commentKey, file.readComment());
     d->metaData.insert(s_iconKey, cg.readEntryUntranslated(s_iconKey));
     d->metaData.insert(s_authorKey, cg.readEntryUntranslated(s_authorKey));
-    d->metaData.insert(s_emailKey, cg.readEntryUntranslated(s_emailKey ));
+    d->metaData.insert(s_emailKey, cg.readEntryUntranslated(s_emailKey));
     d->metaData.insert(s_pluginNameKey, cg.readEntryUntranslated(s_pluginNameKey));
     d->metaData.insert(s_versionKey, cg.readEntryUntranslated(s_versionKey));
     d->metaData.insert(s_websiteKey, cg.readEntryUntranslated(s_websiteKey));
@@ -110,7 +110,7 @@ KPluginInfo::KPluginInfo(const QString & filename /*, QStandardPaths::StandardLo
 }
 
 KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
-: d( new KPluginInfoPrivate )
+    : d(new KPluginInfoPrivate)
 {
     static const QString metaData = QStringLiteral("MetaData");
     d->libraryPath = libraryPath;
@@ -134,8 +134,8 @@ KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
 }
 
 #ifndef KDE_NO_DEPRECATED
-KPluginInfo::KPluginInfo( const KService::Ptr service )
-: d( new KPluginInfoPrivate )
+KPluginInfo::KPluginInfo(const KService::Ptr service)
+    : d(new KPluginInfoPrivate)
 {
     if (!service) {
         d = 0; // isValid() == false
@@ -144,8 +144,7 @@ KPluginInfo::KPluginInfo( const KService::Ptr service )
     d->service = service;
     d->entryPath = service->entryPath();
 
-    if ( service->isDeleted() )
-    {
+    if (service->isDeleted()) {
         d->hidden = true;
         return;
     }
@@ -228,9 +227,8 @@ KPluginInfo::~KPluginInfo()
 QList<KPluginInfo> KPluginInfo::fromServices(const KService::List &services, const KConfigGroup &config)
 {
     QList<KPluginInfo> infolist;
-    for( KService::List::ConstIterator it = services.begin();
-            it != services.end(); ++it )
-    {
+    for (KService::List::ConstIterator it = services.begin();
+            it != services.end(); ++it) {
         KPluginInfo info(*it);
         info.setConfig(config);
         infolist += info;
@@ -242,8 +240,7 @@ QList<KPluginInfo> KPluginInfo::fromServices(const KService::List &services, con
 QList<KPluginInfo> KPluginInfo::fromFiles(const QStringList &files, const KConfigGroup &config)
 {
     QList<KPluginInfo> infolist;
-    for( QStringList::ConstIterator it = files.begin(); it != files.end(); ++it )
-    {
+    for (QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
         KPluginInfo info(*it);
         info.setConfig(config);
         infolist += info;
@@ -255,7 +252,7 @@ QList<KPluginInfo> KPluginInfo::fromKPartsInstanceName(const QString &name, cons
 {
     QStringList files;
     const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, name + QStringLiteral("/kpartplugins"), QStandardPaths::LocateDirectory);
-    Q_FOREACH(const QString& dir, dirs) {
+    Q_FOREACH (const QString &dir, dirs) {
         QDirIterator it(dir, QStringList() << QStringLiteral("*.desktop"));
         while (it.hasNext()) {
             files.append(it.next());
@@ -270,7 +267,7 @@ bool KPluginInfo::isHidden() const
     return d->hidden;
 }
 
-void KPluginInfo::setPluginEnabled( bool enabled )
+void KPluginInfo::setPluginEnabled(bool enabled)
 {
     KPLUGININFO_ISVALID_ASSERTION;
     //qDebug() << Q_FUNC_INFO;
@@ -396,10 +393,9 @@ KService::Ptr KPluginInfo::service() const
 QList<KService::Ptr> KPluginInfo::kcmServices() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    if ( !d->kcmservicesCached )
-    {
-        d->kcmservices = KServiceTypeTrader::self()->query( QStringLiteral("KCModule"), QLatin1Char('\'') + pluginName() +
-            QStringLiteral("' in [X-KDE-ParentComponents]") );
+    if (!d->kcmservicesCached) {
+        d->kcmservices = KServiceTypeTrader::self()->query(QStringLiteral("KCModule"), QLatin1Char('\'') + pluginName() +
+                         QStringLiteral("' in [X-KDE-ParentComponents]"));
         //qDebug() << "found" << d->kcmservices.count() << "offers for" << d->pluginName;
 
         d->kcmservicesCached = true;
@@ -462,7 +458,7 @@ void KPluginInfo::load(const KConfigGroup &config)
 void KPluginInfo::defaults()
 {
     //qDebug() << Q_FUNC_INFO;
-    setPluginEnabled( isPluginEnabledByDefault() );
+    setPluginEnabled(isPluginEnabledByDefault());
 }
 
 uint qHash(const KPluginInfo &p)
@@ -472,4 +468,3 @@ uint qHash(const KPluginInfo &p)
 
 #undef KPLUGININFO_ISVALID_ASSERTION
 
-// vim: sw=4 sts=4 et

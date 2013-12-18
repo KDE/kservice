@@ -24,22 +24,22 @@
 int
 main(int argc, char *argv[])
 {
-   QCoreApplication a(argc, argv);
+    QCoreApplication a(argc, argv);
 
-   QString serviceId = "kwrite.desktop";
-   if (argc > 1) {
-       serviceId = QString::fromLocal8Bit(argv[1]);
-   }
-   QString url;
-   if (argc > 2) {
-       url = QString::fromLocal8Bit(argv[2]);
-   }
+    QString serviceId = "kwrite.desktop";
+    if (argc > 1) {
+        serviceId = QString::fromLocal8Bit(argv[1]);
+    }
+    QString url;
+    if (argc > 2) {
+        url = QString::fromLocal8Bit(argv[2]);
+    }
 
-   QString error;
-   QString dbusService;
-   int pid;
-   KToolInvocation::startServiceByDesktopPath( serviceId, url, &error, &dbusService, &pid );
-   qDebug() << "Started. error=" << error << " dbusService=" << dbusService << " pid=" << pid;
+    QString error;
+    QString dbusService;
+    int pid;
+    KToolInvocation::startServiceByDesktopPath(serviceId, url, &error, &dbusService, &pid);
+    qDebug() << "Started. error=" << error << " dbusService=" << dbusService << " pid=" << pid;
 
-   return 0;
+    return 0;
 }

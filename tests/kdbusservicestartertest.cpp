@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 
     QString error, dbusService;
     KDBusServiceStarter::self()->
-        findServiceFor( "DBUS/Organizer", QString(), &error, &dbusService );
+    findServiceFor("DBUS/Organizer", QString(), &error, &dbusService);
 
     return 0;
 }

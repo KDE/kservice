@@ -21,7 +21,6 @@
 #include "ksycocadict_p.h"
 #include "ksycocaresourcelist.h"
 
-
 #include <QDebug>
 #include <assert.h>
 #include <kdesktopfile.h>
@@ -48,51 +47,52 @@ KBuildServiceTypeFactory::~KBuildServiceTypeFactory()
 
 KServiceType::Ptr KBuildServiceTypeFactory::findServiceTypeByName(const QString &_name)
 {
-    assert (KSycoca::self()->isBuilding());
+    assert(KSycoca::self()->isBuilding());
     // We're building a database - the service type must be in memory
-    KSycocaEntry::Ptr servType = m_entryDict->value( _name );
-    return KServiceType::Ptr( servType );
+    KSycocaEntry::Ptr servType = m_entryDict->value(_name);
+    return KServiceType::Ptr(servType);
 }
 
-
-KSycocaEntry* KBuildServiceTypeFactory::createEntry(const QString &file) const
+KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
 {
     QString name = file;
     int pos = name.lastIndexOf('/');
     if (pos != -1) {
-        name = name.mid(pos+1);
+        name = name.mid(pos + 1);
     }
 
-    if (name.isEmpty())
+    if (name.isEmpty()) {
         return 0;
+    }
 
     KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, "kde5/servicetypes/" + file);
     const KConfigGroup desktopGroup = desktopFile.desktopGroup();
 
-    if ( desktopGroup.readEntry( "Hidden", false ) == true )
+    if (desktopGroup.readEntry("Hidden", false) == true) {
         return 0;
+    }
 
-    const QString type = desktopGroup.readEntry( "Type" );
-    if ( type != QLatin1String( "ServiceType" ) ) {
+    const QString type = desktopGroup.readEntry("Type");
+    if (type != QLatin1String("ServiceType")) {
         qWarning() << "The service type config file " << desktopFile.fileName() << " has Type=" << type << " instead of Type=ServiceType";
         return 0;
     }
 
-    const QString serviceType = desktopGroup.readEntry( "X-KDE-ServiceType" );
+    const QString serviceType = desktopGroup.readEntry("X-KDE-ServiceType");
 
-    if ( serviceType.isEmpty() ) {
+    if (serviceType.isEmpty()) {
         qWarning() << "The service type config file " << desktopFile.fileName() << " does not contain a ServiceType=... entry";
         return 0;
     }
 
-    KServiceType* e = new KServiceType( &desktopFile );
+    KServiceType *e = new KServiceType(&desktopFile);
 
     if (e->isDeleted()) {
         delete e;
         return 0;
     }
 
-    if ( !(e->isValid()) ) {
+    if (!(e->isValid())) {
         qWarning() << "Invalid ServiceType : " << file;
         delete e;
         return 0;
@@ -127,21 +127,22 @@ KBuildServiceTypeFactory::save(QDataStream &str)
 }
 
 void
-KBuildServiceTypeFactory::addEntry(const KSycocaEntry::Ptr& newEntry)
+KBuildServiceTypeFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
 {
     KSycocaFactory::addEntry(newEntry);
 
-    KServiceType::Ptr serviceType = KServiceType::Ptr( newEntry );
+    KServiceType::Ptr serviceType = KServiceType::Ptr(newEntry);
 
-    const QMap<QString,QVariant::Type>& pd = serviceType->propertyDefs();
-    QMap<QString,QVariant::Type>::ConstIterator pit = pd.begin();
-    for( ; pit != pd.end(); ++pit ) {
+    const QMap<QString, QVariant::Type> &pd = serviceType->propertyDefs();
+    QMap<QString, QVariant::Type>::ConstIterator pit = pd.begin();
+    for (; pit != pd.end(); ++pit) {
         const QString property = pit.key();
         QMap<QString, int>::iterator dictit = m_propertyTypeDict.find(property);
-        if (dictit == m_propertyTypeDict.end())
+        if (dictit == m_propertyTypeDict.end()) {
             m_propertyTypeDict.insert(property, pit.value());
-        else if (*dictit != static_cast<int>(pit.value()))
-            qWarning() << "Property '"<< property << "' is defined multiple times ("<< serviceType->name() <<")";
+        } else if (*dictit != static_cast<int>(pit.value())) {
+            qWarning() << "Property '" << property << "' is defined multiple times (" << serviceType->name() << ")";
+        }
     }
 }
 

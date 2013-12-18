@@ -22,8 +22,7 @@
 #include "nsaplugin.h"
 #include <QDebug>
 
-
-NSAPlugin::NSAPlugin(QObject* parent, const QVariantList &args)
+NSAPlugin::NSAPlugin(QObject *parent, const QVariantList &args)
     : QObject(parent),
       m_pluginInfo(args)
 {

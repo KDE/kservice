@@ -39,23 +39,29 @@ static bool s_serviceTypeProfilesExists = false;
 class KServiceTypeProfiles : public QHash<QString, KServiceTypeProfileEntry *>
 {
 public:
-    KServiceTypeProfiles() {
+    KServiceTypeProfiles()
+    {
 #if QT_VERSION < QT_VERSION_CHECK(5, 1, 1)
         s_serviceTypeProfilesExists = true;
 #endif
-        m_parsed = false; ensureParsed(); }
-    ~KServiceTypeProfiles() {
+        m_parsed = false; ensureParsed();
+    }
+    ~KServiceTypeProfiles()
+    {
 #if QT_VERSION < QT_VERSION_CHECK(5, 1, 1)
         s_serviceTypeProfilesExists = false;
 #endif
-        clear(); }
-    void clear() {
+        clear();
+    }
+    void clear()
+    {
         QMutexLocker lock(&m_mutex);
-        qDeleteAll( *this );
+        qDeleteAll(*this);
         QHash<QString, KServiceTypeProfileEntry *>::clear();
         m_parsed = false;
     }
-    bool hasProfile(const QString& serviceType) {
+    bool hasProfile(const QString &serviceType)
+    {
         QMutexLocker lock(&m_mutex);
         ensureParsed();
         return contains(serviceType);
@@ -66,15 +72,15 @@ private:
     bool m_parsed;
 };
 
-
 Q_GLOBAL_STATIC(KServiceTypeProfiles, s_serviceTypeProfiles)
 
 static bool s_configurationMode = false;
 
 void KServiceTypeProfiles::ensureParsed()
 {
-    if (m_parsed)
+    if (m_parsed) {
         return;
+    }
     m_parsed = true;
 
     // Make sure that a KServiceTypeFactory gets created.
@@ -84,26 +90,26 @@ void KServiceTypeProfiles::ensureParsed()
     // See writeServiceTypeProfile for a description of the file format.
     // ### Since this new format names groups after servicetypes maybe we can even
     // avoid doing any init upfront, and just look up the group when asked...
-    KConfig configFile( QString::fromLatin1("servicetype_profilerc"), KConfig::NoGlobals );
+    KConfig configFile(QString::fromLatin1("servicetype_profilerc"), KConfig::NoGlobals);
     const QStringList tmpList = configFile.groupList();
     for (QStringList::const_iterator aIt = tmpList.begin();
-         aIt != tmpList.end(); ++aIt) {
+            aIt != tmpList.end(); ++aIt) {
         const QString type = *aIt;
         KConfigGroup config(&configFile, type);
-        const int count = config.readEntry( "NumberOfEntries", 0 );
-        KServiceTypeProfileEntry* p = this->value( type, 0 );
-        if ( !p ) {
+        const int count = config.readEntry("NumberOfEntries", 0);
+        KServiceTypeProfileEntry *p = this->value(type, 0);
+        if (!p) {
             p = new KServiceTypeProfileEntry();
-            this->insert( type, p );
+            this->insert(type, p);
         }
 
-        for ( int i = 0; i < count; ++i ) {
+        for (int i = 0; i < count; ++i) {
             const QString num = QString::fromLatin1("Entry") + QString::number(i);
-            const QString serviceId = config.readEntry( num + QLatin1String("_Service"), QString() );
+            const QString serviceId = config.readEntry(num + QLatin1String("_Service"), QString());
             if (!serviceId.isEmpty()) {
-                const int pref = config.readEntry( num + QLatin1String("_Preference"), 0 );
+                const int pref = config.readEntry(num + QLatin1String("_Preference"), 0);
                 //qDebug() << "adding service " << serviceId << " to profile for " << type << " with preference " << pref;
-                p->addService( serviceId, pref );
+                p->addService(serviceId, pref);
             }
         }
     }
@@ -127,41 +133,38 @@ void KServiceTypeProfile::clearCache()
  * @return the weighted and sorted offer list
  * @internal used by KServiceTypeTrader
  */
-namespace KServiceTypeProfile {
-    KServiceOfferList sortServiceTypeOffers( const KServiceOfferList& list, const QString& servicetype );
+namespace KServiceTypeProfile
+{
+KServiceOfferList sortServiceTypeOffers(const KServiceOfferList &list, const QString &servicetype);
 }
 
-KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers( const KServiceOfferList& list, const QString& serviceType )
+KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOfferList &list, const QString &serviceType)
 {
     QMutexLocker lock(&s_serviceTypeProfiles()->m_mutex);
     s_serviceTypeProfiles()->ensureParsed();
-    KServiceTypeProfileEntry* profile = s_serviceTypeProfiles()->value(serviceType, 0);
+    KServiceTypeProfileEntry *profile = s_serviceTypeProfiles()->value(serviceType, 0);
 
     KServiceOfferList offers;
 
     KServiceOfferList::const_iterator it = list.begin();
     const KServiceOfferList::const_iterator end = list.end();
-    for( ; it != end; ++it )
-    {
+    for (; it != end; ++it) {
         const KService::Ptr servPtr = (*it).service();
         //qDebug() << "KServiceTypeProfile::offers considering " << servPtr->storageId();
         // Look into the profile (if there's one), to find this service's preference.
         bool foundInProfile = false;
-        if ( profile )
-        {
-            QMap<QString,int>::ConstIterator it2 = profile->m_mapServices.constFind( servPtr->storageId() );
-            if( it2 != profile->m_mapServices.constEnd() )
-            {
+        if (profile) {
+            QMap<QString, int>::ConstIterator it2 = profile->m_mapServices.constFind(servPtr->storageId());
+            if (it2 != profile->m_mapServices.constEnd()) {
                 const int pref = it2.value();
                 //qDebug() << "found in mapServices pref=" << pref;
-                if ( pref > 0 ) { // 0 disables the service
-                    offers.append( KServiceOffer( servPtr, pref, 0, servPtr->allowAsDefault() ) );
+                if (pref > 0) {   // 0 disables the service
+                    offers.append(KServiceOffer(servPtr, pref, 0, servPtr->allowAsDefault()));
                 }
                 foundInProfile = true;
             }
         }
-        if ( !foundInProfile )
-        {
+        if (!foundInProfile) {
             // This offer isn't in the profile
             // This can be because we have no profile at all, or because the
             // services have been installed after the profile was written,
@@ -169,27 +172,27 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers( const KServiceOffe
             //qDebug() << "not found in mapServices. Appending.";
 
             // If there's a profile, we use 0 as the preference to ensure new apps don't take over existing apps (which default to 1)
-            offers.append( KServiceOffer( servPtr,
-                                          profile ? 0 : (*it).preference(),
-                                          0,
-                                          servPtr->allowAsDefault() ) );
+            offers.append(KServiceOffer(servPtr,
+                                        profile ? 0 : (*it).preference(),
+                                        0,
+                                        servPtr->allowAsDefault()));
         }
     }
 
-    qStableSort( offers );
+    qStableSort(offers);
 
     //qDebug() << "KServiceTypeProfile::offers returning " << offers.count() << " offers";
     return offers;
 }
 
-bool KServiceTypeProfile::hasProfile( const QString& serviceType )
+bool KServiceTypeProfile::hasProfile(const QString &serviceType)
 {
     return s_serviceTypeProfiles()->hasProfile(serviceType);
 }
 
-void KServiceTypeProfile::writeServiceTypeProfile( const QString& serviceType,
-                                                   const KService::List& services,
-                                                   const KService::List& disabledServices )
+void KServiceTypeProfile::writeServiceTypeProfile(const QString &serviceType,
+        const KService::List &services,
+        const KService::List &disabledServices)
 {
     /*
      * [ServiceType]
@@ -202,27 +205,27 @@ void KServiceTypeProfile::writeServiceTypeProfile( const QString& serviceType,
      * Entry2_Preference=0
      */
 
-    KConfig configFile( QString::fromLatin1("servicetype_profilerc"), KConfig::SimpleConfig);
-    configFile.deleteGroup( serviceType );
+    KConfig configFile(QString::fromLatin1("servicetype_profilerc"), KConfig::SimpleConfig);
+    configFile.deleteGroup(serviceType);
 
-    KConfigGroup config(&configFile, serviceType );
+    KConfigGroup config(&configFile, serviceType);
     const int count = services.count();
-    config.writeEntry( "NumberOfEntries", count + disabledServices.count() );
+    config.writeEntry("NumberOfEntries", count + disabledServices.count());
     KService::List::ConstIterator servit = services.begin();
     int i = 0;
-    for( ; servit != services.end(); ++servit, ++i ) {
+    for (; servit != services.end(); ++servit, ++i) {
         if (*servit) {
             const QString num = QString::fromLatin1("Entry") + QString::number(i);
-            config.writeEntry( num + QLatin1String("_Service"), (*servit)->storageId() );
-            config.writeEntry( num + QLatin1String("_Preference"), count - i );
+            config.writeEntry(num + QLatin1String("_Service"), (*servit)->storageId());
+            config.writeEntry(num + QLatin1String("_Preference"), count - i);
         }
     }
     servit = disabledServices.begin();
-    for( ; servit != disabledServices.end(); ++servit, ++i ) {
+    for (; servit != disabledServices.end(); ++servit, ++i) {
         if (*servit) {
             const QString num = QString::fromLatin1("Entry") + QString::number(i);
-            config.writeEntry( num + QLatin1String("_Service"), (*servit)->storageId() );
-            config.writeEntry( num + QLatin1String("_Preference"), 0 );
+            config.writeEntry(num + QLatin1String("_Service"), (*servit)->storageId());
+            config.writeEntry(num + QLatin1String("_Preference"), 0);
         }
     }
     configFile.sync();
@@ -231,10 +234,10 @@ void KServiceTypeProfile::writeServiceTypeProfile( const QString& serviceType,
     clearCache();
 }
 
-void KServiceTypeProfile::deleteServiceTypeProfile( const QString& serviceType)
+void KServiceTypeProfile::deleteServiceTypeProfile(const QString &serviceType)
 {
     KConfig config(QString::fromLatin1("servicetype_profilerc"), KConfig::SimpleConfig);
-    config.deleteGroup( serviceType );
+    config.deleteGroup(serviceType);
     config.sync();
 
     // Not threadsafe, but well the whole idea of using this method isn't
@@ -244,13 +247,13 @@ void KServiceTypeProfile::deleteServiceTypeProfile( const QString& serviceType)
 #else
     if (s_serviceTypeProfiles()) {
 #endif
-        delete s_serviceTypeProfiles()->take( serviceType );
+        delete s_serviceTypeProfiles()->take(serviceType);
     }
 }
 
 void KServiceTypeProfile::setConfigurationMode()
 {
-     s_configurationMode = true;
+    s_configurationMode = true;
 }
 
 bool KServiceTypeProfile::configurationMode()

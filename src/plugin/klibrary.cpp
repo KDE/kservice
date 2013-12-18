@@ -25,7 +25,7 @@
 
 #include <kpluginfactory.h>
 
-extern QString makeLibName( const QString &libname );
+extern QString makeLibName(const QString &libname);
 extern QString findLibraryInternal(const QString &name);
 
 //static
@@ -34,34 +34,31 @@ KSERVICE_EXPORT QString findLibrary(const QString &name)
     QString libname = findLibraryInternal(name);
 #ifdef Q_OS_WIN
     // we don't have 'lib' prefix on windows -> remove it and try again
-    if( libname.isEmpty() )
-    {
-      libname = name;
-      QString file, path;
-
-      int pos = libname.lastIndexOf( QLatin1Char('/') );
-      if ( pos >= 0 )
-      {
-        file = libname.mid( pos + 1 );
-        path = libname.left( pos );
-        libname = path + QLatin1Char('/') + file.mid( 3 );
-      }
-      else
-      {
-        file = libname;
-        libname = file.mid( 3 );
-      }
-      if( !file.startsWith( QLatin1String("lib") ) )
-          return file;
-
-      libname = findLibraryInternal(libname);
-      if( libname.isEmpty() )
+    if (libname.isEmpty()) {
         libname = name;
+        QString file, path;
+
+        int pos = libname.lastIndexOf(QLatin1Char('/'));
+        if (pos >= 0) {
+            file = libname.mid(pos + 1);
+            path = libname.left(pos);
+            libname = path + QLatin1Char('/') + file.mid(3);
+        } else {
+            file = libname;
+            libname = file.mid(3);
+        }
+        if (!file.startsWith(QLatin1String("lib"))) {
+            return file;
+        }
+
+        libname = findLibraryInternal(libname);
+        if (libname.isEmpty()) {
+            libname = name;
+        }
     }
 #endif
     return libname;
 }
-
 
 KLibrary::KLibrary(QObject *parent)
     : QLibrary(parent), d_ptr(0)
@@ -86,10 +83,10 @@ typedef QHash<QString, QPointer<KPluginFactory> > FactoryHash;
 
 Q_GLOBAL_STATIC(FactoryHash, s_createdKde3Factories)
 
-static KPluginFactory* kde3Factory(KLibrary *lib, const QByteArray &factoryname)
+static KPluginFactory *kde3Factory(KLibrary *lib, const QByteArray &factoryname)
 {
     QByteArray symname = "init_";
-    if(!factoryname.isEmpty()) {
+    if (!factoryname.isEmpty()) {
         symname += factoryname;
     } else {
         symname += QFileInfo(lib->fileName()).fileName().split(QLatin1Char('.')).first().toLatin1();
@@ -102,13 +99,13 @@ static KPluginFactory* kde3Factory(KLibrary *lib, const QByteArray &factoryname)
     }
 
     typedef KPluginFactory* (*t_func)();
-    t_func func = reinterpret_cast<t_func>(lib->resolveFunction( symname ));
-    if ( !func )
-    {
+    t_func func = reinterpret_cast<t_func>(lib->resolveFunction(symname));
+    if (!func) {
 #ifdef Q_OS_WIN
         // a backup for cases when developer has set lib prefix for a plugin name (she should not...)
-        if (!factoryname.startsWith(QByteArray("lib")))
-            return kde3Factory(lib, QByteArray("lib")+symname.mid(5 /*"init_"*/));
+        if (!factoryname.startsWith(QByteArray("lib"))) {
+            return kde3Factory(lib, QByteArray("lib") + symname.mid(5 /*"init_"*/));
+        }
 #endif
         qDebug() << "The library" << lib->fileName() << "does not offer an" << symname << "function.";
         return 0;
@@ -116,8 +113,7 @@ static KPluginFactory* kde3Factory(KLibrary *lib, const QByteArray &factoryname)
 
     factory = func();
 
-    if( !factory )
-    {
+    if (!factory) {
         qDebug() << "The library" << lib->fileName() << "does not offer a KDE compatible factory.";
         return 0;
     }
@@ -132,19 +128,18 @@ static KPluginFactory *kde4Factory(KLibrary *lib)
 
     typedef QObject* (*t_func)();
     t_func func = reinterpret_cast<t_func>(lib->resolveFunction(symname));
-    if ( !func )
-    {
+    if (!func) {
         qDebug() << "The library" << lib->fileName() << "does not offer a qt_plugin_instance function.";
         return 0;
     }
 
-    QObject* instance = func();
+    QObject *instance = func();
     KPluginFactory *factory = qobject_cast<KPluginFactory *>(instance);
 
-    if( !factory )
-    {
-        if (instance)
+    if (!factory) {
+        if (instance) {
             qDebug() << "Expected a KPluginFactory, got a" << instance->metaObject()->className();
+        }
         qDebug() << "The library" << lib->fileName() << "does not offer a KDE 4 compatible factory.";
         return 0;
     }
@@ -153,20 +148,20 @@ static KPluginFactory *kde4Factory(KLibrary *lib)
 
 #ifndef KDE_NO_DEPRECATED
 // deprecated
-KPluginFactory* KLibrary::factory(const char* factoryname)
+KPluginFactory *KLibrary::factory(const char *factoryname)
 {
     if (fileName().isEmpty()) {
         return NULL;
     }
 
     KPluginFactory *factory = kde4Factory(this);
-    if (!factory)
+    if (!factory) {
         factory = kde3Factory(this, factoryname);
+    }
 
     return factory;
 }
 #endif
-
 
 void KLibrary::setFileName(const QString &name)
 {

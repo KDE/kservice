@@ -27,157 +27,153 @@
 #include <QtCore/QHash>
 
 KBuildServiceGroupFactory::KBuildServiceGroupFactory() :
-  KServiceGroupFactory()
+    KServiceGroupFactory()
 {
-   m_resourceList = new KSycocaResourceList;
+    m_resourceList = new KSycocaResourceList;
 //   m_resourceList->add( "apps", "*.directory" );
 
-   m_baseGroupDict = new KSycocaDict();
+    m_baseGroupDict = new KSycocaDict();
 }
 
- QStringList KBuildServiceGroupFactory::resourceDirs()
+QStringList KBuildServiceGroupFactory::resourceDirs()
 {
     return QStringList();
 }
 
 KBuildServiceGroupFactory::~KBuildServiceGroupFactory()
 {
-   delete m_resourceList;
+    delete m_resourceList;
 }
 
-KServiceGroup* KBuildServiceGroupFactory::createEntry(const QString&) const
+KServiceGroup *KBuildServiceGroupFactory::createEntry(const QString &) const
 {
-  // Unused
-  qWarning() << "called!";
-  return 0;
+    // Unused
+    qWarning() << "called!";
+    return 0;
 }
 
-
-void KBuildServiceGroupFactory::addNewEntryTo( const QString &menuName, const KService::Ptr& newEntry)
+void KBuildServiceGroupFactory::addNewEntryTo(const QString &menuName, const KService::Ptr &newEntry)
 {
-  KSycocaEntry::Ptr ptr = m_entryDict->value(menuName);
-  KServiceGroup::Ptr entry;
-  if (ptr && ptr->isType(KST_KServiceGroup))
-    entry = KServiceGroup::Ptr( ptr );
+    KSycocaEntry::Ptr ptr = m_entryDict->value(menuName);
+    KServiceGroup::Ptr entry;
+    if (ptr && ptr->isType(KST_KServiceGroup)) {
+        entry = KServiceGroup::Ptr(ptr);
+    }
 
-  if (!entry)
-  {
-    qWarning() << "( " << menuName << ", " << newEntry->name() << " ): menu does not exists!";
-    return;
-  }
-  entry->addEntry( KSycocaEntry::Ptr( newEntry ) );
+    if (!entry) {
+        qWarning() << "( " << menuName << ", " << newEntry->name() << " ): menu does not exists!";
+        return;
+    }
+    entry->addEntry(KSycocaEntry::Ptr(newEntry));
 }
 
 KServiceGroup::Ptr
-KBuildServiceGroupFactory::addNew( const QString &menuName, const QString& file, KServiceGroup::Ptr entry, bool isDeleted)
+KBuildServiceGroupFactory::addNew(const QString &menuName, const QString &file, KServiceGroup::Ptr entry, bool isDeleted)
 {
-  KSycocaEntry::Ptr ptr = m_entryDict->value(menuName);
-  if (ptr)
-  {
-    qWarning() << "( " << menuName << ", " << file << " ): menu already exists!";
-    return KServiceGroup::Ptr( ptr );
-  }
+    KSycocaEntry::Ptr ptr = m_entryDict->value(menuName);
+    if (ptr) {
+        qWarning() << "( " << menuName << ", " << file << " ): menu already exists!";
+        return KServiceGroup::Ptr(ptr);
+    }
 
-  // Create new group entry
-  if (!entry)
-     entry = new KServiceGroup(file, menuName);
+    // Create new group entry
+    if (!entry) {
+        entry = new KServiceGroup(file, menuName);
+    }
 
-  entry->d_func()->m_childCount = -1; // Recalculate
+    entry->d_func()->m_childCount = -1; // Recalculate
 
-  addEntry( KSycocaEntry::Ptr(entry) );
+    addEntry(KSycocaEntry::Ptr(entry));
 
-  if (menuName != "/")
-  {
-     // Make sure parent dir exists.
-     QString parent = menuName.left(menuName.length()-1);
-     int i = parent.lastIndexOf('/');
-     if (i > 0) {
-        parent = parent.left(i+1);
-     } else {
-        parent = '/';
-     }
+    if (menuName != "/") {
+        // Make sure parent dir exists.
+        QString parent = menuName.left(menuName.length() - 1);
+        int i = parent.lastIndexOf('/');
+        if (i > 0) {
+            parent = parent.left(i + 1);
+        } else {
+            parent = '/';
+        }
 
-
-     KServiceGroup::Ptr parentEntry;
-     ptr = m_entryDict->value(parent);
-     if (ptr && ptr->isType(KST_KServiceGroup))
-         parentEntry = KServiceGroup::Ptr( ptr );
-     if (!parentEntry)
-     {
-        qWarning() << "( " << menuName << ", " << file << " ): parent menu does not exist!";
-     }
-     else
-     {
-        if (!isDeleted && !entry->isDeleted())
-           parentEntry->addEntry( KSycocaEntry::Ptr( entry ) );
-     }
-  }
-  return entry;
+        KServiceGroup::Ptr parentEntry;
+        ptr = m_entryDict->value(parent);
+        if (ptr && ptr->isType(KST_KServiceGroup)) {
+            parentEntry = KServiceGroup::Ptr(ptr);
+        }
+        if (!parentEntry) {
+            qWarning() << "( " << menuName << ", " << file << " ): parent menu does not exist!";
+        } else {
+            if (!isDeleted && !entry->isDeleted()) {
+                parentEntry->addEntry(KSycocaEntry::Ptr(entry));
+            }
+        }
+    }
+    return entry;
 }
 
 void
-KBuildServiceGroupFactory::addNewChild( const QString &parent, const KSycocaEntry::Ptr& newEntry)
+KBuildServiceGroupFactory::addNewChild(const QString &parent, const KSycocaEntry::Ptr &newEntry)
 {
-  QString name = "#parent#"+parent;
+    QString name = "#parent#" + parent;
 
-  KServiceGroup::Ptr entry;
-  KSycocaEntry::Ptr ptr = m_entryDict->value(name);
-  if (ptr && ptr->isType(KST_KServiceGroup))
-     entry = KServiceGroup::Ptr( ptr );
+    KServiceGroup::Ptr entry;
+    KSycocaEntry::Ptr ptr = m_entryDict->value(name);
+    if (ptr && ptr->isType(KST_KServiceGroup)) {
+        entry = KServiceGroup::Ptr(ptr);
+    }
 
-  if (!entry)
-  {
-     entry = new KServiceGroup(name);
-     addEntry( KSycocaEntry::Ptr( entry ) );
-  }
-  if (newEntry)
-     entry->addEntry( newEntry );
+    if (!entry) {
+        entry = new KServiceGroup(name);
+        addEntry(KSycocaEntry::Ptr(entry));
+    }
+    if (newEntry) {
+        entry->addEntry(newEntry);
+    }
 }
 
 void
-KBuildServiceGroupFactory::addEntry( const KSycocaEntry::Ptr& newEntry)
+KBuildServiceGroupFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
 {
-   KSycocaFactory::addEntry(newEntry);
+    KSycocaFactory::addEntry(newEntry);
 
-   KServiceGroup::Ptr serviceGroup = KServiceGroup::Ptr( newEntry );
-   serviceGroup->d_func()->m_serviceList.clear();
+    KServiceGroup::Ptr serviceGroup = KServiceGroup::Ptr(newEntry);
+    serviceGroup->d_func()->m_serviceList.clear();
 
-   if ( !serviceGroup->baseGroupName().isEmpty() )
-   {
-       m_baseGroupDict->add( serviceGroup->baseGroupName(), newEntry );
-   }
+    if (!serviceGroup->baseGroupName().isEmpty()) {
+        m_baseGroupDict->add(serviceGroup->baseGroupName(), newEntry);
+    }
 }
 
 void
 KBuildServiceGroupFactory::saveHeader(QDataStream &str)
 {
-   KSycocaFactory::saveHeader(str);
+    KSycocaFactory::saveHeader(str);
 
-   str << (qint32) m_baseGroupDictOffset;
+    str << (qint32) m_baseGroupDictOffset;
 }
 
 void
 KBuildServiceGroupFactory::save(QDataStream &str)
 {
-   KSycocaFactory::save(str);
+    KSycocaFactory::save(str);
 
-   m_baseGroupDictOffset = str.device()->pos();
-   m_baseGroupDict->save(str);
+    m_baseGroupDictOffset = str.device()->pos();
+    m_baseGroupDict->save(str);
 
-   int endOfFactoryData = str.device()->pos();
+    int endOfFactoryData = str.device()->pos();
 
-   // Update header (pass #3)
-   saveHeader(str);
+    // Update header (pass #3)
+    saveHeader(str);
 
-   // Seek to end.
-   str.device()->seek(endOfFactoryData);
+    // Seek to end.
+    str.device()->seek(endOfFactoryData);
 }
 
-KServiceGroup::Ptr KBuildServiceGroupFactory::findGroupByDesktopPath( const QString &_name, bool deep )
+KServiceGroup::Ptr KBuildServiceGroupFactory::findGroupByDesktopPath(const QString &_name, bool deep)
 {
-    assert (KSycoca::self()->isBuilding());
+    assert(KSycoca::self()->isBuilding());
     Q_UNUSED(deep); // ?
     // We're building a database - the service type must be in memory
-    KSycocaEntry::Ptr group = m_entryDict->value( _name );
-    return KServiceGroup::Ptr( group );
+    KSycocaEntry::Ptr group = m_entryDict->value(_name);
+    return KServiceGroup::Ptr(group);
 }

@@ -65,21 +65,21 @@ public:
      * @param exec the executable
      * @param icon the name of the icon
      */
-    KService(const QString & name, const QString &exec, const QString &icon);
+    KService(const QString &name, const QString &exec, const QString &icon);
 
     /**
      * Construct a service and take all information from a config file.
      *
      * @param fullpath Full path to the config file.
      */
-    explicit KService( const QString & fullpath );
+    explicit KService(const QString &fullpath);
 
     /**
      * Construct a service and take all information from a desktop file.
      * @param config the desktop file to read
      * @param optional relative path to store for findByName
      */
-    explicit KService(const KDesktopFile *config, const QString& entryPath = QString());
+    explicit KService(const KDesktopFile *config, const QString &entryPath = QString());
 
     virtual ~KService();
 
@@ -273,7 +273,7 @@ public:
      *
      * @return true if the service type you specified is supported, otherwise false.
      */
-    bool hasServiceType( const QString& serviceTypePtr ) const;
+    bool hasServiceType(const QString &serviceTypePtr) const;
 
     /**
      * Checks whether the service supports this mime type
@@ -294,7 +294,7 @@ public:
      * @deprecated, use hasMimeType(QString)
      */
 #ifndef KDE_NO_DEPRECATED
-    KSERVICE_DEPRECATED bool hasMimeType( const KServiceType* mimeTypePtr ) const;
+    KSERVICE_DEPRECATED bool hasMimeType(const KServiceType *mimeTypePtr) const;
 #endif
 
     /**
@@ -303,7 +303,7 @@ public:
      *        interested in determining whether this service supports.
      * @since 4.6
      */
-    bool hasMimeType( const QString& mimeType ) const;
+    bool hasMimeType(const QString &mimeType) const;
 
     /**
      * Set to true if it is allowed to use this service as the default (main)
@@ -388,7 +388,7 @@ public:
      * @return the property, or invalid if not found
      * @see KServiceType
      */
-    QVariant property( const QString& _name, QVariant::Type t ) const;
+    QVariant property(const QString &_name, QVariant::Type t) const;
 
     using KSycocaEntry::property;
 
@@ -427,7 +427,7 @@ public:
      * @internal
      * @since 4.11
      */
-    void setExec(const QString& exec);
+    void setExec(const QString &exec);
 
     /**
      * Find a service by name, i.e. the translated Name field. Don't use this.
@@ -440,7 +440,7 @@ public:
      * @deprecated there is never a good reason to use this method.
      */
 #ifndef KDE_NO_DEPRECATED
-    static Ptr serviceByName( const QString& _name ); // KDE5: remove
+    static Ptr serviceByName(const QString &_name);   // KDE5: remove
 #endif
 
     /**
@@ -452,7 +452,7 @@ public:
      *         unknown.
      * @em Very @em important: Don't store the result in a KService* !
      */
-    static Ptr serviceByDesktopPath( const QString& _path );
+    static Ptr serviceByDesktopPath(const QString &_path);
 
     /**
      * Find a service by the name of its desktop file, not depending on
@@ -468,7 +468,7 @@ public:
      *         unknown.
      * @em Very @em important: Don't store the result in a KService* !
      */
-    static Ptr serviceByDesktopName( const QString& _name );
+    static Ptr serviceByDesktopName(const QString &_name);
 
     /**
      * Find a service by its menu-id
@@ -478,7 +478,7 @@ public:
      *         unknown.
      * @em Very @em important: Don't store the result in a KService* !
      */
-    static Ptr serviceByMenuId( const QString& _menuId );
+    static Ptr serviceByMenuId(const QString &_menuId);
 
     /**
      * Find a service by its storage-id or desktop-file path. This
@@ -489,7 +489,7 @@ public:
      *         unknown.
      * @em Very @em important: Don't store the result in a KService* !
      */
-    static Ptr serviceByStorageId( const QString& _storageId );
+    static Ptr serviceByStorageId(const QString &_storageId);
 
     /**
      * Returns the whole list of services.
@@ -535,7 +535,7 @@ public:
      */
     template <class T>
     T *createInstance(QObject *parent = 0,
-            const QVariantList &args = QVariantList(), QString *error = 0) const
+                      const QVariantList &args = QVariantList(), QString *error = 0) const
     {
         return createInstance<T>(0, parent, args, error);
     }
@@ -555,7 +555,7 @@ public:
      */
     template <class T>
     T *createInstance(QWidget *parentWidget, QObject *parent,
-            const QVariantList &args = QVariantList(), QString *error = 0) const
+                      const QVariantList &args = QVariantList(), QString *error = 0) const
     {
         KPluginLoader pluginLoader(*this);
         KPluginFactory *factory = pluginLoader.factory();
@@ -565,10 +565,9 @@ public:
             T *o = factory->template create<T>(parentWidget, parent, pluginKeyword(), argsWithMetaData);
             if (!o && error)
                 *error = QCoreApplication::translate("", "The service '%1' does not provide an interface '%2' with keyword '%3'")
-                    .arg(name(), QString::fromLatin1(T::staticMetaObject.className()), pluginKeyword());
+                         .arg(name(), QString::fromLatin1(T::staticMetaObject.className()), pluginKeyword());
             return o;
-        }
-        else if (error) {
+        } else if (error) {
             *error = pluginLoader.errorString();
             pluginLoader.unload();
         }
@@ -591,20 +590,19 @@ private:
     friend class KBuildServiceFactory;
 
     /// @internal for KBuildSycoca only
-    struct ServiceTypeAndPreference
-    {
+    struct ServiceTypeAndPreference {
         ServiceTypeAndPreference()
             : preference(-1), serviceType() {}
-        ServiceTypeAndPreference(int pref, const QString& servType)
+        ServiceTypeAndPreference(int pref, const QString &servType)
             : preference(pref), serviceType(servType) {}
         int preference;
         QString serviceType; // or mimetype
     };
     /// @internal for KBuildSycoca only
-    QVector<ServiceTypeAndPreference>& _k_accessServiceTypes();
+    QVector<ServiceTypeAndPreference> &_k_accessServiceTypes();
 
-    friend QDataStream& operator>>( QDataStream&, ServiceTypeAndPreference& );
-    friend QDataStream& operator<<( QDataStream&, const ServiceTypeAndPreference& );
+    friend QDataStream &operator>>(QDataStream &, ServiceTypeAndPreference &);
+    friend QDataStream &operator<<(QDataStream &, const ServiceTypeAndPreference &);
 
     Q_DECLARE_PRIVATE(KService)
 
@@ -615,6 +613,6 @@ private:
      * Construct a service from a stream.
      * The stream must already be positionned at the correct offset.
      */
-    KService( QDataStream& str, int offset );
+    KService(QDataStream &str, int offset);
 };
 #endif

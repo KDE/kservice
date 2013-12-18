@@ -38,27 +38,39 @@ class QDataStream;
 // No need for this in libkio - apps only get readonly access
 class KBuildSycoca : public KSycoca, public KBuildSycocaInterface
 {
-   Q_OBJECT
+    Q_OBJECT
 public:
-   KBuildSycoca();
-   virtual ~KBuildSycoca();
+    KBuildSycoca();
+    virtual ~KBuildSycoca();
 
-   /**
-    * Recreate the database file
-    */
-   bool recreate();
+    /**
+     * Recreate the database file
+     */
+    bool recreate();
 
-   static bool checkTimestamps( quint32 timestamp, const QStringList &dirs );
+    static bool checkTimestamps(quint32 timestamp, const QStringList &dirs);
 
-   static QStringList existingResourceDirs();
+    static QStringList existingResourceDirs();
 
-   void setTrackId(const QString &id) { m_trackId = id; }
+    void setTrackId(const QString &id)
+    {
+        m_trackId = id;
+    }
 
-   QStringList changedResources() const { return m_changedResources; }
+    QStringList changedResources() const
+    {
+        return m_changedResources;
+    }
 
     // Use our friendly-access-to-KSycoca to make this public
-    static void clearCaches() { KSycoca::clearCaches(); }
-    QString kfsstnd_prefixes() { return KSycoca::kfsstnd_prefixes(); }
+    static void clearCaches()
+    {
+        KSycoca::clearCaches();
+    }
+    QString kfsstnd_prefixes()
+    {
+        return KSycoca::kfsstnd_prefixes();
+    }
 
     /**
      * Returns a number that identifies the current version of the file @p filename,
@@ -66,52 +78,55 @@ public:
      *
      * When a change is made to the file this number will change.
      */
-    static quint32 calcResourceHash(const QString& subdir, const QString &filename);
+    static quint32 calcResourceHash(const QString &subdir, const QString &filename);
 
 private:
-   /**
-    * Add single entry to the sycoca database.
-    * Either from a previous database or regenerated from file.
-    */
-   KSycocaEntry::Ptr createEntry(const QString &file, bool addToFactory);
+    /**
+     * Add single entry to the sycoca database.
+     * Either from a previous database or regenerated from file.
+     */
+    KSycocaEntry::Ptr createEntry(const QString &file, bool addToFactory);
 
     /**
      * Implementation of KBuildSycocaInterface
      * Create service and return it. The caller must add it to the servicefactory.
      */
-    /*! \reimp */ KService::Ptr createService(const QString& path);
+    /*! \reimp */ KService::Ptr createService(const QString &path);
 
-   /**
-    * Convert a VFolderMenu::SubMenu to KServiceGroups.
-    */
-   void createMenu(const QString &caption, const QString &name, VFolderMenu::SubMenu *menu);
+    /**
+     * Convert a VFolderMenu::SubMenu to KServiceGroups.
+     */
+    void createMenu(const QString &caption, const QString &name, VFolderMenu::SubMenu *menu);
 
-   /**
-    * Build the whole system cache, from .desktop files
-    */
-   bool build();
+    /**
+     * Build the whole system cache, from .desktop files
+     */
+    bool build();
 
-   /**
-    * Save the ksycoca file
-    */
-   void save(QDataStream* str);
+    /**
+     * Save the ksycoca file
+     */
+    void save(QDataStream *str);
 
-   /**
-    * Clear the factories
-    */
-   void clear();
+    /**
+     * Clear the factories
+     */
+    void clear();
 
-   static bool checkDirTimestamps( const QString& dir, const QDateTime& stamp, bool top );
+    static bool checkDirTimestamps(const QString &dir, const QDateTime &stamp, bool top);
 
-   /**
-    * @internal
-    * @return true if building (i.e. if a KBuildSycoca);
-    */
-   virtual bool isBuilding() { return true; }
+    /**
+     * @internal
+     * @return true if building (i.e. if a KBuildSycoca);
+     */
+    virtual bool isBuilding()
+    {
+        return true;
+    }
 
-   QStringList m_changedResources;
-   QStringList m_allResourceDirs;
-   QString m_trackId;
+    QStringList m_changedResources;
+    QStringList m_allResourceDirs;
+    QString m_trackId;
 
     QByteArray g_resource; // e.g. "services" (old resource name, now only used for the signal, see kctimefactory.cpp)
     QString g_resourceSubdir; // e.g. "kde5/services" (xdgdata subdir)

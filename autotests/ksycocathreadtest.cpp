@@ -36,16 +36,15 @@
 #include <QDebug>
 
 // Helper method for all the trader tests
-static bool offerListHasService( const KService::List& offers,
-                                 const QString& entryPath )
+static bool offerListHasService(const KService::List &offers,
+                                const QString &entryPath)
 {
     bool found = false;
     KService::List::const_iterator it = offers.begin();
-    for ( ; it != offers.end() ; ++it )
-    {
-        if ( (*it)->entryPath() == entryPath ) {
-            if( found ) { // should be there only once
-                qWarning( "ERROR: %s was found twice in the list", qPrintable( entryPath ) );
+    for (; it != offers.end(); ++it) {
+        if ((*it)->entryPath() == entryPath) {
+            if (found) {  // should be there only once
+                qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
                 return false; // make test fail
             }
             found = true;
@@ -61,7 +60,8 @@ public:
     WorkerObject() : QObject() {}
 
 public Q_SLOTS:
-    void work() {
+    void work()
+    {
         qDebug() << QThread::currentThread() << "working...";
 
         const KServiceType::List allServiceTypes = KServiceType::allServiceTypes();
@@ -74,8 +74,8 @@ public Q_SLOTS:
         const KService::List lst = KService::allServices();
         Q_ASSERT(!lst.isEmpty());
 
-        for ( KService::List::ConstIterator it = lst.begin();
-              it != lst.end(); ++it ) {
+        for (KService::List::ConstIterator it = lst.begin();
+                it != lst.end(); ++it) {
             const KService::Ptr service = (*it);
             Q_ASSERT(service->isType(KST_KService));
             const QString name = service->name();
@@ -84,27 +84,28 @@ public Q_SLOTS:
             Q_ASSERT(!name.isEmpty());
             Q_ASSERT(!entryPath.isEmpty());
 
-            KService::Ptr lookedupService = KService::serviceByDesktopPath( entryPath );
-            Q_ASSERT( lookedupService ); // not null
-            QCOMPARE( lookedupService->entryPath(), entryPath );
+            KService::Ptr lookedupService = KService::serviceByDesktopPath(entryPath);
+            Q_ASSERT(lookedupService);   // not null
+            QCOMPARE(lookedupService->entryPath(), entryPath);
 
             if (service->isApplication()) {
                 const QString menuId = service->menuId();
-                if ( menuId.isEmpty() )
-                    qWarning( "%s has an empty menuId!", qPrintable( entryPath ) );
-                Q_ASSERT( !menuId.isEmpty() );
-                lookedupService = KService::serviceByMenuId( menuId );
-                Q_ASSERT( lookedupService ); // not null
-                QCOMPARE( lookedupService->menuId(), menuId );
+                if (menuId.isEmpty()) {
+                    qWarning("%s has an empty menuId!", qPrintable(entryPath));
+                }
+                Q_ASSERT(!menuId.isEmpty());
+                lookedupService = KService::serviceByMenuId(menuId);
+                Q_ASSERT(lookedupService);   // not null
+                QCOMPARE(lookedupService->menuId(), menuId);
             }
         }
 
         KService::List offers = KServiceTypeTrader::self()->query("KPluginInfo");
-        Q_ASSERT( offerListHasService( offers, "faketextplugin.desktop" ) );
+        Q_ASSERT(offerListHasService(offers, "faketextplugin.desktop"));
 
         offers = KServiceTypeTrader::self()->query("KPluginInfo", "Library == 'faketextplugin'");
         Q_ASSERT(offers.count() == 1);
-        QVERIFY( offerListHasService( offers, "faketextplugin.desktop" ) );
+        QVERIFY(offerListHasService(offers, "faketextplugin.desktop"));
 
         KServiceGroup::Ptr root = KServiceGroup::root();
         Q_ASSERT(root);
@@ -115,16 +116,21 @@ class WorkerThread : public QThread
 {
     Q_OBJECT
 public:
-    WorkerThread() : QThread() {
+    WorkerThread() : QThread()
+    {
         m_stop = false;
     }
-    virtual void run() {
+    virtual void run()
+    {
         WorkerObject wo;
         while (!m_stop) {
             wo.work();
         }
     }
-    virtual void stop() { m_stop = true; }
+    virtual void stop()
+    {
+        m_stop = true;
+    }
 private:
     bool m_stop;
 };
@@ -138,7 +144,8 @@ class EventLoopThread : public WorkerThread
 {
     Q_OBJECT
 public:
-    virtual void run() {
+    virtual void run()
+    {
         // WorkerObject must belong to this thread, this is why we don't
         // have the slot work() in WorkerThread itself. Typical QThread trap!
         WorkerObject wo;
@@ -147,7 +154,8 @@ public:
         timer.start(100);
         exec();
     }
-    virtual void stop() {
+    virtual void stop()
+    {
         quit();
     }
 };
@@ -164,16 +172,18 @@ private Q_SLOTS:
     // All these methods are called manually.
     void cleanupTestCase();
     void testCreateService();
-    void testDeleteService() {
+    void testDeleteService()
+    {
         deleteFakeService();
         QTimer::singleShot(1000, this, SLOT(slotFinish()));
     }
-    void slotFinish() {
+    void slotFinish()
+    {
         qDebug() << "Terminating";
-        for (int i=0; i<threads.size(); i++) {
+        for (int i = 0; i < threads.size(); i++) {
             threads[i]->stop();
         }
-        for (int i=0; i<threads.size(); i++) {
+        for (int i = 0; i < threads.size(); i++) {
             threads[i]->wait();
         }
         cleanupTestCase();
@@ -183,7 +193,7 @@ private Q_SLOTS:
 private:
     void createFakeService();
     void deleteFakeService();
-    QVector<WorkerThread*> threads;
+    QVector<WorkerThread *> threads;
 };
 
 static void runKBuildSycoca()
@@ -232,12 +242,14 @@ void KSycocaThreadTest::launch()
 
     // Start clean
     const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + "fakeservice.desktop";
-    if (QFile::exists(servPath))
+    if (QFile::exists(servPath)) {
         QFile::remove(servPath);
-    if (KService::serviceByDesktopPath("fakeservice.desktop"))
+    }
+    if (KService::serviceByDesktopPath("fakeservice.desktop")) {
         deleteFakeService();
+    }
     threads.resize(5);
-    for (int i=0; i<threads.size(); i++) {
+    for (int i = 0; i < threads.size(); i++) {
         threads[i] = i < 3 ? new WorkerThread : new EventLoopThread;
         threads[i]->start();
     }
@@ -293,7 +305,7 @@ void KSycocaThreadTest::createFakeService()
     group.writeEntry("MimeType", "text/plain;");
 }
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
     QStandardPaths::enableTestMode(true);
     QCoreApplication app(argc, argv);

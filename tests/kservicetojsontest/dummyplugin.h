@@ -7,7 +7,7 @@ class DummyPlugin : public QObject
 {
     Q_OBJECT
 public:
-    DummyPlugin(QObject*, const QVariantList&);
+    DummyPlugin(QObject *, const QVariantList &);
 };
 
 #endif /* DUMMYPLUGIN_H */

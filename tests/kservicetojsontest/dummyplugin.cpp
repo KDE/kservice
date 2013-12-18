@@ -1,7 +1,7 @@
 #include <dummyplugin.h>
 #include <kpluginfactory.h>
 
-DummyPlugin::DummyPlugin(QObject*, const QVariantList&)
+DummyPlugin::DummyPlugin(QObject *, const QVariantList &)
 {}
 
 #define IWANTMYJSON(x)

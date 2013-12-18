@@ -80,10 +80,9 @@ public:
      * (preferred service first)
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
      */
-    KService::List query( const QString& mimeType,
-                          const QString& genericServiceType = QString::fromLatin1("Application"),
-                          const QString& constraint = QString() ) const;
-
+    KService::List query(const QString &mimeType,
+                         const QString &genericServiceType = QString::fromLatin1("Application"),
+                         const QString &constraint = QString()) const;
 
     /**
      * Returns the preferred service for @p mimeType and @p genericServiceType
@@ -95,7 +94,7 @@ public:
      * @param genericServiceType the service type (see query())
      * @return the preferred service, or 0 if no service is available
      */
-    KService::Ptr preferredService( const QString & mimeType, const QString & genericServiceType = QString::fromLatin1("Application") );
+    KService::Ptr preferredService(const QString &mimeType, const QString &genericServiceType = QString::fromLatin1("Application"));
 
     /**
      * This method creates and returns a part object from the trader query for a given \p mimeType.
@@ -120,21 +119,23 @@ public:
      */
     template <class T>
     static T *createPartInstanceFromQuery(const QString &mimeType, QWidget *parentWidget = 0, QObject *parent = 0,
-                                      const QString &constraint = QString(),
-                                      const QVariantList &args = QVariantList(),
-                                      QString *error = 0)
+                                          const QString &constraint = QString(),
+                                          const QVariantList &args = QVariantList(),
+                                          QString *error = 0)
     {
         const KService::List offers = self()->query(mimeType, QString::fromLatin1("KParts/ReadOnlyPart"), constraint);
         Q_FOREACH (const KService::Ptr &ptr, offers) {
             T *component = ptr->template createInstance<T>(parentWidget, parent, args, error);
             if (component) {
-                if (error)
+                if (error) {
                     error->clear();
+                }
                 return component;
             }
         }
-        if (error)
+        if (error) {
             *error = QCoreApplication::translate("", "No service matching the requirements was found");
+        }
         return 0;
     }
 
@@ -161,13 +162,15 @@ public:
         Q_FOREACH (const KService::Ptr &ptr, offers) {
             T *component = ptr->template createInstance<T>(parent, args, error);
             if (component) {
-                if (error)
+                if (error) {
                     error->clear();
+                }
                 return component;
             }
         }
-        if (error)
+        if (error) {
             *error = QCoreApplication::translate("", "No service matching the requirements was found");
+        }
         return 0;
     }
 
@@ -179,7 +182,7 @@ public:
      *
      * @return Static KMimeTypeTrader instance
      */
-    static KMimeTypeTrader* self();
+    static KMimeTypeTrader *self();
 
 private:
     /**
@@ -189,11 +192,11 @@ private:
 
 private:
     class Private;
-    Private * const d;
+    Private *const d;
 
     // class-static so that it can access KSycocaEntry::offset()
-    static void filterMimeTypeOffers(KServiceOfferList& list, const QString& genericServiceType);
-    static void filterMimeTypeOffers(KService::List& list, const QString& genericServiceType);
+    static void filterMimeTypeOffers(KServiceOfferList &list, const QString &genericServiceType);
+    static void filterMimeTypeOffers(KService::List &list, const QString &genericServiceType);
     friend class KMimeTypeTraderSingleton;
 };
 

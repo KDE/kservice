@@ -38,8 +38,9 @@ public:
      * @param _allow_as_default true if the service should be used as
      *                 default
      */
-    void addService( const QString& service, int preference = 1 ) {
-        m_mapServices.insert( service, preference );
+    void addService(const QString &service, int preference = 1)
+    {
+        m_mapServices.insert(service, preference);
     }
 
     /**
@@ -47,7 +48,7 @@ public:
      * Key: service ID
      * Value: preference
      */
-    QMap<QString,int> m_mapServices;
+    QMap<QString, int> m_mapServices;
 };
 
 #endif /* KSERVICETYPEPROFILE_P_H */

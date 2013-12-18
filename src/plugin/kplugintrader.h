@@ -152,8 +152,8 @@ public:
      * @return A list of services that satisfy the query
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
      */
-    KPluginInfo::List query(const QString& subDirectory, const QString& serviceType = QString(),
-                            const QString& constraint = QString());
+    KPluginInfo::List query(const QString &subDirectory, const QString &serviceType = QString(),
+                            const QString &constraint = QString());
 
     /**
      * This is a static pointer to the KPluginTrader singleton.
@@ -163,7 +163,7 @@ public:
      *
      * @return Static KPluginTrader instance
      */
-    static KPluginTrader* self();
+    static KPluginTrader *self();
 
     /**
      * Get a plugin from a trader query
@@ -233,9 +233,9 @@ public:
         Q_FOREACH (const KPluginInfo &info, offers) {
             KPluginLoader loader(info.libraryPath());
             const QVariantList argsWithMetaData = QVariantList() << loader.metaData().toVariantMap();
-            KPluginFactory* factory = loader.factory();
+            KPluginFactory *factory = loader.factory();
             if (factory) {
-                T* component = factory->create<T>(parent, argsWithMetaData);
+                T *component = factory->create<T>(parent, argsWithMetaData);
                 if (component) {
                     return component;
                 }
@@ -247,8 +247,8 @@ public:
         return 0;
     }
 
-    static void applyConstraints(KPluginInfo::List& lst,
-                                  const QString& constraint);
+    static void applyConstraints(KPluginInfo::List &lst,
+                                 const QString &constraint);
 
 private:
     /**
@@ -257,11 +257,11 @@ private:
     KPluginTrader();
 
     // disallow copy ctor and assignment operator
-    KPluginTrader(const KPluginTrader& other);
-    KPluginTrader& operator=(const KPluginTrader& rhs);
+    KPluginTrader(const KPluginTrader &other);
+    KPluginTrader &operator=(const KPluginTrader &rhs);
 
     class Private;
-    Private* const d;
+    Private *const d;
 
     friend class KPluginTraderSingleton;
 };

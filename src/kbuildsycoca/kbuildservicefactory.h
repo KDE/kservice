@@ -39,9 +39,9 @@ public:
     /**
      * Create factory
      */
-    KBuildServiceFactory( KSycocaFactory *serviceTypeFactory,
-                          KBuildMimeTypeFactory *mimeTypeFactory,
-                          KBuildServiceGroupFactory *serviceGroupFactory );
+    KBuildServiceFactory(KSycocaFactory *serviceTypeFactory,
+                         KBuildMimeTypeFactory *mimeTypeFactory,
+                         KBuildServiceGroupFactory *serviceGroupFactory);
 
     virtual ~KBuildServiceFactory();
 
@@ -55,14 +55,18 @@ public:
     /**
      * Construct a KService from a config file.
      */
-    virtual KSycocaEntry * createEntry(const QString &file) const;
+    virtual KSycocaEntry *createEntry(const QString &file) const;
 
-    virtual KService * createEntry( int ) const { assert(0); return 0; }
+    virtual KService *createEntry(int) const
+    {
+        assert(0);
+        return 0;
+    }
 
     /**
      * Add a new entry.
      */
-    virtual void addEntry(const KSycocaEntry::Ptr& newEntry);
+    virtual void addEntry(const KSycocaEntry::Ptr &newEntry);
 
     /**
      * Write out service specific index files.
@@ -80,7 +84,7 @@ public:
     /**
      * Returns all resource types for this service factory
      */
-     static QStringList resourceDirs();
+    static QStringList resourceDirs();
 
     void postProcessServices();
 
@@ -88,7 +92,7 @@ private:
     void populateServiceTypes();
     void saveOfferList(QDataStream &str);
     void collectInheritedServices();
-    void collectInheritedServices(const QString& mime, QSet<QString>& visitedMimes);
+    void collectInheritedServices(const QString &mime, QSet<QString> &visitedMimes);
 
     QHash<QString, KService::Ptr> m_nameMemoryHash; // m_nameDict is not useable while building ksycoca
     QHash<QString, KService::Ptr> m_relNameMemoryHash; // m_relNameDict is not useable while building ksycoca

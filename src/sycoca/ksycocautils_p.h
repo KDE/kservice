@@ -27,13 +27,13 @@ class QDataStream;
 
 namespace KSycocaUtilsPrivate
 {
-    // exported for kbuildsycoca
+// exported for kbuildsycoca
 
-    /**
-     * Safe demarshalling functions.
-     */
-    KSERVICE_EXPORT void read(QDataStream &s, QString &str);
-    KSERVICE_EXPORT void read(QDataStream &s, QStringList &list);
+/**
+ * Safe demarshalling functions.
+ */
+KSERVICE_EXPORT void read(QDataStream &s, QString &str);
+KSERVICE_EXPORT void read(QDataStream &s, QStringList &list);
 }
 
 #endif /* KSYCOCAUTILS_P_H */

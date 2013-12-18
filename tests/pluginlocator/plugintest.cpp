@@ -36,10 +36,10 @@
 #include <QTimer>
 #include <QJsonObject>
 
-
 static QTextStream cout(stdout);
 
-class PluginTestPrivate {
+class PluginTestPrivate
+{
 public:
     QString pluginName;
 };
@@ -70,7 +70,9 @@ int PluginTest::runMain()
 
     for (int _i = 0; _i < runs; _i++) {
         timer.restart();
-        if (!loadFromKService("time")) ok = false;
+        if (!loadFromKService("time")) {
+            ok = false;
+        }
         timings << timer.nsecsElapsed();
     }
     report(timings, "KServiceTypeTrader");
@@ -79,7 +81,9 @@ int PluginTest::runMain()
     // -- Metadata querying
     for (int _i = 0; _i < runs; _i++) {
         timer.restart();
-        if (!loadFromMetaData()) ok = false;
+        if (!loadFromMetaData()) {
+            ok = false;
+        }
         //if (!loadFromMetaData2("Plasma/ContainmentActions")) ok = false;
         timings << timer.nsecsElapsed();
     }
@@ -95,7 +99,7 @@ int PluginTest::runMain()
     return 0; // We return successfully in any case, since plugins aren't installed for most people
 }
 
-void PluginTest::report(const QList<qint64> timings, const QString& msg)
+void PluginTest::report(const QList<qint64> timings, const QString &msg)
 {
     qulonglong totalTime = 0;
 
@@ -103,23 +107,21 @@ void PluginTest::report(const QList<qint64> timings, const QString& msg)
     QString unit = "microsec";
     int i = 0;
     foreach (qint64 t, timings) {
-        int msec = t/1000000;
+        int msec = t / 1000000;
         qDebug() << "  Run " << i << ": " << msec << " msec";
         totalTime += t;
         i++;
     }
-    QString av = QString::number((totalTime/timings.count()/unitDiv), 'f', 1);
+    QString av = QString::number((totalTime / timings.count() / unitDiv), 'f', 1);
     qDebug() << " Average: " << av << " " << unit << " (" << msg << ")" << endl;
 }
-
-
 
 bool PluginTest::loadFromKService(const QString &name)
 {
     bool ok = false;
     QString constraint = QString("[X-KDE-PluginInfo-Name] == '%1'").arg(name);
     KService::List offers = KServiceTypeTrader::self()->query("Plasma/DataEngine",
-                                                              constraint);
+                            constraint);
     QString error;
 
     if (offers.isEmpty()) {
@@ -139,8 +141,7 @@ bool PluginTest::loadFromKService(const QString &name)
     return ok;
 }
 
-
-bool PluginTest::loadFromMetaData(const QString& serviceType)
+bool PluginTest::loadFromMetaData(const QString &serviceType)
 {
     bool ok = false;
     QString pluginName("time");
@@ -157,28 +158,27 @@ bool PluginTest::loadFromMetaData(const QString& serviceType)
 
 }
 
-
 bool PluginTest::findPlugins()
 {
     QElapsedTimer timer;
     QList<qint64> timings;
     const QString pluginDir("/media/storage/testdata/");
     const QStringList sizes = QStringList() << "50"
-                                            << "100"
-                                            << "150"
-                                            << "200"
-                                            << "250"
-                                            << "300"
-                                            << "400"
-                                            << "500"
-                                            << "600"
-                                            << "700"
-                                            << "800"
-                                            << "1000"
-                                            << "1500"
-                                            << "2000"
-                                            << "5000";
-   QStringList datadirs;
+                              << "100"
+                              << "150"
+                              << "200"
+                              << "250"
+                              << "300"
+                              << "400"
+                              << "500"
+                              << "600"
+                              << "700"
+                              << "800"
+                              << "1000"
+                              << "1500"
+                              << "2000"
+                              << "5000";
+    QStringList datadirs;
 
     foreach (const QString &_s, sizes) {
         datadirs << pluginDir + _s;

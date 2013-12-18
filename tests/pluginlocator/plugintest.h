@@ -28,19 +28,19 @@ class PluginTest : public QObject
 {
     Q_OBJECT
 
-    public:
-        PluginTest();
-        virtual ~PluginTest();
+public:
+    PluginTest();
+    virtual ~PluginTest();
 
-    public Q_SLOTS:
-        int runMain();
-        bool loadFromKService(const QString &name = "time");
-        bool loadFromMetaData(const QString &serviceType = "Plasma/DataEngine");
-        bool findPlugins();
-        void report(const QList<qint64> timings, const QString &msg = "Test took ");
+public Q_SLOTS:
+    int runMain();
+    bool loadFromKService(const QString &name = "time");
+    bool loadFromMetaData(const QString &serviceType = "Plasma/DataEngine");
+    bool findPlugins();
+    void report(const QList<qint64> timings, const QString &msg = "Test took ");
 
-    private:
-        PluginTestPrivate* d;
+private:
+    PluginTestPrivate *d;
 };
 
 #endif

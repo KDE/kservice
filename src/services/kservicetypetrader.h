@@ -103,8 +103,8 @@ public:
      * @return A list of services that satisfy the query
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
      */
-    KService::List query( const QString& servicetype,
-                          const QString& constraint = QString() ) const;
+    KService::List query(const QString &servicetype,
+                         const QString &constraint = QString()) const;
 
     /**
      * Returns all offers associated with a given servicetype, IGNORING the
@@ -112,15 +112,15 @@ public:
      * in the .desktop files, and services disabled by the user will still be listed here.
      * This is used for "Revert to defaults" buttons in GUIs.
      */
-    KService::List defaultOffers( const QString& serviceType,
-                                  const QString& constraint = QString() ) const;
+    KService::List defaultOffers(const QString &serviceType,
+                                 const QString &constraint = QString()) const;
     /**
      * Returns the preferred service for @p serviceType.
      *
      * @param serviceType the service type (e.g. "KMyApp/Plugin")
      * @return the preferred service, or 0 if no service is available
      */
-    KService::Ptr preferredService( const QString & serviceType ) const;
+    KService::Ptr preferredService(const QString &serviceType) const;
 
     /**
      * This is a static pointer to the KServiceTypeTrader singleton.
@@ -130,7 +130,7 @@ public:
      *
      * @return Static KServiceTypeTrader instance
      */
-    static KServiceTypeTrader* self();
+    static KServiceTypeTrader *self();
 
     /**
      * Get a plugin from a trader query
@@ -153,8 +153,8 @@ public:
      */
     template <class T>
     static T *createInstanceFromQuery(const QString &serviceType,
-            const QString &constraint = QString(), QObject *parent = 0,
-            const QVariantList &args = QVariantList(), QString *error = 0)
+                                      const QString &constraint = QString(), QObject *parent = 0,
+                                      const QVariantList &args = QVariantList(), QString *error = 0)
     {
         return createInstanceFromQuery<T>(serviceType, 0, parent, constraint, args, error);
     }
@@ -178,28 +178,30 @@ public:
      */
     template <class T>
     static T *createInstanceFromQuery(const QString &serviceType,
-            QWidget *parentWidget, QObject *parent, const QString &constraint = QString(),
-            const QVariantList &args = QVariantList(), QString *error = 0)
+                                      QWidget *parentWidget, QObject *parent, const QString &constraint = QString(),
+                                      const QVariantList &args = QVariantList(), QString *error = 0)
     {
         const KService::List offers = self()->query(serviceType, constraint);
-        if (error)
+        if (error) {
             error->clear();
+        }
         Q_FOREACH (const KService::Ptr &ptr, offers) {
             T *component = ptr->template createInstance<T>(parentWidget, parent, args, error);
             if (component) {
                 return component;
             }
         }
-        if (error && error->isEmpty())
+        if (error && error->isEmpty()) {
             *error = QCoreApplication::translate("", "No service matching the requirements was found");
+        }
         return 0;
     }
 
     /**
      * @internal  (public for KMimeTypeTrader)
      */
-    static void applyConstraints( KService::List& lst,
-                                  const QString& constraint );
+    static void applyConstraints(KService::List &lst,
+                                 const QString &constraint);
 
 private:
     /**
@@ -208,13 +210,13 @@ private:
     KServiceTypeTrader();
 
     // disallow copy ctor and assignment operator
-    KServiceTypeTrader( const KServiceTypeTrader& other );
-    KServiceTypeTrader& operator=( const KServiceTypeTrader& rhs );
+    KServiceTypeTrader(const KServiceTypeTrader &other);
+    KServiceTypeTrader &operator=(const KServiceTypeTrader &rhs);
 
-    static KServiceOfferList weightedOffers( const QString& serviceType );
+    static KServiceOfferList weightedOffers(const QString &serviceType);
 
     class Private;
-    Private * const d;
+    Private *const d;
 
     friend class KServiceTypeTraderSingleton;
 };

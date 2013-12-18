@@ -30,41 +30,45 @@
 class KBuildMimeTypeFactory : public KMimeTypeFactory
 {
 public:
-  /**
-   * Create factory
-   */
-  KBuildMimeTypeFactory();
+    /**
+     * Create factory
+     */
+    KBuildMimeTypeFactory();
 
-  virtual ~KBuildMimeTypeFactory();
+    virtual ~KBuildMimeTypeFactory();
 
-  virtual KSycocaEntry::List allEntries() const;
+    virtual KSycocaEntry::List allEntries() const;
 
-  /**
-   * Construct a KMimeType from a config file.
-   */
-   virtual KSycocaEntry * createEntry(const QString &file) const;
+    /**
+     * Construct a KMimeType from a config file.
+     */
+    virtual KSycocaEntry *createEntry(const QString &file) const;
 
-  virtual MimeTypeEntry * createEntry( int ) const { assert(0); return 0L; }
+    virtual MimeTypeEntry *createEntry(int) const
+    {
+        assert(0);
+        return 0L;
+    }
 
-  void createFakeMimeType(const QString& name);
+    void createFakeMimeType(const QString &name);
 
-  /**
-   * Write out mime type specific index files.
-   */
-  virtual void save(QDataStream &str);
+    /**
+     * Write out mime type specific index files.
+     */
+    virtual void save(QDataStream &str);
 
-  /**
-   * Write out header information
-   *
-   * Don't forget to call the parent first when you override
-   * this function.
-   */
-  virtual void saveHeader(QDataStream &str);
+    /**
+     * Write out header information
+     *
+     * Don't forget to call the parent first when you override
+     * this function.
+     */
+    virtual void saveHeader(QDataStream &str);
 
-  /**
-   * Returns all resource types for this factory
-   */
-   static QStringList resourceDirs();
+    /**
+     * Returns all resource types for this factory
+     */
+    static QStringList resourceDirs();
 };
 
 #endif

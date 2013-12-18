@@ -27,7 +27,8 @@
 #include <kservice.h>
 #include <kplugininfo.h>
 
-namespace KTraderParse {
+namespace KTraderParse
+{
 
 class ParseTreeBase;
 
@@ -37,28 +38,27 @@ class ParseTreeBase;
  *         1  => Does match
  *         <0 => Error
  */
-int matchConstraint( const ParseTreeBase *_tree, const KService::Ptr &,
-                     const KService::List& );
-int matchConstraintPlugin( const ParseTreeBase *_tree, KPluginInfo _info,
-             const KPluginInfo::List& _list );
+int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &,
+                    const KService::List &);
+int matchConstraintPlugin(const ParseTreeBase *_tree, KPluginInfo _info,
+                          const KPluginInfo::List &_list);
 
 /**
  * @internal
  */
-struct KSERVICE_EXPORT PreferencesMaxima
-{
-  PreferencesMaxima()
-    : iMax( 0 ), iMin( 0 ), fMax( 0 ), fMin( 0 )
-  {
-  }
+struct KSERVICE_EXPORT PreferencesMaxima {
+    PreferencesMaxima()
+        : iMax(0), iMin(0), fMax(0), fMin(0)
+    {
+    }
 
-  enum Type { PM_ERROR, PM_INVALID_INT, PM_INVALID_DOUBLE, PM_DOUBLE, PM_INT };
+    enum Type { PM_ERROR, PM_INVALID_INT, PM_INVALID_DOUBLE, PM_DOUBLE, PM_INT };
 
-  Type type;
-  int iMax;
-  int iMin;
-  double fMax;
-  double fMin;
+    Type type;
+    int iMax;
+    int iMin;
+    double fMax;
+    double fMin;
 };
 
 /**
@@ -67,39 +67,40 @@ struct KSERVICE_EXPORT PreferencesMaxima
 class ParseContext
 {
 public:
-  /**
-   * This is NOT a copy constructor.
-   */
-  explicit ParseContext( const ParseContext* _ctx ) : service( _ctx->service ), info( _ctx->info ), maxima( _ctx->maxima ),
-    offers( _ctx->offers ), pluginOffers( _ctx->pluginOffers ) {}
-  ParseContext( const KService::Ptr & _service, const KService::List& _offers,
-        QMap<QString,PreferencesMaxima>& _m )
-    : service( _service ), info( KPluginInfo() ), maxima( _m ), offers( _offers ), pluginOffers( KPluginInfo::List() ) {}
-  ParseContext( KPluginInfo _info, const KPluginInfo::List& _offers,
-        QMap<QString,PreferencesMaxima>& _m )
-    : service( 0 ), info( _info ), maxima( _m ), offers( KService::List() ), pluginOffers( _offers ) {}
+    /**
+     * This is NOT a copy constructor.
+     */
+    explicit ParseContext(const ParseContext *_ctx) : service(_ctx->service), info(_ctx->info), maxima(_ctx->maxima),
+        offers(_ctx->offers), pluginOffers(_ctx->pluginOffers) {}
+    ParseContext(const KService::Ptr &_service, const KService::List &_offers,
+                 QMap<QString, PreferencesMaxima> &_m)
+        : service(_service), info(KPluginInfo()), maxima(_m), offers(_offers), pluginOffers(KPluginInfo::List()) {}
+    ParseContext(KPluginInfo _info, const KPluginInfo::List &_offers,
+                 QMap<QString, PreferencesMaxima> &_m)
+        : service(0), info(_info), maxima(_m), offers(KService::List()), pluginOffers(_offers) {}
 
-  bool initMaxima( const QString& _prop);
+    bool initMaxima(const QString &_prop);
 
-  QVariant property( const QString& _key ) const;
+    QVariant property(const QString &_key) const;
 
-  enum Type { T_STRING = 1, T_DOUBLE = 2, T_NUM = 3, T_BOOL = 4,
-	      T_STR_SEQ = 5, T_SEQ = 6 };
+    enum Type { T_STRING = 1, T_DOUBLE = 2, T_NUM = 3, T_BOOL = 4,
+                T_STR_SEQ = 5, T_SEQ = 6
+              };
 
-  QString str;
-  int i;
-  double f;
-  bool b;
-  QList<QVariant> seq;
-  QStringList strSeq;
-  Type type;
+    QString str;
+    int i;
+    double f;
+    bool b;
+    QList<QVariant> seq;
+    QStringList strSeq;
+    Type type;
 
-  KService::Ptr service;
-  KPluginInfo info;
+    KService::Ptr service;
+    KPluginInfo info;
 
-  QMap<QString,PreferencesMaxima>& maxima;
-  KService::List offers;
-  KPluginInfo::List pluginOffers;
+    QMap<QString, PreferencesMaxima> &maxima;
+    KService::List offers;
+    KPluginInfo::List pluginOffers;
 };
 
 /**
@@ -108,14 +109,14 @@ public:
 class ParseTreeBase : public QSharedData
 {
 public:
-  typedef QExplicitlySharedDataPointer<ParseTreeBase> Ptr;
-  ParseTreeBase() { }
-  virtual ~ParseTreeBase() { }
+    typedef QExplicitlySharedDataPointer<ParseTreeBase> Ptr;
+    ParseTreeBase() { }
+    virtual ~ParseTreeBase() { }
 
-  virtual bool eval( ParseContext *_context ) const = 0;
+    virtual bool eval(ParseContext *_context) const = 0;
 };
 
-ParseTreeBase::Ptr parseConstraints( const QString& _constr );
+ParseTreeBase::Ptr parseConstraints(const QString &_constr);
 
 /**
  * @internal
@@ -123,13 +124,17 @@ ParseTreeBase::Ptr parseConstraints( const QString& _constr );
 class ParseTreeOR : public ParseTreeBase
 {
 public:
-  ParseTreeOR( ParseTreeBase *_ptr1, ParseTreeBase *_ptr2 ) { m_pLeft = _ptr1; m_pRight = _ptr2; }
+    ParseTreeOR(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2)
+    {
+        m_pLeft = _ptr1;
+        m_pRight = _ptr2;
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  ParseTreeBase::Ptr m_pLeft;
-  ParseTreeBase::Ptr m_pRight;
+    ParseTreeBase::Ptr m_pLeft;
+    ParseTreeBase::Ptr m_pRight;
 };
 
 /**
@@ -138,13 +143,17 @@ protected:
 class ParseTreeAND : public ParseTreeBase
 {
 public:
-  ParseTreeAND( ParseTreeBase *_ptr1, ParseTreeBase *_ptr2 ) { m_pLeft = _ptr1; m_pRight = _ptr2; }
+    ParseTreeAND(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2)
+    {
+        m_pLeft = _ptr1;
+        m_pRight = _ptr2;
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  ParseTreeBase::Ptr m_pLeft;
-  ParseTreeBase::Ptr m_pRight;
+    ParseTreeBase::Ptr m_pLeft;
+    ParseTreeBase::Ptr m_pRight;
 };
 
 /**
@@ -153,14 +162,19 @@ protected:
 class ParseTreeCMP : public ParseTreeBase
 {
 public:
-  ParseTreeCMP( ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, int _i ) { m_pLeft = _ptr1; m_pRight = _ptr2; m_cmd = _i; }
+    ParseTreeCMP(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, int _i)
+    {
+        m_pLeft = _ptr1;
+        m_pRight = _ptr2;
+        m_cmd = _i;
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  ParseTreeBase::Ptr m_pLeft;
-  ParseTreeBase::Ptr m_pRight;
-  int m_cmd;
+    ParseTreeBase::Ptr m_pLeft;
+    ParseTreeBase::Ptr m_pRight;
+    int m_cmd;
 };
 
 /**
@@ -169,21 +183,21 @@ protected:
 class ParseTreeIN : public ParseTreeBase
 {
 public:
-  ParseTreeIN(ParseTreeBase *ptr1, ParseTreeBase *ptr2, Qt::CaseSensitivity cs, bool substring = false)
-      : m_pLeft(ptr1),
-        m_pRight(ptr2),
-        m_cs(cs),
-        m_substring(substring)
-  {
-  }
+    ParseTreeIN(ParseTreeBase *ptr1, ParseTreeBase *ptr2, Qt::CaseSensitivity cs, bool substring = false)
+        : m_pLeft(ptr1),
+          m_pRight(ptr2),
+          m_cs(cs),
+          m_substring(substring)
+    {
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  ParseTreeBase::Ptr m_pLeft;
-  ParseTreeBase::Ptr m_pRight;
-  Qt::CaseSensitivity m_cs;
-  bool m_substring;
+    ParseTreeBase::Ptr m_pLeft;
+    ParseTreeBase::Ptr m_pRight;
+    Qt::CaseSensitivity m_cs;
+    bool m_substring;
 };
 
 /**
@@ -192,14 +206,19 @@ protected:
 class ParseTreeMATCH : public ParseTreeBase
 {
 public:
-  ParseTreeMATCH( ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, Qt::CaseSensitivity cs ) { m_pLeft = _ptr1; m_pRight = _ptr2; m_cs = cs; }
+    ParseTreeMATCH(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, Qt::CaseSensitivity cs)
+    {
+        m_pLeft = _ptr1;
+        m_pRight = _ptr2;
+        m_cs = cs;
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  ParseTreeBase::Ptr m_pLeft;
-  ParseTreeBase::Ptr m_pRight;
-  Qt::CaseSensitivity m_cs;
+    ParseTreeBase::Ptr m_pLeft;
+    ParseTreeBase::Ptr m_pRight;
+    Qt::CaseSensitivity m_cs;
 };
 
 /**
@@ -208,14 +227,19 @@ protected:
 class ParseTreeCALC : public ParseTreeBase
 {
 public:
-  ParseTreeCALC( ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, int _i ) { m_pLeft = _ptr1; m_pRight = _ptr2; m_cmd = _i; }
+    ParseTreeCALC(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, int _i)
+    {
+        m_pLeft = _ptr1;
+        m_pRight = _ptr2;
+        m_cmd = _i;
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  ParseTreeBase::Ptr m_pLeft;
-  ParseTreeBase::Ptr m_pRight;
-  int m_cmd;
+    ParseTreeBase::Ptr m_pLeft;
+    ParseTreeBase::Ptr m_pRight;
+    int m_cmd;
 };
 
 /**
@@ -224,12 +248,18 @@ protected:
 class ParseTreeBRACKETS : public ParseTreeBase
 {
 public:
-  explicit ParseTreeBRACKETS( ParseTreeBase *_ptr ) { m_pLeft = _ptr; }
+    explicit ParseTreeBRACKETS(ParseTreeBase *_ptr)
+    {
+        m_pLeft = _ptr;
+    }
 
-  bool eval( ParseContext *_context ) const { return m_pLeft->eval( _context ); }
+    bool eval(ParseContext *_context) const
+    {
+        return m_pLeft->eval(_context);
+    }
 
 protected:
-  ParseTreeBase::Ptr m_pLeft;
+    ParseTreeBase::Ptr m_pLeft;
 };
 
 /**
@@ -238,12 +268,15 @@ protected:
 class ParseTreeNOT : public ParseTreeBase
 {
 public:
-  explicit ParseTreeNOT( ParseTreeBase *_ptr ) { m_pLeft = _ptr; }
+    explicit ParseTreeNOT(ParseTreeBase *_ptr)
+    {
+        m_pLeft = _ptr;
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  ParseTreeBase::Ptr m_pLeft;
+    ParseTreeBase::Ptr m_pLeft;
 };
 
 /**
@@ -252,12 +285,15 @@ protected:
 class ParseTreeEXIST : public ParseTreeBase
 {
 public:
-  explicit ParseTreeEXIST( const char *_id ) { m_id = QString::fromUtf8(_id); }
+    explicit ParseTreeEXIST(const char *_id)
+    {
+        m_id = QString::fromUtf8(_id);
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  QString m_id;
+    QString m_id;
 };
 
 /**
@@ -266,12 +302,15 @@ protected:
 class ParseTreeID : public ParseTreeBase
 {
 public:
-  explicit ParseTreeID( const char *arg ) { m_str = QString::fromUtf8(arg); }
+    explicit ParseTreeID(const char *arg)
+    {
+        m_str = QString::fromUtf8(arg);
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  QString m_str;
+    QString m_str;
 };
 
 /**
@@ -280,14 +319,20 @@ protected:
 class ParseTreeSTRING : public ParseTreeBase
 {
 public:
-  explicit ParseTreeSTRING( const char *arg ) { m_str = QString::fromUtf8(arg); }
+    explicit ParseTreeSTRING(const char *arg)
+    {
+        m_str = QString::fromUtf8(arg);
+    }
 
-  bool eval( ParseContext *_context ) const { _context->type = ParseContext::T_STRING;
-                                              _context->str = m_str;
-                                              return true; }
+    bool eval(ParseContext *_context) const
+    {
+        _context->type = ParseContext::T_STRING;
+        _context->str = m_str;
+        return true;
+    }
 
 protected:
-  QString m_str;
+    QString m_str;
 };
 
 /**
@@ -296,12 +341,20 @@ protected:
 class ParseTreeNUM : public ParseTreeBase
 {
 public:
-  explicit ParseTreeNUM( int arg ) { m_int = arg; }
+    explicit ParseTreeNUM(int arg)
+    {
+        m_int = arg;
+    }
 
-  bool eval( ParseContext *_context ) const { _context->type = ParseContext::T_NUM; _context->i = m_int; return true; }
+    bool eval(ParseContext *_context) const
+    {
+        _context->type = ParseContext::T_NUM;
+        _context->i = m_int;
+        return true;
+    }
 
 protected:
-  int m_int;
+    int m_int;
 };
 
 /**
@@ -310,12 +363,20 @@ protected:
 class ParseTreeDOUBLE : public ParseTreeBase
 {
 public:
-  explicit ParseTreeDOUBLE( double arg ) { m_double = arg; }
+    explicit ParseTreeDOUBLE(double arg)
+    {
+        m_double = arg;
+    }
 
-  bool eval( ParseContext *_context ) const { _context->type = ParseContext::T_DOUBLE; _context->f = m_double; return true; }
+    bool eval(ParseContext *_context) const
+    {
+        _context->type = ParseContext::T_DOUBLE;
+        _context->f = m_double;
+        return true;
+    }
 
 protected:
-  double m_double;
+    double m_double;
 };
 
 /**
@@ -324,12 +385,20 @@ protected:
 class ParseTreeBOOL : public ParseTreeBase
 {
 public:
-  explicit ParseTreeBOOL( bool arg ) { m_bool = arg; }
+    explicit ParseTreeBOOL(bool arg)
+    {
+        m_bool = arg;
+    }
 
-  bool eval( ParseContext *_context ) const { _context->type = ParseContext::T_BOOL; _context->b = m_bool; return true; }
+    bool eval(ParseContext *_context) const
+    {
+        _context->type = ParseContext::T_BOOL;
+        _context->b = m_bool;
+        return true;
+    }
 
 protected:
-  bool m_bool;
+    bool m_bool;
 };
 
 /**
@@ -338,12 +407,15 @@ protected:
 class ParseTreeMAX2 : public ParseTreeBase
 {
 public:
-  explicit ParseTreeMAX2( const char *_id ) { m_strId = QString::fromUtf8(_id); }
+    explicit ParseTreeMAX2(const char *_id)
+    {
+        m_strId = QString::fromUtf8(_id);
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  QString m_strId;
+    QString m_strId;
 };
 
 /**
@@ -352,12 +424,15 @@ protected:
 class ParseTreeMIN2 : public ParseTreeBase
 {
 public:
-  explicit ParseTreeMIN2( const char *_id ) { m_strId = QString::fromUtf8(_id); }
+    explicit ParseTreeMIN2(const char *_id)
+    {
+        m_strId = QString::fromUtf8(_id);
+    }
 
-  bool eval( ParseContext *_context ) const;
+    bool eval(ParseContext *_context) const;
 
 protected:
-  QString m_strId;
+    QString m_strId;
 };
 
 }

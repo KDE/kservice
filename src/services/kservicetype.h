@@ -50,7 +50,7 @@ public:
      * Construct a service type and take all information from a desktop file.
      * @param config the configuration file
      */
-    explicit KServiceType( KDesktopFile *config );
+    explicit KServiceType(KDesktopFile *config);
 
     virtual ~KServiceType();
 
@@ -89,7 +89,7 @@ public:
      * Checks whether this service type is or inherits from @p servTypeName.
      * @return true if this servicetype is or inherits from @p servTypeName
      */
-    bool inherits( const QString& servTypeName ) const;
+    bool inherits(const QString &servTypeName) const;
 
     /**
      * Returns the type of the property definition with the given @p _name.
@@ -98,7 +98,7 @@ public:
      * @return the property type, or null if not found
      * @see propertyDefNames
      */
-    QVariant::Type propertyDef( const QString& _name ) const;
+    QVariant::Type propertyDef(const QString &_name) const;
 
     /**
      * Returns the list of all property definitions for this servicetype.
@@ -116,7 +116,7 @@ public:
     QStringList propertyDefNames() const;
 
     /// @internal (for KBuildServiceTypeFactory)
-    QMap<QString,QVariant::Type> propertyDefs() const;
+    QMap<QString, QVariant::Type> propertyDefs() const;
 
     /**
      * @internal
@@ -127,7 +127,7 @@ public:
      * @internal  only used by kbuildsycoca
      * Register offset into offers list
      */
-    void setServiceOffersOffset( int offset );
+    void setServiceOffersOffset(int offset);
     /**
      * @internal
      */
@@ -140,7 +140,7 @@ public:
      * @param _name the name of the service type to search
      * @return the pointer to the service type, or 0
      */
-    static Ptr serviceType( const QString& _name );
+    static Ptr serviceType(const QString &_name);
 
     /**
      * Returns a list of all the supported servicetypes. Useful for
@@ -158,7 +158,7 @@ private:
      * @internal construct a service from a stream.
      * The stream must already be positionned at the correct offset
      */
-    KServiceType( QDataStream& _str, int offset );
+    KServiceType(QDataStream &_str, int offset);
 
     Q_DECLARE_PRIVATE(KServiceType)
 };

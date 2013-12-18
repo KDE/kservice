@@ -44,7 +44,7 @@ protected: // virtual class
      * Create a factory which can be used to lookup from/create a database
      * (depending on KSycoca::isBuilding())
      */
-    explicit KSycocaFactory( KSycocaFactoryId factory_id );
+    explicit KSycocaFactory(KSycocaFactoryId factory_id);
 
 public:
     virtual ~KSycocaFactory();
@@ -57,24 +57,27 @@ public:
     /**
      * @return the dict, for special use by KBuildSycoca
      */
-    KSycocaEntryDict * entryDict() { return m_entryDict; }
+    KSycocaEntryDict *entryDict()
+    {
+        return m_entryDict;
+    }
 
     /**
      * Construct an entry from a config file.
      * To be implemented in the real factories.
      */
-     virtual KSycocaEntry *createEntry(const QString &file) const = 0;
+    virtual KSycocaEntry *createEntry(const QString &file) const = 0;
 
     /**
      * Add an entry
      */
-    virtual void addEntry(const KSycocaEntry::Ptr& newEntry);
+    virtual void addEntry(const KSycocaEntry::Ptr &newEntry);
 
     /**
      * Remove all entries with the given name.
      * Not very fast (O(N)), use with care.
      */
-    void removeEntry(const QString& entryName);
+    void removeEntry(const QString &entryName);
 
     /**
      * Read an entry from the database
@@ -112,7 +115,7 @@ public:
      * @return the resources for which this factory is responsible.
      * @internal to kbuildsycoca
      */
-    const KSycocaResourceList * resourceList() const;
+    const KSycocaResourceList *resourceList() const;
 
     /**
      * @return the sycoca dict, for factories to find entries by name.
@@ -125,7 +128,7 @@ public:
     bool isEmpty() const;
 
 protected:
-    QDataStream* stream() const;
+    QDataStream *stream() const;
 
     KSycocaResourceList *m_resourceList;
     KSycocaEntryDict *m_entryDict;
@@ -133,20 +136,20 @@ protected:
 private:
     QDataStream *m_str;
     class Private;
-    Private* const d;
+    Private *const d;
 
 protected:
     /** Virtual hook, used to add new "virtual" functions while maintaining
         binary compatibility. Unused in this class.
     */
-    virtual void virtual_hook( int id, void* data );
+    virtual void virtual_hook(int id, void *data);
 };
 
 /**
  * This, instead of a typedef, allows to declare "class ..." in header files.
  * @internal
  */
-class KSERVICE_EXPORT KSycocaFactoryList : public QList<KSycocaFactory*> //krazy:exclude=dpointer (acts as a typedef)
+class KSERVICE_EXPORT KSycocaFactoryList : public QList<KSycocaFactory *> //krazy:exclude=dpointer (acts as a typedef)
 {
 public:
     KSycocaFactoryList() { }
@@ -160,10 +163,13 @@ public:
 template <typename F> class KSycocaFactoryContainer
 {
 public:
-    KSycocaFactoryContainer(F* factory) : m_factory(factory) {}
-    F* factory() { return m_factory; }
+    KSycocaFactoryContainer(F *factory) : m_factory(factory) {}
+    F *factory()
+    {
+        return m_factory;
+    }
 private:
-    F* m_factory;
+    F *m_factory;
 };
 
 /**
@@ -178,25 +184,30 @@ template <typename F> class KSycocaFactorySingleton
 {
 public:
     typedef KSycocaFactoryContainer<F> C;
-    KSycocaFactorySingleton() {
+    KSycocaFactorySingleton()
+    {
     }
-    ~KSycocaFactorySingleton() {
+    ~KSycocaFactorySingleton()
+    {
         // Do not delete the factory here.
         // All factories are owned by KSycoca, and deleted by it.
     }
-    void instanceCreated(F* newFactory) {
+    void instanceCreated(F *newFactory)
+    {
         // This can also register a subclass created by kbuildsycoca
         Q_ASSERT(!m_factories.hasLocalData());
         Q_ASSERT(newFactory);
         m_factories.setLocalData(new C(newFactory));
     }
-    void instanceDestroyed(F* factory) {
+    void instanceDestroyed(F *factory)
+    {
         if (m_factories.hasLocalData()) { // could be false on thread exit
             Q_ASSERT(m_factories.localData()->factory() == factory); Q_UNUSED(factory)
             m_factories.setLocalData(0);
         }
     }
-    F* self() {
+    F *self()
+    {
         if (!m_factories.hasLocalData()) {
             new F; // calls instanceCreated, which calls setLocalData
             Q_ASSERT(m_factories.hasLocalData());
@@ -204,7 +215,7 @@ public:
         return m_factories.localData()->factory();
     }
 private:
-    QThreadStorage<C*> m_factories;
+    QThreadStorage<C *> m_factories;
 };
 
 #endif

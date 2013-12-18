@@ -31,11 +31,15 @@ public:
     {
     }
 
-    virtual ~KSycocaAbstractDevice() { delete m_stream; }
+    virtual ~KSycocaAbstractDevice()
+    {
+        delete m_stream;
+    }
 
-    virtual QIODevice* device() = 0;
+    virtual QIODevice *device() = 0;
 
-    QDataStream* & stream() {
+    QDataStream *&stream()
+    {
         if (!m_stream) {
             m_stream = new QDataStream(device());
             m_stream->setVersion(QDataStream::Qt_3_1);
@@ -44,7 +48,7 @@ public:
     }
 
 private:
-    QDataStream* m_stream;
+    QDataStream *m_stream;
 };
 
 #if HAVE_MMAP
@@ -52,18 +56,21 @@ private:
 class KSycocaMmapDevice : public KSycocaAbstractDevice
 {
 public:
-    KSycocaMmapDevice(const char* sycoca_mmap, size_t sycoca_size) {
+    KSycocaMmapDevice(const char *sycoca_mmap, size_t sycoca_size)
+    {
         m_buffer = new QBuffer;
         m_buffer->setData(QByteArray::fromRawData(sycoca_mmap, sycoca_size));
     }
-    ~KSycocaMmapDevice() {
+    ~KSycocaMmapDevice()
+    {
         delete m_buffer;
     }
-    virtual QIODevice* device() {
+    virtual QIODevice *device()
+    {
         return m_buffer;
     }
 private:
-    QBuffer* m_buffer;
+    QBuffer *m_buffer;
 };
 #endif
 
@@ -71,20 +78,23 @@ private:
 class KSycocaFileDevice : public KSycocaAbstractDevice
 {
 public:
-    KSycocaFileDevice(const QString& path) {
+    KSycocaFileDevice(const QString &path)
+    {
         m_database = new QFile(path);
 #ifndef Q_OS_WIN
         (void)fcntl(m_database->handle(), F_SETFD, FD_CLOEXEC);
 #endif
     }
-    ~KSycocaFileDevice() {
+    ~KSycocaFileDevice()
+    {
         delete m_database;
     }
-    virtual QIODevice* device() {
+    virtual QIODevice *device()
+    {
         return m_database;
     }
 private:
-    QFile* m_database;
+    QFile *m_database;
 };
 
 #ifndef QT_NO_SHAREDMEMORY
@@ -92,17 +102,20 @@ private:
 class KSycocaMemFileDevice : public KSycocaAbstractDevice
 {
 public:
-    KSycocaMemFileDevice(const QString& path) {
+    KSycocaMemFileDevice(const QString &path)
+    {
         m_database = new KMemFile(path);
     }
-    ~KSycocaMemFileDevice() {
+    ~KSycocaMemFileDevice()
+    {
         delete m_database;
     }
-    virtual QIODevice* device() {
+    virtual QIODevice *device()
+    {
         return m_database;
     }
 private:
-    KMemFile* m_database;
+    KMemFile *m_database;
 };
 #endif
 
@@ -110,17 +123,20 @@ private:
 class KSycocaBufferDevice : public KSycocaAbstractDevice
 {
 public:
-    KSycocaBufferDevice() {
+    KSycocaBufferDevice()
+    {
         m_buffer = new QBuffer;
     }
-    ~KSycocaBufferDevice() {
+    ~KSycocaBufferDevice()
+    {
         delete m_buffer;
     }
-    virtual QIODevice* device() {
+    virtual QIODevice *device()
+    {
         return m_buffer;
     }
 private:
-    QBuffer* m_buffer;
+    QBuffer *m_buffer;
 };
 
 #endif /* KSYCOCADEVICES_P_H */

@@ -38,7 +38,7 @@ class KSERVICE_EXPORT KLibrary : public QLibrary
     Q_OBJECT
     Q_PROPERTY(QString fileName READ fileName WRITE setFileName)
 public:
-    typedef void (*void_function_ptr) ();
+    typedef void (*void_function_ptr)();
 
     explicit KLibrary(QObject *parent = 0);
     explicit KLibrary(const QString &name, QObject *parent = 0);
@@ -55,18 +55,20 @@ public:
      * @deprecated use KPluginLoader::factory
      */
 #ifndef KDE_NO_DEPRECATED
-    KSERVICE_DEPRECATED KPluginFactory* factory( const char* factoryname = 0 );
+    KSERVICE_DEPRECATED KPluginFactory *factory(const char *factoryname = 0);
 #endif
-
 
     void_function_ptr resolveFunction(const char *name)
     {
-      return resolve(name);
+        return resolve(name);
     }
 
     void setFileName(const QString &name);
 
-    bool unload() { return false; } //this is only temporary. i will remove it as soon as I have removed all dangerous users of it
+    bool unload()
+    {
+        return false;    //this is only temporary. i will remove it as soon as I have removed all dangerous users of it
+    }
 private:
     KLibraryPrivate *d_ptr;
 };

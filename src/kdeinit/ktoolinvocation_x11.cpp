@@ -45,7 +45,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-static QStringList splitEmailAddressList( const QString & aStr )
+static QStringList splitEmailAddressList(const QString &aStr)
 {
     // This is a copy of KPIM::splitEmailAddrList().
     // Features:
@@ -58,31 +58,34 @@ static QStringList splitEmailAddressList( const QString & aStr )
 
     QStringList list;
 
-    if (aStr.isEmpty())
+    if (aStr.isEmpty()) {
         return list;
+    }
 
     QString addr;
     uint addrstart = 0;
     int commentlevel = 0;
     bool insidequote = false;
 
-    for (int index=0; index<aStr.length(); index++) {
+    for (int index = 0; index < aStr.length(); index++) {
         // the following conversion to latin1 is o.k. because
         // we can safely ignore all non-latin1 characters
         switch (aStr[index].toLatin1()) {
         case '"' : // start or end of quoted string
-            if (commentlevel == 0)
+            if (commentlevel == 0) {
                 insidequote = !insidequote;
+            }
             break;
         case '(' : // start of comment
-            if (!insidequote)
+            if (!insidequote) {
                 commentlevel++;
+            }
             break;
         case ')' : // end of comment
             if (!insidequote) {
-                if (commentlevel > 0)
+                if (commentlevel > 0) {
                     commentlevel--;
-                else {
+                } else {
                     //qDebug() << "Error in address splitting: Unmatched ')'"
                     //          << endl;
                     return list;
@@ -94,19 +97,21 @@ static QStringList splitEmailAddressList( const QString & aStr )
             break;
         case ',' :
             if (!insidequote && (commentlevel == 0)) {
-                addr = aStr.mid(addrstart, index-addrstart);
-                if (!addr.isEmpty())
+                addr = aStr.mid(addrstart, index - addrstart);
+                if (!addr.isEmpty()) {
                     list += addr.simplified();
-                addrstart = index+1;
+                }
+                addrstart = index + 1;
             }
             break;
         }
     }
     // append the last address to the list
     if (!insidequote && (commentlevel == 0)) {
-        addr = aStr.mid(addrstart, aStr.length()-addrstart);
-        if (!addr.isEmpty())
+        addr = aStr.mid(addrstart, aStr.length() - addrstart);
+        if (!addr.isEmpty()) {
             list += addr.simplified();
+        }
     }
     //else
     //  qDebug() << "Error in address splitting: "
@@ -119,40 +124,37 @@ static QStringList splitEmailAddressList( const QString & aStr )
 void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const QString &_bcc,
                                    const QString &subject, const QString &body,
                                    const QString & /*messageFile TODO*/, const QStringList &attachURLs,
-                                   const QByteArray& startup_id )
+                                   const QByteArray &startup_id)
 {
-    if (!isMainThreadActive())
+    if (!isMainThreadActive()) {
         return;
+    }
 
     KConfig config(QString::fromLatin1("emaildefaults"));
     KConfigGroup defaultsGrp(&config, "Defaults");
 
-    QString group = defaultsGrp.readEntry("Profile","Default");
+    QString group = defaultsGrp.readEntry("Profile", "Default");
 
-    KConfigGroup profileGrp(&config, QString::fromLatin1("PROFILE_%1").arg(group) );
+    KConfigGroup profileGrp(&config, QString::fromLatin1("PROFILE_%1").arg(group));
     QString command = profileGrp.readPathEntry("EmailClient", QString());
 
     QString to, cc, bcc;
     if (command.isEmpty() || command == QLatin1String("kmail")
-        || command.endsWith(QLatin1String("/kmail")))
-    {
+            || command.endsWith(QLatin1String("/kmail"))) {
         command = QLatin1String("kmail --composer -s %s -c %c -b %b --body %B --attach %A -- %t");
-        if ( !_to.isEmpty() )
-        {
+        if (!_to.isEmpty()) {
             QUrl url;
             url.setScheme(QLatin1String("mailto"));
             url.setPath(_to);
             to = QString::fromLatin1(url.toEncoded());
         }
-        if ( !_cc.isEmpty() )
-        {
+        if (!_cc.isEmpty()) {
             QUrl url;
             url.setScheme(QLatin1String("mailto"));
             url.setPath(_cc);
             cc = QString::fromLatin1(url.toEncoded());
         }
-        if ( !_bcc.isEmpty() )
-        {
+        if (!_bcc.isEmpty()) {
             QUrl url;
             url.setScheme(QLatin1String("mailto"));
             url.setPath(_bcc);
@@ -162,13 +164,13 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
         to = _to;
         cc = _cc;
         bcc = _bcc;
-        if( !command.contains( QLatin1Char('%') ))
+        if (!command.contains(QLatin1Char('%'))) {
             command += QLatin1String(" %u");
+        }
     }
 
-    if (profileGrp.readEntry("TerminalClient", false))
-    {
-        KConfigGroup confGroup( KSharedConfig::openConfig(), "General" );
+    if (profileGrp.readEntry("TerminalClient", false)) {
+        KConfigGroup confGroup(KSharedConfig::openConfig(), "General");
         QString preferredTerminal = confGroup.readPathEntry("TerminalApplication", QString::fromLatin1("konsole"));
         command = preferredTerminal + QString::fromLatin1(" -e ") + command;
     }
@@ -178,31 +180,37 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
 
     QUrl url;
     QUrlQuery query;
-    if (!to.isEmpty())
-    {
-        QStringList tos = splitEmailAddressList( to );
-        url.setPath( tos.first() );
-        tos.erase( tos.begin() );
-        for (QStringList::ConstIterator it = tos.constBegin(); it != tos.constEnd(); ++it)
+    if (!to.isEmpty()) {
+        QStringList tos = splitEmailAddressList(to);
+        url.setPath(tos.first());
+        tos.erase(tos.begin());
+        for (QStringList::ConstIterator it = tos.constBegin(); it != tos.constEnd(); ++it) {
             query.addQueryItem(QString::fromLatin1("to"), *it);
+        }
     }
-    const QStringList ccs = splitEmailAddressList( cc );
-    for (QStringList::ConstIterator it = ccs.constBegin(); it != ccs.constEnd(); ++it)
+    const QStringList ccs = splitEmailAddressList(cc);
+    for (QStringList::ConstIterator it = ccs.constBegin(); it != ccs.constEnd(); ++it) {
         query.addQueryItem(QString::fromLatin1("cc"), *it);
-    const QStringList bccs = splitEmailAddressList( bcc );
-    for (QStringList::ConstIterator it = bccs.constBegin(); it != bccs.constEnd(); ++it)
+    }
+    const QStringList bccs = splitEmailAddressList(bcc);
+    for (QStringList::ConstIterator it = bccs.constBegin(); it != bccs.constEnd(); ++it) {
         query.addQueryItem(QString::fromLatin1("bcc"), *it);
-    for (QStringList::ConstIterator it = attachURLs.constBegin(); it != attachURLs.constEnd(); ++it)
+    }
+    for (QStringList::ConstIterator it = attachURLs.constBegin(); it != attachURLs.constEnd(); ++it) {
         query.addQueryItem(QString::fromLatin1("attach"), *it);
-    if (!subject.isEmpty())
+    }
+    if (!subject.isEmpty()) {
         query.addQueryItem(QString::fromLatin1("subject"), subject);
-    if (!body.isEmpty())
+    }
+    if (!body.isEmpty()) {
         query.addQueryItem(QString::fromLatin1("body"), body);
+    }
 
     url.setQuery(query);
 
-    if ( ! (to.isEmpty() && (!url.hasQuery())) )
+    if (!(to.isEmpty() && (!url.hasQuery()))) {
         url.setScheme(QString::fromLatin1("mailto"));
+    }
 
     QHash<QChar, QString> keyMap;
     keyMap.insert(QLatin1Char('t'), to);
@@ -217,28 +225,25 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
     attachlist.append(QLatin1Char('\''));
     keyMap.insert(QLatin1Char('A'), attachlist);
 
-    for (QStringList::Iterator it = cmdTokens.begin(); it != cmdTokens.end(); )
-    {
-        if (*it == QLatin1String("%A"))
-        {
-            if (it == cmdTokens.begin()) // better safe than sorry ...
+    for (QStringList::Iterator it = cmdTokens.begin(); it != cmdTokens.end();) {
+        if (*it == QLatin1String("%A")) {
+            if (it == cmdTokens.begin()) { // better safe than sorry ...
                 continue;
+            }
             QStringList::ConstIterator urlit = attachURLs.begin();
             QStringList::ConstIterator urlend = attachURLs.end();
-            if ( urlit != urlend )
-            {
+            if (urlit != urlend) {
                 QStringList::Iterator previt = it;
                 --previt;
                 *it = *urlit;
                 ++it;
-                while ( ++urlit != urlend )
-                {
-                    cmdTokens.insert( it, *previt );
-                    cmdTokens.insert( it, *urlit );
+                while (++urlit != urlend) {
+                    cmdTokens.insert(it, *previt);
+                    cmdTokens.insert(it, *urlit);
                 }
             } else {
                 --it;
-                it = cmdTokens.erase( cmdTokens.erase( it ) );
+                it = cmdTokens.erase(cmdTokens.erase(it));
             }
         } else {
             *it = KMacroExpander::expandMacros(*it, keyMap);
@@ -249,18 +254,18 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
     QString error;
     // TODO this should check if cmd has a .desktop file, and use data from it, together
     // with sending more ASN data
-    if (kdeinitExec(cmd, cmdTokens, &error, NULL, startup_id ))
-    {
-      KMessage::message(KMessage::Error,
-                      i18n("Could not launch the mail client:\n\n%1", error),
-                      i18n("Could not launch Mail Client"));
+    if (kdeinitExec(cmd, cmdTokens, &error, NULL, startup_id)) {
+        KMessage::message(KMessage::Error,
+                          i18n("Could not launch the mail client:\n\n%1", error),
+                          i18n("Could not launch Mail Client"));
     }
 }
 
-void KToolInvocation::invokeBrowser( const QString &url, const QByteArray& startup_id )
+void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startup_id)
 {
-    if (!isMainThreadActive())
+    if (!isMainThreadActive()) {
         return;
+    }
 
     QStringList args;
     args << url;
@@ -298,7 +303,7 @@ void KToolInvocation::invokeBrowser( const QString &url, const QByteArray& start
                 if (service) {
                     //qDebug() << "Starting service" << service->entryPath();
                     if (startServiceByDesktopPath(service->entryPath(), args,
-                            &error, 0, 0, startup_id)) {
+                                                  &error, 0, 0, startup_id)) {
                         KMessage::message(KMessage::Error,
                                           // TODO: i18n("Could not launch %1:\n\n%2", exe, error),
                                           i18n("Could not launch the browser:\n\n%1", error),
@@ -318,7 +323,7 @@ void KToolInvocation::invokeBrowser( const QString &url, const QByteArray& start
                 // URLs to be treated as if they are HTML page.
                 QString entryPath = htmlApp->entryPath();
                 if (entryPath.endsWith(QLatin1String("kfmclient_html.desktop"))) {
-                    entryPath.remove(entryPath.length()-13, 5);
+                    entryPath.remove(entryPath.length() - 13, 5);
                 }
                 QString error;
                 int pid = 0;
@@ -342,8 +347,7 @@ void KToolInvocation::invokeBrowser( const QString &url, const QByteArray& start
     }
 
     //qDebug() << "Using" << exe << "to open" << url;
-    if (kdeinitExec(exe, args, &error, NULL, startup_id ))
-    {
+    if (kdeinitExec(exe, args, &error, NULL, startup_id)) {
         KMessage::message(KMessage::Error,
                           // TODO: i18n("Could not launch %1:\n\n%2", exe, error),
                           i18n("Could not launch the browser:\n\n%1", error),
@@ -359,7 +363,7 @@ void KToolInvocation::invokeTerminal(const QString &command,
         return;
     }
 
-    KConfigGroup confGroup( KSharedConfig::openConfig(), "General" );
+    KConfigGroup confGroup(KSharedConfig::openConfig(), "General");
     QString exec = confGroup.readPathEntry("TerminalApplication", QString::fromLatin1("konsole"));
 
     if (!command.isEmpty()) {
@@ -384,9 +388,9 @@ void KToolInvocation::invokeTerminal(const QString &command,
 
     QString error;
     if (self()->startServiceInternal("kdeinit_exec_with_workdir",
-                                    cmd, cmdTokens, &error, 0, NULL, startup_id, false, workdir)) {
-      KMessage::message(KMessage::Error,
-                      i18n("Could not launch the terminal client:\n\n%1", error),
-                      i18n("Could not launch Terminal Client"));
+                                     cmd, cmdTokens, &error, 0, NULL, startup_id, false, workdir)) {
+        KMessage::message(KMessage::Error,
+                          i18n("Could not launch the terminal client:\n\n%1", error),
+                          i18n("Could not launch Terminal Client"));
     }
 }

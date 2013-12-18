@@ -32,47 +32,47 @@
 #include "windows.h"
 #include "shellapi.h"
 
-
-void KToolInvocation::invokeBrowser( const QString &url, const QByteArray& startup_id )
+void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startup_id)
 {
 #ifndef _WIN32_WCE
     QString sOpen = QString::fromLatin1("open");
-    ShellExecuteW(0, ( LPCWSTR )sOpen.utf16(), ( LPCWSTR )url.utf16(), 0, 0, SW_NORMAL);
+    ShellExecuteW(0, (LPCWSTR)sOpen.utf16(), (LPCWSTR)url.utf16(), 0, 0, SW_NORMAL);
 #else
     SHELLEXECUTEINFO cShellExecuteInfo = {0};
     cShellExecuteInfo.cbSize = sizeof(SHELLEXECUTEINFO);
     cShellExecuteInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
     cShellExecuteInfo.hwnd = NULL;
     cShellExecuteInfo.lpVerb = L"Open";
-    cShellExecuteInfo.lpFile = ( LPCWSTR )url.utf16();
+    cShellExecuteInfo.lpFile = (LPCWSTR)url.utf16();
     cShellExecuteInfo.nShow = SW_SHOWNORMAL;
     ShellExecuteEx(&cShellExecuteInfo);
 #endif
 }
 
 void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const QString &_bcc,
-                                const QString &subject, const QString &body,
-                                const QString & /*messageFile TODO*/, const QStringList &attachURLs,
-                                const QByteArray& startup_id )
+                                   const QString &subject, const QString &body,
+                                   const QString & /*messageFile TODO*/, const QStringList &attachURLs,
+                                   const QByteArray &startup_id)
 {
-  QUrl url(QLatin1String("mailto:")+_to);
-  url.setQuery(QLatin1String("?subject=")+subject);
-  url.addQueryItem(QLatin1String("cc"), _cc);
-  url.addQueryItem(QLatin1String("bcc"), _bcc);
-  url.addQueryItem(QLatin1String("body"), body);
-  foreach (const QString& attachURL, attachURLs)
-    url.addQueryItem(QLatin1String("attach"), attachURL);
+    QUrl url(QLatin1String("mailto:") + _to);
+    url.setQuery(QLatin1String("?subject=") + subject);
+    url.addQueryItem(QLatin1String("cc"), _cc);
+    url.addQueryItem(QLatin1String("bcc"), _bcc);
+    url.addQueryItem(QLatin1String("body"), body);
+    foreach (const QString &attachURL, attachURLs) {
+        url.addQueryItem(QLatin1String("attach"), attachURL);
+    }
 
 #ifndef _WIN32_WCE
-   QString sOpen = QLatin1String( "open" );
-   ShellExecuteW(0, ( LPCWSTR )sOpen.utf16(), ( LPCWSTR )url.url().utf16(), 0, 0, SW_NORMAL);
+    QString sOpen = QLatin1String("open");
+    ShellExecuteW(0, (LPCWSTR)sOpen.utf16(), (LPCWSTR)url.url().utf16(), 0, 0, SW_NORMAL);
 #else
     SHELLEXECUTEINFO cShellExecuteInfo = {0};
     cShellExecuteInfo.cbSize = sizeof(SHELLEXECUTEINFO);
     cShellExecuteInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
     cShellExecuteInfo.hwnd = NULL;
     cShellExecuteInfo.lpVerb = L"Open";
-    cShellExecuteInfo.lpFile = ( LPCWSTR )url.url().utf16();
+    cShellExecuteInfo.lpFile = (LPCWSTR)url.url().utf16();
     cShellExecuteInfo.nShow = SW_SHOWNORMAL;
     ShellExecuteEx(&cShellExecuteInfo);
 #endif

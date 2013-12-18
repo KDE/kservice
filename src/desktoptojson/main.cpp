@@ -40,9 +40,9 @@ int main(int argc, char **argv)
     const static QString _n = QStringLiteral("name");
 
     QCommandLineOption input = QCommandLineOption(QStringList() << QStringLiteral("i") << _i,
-                                        QStringLiteral("Read input from file"), _n);
+                               QStringLiteral("Read input from file"), _n);
     QCommandLineOption output = QCommandLineOption(QStringList() << QStringLiteral("o") << _o,
-                                        QStringLiteral("Write output to file"), _n);
+                                QStringLiteral("Write output to file"), _n);
 
     QCommandLineParser parser;
     parser.addVersionOption();

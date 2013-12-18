@@ -34,7 +34,7 @@
 #if defined (__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 
 /* C99 says to define __STDC_LIMIT_MACROS before including stdint.h,
- * if you want the limit (max/min) macros for int types. 
+ * if you want the limit (max/min) macros for int types.
  */
 #ifndef __STDC_LIMIT_MACROS
 #define __STDC_LIMIT_MACROS 1
@@ -51,7 +51,7 @@ typedef uint32_t flex_uint32_t;
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
 typedef int flex_int32_t;
-typedef unsigned char flex_uint8_t; 
+typedef unsigned char flex_uint8_t;
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
 
@@ -93,15 +93,15 @@ typedef unsigned int flex_uint32_t;
 /* The "const" storage-class-modifier is valid. */
 #define YY_USE_CONST
 
-#else	/* ! __cplusplus */
+#else   /* ! __cplusplus */
 
 /* C99 requires __STDC__ to be defined as 1. */
 #if defined (__STDC__)
 
 #define YY_USE_CONST
 
-#endif	/* defined (__STDC__) */
-#endif	/* ! __cplusplus */
+#endif  /* defined (__STDC__) */
+#endif  /* ! __cplusplus */
 
 #ifdef YY_USE_CONST
 #define yyconst const
@@ -122,7 +122,7 @@ typedef unsigned int flex_uint32_t;
 /* An opaque pointer. */
 #ifndef YY_TYPEDEF_YY_SCANNER_T
 #define YY_TYPEDEF_YY_SCANNER_T
-typedef void* yyscan_t;
+typedef void *yyscan_t;
 #endif
 
 /* For convenience, these vars (plus the bison vars far below)
@@ -183,21 +183,21 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
 
-    #define YY_LESS_LINENO(n)
-    
+#define YY_LESS_LINENO(n)
+
 /* Return all but the first "n" matched characters back to the input stream. */
 #define yyless(n) \
-	do \
-		{ \
-		/* Undo effects of setting up yytext. */ \
+    do \
+    { \
+        /* Undo effects of setting up yytext. */ \
         int yyless_macro_arg = (n); \
         YY_LESS_LINENO(yyless_macro_arg);\
-		*yy_cp = yyg->yy_hold_char; \
-		YY_RESTORE_YY_MORE_OFFSET \
-		yyg->yy_c_buf_p = yy_cp = yy_bp + yyless_macro_arg - YY_MORE_ADJ; \
-		YY_DO_BEFORE_ACTION; /* set up yytext again */ \
-		} \
-	while ( 0 )
+        *yy_cp = yyg->yy_hold_char; \
+        YY_RESTORE_YY_MORE_OFFSET \
+        yyg->yy_c_buf_p = yy_cp = yy_bp + yyless_macro_arg - YY_MORE_ADJ; \
+        YY_DO_BEFORE_ACTION; /* set up yytext again */ \
+    } \
+    while ( 0 )
 
 #define unput(c) yyunput( c, yyg->yytext_ptr , yyscanner )
 
@@ -208,67 +208,66 @@ typedef size_t yy_size_t;
 
 #ifndef YY_STRUCT_YY_BUFFER_STATE
 #define YY_STRUCT_YY_BUFFER_STATE
-struct yy_buffer_state
-	{
-	FILE *yy_input_file;
+struct yy_buffer_state {
+    FILE *yy_input_file;
 
-	char *yy_ch_buf;		/* input buffer */
-	char *yy_buf_pos;		/* current position in input buffer */
+    char *yy_ch_buf;        /* input buffer */
+    char *yy_buf_pos;       /* current position in input buffer */
 
-	/* Size of input buffer in bytes, not including room for EOB
-	 * characters.
-	 */
-	yy_size_t yy_buf_size;
+    /* Size of input buffer in bytes, not including room for EOB
+     * characters.
+     */
+    yy_size_t yy_buf_size;
 
-	/* Number of characters read into yy_ch_buf, not including EOB
-	 * characters.
-	 */
-	int yy_n_chars;
+    /* Number of characters read into yy_ch_buf, not including EOB
+     * characters.
+     */
+    int yy_n_chars;
 
-	/* Whether we "own" the buffer - i.e., we know we created it,
-	 * and can realloc() it to grow it, and should free() it to
-	 * delete it.
-	 */
-	int yy_is_our_buffer;
+    /* Whether we "own" the buffer - i.e., we know we created it,
+     * and can realloc() it to grow it, and should free() it to
+     * delete it.
+     */
+    int yy_is_our_buffer;
 
-	/* Whether this is an "interactive" input source; if so, and
-	 * if we're using stdio for input, then we want to use getc()
-	 * instead of fread(), to make sure we stop fetching input after
-	 * each newline.
-	 */
-	int yy_is_interactive;
+    /* Whether this is an "interactive" input source; if so, and
+     * if we're using stdio for input, then we want to use getc()
+     * instead of fread(), to make sure we stop fetching input after
+     * each newline.
+     */
+    int yy_is_interactive;
 
-	/* Whether we're considered to be at the beginning of a line.
-	 * If so, '^' rules will be active on the next match, otherwise
-	 * not.
-	 */
-	int yy_at_bol;
+    /* Whether we're considered to be at the beginning of a line.
+     * If so, '^' rules will be active on the next match, otherwise
+     * not.
+     */
+    int yy_at_bol;
 
     int yy_bs_lineno; /**< The line count. */
     int yy_bs_column; /**< The column count. */
-    
-	/* Whether to try to fill the input buffer when we reach the
-	 * end of it.
-	 */
-	int yy_fill_buffer;
 
-	int yy_buffer_status;
+    /* Whether to try to fill the input buffer when we reach the
+     * end of it.
+     */
+    int yy_fill_buffer;
+
+    int yy_buffer_status;
 
 #define YY_BUFFER_NEW 0
 #define YY_BUFFER_NORMAL 1
-	/* When an EOF's been seen but there's still some text to process
-	 * then we mark the buffer as YY_EOF_PENDING, to indicate that we
-	 * shouldn't try reading from the input source any more.  We might
-	 * still have a bunch of tokens to match, though, because of
-	 * possible backing-up.
-	 *
-	 * When we actually see the EOF, we change the status to "new"
-	 * (via kiotraderrestart()), so that the user can continue scanning by
-	 * just pointing yyin at a new input file.
-	 */
+    /* When an EOF's been seen but there's still some text to process
+     * then we mark the buffer as YY_EOF_PENDING, to indicate that we
+     * shouldn't try reading from the input source any more.  We might
+     * still have a bunch of tokens to match, though, because of
+     * possible backing-up.
+     *
+     * When we actually see the EOF, we change the status to "new"
+     * (via kiotraderrestart()), so that the user can continue scanning by
+     * just pointing yyin at a new input file.
+     */
 #define YY_BUFFER_EOF_PENDING 2
 
-	};
+};
 #endif /* !YY_STRUCT_YY_BUFFER_STATE */
 
 /* We provide macros for accessing buffer states in case in the
@@ -278,57 +277,57 @@ struct yy_buffer_state
  * Returns the top of the stack, or NULL.
  */
 #define YY_CURRENT_BUFFER ( yyg->yy_buffer_stack \
-                          ? yyg->yy_buffer_stack[yyg->yy_buffer_stack_top] \
-                          : NULL)
+                            ? yyg->yy_buffer_stack[yyg->yy_buffer_stack_top] \
+                            : NULL)
 
 /* Same as previous macro, but useful when we know that the buffer stack is not
  * NULL or when we need an lvalue. For internal use only.
  */
 #define YY_CURRENT_BUFFER_LVALUE yyg->yy_buffer_stack[yyg->yy_buffer_stack_top]
 
-void kiotraderrestart (FILE *input_file ,yyscan_t yyscanner );
-void kiotrader_switch_to_buffer (YY_BUFFER_STATE new_buffer ,yyscan_t yyscanner );
-YY_BUFFER_STATE kiotrader_create_buffer (FILE *file,int size ,yyscan_t yyscanner );
-void kiotrader_delete_buffer (YY_BUFFER_STATE b ,yyscan_t yyscanner );
-void kiotrader_flush_buffer (YY_BUFFER_STATE b ,yyscan_t yyscanner );
-void kiotraderpush_buffer_state (YY_BUFFER_STATE new_buffer ,yyscan_t yyscanner );
-void kiotraderpop_buffer_state (yyscan_t yyscanner );
+void kiotraderrestart(FILE *input_file, yyscan_t yyscanner);
+void kiotrader_switch_to_buffer(YY_BUFFER_STATE new_buffer, yyscan_t yyscanner);
+YY_BUFFER_STATE kiotrader_create_buffer(FILE *file, int size, yyscan_t yyscanner);
+void kiotrader_delete_buffer(YY_BUFFER_STATE b, yyscan_t yyscanner);
+void kiotrader_flush_buffer(YY_BUFFER_STATE b, yyscan_t yyscanner);
+void kiotraderpush_buffer_state(YY_BUFFER_STATE new_buffer, yyscan_t yyscanner);
+void kiotraderpop_buffer_state(yyscan_t yyscanner);
 
-static void kiotraderensure_buffer_stack (yyscan_t yyscanner );
-static void kiotrader_load_buffer_state (yyscan_t yyscanner );
-static void kiotrader_init_buffer (YY_BUFFER_STATE b,FILE *file ,yyscan_t yyscanner );
+static void kiotraderensure_buffer_stack(yyscan_t yyscanner);
+static void kiotrader_load_buffer_state(yyscan_t yyscanner);
+static void kiotrader_init_buffer(YY_BUFFER_STATE b, FILE *file, yyscan_t yyscanner);
 
 #define YY_FLUSH_BUFFER kiotrader_flush_buffer(YY_CURRENT_BUFFER ,yyscanner)
 
-YY_BUFFER_STATE kiotrader_scan_buffer (char *base,yy_size_t size ,yyscan_t yyscanner );
-YY_BUFFER_STATE kiotrader_scan_string (yyconst char *yy_str ,yyscan_t yyscanner );
-YY_BUFFER_STATE kiotrader_scan_bytes (yyconst char *bytes,int len ,yyscan_t yyscanner );
+YY_BUFFER_STATE kiotrader_scan_buffer(char *base, yy_size_t size, yyscan_t yyscanner);
+YY_BUFFER_STATE kiotrader_scan_string(yyconst char *yy_str, yyscan_t yyscanner);
+YY_BUFFER_STATE kiotrader_scan_bytes(yyconst char *bytes, int len, yyscan_t yyscanner);
 
-void *kiotraderalloc (yy_size_t ,yyscan_t yyscanner );
-void *kiotraderrealloc (void *,yy_size_t ,yyscan_t yyscanner );
-void kiotraderfree (void * ,yyscan_t yyscanner );
+void *kiotraderalloc(yy_size_t, yyscan_t yyscanner);
+void *kiotraderrealloc(void *, yy_size_t, yyscan_t yyscanner);
+void kiotraderfree(void *, yyscan_t yyscanner);
 
 #define yy_new_buffer kiotrader_create_buffer
 
 #define yy_set_interactive(is_interactive) \
-	{ \
-	if ( ! YY_CURRENT_BUFFER ){ \
-        kiotraderensure_buffer_stack (yyscanner); \
-		YY_CURRENT_BUFFER_LVALUE =    \
-            kiotrader_create_buffer(yyin,YY_BUF_SIZE ,yyscanner); \
-	} \
-	YY_CURRENT_BUFFER_LVALUE->yy_is_interactive = is_interactive; \
-	}
+    { \
+        if ( ! YY_CURRENT_BUFFER ){ \
+            kiotraderensure_buffer_stack (yyscanner); \
+            YY_CURRENT_BUFFER_LVALUE =    \
+                                          kiotrader_create_buffer(yyin,YY_BUF_SIZE ,yyscanner); \
+        } \
+        YY_CURRENT_BUFFER_LVALUE->yy_is_interactive = is_interactive; \
+    }
 
 #define yy_set_bol(at_bol) \
-	{ \
-	if ( ! YY_CURRENT_BUFFER ){\
-        kiotraderensure_buffer_stack (yyscanner); \
-		YY_CURRENT_BUFFER_LVALUE =    \
-            kiotrader_create_buffer(yyin,YY_BUF_SIZE ,yyscanner); \
-	} \
-	YY_CURRENT_BUFFER_LVALUE->yy_at_bol = at_bol; \
-	}
+    { \
+        if ( ! YY_CURRENT_BUFFER ){\
+            kiotraderensure_buffer_stack (yyscanner); \
+            YY_CURRENT_BUFFER_LVALUE =    \
+                                          kiotrader_create_buffer(yyin,YY_BUF_SIZE ,yyscanner); \
+        } \
+        YY_CURRENT_BUFFER_LVALUE->yy_at_bol = at_bol; \
+    }
 
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
@@ -340,163 +339,162 @@ typedef int yy_state_type;
 
 #define yytext_ptr yytext_r
 
-static yy_state_type yy_get_previous_state (yyscan_t yyscanner );
-static yy_state_type yy_try_NUL_trans (yy_state_type current_state  ,yyscan_t yyscanner);
-static int yy_get_next_buffer (yyscan_t yyscanner );
-static void yy_fatal_error (yyconst char msg[] ,yyscan_t yyscanner );
+static yy_state_type yy_get_previous_state(yyscan_t yyscanner);
+static yy_state_type yy_try_NUL_trans(yy_state_type current_state, yyscan_t yyscanner);
+static int yy_get_next_buffer(yyscan_t yyscanner);
+static void yy_fatal_error(yyconst char msg[], yyscan_t yyscanner);
 
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up yytext.
  */
 #define YY_DO_BEFORE_ACTION \
-	yyg->yytext_ptr = yy_bp; \
-	yyleng = (size_t) (yy_cp - yy_bp); \
-	yyg->yy_hold_char = *yy_cp; \
-	*yy_cp = '\0'; \
-	yyg->yy_c_buf_p = yy_cp;
+    yyg->yytext_ptr = yy_bp; \
+    yyleng = (size_t) (yy_cp - yy_bp); \
+    yyg->yy_hold_char = *yy_cp; \
+    *yy_cp = '\0'; \
+    yyg->yy_c_buf_p = yy_cp;
 
 #define YY_NUM_RULES 31
 #define YY_END_OF_BUFFER 32
 /* This struct is not used in this scanner,
    but its presence is necessary. */
-struct yy_trans_info
-	{
-	flex_int32_t yy_verify;
-	flex_int32_t yy_nxt;
-	};
-static yyconst flex_int16_t yy_accept[79] =
-    {   0,
-        0,    0,   32,   30,   29,   29,   30,   30,   20,   20,
-       30,   25,    5,   20,    6,   28,   28,   28,   28,   28,
-       28,   28,   28,   28,   28,   30,   20,   29,    3,    4,
-        0,   23,   24,   26,    0,   25,    7,    1,    2,    8,
-       28,   28,   28,   28,   13,   28,   28,   28,   12,   28,
-       28,    0,    0,    0,    9,   11,   28,   28,   18,   19,
-       10,   28,   28,    0,   27,   14,    0,   28,   28,   28,
-       21,    0,   17,   22,   15,    0,   16,    0
-    } ;
+struct yy_trans_info {
+    flex_int32_t yy_verify;
+    flex_int32_t yy_nxt;
+};
+static yyconst flex_int16_t yy_accept[79] = {
+    0,
+    0,    0,   32,   30,   29,   29,   30,   30,   20,   20,
+    30,   25,    5,   20,    6,   28,   28,   28,   28,   28,
+    28,   28,   28,   28,   28,   30,   20,   29,    3,    4,
+    0,   23,   24,   26,    0,   25,    7,    1,    2,    8,
+    28,   28,   28,   28,   13,   28,   28,   28,   12,   28,
+    28,    0,    0,    0,    9,   11,   28,   28,   18,   19,
+    10,   28,   28,    0,   27,   14,    0,   28,   28,   28,
+    21,    0,   17,   22,   15,    0,   16,    0
+};
 
-static yyconst flex_int32_t yy_ec[256] =
-    {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    2,    4,    1,    1,    1,    1,    1,    5,    6,
-        7,    8,    9,   10,   11,   12,   13,   14,   14,   14,
-       14,   14,   14,   14,   14,   14,   14,    1,    1,   15,
-       16,   17,    1,    1,   18,   19,   20,   21,   22,   23,
-       20,   20,   24,   20,   20,   25,   26,   27,   28,   20,
-       20,   29,   30,   31,   32,   20,   20,   33,   20,   20,
-       34,    1,   35,    1,    1,    1,   36,   37,   20,   38,
+static yyconst flex_int32_t yy_ec[256] = {
+    0,
+    1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    2,    4,    1,    1,    1,    1,    1,    5,    6,
+    7,    8,    9,   10,   11,   12,   13,   14,   14,   14,
+    14,   14,   14,   14,   14,   14,   14,    1,    1,   15,
+    16,   17,    1,    1,   18,   19,   20,   21,   22,   23,
+    20,   20,   24,   20,   20,   25,   26,   27,   28,   20,
+    20,   29,   30,   31,   32,   20,   20,   33,   20,   20,
+    34,    1,   35,    1,    1,    1,   36,   37,   20,   38,
 
-       39,   40,   20,   20,   41,   20,   20,   42,   43,   44,
-       45,   20,   20,   46,   47,   48,   49,   20,   20,   50,
-       20,   20,    1,    1,    1,   51,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    39,   40,   20,   20,   41,   20,   20,   42,   43,   44,
+    45,   20,   20,   46,   47,   48,   49,   20,   20,   50,
+    20,   20,    1,    1,    1,   51,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
 
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1
-    } ;
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1
+};
 
-static yyconst flex_int32_t yy_meta[52] =
-    {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        2,    1,    1,    3,    1,    1,    1,    4,    4,    4,
-        4,    4,    4,    4,    4,    4,    4,    4,    4,    4,
-        4,    4,    4,    1,    2,    4,    4,    4,    4,    4,
-        4,    4,    4,    4,    4,    4,    4,    4,    4,    4,
-        1
-    } ;
+static yyconst flex_int32_t yy_meta[52] = {
+    0,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    2,    1,    1,    3,    1,    1,    1,    4,    4,    4,
+    4,    4,    4,    4,    4,    4,    4,    4,    4,    4,
+    4,    4,    4,    1,    2,    4,    4,    4,    4,    4,
+    4,    4,    4,    4,    4,    4,    4,    4,    4,    4,
+    1
+};
 
-static yyconst flex_int16_t yy_base[83] =
-    {   0,
-        0,    0,  142,  155,   50,   52,   40,  136,  155,  126,
-      125,   45,  122,   42,  121,   33,    0,   28,   44,   37,
-       47,   39,   39,   37,   41,    0,   49,   72,  155,  155,
-      130,  155,  118,  117,   89,   80,  155,  155,  155,  155,
-        0,   51,   58,   70,    0,   64,   71,   70,    0,   83,
-       72,   41,   78,   74,  155,    0,   77,   78,    0,    0,
-        0,   85,   88,   31,  155,  155,   92,   82,   94,   90,
-        0,   95,    0,    0,    0,  101,  155,  155,  145,  147,
-       59,  150
-    } ;
+static yyconst flex_int16_t yy_base[83] = {
+    0,
+    0,    0,  142,  155,   50,   52,   40,  136,  155,  126,
+    125,   45,  122,   42,  121,   33,    0,   28,   44,   37,
+    47,   39,   39,   37,   41,    0,   49,   72,  155,  155,
+    130,  155,  118,  117,   89,   80,  155,  155,  155,  155,
+    0,   51,   58,   70,    0,   64,   71,   70,    0,   83,
+    72,   41,   78,   74,  155,    0,   77,   78,    0,    0,
+    0,   85,   88,   31,  155,  155,   92,   82,   94,   90,
+    0,   95,    0,    0,    0,  101,  155,  155,  145,  147,
+    59,  150
+};
 
-static yyconst flex_int16_t yy_def[83] =
-    {   0,
-       78,    1,   78,   78,   78,   78,   78,   79,   78,   78,
-       78,   78,   78,   78,   78,   80,   80,   80,   80,   80,
-       80,   80,   80,   80,   80,   81,   78,   78,   78,   78,
-       79,   78,   78,   78,   78,   78,   78,   78,   78,   78,
-       80,   80,   80,   80,   80,   80,   80,   80,   80,   80,
-       80,   82,   78,   78,   78,   80,   80,   80,   80,   80,
-       80,   80,   80,   82,   78,   78,   78,   80,   80,   80,
-       80,   78,   80,   80,   80,   78,   78,    0,   78,   78,
-       78,   78
-    } ;
+static yyconst flex_int16_t yy_def[83] = {
+    0,
+    78,    1,   78,   78,   78,   78,   78,   79,   78,   78,
+    78,   78,   78,   78,   78,   80,   80,   80,   80,   80,
+    80,   80,   80,   80,   80,   81,   78,   78,   78,   78,
+    79,   78,   78,   78,   78,   78,   78,   78,   78,   78,
+    80,   80,   80,   80,   80,   80,   80,   80,   80,   80,
+    80,   82,   78,   78,   78,   80,   80,   80,   80,   80,
+    80,   80,   80,   82,   78,   78,   78,   80,   80,   80,
+    80,   78,   80,   80,   80,   78,   78,    0,   78,   78,
+    78,   78
+};
 
-static yyconst flex_int16_t yy_nxt[207] =
-    {   0,
-        4,    5,    6,    7,    8,    9,    9,    9,    9,    9,
-       10,   11,    9,   12,   13,   14,   15,   16,   17,   17,
-       17,   18,   19,   20,   17,   21,   22,   23,   17,   24,
-       25,   17,   17,   26,    4,   16,   17,   17,   18,   19,
-       20,   17,   21,   22,   23,   17,   24,   25,   17,   17,
-       27,   28,   28,   28,   28,   29,   35,   38,   36,   42,
-       43,   44,   52,   45,   46,   65,   48,   49,   50,   51,
-       47,   56,   53,   28,   28,   65,   42,   43,   54,   44,
-       45,   57,   46,   48,   49,   50,   51,   47,   56,   53,
-       30,   35,   39,   36,   58,   54,   59,   60,   57,   55,
+static yyconst flex_int16_t yy_nxt[207] = {
+    0,
+    4,    5,    6,    7,    8,    9,    9,    9,    9,    9,
+    10,   11,    9,   12,   13,   14,   15,   16,   17,   17,
+    17,   18,   19,   20,   17,   21,   22,   23,   17,   24,
+    25,   17,   17,   26,    4,   16,   17,   17,   18,   19,
+    20,   17,   21,   22,   23,   17,   24,   25,   17,   17,
+    27,   28,   28,   28,   28,   29,   35,   38,   36,   42,
+    43,   44,   52,   45,   46,   65,   48,   49,   50,   51,
+    47,   56,   53,   28,   28,   65,   42,   43,   54,   44,
+    45,   57,   46,   48,   49,   50,   51,   47,   56,   53,
+    30,   35,   39,   36,   58,   54,   59,   60,   57,   55,
 
-       61,   62,   34,   63,   66,   67,   68,   69,   70,   71,
-       72,   58,   73,   59,   60,   74,   75,   61,   76,   62,
-       63,   66,   67,   68,   69,   70,   71,   77,   72,   73,
-       34,   33,   74,   75,   32,   76,   40,   37,   34,   33,
-       32,   78,   78,   78,   77,   31,   31,   31,   31,   41,
-       41,   64,   64,   64,    3,   78,   78,   78,   78,   78,
-       78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
-       78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
-       78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
-       78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
+    61,   62,   34,   63,   66,   67,   68,   69,   70,   71,
+    72,   58,   73,   59,   60,   74,   75,   61,   76,   62,
+    63,   66,   67,   68,   69,   70,   71,   77,   72,   73,
+    34,   33,   74,   75,   32,   76,   40,   37,   34,   33,
+    32,   78,   78,   78,   77,   31,   31,   31,   31,   41,
+    41,   64,   64,   64,    3,   78,   78,   78,   78,   78,
+    78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
+    78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
+    78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
+    78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
 
-       78,   78,   78,   78,   78,   78
-    } ;
+    78,   78,   78,   78,   78,   78
+};
 
-static yyconst flex_int16_t yy_chk[207] =
-    {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    5,    5,    6,    6,    7,   12,   14,   12,   16,
-       18,   19,   81,   20,   21,   64,   22,   23,   24,   25,
-       21,   42,   27,   28,   28,   52,   16,   18,   27,   19,
-       20,   43,   21,   22,   23,   24,   25,   21,   42,   27,
-        7,   36,   14,   36,   44,   27,   46,   47,   43,   27,
+static yyconst flex_int16_t yy_chk[207] = {
+    0,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+    1,    5,    5,    6,    6,    7,   12,   14,   12,   16,
+    18,   19,   81,   20,   21,   64,   22,   23,   24,   25,
+    21,   42,   27,   28,   28,   52,   16,   18,   27,   19,
+    20,   43,   21,   22,   23,   24,   25,   21,   42,   27,
+    7,   36,   14,   36,   44,   27,   46,   47,   43,   27,
 
-       48,   50,   35,   51,   53,   54,   57,   58,   62,   63,
-       67,   44,   68,   46,   47,   69,   70,   48,   72,   50,
-       51,   53,   54,   57,   58,   62,   63,   76,   67,   68,
-       34,   33,   69,   70,   31,   72,   15,   13,   11,   10,
-        8,    3,    0,    0,   76,   79,   79,   79,   79,   80,
-       80,   82,   82,   82,   78,   78,   78,   78,   78,   78,
-       78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
-       78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
-       78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
-       78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
+    48,   50,   35,   51,   53,   54,   57,   58,   62,   63,
+    67,   44,   68,   46,   47,   69,   70,   48,   72,   50,
+    51,   53,   54,   57,   58,   62,   63,   76,   67,   68,
+    34,   33,   69,   70,   31,   72,   15,   13,   11,   10,
+    8,    3,    0,    0,   76,   79,   79,   79,   79,   80,
+    80,   82,   82,   82,   78,   78,   78,   78,   78,   78,
+    78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
+    78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
+    78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
+    78,   78,   78,   78,   78,   78,   78,   78,   78,   78,
 
-       78,   78,   78,   78,   78,   78
-    } ;
+    78,   78,   78,   78,   78,   78
+};
 
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
@@ -514,13 +512,13 @@ static yyconst flex_int16_t yy_chk[207] =
 #include <stdlib.h>
 #define YY_NO_UNPUT
 
-char* KTraderParse_putSymbol( char *_name );
-char *KTraderParse_putSymbolInBrackets( char *_name );
-char* KTraderParse_putString( char *_name );
-double KTraderParse_putSimplePositiveFloat( char *_name );
+char *KTraderParse_putSymbol(char *_name);
+char *KTraderParse_putSymbolInBrackets(char *_name);
+char *KTraderParse_putString(char *_name);
+double KTraderParse_putSimplePositiveFloat(char *_name);
 int kiotraderwrap();
-int kiotraderlex(YYSTYPE * yylval, yyscan_t scanner);
-void KTraderParse_initFlex( const char *_code, yyscan_t _scanner );
+int kiotraderlex(YYSTYPE *yylval, yyscan_t scanner);
+void KTraderParse_initFlex(const char *_code, yyscan_t _scanner);
 
 #line 526 "lex.c"
 
@@ -539,8 +537,7 @@ void KTraderParse_initFlex( const char *_code, yyscan_t _scanner );
 #endif
 
 /* Holds the entire state of the reentrant scanner. */
-struct yyguts_t
-    {
+struct yyguts_t {
 
     /* User-defined. Not touched by flex. */
     YY_EXTRA_TYPE yyextra_r;
@@ -549,7 +546,7 @@ struct yyguts_t
     FILE *yyin_r, *yyout_r;
     size_t yy_buffer_stack_top; /**< index of top of stack. */
     size_t yy_buffer_stack_max; /**< capacity of stack. */
-    YY_BUFFER_STATE * yy_buffer_stack; /**< Stack as an array. */
+    YY_BUFFER_STATE *yy_buffer_stack;  /**< Stack as an array. */
     char yy_hold_char;
     int yy_n_chars;
     int yyleng_r;
@@ -561,7 +558,7 @@ struct yyguts_t
     int yy_start_stack_depth;
     int *yy_start_stack;
     yy_state_type yy_last_accepting_state;
-    char* yy_last_accepting_cpos;
+    char *yy_last_accepting_cpos;
 
     int yylineno_r;
     int yy_flex_debug_r;
@@ -570,52 +567,52 @@ struct yyguts_t
     int yy_more_flag;
     int yy_more_len;
 
-    YYSTYPE * yylval_r;
+    YYSTYPE *yylval_r;
 
-    }; /* end struct yyguts_t */
+}; /* end struct yyguts_t */
 
-static int yy_init_globals (yyscan_t yyscanner );
+static int yy_init_globals(yyscan_t yyscanner);
 
-    /* This must go here because YYSTYPE and YYLTYPE are included
-     * from bison output in section 1.*/
-    #    define yylval yyg->yylval_r
-    
-int kiotraderlex_init (yyscan_t* scanner);
+/* This must go here because YYSTYPE and YYLTYPE are included
+ * from bison output in section 1.*/
+#    define yylval yyg->yylval_r
 
-int kiotraderlex_init_extra (YY_EXTRA_TYPE user_defined,yyscan_t* scanner);
+int kiotraderlex_init(yyscan_t *scanner);
+
+int kiotraderlex_init_extra(YY_EXTRA_TYPE user_defined, yyscan_t *scanner);
 
 /* Accessor methods to globals.
    These are made visible to non-reentrant scanners for convenience. */
 
-int kiotraderlex_destroy (yyscan_t yyscanner );
+int kiotraderlex_destroy(yyscan_t yyscanner);
 
-int kiotraderget_debug (yyscan_t yyscanner );
+int kiotraderget_debug(yyscan_t yyscanner);
 
-void kiotraderset_debug (int debug_flag ,yyscan_t yyscanner );
+void kiotraderset_debug(int debug_flag, yyscan_t yyscanner);
 
-YY_EXTRA_TYPE kiotraderget_extra (yyscan_t yyscanner );
+YY_EXTRA_TYPE kiotraderget_extra(yyscan_t yyscanner);
 
-void kiotraderset_extra (YY_EXTRA_TYPE user_defined ,yyscan_t yyscanner );
+void kiotraderset_extra(YY_EXTRA_TYPE user_defined, yyscan_t yyscanner);
 
-FILE *kiotraderget_in (yyscan_t yyscanner );
+FILE *kiotraderget_in(yyscan_t yyscanner);
 
-void kiotraderset_in  (FILE * in_str ,yyscan_t yyscanner );
+void kiotraderset_in(FILE *in_str, yyscan_t yyscanner);
 
-FILE *kiotraderget_out (yyscan_t yyscanner );
+FILE *kiotraderget_out(yyscan_t yyscanner);
 
-void kiotraderset_out  (FILE * out_str ,yyscan_t yyscanner );
+void kiotraderset_out(FILE *out_str, yyscan_t yyscanner);
 
-int kiotraderget_leng (yyscan_t yyscanner );
+int kiotraderget_leng(yyscan_t yyscanner);
 
-char *kiotraderget_text (yyscan_t yyscanner );
+char *kiotraderget_text(yyscan_t yyscanner);
 
-int kiotraderget_lineno (yyscan_t yyscanner );
+int kiotraderget_lineno(yyscan_t yyscanner);
 
-void kiotraderset_lineno (int line_number ,yyscan_t yyscanner );
+void kiotraderset_lineno(int line_number, yyscan_t yyscanner);
 
-YYSTYPE * kiotraderget_lval (yyscan_t yyscanner );
+YYSTYPE *kiotraderget_lval(yyscan_t yyscanner);
 
-void kiotraderset_lval (YYSTYPE * yylval_param ,yyscan_t yyscanner );
+void kiotraderset_lval(YYSTYPE *yylval_param, yyscan_t yyscanner);
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -623,28 +620,28 @@ void kiotraderset_lval (YYSTYPE * yylval_param ,yyscan_t yyscanner );
 
 #ifndef YY_SKIP_YYWRAP
 #ifdef __cplusplus
-extern "C" int kiotraderwrap (yyscan_t yyscanner );
+extern "C" int kiotraderwrap(yyscan_t yyscanner);
 #else
-extern int kiotraderwrap (yyscan_t yyscanner );
+extern int kiotraderwrap(yyscan_t yyscanner);
 #endif
 #endif
 
-    static void yyunput (int c,char *buf_ptr  ,yyscan_t yyscanner);
-    
+static void yyunput(int c, char *buf_ptr, yyscan_t yyscanner);
+
 #ifndef yytext_ptr
-static void yy_flex_strncpy (char *,yyconst char *,int ,yyscan_t yyscanner);
+static void yy_flex_strncpy(char *, yyconst char *, int, yyscan_t yyscanner);
 #endif
 
 #ifdef YY_NEED_STRLEN
-static int yy_flex_strlen (yyconst char * ,yyscan_t yyscanner);
+static int yy_flex_strlen(yyconst char *, yyscan_t yyscanner);
 #endif
 
 #ifndef YY_NO_INPUT
 
 #ifdef __cplusplus
-static int yyinput (yyscan_t yyscanner );
+static int yyinput(yyscan_t yyscanner);
 #else
-static int input (yyscan_t yyscanner );
+static int input(yyscan_t yyscanner);
 #endif
 
 #endif
@@ -672,35 +669,35 @@ static int input (yyscan_t yyscanner );
  */
 #ifndef YY_INPUT
 #define YY_INPUT(buf,result,max_size) \
-	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
-		{ \
-		int c = '*'; \
-		size_t n; \
-		for ( n = 0; n < max_size && \
-			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
-			buf[n] = (char) c; \
-		if ( c == '\n' ) \
-			buf[n++] = (char) c; \
-		if ( c == EOF && ferror( yyin ) ) \
-			YY_FATAL_ERROR( "input in flex scanner failed" ); \
-		result = n; \
-		} \
-	else \
-		{ \
-		errno=0; \
-		while ( (result = fread(buf, 1, max_size, yyin))==0 && ferror(yyin)) \
-			{ \
-			if( errno != EINTR) \
-				{ \
-				YY_FATAL_ERROR( "input in flex scanner failed" ); \
-				break; \
-				} \
-			errno=0; \
-			clearerr(yyin); \
-			} \
-		}\
-\
-
+    if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
+    { \
+        int c = '*'; \
+        size_t n; \
+        for ( n = 0; n < max_size && \
+                (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
+            buf[n] = (char) c; \
+        if ( c == '\n' ) \
+            buf[n++] = (char) c; \
+        if ( c == EOF && ferror( yyin ) ) \
+            YY_FATAL_ERROR( "input in flex scanner failed" ); \
+        result = n; \
+    } \
+    else \
+    { \
+        errno=0; \
+        while ( (result = fread(buf, 1, max_size, yyin))==0 && ferror(yyin)) \
+        { \
+            if( errno != EINTR) \
+            { \
+                YY_FATAL_ERROR( "input in flex scanner failed" ); \
+                break; \
+            } \
+            errno=0; \
+            clearerr(yyin); \
+        } \
+    }\
+    \
+     
 #endif
 
 /* No semi-colon after return; correct usage is to write "yyterminate();" -
@@ -730,10 +727,10 @@ static int input (yyscan_t yyscanner );
 #define YY_DECL_IS_OURS 1
 
 extern int kiotraderlex \
-               (YYSTYPE * yylval_param ,yyscan_t yyscanner);
+(YYSTYPE *yylval_param, yyscan_t yyscanner);
 
 #define YY_DECL int kiotraderlex \
-               (YYSTYPE * yylval_param , yyscan_t yyscanner)
+    (YYSTYPE * yylval_param , yyscan_t yyscanner)
 #endif /* !YY_DECL */
 
 /* Code executed at the beginning of each rule, after yytext and yyleng
@@ -749,766 +746,758 @@ extern int kiotraderlex \
 #endif
 
 #define YY_RULE_SETUP \
-	YY_USER_ACTION
+    YY_USER_ACTION
 
 /** The main scanner function which does all the work.
  */
-YY_DECL
-{
-	register yy_state_type yy_current_state;
-	register char *yy_cp, *yy_bp;
-	register int yy_act;
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+YY_DECL {
+    register yy_state_type yy_current_state;
+    register char *yy_cp, *yy_bp;
+    register int yy_act;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
 #line 27 "lex.l"
-
 
 #line 767 "lex.c"
 
     yylval = yylval_param;
 
-	if ( !yyg->yy_init )
-		{
-		yyg->yy_init = 1;
+    if (!yyg->yy_init)
+    {
+        yyg->yy_init = 1;
 
 #ifdef YY_USER_INIT
-		YY_USER_INIT;
+        YY_USER_INIT;
 #endif
 
-		if ( ! yyg->yy_start )
-			yyg->yy_start = 1;	/* first start state */
+        if (! yyg->yy_start) {
+            yyg->yy_start = 1;    /* first start state */
+        }
 
-		if ( ! yyin )
-			yyin = stdin;
+        if (! yyin) {
+            yyin = stdin;
+        }
 
-		if ( ! yyout )
-			yyout = stdout;
+        if (! yyout) {
+            yyout = stdout;
+        }
 
-		if ( ! YY_CURRENT_BUFFER ) {
-			kiotraderensure_buffer_stack (yyscanner);
-			YY_CURRENT_BUFFER_LVALUE =
-				kiotrader_create_buffer(yyin,YY_BUF_SIZE ,yyscanner);
-		}
+        if (! YY_CURRENT_BUFFER) {
+            kiotraderensure_buffer_stack(yyscanner);
+            YY_CURRENT_BUFFER_LVALUE =
+                kiotrader_create_buffer(yyin, YY_BUF_SIZE, yyscanner);
+        }
 
-		kiotrader_load_buffer_state(yyscanner );
-		}
+        kiotrader_load_buffer_state(yyscanner);
+    }
 
-	while ( 1 )		/* loops until end-of-file is reached */
-		{
-		yy_cp = yyg->yy_c_buf_p;
+    while (1)        /* loops until end-of-file is reached */
+    {
+        yy_cp = yyg->yy_c_buf_p;
 
-		/* Support of yytext. */
-		*yy_cp = yyg->yy_hold_char;
+        /* Support of yytext. */
+        *yy_cp = yyg->yy_hold_char;
 
-		/* yy_bp points to the position in yy_ch_buf of the start of
-		 * the current run.
-		 */
-		yy_bp = yy_cp;
+        /* yy_bp points to the position in yy_ch_buf of the start of
+         * the current run.
+         */
+        yy_bp = yy_cp;
 
-		yy_current_state = yyg->yy_start;
-yy_match:
-		do
-			{
-			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
-			if ( yy_accept[yy_current_state] )
-				{
-				yyg->yy_last_accepting_state = yy_current_state;
-				yyg->yy_last_accepting_cpos = yy_cp;
-				}
-			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
-				{
-				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 79 )
-					yy_c = yy_meta[(unsigned int) yy_c];
-				}
-			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-			++yy_cp;
-			}
-		while ( yy_current_state != 78 );
-		yy_cp = yyg->yy_last_accepting_cpos;
-		yy_current_state = yyg->yy_last_accepting_state;
+        yy_current_state = yyg->yy_start;
+    yy_match:
+        do {
+            register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)];
+            if (yy_accept[yy_current_state]) {
+                yyg->yy_last_accepting_state = yy_current_state;
+                yyg->yy_last_accepting_cpos = yy_cp;
+            }
+            while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
+                yy_current_state = (int) yy_def[yy_current_state];
+                if (yy_current_state >= 79) {
+                    yy_c = yy_meta[(unsigned int) yy_c];
+                }
+            }
+            yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+            ++yy_cp;
+        } while (yy_current_state != 78);
+        yy_cp = yyg->yy_last_accepting_cpos;
+        yy_current_state = yyg->yy_last_accepting_state;
 
-yy_find_action:
-		yy_act = yy_accept[yy_current_state];
+    yy_find_action:
+        yy_act = yy_accept[yy_current_state];
 
-		YY_DO_BEFORE_ACTION;
+        YY_DO_BEFORE_ACTION;
 
-do_action:	/* This label is used only to access EOF actions. */
+    do_action:  /* This label is used only to access EOF actions. */
 
-		switch ( yy_act )
-	{ /* beginning of action switch */
-			case 0: /* must back up */
-			/* undo the effects of YY_DO_BEFORE_ACTION */
-			*yy_cp = yyg->yy_hold_char;
-			yy_cp = yyg->yy_last_accepting_cpos;
-			yy_current_state = yyg->yy_last_accepting_state;
-			goto yy_find_action;
+        switch (yy_act) {
+        /* beginning of action switch */
+        case 0: /* must back up */
+            /* undo the effects of YY_DO_BEFORE_ACTION */
+            *yy_cp = yyg->yy_hold_char;
+            yy_cp = yyg->yy_last_accepting_cpos;
+            yy_current_state = yyg->yy_last_accepting_state;
+            goto yy_find_action;
 
-case 1:
-YY_RULE_SETUP
-#line 29 "lex.l"
-{ return EQ; }
-	YY_BREAK
-case 2:
-YY_RULE_SETUP
-#line 30 "lex.l"
-{ return EQI; }
-	YY_BREAK
-case 3:
-YY_RULE_SETUP
-#line 31 "lex.l"
-{ return NEQ; }
-	YY_BREAK
-case 4:
-YY_RULE_SETUP
-#line 32 "lex.l"
-{ return NEQI; }
-	YY_BREAK
-case 5:
-YY_RULE_SETUP
-#line 33 "lex.l"
-{ return LE; }
-	YY_BREAK
-case 6:
-YY_RULE_SETUP
-#line 34 "lex.l"
-{ return GR; }
-	YY_BREAK
-case 7:
-YY_RULE_SETUP
-#line 35 "lex.l"
-{ return LEQ; }
-	YY_BREAK
-case 8:
-YY_RULE_SETUP
-#line 36 "lex.l"
-{ return GEQ; }
-	YY_BREAK
-case 9:
-YY_RULE_SETUP
-#line 37 "lex.l"
-{ return MATCH_INSENSITIVE; }
-	YY_BREAK
-case 10:
-YY_RULE_SETUP
-#line 38 "lex.l"
-{ return NOT; }
-	YY_BREAK
-case 11:
-YY_RULE_SETUP
-#line 39 "lex.l"
-{ return AND; }
-	YY_BREAK
-case 12:
-YY_RULE_SETUP
-#line 40 "lex.l"
-{ return OR; }
-	YY_BREAK
-case 13:
-YY_RULE_SETUP
-#line 41 "lex.l"
-{ return TOKEN_IN; }
-	YY_BREAK
-case 14:
-YY_RULE_SETUP
-#line 42 "lex.l"
-{ return TOKEN_IN_INSENSITIVE; }
-	YY_BREAK
-case 15:
-YY_RULE_SETUP
-#line 43 "lex.l"
-{ return TOKEN_IN_SUBSTRING; }
-	YY_BREAK
-case 16:
-YY_RULE_SETUP
-#line 44 "lex.l"
-{ return TOKEN_IN_SUBSTRING_INSENSITIVE; }
-	YY_BREAK
-case 17:
-YY_RULE_SETUP
-#line 45 "lex.l"
-{ return EXIST; }
-	YY_BREAK
-case 18:
-YY_RULE_SETUP
-#line 46 "lex.l"
-{ return MAX; }
-	YY_BREAK
-case 19:
-YY_RULE_SETUP
-#line 47 "lex.l"
-{ return MIN; }
-	YY_BREAK
-case 20:
-YY_RULE_SETUP
-#line 49 "lex.l"
-{ yylval->name = 0L; return (int)(*yytext); }
-	YY_BREAK
-case 21:
-YY_RULE_SETUP
-#line 51 "lex.l"
-{ yylval->valb = 1; return VAL_BOOL; }
-	YY_BREAK
-case 22:
-YY_RULE_SETUP
-#line 52 "lex.l"
-{ yylval->valb = 0; return VAL_BOOL; }
-	YY_BREAK
-case 23:
-/* rule 23 can match eol */
-YY_RULE_SETUP
-#line 54 "lex.l"
-{ yylval->name = KTraderParse_putString( yytext ); return VAL_STRING; }
-	YY_BREAK
-case 24:
-YY_RULE_SETUP
-#line 56 "lex.l"
-{ yylval->vali = atoi( yytext ); return VAL_NUM; }
-	YY_BREAK
-case 25:
-YY_RULE_SETUP
-#line 57 "lex.l"
-{ yylval->vali = atoi( yytext ); return VAL_NUM; }
-	YY_BREAK
-case 26:
-YY_RULE_SETUP
-#line 59 "lex.l"
-{ yylval->vald = KTraderParse_putSimplePositiveFloat( yytext ); return VAL_FLOAT; }
-	YY_BREAK
-case 27:
-YY_RULE_SETUP
-#line 61 "lex.l"
-{ yylval->name = KTraderParse_putSymbolInBrackets( yytext ); return VAL_ID; }
-	YY_BREAK
-case 28:
-YY_RULE_SETUP
-#line 63 "lex.l"
-{ yylval->name = KTraderParse_putSymbol( yytext ); return VAL_ID; }
-	YY_BREAK
-case 29:
-/* rule 29 can match eol */
-YY_RULE_SETUP
+        case 1:
+            YY_RULE_SETUP
+#line 29 "lex.l" 
+            { return EQ; }
+            YY_BREAK
+        case 2:
+            YY_RULE_SETUP
+#line 30 "lex.l" 
+            { return EQI; }
+            YY_BREAK
+        case 3:
+            YY_RULE_SETUP
+#line 31 "lex.l" 
+            { return NEQ; }
+            YY_BREAK
+        case 4:
+            YY_RULE_SETUP
+#line 32 "lex.l" 
+            { return NEQI; }
+            YY_BREAK
+        case 5:
+            YY_RULE_SETUP
+#line 33 "lex.l" 
+            { return LE; }
+            YY_BREAK
+        case 6:
+            YY_RULE_SETUP
+#line 34 "lex.l" 
+            { return GR; }
+            YY_BREAK
+        case 7:
+            YY_RULE_SETUP
+#line 35 "lex.l" 
+            { return LEQ; }
+            YY_BREAK
+        case 8:
+            YY_RULE_SETUP
+#line 36 "lex.l" 
+            { return GEQ; }
+            YY_BREAK
+        case 9:
+            YY_RULE_SETUP
+#line 37 "lex.l" 
+            { return MATCH_INSENSITIVE; }
+            YY_BREAK
+        case 10:
+            YY_RULE_SETUP
+#line 38 "lex.l" 
+            { return NOT; }
+            YY_BREAK
+        case 11:
+            YY_RULE_SETUP
+#line 39 "lex.l" 
+            { return AND; }
+            YY_BREAK
+        case 12:
+            YY_RULE_SETUP
+#line 40 "lex.l" 
+            { return OR; }
+            YY_BREAK
+        case 13:
+            YY_RULE_SETUP
+#line 41 "lex.l" 
+            { return TOKEN_IN; }
+            YY_BREAK
+        case 14:
+            YY_RULE_SETUP
+#line 42 "lex.l" 
+            { return TOKEN_IN_INSENSITIVE; }
+            YY_BREAK
+        case 15:
+            YY_RULE_SETUP
+#line 43 "lex.l" 
+            { return TOKEN_IN_SUBSTRING; }
+            YY_BREAK
+        case 16:
+            YY_RULE_SETUP
+#line 44 "lex.l" 
+            { return TOKEN_IN_SUBSTRING_INSENSITIVE; }
+            YY_BREAK
+        case 17:
+            YY_RULE_SETUP
+#line 45 "lex.l" 
+            { return EXIST; }
+            YY_BREAK
+        case 18:
+            YY_RULE_SETUP
+#line 46 "lex.l" 
+            { return MAX; }
+            YY_BREAK
+        case 19:
+            YY_RULE_SETUP
+#line 47 "lex.l" 
+            { return MIN; }
+            YY_BREAK
+        case 20:
+            YY_RULE_SETUP
+#line 49 "lex.l" 
+            { yylval->name = 0L; return (int)(*yytext); }
+            YY_BREAK
+        case 21:
+            YY_RULE_SETUP
+#line 51 "lex.l" 
+            { yylval->valb = 1; return VAL_BOOL; }
+            YY_BREAK
+        case 22:
+            YY_RULE_SETUP
+#line 52 "lex.l" 
+            { yylval->valb = 0; return VAL_BOOL; }
+            YY_BREAK
+        case 23:
+            /* rule 23 can match eol */
+            YY_RULE_SETUP
+#line 54 "lex.l" 
+            { yylval->name = KTraderParse_putString(yytext); return VAL_STRING; }
+            YY_BREAK
+        case 24:
+            YY_RULE_SETUP
+#line 56 "lex.l" 
+            { yylval->vali = atoi(yytext); return VAL_NUM; }
+            YY_BREAK
+        case 25:
+            YY_RULE_SETUP
+#line 57 "lex.l" 
+            { yylval->vali = atoi(yytext); return VAL_NUM; }
+            YY_BREAK
+        case 26:
+            YY_RULE_SETUP
+#line 59 "lex.l" 
+            { yylval->vald = KTraderParse_putSimplePositiveFloat(yytext); return VAL_FLOAT; }
+            YY_BREAK
+        case 27:
+            YY_RULE_SETUP
+#line 61 "lex.l" 
+            { yylval->name = KTraderParse_putSymbolInBrackets(yytext); return VAL_ID; }
+            YY_BREAK
+        case 28:
+            YY_RULE_SETUP
+#line 63 "lex.l" 
+            { yylval->name = KTraderParse_putSymbol(yytext); return VAL_ID; }
+            YY_BREAK
+        case 29:
+            /* rule 29 can match eol */
+            YY_RULE_SETUP
 #line 65 "lex.l"
-/* eat up whitespace */
-	YY_BREAK
-case 30:
-YY_RULE_SETUP
-#line 67 "lex.l"
-{ printf( "Unrecognized character: %s\n", yytext ); }
-	YY_BREAK
-case 31:
-YY_RULE_SETUP
+            /* eat up whitespace */
+            YY_BREAK
+        case 30:
+            YY_RULE_SETUP
+#line 67 "lex.l" 
+            { printf("Unrecognized character: %s\n", yytext); }
+            YY_BREAK
+        case 31:
+            YY_RULE_SETUP
 #line 69 "lex.l"
-ECHO;
-	YY_BREAK
+            ECHO;
+            YY_BREAK
 #line 1005 "lex.c"
-case YY_STATE_EOF(INITIAL):
-	yyterminate();
+        case YY_STATE_EOF(INITIAL):
+            yyterminate();
 
-	case YY_END_OF_BUFFER:
-		{
-		/* Amount of text matched not including the EOB char. */
-		int yy_amount_of_matched_text = (int) (yy_cp - yyg->yytext_ptr) - 1;
+        case YY_END_OF_BUFFER: {
+            /* Amount of text matched not including the EOB char. */
+            int yy_amount_of_matched_text = (int)(yy_cp - yyg->yytext_ptr) - 1;
 
-		/* Undo the effects of YY_DO_BEFORE_ACTION. */
-		*yy_cp = yyg->yy_hold_char;
-		YY_RESTORE_YY_MORE_OFFSET
+            /* Undo the effects of YY_DO_BEFORE_ACTION. */
+            *yy_cp = yyg->yy_hold_char;
+            YY_RESTORE_YY_MORE_OFFSET
 
-		if ( YY_CURRENT_BUFFER_LVALUE->yy_buffer_status == YY_BUFFER_NEW )
-			{
-			/* We're scanning a new file or input source.  It's
-			 * possible that this happened because the user
-			 * just pointed yyin at a new source and called
-			 * kiotraderlex().  If so, then we have to assure
-			 * consistency between YY_CURRENT_BUFFER and our
-			 * globals.  Here is the right place to do so, because
-			 * this is the first action (other than possibly a
-			 * back-up) that will match for the new input source.
-			 */
-			yyg->yy_n_chars = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
-			YY_CURRENT_BUFFER_LVALUE->yy_input_file = yyin;
-			YY_CURRENT_BUFFER_LVALUE->yy_buffer_status = YY_BUFFER_NORMAL;
-			}
+            if (YY_CURRENT_BUFFER_LVALUE->yy_buffer_status == YY_BUFFER_NEW) {
+                /* We're scanning a new file or input source.  It's
+                 * possible that this happened because the user
+                 * just pointed yyin at a new source and called
+                 * kiotraderlex().  If so, then we have to assure
+                 * consistency between YY_CURRENT_BUFFER and our
+                 * globals.  Here is the right place to do so, because
+                 * this is the first action (other than possibly a
+                 * back-up) that will match for the new input source.
+                 */
+                yyg->yy_n_chars = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
+                YY_CURRENT_BUFFER_LVALUE->yy_input_file = yyin;
+                YY_CURRENT_BUFFER_LVALUE->yy_buffer_status = YY_BUFFER_NORMAL;
+            }
 
-		/* Note that here we test for yy_c_buf_p "<=" to the position
-		 * of the first EOB in the buffer, since yy_c_buf_p will
-		 * already have been incremented past the NUL character
-		 * (since all states make transitions on EOB to the
-		 * end-of-buffer state).  Contrast this with the test
-		 * in input().
-		 */
-		if ( yyg->yy_c_buf_p <= &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars] )
-			{ /* This was really a NUL. */
-			yy_state_type yy_next_state;
+            /* Note that here we test for yy_c_buf_p "<=" to the position
+             * of the first EOB in the buffer, since yy_c_buf_p will
+             * already have been incremented past the NUL character
+             * (since all states make transitions on EOB to the
+             * end-of-buffer state).  Contrast this with the test
+             * in input().
+             */
+            if (yyg->yy_c_buf_p <= &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars]) {
+                /* This was really a NUL. */
+                yy_state_type yy_next_state;
 
-			yyg->yy_c_buf_p = yyg->yytext_ptr + yy_amount_of_matched_text;
+                yyg->yy_c_buf_p = yyg->yytext_ptr + yy_amount_of_matched_text;
 
-			yy_current_state = yy_get_previous_state( yyscanner );
+                yy_current_state = yy_get_previous_state(yyscanner);
 
-			/* Okay, we're now positioned to make the NUL
-			 * transition.  We couldn't have
-			 * yy_get_previous_state() go ahead and do it
-			 * for us because it doesn't know how to deal
-			 * with the possibility of jamming (and we don't
-			 * want to build jamming into it because then it
-			 * will run more slowly).
-			 */
+                /* Okay, we're now positioned to make the NUL
+                 * transition.  We couldn't have
+                 * yy_get_previous_state() go ahead and do it
+                 * for us because it doesn't know how to deal
+                 * with the possibility of jamming (and we don't
+                 * want to build jamming into it because then it
+                 * will run more slowly).
+                 */
 
-			yy_next_state = yy_try_NUL_trans( yy_current_state , yyscanner);
+                yy_next_state = yy_try_NUL_trans(yy_current_state, yyscanner);
 
-			yy_bp = yyg->yytext_ptr + YY_MORE_ADJ;
+                yy_bp = yyg->yytext_ptr + YY_MORE_ADJ;
 
-			if ( yy_next_state )
-				{
-				/* Consume the NUL. */
-				yy_cp = ++yyg->yy_c_buf_p;
-				yy_current_state = yy_next_state;
-				goto yy_match;
-				}
+                if (yy_next_state) {
+                    /* Consume the NUL. */
+                    yy_cp = ++yyg->yy_c_buf_p;
+                    yy_current_state = yy_next_state;
+                    goto yy_match;
+                }
 
-			else
-				{
-				yy_cp = yyg->yy_last_accepting_cpos;
-				yy_current_state = yyg->yy_last_accepting_state;
-				goto yy_find_action;
-				}
-			}
+                else {
+                    yy_cp = yyg->yy_last_accepting_cpos;
+                    yy_current_state = yyg->yy_last_accepting_state;
+                    goto yy_find_action;
+                }
+            }
 
-		else switch ( yy_get_next_buffer( yyscanner ) )
-			{
-			case EOB_ACT_END_OF_FILE:
-				{
-				yyg->yy_did_buffer_switch_on_eof = 0;
+            else switch (yy_get_next_buffer(yyscanner)) {
+                case EOB_ACT_END_OF_FILE: {
+                    yyg->yy_did_buffer_switch_on_eof = 0;
 
-				if ( kiotraderwrap(yyscanner ) )
-					{
-					/* Note: because we've taken care in
-					 * yy_get_next_buffer() to have set up
-					 * yytext, we can now set up
-					 * yy_c_buf_p so that if some total
-					 * hoser (like flex itself) wants to
-					 * call the scanner after we return the
-					 * YY_NULL, it'll still work - another
-					 * YY_NULL will get returned.
-					 */
-					yyg->yy_c_buf_p = yyg->yytext_ptr + YY_MORE_ADJ;
+                    if (kiotraderwrap(yyscanner)) {
+                        /* Note: because we've taken care in
+                         * yy_get_next_buffer() to have set up
+                         * yytext, we can now set up
+                         * yy_c_buf_p so that if some total
+                         * hoser (like flex itself) wants to
+                         * call the scanner after we return the
+                         * YY_NULL, it'll still work - another
+                         * YY_NULL will get returned.
+                         */
+                        yyg->yy_c_buf_p = yyg->yytext_ptr + YY_MORE_ADJ;
 
-					yy_act = YY_STATE_EOF(YY_START);
-					goto do_action;
-					}
+                        yy_act = YY_STATE_EOF(YY_START);
+                        goto do_action;
+                    }
 
-				else
-					{
-					if ( ! yyg->yy_did_buffer_switch_on_eof )
-						YY_NEW_FILE;
-					}
-				break;
-				}
+                    else {
+                        if (! yyg->yy_did_buffer_switch_on_eof) {
+                            YY_NEW_FILE;
+                        }
+                    }
+                    break;
+                }
 
-			case EOB_ACT_CONTINUE_SCAN:
-				yyg->yy_c_buf_p =
-					yyg->yytext_ptr + yy_amount_of_matched_text;
+                case EOB_ACT_CONTINUE_SCAN:
+                    yyg->yy_c_buf_p =
+                        yyg->yytext_ptr + yy_amount_of_matched_text;
 
-				yy_current_state = yy_get_previous_state( yyscanner );
+                    yy_current_state = yy_get_previous_state(yyscanner);
 
-				yy_cp = yyg->yy_c_buf_p;
-				yy_bp = yyg->yytext_ptr + YY_MORE_ADJ;
-				goto yy_match;
+                    yy_cp = yyg->yy_c_buf_p;
+                    yy_bp = yyg->yytext_ptr + YY_MORE_ADJ;
+                    goto yy_match;
 
-			case EOB_ACT_LAST_MATCH:
-				yyg->yy_c_buf_p =
-				&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars];
+                case EOB_ACT_LAST_MATCH:
+                    yyg->yy_c_buf_p =
+                        &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars];
 
-				yy_current_state = yy_get_previous_state( yyscanner );
+                    yy_current_state = yy_get_previous_state(yyscanner);
 
-				yy_cp = yyg->yy_c_buf_p;
-				yy_bp = yyg->yytext_ptr + YY_MORE_ADJ;
-				goto yy_find_action;
-			}
-		break;
-		}
+                    yy_cp = yyg->yy_c_buf_p;
+                    yy_bp = yyg->yytext_ptr + YY_MORE_ADJ;
+                    goto yy_find_action;
+                }
+            break;
+        }
 
-	default:
-		YY_FATAL_ERROR(
-			"fatal flex scanner internal error--no action found" );
-	} /* end of action switch */
-		} /* end of scanning one token */
+        default:
+            YY_FATAL_ERROR(
+                "fatal flex scanner internal error--no action found");
+        } /* end of action switch */
+    } /* end of scanning one token */
 } /* end of kiotraderlex */
 
 /* yy_get_next_buffer - try to read in a new buffer
  *
  * Returns a code representing an action:
- *	EOB_ACT_LAST_MATCH -
- *	EOB_ACT_CONTINUE_SCAN - continue scanning from current position
- *	EOB_ACT_END_OF_FILE - end of file
+ *  EOB_ACT_LAST_MATCH -
+ *  EOB_ACT_CONTINUE_SCAN - continue scanning from current position
+ *  EOB_ACT_END_OF_FILE - end of file
  */
-static int yy_get_next_buffer (yyscan_t yyscanner)
+static int yy_get_next_buffer(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-	register char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
-	register char *source = yyg->yytext_ptr;
-	register int number_to_move, i;
-	int ret_val;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+    register char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
+    register char *source = yyg->yytext_ptr;
+    register int number_to_move, i;
+    int ret_val;
 
-	if ( yyg->yy_c_buf_p > &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars + 1] )
-		YY_FATAL_ERROR(
-		"fatal flex scanner internal error--end of buffer missed" );
+    if (yyg->yy_c_buf_p > &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars + 1])
+        YY_FATAL_ERROR(
+            "fatal flex scanner internal error--end of buffer missed");
 
-	if ( YY_CURRENT_BUFFER_LVALUE->yy_fill_buffer == 0 )
-		{ /* Don't try to fill the buffer, so this is an EOF. */
-		if ( yyg->yy_c_buf_p - yyg->yytext_ptr - YY_MORE_ADJ == 1 )
-			{
-			/* We matched a single character, the EOB, so
-			 * treat this as a final EOF.
-			 */
-			return EOB_ACT_END_OF_FILE;
-			}
+    if (YY_CURRENT_BUFFER_LVALUE->yy_fill_buffer == 0) {
+        /* Don't try to fill the buffer, so this is an EOF. */
+        if (yyg->yy_c_buf_p - yyg->yytext_ptr - YY_MORE_ADJ == 1) {
+            /* We matched a single character, the EOB, so
+             * treat this as a final EOF.
+             */
+            return EOB_ACT_END_OF_FILE;
+        }
 
-		else
-			{
-			/* We matched some text prior to the EOB, first
-			 * process it.
-			 */
-			return EOB_ACT_LAST_MATCH;
-			}
-		}
+        else {
+            /* We matched some text prior to the EOB, first
+             * process it.
+             */
+            return EOB_ACT_LAST_MATCH;
+        }
+    }
 
-	/* Try to read more data. */
+    /* Try to read more data. */
 
-	/* First move last chars to start of buffer. */
-	number_to_move = (int) (yyg->yy_c_buf_p - yyg->yytext_ptr) - 1;
+    /* First move last chars to start of buffer. */
+    number_to_move = (int)(yyg->yy_c_buf_p - yyg->yytext_ptr) - 1;
 
-	for ( i = 0; i < number_to_move; ++i )
-		*(dest++) = *(source++);
+    for (i = 0; i < number_to_move; ++i) {
+        *(dest++) = *(source++);
+    }
 
-	if ( YY_CURRENT_BUFFER_LVALUE->yy_buffer_status == YY_BUFFER_EOF_PENDING )
-		/* don't do the read, it's not guaranteed to return an EOF,
-		 * just force an EOF
-		 */
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars = yyg->yy_n_chars = 0;
+    if (YY_CURRENT_BUFFER_LVALUE->yy_buffer_status == YY_BUFFER_EOF_PENDING)
+        /* don't do the read, it's not guaranteed to return an EOF,
+         * just force an EOF
+         */
+    {
+        YY_CURRENT_BUFFER_LVALUE->yy_n_chars = yyg->yy_n_chars = 0;
+    }
 
-	else
-		{
-			int num_to_read =
-			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
+    else {
+        int num_to_read =
+            YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
 
-		while ( num_to_read <= 0 )
-			{ /* Not enough room in the buffer - grow it. */
+        while (num_to_read <= 0) {
+            /* Not enough room in the buffer - grow it. */
 
-			/* just a shorter name for the current buffer */
-			YY_BUFFER_STATE b = YY_CURRENT_BUFFER;
+            /* just a shorter name for the current buffer */
+            YY_BUFFER_STATE b = YY_CURRENT_BUFFER;
 
-			int yy_c_buf_p_offset =
-				(int) (yyg->yy_c_buf_p - b->yy_ch_buf);
+            int yy_c_buf_p_offset =
+                (int)(yyg->yy_c_buf_p - b->yy_ch_buf);
 
-			if ( b->yy_is_our_buffer )
-				{
-				int new_size = b->yy_buf_size * 2;
+            if (b->yy_is_our_buffer) {
+                int new_size = b->yy_buf_size * 2;
 
-				if ( new_size <= 0 )
-					b->yy_buf_size += b->yy_buf_size / 8;
-				else
-					b->yy_buf_size *= 2;
+                if (new_size <= 0) {
+                    b->yy_buf_size += b->yy_buf_size / 8;
+                } else {
+                    b->yy_buf_size *= 2;
+                }
 
-				b->yy_ch_buf = (char *)
-					/* Include room in for 2 EOB chars. */
-					kiotraderrealloc((void *) b->yy_ch_buf,b->yy_buf_size + 2 ,yyscanner );
-				}
-			else
-				/* Can't grow it, we don't own it. */
-				b->yy_ch_buf = 0;
+                b->yy_ch_buf = (char *)
+                               /* Include room in for 2 EOB chars. */
+                               kiotraderrealloc((void *) b->yy_ch_buf, b->yy_buf_size + 2, yyscanner);
+            } else
+                /* Can't grow it, we don't own it. */
+            {
+                b->yy_ch_buf = 0;
+            }
 
-			if ( ! b->yy_ch_buf )
-				YY_FATAL_ERROR(
-				"fatal error - scanner input buffer overflow" );
+            if (! b->yy_ch_buf)
+                YY_FATAL_ERROR(
+                    "fatal error - scanner input buffer overflow");
 
-			yyg->yy_c_buf_p = &b->yy_ch_buf[yy_c_buf_p_offset];
+            yyg->yy_c_buf_p = &b->yy_ch_buf[yy_c_buf_p_offset];
 
-			num_to_read = YY_CURRENT_BUFFER_LVALUE->yy_buf_size -
-						number_to_move - 1;
+            num_to_read = YY_CURRENT_BUFFER_LVALUE->yy_buf_size -
+                          number_to_move - 1;
 
-			}
+        }
 
-		if ( num_to_read > YY_READ_BUF_SIZE )
-			num_to_read = YY_READ_BUF_SIZE;
+        if (num_to_read > YY_READ_BUF_SIZE) {
+            num_to_read = YY_READ_BUF_SIZE;
+        }
 
-		/* Read in more data. */
-		YY_INPUT( (&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move]),
-			yyg->yy_n_chars, (size_t) num_to_read );
+        /* Read in more data. */
+        YY_INPUT((&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move]),
+                 yyg->yy_n_chars, (size_t) num_to_read);
 
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars = yyg->yy_n_chars;
-		}
+        YY_CURRENT_BUFFER_LVALUE->yy_n_chars = yyg->yy_n_chars;
+    }
 
-	if ( yyg->yy_n_chars == 0 )
-		{
-		if ( number_to_move == YY_MORE_ADJ )
-			{
-			ret_val = EOB_ACT_END_OF_FILE;
-			kiotraderrestart(yyin  ,yyscanner);
-			}
+    if (yyg->yy_n_chars == 0) {
+        if (number_to_move == YY_MORE_ADJ) {
+            ret_val = EOB_ACT_END_OF_FILE;
+            kiotraderrestart(yyin, yyscanner);
+        }
 
-		else
-			{
-			ret_val = EOB_ACT_LAST_MATCH;
-			YY_CURRENT_BUFFER_LVALUE->yy_buffer_status =
-				YY_BUFFER_EOF_PENDING;
-			}
-		}
+        else {
+            ret_val = EOB_ACT_LAST_MATCH;
+            YY_CURRENT_BUFFER_LVALUE->yy_buffer_status =
+                YY_BUFFER_EOF_PENDING;
+        }
+    }
 
-	else
-		ret_val = EOB_ACT_CONTINUE_SCAN;
+    else {
+        ret_val = EOB_ACT_CONTINUE_SCAN;
+    }
 
-	if ((yy_size_t) (yyg->yy_n_chars + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
-		/* Extend the array by 50%, plus the number we really need. */
-		yy_size_t new_size = yyg->yy_n_chars + number_to_move + (yyg->yy_n_chars >> 1);
-		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) kiotraderrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,new_size ,yyscanner );
-		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
-			YY_FATAL_ERROR( "out of dynamic memory in yy_get_next_buffer()" );
-	}
+    if ((yy_size_t)(yyg->yy_n_chars + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
+        /* Extend the array by 50%, plus the number we really need. */
+        yy_size_t new_size = yyg->yy_n_chars + number_to_move + (yyg->yy_n_chars >> 1);
+        YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) kiotraderrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf, new_size, yyscanner);
+        if (! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf) {
+            YY_FATAL_ERROR("out of dynamic memory in yy_get_next_buffer()");
+        }
+    }
 
-	yyg->yy_n_chars += number_to_move;
-	YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars] = YY_END_OF_BUFFER_CHAR;
-	YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars + 1] = YY_END_OF_BUFFER_CHAR;
+    yyg->yy_n_chars += number_to_move;
+    YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars] = YY_END_OF_BUFFER_CHAR;
+    YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars + 1] = YY_END_OF_BUFFER_CHAR;
 
-	yyg->yytext_ptr = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[0];
+    yyg->yytext_ptr = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[0];
 
-	return ret_val;
+    return ret_val;
 }
 
 /* yy_get_previous_state - get the state just before the EOB char was reached */
 
-    static yy_state_type yy_get_previous_state (yyscan_t yyscanner)
+static yy_state_type yy_get_previous_state(yyscan_t yyscanner)
 {
-	register yy_state_type yy_current_state;
-	register char *yy_cp;
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    register yy_state_type yy_current_state;
+    register char *yy_cp;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
-	yy_current_state = yyg->yy_start;
+    yy_current_state = yyg->yy_start;
 
-	for ( yy_cp = yyg->yytext_ptr + YY_MORE_ADJ; yy_cp < yyg->yy_c_buf_p; ++yy_cp )
-		{
-		register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
-		if ( yy_accept[yy_current_state] )
-			{
-			yyg->yy_last_accepting_state = yy_current_state;
-			yyg->yy_last_accepting_cpos = yy_cp;
-			}
-		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
-			{
-			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 79 )
-				yy_c = yy_meta[(unsigned int) yy_c];
-			}
-		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-		}
+    for (yy_cp = yyg->yytext_ptr + YY_MORE_ADJ; yy_cp < yyg->yy_c_buf_p; ++yy_cp) {
+        register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
+        if (yy_accept[yy_current_state]) {
+            yyg->yy_last_accepting_state = yy_current_state;
+            yyg->yy_last_accepting_cpos = yy_cp;
+        }
+        while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
+            yy_current_state = (int) yy_def[yy_current_state];
+            if (yy_current_state >= 79) {
+                yy_c = yy_meta[(unsigned int) yy_c];
+            }
+        }
+        yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+    }
 
-	return yy_current_state;
+    return yy_current_state;
 }
 
 /* yy_try_NUL_trans - try to make a transition on the NUL character
  *
  * synopsis
- *	next_state = yy_try_NUL_trans( current_state );
+ *  next_state = yy_try_NUL_trans( current_state );
  */
-    static yy_state_type yy_try_NUL_trans  (yy_state_type yy_current_state , yyscan_t yyscanner)
+static yy_state_type yy_try_NUL_trans(yy_state_type yy_current_state, yyscan_t yyscanner)
 {
-	register int yy_is_jam;
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner; /* This var may be unused depending upon options. */
-	register char *yy_cp = yyg->yy_c_buf_p;
+    register int yy_is_jam;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner; /* This var may be unused depending upon options. */
+    register char *yy_cp = yyg->yy_c_buf_p;
 
-	register YY_CHAR yy_c = 1;
-	if ( yy_accept[yy_current_state] )
-		{
-		yyg->yy_last_accepting_state = yy_current_state;
-		yyg->yy_last_accepting_cpos = yy_cp;
-		}
-	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
-		{
-		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 79 )
-			yy_c = yy_meta[(unsigned int) yy_c];
-		}
-	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 78);
+    register YY_CHAR yy_c = 1;
+    if (yy_accept[yy_current_state]) {
+        yyg->yy_last_accepting_state = yy_current_state;
+        yyg->yy_last_accepting_cpos = yy_cp;
+    }
+    while (yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state) {
+        yy_current_state = (int) yy_def[yy_current_state];
+        if (yy_current_state >= 79) {
+            yy_c = yy_meta[(unsigned int) yy_c];
+        }
+    }
+    yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+    yy_is_jam = (yy_current_state == 78);
 
-	return yy_is_jam ? 0 : yy_current_state;
+    return yy_is_jam ? 0 : yy_current_state;
 }
 
-    static void yyunput (int c, register char * yy_bp , yyscan_t yyscanner)
+static void yyunput(int c, register char *yy_bp, yyscan_t yyscanner)
 {
-	register char *yy_cp;
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    register char *yy_cp;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
     yy_cp = yyg->yy_c_buf_p;
 
-	/* undo effects of setting up yytext */
-	*yy_cp = yyg->yy_hold_char;
+    /* undo effects of setting up yytext */
+    *yy_cp = yyg->yy_hold_char;
 
-	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-		{ /* need to shift things up to make room */
-		/* +2 for EOB chars. */
-		register int number_to_move = yyg->yy_n_chars + 2;
-		register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
-					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-		register char *source =
-				&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
+    if (yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2) {
+        /* need to shift things up to make room */
+        /* +2 for EOB chars. */
+        register int number_to_move = yyg->yy_n_chars + 2;
+        register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
+                                  YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
+        register char *source =
+            &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
 
-		while ( source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
-			*--dest = *--source;
+        while (source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf) {
+            *--dest = *--source;
+        }
 
-		yy_cp += (int) (dest - source);
-		yy_bp += (int) (dest - source);
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars =
-			yyg->yy_n_chars = YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
+        yy_cp += (int)(dest - source);
+        yy_bp += (int)(dest - source);
+        YY_CURRENT_BUFFER_LVALUE->yy_n_chars =
+            yyg->yy_n_chars = YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
 
-		if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
-			YY_FATAL_ERROR( "flex scanner push-back overflow" );
-		}
+        if (yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2) {
+            YY_FATAL_ERROR("flex scanner push-back overflow");
+        }
+    }
 
-	*--yy_cp = (char) c;
+    *--yy_cp = (char) c;
 
-	yyg->yytext_ptr = yy_bp;
-	yyg->yy_hold_char = *yy_cp;
-	yyg->yy_c_buf_p = yy_cp;
+    yyg->yytext_ptr = yy_bp;
+    yyg->yy_hold_char = *yy_cp;
+    yyg->yy_c_buf_p = yy_cp;
 }
 
 #ifndef YY_NO_INPUT
 #ifdef __cplusplus
-    static int yyinput (yyscan_t yyscanner)
+static int yyinput(yyscan_t yyscanner)
 #else
-    static int input  (yyscan_t yyscanner)
+static int input(yyscan_t yyscanner)
 #endif
 
 {
-	int c;
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    int c;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
-	*yyg->yy_c_buf_p = yyg->yy_hold_char;
+    *yyg->yy_c_buf_p = yyg->yy_hold_char;
 
-	if ( *yyg->yy_c_buf_p == YY_END_OF_BUFFER_CHAR )
-		{
-		/* yy_c_buf_p now points to the character we want to return.
-		 * If this occurs *before* the EOB characters, then it's a
-		 * valid NUL; if not, then we've hit the end of the buffer.
-		 */
-		if ( yyg->yy_c_buf_p < &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars] )
-			/* This was really a NUL. */
-			*yyg->yy_c_buf_p = '\0';
+    if (*yyg->yy_c_buf_p == YY_END_OF_BUFFER_CHAR) {
+        /* yy_c_buf_p now points to the character we want to return.
+         * If this occurs *before* the EOB characters, then it's a
+         * valid NUL; if not, then we've hit the end of the buffer.
+         */
+        if (yyg->yy_c_buf_p < &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[yyg->yy_n_chars])
+            /* This was really a NUL. */
+        {
+            *yyg->yy_c_buf_p = '\0';
+        }
 
-		else
-			{ /* need more input */
-			int offset = yyg->yy_c_buf_p - yyg->yytext_ptr;
-			++yyg->yy_c_buf_p;
+        else {
+            /* need more input */
+            int offset = yyg->yy_c_buf_p - yyg->yytext_ptr;
+            ++yyg->yy_c_buf_p;
 
-			switch ( yy_get_next_buffer( yyscanner ) )
-				{
-				case EOB_ACT_LAST_MATCH:
-					/* This happens because yy_g_n_b()
-					 * sees that we've accumulated a
-					 * token and flags that we need to
-					 * try matching the token before
-					 * proceeding.  But for input(),
-					 * there's no matching to consider.
-					 * So convert the EOB_ACT_LAST_MATCH
-					 * to EOB_ACT_END_OF_FILE.
-					 */
+            switch (yy_get_next_buffer(yyscanner)) {
+            case EOB_ACT_LAST_MATCH:
+                /* This happens because yy_g_n_b()
+                 * sees that we've accumulated a
+                 * token and flags that we need to
+                 * try matching the token before
+                 * proceeding.  But for input(),
+                 * there's no matching to consider.
+                 * So convert the EOB_ACT_LAST_MATCH
+                 * to EOB_ACT_END_OF_FILE.
+                 */
 
-					/* Reset buffer status. */
-					kiotraderrestart(yyin ,yyscanner);
+                /* Reset buffer status. */
+                kiotraderrestart(yyin, yyscanner);
 
-					/*FALLTHROUGH*/
+            /*FALLTHROUGH*/
 
-				case EOB_ACT_END_OF_FILE:
-					{
-					if ( kiotraderwrap(yyscanner ) )
-						return EOF;
+            case EOB_ACT_END_OF_FILE: {
+                if (kiotraderwrap(yyscanner)) {
+                    return EOF;
+                }
 
-					if ( ! yyg->yy_did_buffer_switch_on_eof )
-						YY_NEW_FILE;
+                if (! yyg->yy_did_buffer_switch_on_eof) {
+                    YY_NEW_FILE;
+                }
 #ifdef __cplusplus
-					return yyinput(yyscanner);
+                return yyinput(yyscanner);
 #else
-					return input(yyscanner);
+                return input(yyscanner);
 #endif
-					}
+            }
 
-				case EOB_ACT_CONTINUE_SCAN:
-					yyg->yy_c_buf_p = yyg->yytext_ptr + offset;
-					break;
-				}
-			}
-		}
+            case EOB_ACT_CONTINUE_SCAN:
+                yyg->yy_c_buf_p = yyg->yytext_ptr + offset;
+                break;
+            }
+        }
+    }
 
-	c = *(unsigned char *) yyg->yy_c_buf_p;	/* cast for 8-bit char's */
-	*yyg->yy_c_buf_p = '\0';	/* preserve yytext */
-	yyg->yy_hold_char = *++yyg->yy_c_buf_p;
+    c = *(unsigned char *) yyg->yy_c_buf_p; /* cast for 8-bit char's */
+    *yyg->yy_c_buf_p = '\0';    /* preserve yytext */
+    yyg->yy_hold_char = *++yyg->yy_c_buf_p;
 
-	return c;
+    return c;
 }
-#endif	/* ifndef YY_NO_INPUT */
+#endif  /* ifndef YY_NO_INPUT */
 
 /** Immediately switch to a different input stream.
  * @param input_file A readable stream.
  * @param yyscanner The scanner object.
  * @note This function does not reset the start condition to @c INITIAL .
  */
-    void kiotraderrestart  (FILE * input_file , yyscan_t yyscanner)
+void kiotraderrestart(FILE *input_file, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
-	if ( ! YY_CURRENT_BUFFER ){
-        kiotraderensure_buffer_stack (yyscanner);
-		YY_CURRENT_BUFFER_LVALUE =
-            kiotrader_create_buffer(yyin,YY_BUF_SIZE ,yyscanner);
-	}
+    if (! YY_CURRENT_BUFFER) {
+        kiotraderensure_buffer_stack(yyscanner);
+        YY_CURRENT_BUFFER_LVALUE =
+            kiotrader_create_buffer(yyin, YY_BUF_SIZE, yyscanner);
+    }
 
-	kiotrader_init_buffer(YY_CURRENT_BUFFER,input_file ,yyscanner);
-	kiotrader_load_buffer_state(yyscanner );
+    kiotrader_init_buffer(YY_CURRENT_BUFFER, input_file, yyscanner);
+    kiotrader_load_buffer_state(yyscanner);
 }
 
 /** Switch to a different input buffer.
  * @param new_buffer The new input buffer.
  * @param yyscanner The scanner object.
  */
-    void kiotrader_switch_to_buffer  (YY_BUFFER_STATE  new_buffer , yyscan_t yyscanner)
+void kiotrader_switch_to_buffer(YY_BUFFER_STATE  new_buffer, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
-	/* TODO. We should be able to replace this entire function body
-	 * with
-	 *		kiotraderpop_buffer_state();
-	 *		kiotraderpush_buffer_state(new_buffer);
+    /* TODO. We should be able to replace this entire function body
+     * with
+     *      kiotraderpop_buffer_state();
+     *      kiotraderpush_buffer_state(new_buffer);
      */
-	kiotraderensure_buffer_stack (yyscanner);
-	if ( YY_CURRENT_BUFFER == new_buffer )
-		return;
+    kiotraderensure_buffer_stack(yyscanner);
+    if (YY_CURRENT_BUFFER == new_buffer) {
+        return;
+    }
 
-	if ( YY_CURRENT_BUFFER )
-		{
-		/* Flush out information for old buffer. */
-		*yyg->yy_c_buf_p = yyg->yy_hold_char;
-		YY_CURRENT_BUFFER_LVALUE->yy_buf_pos = yyg->yy_c_buf_p;
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars = yyg->yy_n_chars;
-		}
+    if (YY_CURRENT_BUFFER) {
+        /* Flush out information for old buffer. */
+        *yyg->yy_c_buf_p = yyg->yy_hold_char;
+        YY_CURRENT_BUFFER_LVALUE->yy_buf_pos = yyg->yy_c_buf_p;
+        YY_CURRENT_BUFFER_LVALUE->yy_n_chars = yyg->yy_n_chars;
+    }
 
-	YY_CURRENT_BUFFER_LVALUE = new_buffer;
-	kiotrader_load_buffer_state(yyscanner );
+    YY_CURRENT_BUFFER_LVALUE = new_buffer;
+    kiotrader_load_buffer_state(yyscanner);
 
-	/* We don't actually know whether we did this switch during
-	 * EOF (kiotraderwrap()) processing, but the only time this flag
-	 * is looked at is after kiotraderwrap() is called, so it's safe
-	 * to go ahead and always set it.
-	 */
-	yyg->yy_did_buffer_switch_on_eof = 1;
+    /* We don't actually know whether we did this switch during
+     * EOF (kiotraderwrap()) processing, but the only time this flag
+     * is looked at is after kiotraderwrap() is called, so it's safe
+     * to go ahead and always set it.
+     */
+    yyg->yy_did_buffer_switch_on_eof = 1;
 }
 
-static void kiotrader_load_buffer_state  (yyscan_t yyscanner)
+static void kiotrader_load_buffer_state(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-	yyg->yy_n_chars = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
-	yyg->yytext_ptr = yyg->yy_c_buf_p = YY_CURRENT_BUFFER_LVALUE->yy_buf_pos;
-	yyin = YY_CURRENT_BUFFER_LVALUE->yy_input_file;
-	yyg->yy_hold_char = *yyg->yy_c_buf_p;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+    yyg->yy_n_chars = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
+    yyg->yytext_ptr = yyg->yy_c_buf_p = YY_CURRENT_BUFFER_LVALUE->yy_buf_pos;
+    yyin = YY_CURRENT_BUFFER_LVALUE->yy_input_file;
+    yyg->yy_hold_char = *yyg->yy_c_buf_p;
 }
 
 /** Allocate and initialize an input buffer state.
@@ -1517,105 +1506,112 @@ static void kiotrader_load_buffer_state  (yyscan_t yyscanner)
  * @param yyscanner The scanner object.
  * @return the allocated buffer state.
  */
-    YY_BUFFER_STATE kiotrader_create_buffer  (FILE * file, int  size , yyscan_t yyscanner)
+YY_BUFFER_STATE kiotrader_create_buffer(FILE *file, int  size, yyscan_t yyscanner)
 {
-	YY_BUFFER_STATE b;
-    
-	b = (YY_BUFFER_STATE) kiotraderalloc(sizeof( struct yy_buffer_state ) ,yyscanner );
-	if ( ! b )
-		YY_FATAL_ERROR( "out of dynamic memory in kiotrader_create_buffer()" );
+    YY_BUFFER_STATE b;
 
-	b->yy_buf_size = size;
+    b = (YY_BUFFER_STATE) kiotraderalloc(sizeof(struct yy_buffer_state), yyscanner);
+    if (! b) {
+        YY_FATAL_ERROR("out of dynamic memory in kiotrader_create_buffer()");
+    }
 
-	/* yy_ch_buf has to be 2 characters longer than the size given because
-	 * we need to put in 2 end-of-buffer characters.
-	 */
-	b->yy_ch_buf = (char *) kiotraderalloc(b->yy_buf_size + 2 ,yyscanner );
-	if ( ! b->yy_ch_buf )
-		YY_FATAL_ERROR( "out of dynamic memory in kiotrader_create_buffer()" );
+    b->yy_buf_size = size;
 
-	b->yy_is_our_buffer = 1;
+    /* yy_ch_buf has to be 2 characters longer than the size given because
+     * we need to put in 2 end-of-buffer characters.
+     */
+    b->yy_ch_buf = (char *) kiotraderalloc(b->yy_buf_size + 2, yyscanner);
+    if (! b->yy_ch_buf) {
+        YY_FATAL_ERROR("out of dynamic memory in kiotrader_create_buffer()");
+    }
 
-	kiotrader_init_buffer(b,file ,yyscanner);
+    b->yy_is_our_buffer = 1;
 
-	return b;
+    kiotrader_init_buffer(b, file, yyscanner);
+
+    return b;
 }
 
 /** Destroy the buffer.
  * @param b a buffer created with kiotrader_create_buffer()
  * @param yyscanner The scanner object.
  */
-    void kiotrader_delete_buffer (YY_BUFFER_STATE  b , yyscan_t yyscanner)
+void kiotrader_delete_buffer(YY_BUFFER_STATE  b, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
-	if ( ! b )
-		return;
+    if (! b) {
+        return;
+    }
 
-	if ( b == YY_CURRENT_BUFFER ) /* Not sure if we should pop here. */
-		YY_CURRENT_BUFFER_LVALUE = (YY_BUFFER_STATE) 0;
+    if (b == YY_CURRENT_BUFFER) { /* Not sure if we should pop here. */
+        YY_CURRENT_BUFFER_LVALUE = (YY_BUFFER_STATE) 0;
+    }
 
-	if ( b->yy_is_our_buffer )
-		kiotraderfree((void *) b->yy_ch_buf ,yyscanner );
+    if (b->yy_is_our_buffer) {
+        kiotraderfree((void *) b->yy_ch_buf, yyscanner);
+    }
 
-	kiotraderfree((void *) b ,yyscanner );
+    kiotraderfree((void *) b, yyscanner);
 }
 
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
  * such as during a kiotraderrestart() or at EOF.
  */
-    static void kiotrader_init_buffer  (YY_BUFFER_STATE  b, FILE * file , yyscan_t yyscanner)
+static void kiotrader_init_buffer(YY_BUFFER_STATE  b, FILE *file, yyscan_t yyscanner)
 
 {
-	int oerrno = errno;
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    int oerrno = errno;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
-	kiotrader_flush_buffer(b ,yyscanner);
+    kiotrader_flush_buffer(b, yyscanner);
 
-	b->yy_input_file = file;
-	b->yy_fill_buffer = 1;
+    b->yy_input_file = file;
+    b->yy_fill_buffer = 1;
 
     /* If b is the current buffer, then kiotrader_init_buffer was _probably_
      * called from kiotraderrestart() or through yy_get_next_buffer.
      * In that case, we don't want to reset the lineno or column.
      */
-    if (b != YY_CURRENT_BUFFER){
+    if (b != YY_CURRENT_BUFFER) {
         b->yy_bs_lineno = 1;
         b->yy_bs_column = 0;
     }
 
-        b->yy_is_interactive = 0;
-    
-	errno = oerrno;
+    b->yy_is_interactive = 0;
+
+    errno = oerrno;
 }
 
 /** Discard all buffered characters. On the next scan, YY_INPUT will be called.
  * @param b the buffer state to be flushed, usually @c YY_CURRENT_BUFFER.
  * @param yyscanner The scanner object.
  */
-    void kiotrader_flush_buffer (YY_BUFFER_STATE  b , yyscan_t yyscanner)
+void kiotrader_flush_buffer(YY_BUFFER_STATE  b, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-	if ( ! b )
-		return;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+    if (! b) {
+        return;
+    }
 
-	b->yy_n_chars = 0;
+    b->yy_n_chars = 0;
 
-	/* We always need two end-of-buffer characters.  The first causes
-	 * a transition to the end-of-buffer state.  The second causes
-	 * a jam in that state.
-	 */
-	b->yy_ch_buf[0] = YY_END_OF_BUFFER_CHAR;
-	b->yy_ch_buf[1] = YY_END_OF_BUFFER_CHAR;
+    /* We always need two end-of-buffer characters.  The first causes
+     * a transition to the end-of-buffer state.  The second causes
+     * a jam in that state.
+     */
+    b->yy_ch_buf[0] = YY_END_OF_BUFFER_CHAR;
+    b->yy_ch_buf[1] = YY_END_OF_BUFFER_CHAR;
 
-	b->yy_buf_pos = &b->yy_ch_buf[0];
+    b->yy_buf_pos = &b->yy_ch_buf[0];
 
-	b->yy_at_bol = 1;
-	b->yy_buffer_status = YY_BUFFER_NEW;
+    b->yy_at_bol = 1;
+    b->yy_buffer_status = YY_BUFFER_NEW;
 
-	if ( b == YY_CURRENT_BUFFER )
-		kiotrader_load_buffer_state(yyscanner );
+    if (b == YY_CURRENT_BUFFER) {
+        kiotrader_load_buffer_state(yyscanner);
+    }
 }
 
 /** Pushes the new state onto the stack. The new state becomes
@@ -1624,134 +1620,142 @@ static void kiotrader_load_buffer_state  (yyscan_t yyscanner)
  *  @param new_buffer The new state.
  *  @param yyscanner The scanner object.
  */
-void kiotraderpush_buffer_state (YY_BUFFER_STATE new_buffer , yyscan_t yyscanner)
+void kiotraderpush_buffer_state(YY_BUFFER_STATE new_buffer, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-	if (new_buffer == NULL)
-		return;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+    if (new_buffer == NULL) {
+        return;
+    }
 
-	kiotraderensure_buffer_stack(yyscanner);
+    kiotraderensure_buffer_stack(yyscanner);
 
-	/* This block is copied from kiotrader_switch_to_buffer. */
-	if ( YY_CURRENT_BUFFER )
-		{
-		/* Flush out information for old buffer. */
-		*yyg->yy_c_buf_p = yyg->yy_hold_char;
-		YY_CURRENT_BUFFER_LVALUE->yy_buf_pos = yyg->yy_c_buf_p;
-		YY_CURRENT_BUFFER_LVALUE->yy_n_chars = yyg->yy_n_chars;
-		}
+    /* This block is copied from kiotrader_switch_to_buffer. */
+    if (YY_CURRENT_BUFFER) {
+        /* Flush out information for old buffer. */
+        *yyg->yy_c_buf_p = yyg->yy_hold_char;
+        YY_CURRENT_BUFFER_LVALUE->yy_buf_pos = yyg->yy_c_buf_p;
+        YY_CURRENT_BUFFER_LVALUE->yy_n_chars = yyg->yy_n_chars;
+    }
 
-	/* Only push if top exists. Otherwise, replace top. */
-	if (YY_CURRENT_BUFFER)
-		yyg->yy_buffer_stack_top++;
-	YY_CURRENT_BUFFER_LVALUE = new_buffer;
+    /* Only push if top exists. Otherwise, replace top. */
+    if (YY_CURRENT_BUFFER) {
+        yyg->yy_buffer_stack_top++;
+    }
+    YY_CURRENT_BUFFER_LVALUE = new_buffer;
 
-	/* copied from kiotrader_switch_to_buffer. */
-	kiotrader_load_buffer_state(yyscanner );
-	yyg->yy_did_buffer_switch_on_eof = 1;
+    /* copied from kiotrader_switch_to_buffer. */
+    kiotrader_load_buffer_state(yyscanner);
+    yyg->yy_did_buffer_switch_on_eof = 1;
 }
 
 /** Removes and deletes the top of the stack, if present.
  *  The next element becomes the new top.
  *  @param yyscanner The scanner object.
  */
-void kiotraderpop_buffer_state (yyscan_t yyscanner)
+void kiotraderpop_buffer_state(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-	if (!YY_CURRENT_BUFFER)
-		return;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+    if (!YY_CURRENT_BUFFER) {
+        return;
+    }
 
-	kiotrader_delete_buffer(YY_CURRENT_BUFFER ,yyscanner);
-	YY_CURRENT_BUFFER_LVALUE = NULL;
-	if (yyg->yy_buffer_stack_top > 0)
-		--yyg->yy_buffer_stack_top;
+    kiotrader_delete_buffer(YY_CURRENT_BUFFER, yyscanner);
+    YY_CURRENT_BUFFER_LVALUE = NULL;
+    if (yyg->yy_buffer_stack_top > 0) {
+        --yyg->yy_buffer_stack_top;
+    }
 
-	if (YY_CURRENT_BUFFER) {
-		kiotrader_load_buffer_state(yyscanner );
-		yyg->yy_did_buffer_switch_on_eof = 1;
-	}
+    if (YY_CURRENT_BUFFER) {
+        kiotrader_load_buffer_state(yyscanner);
+        yyg->yy_did_buffer_switch_on_eof = 1;
+    }
 }
 
 /* Allocates the stack if it does not exist.
  *  Guarantees space for at least one push.
  */
-static void kiotraderensure_buffer_stack (yyscan_t yyscanner)
+static void kiotraderensure_buffer_stack(yyscan_t yyscanner)
 {
-	int num_to_alloc;
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    int num_to_alloc;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
-	if (!yyg->yy_buffer_stack) {
+    if (!yyg->yy_buffer_stack) {
 
-		/* First allocation is just for 2 elements, since we don't know if this
-		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
-		 * immediate realloc on the next call.
+        /* First allocation is just for 2 elements, since we don't know if this
+         * scanner will even need a stack. We use 2 instead of 1 to avoid an
+         * immediate realloc on the next call.
          */
-		num_to_alloc = 1;
-		yyg->yy_buffer_stack = (struct yy_buffer_state**)kiotraderalloc
-								(num_to_alloc * sizeof(struct yy_buffer_state*)
-								, yyscanner);
-		if ( ! yyg->yy_buffer_stack )
-			YY_FATAL_ERROR( "out of dynamic memory in kiotraderensure_buffer_stack()" );
-								  
-		memset(yyg->yy_buffer_stack, 0, num_to_alloc * sizeof(struct yy_buffer_state*));
-				
-		yyg->yy_buffer_stack_max = num_to_alloc;
-		yyg->yy_buffer_stack_top = 0;
-		return;
-	}
+        num_to_alloc = 1;
+        yyg->yy_buffer_stack = (struct yy_buffer_state **)kiotraderalloc
+                               (num_to_alloc * sizeof(struct yy_buffer_state *)
+                                , yyscanner);
+        if (! yyg->yy_buffer_stack) {
+            YY_FATAL_ERROR("out of dynamic memory in kiotraderensure_buffer_stack()");
+        }
 
-	if (yyg->yy_buffer_stack_top >= (yyg->yy_buffer_stack_max) - 1){
+        memset(yyg->yy_buffer_stack, 0, num_to_alloc * sizeof(struct yy_buffer_state *));
 
-		/* Increase the buffer to prepare for a possible push. */
-		int grow_size = 8 /* arbitrary grow size */;
+        yyg->yy_buffer_stack_max = num_to_alloc;
+        yyg->yy_buffer_stack_top = 0;
+        return;
+    }
 
-		num_to_alloc = yyg->yy_buffer_stack_max + grow_size;
-		yyg->yy_buffer_stack = (struct yy_buffer_state**)kiotraderrealloc
-								(yyg->yy_buffer_stack,
-								num_to_alloc * sizeof(struct yy_buffer_state*)
-								, yyscanner);
-		if ( ! yyg->yy_buffer_stack )
-			YY_FATAL_ERROR( "out of dynamic memory in kiotraderensure_buffer_stack()" );
+    if (yyg->yy_buffer_stack_top >= (yyg->yy_buffer_stack_max) - 1) {
 
-		/* zero only the new slots.*/
-		memset(yyg->yy_buffer_stack + yyg->yy_buffer_stack_max, 0, grow_size * sizeof(struct yy_buffer_state*));
-		yyg->yy_buffer_stack_max = num_to_alloc;
-	}
+        /* Increase the buffer to prepare for a possible push. */
+        int grow_size = 8 /* arbitrary grow size */;
+
+        num_to_alloc = yyg->yy_buffer_stack_max + grow_size;
+        yyg->yy_buffer_stack = (struct yy_buffer_state **)kiotraderrealloc
+                               (yyg->yy_buffer_stack,
+                                num_to_alloc * sizeof(struct yy_buffer_state *)
+                                , yyscanner);
+        if (! yyg->yy_buffer_stack) {
+            YY_FATAL_ERROR("out of dynamic memory in kiotraderensure_buffer_stack()");
+        }
+
+        /* zero only the new slots.*/
+        memset(yyg->yy_buffer_stack + yyg->yy_buffer_stack_max, 0, grow_size * sizeof(struct yy_buffer_state *));
+        yyg->yy_buffer_stack_max = num_to_alloc;
+    }
 }
 
 /** Setup the input buffer state to scan directly from a user-specified character buffer.
  * @param base the character buffer
  * @param size the size in bytes of the character buffer
  * @param yyscanner The scanner object.
- * @return the newly allocated buffer state object. 
+ * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE kiotrader_scan_buffer  (char * base, yy_size_t  size , yyscan_t yyscanner)
+YY_BUFFER_STATE kiotrader_scan_buffer(char *base, yy_size_t  size, yyscan_t yyscanner)
 {
-	YY_BUFFER_STATE b;
-    
-	if ( size < 2 ||
-	     base[size-2] != YY_END_OF_BUFFER_CHAR ||
-	     base[size-1] != YY_END_OF_BUFFER_CHAR )
-		/* They forgot to leave room for the EOB's. */
-		return 0;
+    YY_BUFFER_STATE b;
 
-	b = (YY_BUFFER_STATE) kiotraderalloc(sizeof( struct yy_buffer_state ) ,yyscanner );
-	if ( ! b )
-		YY_FATAL_ERROR( "out of dynamic memory in kiotrader_scan_buffer()" );
+    if (size < 2 ||
+            base[size - 2] != YY_END_OF_BUFFER_CHAR ||
+            base[size - 1] != YY_END_OF_BUFFER_CHAR)
+        /* They forgot to leave room for the EOB's. */
+    {
+        return 0;
+    }
 
-	b->yy_buf_size = size - 2;	/* "- 2" to take care of EOB's */
-	b->yy_buf_pos = b->yy_ch_buf = base;
-	b->yy_is_our_buffer = 0;
-	b->yy_input_file = 0;
-	b->yy_n_chars = b->yy_buf_size;
-	b->yy_is_interactive = 0;
-	b->yy_at_bol = 1;
-	b->yy_fill_buffer = 0;
-	b->yy_buffer_status = YY_BUFFER_NEW;
+    b = (YY_BUFFER_STATE) kiotraderalloc(sizeof(struct yy_buffer_state), yyscanner);
+    if (! b) {
+        YY_FATAL_ERROR("out of dynamic memory in kiotrader_scan_buffer()");
+    }
 
-	kiotrader_switch_to_buffer(b ,yyscanner );
+    b->yy_buf_size = size - 2;  /* "- 2" to take care of EOB's */
+    b->yy_buf_pos = b->yy_ch_buf = base;
+    b->yy_is_our_buffer = 0;
+    b->yy_input_file = 0;
+    b->yy_n_chars = b->yy_buf_size;
+    b->yy_is_interactive = 0;
+    b->yy_at_bol = 1;
+    b->yy_fill_buffer = 0;
+    b->yy_buffer_status = YY_BUFFER_NEW;
 
-	return b;
+    kiotrader_switch_to_buffer(b, yyscanner);
+
+    return b;
 }
 
 /** Setup the input buffer state to scan a string. The next call to kiotraderlex() will
@@ -1762,10 +1766,10 @@ YY_BUFFER_STATE kiotrader_scan_buffer  (char * base, yy_size_t  size , yyscan_t 
  * @note If you want to scan bytes that may contain NUL values, then use
  *       kiotrader_scan_bytes() instead.
  */
-YY_BUFFER_STATE kiotrader_scan_string (yyconst char * yystr , yyscan_t yyscanner)
+YY_BUFFER_STATE kiotrader_scan_string(yyconst char *yystr, yyscan_t yyscanner)
 {
-    
-	return kiotrader_scan_bytes(yystr,strlen(yystr) ,yyscanner);
+
+    return kiotrader_scan_bytes(yystr, strlen(yystr), yyscanner);
 }
 
 /** Setup the input buffer state to scan the given bytes. The next call to kiotraderlex() will
@@ -1775,124 +1779,129 @@ YY_BUFFER_STATE kiotrader_scan_string (yyconst char * yystr , yyscan_t yyscanner
  * @param yyscanner The scanner object.
  * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE kiotrader_scan_bytes  (yyconst char * yybytes, int  _yybytes_len , yyscan_t yyscanner)
+YY_BUFFER_STATE kiotrader_scan_bytes(yyconst char *yybytes, int  _yybytes_len, yyscan_t yyscanner)
 {
-	YY_BUFFER_STATE b;
-	char *buf;
-	yy_size_t n;
-	int i;
-    
-	/* Get memory for full buffer, including space for trailing EOB's. */
-	n = _yybytes_len + 2;
-	buf = (char *) kiotraderalloc(n ,yyscanner );
-	if ( ! buf )
-		YY_FATAL_ERROR( "out of dynamic memory in kiotrader_scan_bytes()" );
+    YY_BUFFER_STATE b;
+    char *buf;
+    yy_size_t n;
+    int i;
 
-	for ( i = 0; i < _yybytes_len; ++i )
-		buf[i] = yybytes[i];
+    /* Get memory for full buffer, including space for trailing EOB's. */
+    n = _yybytes_len + 2;
+    buf = (char *) kiotraderalloc(n, yyscanner);
+    if (! buf) {
+        YY_FATAL_ERROR("out of dynamic memory in kiotrader_scan_bytes()");
+    }
 
-	buf[_yybytes_len] = buf[_yybytes_len+1] = YY_END_OF_BUFFER_CHAR;
+    for (i = 0; i < _yybytes_len; ++i) {
+        buf[i] = yybytes[i];
+    }
 
-	b = kiotrader_scan_buffer(buf,n ,yyscanner);
-	if ( ! b )
-		YY_FATAL_ERROR( "bad buffer in kiotrader_scan_bytes()" );
+    buf[_yybytes_len] = buf[_yybytes_len + 1] = YY_END_OF_BUFFER_CHAR;
 
-	/* It's okay to grow etc. this buffer, and we should throw it
-	 * away when we're done.
-	 */
-	b->yy_is_our_buffer = 1;
+    b = kiotrader_scan_buffer(buf, n, yyscanner);
+    if (! b) {
+        YY_FATAL_ERROR("bad buffer in kiotrader_scan_bytes()");
+    }
 
-	return b;
+    /* It's okay to grow etc. this buffer, and we should throw it
+     * away when we're done.
+     */
+    b->yy_is_our_buffer = 1;
+
+    return b;
 }
 
 #ifndef YY_EXIT_FAILURE
 #define YY_EXIT_FAILURE 2
 #endif
 
-static void yy_fatal_error (yyconst char* msg , yyscan_t yyscanner)
+static void yy_fatal_error(yyconst char *msg, yyscan_t yyscanner)
 {
-    	(void) fprintf( stderr, "%s\n", msg );
-	exit( YY_EXIT_FAILURE );
+    (void) fprintf(stderr, "%s\n", msg);
+    exit(YY_EXIT_FAILURE);
 }
 
 /* Redefine yyless() so it works in section 3 code. */
 
 #undef yyless
 #define yyless(n) \
-	do \
-		{ \
-		/* Undo effects of setting up yytext. */ \
+    do \
+    { \
+        /* Undo effects of setting up yytext. */ \
         int yyless_macro_arg = (n); \
         YY_LESS_LINENO(yyless_macro_arg);\
-		yytext[yyleng] = yyg->yy_hold_char; \
-		yyg->yy_c_buf_p = yytext + yyless_macro_arg; \
-		yyg->yy_hold_char = *yyg->yy_c_buf_p; \
-		*yyg->yy_c_buf_p = '\0'; \
-		yyleng = yyless_macro_arg; \
-		} \
-	while ( 0 )
+        yytext[yyleng] = yyg->yy_hold_char; \
+        yyg->yy_c_buf_p = yytext + yyless_macro_arg; \
+        yyg->yy_hold_char = *yyg->yy_c_buf_p; \
+        *yyg->yy_c_buf_p = '\0'; \
+        yyleng = yyless_macro_arg; \
+    } \
+    while ( 0 )
 
 /* Accessor  methods (get/set functions) to struct members. */
 
 /** Get the user-defined data for this scanner.
  * @param yyscanner The scanner object.
  */
-YY_EXTRA_TYPE kiotraderget_extra  (yyscan_t yyscanner)
+YY_EXTRA_TYPE kiotraderget_extra(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
     return yyextra;
 }
 
 /** Get the current line number.
  * @param yyscanner The scanner object.
  */
-int kiotraderget_lineno  (yyscan_t yyscanner)
+int kiotraderget_lineno(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    
-        if (! YY_CURRENT_BUFFER)
-            return 0;
-    
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+
+    if (! YY_CURRENT_BUFFER) {
+        return 0;
+    }
+
     return yylineno;
 }
 
 /** Get the current column number.
  * @param yyscanner The scanner object.
  */
-int kiotraderget_column  (yyscan_t yyscanner)
+int kiotraderget_column(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    
-        if (! YY_CURRENT_BUFFER)
-            return 0;
-    
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+
+    if (! YY_CURRENT_BUFFER) {
+        return 0;
+    }
+
     return yycolumn;
 }
 
 /** Get the input stream.
  * @param yyscanner The scanner object.
  */
-FILE *kiotraderget_in  (yyscan_t yyscanner)
+FILE *kiotraderget_in(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
     return yyin;
 }
 
 /** Get the output stream.
  * @param yyscanner The scanner object.
  */
-FILE *kiotraderget_out  (yyscan_t yyscanner)
+FILE *kiotraderget_out(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
     return yyout;
 }
 
 /** Get the length of the current token.
  * @param yyscanner The scanner object.
  */
-int kiotraderget_leng  (yyscan_t yyscanner)
+int kiotraderget_leng(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
     return yyleng;
 }
 
@@ -1900,9 +1909,9 @@ int kiotraderget_leng  (yyscan_t yyscanner)
  * @param yyscanner The scanner object.
  */
 
-char *kiotraderget_text  (yyscan_t yyscanner)
+char *kiotraderget_text(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
     return yytext;
 }
 
@@ -1910,24 +1919,25 @@ char *kiotraderget_text  (yyscan_t yyscanner)
  * @param user_defined The data to be associated with this scanner.
  * @param yyscanner The scanner object.
  */
-void kiotraderset_extra (YY_EXTRA_TYPE  user_defined , yyscan_t yyscanner)
+void kiotraderset_extra(YY_EXTRA_TYPE  user_defined, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    yyextra = user_defined ;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+    yyextra = user_defined;
 }
 
 /** Set the current line number.
  * @param line_number
  * @param yyscanner The scanner object.
  */
-void kiotraderset_lineno (int  line_number , yyscan_t yyscanner)
+void kiotraderset_lineno(int  line_number, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
-        /* lineno is only valid if an input buffer exists. */
-        if (! YY_CURRENT_BUFFER )
-           yy_fatal_error( "kiotraderset_lineno called with no buffer" , yyscanner); 
-    
+    /* lineno is only valid if an input buffer exists. */
+    if (! YY_CURRENT_BUFFER) {
+        yy_fatal_error("kiotraderset_lineno called with no buffer", yyscanner);
+    }
+
     yylineno = line_number;
 }
 
@@ -1935,14 +1945,15 @@ void kiotraderset_lineno (int  line_number , yyscan_t yyscanner)
  * @param line_number
  * @param yyscanner The scanner object.
  */
-void kiotraderset_column (int  column_no , yyscan_t yyscanner)
+void kiotraderset_column(int  column_no, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
-        /* column is only valid if an input buffer exists. */
-        if (! YY_CURRENT_BUFFER )
-           yy_fatal_error( "kiotraderset_column called with no buffer" , yyscanner); 
-    
+    /* column is only valid if an input buffer exists. */
+    if (! YY_CURRENT_BUFFER) {
+        yy_fatal_error("kiotraderset_column called with no buffer", yyscanner);
+    }
+
     yycolumn = column_no;
 }
 
@@ -1952,41 +1963,41 @@ void kiotraderset_column (int  column_no , yyscan_t yyscanner)
  * @param yyscanner The scanner object.
  * @see kiotrader_switch_to_buffer
  */
-void kiotraderset_in (FILE *  in_str , yyscan_t yyscanner)
+void kiotraderset_in(FILE   *in_str, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    yyin = in_str ;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+    yyin = in_str;
 }
 
-void kiotraderset_out (FILE *  out_str , yyscan_t yyscanner)
+void kiotraderset_out(FILE   *out_str, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    yyout = out_str ;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+    yyout = out_str;
 }
 
-int kiotraderget_debug  (yyscan_t yyscanner)
+int kiotraderget_debug(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
     return yy_flex_debug;
 }
 
-void kiotraderset_debug (int  bdebug , yyscan_t yyscanner)
+void kiotraderset_debug(int  bdebug, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
-    yy_flex_debug = bdebug ;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
+    yy_flex_debug = bdebug;
 }
 
 /* Accessor methods for yylval and yylloc */
 
-YYSTYPE * kiotraderget_lval  (yyscan_t yyscanner)
+YYSTYPE *kiotraderget_lval(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
     return yylval;
 }
 
-void kiotraderset_lval (YYSTYPE *  yylval_param , yyscan_t yyscanner)
+void kiotraderset_lval(YYSTYPE   *yylval_param, yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
     yylval = yylval_param;
 }
 
@@ -1997,25 +2008,25 @@ void kiotraderset_lval (YYSTYPE *  yylval_param , yyscan_t yyscanner)
  * That's why we explicitly handle the declaration, instead of using our macros.
  */
 
-int kiotraderlex_init(yyscan_t* ptr_yy_globals)
+int kiotraderlex_init(yyscan_t *ptr_yy_globals)
 
 {
-    if (ptr_yy_globals == NULL){
+    if (ptr_yy_globals == NULL) {
         errno = EINVAL;
         return 1;
     }
 
-    *ptr_yy_globals = (yyscan_t) kiotraderalloc ( sizeof( struct yyguts_t ), NULL );
+    *ptr_yy_globals = (yyscan_t) kiotraderalloc(sizeof(struct yyguts_t), NULL);
 
-    if (*ptr_yy_globals == NULL){
+    if (*ptr_yy_globals == NULL) {
         errno = ENOMEM;
         return 1;
     }
 
     /* By setting to 0xAA, we expose bugs in yy_init_globals. Leave at 0x00 for releases. */
-    memset(*ptr_yy_globals,0x00,sizeof(struct yyguts_t));
+    memset(*ptr_yy_globals, 0x00, sizeof(struct yyguts_t));
 
-    return yy_init_globals ( *ptr_yy_globals );
+    return yy_init_globals(*ptr_yy_globals);
 }
 
 /* kiotraderlex_init_extra has the same functionality as kiotraderlex_init, but follows the
@@ -2026,37 +2037,37 @@ int kiotraderlex_init(yyscan_t* ptr_yy_globals)
  * the yyextra field.
  */
 
-int kiotraderlex_init_extra(YY_EXTRA_TYPE yy_user_defined,yyscan_t* ptr_yy_globals )
+int kiotraderlex_init_extra(YY_EXTRA_TYPE yy_user_defined, yyscan_t *ptr_yy_globals)
 
 {
     struct yyguts_t dummy_yyguts;
 
-    kiotraderset_extra (yy_user_defined, &dummy_yyguts);
+    kiotraderset_extra(yy_user_defined, &dummy_yyguts);
 
-    if (ptr_yy_globals == NULL){
+    if (ptr_yy_globals == NULL) {
         errno = EINVAL;
         return 1;
     }
-	
-    *ptr_yy_globals = (yyscan_t) kiotraderalloc ( sizeof( struct yyguts_t ), &dummy_yyguts );
-	
-    if (*ptr_yy_globals == NULL){
+
+    *ptr_yy_globals = (yyscan_t) kiotraderalloc(sizeof(struct yyguts_t), &dummy_yyguts);
+
+    if (*ptr_yy_globals == NULL) {
         errno = ENOMEM;
         return 1;
     }
-    
+
     /* By setting to 0xAA, we expose bugs in
     yy_init_globals. Leave at 0x00 for releases. */
-    memset(*ptr_yy_globals,0x00,sizeof(struct yyguts_t));
-    
-    kiotraderset_extra (yy_user_defined, *ptr_yy_globals);
-    
-    return yy_init_globals ( *ptr_yy_globals );
+    memset(*ptr_yy_globals, 0x00, sizeof(struct yyguts_t));
+
+    kiotraderset_extra(yy_user_defined, *ptr_yy_globals);
+
+    return yy_init_globals(*ptr_yy_globals);
 }
 
-static int yy_init_globals (yyscan_t yyscanner)
+static int yy_init_globals(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
     /* Initialization is the same as for the non-reentrant scanner.
      * This function is called from kiotraderlex_destroy(), so don't allocate here.
      */
@@ -2072,7 +2083,7 @@ static int yy_init_globals (yyscan_t yyscanner)
     yyg->yy_start_stack_depth = 0;
     yyg->yy_start_stack =  NULL;
 
-/* Defined in main.c */
+    /* Defined in main.c */
 #ifdef YY_STDINIT
     yyin = stdin;
     yyout = stdout;
@@ -2088,31 +2099,31 @@ static int yy_init_globals (yyscan_t yyscanner)
 }
 
 /* kiotraderlex_destroy is for both reentrant and non-reentrant scanners. */
-int kiotraderlex_destroy  (yyscan_t yyscanner)
+int kiotraderlex_destroy(yyscan_t yyscanner)
 {
-    struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
+    struct yyguts_t *yyg = (struct yyguts_t *)yyscanner;
 
     /* Pop the buffer stack, destroying each element. */
-	while(YY_CURRENT_BUFFER){
-		kiotrader_delete_buffer(YY_CURRENT_BUFFER ,yyscanner );
-		YY_CURRENT_BUFFER_LVALUE = NULL;
-		kiotraderpop_buffer_state(yyscanner);
-	}
+    while (YY_CURRENT_BUFFER) {
+        kiotrader_delete_buffer(YY_CURRENT_BUFFER, yyscanner);
+        YY_CURRENT_BUFFER_LVALUE = NULL;
+        kiotraderpop_buffer_state(yyscanner);
+    }
 
-	/* Destroy the stack itself. */
-	kiotraderfree(yyg->yy_buffer_stack ,yyscanner);
-	yyg->yy_buffer_stack = NULL;
+    /* Destroy the stack itself. */
+    kiotraderfree(yyg->yy_buffer_stack, yyscanner);
+    yyg->yy_buffer_stack = NULL;
 
     /* Destroy the start condition stack. */
-        kiotraderfree(yyg->yy_start_stack ,yyscanner );
-        yyg->yy_start_stack = NULL;
+    kiotraderfree(yyg->yy_start_stack, yyscanner);
+    yyg->yy_start_stack = NULL;
 
     /* Reset the globals. This is important in a non-reentrant scanner so the next time
      * kiotraderlex() is called, initialization will occur. */
-    yy_init_globals( yyscanner);
+    yy_init_globals(yyscanner);
 
     /* Destroy the main struct (reentrant only). */
-    kiotraderfree ( yyscanner , yyscanner );
+    kiotraderfree(yyscanner, yyscanner);
     yyscanner = NULL;
     return 0;
 }
@@ -2122,149 +2133,144 @@ int kiotraderlex_destroy  (yyscan_t yyscanner)
  */
 
 #ifndef yytext_ptr
-static void yy_flex_strncpy (char* s1, yyconst char * s2, int n , yyscan_t yyscanner)
+static void yy_flex_strncpy(char *s1, yyconst char *s2, int n, yyscan_t yyscanner)
 {
-	register int i;
-	for ( i = 0; i < n; ++i )
-		s1[i] = s2[i];
+    register int i;
+    for (i = 0; i < n; ++i) {
+        s1[i] = s2[i];
+    }
 }
 #endif
 
 #ifdef YY_NEED_STRLEN
-static int yy_flex_strlen (yyconst char * s , yyscan_t yyscanner)
+static int yy_flex_strlen(yyconst char *s, yyscan_t yyscanner)
 {
-	register int n;
-	for ( n = 0; s[n]; ++n )
-		;
+    register int n;
+    for (n = 0; s[n]; ++n)
+        ;
 
-	return n;
+    return n;
 }
 #endif
 
-void *kiotraderalloc (yy_size_t  size , yyscan_t yyscanner)
+void *kiotraderalloc(yy_size_t  size, yyscan_t yyscanner)
 {
-	return (void *) malloc( size );
+    return (void *) malloc(size);
 }
 
-void *kiotraderrealloc  (void * ptr, yy_size_t  size , yyscan_t yyscanner)
+void *kiotraderrealloc(void *ptr, yy_size_t  size, yyscan_t yyscanner)
 {
-	/* The cast to (char *) in the following accommodates both
-	 * implementations that use char* generic pointers, and those
-	 * that use void* generic pointers.  It works with the latter
-	 * because both ANSI C and C++ allow castless assignment from
-	 * any pointer type to void*, and deal with argument conversions
-	 * as though doing an assignment.
-	 */
-	return (void *) realloc( (char *) ptr, size );
+    /* The cast to (char *) in the following accommodates both
+     * implementations that use char* generic pointers, and those
+     * that use void* generic pointers.  It works with the latter
+     * because both ANSI C and C++ allow castless assignment from
+     * any pointer type to void*, and deal with argument conversions
+     * as though doing an assignment.
+     */
+    return (void *) realloc((char *) ptr, size);
 }
 
-void kiotraderfree (void * ptr , yyscan_t yyscanner)
+void kiotraderfree(void *ptr, yyscan_t yyscanner)
 {
-	free( (char *) ptr );	/* see kiotraderrealloc() for (char *) cast */
+    free((char *) ptr);      /* see kiotraderrealloc() for (char *) cast */
 }
 
 #define YYTABLES_NAME "yytables"
 
 #line 69 "lex.l"
 
-
-
-char* KTraderParse_putSymbolInBrackets( char *_name )
+char *KTraderParse_putSymbolInBrackets(char *_name)
 {
-  int l = strlen( _name )-1;
-  char *p = (char *)malloc( l );
-  if (p != NULL)
-  {
-    strncpy( p, _name+1, l-1 );
-    p[l-1] = 0;
-  }
+    int l = strlen(_name) - 1;
+    char *p = (char *)malloc(l);
+    if (p != NULL) {
+        strncpy(p, _name + 1, l - 1);
+        p[l - 1] = 0;
+    }
 
-  return p;
+    return p;
 }
 
-char *KTraderParse_putSymbol( char *_name )
+char *KTraderParse_putSymbol(char *_name)
 {
-  char *p = (char*)malloc( strlen( _name ) + 1 );
-  if (p != NULL)
-  {
-      strcpy( p, _name );
-  }
-  return p;
+    char *p = (char *)malloc(strlen(_name) + 1);
+    if (p != NULL) {
+        strcpy(p, _name);
+    }
+    return p;
 }
 
-char* KTraderParse_putString( char *_str )
+char *KTraderParse_putString(char *_str)
 {
-  int l = strlen( _str );
-  char *p = (char*)malloc( l );
-  char *s = _str + 1;
-  char *d = p;
+    int l = strlen(_str);
+    char *p = (char *)malloc(l);
+    char *s = _str + 1;
+    char *d = p;
 
-  if (p == NULL)
-    return NULL;
+    if (p == NULL) {
+        return NULL;
+    }
 
-  while ( s != _str + l - 1 )
-  {
-     if ( *s != '\\' )
-        *d++ = *s++;
-     else
-     {
-        s++;
-        if ( s != _str + l - 1 )
-        {
-          if ( *s == '\\' )
-             *d++ = '\\';
-           else if ( *s == 'n' )
-             *d++ = '\n';
-           else if ( *s == 'r' )
-             *d++ = '\r';
-           else if ( *s == 't' )
-             *d++ = '\t';
-           s++;
+    while (s != _str + l - 1) {
+        if (*s != '\\') {
+            *d++ = *s++;
+        } else {
+            s++;
+            if (s != _str + l - 1) {
+                if (*s == '\\') {
+                    *d++ = '\\';
+                } else if (*s == 'n') {
+                    *d++ = '\n';
+                } else if (*s == 'r') {
+                    *d++ = '\r';
+                } else if (*s == 't') {
+                    *d++ = '\t';
+                }
+                s++;
+            }
         }
-     }
-  }
-  *d = 0;
-  return p;
+    }
+    *d = 0;
+    return p;
 }
 
 /* Sufficient replacement for atof() to parse [0-9]*\.[0-9]+
    because atof() consults locale for decimal separator,
    while we need it always to be the dot. */
-double KTraderParse_putSimplePositiveFloat( char *_str )
+double KTraderParse_putSimplePositiveFloat(char *_str)
 {
-  char *p;
-  int f, g, d;
+    char *p;
+    int f, g, d;
 
-  f = 0;
-  p = _str;
-  while ( *p >= '0' && *p <= '9' )
-  {
-    f = f * 10 + ( *p - '0' );
+    f = 0;
+    p = _str;
+    while (*p >= '0' && *p <= '9') {
+        f = f * 10 + (*p - '0');
+        p++;
+    }
+    if (*p != '.') {
+        return (double) f;
+    }
     p++;
-  }
-  if ( *p != '.' )
-    return (double) f;
-  p++;
-  g = 0;
-  d = 1;
-  while ( *p >= '0' && *p <= '9' )
-  {
-    g = g * 10 + ( *p - '0' );
-    d *= 10;
-    p++;
-  }
-  return ( (double) ( f * d + g ) ) / d;
+    g = 0;
+    d = 1;
+    while (*p >= '0' && *p <= '9') {
+        g = g * 10 + (*p - '0');
+        d *= 10;
+        p++;
+    }
+    return ((double)(f * d + g)) / d;
 }
 
-void KTraderParse_initFlex( const char *_code, yyscan_t _scanner )
+void KTraderParse_initFlex(const char *_code, yyscan_t _scanner)
 {
-  kiotrader_switch_to_buffer(kiotrader_scan_string(_code,_scanner ),_scanner );
+    kiotrader_switch_to_buffer(kiotrader_scan_string(_code, _scanner), _scanner);
 }
 
-int kiotraderwrap(yyscan_t _scanner )
+int kiotraderwrap(yyscan_t _scanner)
 {
-  struct yyguts_t * yyg = (struct yyguts_t*)_scanner;
-  kiotrader_delete_buffer(YY_CURRENT_BUFFER,_scanner );
-  return 1;
+    struct yyguts_t *yyg = (struct yyguts_t *)_scanner;
+    kiotrader_delete_buffer(YY_CURRENT_BUFFER, _scanner);
+    return 1;
 }
 

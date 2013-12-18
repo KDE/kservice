@@ -39,60 +39,60 @@
 class KSERVICE_EXPORT KMemFile : public QIODevice
 {
 public:
-  /**
-   * ctor
-   *
-   * @param filename the file to load into memory
-   * @param parent our parent
-   */
-  explicit KMemFile ( const QString &filename, QObject *parent = 0 );
-  /**
-   * dtor
-   */
-  virtual ~KMemFile();
-  /**
-   * closes the KMemFile
-   *
-   * @reimp
-   */
-  virtual void close ();
-  /**
-   * As KMemFile is a random access device, it returns false
-   *
-   * @reimp
-   */
-  virtual bool isSequential () const;
-  /**
-   * @reimp
-   * @param mode only QIODevice::ReadOnly is accepted
-   */
-  virtual bool open ( OpenMode mode );
-  /**
-   * Sets the current read/write position to pos
-   * @reimp
-   * @param pos the new read/write position
-   */
-  virtual bool seek ( qint64 pos );
-  /**
-   * Returns the size of the file
-   * @reimp
-   */
-  virtual qint64 size () const;
-  /**
-   * This static function updates the internal information about the file
-   * loaded into shared memory. The next time the file is opened, the file is
-   * reread from the file system.
-   */
-  static void fileContentsChanged ( const QString &filename );
+    /**
+     * ctor
+     *
+     * @param filename the file to load into memory
+     * @param parent our parent
+     */
+    explicit KMemFile(const QString &filename, QObject *parent = 0);
+    /**
+     * dtor
+     */
+    virtual ~KMemFile();
+    /**
+     * closes the KMemFile
+     *
+     * @reimp
+     */
+    virtual void close();
+    /**
+     * As KMemFile is a random access device, it returns false
+     *
+     * @reimp
+     */
+    virtual bool isSequential() const;
+    /**
+     * @reimp
+     * @param mode only QIODevice::ReadOnly is accepted
+     */
+    virtual bool open(OpenMode mode);
+    /**
+     * Sets the current read/write position to pos
+     * @reimp
+     * @param pos the new read/write position
+     */
+    virtual bool seek(qint64 pos);
+    /**
+     * Returns the size of the file
+     * @reimp
+     */
+    virtual qint64 size() const;
+    /**
+     * This static function updates the internal information about the file
+     * loaded into shared memory. The next time the file is opened, the file is
+     * reread from the file system.
+     */
+    static void fileContentsChanged(const QString &filename);
 protected:
-  /** @reimp */
-  virtual qint64 readData ( char * data, qint64 maxSize );
-  /** @reimp */
-  virtual qint64 writeData ( const char * data, qint64 maxSize );
+    /** @reimp */
+    virtual qint64 readData(char *data, qint64 maxSize);
+    /** @reimp */
+    virtual qint64 writeData(const char *data, qint64 maxSize);
 private:
-  class Private;
-  friend class Private;
-  Private * const d;
+    class Private;
+    friend class Private;
+    Private *const d;
 };
 
 #endif //QT_NO_SHAREDMEMORY

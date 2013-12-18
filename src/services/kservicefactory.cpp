@@ -23,16 +23,15 @@
 #include "kservice.h"
 #include <QDebug>
 
-
 extern int servicesDebugArea();
 
 Q_GLOBAL_STATIC(KSycocaFactorySingleton<KServiceFactory>, kServiceFactoryInstance)
 
 KServiceFactory::KServiceFactory()
-    : KSycocaFactory( KST_KServiceFactory ),
-    m_nameDict(0),
-    m_relNameDict(0),
-    m_menuIdDict(0)
+    : KSycocaFactory(KST_KServiceFactory),
+      m_nameDict(0),
+      m_relNameDict(0),
+      m_menuIdDict(0)
 {
     kServiceFactoryInstance()->instanceCreated(this);
     m_offerListOffset = 0;
@@ -40,10 +39,11 @@ KServiceFactory::KServiceFactory()
     m_relNameDictOffset = 0;
     m_menuIdDictOffset = 0;
     if (!KSycoca::self()->isBuilding()) {
-        QDataStream* str = stream();
+        QDataStream *str = stream();
         Q_ASSERT(str);
-        if (!str)
+        if (!str) {
             return;
+        }
         // Read Header
         qint32 i;
         (*str) >> i;
@@ -68,28 +68,33 @@ KServiceFactory::KServiceFactory()
 
 KServiceFactory::~KServiceFactory()
 {
-    if (kServiceFactoryInstance())
+    if (kServiceFactoryInstance()) {
         kServiceFactoryInstance()->instanceDestroyed(this);
+    }
     delete m_nameDict;
     delete m_relNameDict;
     delete m_menuIdDict;
 }
 
-KServiceFactory * KServiceFactory::self()
+KServiceFactory *KServiceFactory::self()
 {
     return kServiceFactoryInstance()->self();
 }
 
 KService::Ptr KServiceFactory::findServiceByName(const QString &_name)
 {
-    if (!sycocaDict()) return KService::Ptr(); // Error!
+    if (!sycocaDict()) {
+        return KService::Ptr();    // Error!
+    }
 
     // Warning : this assumes we're NOT building a database
     // But since findServiceByName isn't called in that case...
     // [ see KServiceTypeFactory for how to do it if needed ]
 
-    int offset = sycocaDict()->find_string( _name );
-    if (!offset) return KService::Ptr(); // Not found
+    int offset = sycocaDict()->find_string(_name);
+    if (!offset) {
+        return KService::Ptr();    // Not found
+    }
 
     KService::Ptr newService(createEntry(offset));
 
@@ -103,13 +108,17 @@ KService::Ptr KServiceFactory::findServiceByName(const QString &_name)
 
 KService::Ptr KServiceFactory::findServiceByDesktopName(const QString &_name)
 {
-    if (!m_nameDict) return KService::Ptr(); // Error!
+    if (!m_nameDict) {
+        return KService::Ptr();    // Error!
+    }
 
     // Warning : this assumes we're NOT building a database
     // KBuildServiceFactory reimplements it for the case where we are building one
 
-    int offset = m_nameDict->find_string( _name );
-    if (!offset) return KService::Ptr(); // Not found
+    int offset = m_nameDict->find_string(_name);
+    if (!offset) {
+        return KService::Ptr();    // Not found
+    }
 
     KService::Ptr newService(createEntry(offset));
 
@@ -123,12 +132,14 @@ KService::Ptr KServiceFactory::findServiceByDesktopName(const QString &_name)
 
 KService::Ptr KServiceFactory::findServiceByDesktopPath(const QString &_name)
 {
-    if (!m_relNameDict) return KService::Ptr(); // Error!
+    if (!m_relNameDict) {
+        return KService::Ptr();    // Error!
+    }
 
     // Warning : this assumes we're NOT building a database
     // KBuildServiceFactory reimplements it for the case where we are building one
 
-    int offset = m_relNameDict->find_string( _name );
+    int offset = m_relNameDict->find_string(_name);
     if (!offset) {
         //qDebug() << "findServiceByDesktopPath:" << _name << "not found";
         return KService::Ptr(); // Not found
@@ -150,13 +161,17 @@ KService::Ptr KServiceFactory::findServiceByDesktopPath(const QString &_name)
 
 KService::Ptr KServiceFactory::findServiceByMenuId(const QString &_menuId)
 {
-    if (!m_menuIdDict) return KService::Ptr(); // Error!
+    if (!m_menuIdDict) {
+        return KService::Ptr();    // Error!
+    }
 
     // Warning : this assumes we're NOT building a database
     // KBuildServiceFactory reimplements it for the case where we are building one
 
-    int offset = m_menuIdDict->find_string( _menuId );
-    if (!offset) return KService::Ptr(); // Not found
+    int offset = m_menuIdDict->find_string(_menuId);
+    if (!offset) {
+        return KService::Ptr();    // Not found
+    }
 
     KService::Ptr newService(createEntry(offset));
 
@@ -168,12 +183,12 @@ KService::Ptr KServiceFactory::findServiceByMenuId(const QString &_menuId)
     return newService;
 }
 
-KService* KServiceFactory::createEntry(int offset) const
+KService *KServiceFactory::createEntry(int offset) const
 {
-    KService * newEntry = 0L;
+    KService *newEntry = 0L;
     KSycocaType type;
     QDataStream *str = KSycoca::self()->findEntry(offset, type);
-    switch(type) {
+    switch (type) {
     case KST_KService:
         newEntry = new KService(*str, offset);
         break;
@@ -195,117 +210,120 @@ KService::List KServiceFactory::allServices()
     const KSycocaEntry::List list = allEntries();
     KSycocaEntry::List::const_iterator it = list.begin();
     const KSycocaEntry::List::const_iterator end = list.end();
-    for( ; it != end; ++it ) {
+    for (; it != end; ++it) {
         const KSycocaEntry::Ptr entry = *it;
-        if ( entry->isType( KST_KService ) )
-            result.append( QExplicitlySharedDataPointer<KService>( entry ) );
+        if (entry->isType(KST_KService)) {
+            result.append(QExplicitlySharedDataPointer<KService>(entry));
+        }
     }
     return result;
 }
 
-QList<KServiceOffer> KServiceFactory::offers( int serviceTypeOffset, int serviceOffersOffset )
+QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceOffersOffset)
 {
     QList<KServiceOffer> list;
 
     // Jump to the offer list
-    QDataStream* str = stream();
-    str->device()->seek( m_offerListOffset + serviceOffersOffset );
-
-    qint32 aServiceTypeOffset, aServiceOffset, initialPreference, mimeTypeInheritanceLevel;
-    while (true)
-    {
-        (*str) >> aServiceTypeOffset;
-        if ( aServiceTypeOffset ) {
-            (*str) >> aServiceOffset;
-            (*str) >> initialPreference;
-            (*str) >> mimeTypeInheritanceLevel;
-            if ( aServiceTypeOffset == serviceTypeOffset ) {
-                // Save stream position !
-                const int savedPos = str->device()->pos();
-                // Create Service
-                KService * serv = createEntry( aServiceOffset );
-                if (serv) {
-                    KService::Ptr servPtr( serv );
-                    list.append( KServiceOffer( servPtr, initialPreference, mimeTypeInheritanceLevel, servPtr->allowAsDefault() ) );
-                }
-                // Restore position
-                str->device()->seek( savedPos );
-            } else
-                break; // too far
-        }
-        else
-            break; // 0 => end of list
-    }
-    return list;
-}
-
-KService::List KServiceFactory::serviceOffers( int serviceTypeOffset, int serviceOffersOffset )
-{
-    KService::List list;
-
-    // Jump to the offer list
-    QDataStream* str = stream();
-    str->device()->seek( m_offerListOffset + serviceOffersOffset );
+    QDataStream *str = stream();
+    str->device()->seek(m_offerListOffset + serviceOffersOffset);
 
     qint32 aServiceTypeOffset, aServiceOffset, initialPreference, mimeTypeInheritanceLevel;
     while (true) {
         (*str) >> aServiceTypeOffset;
-        if ( aServiceTypeOffset )
-        {
+        if (aServiceTypeOffset) {
             (*str) >> aServiceOffset;
             (*str) >> initialPreference;
             (*str) >> mimeTypeInheritanceLevel;
-            if ( aServiceTypeOffset == serviceTypeOffset )
-            {
+            if (aServiceTypeOffset == serviceTypeOffset) {
                 // Save stream position !
                 const int savedPos = str->device()->pos();
-                // Create service
-                KService * serv = createEntry( aServiceOffset );
-                if (serv)
-                    list.append( KService::Ptr( serv ) );
+                // Create Service
+                KService *serv = createEntry(aServiceOffset);
+                if (serv) {
+                    KService::Ptr servPtr(serv);
+                    list.append(KServiceOffer(servPtr, initialPreference, mimeTypeInheritanceLevel, servPtr->allowAsDefault()));
+                }
                 // Restore position
-                str->device()->seek( savedPos );
-            } else
-                break; // too far
+                str->device()->seek(savedPos);
+            } else {
+                break;    // too far
+            }
+        } else {
+            break;    // 0 => end of list
         }
-        else
-            break; // 0 => end of list
     }
     return list;
 }
 
-bool KServiceFactory::hasOffer( int serviceTypeOffset, int serviceOffersOffset, int testedServiceOffset )
+KService::List KServiceFactory::serviceOffers(int serviceTypeOffset, int serviceOffersOffset)
 {
-    // Save stream position
-    QDataStream* str = stream();
-    const int savedPos = str->device()->pos();
+    KService::List list;
 
     // Jump to the offer list
-    str->device()->seek( m_offerListOffset + serviceOffersOffset );
-    bool found = false;
+    QDataStream *str = stream();
+    str->device()->seek(m_offerListOffset + serviceOffersOffset);
+
     qint32 aServiceTypeOffset, aServiceOffset, initialPreference, mimeTypeInheritanceLevel;
-    while (!found)
-    {
+    while (true) {
         (*str) >> aServiceTypeOffset;
-        if ( aServiceTypeOffset ) {
+        if (aServiceTypeOffset) {
             (*str) >> aServiceOffset;
             (*str) >> initialPreference;
             (*str) >> mimeTypeInheritanceLevel;
-            if ( aServiceTypeOffset == serviceTypeOffset )
-            {
-                if( aServiceOffset == testedServiceOffset )
-                    found = true;
-            } else
-                break; // too far
+            if (aServiceTypeOffset == serviceTypeOffset) {
+                // Save stream position !
+                const int savedPos = str->device()->pos();
+                // Create service
+                KService *serv = createEntry(aServiceOffset);
+                if (serv) {
+                    list.append(KService::Ptr(serv));
+                }
+                // Restore position
+                str->device()->seek(savedPos);
+            } else {
+                break;    // too far
+            }
+        } else {
+            break;    // 0 => end of list
         }
-        else
-            break; // 0 => end of list
+    }
+    return list;
+}
+
+bool KServiceFactory::hasOffer(int serviceTypeOffset, int serviceOffersOffset, int testedServiceOffset)
+{
+    // Save stream position
+    QDataStream *str = stream();
+    const int savedPos = str->device()->pos();
+
+    // Jump to the offer list
+    str->device()->seek(m_offerListOffset + serviceOffersOffset);
+    bool found = false;
+    qint32 aServiceTypeOffset, aServiceOffset, initialPreference, mimeTypeInheritanceLevel;
+    while (!found) {
+        (*str) >> aServiceTypeOffset;
+        if (aServiceTypeOffset) {
+            (*str) >> aServiceOffset;
+            (*str) >> initialPreference;
+            (*str) >> mimeTypeInheritanceLevel;
+            if (aServiceTypeOffset == serviceTypeOffset) {
+                if (aServiceOffset == testedServiceOffset) {
+                    found = true;
+                }
+            } else {
+                break;    // too far
+            }
+        } else {
+            break;    // 0 => end of list
+        }
     }
     // Restore position
-    str->device()->seek( savedPos );
+    str->device()->seek(savedPos);
     return found;
 }
 
-void KServiceFactory::virtual_hook( int id, void* data )
-{ KSycocaFactory::virtual_hook( id, data ); }
+void KServiceFactory::virtual_hook(int id, void *data)
+{
+    KSycocaFactory::virtual_hook(id, data);
+}
 

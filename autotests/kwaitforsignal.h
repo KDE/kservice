@@ -38,7 +38,10 @@ public:
         }
         m_loop.exec();
     }
-    bool signalEmitted() const { return m_emitted; }
+    bool signalEmitted() const
+    {
+        return m_emitted;
+    }
 
 private Q_SLOTS:
     void slotSignalEmitted()
@@ -49,11 +52,10 @@ private Q_SLOTS:
         m_loop.quit();
     }
 private:
-    QObject* m_obj;
+    QObject *m_obj;
     bool m_emitted;
     QEventLoop m_loop;
     QTimer m_timer;
 };
-
 
 #endif

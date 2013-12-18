@@ -31,8 +31,9 @@ using namespace KTraderParse;
 
 // --------------------------------------------------
 
-namespace KServiceTypeProfile {
-    KServiceOfferList sortServiceTypeOffers( const KServiceOfferList& list, const QString& servicetype );
+namespace KServiceTypeProfile
+{
+KServiceOfferList sortServiceTypeOffers(const KServiceOfferList &list, const QString &servicetype);
 }
 
 class KServiceTypeTraderSingleton
@@ -43,7 +44,7 @@ public:
 
 Q_GLOBAL_STATIC(KServiceTypeTraderSingleton, s_globalServiceTypeTrader)
 
-KServiceTypeTrader* KServiceTypeTrader::self()
+KServiceTypeTrader *KServiceTypeTrader::self()
 {
     return &s_globalServiceTypeTrader()->instance;
 }
@@ -58,14 +59,15 @@ KServiceTypeTrader::~KServiceTypeTrader()
 }
 
 // shared with KMimeTypeTrader
-void KServiceTypeTrader::applyConstraints( KService::List& lst,
-                                const QString& constraint )
+void KServiceTypeTrader::applyConstraints(KService::List &lst,
+        const QString &constraint)
 {
-    if ( lst.isEmpty() || constraint.isEmpty() )
+    if (lst.isEmpty() || constraint.isEmpty()) {
         return;
+    }
 
-    const ParseTreeBase::Ptr constr = parseConstraints( constraint ); // for ownership
-    const ParseTreeBase* pConstraintTree = constr.data(); // for speed
+    const ParseTreeBase::Ptr constr = parseConstraints(constraint);   // for ownership
+    const ParseTreeBase *pConstraintTree = constr.data(); // for speed
 
     if (!constr) { // parse error
         lst.clear();
@@ -73,108 +75,111 @@ void KServiceTypeTrader::applyConstraints( KService::List& lst,
         // Find all services matching the constraint
         // and remove the other ones
         KService::List::iterator it = lst.begin();
-        while( it != lst.end() )
-        {
-            if ( matchConstraint( pConstraintTree, (*it), lst ) != 1 )
-                it = lst.erase( it );
-            else
+        while (it != lst.end()) {
+            if (matchConstraint(pConstraintTree, (*it), lst) != 1) {
+                it = lst.erase(it);
+            } else {
                 ++it;
+            }
         }
     }
 }
 
 #if 0
-static void dumpOfferList( const KServiceOfferList& offers )
+static void dumpOfferList(const KServiceOfferList &offers)
 {
     // qDebug() << "Sorted list:";
     OfferList::Iterator itOff = offers.begin();
-    for( ; itOff != offers.end(); ++itOff )
+    for (; itOff != offers.end(); ++itOff)
         // qDebug() << (*itOff).service()->name() << " allow-as-default=" << (*itOff).allowAsDefault() << " preference=" << (*itOff).preference();
-}
+    }
 #endif
 
-KServiceOfferList KServiceTypeTrader::weightedOffers( const QString& serviceType ) // static, internal
+KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType)   // static, internal
 {
     //qDebug() << "KServiceTypeTrader::weightedOffers( " << serviceType << " )";
 
-    KServiceType::Ptr servTypePtr = KServiceTypeFactory::self()->findServiceTypeByName( serviceType );
-    if ( !servTypePtr ) {
+    KServiceType::Ptr servTypePtr = KServiceTypeFactory::self()->findServiceTypeByName(serviceType);
+    if (!servTypePtr) {
         qWarning() << "KServiceTypeTrader: serviceType" << serviceType << "not found";
         return KServiceOfferList();
     }
-    if ( servTypePtr->serviceOffersOffset() == -1 )  // no offers in ksycoca
+    if (servTypePtr->serviceOffersOffset() == -1) {  // no offers in ksycoca
         return KServiceOfferList();
+    }
 
     // First, get all offers known to ksycoca.
-    const KServiceOfferList services = KServiceFactory::self()->offers( servTypePtr->offset(), servTypePtr->serviceOffersOffset() );
+    const KServiceOfferList services = KServiceFactory::self()->offers(servTypePtr->offset(), servTypePtr->serviceOffersOffset());
 
-    const KServiceOfferList offers = KServiceTypeProfile::sortServiceTypeOffers( services, serviceType );
+    const KServiceOfferList offers = KServiceTypeProfile::sortServiceTypeOffers(services, serviceType);
     //qDebug() << "Found profile: " << offers.count() << " offers";
 
 #if 0
-    dumpOfferList( offers );
+    dumpOfferList(offers);
 #endif
 
     return offers;
 }
 
-KService::List KServiceTypeTrader::defaultOffers( const QString& serviceType,
-                                                  const QString& constraint ) const
+KService::List KServiceTypeTrader::defaultOffers(const QString &serviceType,
+        const QString &constraint) const
 {
-    KServiceType::Ptr servTypePtr = KServiceTypeFactory::self()->findServiceTypeByName( serviceType );
-    if ( !servTypePtr ) {
+    KServiceType::Ptr servTypePtr = KServiceTypeFactory::self()->findServiceTypeByName(serviceType);
+    if (!servTypePtr) {
         qWarning() << "KServiceTypeTrader: serviceType" << serviceType << "not found";
         return KService::List();
     }
-    if ( servTypePtr->serviceOffersOffset() == -1 )
+    if (servTypePtr->serviceOffersOffset() == -1) {
         return KService::List();
+    }
 
     KService::List lst =
-        KServiceFactory::self()->serviceOffers( servTypePtr->offset(), servTypePtr->serviceOffersOffset() );
+        KServiceFactory::self()->serviceOffers(servTypePtr->offset(), servTypePtr->serviceOffersOffset());
 
-    applyConstraints( lst, constraint );
+    applyConstraints(lst, constraint);
 
     //qDebug() << "query for serviceType " << serviceType << constraint
     //             << " : returning " << lst.count() << " offers" << endl;
     return lst;
 }
 
-KService::List KServiceTypeTrader::query( const QString& serviceType,
-                                          const QString& constraint ) const
+KService::List KServiceTypeTrader::query(const QString &serviceType,
+        const QString &constraint) const
 {
-    if ( !KServiceTypeProfile::hasProfile( serviceType ) )
-    {
+    if (!KServiceTypeProfile::hasProfile(serviceType)) {
         // Fast path: skip the profile stuff if there's none (to avoid kservice->serviceoffer->kservice)
         // The ordering according to initial preferences is done by kbuildsycoca
-        return defaultOffers( serviceType, constraint );
+        return defaultOffers(serviceType, constraint);
     }
 
     KService::List lst;
     // Get all services of this service type.
-    const KServiceOfferList offers = weightedOffers( serviceType );
+    const KServiceOfferList offers = weightedOffers(serviceType);
 
     // Now extract only the services; the weighting was only used for sorting.
     KServiceOfferList::const_iterator itOff = offers.begin();
-    for( ; itOff != offers.end(); ++itOff )
-        lst.append( (*itOff).service() );
+    for (; itOff != offers.end(); ++itOff) {
+        lst.append((*itOff).service());
+    }
 
-    applyConstraints( lst, constraint );
+    applyConstraints(lst, constraint);
 
     //qDebug() << "query for serviceType " << serviceType << constraint
     //             << " : returning " << lst.count() << " offers" << endl;
     return lst;
 }
 
-KService::Ptr KServiceTypeTrader::preferredService( const QString & serviceType ) const
+KService::Ptr KServiceTypeTrader::preferredService(const QString &serviceType) const
 {
-    const KServiceOfferList offers = weightedOffers( serviceType );
+    const KServiceOfferList offers = weightedOffers(serviceType);
 
     KServiceOfferList::const_iterator itOff = offers.begin();
     // Look for the first one that is allowed as default.
     // Since the allowed-as-default are first anyway, we only have
     // to look at the first one to know.
-    if( itOff != offers.end() && (*itOff).allowAsDefault() )
+    if (itOff != offers.end() && (*itOff).allowAsDefault()) {
         return (*itOff).service();
+    }
 
     //qDebug() << "No offers, or none allowed as default";
     return KService::Ptr();

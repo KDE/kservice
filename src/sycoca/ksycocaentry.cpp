@@ -71,7 +71,7 @@ bool KSycocaEntry::isDeleted() const
     return d->deleted;
 }
 
-void KSycocaEntry::setDeleted( bool deleted )
+void KSycocaEntry::setDeleted(bool deleted)
 {
     Q_D(KSycocaEntry);
     d->deleted = deleted;

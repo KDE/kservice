@@ -27,16 +27,16 @@
 class KServiceGroupPrivate : public KSycocaEntryPrivate
 {
 public:
-    K_SYCOCATYPE( KST_KServiceGroup, KSycocaEntryPrivate )
+    K_SYCOCATYPE(KST_KServiceGroup, KSycocaEntryPrivate)
 
-    KServiceGroupPrivate(const QString &path) 
+    KServiceGroupPrivate(const QString &path)
         : KSycocaEntryPrivate(path),
           m_bNoDisplay(false), m_bShowEmptyMenu(false), m_bShowInlineHeader(false), m_bInlineAlias(false),
           m_bAllowInline(false), m_inlineValue(4), m_bDeep(false), m_childCount(-1)
     {
     }
 
-    KServiceGroupPrivate(QDataStream &str, int offset) 
+    KServiceGroupPrivate(QDataStream &str, int offset)
         : KSycocaEntryPrivate(str, offset),
           m_bNoDisplay(false), m_bShowEmptyMenu(false), m_bShowInlineHeader(false), m_bInlineAlias(false),
           m_bAllowInline(false), m_inlineValue(4), m_bDeep(false), m_childCount(-1)
@@ -58,11 +58,10 @@ public:
 
     KServiceGroup::List
     entries(KServiceGroup *group, bool sort, bool excludeNoDisplay, bool allowSeparators, bool sortByGenericName);
-  /**
-   * This function parse attributes into menu
-   */
-    void parseAttribute( const QString &item ,  bool &showEmptyMenu, bool &showInline, bool &showInlineHeader, bool & showInlineAlias ,int &inlineValue );
-
+    /**
+     * This function parse attributes into menu
+     */
+    void parseAttribute(const QString &item,  bool &showEmptyMenu, bool &showInline, bool &showInlineHeader, bool &showInlineAlias, int &inlineValue);
 
     bool m_bNoDisplay : 1;
     bool m_bShowEmptyMenu : 1;
@@ -86,14 +85,13 @@ public:
 class KServiceSeparator : public KSycocaEntry //krazy:exclude=dpointer (dummy class)
 {
 public:
-  typedef QExplicitlySharedDataPointer<KServiceSeparator> Ptr;
+    typedef QExplicitlySharedDataPointer<KServiceSeparator> Ptr;
 public:
-  /**
-   * Construct a service separator
-   */
-  KServiceSeparator();
+    /**
+     * Construct a service separator
+     */
+    KServiceSeparator();
 
 };
-
 
 #endif

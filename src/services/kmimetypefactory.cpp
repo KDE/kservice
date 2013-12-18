@@ -27,40 +27,44 @@ extern int servicesDebugArea();
 Q_GLOBAL_STATIC(KSycocaFactorySingleton<KMimeTypeFactory>, kMimeTypeFactoryInstance)
 
 KMimeTypeFactory::KMimeTypeFactory()
-    : KSycocaFactory( KST_KMimeTypeFactory )
+    : KSycocaFactory(KST_KMimeTypeFactory)
 {
     kMimeTypeFactoryInstance()->instanceCreated(this);
 }
 
 KMimeTypeFactory::~KMimeTypeFactory()
 {
-    if (kMimeTypeFactoryInstance())
+    if (kMimeTypeFactoryInstance()) {
         kMimeTypeFactoryInstance()->instanceDestroyed(this);
+    }
 }
 
-KMimeTypeFactory * KMimeTypeFactory::self()
+KMimeTypeFactory *KMimeTypeFactory::self()
 {
     return kMimeTypeFactoryInstance()->self();
 }
 
-int KMimeTypeFactory::entryOffset(const QString& mimeTypeName)
+int KMimeTypeFactory::entryOffset(const QString &mimeTypeName)
 {
-    if (!sycocaDict())
-        return -1; // Error!
-    assert (!KSycoca::self()->isBuilding());
+    if (!sycocaDict()) {
+        return -1;    // Error!
+    }
+    assert(!KSycoca::self()->isBuilding());
     const int offset = sycocaDict()->find_string(mimeTypeName);
     return offset;
 }
 
-int KMimeTypeFactory::serviceOffersOffset(const QString& mimeTypeName)
+int KMimeTypeFactory::serviceOffersOffset(const QString &mimeTypeName)
 {
     const int offset = entryOffset(mimeTypeName);
-    if (!offset)
-        return -1; // Not found
+    if (!offset) {
+        return -1;    // Not found
+    }
 
     MimeTypeEntry::Ptr newMimeType(createEntry(offset));
-    if (!newMimeType)
+    if (!newMimeType) {
         return -1;
+    }
     // Check whether the dictionary was right.
     if (newMimeType->name() != mimeTypeName) {
         // No it wasn't...
@@ -69,34 +73,34 @@ int KMimeTypeFactory::serviceOffersOffset(const QString& mimeTypeName)
     return newMimeType->serviceOffersOffset();
 }
 
-KMimeTypeFactory::MimeTypeEntry * KMimeTypeFactory::createEntry(int offset) const
+KMimeTypeFactory::MimeTypeEntry *KMimeTypeFactory::createEntry(int offset) const
 {
-   MimeTypeEntry *newEntry = 0;
-   KSycocaType type;
-   QDataStream *str = KSycoca::self()->findEntry(offset, type);
-   if (!str) return 0;
+    MimeTypeEntry *newEntry = 0;
+    KSycocaType type;
+    QDataStream *str = KSycoca::self()->findEntry(offset, type);
+    if (!str) {
+        return 0;
+    }
 
-   switch(type)
-   {
-     case KST_KMimeTypeEntry:
-         newEntry = new MimeTypeEntry(*str, offset);
-         break;
+    switch (type) {
+    case KST_KMimeTypeEntry:
+        newEntry = new MimeTypeEntry(*str, offset);
+        break;
 
-      // Old, now unused
-     case KST_KMimeType:
-         return 0;
+    // Old, now unused
+    case KST_KMimeType:
+        return 0;
 
-     default:
+    default:
         qWarning() << "KMimeTypeFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
         break;
-   }
-   if (newEntry && !newEntry->isValid())
-   {
-      qWarning() << "KMimeTypeFactory: corrupt object in KSycoca database!\n";
-      delete newEntry;
-      newEntry = 0;
-   }
-   return newEntry;
+    }
+    if (newEntry && !newEntry->isValid()) {
+        qWarning() << "KMimeTypeFactory: corrupt object in KSycoca database!\n";
+        delete newEntry;
+        newEntry = 0;
+    }
+    return newEntry;
 }
 
 QStringList KMimeTypeFactory::allMimeTypes()
@@ -105,12 +109,11 @@ QStringList KMimeTypeFactory::allMimeTypes()
     // then move to KMimeTypeRepository
     QStringList result;
     const KSycocaEntry::List list = allEntries();
-    for( KSycocaEntry::List::ConstIterator it = list.begin();
-         it != list.end();
-         ++it)
-    {
-        Q_ASSERT( (*it)->isType( KST_KMimeTypeEntry ) );
-        result.append( MimeTypeEntry::Ptr(*it)->name() );
+    for (KSycocaEntry::List::ConstIterator it = list.begin();
+            it != list.end();
+            ++it) {
+        Q_ASSERT((*it)->isType(KST_KMimeTypeEntry));
+        result.append(MimeTypeEntry::Ptr(*it)->name());
     }
     return result;
 }
@@ -120,18 +123,22 @@ QStringList KMimeTypeFactory::allMimeTypes()
 class KMimeTypeFactory::MimeTypeEntryPrivate : public KSycocaEntryPrivate
 {
 public:
-    K_SYCOCATYPE( KST_KMimeTypeEntry, KSycocaEntryPrivate )
-        MimeTypeEntryPrivate(const QString& file, const QString& name)
-            : KSycocaEntryPrivate(file), m_name(name), m_serviceOffersOffset(-1)
+    K_SYCOCATYPE(KST_KMimeTypeEntry, KSycocaEntryPrivate)
+    MimeTypeEntryPrivate(const QString &file, const QString &name)
+        : KSycocaEntryPrivate(file), m_name(name), m_serviceOffersOffset(-1)
     {
     }
-    MimeTypeEntryPrivate(QDataStream& s, int offset)
+    MimeTypeEntryPrivate(QDataStream &s, int offset)
         : KSycocaEntryPrivate(s, offset), m_serviceOffersOffset(-1)
     {
         s >> m_name >> m_serviceOffersOffset;
     }
-    virtual QString name() const { return m_name; }
-    virtual void save(QDataStream &s) {
+    virtual QString name() const
+    {
+        return m_name;
+    }
+    virtual void save(QDataStream &s)
+    {
         KSycocaEntryPrivate::save(s);
         s << m_name << m_serviceOffersOffset;
     }
@@ -140,12 +147,12 @@ public:
     int m_serviceOffersOffset;
 };
 
-KMimeTypeFactory::MimeTypeEntry::MimeTypeEntry(const QString& file, const QString& name)
+KMimeTypeFactory::MimeTypeEntry::MimeTypeEntry(const QString &file, const QString &name)
     : KSycocaEntry(*new MimeTypeEntryPrivate(file, name))
 {
 }
 
-KMimeTypeFactory::MimeTypeEntry::MimeTypeEntry(QDataStream& s, int offset)
+KMimeTypeFactory::MimeTypeEntry::MimeTypeEntry(QDataStream &s, int offset)
     : KSycocaEntry(*new MimeTypeEntryPrivate(s, offset))
 {
 }

@@ -35,7 +35,6 @@ public:
     KConfigToJson(QCommandLineParser *parser, const QCommandLineOption &i, const QCommandLineOption &o);
     int runMain();
 
-
 private:
     bool convert(const QString &src, const QString &dest);
     bool resolveFiles();

@@ -29,22 +29,22 @@
 class KServicePrivate : public KSycocaEntryPrivate
 {
 public:
-    K_SYCOCATYPE( KST_KService, KSycocaEntryPrivate )
+    K_SYCOCATYPE(KST_KService, KSycocaEntryPrivate)
 
     KServicePrivate(const QString &path)
         : KSycocaEntryPrivate(path),  m_bValid(true)
     {
     }
-    KServicePrivate(QDataStream& _str, int _offset)
+    KServicePrivate(QDataStream &_str, int _offset)
         : KSycocaEntryPrivate(_str, _offset), m_bValid(true)
     {
         load(_str);
     }
 
-    void init(const KDesktopFile *config, KService* q);
-    void parseActions(const KDesktopFile *config, KService* q);
-    void load( QDataStream& );
-    virtual void save( QDataStream& );
+    void init(const KDesktopFile *config, KService *q);
+    void parseActions(const KDesktopFile *config, KService *q);
+    void load(QDataStream &);
+    virtual void save(QDataStream &);
 
     virtual QString name() const
     {
@@ -53,8 +53,9 @@ public:
 
     virtual QString storageId() const
     {
-        if (!menuId.isEmpty())
+        if (!menuId.isEmpty()) {
             return menuId;
+        }
         return path;
     }
 
@@ -88,7 +89,7 @@ public:
 
     QString m_strDesktopEntryName;
     KService::DBusStartupType m_DBUSStartusType;
-    QMap<QString,QVariant> m_mapProps;
+    QMap<QString, QVariant> m_mapProps;
     QStringList m_lstKeywords;
     QString m_strGenName;
     QList<KServiceAction> m_actions;

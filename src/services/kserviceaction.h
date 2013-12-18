@@ -39,8 +39,8 @@ public:
      * Normally you don't have to do this, KService creates the actions
      * when parsing the .desktop file.
      */
-    KServiceAction(const QString& name, const QString& text,
-                   const QString& icon, const QString& exec,
+    KServiceAction(const QString &name, const QString &text,
+                   const QString &icon, const QString &exec,
                    bool noDisplay = false);
     /**
      * @internal
@@ -55,16 +55,16 @@ public:
     /**
      * Copy constructor
      */
-    KServiceAction(const KServiceAction& other);
+    KServiceAction(const KServiceAction &other);
     /**
      * Assignment operator
      */
-    KServiceAction& operator=(const KServiceAction& other);
+    KServiceAction &operator=(const KServiceAction &other);
 
     /**
      * Sets the action's internal data to the given @p userData.
      */
-    void setData( const QVariant& userData );
+    void setData(const QVariant &userData);
     /**
      * @return the action's internal data.
      */
@@ -109,12 +109,12 @@ public:
 
 private:
     QSharedDataPointer<KServiceActionPrivate> d;
-    friend KSERVICE_EXPORT QDataStream& operator>>( QDataStream& str, KServiceAction& act );
-    friend KSERVICE_EXPORT QDataStream& operator<<( QDataStream& str, const KServiceAction& act );
+    friend KSERVICE_EXPORT QDataStream &operator>>(QDataStream &str, KServiceAction &act);
+    friend KSERVICE_EXPORT QDataStream &operator<<(QDataStream &str, const KServiceAction &act);
 };
 
-KSERVICE_EXPORT QDataStream& operator>>( QDataStream& str, KServiceAction& act );
-KSERVICE_EXPORT QDataStream& operator<<( QDataStream& str, const KServiceAction& act );
+KSERVICE_EXPORT QDataStream &operator>>(QDataStream &str, KServiceAction &act);
+KSERVICE_EXPORT QDataStream &operator<<(QDataStream &str, const KServiceAction &act);
 
 #endif /* KSERVICEACTION_H */
 

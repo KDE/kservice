@@ -36,11 +36,12 @@ private Q_SLOTS:
     void testStandardDict();
     //void testExtensionDict();
 private:
-    void add(KSycocaDict& dict, const QString& key, const QString& name)
+    void add(KSycocaDict &dict, const QString &key, const QString &name)
     {
         KServiceType::Ptr ptr = KServiceType::serviceType(name);
-        if (!ptr)
+        if (!ptr) {
             qWarning() << "serviceType not found" << name;
+        }
         dict.add(key, KSycocaEntry::Ptr(ptr));
     }
 };
@@ -50,8 +51,9 @@ QTEST_MAIN(KSycocaDictTest)
 // Standard use of KSycocaDict: mapping entry name to entry
 void KSycocaDictTest::testStandardDict()
 {
-    if (!KServiceType::serviceType("KCModule"))
-        QSKIP( "Missing servicetypes" );
+    if (!KServiceType::serviceType("KCModule")) {
+        QSKIP("Missing servicetypes");
+    }
 
     QStringList serviceTypes;
     serviceTypes << "KUriFilter/Plugin"
@@ -65,33 +67,35 @@ void KSycocaDictTest::testStandardDict()
                      << "Plasma/Runner";
     }
 
-  QBENCHMARK {
-    QByteArray buffer;
-    {
-        KSycocaDict dict;
-        foreach(const QString& str, serviceTypes) {
-            add(dict, str, str);
+    QBENCHMARK {
+        QByteArray buffer;
+        {
+            KSycocaDict dict;
+            foreach (const QString &str, serviceTypes)
+            {
+                add(dict, str, str);
+            }
+            dict.remove("KCModule"); // just to test remove
+            add(dict, "KCModule", "KCModule");
+            QCOMPARE((int)dict.count(), serviceTypes.count());
+            QDataStream saveStream(&buffer, QIODevice::WriteOnly);
+            dict.save(saveStream);
         }
-        dict.remove("KCModule"); // just to test remove
-        add(dict, "KCModule", "KCModule");
-        QCOMPARE((int)dict.count(), serviceTypes.count());
-        QDataStream saveStream(&buffer, QIODevice::WriteOnly);
-        dict.save(saveStream);
-    }
 
-    QDataStream stream(buffer);
-    KSycocaDict loadingDict(&stream, 0);
-    int offset = loadingDict.find_string("Browser/View");
-    QVERIFY(offset > 0);
-    QCOMPARE(offset, KServiceType::serviceType("Browser/View")->offset());
-    foreach(const QString& str, serviceTypes) {
-        int offset = loadingDict.find_string(str);
+        QDataStream stream(buffer);
+        KSycocaDict loadingDict(&stream, 0);
+        int offset = loadingDict.find_string("Browser/View");
         QVERIFY(offset > 0);
-        QCOMPARE(offset, KServiceType::serviceType(str)->offset());
+        QCOMPARE(offset, KServiceType::serviceType("Browser/View")->offset());
+        foreach (const QString &str, serviceTypes)
+        {
+            int offset = loadingDict.find_string(str);
+            QVERIFY(offset > 0);
+            QCOMPARE(offset, KServiceType::serviceType(str)->offset());
+        }
+        offset = loadingDict.find_string("doesnotexist");
+        // TODO QCOMPARE(offset, 0); // could be non 0 according to the docs, too; if non 0, we should check that the pointed mimetype doesn't have this name.
     }
-    offset = loadingDict.find_string("doesnotexist");
-    // TODO QCOMPARE(offset, 0); // could be non 0 according to the docs, too; if non 0, we should check that the pointed mimetype doesn't have this name.
-  }
 }
 
 #include "ksycocadicttest.moc"

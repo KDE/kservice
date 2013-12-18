@@ -42,130 +42,130 @@ class KSycocaPrivate;
  */
 class KSERVICE_EXPORT KSycoca : public QObject
 {
-  Q_OBJECT
-  //Q_CLASSINFO("D-Bus Interface", "org.kde.KSycoca")
+    Q_OBJECT
+    //Q_CLASSINFO("D-Bus Interface", "org.kde.KSycoca")
 
 protected:
-   /**
-    * @internal
-    * Building database
-    */
-   explicit KSycoca( bool /* buildDatabase */ );
+    /**
+     * @internal
+     * Building database
+     */
+    explicit KSycoca(bool /* buildDatabase */);
 
 public:
-   /**
-    * type of database
-    * @see absoluteFilePath()
-    */
-   typedef enum { LocalDatabase, GlobalDatabase } DatabaseType;
+    /**
+     * type of database
+     * @see absoluteFilePath()
+     */
+    typedef enum { LocalDatabase, GlobalDatabase } DatabaseType;
 
-   /**
-    * Read-only database
-    */
-   KSycoca();
+    /**
+     * Read-only database
+     */
+    KSycoca();
 
-   /**
-    * Get or create the only instance of KSycoca (read-only)
-    */
-   static KSycoca *self();
+    /**
+     * Get or create the only instance of KSycoca (read-only)
+     */
+    static KSycoca *self();
 
-   virtual ~KSycoca();
+    virtual ~KSycoca();
 
-   /**
-    * @return the compiled-in version, i.e. the one used when writing a new ksycoca
-    */
-   static int version();
+    /**
+     * @return the compiled-in version, i.e. the one used when writing a new ksycoca
+     */
+    static int version();
 
-   /**
-    * @return true if the ksycoca database is available
-    * This is usually the case, except if KDE isn't installed yet,
-    * or before kded is started.
-    */
-   static bool isAvailable();
+    /**
+     * @return true if the ksycoca database is available
+     * This is usually the case, except if KDE isn't installed yet,
+     * or before kded is started.
+     */
+    static bool isAvailable();
 
-   /**
-    * @internal - called by factories in read-only mode
-    * This is how factories get a stream to an entry
-    */
-   QDataStream *findEntry(int offset, KSycocaType &type);
-   /**
-    * @internal - called by factories in read-only mode
-    * Returns stream(), but positioned for reading this factory, 0 on error.
-    */
-   QDataStream *findFactory(KSycocaFactoryId id);
-   /**
-    * @internal - returns absolute file path of the database
-    *
-    * for global database type the database is searched under
-    * the 'services' install path.
-    * Otherwise, the value from the environment variable KDESYCOCA
-    * is returned if set. If not set the path is build based on
-    * KStandardDirs cache save location.
-    */
-   static QString absoluteFilePath(DatabaseType type=LocalDatabase);
-   /**
-    * @internal - returns language stored inside database
-    */
-   QString language();
+    /**
+     * @internal - called by factories in read-only mode
+     * This is how factories get a stream to an entry
+     */
+    QDataStream *findEntry(int offset, KSycocaType &type);
+    /**
+     * @internal - called by factories in read-only mode
+     * Returns stream(), but positioned for reading this factory, 0 on error.
+     */
+    QDataStream *findFactory(KSycocaFactoryId id);
+    /**
+     * @internal - returns absolute file path of the database
+     *
+     * for global database type the database is searched under
+     * the 'services' install path.
+     * Otherwise, the value from the environment variable KDESYCOCA
+     * is returned if set. If not set the path is build based on
+     * KStandardDirs cache save location.
+     */
+    static QString absoluteFilePath(DatabaseType type = LocalDatabase);
+    /**
+     * @internal - returns language stored inside database
+     */
+    QString language();
 
-   /**
-    * @internal - returns timestamp of database
-    *
-    * The database contains all changes made _before_ this time and
-    * _might_ contain changes made after that.
-    */
-   quint32 timeStamp();
+    /**
+     * @internal - returns timestamp of database
+     *
+     * The database contains all changes made _before_ this time and
+     * _might_ contain changes made after that.
+     */
+    quint32 timeStamp();
 
-   /**
-    * @internal - returns update signature of database
-    *
-    * Signature that keeps track of changes to
-    * $KDEDIR/share/services/update_ksycoca
-    *
-    * Touching this file causes the database to be recreated
-    * from scratch.
-    */
-   quint32 updateSignature();
+    /**
+     * @internal - returns update signature of database
+     *
+     * Signature that keeps track of changes to
+     * $KDEDIR/share/services/update_ksycoca
+     *
+     * Touching this file causes the database to be recreated
+     * from scratch.
+     */
+    quint32 updateSignature();
 
-   /**
-    * @internal - returns all directories with information
-    * stored inside sycoca.
-    */
-   QStringList allResourceDirs();
+    /**
+     * @internal - returns all directories with information
+     * stored inside sycoca.
+     */
+    QStringList allResourceDirs();
 
-   /**
-    * @internal - add a factory
-    */
-   void addFactory( KSycocaFactory * );
+    /**
+     * @internal - add a factory
+     */
+    void addFactory(KSycocaFactory *);
 
-   /**
-    * @internal
-    * @return true if building (i.e. if a KBuildSycoca);
-    */
-   virtual bool isBuilding();
+    /**
+     * @internal
+     * @return true if building (i.e. if a KBuildSycoca);
+     */
+    virtual bool isBuilding();
 
-   /**
-    * @internal - disables launching of kbuildsycoca
-    */
-   static void disableAutoRebuild();
+    /**
+     * @internal - disables launching of kbuildsycoca
+     */
+    static void disableAutoRebuild();
 
-   /**
-    * When you receive a "databaseChanged" signal, you can query here if
-    * a change has occurred in a specific resource type.
-    * @see KStandardDirs for the various resource types.
-    *
-    * This method is meant to be called from the GUI thread only.
-    * @deprecated use the signal databaseChanged(QStringList) instead.
-    */
+    /**
+     * When you receive a "databaseChanged" signal, you can query here if
+     * a change has occurred in a specific resource type.
+     * @see KStandardDirs for the various resource types.
+     *
+     * This method is meant to be called from the GUI thread only.
+     * @deprecated use the signal databaseChanged(QStringList) instead.
+     */
 #ifndef KDE_NO_DEPRECATED
-   static KSERVICE_DEPRECATED bool isChanged(const char *type);
+    static KSERVICE_DEPRECATED bool isChanged(const char *type);
 #endif
 
-   /**
-    * A read error occurs.
-    * @internal
-    */
-   static void flagError();
+    /**
+     * A read error occurs.
+     * @internal
+     */
+    static void flagError();
 
 Q_SIGNALS:
     /**
@@ -187,14 +187,14 @@ Q_SIGNALS:
      * This can include the following resources (as defined in KStandardDirs) :
      * apps, xdgdata-apps, services, servicetypes, xdgdata-mime.
      */
-    void databaseChanged(const QStringList& changedResources);
+    void databaseChanged(const QStringList &changedResources);
 
 protected:
     // @internal used by kbuildsycoca
-    KSycocaFactoryList* factories();
+    KSycocaFactoryList *factories();
 
     // @internal used by factories and kbuildsycoca
-    QDataStream*& stream();
+    QDataStream *&stream();
     friend class KSycocaFactory;
     friend class KSycocaDict;
 
@@ -219,7 +219,7 @@ private:
 
     Q_DISABLE_COPY(KSycoca)
     friend class KSycocaPrivate;
-    KSycocaPrivate * const d;
+    KSycocaPrivate *const d;
 };
 
 #endif

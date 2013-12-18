@@ -23,8 +23,8 @@
 class KServiceActionPrivate : public QSharedData
 {
 public:
-    KServiceActionPrivate(const QString& name, const QString& text,
-                          const QString& icon, const QString& exec,
+    KServiceActionPrivate(const QString &name, const QString &text,
+                          const QString &icon, const QString &exec,
                           bool noDisplay)
         : m_name(name), m_text(text), m_icon(icon), m_exec(exec), m_noDisplay(noDisplay) {}
     QString m_name;
@@ -41,8 +41,8 @@ KServiceAction::KServiceAction()
 {
 }
 
-KServiceAction::KServiceAction(const QString& name, const QString& text,
-                               const QString& icon, const QString& exec,
+KServiceAction::KServiceAction(const QString &name, const QString &text,
+                               const QString &icon, const QString &exec,
                                bool noDisplay)
     : d(new KServiceActionPrivate(name, text, icon, exec, noDisplay))
 {
@@ -52,12 +52,12 @@ KServiceAction::~KServiceAction()
 {
 }
 
-KServiceAction::KServiceAction(const KServiceAction& other)
+KServiceAction::KServiceAction(const KServiceAction &other)
     : d(other.d)
 {
 }
 
-KServiceAction& KServiceAction::operator=(const KServiceAction& other)
+KServiceAction &KServiceAction::operator=(const KServiceAction &other)
 {
     d = other.d;
     return *this;
@@ -65,12 +65,12 @@ KServiceAction& KServiceAction::operator=(const KServiceAction& other)
 
 QVariant KServiceAction::data() const
 {
-     return d->m_data;
+    return d->m_data;
 }
 
-void KServiceAction::setData( const QVariant& data )
+void KServiceAction::setData(const QVariant &data)
 {
-     d->m_data = data;
+    d->m_data = data;
 }
 
 QString KServiceAction::name() const
@@ -103,9 +103,9 @@ bool KServiceAction::isSeparator() const
     return d->m_name == QLatin1String("_SEPARATOR_");
 }
 
-QDataStream& operator>>( QDataStream& str, KServiceAction& act )
+QDataStream &operator>>(QDataStream &str, KServiceAction &act)
 {
-    KServiceActionPrivate* d = act.d;
+    KServiceActionPrivate *d = act.d;
     str >> d->m_name;
     str >> d->m_text;
     str >> d->m_icon;
@@ -115,9 +115,9 @@ QDataStream& operator>>( QDataStream& str, KServiceAction& act )
     return str;
 }
 
-QDataStream& operator<<( QDataStream& str, const KServiceAction& act )
+QDataStream &operator<<(QDataStream &str, const KServiceAction &act)
 {
-    const KServiceActionPrivate* d = act.d;
+    const KServiceActionPrivate *d = act.d;
     str << d->m_name;
     str << d->m_text;
     str << d->m_icon;

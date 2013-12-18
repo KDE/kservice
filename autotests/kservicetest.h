@@ -50,7 +50,7 @@ private Q_SLOTS:
 
 private:
     void createFakeService();
-    void runKBuildSycoca(bool noincremental=false);
+    void runKBuildSycoca(bool noincremental = false);
 
     QString m_firstOffer;
     bool m_hasKde5Konsole;

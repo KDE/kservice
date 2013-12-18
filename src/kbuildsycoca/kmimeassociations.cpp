@@ -26,7 +26,7 @@
 #include <qstandardpaths.h>
 #include <qmimedatabase.h>
 
-KMimeAssociations::KMimeAssociations(KOfferHash& offerHash)
+KMimeAssociations::KMimeAssociations(KOfferHash &offerHash)
     : m_offerHash(offerHash)
 {
 }
@@ -44,19 +44,18 @@ text/plain=kate.desktop;
 [Removed Associations]
 text/plain=gnome-gedit.desktop;gnu-emacs.desktop;
 
-
-
 */
 
 bool KMimeAssociations::parseAllMimeAppsList()
 {
     // Using the "merged view" from KConfig is not enough since we -add- at every level, we don't replace.
     const QStringList mimeappsFiles = QStandardPaths::locateAll(QStandardPaths::ApplicationsLocation, "mimeapps.list");
-    if (mimeappsFiles.isEmpty())
+    if (mimeappsFiles.isEmpty()) {
         return false;
+    }
 
     int basePreference = 1000; // start high :)
-    QListIterator<QString> mimeappsIter( mimeappsFiles );
+    QListIterator<QString> mimeappsIter(mimeappsFiles);
     mimeappsIter.toBack();
     while (mimeappsIter.hasPrevious()) { // global first, then local.
         const QString mimeappsFile = mimeappsIter.previous();
@@ -67,7 +66,7 @@ bool KMimeAssociations::parseAllMimeAppsList()
     return true;
 }
 
-void KMimeAssociations::parseMimeAppsList(const QString& file, int basePreference)
+void KMimeAssociations::parseMimeAppsList(const QString &file, int basePreference)
 {
     KConfig profile(file, KConfig::SimpleConfig);
     parseAddedAssociations(KConfigGroup(&profile, "Added Associations"), file, basePreference);
@@ -78,18 +77,18 @@ void KMimeAssociations::parseMimeAppsList(const QString& file, int basePreferenc
     parseRemovedAssociations(KConfigGroup(&profile, "Removed KDE Service Associations"), file);
 }
 
-void KMimeAssociations::parseAddedAssociations(const KConfigGroup& group, const QString& file, int basePreference)
+void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const QString &file, int basePreference)
 {
     Q_UNUSED(file) // except in debug statements
     QMimeDatabase db;
-    Q_FOREACH(const QString& mimeName, group.keyList()) {
+    Q_FOREACH (const QString &mimeName, group.keyList()) {
         const QStringList services = group.readXdgListEntry(mimeName);
         const QString resolvedMimeName = db.mimeTypeForName(mimeName).name();
         if (resolvedMimeName.isEmpty()) {
             //qDebug() << file << "specifies unknown mimeType" << mimeName << "in" << group.name();
         } else {
             int pref = basePreference;
-            Q_FOREACH(const QString &service, services) {
+            Q_FOREACH (const QString &service, services) {
                 KService::Ptr pService = KService::serviceByStorageId(service);
                 if (!pService) {
                     //qDebug() << file << "specifies unknown service" << service << "in" << group.name();
@@ -103,12 +102,12 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup& group, const 
     }
 }
 
-void KMimeAssociations::parseRemovedAssociations(const KConfigGroup& group, const QString& file)
+void KMimeAssociations::parseRemovedAssociations(const KConfigGroup &group, const QString &file)
 {
     Q_UNUSED(file) // except in debug statements
-    Q_FOREACH(const QString& mime, group.keyList()) {
+    Q_FOREACH (const QString &mime, group.keyList()) {
         const QStringList services = group.readXdgListEntry(mime);
-        Q_FOREACH(const QString& service, services) {
+        Q_FOREACH (const QString &service, services) {
             KService::Ptr pService = KService::serviceByStorageId(service);
             if (!pService) {
                 //qDebug() << file << "specifies unknown service" << service << "in" << group.name();
@@ -120,41 +119,43 @@ void KMimeAssociations::parseRemovedAssociations(const KConfigGroup& group, cons
     }
 }
 
-void KOfferHash::addServiceOffer(const QString& serviceType, const KServiceOffer& offer)
+void KOfferHash::addServiceOffer(const QString &serviceType, const KServiceOffer &offer)
 {
     KService::Ptr service = offer.service();
     //qDebug() << "Adding" << service->entryPath() << "to" << serviceType << offer.preference();
-    ServiceTypeOffersData& data = m_serviceTypeData[serviceType]; // find or create
-    QList<KServiceOffer>& offers = data.offers;
-    QSet<KService::Ptr>& offerSet = data.offerSet;
-    if ( !offerSet.contains( service ) ) {
-        offers.append( offer );
-        offerSet.insert( service );
+    ServiceTypeOffersData &data = m_serviceTypeData[serviceType]; // find or create
+    QList<KServiceOffer> &offers = data.offers;
+    QSet<KService::Ptr> &offerSet = data.offerSet;
+    if (!offerSet.contains(service)) {
+        offers.append(offer);
+        offerSet.insert(service);
     } else {
         //qDebug() << service->entryPath() << "already in" << serviceType;
         // This happens when mimeapps.list mentions a service (to make it preferred)
         // Update initialPreference to qMax(existing offer, new offer)
         QMutableListIterator<KServiceOffer> sfit(data.offers);
         while (sfit.hasNext()) {
-            if (sfit.next().service() == service) // we can compare KService::Ptrs because they are from the memory hash
-                sfit.value().setPreference( qMax(sfit.value().preference(), offer.preference()) );
+            if (sfit.next().service() == service) { // we can compare KService::Ptrs because they are from the memory hash
+                sfit.value().setPreference(qMax(sfit.value().preference(), offer.preference()));
+            }
         }
     }
 }
 
-void KOfferHash::removeServiceOffer(const QString& serviceType, KService::Ptr service)
+void KOfferHash::removeServiceOffer(const QString &serviceType, KService::Ptr service)
 {
-    ServiceTypeOffersData& data = m_serviceTypeData[serviceType]; // find or create
+    ServiceTypeOffersData &data = m_serviceTypeData[serviceType]; // find or create
     data.removedOffers.insert(service);
     data.offerSet.remove(service);
     QMutableListIterator<KServiceOffer> sfit(data.offers);
     while (sfit.hasNext()) {
-        if (sfit.next().service()->storageId() == service->storageId())
+        if (sfit.next().service()->storageId() == service->storageId()) {
             sfit.remove();
+        }
     }
 }
 
-bool KOfferHash::hasRemovedOffer(const QString& serviceType, KService::Ptr service) const
+bool KOfferHash::hasRemovedOffer(const QString &serviceType, KService::Ptr service) const
 {
     QHash<QString, ServiceTypeOffersData>::const_iterator it = m_serviceTypeData.find(serviceType);
     if (it != m_serviceTypeData.end()) {

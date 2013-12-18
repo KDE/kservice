@@ -32,9 +32,9 @@ class KSycocaFactory::Private
 {
 public:
     Private() : mOffset(0),
-                m_sycocaDictOffset(0),
-                m_beginEntryOffset(0),
-                m_endEntryOffset(0) {}
+        m_sycocaDictOffset(0),
+        m_beginEntryOffset(0),
+        m_endEntryOffset(0) {}
     ~Private()
     {
         delete m_sycocaDict;
@@ -60,7 +60,7 @@ KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id)
         (*m_str) >> i;
         d->m_endEntryOffset = i;
 
-        QDataStream* str = stream();
+        QDataStream *str = stream();
         int saveOffset = str->device()->pos();
         // Init index tables
         d->m_sycocaDict = new KSycocaDict(str, d->m_sycocaDictOffset);
@@ -96,9 +96,13 @@ KSycocaFactory::saveHeader(QDataStream &str)
 void
 KSycocaFactory::save(QDataStream &str)
 {
-    if (!m_entryDict) return; // Error! Function should only be called when
+    if (!m_entryDict) {
+        return;    // Error! Function should only be called when
+    }
     // building database
-    if (!d->m_sycocaDict) return; // Error!
+    if (!d->m_sycocaDict) {
+        return;    // Error!
+    }
 
     d->mOffset = str.device()->pos(); // store position in member variable
     d->m_sycocaDictOffset = 0;
@@ -110,9 +114,8 @@ KSycocaFactory::save(QDataStream &str)
 
     // Write all entries.
     int entryCount = 0;
-    for(KSycocaEntryDict::Iterator it = m_entryDict->begin();
-        it != m_entryDict->end(); ++it)
-    {
+    for (KSycocaEntryDict::Iterator it = m_entryDict->begin();
+            it != m_entryDict->end(); ++it) {
         KSycocaEntry::Ptr entry = *it;
         entry->d_ptr->save(str);
         entryCount++;
@@ -123,9 +126,8 @@ KSycocaFactory::save(QDataStream &str)
     // Write indices...
     // Linear index
     str << (qint32) entryCount;
-    for(KSycocaEntryDict::Iterator it = m_entryDict->begin();
-        it != m_entryDict->end(); ++it)
-    {
+    for (KSycocaEntryDict::Iterator it = m_entryDict->begin();
+            it != m_entryDict->end(); ++it) {
         str << qint32(it->data()->offset());
     }
 
@@ -143,12 +145,16 @@ KSycocaFactory::save(QDataStream &str)
 }
 
 void
-KSycocaFactory::addEntry(const KSycocaEntry::Ptr& newEntry)
+KSycocaFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
 {
-    if (!m_entryDict) return; // Error! Function should only be called when
+    if (!m_entryDict) {
+        return;    // Error! Function should only be called when
+    }
     // building database
 
-    if (!d->m_sycocaDict) return; // Error!
+    if (!d->m_sycocaDict) {
+        return;    // Error!
+    }
 
     KSycocaEntry::Ptr oldEntry = m_entryDict->value(newEntry->storageId());
     if (oldEntry) {
@@ -164,20 +170,24 @@ KSycocaFactory::addEntry(const KSycocaEntry::Ptr& newEntry)
     }
 
     const QString name = newEntry->storageId();
-    m_entryDict->insert( name, newEntry );
-    d->m_sycocaDict->add( name, newEntry );
+    m_entryDict->insert(name, newEntry);
+    d->m_sycocaDict->add(name, newEntry);
 }
 
 void
-KSycocaFactory::removeEntry(const QString& entryName)
+KSycocaFactory::removeEntry(const QString &entryName)
 {
-    if (!m_entryDict) return; // Error! Function should only be called when
+    if (!m_entryDict) {
+        return;    // Error! Function should only be called when
+    }
     // building database
 
-    if (!d->m_sycocaDict) return; // Error!
+    if (!d->m_sycocaDict) {
+        return;    // Error!
+    }
 
-    m_entryDict->remove( entryName );
-    d->m_sycocaDict->remove( entryName ); // O(N)
+    m_entryDict->remove(entryName);
+    d->m_sycocaDict->remove(entryName);   // O(N)
 }
 
 KSycocaEntry::List KSycocaFactory::allEntries() const
@@ -186,14 +196,15 @@ KSycocaEntry::List KSycocaFactory::allEntries() const
 
     // Assume we're NOT building a database
 
-    QDataStream* str = stream();
-    if (!str) return list;
+    QDataStream *str = stream();
+    if (!str) {
+        return list;
+    }
     str->device()->seek(d->m_endEntryOffset);
     qint32 entryCount;
     (*str) >> entryCount;
 
-    if (entryCount > 8192)
-    {
+    if (entryCount > 8192) {
         qWarning() << QThread::currentThread() << "error detected in factory" << this;
         KSycoca::flagError();
         return list;
@@ -201,17 +212,14 @@ KSycocaEntry::List KSycocaFactory::allEntries() const
 
     // offsetList is needed because createEntry() modifies the stream position
     qint32 *offsetList = new qint32[entryCount];
-    for(int i = 0; i < entryCount; i++)
-    {
+    for (int i = 0; i < entryCount; i++) {
         (*str) >> offsetList[i];
     }
 
-    for(int i = 0; i < entryCount; i++)
-    {
+    for (int i = 0; i < entryCount; i++) {
         KSycocaEntry *newEntry = createEntry(offsetList[i]);
-        if (newEntry)
-        {
-            list.append( KSycocaEntry::Ptr( newEntry ) );
+        if (newEntry) {
+            list.append(KSycocaEntry::Ptr(newEntry));
         }
     }
     delete [] offsetList;
@@ -223,12 +231,12 @@ int KSycocaFactory::offset() const
     return d->mOffset;
 }
 
-const KSycocaResourceList * KSycocaFactory::resourceList() const
+const KSycocaResourceList *KSycocaFactory::resourceList() const
 {
     return m_resourceList;
 }
 
-const KSycocaDict * KSycocaFactory::sycocaDict() const
+const KSycocaDict *KSycocaFactory::sycocaDict() const
 {
     return d->m_sycocaDict;
 }
@@ -238,11 +246,13 @@ bool KSycocaFactory::isEmpty() const
     return d->m_beginEntryOffset == d->m_endEntryOffset;
 }
 
-QDataStream* KSycocaFactory::stream() const
+QDataStream *KSycocaFactory::stream() const
 {
     return m_str;
 }
 
-void KSycocaFactory::virtual_hook( int /*id*/, void* /*data*/)
-{ /*BASE::virtual_hook( id, data );*/ }
+void KSycocaFactory::virtual_hook(int /*id*/, void * /*data*/)
+{
+    /*BASE::virtual_hook( id, data );*/
+}
 

@@ -32,7 +32,8 @@ enum KSycocaType { KST_KSycocaEntry = 0, KST_KService = 1, KST_KServiceType = 2,
                    KST_KMimeTypeEntry = 6 /*internal*/,
                    KST_KServiceGroup = 7, /* 8 was KST_KImageIOFormat */ /* 9 was KST_KProtocolInfo in kde4 */
                    KST_KServiceSeparator = 10,
-                   KST_KCustom = 1000 };
+                   KST_KCustom = 1000
+                 };
 
 /**
  * \relates KSycocaFactory
@@ -47,11 +48,12 @@ enum KSycocaFactoryId { KST_KServiceFactory = 1,
                         // 4 was KST_KImageIO
                         // 5 was KST_KProtocolInfoFactory in kde4
                         KST_KMimeTypeFactory = 6,
-                        KST_CTimeInfo = 100 };
+                        KST_CTimeInfo = 100
+                      };
 
 #define K_SYCOCAFACTORY( factory_id ) \
-public: \
- virtual KSycocaFactoryId factoryId() const { return factory_id; } \
-private:
+    public: \
+    virtual KSycocaFactoryId factoryId() const { return factory_id; } \
+    private:
 
 #endif

@@ -30,47 +30,51 @@
 class KBuildServiceTypeFactory : public KServiceTypeFactory
 {
 public:
-  /**
-   * Create factory
-   */
-  KBuildServiceTypeFactory();
+    /**
+     * Create factory
+     */
+    KBuildServiceTypeFactory();
 
-  virtual ~KBuildServiceTypeFactory();
+    virtual ~KBuildServiceTypeFactory();
 
-  /**
-   * Find a service type in the database file
-   * @return a pointer to the servicetype in the memory dict (don't free!)
-   */
-  virtual KServiceType::Ptr findServiceTypeByName(const QString &_name);
+    /**
+     * Find a service type in the database file
+     * @return a pointer to the servicetype in the memory dict (don't free!)
+     */
+    virtual KServiceType::Ptr findServiceTypeByName(const QString &_name);
 
-  /**
-   * Construct a KServiceType from a config file.
-   */
-    virtual KSycocaEntry * createEntry(const QString &file) const;
+    /**
+     * Construct a KServiceType from a config file.
+     */
+    virtual KSycocaEntry *createEntry(const QString &file) const;
 
-  virtual KServiceType * createEntry( int ) const { assert(0); return 0L; }
+    virtual KServiceType *createEntry(int) const
+    {
+        assert(0);
+        return 0L;
+    }
 
-  /**
-   * Add entry
-   */
-  virtual void addEntry(const KSycocaEntry::Ptr& newEntry);
+    /**
+     * Add entry
+     */
+    virtual void addEntry(const KSycocaEntry::Ptr &newEntry);
 
-  /**
-   * Write out service type specific index files.
-   */
-  virtual void save(QDataStream &str);
+    /**
+     * Write out service type specific index files.
+     */
+    virtual void save(QDataStream &str);
 
-  /**
-   * Write out header information
-   *
-   * Don't forget to call the parent first when you override
-   * this function.
-   */
-  virtual void saveHeader(QDataStream &str);
+    /**
+     * Write out header information
+     *
+     * Don't forget to call the parent first when you override
+     * this function.
+     */
+    virtual void saveHeader(QDataStream &str);
 
-  /**
-   * Returns all resource types for this factory
-   */
+    /**
+     * Returns all resource types for this factory
+     */
     static QStringList resourceDirs();
 };
 

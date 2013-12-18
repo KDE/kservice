@@ -34,10 +34,11 @@ class KDBusServiceStarterPrivate;
  * ability to search the standard KDE dirs).
  * @author David Faure <faure@kde.org>
  */
-class KSERVICE_EXPORT KDBusServiceStarter { //krazy:exclude=dpointer (uses K_GLOBAL_STATIC)
+class KSERVICE_EXPORT KDBusServiceStarter   //krazy:exclude=dpointer (uses K_GLOBAL_STATIC)
+{
 public:
 
-    static KDBusServiceStarter* self();
+    static KDBusServiceStarter *self();
 
     /**
      * Check if a given DBus service is available - from the serviceType it's supposed to implement.
@@ -59,10 +60,10 @@ public:
      *
      * @return an error code indicating success (== 0) or failure (> 0).
      */
-    int findServiceFor( const QString& serviceType,
-                        const QString& constraint = QString(),
-                        QString *error=0, QString* dbusService=0,
-                        int flags=0 );
+    int findServiceFor(const QString &serviceType,
+                       const QString &constraint = QString(),
+                       QString *error = 0, QString *dbusService = 0,
+                       int flags = 0);
 
     /**
      * Find an implementation of the given @p serviceType,
@@ -85,10 +86,10 @@ public:
      *
      * @return an error code indicating success (== 0) or failure (> 0).
      */
-    virtual int startServiceFor( const QString& serviceType,
-                                 const QString& constraint = QString(),
-                                 QString *error=0, QString* dbusService=0,
-                                 int flags=0 );
+    virtual int startServiceFor(const QString &serviceType,
+                                const QString &constraint = QString(),
+                                QString *error = 0, QString *dbusService = 0,
+                                int flags = 0);
 protected:
     friend class KDBusServiceStarterPrivate;
     KDBusServiceStarter();

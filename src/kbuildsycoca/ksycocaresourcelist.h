@@ -22,9 +22,7 @@
 #include <QtCore/QString>
 #include <QtCore/QRegExp>
 
-
-struct KSycocaResource
-{
+struct KSycocaResource {
     QByteArray resource;
     QString subdir;
     QString extension;
@@ -37,7 +35,7 @@ public:
 
     // resource is just used in the databaseChanged signal
     // subdir is always under QStandardPaths::GenericDataLocation. E.g. mime, kde5/services, etc.
-    void add(const QByteArray& resource, const QString& subdir, const QString &filter)
+    void add(const QByteArray &resource, const QString &subdir, const QString &filter)
     {
         KSycocaResource res;
         res.resource = resource;
