@@ -139,7 +139,7 @@ void KServiceTest::initTestCase()
         KConfigGroup group = file.desktopGroup();
         group.writeEntry("Name", "OtherPart");
         group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-ServiceTypes", "KDEDModule");
+        group.writeEntry("X-KDE-ServiceTypes", "FakeKDEDModule");
         group.writeEntry("X-KDE-Library", "kcookiejar");
         group.writeEntry("X-KDE-DBus-ModuleName", "kcookiejar");
         group.writeEntry("X-KDE-Kded-autoload", "false");
@@ -218,6 +218,14 @@ void KServiceTest::initTestCase()
         group.writeEntry("X-KDE-Derived", "FakeBasePart");
     }
 
+    // fakekdedmodule
+    const QString fakeKdedModule = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/servicetypes/") + "fakekdedmodule.desktop";
+    if (!QFile::exists(fakeKdedModule)) {
+        const QString src = QFINDTESTDATA("fakekdedmodule.desktop");
+        QVERIFY(QFile::copy(src, fakeKdedModule));
+        mustUpdateKSycoca = true;
+    }
+
     if (mustUpdateKSycoca) {
         // Update ksycoca in ~/.kde-unit-test after creating the above
         runKBuildSycoca(true);
@@ -287,7 +295,7 @@ void KServiceTest::testProperty()
     QVERIFY(kdedkcookiejar);
     QCOMPARE(kdedkcookiejar->entryPath(), QString("kded/fakekcookiejar.desktop"));
 
-    QCOMPARE(kdedkcookiejar->property("ServiceTypes").toStringList().join(","), QString("KDEDModule"));
+    QCOMPARE(kdedkcookiejar->property("ServiceTypes").toStringList().join(","), QString("FakeKDEDModule"));
     QCOMPARE(kdedkcookiejar->property("X-KDE-Kded-autoload").toBool(), false);
     QCOMPARE(kdedkcookiejar->property("X-KDE-Kded-load-on-demand").toBool(), true);
     QVERIFY(!kdedkcookiejar->property("Name").toString().isEmpty());

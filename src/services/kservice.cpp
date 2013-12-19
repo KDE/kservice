@@ -547,6 +547,7 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
     if (t == QVariant::Invalid) {
         // No luck, let's ask KServiceTypeFactory what the type of this property
         // is supposed to be.
+        // ######### this looks in all servicetypes, not just the ones this service supports!
         t = KServiceTypeFactory::self()->findPropertyTypeByName(_name);
         if (t == QVariant::Invalid) {
             qDebug() << "Request for unknown property '" << _name << "'\n";
