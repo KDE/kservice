@@ -55,22 +55,6 @@
     </method>
     <method name="reparseConfiguration">
     </method>
-    <method name="requestHoldSlave">
-      <arg type="i" direction="out"/>
-      <arg name="url" type="s" direction="in"/>
-      <arg name="app_socket" type="s" direction="in"/>
-    </method>
-    <method name="requestSlave">
-      <arg type="i" direction="out"/>
-      <arg name="protocol" type="s" direction="in"/>
-      <arg name="host" type="s" direction="in"/>
-      <arg name="app_socket" type="s" direction="in"/>
-      <arg name="error" type="s" direction="out"/>
-    </method>
-    <method name="checkForHeldSlave">
-      <arg type="b" direction="out"/>
-      <arg name="url" type="s" direction="in"/>
-    </method>
     <method name="setLaunchEnv">
       <arg name="name" type="s" direction="in"/>
       <arg name="value" type="s" direction="in"/>
@@ -96,9 +80,6 @@
       <arg name="dbusServiceName" type="s" direction="out"/>
       <arg name="error" type="s" direction="out"/>
       <arg name="pid" type="i" direction="out"/>
-    </method>
-    <method name="waitForSlave">
-      <arg name="pid" type="i" direction="in"/>
     </method>
     <method name="terminate_kdeinit">
     </method>
