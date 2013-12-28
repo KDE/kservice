@@ -103,6 +103,7 @@ install(FILES
    plugin/kpluginloader.h
    plugin/kexportplugin.h
    plugin/kplugintrader.h
+   plugin/kdbusservicestarter.h
    DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel
 )
 
