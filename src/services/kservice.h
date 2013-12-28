@@ -437,7 +437,7 @@ public:
      * @return a pointer to the requested service or 0 if the service is
      *         unknown.
      * @em Very @em important: Don't store the result in a KService* !
-     * @deprecated there is never a good reason to use this method.
+     * @deprecated use KServiceTypeTrader with a constraint on Name instead
      */
 #ifndef KDE_NO_DEPRECATED
     static Ptr serviceByName(const QString &_name);   // KDE5: remove

@@ -97,17 +97,6 @@
       <arg name="error" type="s" direction="out"/>
       <arg name="pid" type="i" direction="out"/>
     </method>
-    <method name="start_service_by_name">
-      <arg type="i" direction="out"/>
-      <arg name="serviceName" type="s" direction="in"/>
-      <arg name="urls" type="as" direction="in"/>
-      <arg name="envs" type="as" direction="in"/>
-      <arg name="startup_id" type="s" direction="in"/>
-      <arg name="blind" type="b" direction="in"/>
-      <arg name="dbusServiceName" type="s" direction="out"/>
-      <arg name="error" type="s" direction="out"/>
-      <arg name="pid" type="i" direction="out"/>
-    </method>
     <method name="waitForSlave">
       <arg name="pid" type="i" direction="in"/>
     </method>

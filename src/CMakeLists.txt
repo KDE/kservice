@@ -47,7 +47,9 @@ if (UNIX)
    )
 endif()
 
-# Temporary until we can depend on the kinit framework being installed and can generate it from klauncher_adaptor.h
+# kservice cannot depend on kinit (because kinit->kio->kservice), so we need a copy of org.kde.KLauncher.xml here.
+# And I don't want to have it here as a source file (who wants to edit dbus xml by hand), so it can be
+# generated from klauncher's implementation header.
 qt5_add_dbus_interface(kservice_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
 
 add_library(KF5Service ${kservice_SRCS})
