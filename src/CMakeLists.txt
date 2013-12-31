@@ -64,6 +64,8 @@ set(kservice_includes
 )
 target_include_directories(KF5Service PUBLIC "$<BUILD_INTERFACE:${kservice_includes}>")
 
+target_include_directories(KF5Service INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/kservice>" "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/KService>")
+
 target_link_libraries(KF5Service
   PUBLIC
     KF5::ConfigCore   # KConfig and friends
@@ -78,39 +80,58 @@ set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION_STRING}
                                             EXPORT_NAME Service
 )
 
-install(TARGETS KF5Service EXPORT KF5ServiceTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+ecm_generate_headers(
+  KLibrary
+  KPluginFactory
+  KPluginLoader
+  KExportPlugin
+  KPluginTrader
+  KDBusServiceStarter
 
-install(FILES
-   "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
-   kdeinit/ktoolinvocation.h
-   services/kautostart.h
-   services/kmimetypetrader.h
-   services/kservice.h
-   services/kserviceaction.h
-   services/kservicegroup.h
-   #services/kservicefactory.h: do not install, internal API
-   services/kservicetype.h
-   #services/kservicetypefactory.h: do not install, internal API
-   services/kservicetypeprofile.h
-   services/kservicetypetrader.h
-   #services/kserviceoffer.h: do not install, internal API
-   services/kplugininfo.h
-   sycoca/ksycoca.h
-   sycoca/ksycocaentry.h
-   sycoca/ksycocatype.h
-   plugin/klibrary.h
-   plugin/kpluginfactory.h
-   plugin/kpluginloader.h
-   plugin/kexportplugin.h
-   plugin/kplugintrader.h
-   plugin/kdbusservicestarter.h
-   DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel
+  RELATIVE plugin REQUIRED_HEADERS KService_HEADERS
+)
+ecm_generate_headers(
+  KSycoca
+  KSycocaEntry
+  KSycocaType
+
+  RELATIVE sycoca REQUIRED_HEADERS KService_HEADERS
+)
+ecm_generate_headers(
+  KToolInvocation
+
+  RELATIVE kdeinit REQUIRED_HEADERS KService_HEADERS
+)
+ecm_generate_headers(
+  KAutostart
+  KMimeTypeTrader
+  KService
+  KServiceAction
+  KServiceGroup
+  KServiceFactory
+  KServiceType
+  KServiceTypeFactory
+  KServiceTypeProfile
+  KServiceTypeTrader
+  KServiceOffer
+  KPluginInfo
+
+  RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
 
 install(FILES
    services/kplugininfo.desktop
    services/application.desktop
    DESTINATION ${SERVICETYPES_INSTALL_DIR}
+)
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/KService DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
+
+install(TARGETS KF5Service EXPORT KF5ServiceTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+
+install(FILES
+   "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
+   ${KService_HEADERS}
+   DESTINATION ${INCLUDE_INSTALL_DIR}/kservice COMPONENT Devel
 )
 
 add_subdirectory(kbuildsycoca)
