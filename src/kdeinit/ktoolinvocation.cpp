@@ -21,7 +21,7 @@
 #include "ktoolinvocation.h"
 #include "klauncher_iface.h"
 #include <klocalizedstring.h>
-#include <kdeinit_interface.h>
+#include <kdeinitinterface.h>
 
 #include <QUrl>
 #include <QCoreApplication>
