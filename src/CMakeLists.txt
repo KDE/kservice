@@ -108,12 +108,9 @@ ecm_generate_headers(
   KService
   KServiceAction
   KServiceGroup
-  KServiceFactory
   KServiceType
-  KServiceTypeFactory
   KServiceTypeProfile
   KServiceTypeTrader
-  KServiceOffer
   KPluginInfo
 
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
