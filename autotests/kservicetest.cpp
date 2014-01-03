@@ -16,9 +16,10 @@
  *  Boston, MA 02110-1301, USA.
  */
 
+#include "kservicetest.h"
+
 #include <locale.h>
 
-#include "kservicetest.h"
 #include <qtest.h>
 
 #include <kconfig.h>
