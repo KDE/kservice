@@ -75,7 +75,7 @@ void KPluginTrader::applyConstraints(KPluginInfo::List &lst, const QString &cons
     if (!constr) { // parse error
         lst.clear();
     } else {
-        // Find all plugin infos matching the constraint and remove the rest
+        // Find all plugin information matching the constraint and remove the rest
         KPluginInfo::List::iterator it = lst.begin();
         while (it != lst.end()) {
             if (matchConstraintPlugin(pConstraintTree, *it, lst) != 1) {

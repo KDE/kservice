@@ -136,7 +136,7 @@ private Q_SLOTS:
             writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << "text/plain", 9);
         }
 
-        // An app (like emacs) listing explicitely the derived mimetype (c-src); not in mimeapps.list
+        // An app (like emacs) listing explicitly the derived mimetype (c-src); not in mimeapps.list
         // This interacted badly with mimeapps.list listing another app for text/plain, but the
         // lookup found this app first, due to c-src. The fix: ignoring derived mimetypes when
         // the base mimetype is already listed.

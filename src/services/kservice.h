@@ -119,7 +119,7 @@ public:
      */
     QString icon() const;
     /**
-     * Checks whethe the service should be run in a terminal.
+     * Checks whether the service should be run in a terminal.
      * @return true if the service is to be run in a terminal.
      */
     bool terminal() const;
