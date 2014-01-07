@@ -12,6 +12,7 @@ include(KDEFrameworkCompilerSettings)
 include(KDECMakeSettings)
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
+include(GenerateExportHeader)
 
 set(KF5_VERSION "5.0.0")
 
