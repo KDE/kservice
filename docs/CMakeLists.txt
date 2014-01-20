@@ -1,2 +1,3 @@
 add_subdirectory(kbuildsycoca5)
 add_subdirectory(kdeinit5)
+add_subdirectory(desktoptojson)
