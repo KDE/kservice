@@ -647,7 +647,6 @@ int main(int argc, char **argv)
 
     KCrash::setCrashHandler(KCrash::defaultCrashHandler);
     KCrash::setEmergencySaveFunction(crashHandler);
-    KCrash::setApplicationName(QString::fromLatin1(KBUILDSYCOCA_EXENAME));
 
     // force generating of KLocale object. if not, the database will get
     // be translated
