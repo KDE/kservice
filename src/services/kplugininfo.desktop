@@ -2,6 +2,9 @@
 Type=ServiceType
 X-KDE-ServiceType=KPluginInfo
 Name=KDE Plugin Information
+Name[pt_BR]=Informações sobre os plugins do KDE
+Name[sk]=Informácia o module KDE
+Name[uk]=Інформація про додаток до KDE
 Name[x-test]=xxKDE Plugin Informationxx
 
 [PropertyDef::X-KDE-PluginInfo-Author]

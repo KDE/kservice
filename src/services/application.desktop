@@ -2,6 +2,9 @@
 Type=ServiceType
 X-KDE-ServiceType=Application
 Name=Application
+Name[pt_BR]=Aplicativo
+Name[sk]=Aplikácia
+Name[uk]=Програма
 Name[x-test]=xxApplicationxx
 
 [PropertyDef::NoDisplay]

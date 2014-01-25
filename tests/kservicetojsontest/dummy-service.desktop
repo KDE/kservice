@@ -2,6 +2,9 @@
 Type=Service
 Icon=
 Name=Dummy
+Name[pt_BR]=Teste
+Name[sk]=Prázdne
+Name[uk]=Макет
 Name[x-test]=xxDummyxx
 ServiceTypes=Dummy
 X-KDE-Library=kservicetojsontest
