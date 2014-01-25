@@ -1,6 +1,8 @@
 [Desktop Entry]
 Name=NSA Plugin
+Name[x-test]=xxNSA Pluginxx
 Comment=Test Plugin Spy
+Comment[x-test]=xxTest Plugin Spyxx
 Type=Service
 Icon=preferences-system-time
 

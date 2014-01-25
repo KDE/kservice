@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=ServiceType
 X-KDE-ServiceType=KDEDModule
 Comment=KDED Module
+Comment[x-test]=xxKDED Modulexx
 [PropertyDef::X-KDE-FactoryName]
 Type=QString
 [PropertyDef::X-KDE-Kded-autoload]
