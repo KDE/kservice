@@ -1,10 +1,16 @@
 [Desktop Entry]
 Name=NSA Plugin
+Name[de]=NSA-Modul
+Name[nl]=NSA plug-in
+Name[pt]='Plugin' da NSA
 Name[pt_BR]=Plugin NSA
 Name[sk]=NSA plugin
 Name[uk]=Додаток NSA
 Name[x-test]=xxNSA Pluginxx
 Comment=Test Plugin Spy
+Comment[de]=Test-Spionagemodul
+Comment[nl]=Plug-in spion testen
+Comment[pt]=Espião dos 'Plugins' de Testes
 Comment[pt_BR]=Plugin de teste de espionagem
 Comment[sk]=Testovací plugin špión
 Comment[uk]=Тестовий шпигунський додаток

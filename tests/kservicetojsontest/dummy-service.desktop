@@ -2,6 +2,9 @@
 Type=Service
 Icon=
 Name=Dummy
+Name[de]=Dummy
+Name[nl]=Dummy
+Name[pt]=Testes
 Name[pt_BR]=Teste
 Name[sk]=Prázdne
 Name[uk]=Макет
