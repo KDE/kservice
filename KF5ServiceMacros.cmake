@@ -1,35 +1,47 @@
 #
-# kservice_desktop_to_json(desktopfile [jsonfile])
+# kservice_desktop_to_json(target desktopfile)
 #
-# This macro uses desktoptojson to compile a json file, from a plugin
+# This macro uses desktoptojson to generate a json file from a plugin
 # description in a .desktop file. The generated file can be compiled
 # into the plugin using the K_PLUGIN_FACTORY_WITH_JSON (cpp) macro.
 #
-# When jsonFile is omitted, the macro will replace the .desktop file
-# extension of the first argument with .json and use that as output.
+# Example:
 #
-# Examples:
-#
-#  kservice_desktop_to_json(plasma-dataengine-time.desktop)
-#
-# or:
-#
-#  kservice_desktop_to_json(plasma-dataengine-time.desktop my_output_file.json)
-#
-# WARNING: This macro runs desktoptojson at *build* time. This was
-# necessary because the .json file file must be generated before moc
-# is run, and there is currently no way to define a target as a
-# dependency of the automoc target.
+#  kservice_desktop_to_json(plasma_engine_time plasma-dataengine-time.desktop)
 
-macro(kservice_desktop_to_json desktop)
-    # replace file extension if second argument is empty
-    set(json ${ARGV1})
-    if(NOT json)
-        string(REPLACE ".desktop" ".json" json ${desktop})
+function(kservice_desktop_to_json)
+    if(${ARGC} EQUAL 1)
+        message(WARNING "Calling kservice_desktop_to_json with only one argument is deprecated. The code should be changed to pass the target which depends on the json file as first argument.")
+        set(desktop ${ARGV0})
+        set(target "")
+    else()
+        set(target ${ARGV0})
+        set(desktop ${ARGV1})
+    endif()
+    string(REPLACE ".desktop" ".json" json ${desktop})
+
+    get_target_property(desktoptojson KF5::desktoptojson LOCATION)
+
+    if(CMAKE_VERSION VERSION_LESS 2.8.12.20140127 OR "${target}" STREQUAL "")
+        _desktop_to_json_cmake28(${desktoptojson} ${desktop} ${json})
+        return()
     endif()
 
-    # find and run desktoptojson
-    get_target_property(desktoptojson KF5::desktoptojson LOCATION)
+    add_custom_command(
+        OUTPUT ${json}
+        COMMAND ${desktoptojson} -i ${desktop} -o ${CMAKE_CURRENT_BINARY_DIR}/${json}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        DEPENDS ${desktop}
+        )
+    set_property(TARGET ${target} APPEND PROPERTY AUTOGEN_TARGET_DEPENDS ${json})
+endfunction()
+
+function(_desktop_to_json_cmake28 desktoptojson desktop json)
+    # This function runs desktoptojson at *configure* time, ie, when CMake runs.
+    # This is necessary with CMake < 3.0.0 because the .json file must be
+    # generated before moc is run, and there was no way until CMake 3.0.0 to
+    # define a target as a dependency of the automoc target.
+    message("Using old way to call desktoptojson")
     execute_process(
         COMMAND ${desktoptojson} -i ${desktop} -o ${CMAKE_CURRENT_BINARY_DIR}/${json}
         RESULT_VARIABLE result
@@ -38,4 +50,4 @@ macro(kservice_desktop_to_json desktop)
     if (NOT result EQUAL 0)
         message(FATAL_ERROR "Generating ${json} failed")
     endif()
-endmacro(kservice_desktop_to_json)
+endfunction()

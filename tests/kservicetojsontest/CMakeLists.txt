@@ -11,5 +11,5 @@ include_directories(${CMAKE_SOURCE_DIR})
 include_directories(${CMAKE_BINARY_DIR})
 
 add_library(kservicetojsontest dummyplugin.cpp)
-kservice_desktop_to_json(dummy-service.desktop)
+kservice_desktop_to_json(kservicetojsontest dummy-service.desktop)
 target_link_libraries(kservicetojsontest KF5::Service)
