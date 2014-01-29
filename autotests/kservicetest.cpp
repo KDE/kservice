@@ -412,24 +412,24 @@ void KServiceTest::testByStorageId()
     if (!KSycoca::isAvailable()) {
         QSKIP("ksycoca not available");
     }
-    if (QStandardPaths::locate(QStandardPaths::ApplicationsLocation, "kde5/kmailservice.desktop").isEmpty()) {
-        QSKIP("kde5/kmailservice.desktop not available");
+    if (QStandardPaths::locate(QStandardPaths::ApplicationsLocation, "kde5/kmailservice5.desktop").isEmpty()) {
+        QSKIP("kde5/kmailservice5.desktop not available");
     }
-    QVERIFY(KService::serviceByMenuId("kde5-kmailservice.desktop"));
-    QVERIFY(!KService::serviceByMenuId("kde5-kmailservice")); // doesn't work, extension mandatory
-    QVERIFY(KService::serviceByStorageId("kde5-kmailservice.desktop"));
-    //QVERIFY(!KService::serviceByStorageId("kde5-kmailservice")); // doesn't work, extension mandatory; also shows a debug
+    QVERIFY(KService::serviceByMenuId("kde5-kmailservice5.desktop"));
+    QVERIFY(!KService::serviceByMenuId("kde5-kmailservice5")); // doesn't work, extension mandatory
+    QVERIFY(KService::serviceByStorageId("kde5-kmailservice5.desktop"));
+    //QVERIFY(!KService::serviceByStorageId("kde5-kmailservice5")); // doesn't work, extension mandatory; also shows a debug
 
     // This one fails here; probably because there are two such files, so this would be too
     // ambiguous... According to the testAllServices output, the entryPaths are
-    // entryPath="/d/kde/inst/kde5/share/applications/kde5/kmailservice.desktop"
-    // entryPath= "/usr/share/applications/kde5/kmailservice.desktop"
+    // entryPath="/d/kde/inst/kde5/share/applications/kde5/kmailservice5.desktop"
+    // entryPath= "/usr/share/applications/kde5/kmailservice5.desktop"
     //
-    //QVERIFY(KService::serviceByDesktopPath("kmailservice.desktop"));
+    //QVERIFY(KService::serviceByDesktopPath("kmailservice5.desktop"));
 
-    QVERIFY(KService::serviceByDesktopName("kmailservice"));
+    QVERIFY(KService::serviceByDesktopName("kmailservice5"));
     // This could fail if it finds the kde4 kmailservice from /usr/share.
-    //QCOMPARE(KService::serviceByDesktopName("kmailservice")->menuId(), QString("kde5-kmailservice.desktop"));
+    //QCOMPARE(KService::serviceByDesktopName("kmailservice5")->menuId(), QString("kde5-kmailservice5.desktop"));
 }
 
 void KServiceTest::testServiceTypeTraderForReadOnlyPart()
