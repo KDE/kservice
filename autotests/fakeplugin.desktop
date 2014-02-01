@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=NSA Plugin
+Name[bs]=NSA priključak
 Name[ca]=Connector de la NSA
 Name[de]=NSA-Modul
 Name[fi]=NSA-liitännäinen
@@ -13,6 +14,7 @@ Name[sv]=NSA-insticksprogram
 Name[uk]=Додаток NSA
 Name[x-test]=xxNSA Pluginxx
 Comment=Test Plugin Spy
+Comment[bs]=Špijun za test priključaka
 Comment[ca]=Connector de proves espia
 Comment[de]=Test-Spionagemodul
 Comment[fi]=Testivakoiluliitännäinen
