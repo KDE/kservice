@@ -645,7 +645,6 @@ int main(int argc, char **argv)
         qputenv("XDG_DATA_HOME", "-");
     }
 
-    KCrash::setCrashHandler(KCrash::defaultCrashHandler);
     KCrash::setEmergencySaveFunction(crashHandler);
 
     // force generating of KLocale object. if not, the database will get
