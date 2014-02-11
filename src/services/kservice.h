@@ -360,6 +360,15 @@ public:
     bool showInKDE() const;
 
     /**
+     * Whether the service should be shown on the current
+     * platform (e.g. on xcb or on wayland).
+     * @return true if the service should be shown
+     *
+     * @since 5.0
+     */
+    bool showOnCurrentPlatform() const;
+
+    /**
      * Name of the application this service belongs to.
      * (Useful for e.g. plugins)
      * @return the parent application, or QString() if not set

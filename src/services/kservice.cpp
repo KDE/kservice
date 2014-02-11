@@ -32,6 +32,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QDir>
 #include <QtCore/QMap>
+#include <QCoreApplication>
 #include <qmimedatabase.h>
 
 #include <kauthorized.h>
@@ -717,6 +718,32 @@ bool KService::showInKDE() const
     return true;
 }
 
+bool KService::showOnCurrentPlatform() const
+{
+    Q_D(const KService);
+    const QString platform = QCoreApplication::instance()->property("platformName").toString();
+    if (platform.isEmpty()) {
+        return true;
+    }
+
+    auto it = d->m_mapProps.find(QStringLiteral("X-KDE-OnlyShowOnQtPlatforms"));
+    if ((it != d->m_mapProps.end()) && (it->isValid())) {
+        const QStringList aList = it->toString().split(QLatin1Char(';'));
+        if (!aList.contains(platform)) {
+            return false;
+        }
+    }
+
+    it = d->m_mapProps.find(QStringLiteral("X-KDE-NotShowOnQtPlatforms"));
+    if ((it != d->m_mapProps.end()) && (it->isValid())) {
+        const QStringList aList = it->toString().split(QLatin1Char(';'));
+        if (aList.contains(platform)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool KService::noDisplay() const
 {
     if (qvariant_cast<bool>(property(QString::fromLatin1("NoDisplay"), QVariant::Bool))) {
@@ -724,6 +751,10 @@ bool KService::noDisplay() const
     }
 
     if (!showInKDE()) {
+        return true;
+    }
+
+    if (!showOnCurrentPlatform()) {
         return true;
     }
 
