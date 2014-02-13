@@ -97,6 +97,7 @@ Comment[wa]=Module po KDED
 Comment[xh]=KDED Isichatshulwa
 Comment[x-test]=xxKDED Modulexx
 Comment[zh_CN]=KDED 模块
+Comment[zh_HK]=KDED 模組
 Comment[zh_TW]=KDED 模組
 [PropertyDef::X-KDE-FactoryName]
 Type=QString
