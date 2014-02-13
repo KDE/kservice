@@ -1,3 +1,5 @@
+include(ECMMarkNonGuiExecutable)
+
 set(kbuildsycoca_SRCS
    kbuildsycoca.cpp
    kbuildmimetypefactory.cpp
@@ -11,6 +13,9 @@ set(kbuildsycoca_SRCS
 
 # We need to add a '5' so that kde3/kde4 apps running kbuildsycoca don't run the kde4 one.
 add_executable( kbuildsycoca5 ${kbuildsycoca_SRCS})
+
+# Mark it as non-gui so we won't create an app bundle on Mac OS X
+ecm_mark_nongui_executable(kbuildsycoca5)
 
 target_link_libraries(kbuildsycoca5
    KF5::Service #KBuildMimeTypeFactory subclasses KMimeTypeFactory, KServiceGroupFactory and KService used as well
