@@ -80,7 +80,8 @@ set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION_STRING}
                                             EXPORT_NAME Service
 )
 
-ecm_generate_headers(
+ecm_generate_headers(KService_HEADERS
+  HEADER_NAMES
   KLibrary
   KPluginFactory
   KPluginLoader
@@ -90,19 +91,22 @@ ecm_generate_headers(
 
   RELATIVE plugin REQUIRED_HEADERS KService_HEADERS
 )
-ecm_generate_headers(
+ecm_generate_headers(KService_HEADERS
+  HEADER_NAMES
   KSycoca
   KSycocaEntry
   KSycocaType
 
   RELATIVE sycoca REQUIRED_HEADERS KService_HEADERS
 )
-ecm_generate_headers(
+ecm_generate_headers(KService_HEADERS
+  HEADER_NAMES
   KToolInvocation
 
   RELATIVE kdeinit REQUIRED_HEADERS KService_HEADERS
 )
-ecm_generate_headers(
+ecm_generate_headers(KService_HEADERS
+  HEADER_NAMES
   KAutostart
   KMimeTypeTrader
   KService
@@ -121,7 +125,6 @@ install(FILES
    services/application.desktop
    DESTINATION ${SERVICETYPES_INSTALL_DIR}
 )
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/KService DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel)
 
 install(TARGETS KF5Service EXPORT KF5ServiceTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
 
