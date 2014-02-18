@@ -24,6 +24,7 @@
 #include "klocalizedstring.h"
 
 #include <QUrl>
+#include <QUrlQuery>
 #include <QProcess>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QHash>
@@ -55,13 +56,15 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
                                    const QByteArray &startup_id)
 {
     QUrl url(QLatin1String("mailto:") + _to);
-    url.setQuery(QLatin1String("?subject=") + subject);
-    url.addQueryItem(QLatin1String("cc"), _cc);
-    url.addQueryItem(QLatin1String("bcc"), _bcc);
-    url.addQueryItem(QLatin1String("body"), body);
+    QUrlQuery query;
+    query.addQueryItem(QStringLiteral("subject"), subject);
+    query.addQueryItem(QStringLiteral("cc"), _cc);
+    query.addQueryItem(QStringLiteral("bcc"), _bcc);
+    query.addQueryItem(QStringLiteral("body"), body);
     foreach (const QString &attachURL, attachURLs) {
-        url.addQueryItem(QLatin1String("attach"), attachURL);
+        query.addQueryItem(QStringLiteral("attach"), attachURL);
     }
+    url.setQuery(query);
 
 #ifndef _WIN32_WCE
     QString sOpen = QLatin1String("open");

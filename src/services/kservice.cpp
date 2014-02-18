@@ -21,12 +21,7 @@
 #include "kservice_p.h"
 #include "kmimetypefactory.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
-
-#include <stddef.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include <qplatformdefs.h>
 
 #include <QtCore/QCharRef>
 #include <QtCore/QFile>

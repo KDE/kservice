@@ -53,6 +53,10 @@ endif()
 qt5_add_dbus_interface(kservice_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
 
 add_library(KF5Service ${kservice_SRCS})
+if(WIN32)
+    #unistd.h does not exist on windows
+    target_compile_definitions(KF5Service PRIVATE YY_NO_UNISTD_H=1)
+endif()
 generate_export_header(KF5Service BASE_NAME KService)
 add_library(KF5::Service ALIAS KF5Service)
 set(kservice_includes

@@ -49,8 +49,7 @@
 #include <kmemfile_p.h>
 #include <kaboutdata.h>
 
-#include <stdlib.h>
-#include <unistd.h>
+#include <qplatformdefs.h>
 #include <time.h>
 #include <memory> // auto_ptr
 #include <qstandardpaths.h>
