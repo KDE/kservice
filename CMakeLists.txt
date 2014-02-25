@@ -19,7 +19,8 @@ set(KF5_VERSION "4.96.0")
 ecm_setup_version(${KF5_VERSION}
                   VARIABLE_PREFIX KSERVICE
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kservice_version.h"
-                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfigVersion.cmake")
+                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfigVersion.cmake"
+                  SOVERSION 5)
 
 # TODO: Remove these
 remove_definitions(-DQT_NO_CAST_TO_ASCII)
