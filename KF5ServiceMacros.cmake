@@ -40,8 +40,9 @@ function(_desktop_to_json_cmake28 desktop json)
     # generated before moc is run, and there was no way until CMake 3.0.0 to
     # define a target as a dependency of the automoc target.
     message("Using old way to call desktoptojson")
+    get_target_property(DESKTOPTOJSON_LOCATION KF5::desktoptojson LOCATION)
     execute_process(
-        COMMAND $<TARGET_FILE:KF5::desktoptojson> -i ${desktop} -o ${CMAKE_CURRENT_BINARY_DIR}/${json}
+        COMMAND ${DESKTOPTOJSON_LOCATION} -i ${desktop} -o ${CMAKE_CURRENT_BINARY_DIR}/${json}
         RESULT_VARIABLE result
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         )
