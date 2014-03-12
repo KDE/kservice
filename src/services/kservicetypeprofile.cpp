@@ -86,7 +86,7 @@ void KServiceTypeProfiles::ensureParsed()
     // Make sure that a KServiceTypeFactory gets created.
     (void) KServiceTypeFactory::self();
 
-    // Read the service type profiles from servicetype_profilerc (new in kde4)
+    // Read the service type profiles from servicetype_profilerc
     // See writeServiceTypeProfile for a description of the file format.
     // ### Since this new format names groups after servicetypes maybe we can even
     // avoid doing any init upfront, and just look up the group when asked...
