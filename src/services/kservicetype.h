@@ -61,16 +61,6 @@ public:
     QString comment() const;
 
     /**
-     * Returns the relative path to the desktop entry file responsible for
-     *         this servicetype.
-     * For instance inode/directory.desktop, or kpart.desktop
-     * @return the path of the desktop file
-     */
-#ifndef KDE_NO_DEPRECATED
-    KSERVICE_DEPRECATED QString desktopEntryPath() const;
-#endif
-
-    /**
      * Checks whether this service type inherits another one.
      * @return true if this service type inherits another one
      * @see parentServiceType()

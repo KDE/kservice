@@ -233,19 +233,6 @@ public:
     QString directoryEntryPath() const;
 
     /**
-     * Returns the group for the given baseGroupName.
-     * Can return 0L if the directory (or the .directory file) was deleted.
-     * @return the base group with the given name, or 0 if not available.
-     *
-     * This mechanism was fragile and isn't used in kde4 anymore.
-     * @deprecated Use a servicetype and a proper trader query instead, for a better
-     * way of finding related services.
-     */
-#ifndef KDE_NO_DEPRECATED
-    static KSERVICE_DEPRECATED Ptr baseGroup(const QString &baseGroupName);
-#endif
-
-    /**
      * Returns the root service group.
      * @return the root service group
      */

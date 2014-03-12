@@ -433,17 +433,6 @@ bool KService::hasServiceType(const QString &serviceType) const
     return false;
 }
 
-#ifndef KDE_NO_DEPRECATED
-bool KService::hasMimeType(const KServiceType *ptr) const
-{
-    if (!ptr) {
-        return false;
-    }
-
-    return hasMimeType(ptr->name());
-}
-#endif
-
 bool KService::hasMimeType(const QString &mimeType) const
 {
     Q_D(const KService);
@@ -602,13 +591,6 @@ KService::List KService::allServices()
 {
     return KServiceFactory::self()->allServices();
 }
-
-#ifndef KDE_NO_DEPRECATED
-KService::Ptr KService::serviceByName(const QString &_name)
-{
-    return KServiceFactory::self()->findServiceByName(_name);
-}
-#endif
 
 KService::Ptr KService::serviceByDesktopPath(const QString &_name)
 {
@@ -889,14 +871,6 @@ bool KService::isApplication() const
     return d->m_strType == QLatin1String("Application");
 }
 
-#ifndef KDE_NO_DEPRECATED
-QString KService::type() const
-{
-    Q_D(const KService);
-    return d->m_strType;
-}
-#endif
-
 QString KService::exec() const
 {
     Q_D(const KService);
@@ -930,14 +904,6 @@ bool KService::terminal() const
     Q_D(const KService);
     return d->m_bTerminal;
 }
-
-// KDE5: remove and port code to entryPath?
-#ifndef KDE_NO_DEPRECATED
-QString KService::desktopEntryPath() const
-{
-    return entryPath();
-}
-#endif
 
 QString KService::desktopEntryName() const
 {

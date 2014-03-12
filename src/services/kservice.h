@@ -91,15 +91,6 @@ public:
     bool isApplication() const;
 
     /**
-     * Returns the type of the service.
-     * @return the type of the service ("Application" or "Service")
-     * @deprecated use isApplication()
-     */
-#ifndef KDE_NO_DEPRECATED
-    KSERVICE_DEPRECATED QString type() const;
-#endif
-
-    /**
      * Returns the executable.
      * @return the command that the service executes,
      *         or QString() if not set
@@ -147,24 +138,6 @@ public:
      * @see substituteUid()
      */
     QString username() const;
-
-    /**
-     * Returns the path to the location where the service desktop entry
-     * is stored.
-     *
-     * This is a relative path if the desktop entry was found in any
-     * of the locations pointed to by $KDEDIRS (e.g. "Internet/kppp.desktop")
-     * It is a full path if the desktop entry originates from another
-     * location.
-     *
-     * @deprecated use entryPath() instead
-     *
-     * @return the path of the service's desktop file,
-     *         or QString() if not set
-     */
-#ifndef KDE_NO_DEPRECATED
-    KSERVICE_DEPRECATED QString desktopEntryPath() const;
-#endif
 
     /**
      * Returns the filename of the service desktop entry without any
@@ -274,28 +247,6 @@ public:
      * @return true if the service type you specified is supported, otherwise false.
      */
     bool hasServiceType(const QString &serviceTypePtr) const;
-
-    /**
-     * Checks whether the service supports this mime type
-     * @param mimeTypePtr The name of the mime type you are
-     *        interested in determining whether this service supports.
-     *
-     * Note that if you only have the name of the mime type, you have to look it up
-     * with KMimeType::mimeType( mimetype ) and use .data() on the result (this is
-     * because KService doesn't know KMimeType for dependency reasons)
-     *
-     * Warning this method will fail to return true if this KService isn't from ksycoca
-     * (i.e. it was created with a full path or a KDesktopFile) *and* the mimetype
-     * isn't explicited listed in the .desktop file but a parent mimetype is.
-     * For this reason you should generally get KServices with KMimeTypeTrader
-     * or one of the KService::serviceBy methods.
-     *
-     * @return true if the mime type you specified is supported, otherwise false.
-     * @deprecated, use hasMimeType(QString)
-     */
-#ifndef KDE_NO_DEPRECATED
-    KSERVICE_DEPRECATED bool hasMimeType(const KServiceType *mimeTypePtr) const;
-#endif
 
     /**
      * Checks whether the service supports this mime type
@@ -439,20 +390,6 @@ public:
     void setExec(const QString &exec);
 
     /**
-     * Find a service by name, i.e. the translated Name field. Don't use this.
-     * Use serviceByDesktopPath or serviceByStorageId instead.
-     *
-     * @param _name the name to search
-     * @return a pointer to the requested service or 0 if the service is
-     *         unknown.
-     * @em Very @em important: Don't store the result in a KService* !
-     * @deprecated use KServiceTypeTrader with a constraint on Name instead
-     */
-#ifndef KDE_NO_DEPRECATED
-    static Ptr serviceByName(const QString &_name);   // KDE5: remove
-#endif
-
-    /**
      * Find a service based on its path as returned by entryPath().
      * It's usually better to use serviceByStorageId() instead.
      *
@@ -582,18 +519,6 @@ public:
         }
         return 0;
     }
-
-    /**
-     * @deprecated Use the non-static service->createInstance<T>(parent, args, &error)
-     */
-#ifndef KDE_NO_DEPRECATED
-    template <class T>
-    static KSERVICE_DEPRECATED T *createInstance(const KService::Ptr &service, QObject *parent = 0,
-            const QVariantList &args = QVariantList(), QString *error = 0)
-    {
-        return service->createInstance<T>(parent, args, error);
-    }
-#endif
 
 private:
     friend class KBuildServiceFactory;

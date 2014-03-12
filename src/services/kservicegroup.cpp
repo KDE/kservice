@@ -652,14 +652,6 @@ QStringList KServiceGroup::layoutInfo() const
     return d->sortOrder;
 }
 
-#ifndef KDE_NO_DEPRECATED
-KServiceGroup::Ptr
-KServiceGroup::baseGroup(const QString &_baseGroupName)
-{
-    return KServiceGroupFactory::self()->findBaseGroup(_baseGroupName, true);
-}
-#endif
-
 KServiceGroup::Ptr
 KServiceGroup::root()
 {
