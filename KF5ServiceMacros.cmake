@@ -23,6 +23,10 @@ function(kservice_desktop_to_json)
     if(CMAKE_VERSION VERSION_LESS 2.8.12.20140127 OR "${target}" STREQUAL "")
         _desktop_to_json_cmake28(${desktop} ${json})
         return()
+    elseif(MSVC_IDE AND CMAKE_VERSION VERSION_LESS 3.0)
+        # autogen dependencies for visual studio generator are broken until cmake commit 2ed0d06
+        _desktop_to_json_cmake28(${desktop} ${json})
+        return()
     endif()
 
     add_custom_command(
