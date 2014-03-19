@@ -308,15 +308,14 @@ void KServicePrivate::load(QDataStream &s)
 {
     qint8 def, term;
     qint8 dst, initpref;
-    QStringList dummyList; // KDE4: you can reuse this for another QStringList. KDE5: remove
 
-    // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KDE 4.x VERSIONS!
+    // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KService 5.x VERSIONS!
     // !! This data structure should remain binary compatible at all times !!
-    // You may add new fields at the end. Make sure to update the version
-    // number in ksycoca.h
+    // You may add new fields at the end. Make sure to update KSYCOCA_VERSION
+    // number in ksycoca.cpp
     s >> m_strType >> m_strName >> m_strExec >> m_strIcon
       >> term >> m_strTerminalOptions
-      >> m_strPath >> m_strComment >> dummyList >> def >> m_mapProps
+      >> m_strPath >> m_strComment >> def >> m_mapProps
       >> m_strLibrary
       >> dst
       >> m_strDesktopEntryName
@@ -339,13 +338,13 @@ void KServicePrivate::save(QDataStream &s)
     qint8 term = m_bTerminal;
     qint8 dst = (qint8) m_DBUSStartusType;
 
-    // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KDE 4.x VERSIONS!
+    // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KService 5.x VERSIONS!
     // !! This data structure should remain binary compatible at all times !!
-    // You may add new fields at the end. Make sure to update the version
-    // number in ksycoca.h
+    // You may add new fields at the end. Make sure to update KSYCOCA_VERSION
+    // number in ksycoca.cpp
     s << m_strType << m_strName << m_strExec << m_strIcon
       << term << m_strTerminalOptions
-      << m_strPath << m_strComment << QStringList() << def << m_mapProps
+      << m_strPath << m_strComment << def << m_mapProps
       << m_strLibrary
       << dst
       << m_strDesktopEntryName
