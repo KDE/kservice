@@ -428,7 +428,6 @@ void KServiceTest::testByStorageId()
     //QVERIFY(KService::serviceByDesktopPath("kmailservice5.desktop"));
 
     QVERIFY(KService::serviceByDesktopName("kmailservice5"));
-    // This could fail if it finds the kde4 kmailservice from /usr/share.
     //QCOMPARE(KService::serviceByDesktopName("kmailservice5")->menuId(), QString("kde5-kmailservice5.desktop"));
 }
 
