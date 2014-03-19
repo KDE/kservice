@@ -16,7 +16,4 @@ target_link_libraries(desktoptojson
     KF5::ConfigCore
 )
 
-# "export" this target too so we can use the LOCATION property of the imported target in
-# FindKDE4Internal.cmake to get the full path to the installed executable instead of using
-# FIND_PROGRAM(), Alex
 install(TARGETS desktoptojson EXPORT KF5ServiceTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
