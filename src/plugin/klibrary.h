@@ -29,15 +29,19 @@ class KPluginFactory;
 /**
  * \class KLibrary klibrary.h <KLibrary>
  *
- * Thin wrapper around QLibrary; you should rarely use this directly, see KPluginLoader for higher-level loading of plugins.
- * KLibrary adds kde3-factory and kde4-factory support to QLibrary (for the deprecated KLibLoader)
- * KLibrary also searches libs in the kde search paths.
+ * KLibrary searches for libraries in the same way that KPluginLoader searches
+ * for plugins.
+ *
+ * @deprecated since 5.0, use QLibrary and KPluginLoader::findPlugin() instead
  */
-class KSERVICE_EXPORT KLibrary : public QLibrary
+class KSERVICE_DEPRECATED_EXPORT KLibrary : public QLibrary
 {
     Q_OBJECT
     Q_PROPERTY(QString fileName READ fileName WRITE setFileName)
 public:
+    /**
+     * @deprecated since 5.0, use QFunctionPointer
+     */
     typedef void (*void_function_ptr)();
 
     explicit KLibrary(QObject *parent = 0);
@@ -47,18 +51,19 @@ public:
     virtual ~KLibrary();
 
     /**
-     * Returns the factory of the library.
-     * @param factoryname The postfix to the init_ symbol used to create the
-     * factory object. It corresponds to the first parameter to
-     * K_EXPORT_COMPONENT_FACTORY.
-     * @return The factory of the library if there is any, otherwise 0
-     * @deprecated use KPluginLoader::factory
+     * @deprecated since 4.0, use KPluginLoader::factory
      */
-#ifndef KDE_NO_DEPRECATED
-    KSERVICE_DEPRECATED KPluginFactory *factory(const char *factoryname = 0);
-#endif
+    KSERVICE_DEPRECATED KPluginFactory *factory(const char *factoryname = 0)
+    {
+        // there is nothing sensible we can do: kdelibs 4 plugins depended on
+        // support from Qt that no longer exists
+        Q_UNUSED(factoryname) return 0;
+    }
 
-    void_function_ptr resolveFunction(const char *name)
+    /**
+     * @deprecated since 5.0, use QLibrary::resolve
+     */
+    KSERVICE_DEPRECATED void_function_ptr resolveFunction(const char *name)
     {
         return resolve(name);
     }
@@ -67,7 +72,7 @@ public:
 
     bool unload()
     {
-        return false;    //this is only temporary. i will remove it as soon as I have removed all dangerous users of it
+        return false;
     }
 private:
     KLibraryPrivate *d_ptr;
