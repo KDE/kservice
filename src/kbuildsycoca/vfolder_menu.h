@@ -103,7 +103,6 @@ public:
     QStringList m_defaultAppDirs;
     QStringList m_defaultDirectoryDirs;
     QStringList m_defaultMergeDirs;
-    QStringList m_defaultLegacyDirs;
 
     QStringList m_directoryDirs; // Current set of applicable <DirectoryDir> dirs
     QHash<QString, SubMenu *> m_legacyNodes; // Dictionary that stores Menu nodes

@@ -791,9 +791,6 @@ VFolderMenu::initDirs()
 {
     m_defaultAppDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
     m_defaultDirectoryDirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "desktop-directories", QStandardPaths::LocateDirectory);
-
-    // ### it's time to get rid of applnk dirs, isn't it?
-    m_defaultLegacyDirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "applnk", QStandardPaths::LocateDirectory);
 }
 
 void
