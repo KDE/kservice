@@ -24,14 +24,12 @@
 #include <QDebug>
 
 #include <kpluginfactory.h>
+#include <kpluginloader.h>
 
-extern QString makeLibName(const QString &libname);
-extern QString findLibraryInternal(const QString &name);
-
-//static
+// exported for the benefit of KLibLoader
 KSERVICE_EXPORT QString findLibrary(const QString &name)
 {
-    QString libname = findLibraryInternal(name);
+    QString libname = KPluginLoader::findPlugin(name);
 #ifdef Q_OS_WIN
     // we don't have 'lib' prefix on windows -> remove it and try again
     if (libname.isEmpty()) {
@@ -51,7 +49,7 @@ KSERVICE_EXPORT QString findLibrary(const QString &name)
             return file;
         }
 
-        libname = findLibraryInternal(libname);
+        libname = KPluginLoader::findPlugin(libname);
         if (libname.isEmpty()) {
             libname = name;
         }
