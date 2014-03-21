@@ -209,6 +209,9 @@ void KBuildServiceFactory::postProcessServices()
 {
     // By doing all this here rather than in addEntry (and removing when replacing
     // with local override), we only do it for the final applications.
+    // Note that this also affects resolution of the by-desktop-name lookup,
+    // as name resolution is only performed *after* all the duplicates (based on
+    // storage ID) have been removed.
 
     // For every service...
     KSycocaEntryDict::Iterator itserv = m_entryDict->begin();
@@ -226,8 +229,23 @@ void KBuildServiceFactory::postProcessServices()
         }
 
         const QString name = service->desktopEntryName();
-        m_nameDict->add(name, entry);
-        m_nameMemoryHash.insert(name, service);
+        KService::Ptr dup = m_nameMemoryHash.value(name);
+        if (dup) {
+            // The rule is that searching for the desktop name "foo" should find
+            // the desktop file with the storage id "foo.desktop" before it
+            // finds "bar/foo.desktop" (or "bar-foo.desktop").
+            // "bar/foo.desktop" and "baz/foo.desktop" are arbitrarily ordered
+            // (in practice, the one later in the alphabet wins).
+            if (dup->storageId().endsWith(service->storageId())) {
+                // allow dup to be overridden
+                m_nameDict->remove(name);
+                dup = 0;
+            }
+        }
+        if (!dup) {
+            m_nameDict->add(name, entry);
+            m_nameMemoryHash.insert(name, service);
+        }
 
         const QString relName = service->entryPath();
         //qDebug() << "adding service" << service.data() << "isApp=" << service->isApplication() << "menuId=" << service->menuId() << "name=" << name << "relName=" << relName;
