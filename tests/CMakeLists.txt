@@ -19,6 +19,7 @@ kservice_executable_tests(
   startserviceby
   kdbusservicestartertest
   ksycocatest
+  findservice
 )
 
 ######### kmimeassociationstest ########
