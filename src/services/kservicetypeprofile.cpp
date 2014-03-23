@@ -74,8 +74,6 @@ private:
 
 Q_GLOBAL_STATIC(KServiceTypeProfiles, s_serviceTypeProfiles)
 
-static bool s_configurationMode = false;
-
 void KServiceTypeProfiles::ensureParsed()
 {
     if (m_parsed) {
@@ -249,14 +247,4 @@ void KServiceTypeProfile::deleteServiceTypeProfile(const QString &serviceType)
 #endif
         delete s_serviceTypeProfiles()->take(serviceType);
     }
-}
-
-void KServiceTypeProfile::setConfigurationMode()
-{
-    s_configurationMode = true;
-}
-
-bool KServiceTypeProfile::configurationMode()
-{
-    return s_configurationMode;
 }

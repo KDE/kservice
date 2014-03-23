@@ -63,18 +63,6 @@ KSERVICE_EXPORT void writeServiceTypeProfile(const QString &serviceType,
 KSERVICE_EXPORT void deleteServiceTypeProfile(const QString &serviceType);
 
 /**
- * This method activates a special mode of KServiceTypeProfile, in which all/all
- * and all/allfiles are excluded from the results of the queries.
- * It is meant for the configuration module _only_.
- * @internal
- */
-KSERVICE_EXPORT void setConfigurationMode();
-/**
- * @internal
- */
-KSERVICE_EXPORT bool configurationMode();
-
-/**
  * @internal, for KServiceTypeTrader
  */
 KSERVICE_EXPORT bool hasProfile(const QString &serviceType);
