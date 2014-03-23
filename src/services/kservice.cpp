@@ -101,8 +101,10 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         return;
     }
 
-    // NOT readPathEntry, it is not XDG-compliant. Path entries written by
-    // KDE4 will be still treated as such, though.
+    // NOT readPathEntry, it is not XDG-compliant: it performs
+    // various expansions, like $HOME.  Note that the expansion
+    // behaviour still happens if the "e" flag is set, maintaining
+    // backwards compatibility.
     m_strExec = desktopGroup.readEntry("Exec", QString());
     entryMap.remove(QLatin1String("Exec"));
 
