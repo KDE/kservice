@@ -17,7 +17,7 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#include "kmimetypefactory.h"
+#include "kmimetypefactory_p.h"
 #include <ksycoca.h>
 #include <ksycocadict_p.h>
 #include <QDebug>

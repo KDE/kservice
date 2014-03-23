@@ -33,7 +33,7 @@ class KSycoca;
  * @internal  - this header is not installed
  *
  * A sycoca factory for mimetype entries
- * Since KDE 4.6, this is only used to point to the "service offers" in ksycoca for each mimetype.
+ * This is only used to point to the "service offers" in ksycoca for each mimetype.
  * @see KMimeType
  */
 class KSERVICE_EXPORT KMimeTypeFactory : public KSycocaFactory

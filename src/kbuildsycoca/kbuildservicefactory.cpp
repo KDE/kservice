@@ -31,7 +31,7 @@
 #include <qmimedatabase.h>
 
 #include <assert.h>
-#include <kmimetypefactory.h>
+#include <kmimetypefactory_p.h>
 #include <qstandardpaths.h>
 
 KBuildServiceFactory::KBuildServiceFactory(KSycocaFactory *serviceTypeFactory,

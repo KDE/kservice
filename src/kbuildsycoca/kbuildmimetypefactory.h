@@ -20,7 +20,7 @@
 #ifndef KDED_KBUILD_MIME_TYPE_FACTORY_H
 #define KDED_KBUILD_MIME_TYPE_FACTORY_H
 
-#include <kmimetypefactory.h>
+#include <kmimetypefactory_p.h>
 #include <QtCore/QStringList>
 
 /**

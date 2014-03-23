@@ -19,7 +19,7 @@
 
 #include "kservice.h"
 #include "kservice_p.h"
-#include "kmimetypefactory.h"
+#include "kmimetypefactory_p.h"
 
 #include <qplatformdefs.h>
 
