@@ -2,6 +2,7 @@
 Name=NSA Plugin
 Name[bs]=NSA priključak
 Name[ca]=Connector de la NSA
+Name[ca@valencia]=Connector de la NSA
 Name[cs]=Modul NSA
 Name[da]=NSA-plugin
 Name[de]=NSA-Modul
@@ -33,6 +34,7 @@ Name[zh_TW]=NSA 外掛程式
 Comment=Test Plugin Spy
 Comment[bs]=Špijun za test priključaka
 Comment[ca]=Connector de proves espia
+Comment[ca@valencia]=Connector de proves espia
 Comment[cs]=Testovascí modul SPy
 Comment[da]=Test-plugin spion
 Comment[de]=Test-Spionagemodul
