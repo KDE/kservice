@@ -126,7 +126,7 @@ int KToolInvocation::startServiceInternal(const char *_function,
     return reply.arguments().at(0).toInt();
 }
 
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
 int
 KToolInvocation::startServiceByName(const QString &_name, const QString &URL,
                                     QString *error, QString *serviceName, int *pid,
@@ -145,7 +145,7 @@ KToolInvocation::startServiceByName(const QString &_name, const QString &URL,
 }
 #endif
 
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
 int
 KToolInvocation::startServiceByName(const QString &_name, const QStringList &URLs,
                                     QString *error, QString *serviceName, int *pid,

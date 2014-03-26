@@ -133,7 +133,7 @@ KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
     d->enabledbydefault = d->metaData.value(s_enabledbyDefaultKey).toBool();
 }
 
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
 KPluginInfo::KPluginInfo(const KService::Ptr service)
     : d(new KPluginInfoPrivate)
 {
@@ -223,7 +223,7 @@ KPluginInfo::~KPluginInfo()
 {
 }
 
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
 QList<KPluginInfo> KPluginInfo::fromServices(const KService::List &services, const KConfigGroup &config)
 {
     QList<KPluginInfo> infolist;

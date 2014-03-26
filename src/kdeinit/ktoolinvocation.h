@@ -183,7 +183,7 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated Use startServiceByDesktopName or startServiceByDesktopPath
      */
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
     KSERVICE_DEPRECATED static int startServiceByName(const QString &_name, const QString &URL,
             QString *error = 0, QString *serviceName = 0, int *pid = 0,
             const QByteArray &startup_id = QByteArray(), bool noWait = false);
@@ -210,7 +210,7 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated Use startServiceByDesktopName or startServiceByDesktopPath
      */
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
     KSERVICE_DEPRECATED static int startServiceByName(const QString &_name, const QStringList &URLs = QStringList(),
             QString *error = 0, QString *serviceName = 0, int *pid = 0,
             const QByteArray &startup_id = QByteArray(), bool noWait = false);

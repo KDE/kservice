@@ -110,7 +110,7 @@ public:
      * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
      * metadata into the plugin using K_PLUGIN_FACTORY_WITH_JSON( ..., "mypluginmetadata.json", ...)
      */
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
     explicit KSERVICE_DEPRECATED KPluginInfo(const KService::Ptr service);
 #endif
 
@@ -177,7 +177,7 @@ public:
      * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
      * metadata into the plugins using K_PLUGIN_FACTORY_WITH_JSON( ..., "mypluginmetadata.json", ...)
      */
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
     static KSERVICE_DEPRECATED KPluginInfo::List fromServices(const KService::List &services, const KConfigGroup &config = KConfigGroup());
 #endif
 

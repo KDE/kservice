@@ -157,7 +157,7 @@ public:
      * This method is meant to be called from the GUI thread only.
      * @deprecated use the signal databaseChanged(QStringList) instead.
      */
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
     static KSERVICE_DEPRECATED bool isChanged(const char *type);
 #endif
 
@@ -172,7 +172,7 @@ Q_SIGNALS:
      * Connect to this to get notified when the database changes
      * @deprecated use the databaseChanged(QStringList) signal
      */
-#ifndef KDE_NO_DEPRECATED
+#ifndef KSERVICE_NO_DEPRECATED
     QT_MOC_COMPAT void databaseChanged(); // KDE5 TODO: remove
 #endif
 
