@@ -30,7 +30,6 @@ set(kservice_SRCS
    sycoca/ksycocafactory.cpp
    sycoca/ksycocautils.cpp
    sycoca/kmemfile.cpp
-   plugin/klibrary.cpp
    plugin/kpluginfactory.cpp
    plugin/kpluginloader.cpp
    plugin/kplugintrader.cpp
@@ -86,7 +85,6 @@ set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION_STRING}
 
 ecm_generate_headers(KService_HEADERS
   HEADER_NAMES
-  KLibrary
   KPluginFactory
   KPluginLoader
   KExportPlugin
