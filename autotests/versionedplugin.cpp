@@ -1,5 +1,6 @@
 /*
  * Copyright 2013  Sebastian Kügler <sebas@kde.org>
+ * Copyright 2014  Alex Merry <alexmerry@kde.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,18 +20,20 @@
  *
  */
 
-#include "nsaplugin.h"
+#include "versionedplugin.h"
 #include <kexportplugin.h>
+#include <kpluginfactory.h>
 #include <QDebug>
 
-NSAPlugin::NSAPlugin(QObject *parent, const QVariantList &args)
+VersionedPlugin::VersionedPlugin(QObject *parent, const QVariantList &args)
     : QObject(parent),
       m_pluginInfo(args)
 {
-    //qDebug() << "SUCCESS!" << m_pluginInfo.pluginName() << m_pluginInfo.name() << m_pluginInfo.comment();
+    qDebug() << "SUCCESS!" << m_pluginInfo.pluginName() << m_pluginInfo.name() << m_pluginInfo.comment();
     setObjectName(m_pluginInfo.comment());
 }
 
-K_PLUGIN_FACTORY_WITH_JSON(nsapluginfa, "fakeplugin.json", registerPlugin<NSAPlugin>();)
+K_PLUGIN_FACTORY(VersionedPluginFactory, registerPlugin<VersionedPlugin>();)
+K_EXPORT_PLUGIN_VERSION(5)
 
-#include "nsaplugin.moc"
+#include "versionedplugin.moc"

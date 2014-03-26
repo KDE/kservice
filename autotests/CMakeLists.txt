@@ -20,19 +20,28 @@ macro(KSERVICE_UNIT_TESTS)
 endmacro(KSERVICE_UNIT_TESTS)
 
 
-# Build a minimal plugin, equipped with metadata for
-# the pluginlocatortest
-add_library(fakeplugin MODULE nsaplugin.cpp)
-ecm_mark_as_test(fakeplugin)
-set_target_properties(fakeplugin PROPERTIES PREFIX "")
-target_link_libraries(fakeplugin KF5::Service)
+macro(build_plugin pname)
+    add_library(${pname} MODULE ${ARGN})
+    ecm_mark_as_test(${pname})
+    target_link_libraries(${pname} KF5::Service)
+endmacro()
+
+# Build some sample plugins
+build_plugin(fakeplugin nsaplugin.cpp)
+build_plugin(versionedplugin versionedplugin.cpp)
+build_plugin(unversionedplugin unversionedplugin.cpp)
+build_plugin(multiplugin multiplugin.cpp)
+target_link_libraries(multiplugin Qt5::Widgets)
 
 
 kservice_unit_tests(
  kautostarttest
+ kpluginfactorytest
+ kpluginloadertest
  ksycocadicttest
  ksycocathreadtest
  kservicetest
  pluginlocatortest
 )
+target_link_libraries(kpluginfactorytest Qt5::Widgets)
 

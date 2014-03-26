@@ -1,5 +1,6 @@
 /*
  * Copyright 2013  Sebastian Kügler <sebas@kde.org>
+ * Copyright 2014  Alex Merry <alexmerry@kde.org>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,18 +20,34 @@
  *
  */
 
-#include "nsaplugin.h"
-#include <kexportplugin.h>
-#include <QDebug>
+#ifndef MULTIPLUGIN_H
+#define MULTIPLUGIN_H
 
-NSAPlugin::NSAPlugin(QObject *parent, const QVariantList &args)
-    : QObject(parent),
-      m_pluginInfo(args)
+#include <QObject>
+#include <QWidget>
+
+class MultiPlugin1 : public QObject
 {
-    //qDebug() << "SUCCESS!" << m_pluginInfo.pluginName() << m_pluginInfo.name() << m_pluginInfo.comment();
-    setObjectName(m_pluginInfo.comment());
-}
+    Q_OBJECT
 
-K_PLUGIN_FACTORY_WITH_JSON(nsapluginfa, "fakeplugin.json", registerPlugin<NSAPlugin>();)
+public:
+    MultiPlugin1(QObject *parent, const QVariantList &args);
+};
 
-#include "nsaplugin.moc"
+class MultiPlugin2 : public QWidget
+{
+    Q_OBJECT
+
+public:
+    MultiPlugin2(QWidget *parent, const QVariantList &args);
+};
+
+class MultiPlugin3 : public QObject
+{
+    Q_OBJECT
+
+public:
+    MultiPlugin3(QObject *parent, const QVariantList &args);
+};
+
+#endif // MULTIPLUGIN_H
