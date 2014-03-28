@@ -442,22 +442,32 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
     if (ifNotFound & IfNotFoundRecreate) {
         // Ask kded to rebuild ksycoca
         // (so that it's not only built, but also kept up-to-date...)
-        bool justStarted = false;
+        bool kdedRunning = false;
+        QDBusInterface sycoca(QLatin1String("org.kde.kded5"), QLatin1String("/kbuildsycoca"));
         if (!bus->isServiceRegistered(QLatin1String("org.kde.kded5"))) {
             // kded isn't even running: start it
             QDBusReply<void> reply = bus->startService(QLatin1String("org.kde.kded5"));
             if (!reply.isValid()) {
-                qWarning() << "Couldn't start kded5 from org.kde.kded5.service:" << reply.error();
+                // kded isn't even available, fall back to kbuildsycoca
+                qWarning() << "Couldn't start kded5 from org.kde.kded5.service:" << reply.error() << ", falling back to running" << KBUILDSYCOCA_EXENAME;
+                QProcess proc;
+                const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
+                if (!kbuildsycoca.isEmpty()) {
+                    QStringList args;
+                    if (QStandardPaths::isTestModeEnabled()) {
+                        args << "--testmode";
+                    }
+                    proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
+                    proc.start(kbuildsycoca, args);
+                    proc.waitForFinished();
+                }
+            } else {
+                //qDebug() << "kded5 registered";
+                kdedRunning = true;
             }
-            //qDebug() << "kded5 registered";
-            justStarted = true;
         } else {
             //qDebug() << "kded5 found";
-        }
-
-        QDBusInterface sycoca(QLatin1String("org.kde.kded5"), QLatin1String("/kbuildsycoca"));
-        if (QStandardPaths::isTestModeEnabled()) {
-            if (!justStarted) {
+            if (QStandardPaths::isTestModeEnabled()) {
                 const QDBusReply<bool> testMode = sycoca.call(QLatin1String("isTestModeEnabled"));
                 if (!testMode.value()) {
                     qWarning() << "This unit test uses ksycoca, it needs to be run in a separate DBus session, so that kded can be started in 'test mode'.";
@@ -474,7 +484,9 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
         }
 
         //qDebug() << "We have no database.... asking kded to create it";
-        sycoca.call(QLatin1String("recreate"));
+        if (kdedRunning) {
+            sycoca.call(QLatin1String("recreate"));
+        }
 
         closeDatabase(); // close the dummy one
 
