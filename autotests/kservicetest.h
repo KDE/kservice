@@ -47,6 +47,7 @@ private Q_SLOTS:
     void testKSycocaUpdate();
     void testReaderThreads();
     void testThreads();
+    void testOperatorKPluginName();
 
 private:
     void createFakeService();

@@ -757,3 +757,37 @@ void KServiceTest::testThreads()
     sync.waitForFinished();
 }
 
+void KServiceTest::testOperatorKPluginName()
+{
+    KService fservice(QFINDTESTDATA("fakeplugin.desktop"));
+    KPluginName fname(fservice);
+    QVERIFY(fname.isValid());
+    QCOMPARE(fname.name(), QString::fromLatin1("fakeplugin"));
+    KPluginLoader fplugin(fservice);
+    QVERIFY(fplugin.factory());
+
+    // make sure constness doesn't break anything
+    const KService const_fservice(QFINDTESTDATA("fakeplugin.desktop"));
+    KPluginName const_fname(const_fservice);
+    QVERIFY(const_fname.isValid());
+    QCOMPARE(const_fname.name(), QString::fromLatin1("fakeplugin"));
+    KPluginLoader const_fplugin(const_fservice);
+    QVERIFY(const_fplugin.factory());
+
+    KService nservice(QFINDTESTDATA("noplugin.desktop"));
+    KPluginName nname(nservice);
+    QVERIFY(!nname.isValid());
+    QVERIFY2(nname.name().isEmpty(), qPrintable(nname.name()));
+    QVERIFY(!nname.errorString().isEmpty());
+    KPluginLoader nplugin(nservice);
+    QVERIFY(!nplugin.factory());
+
+    KService iservice("idonotexist.desktop");
+    KPluginName iname(iservice);
+    QVERIFY(!iname.isValid());
+    QVERIFY2(iname.name().isEmpty(), qPrintable(iname.name()));
+    QVERIFY(!iname.errorString().isEmpty());
+    KPluginLoader iplugin(iservice);
+    QVERIFY(!iplugin.factory());
+}
+

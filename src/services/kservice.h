@@ -520,6 +520,19 @@ public:
         return 0;
     }
 
+    /**
+     * Convert this KService to a KPluginName.
+     *
+     * This allows expressions like
+     * @code
+     * KPluginLoader(service);
+     * @endcode
+     * which will use library() as the name of the plugin.  If the service
+     * is not valid or does not have a library, KPluginLoader::errorString()
+     * will be set appropriately.
+     */
+    operator KPluginName() const;
+
 private:
     friend class KBuildServiceFactory;
 

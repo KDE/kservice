@@ -28,6 +28,7 @@ endmacro()
 
 # Build some sample plugins
 build_plugin(fakeplugin nsaplugin.cpp)
+build_plugin(jsonplugin jsonplugin.cpp)
 build_plugin(versionedplugin versionedplugin.cpp)
 build_plugin(unversionedplugin unversionedplugin.cpp)
 build_plugin(multiplugin multiplugin.cpp)
@@ -47,7 +48,7 @@ kservice_unit_tests(
 target_link_libraries(kpluginfactorytest Qt5::Widgets)
 
 target_compile_definitions(kpluginloadertest PRIVATE
-    FAKEPLUGIN_FILE="$<TARGET_FILE:fakeplugin>"
+    JSONPLUGIN_FILE="$<TARGET_FILE:jsonplugin>"
     VERSIONEDPLUGIN_FILE="$<TARGET_FILE:versionedplugin>"
     UNVERSIONEDPLUGIN_FILE="$<TARGET_FILE:unversionedplugin>"
     MULTIPLUGIN_FILE="$<TARGET_FILE:multiplugin>"

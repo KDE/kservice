@@ -33,6 +33,7 @@
 #include <kauthorized.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
+#include <klocalizedstring.h>
 
 #include <qstandardpaths.h>
 #include <qdebug.h>
@@ -1005,4 +1006,17 @@ QList<KServiceAction> KService::actions() const
 {
     Q_D(const KService);
     return d->m_actions;
+}
+
+KService::operator KPluginName() const
+{
+    if (!isValid()) {
+        return KPluginName::fromErrorString(i18n("The provided service is not valid"));
+    }
+
+    if (library().isEmpty()) {
+        return KPluginName::fromErrorString(i18n("The service '%1' provides no library or the Library key is missing", entryPath()));
+    }
+
+    return KPluginName(library());
 }
