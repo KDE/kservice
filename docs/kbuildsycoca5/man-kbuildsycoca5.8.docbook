@@ -6,17 +6,26 @@
 <refentry>
 
 <refentryinfo>
-<title>&kde; User's Manual</title>
+<title>&kde; Frameworks: KService</title>
 <author>
 <firstname>Darian</firstname>
 <surname>Lanx</surname>
+<contrib>Wrote the original documentation.</contrib>
 <affiliation>
 <address><email>content@openprojects.net</email></address>
 </affiliation>
 </author>
+<author>
+<firstname>Alex</firstname>
+<surname>Merry</surname>
+<contrib>Updated the documentation for &kde; Frameworks 5.</contrib>
+<affiliation>
+<address><email>alexmerry@kde.org</email></address>
+</affiliation>
+</author>
 
-<date>2010-01-04</date>
-<releaseinfo>1.1 (&kde; 4.4)</releaseinfo>
+<date>2014-04-01</date>
+<releaseinfo>5.0</releaseinfo>
 
 </refentryinfo>
 
@@ -27,7 +36,7 @@
 
 <refnamediv>
 <refname><command>kbuildsycoca5</command></refname>
-<refpurpose>Rebuilds the system configuration cache.</refpurpose>
+<refpurpose>Rebuilds the KService desktop file system configuration cache.</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
@@ -35,140 +44,95 @@
 
 <cmdsynopsis>
 <command>kbuildsycoca5</command>
-
-<group>
-<arg choice="opt">--nosignal</arg>
-<arg choice="opt">--noincremental</arg>
-<arg choice="opt">--checkstamps</arg>
-<arg choice="opt">--nocheckfiles</arg>
-<arg choice="opt">--global</arg>
-<arg choice="opt">--menutest</arg>
-<arg choice="opt">--track <replaceable>menu-id</replaceable></arg>
-<arg choice="opt">--help</arg>
-<arg choice="opt">--help-qt</arg>
-<arg choice="opt">--help-kde</arg>
-<arg choice="opt">--help-all</arg>
-<arg choice="opt">--author</arg>
-<arg choice="opt">-v, --version</arg>
-<arg choice="opt">--license</arg>
-</group>
+<group choice="opt" rep="repeat"><replaceable class="option">OPTIONS</replaceable></group>
 </cmdsynopsis>
 
 </refsynopsisdiv>
+
+
 
 <refsect1>
 <title>Description</title>
 
 <para>
-<command>kbuildsycoca5</command>, as part of the &kde; command line
-tools ensures the proper operation of &kde; by reading in all the
-<literal role="extension">.desktop</literal>, <literal
-role="extension">.xml</literal>, and <literal
-role="extension">.protocol</literal> files to construct a binary
-database. 
+<command>kbuildsycoca5</command> builds binary cache of the data stored in
+<literal role="extension">.desktop</literal> and MIME type <literal
+role="extension">.xml</literal> files that the KService framework uses to find
+plugins, applications and other services.
 </para>
 
 <para>
-&kde; itself accesses this database during operation to provide
-configuration information a program needs to run.
+The KService library uses this database to efficiently provide the information
+requested of it.
 </para>
 
 <para>
-This tool is part of ksycoca4, which stands for &kde; System
-Configuration Cache
+Users do not normally need to run this application directly; KService will run
+it if necessary, and if KDED is installed and running it will run
+<command>kbuildsyscoca5</command> whenever any of the files whose data is cached
+are changed.
 </para>
-
 </refsect1>
+
+
 
 <refsect1>
 <title>Options</title>
-
 <variablelist>
-<varlistentry>
-<term><option>--nosignal</option></term>
-<listitem>
-<para>Do not signal applications to update</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--noincremental</option></term>
-<listitem>
-<para>Disable incremental update, re-read everything</para>
-</listitem>
-</varlistentry>
 
 <varlistentry>
 <term><option>--checkstamps</option></term>
 <listitem>
-<para>Check file timestamps</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--nocheckfiles</option></term>
-<listitem>
-<para>Disable checking files (dangerous)</para>
+<para>Checks the file timestamps of the cache and the resource directories containing the data to be cached, and only updates the database if any of the resource directories have been modified more recently than the cache.  Ignored if <option>--nocheckfiles</option> or <option>--noincremental</option> is set.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><option>--global</option></term>
 <listitem>
-<para>Create global database</para>
+<para>Ignores any user-set files (in <varname>XDG_DATA_HOME</varname>).  This is currently only supported on Unix systems.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--nocheckfiles</option></term>
+<listitem>
+<para>Does not rebuild the cache unless something other than a change in the resource files requires it (such as the format of the cache changing, or <varname>XDG_DATA_DIRS</varname> being changed on a Unix system). Ignored if <option>--global</option> is set.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--noincremental</option></term>
+<listitem>
+<para>Rather than using the existing cache and only updating the information that has changed or been added, start with an empty cache. Ignored if <option>--global</option> is set.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--nosignal</option></term>
+<listitem>
+<para>Ordinarily, <command>kbuildsyscoca5</command> sends a signal over D-Bus once the cache is updated to all the applications that use KService so that they are always working with the latest information.  This option suppresses that behaviour.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><option>--menutest</option></term>
 <listitem>
-<para>Perform menu generation test run only</para>
+<para>Test the generation of the application menu database.  Does not actually build the cache.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--testmode</option></term>
+<listitem>
+<para>Use the QStandardPaths "test mode" to avoid interfering with user data.  This is intended for use with unit tests.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><option>--track <replaceable>menu-id</replaceable></option></term>
 <listitem>
-<para>Track menu id for debug purposes</para>
-</listitem>
-</varlistentry>
-
-<!-- this entire section from here to the end of the section could be an -->
-<!-- entity.. or maybe just so irrelevant as to leave it out -->
-
-<varlistentry>
-<term><option>--help</option></term>
-<listitem>
-<para>
-Show help about options
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--help-qt</option></term>
-<listitem>
-<para>
-Show Qt specific options
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--help-kde</option></term>
-<listitem>
-<para>
-Show KDE specific options
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--help-all</option></term>
-<listitem>
-<para>
-Show all options
-</para>
+<para>Track a menu ID for debugging.</para>
 </listitem>
 </varlistentry>
 
@@ -176,16 +140,7 @@ Show all options
 <term><option>--author</option></term>
 <listitem>
 <para>
-Show author information
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>-v , --version</option></term>
-<listitem>
-<para>
-Show version information
+Show author information.
 </para>
 </listitem>
 </varlistentry>
@@ -194,70 +149,67 @@ Show version information
 <term><option>--license</option></term>
 <listitem>
 <para>
-Show license information
+Show license information.
 </para>
 </listitem>
 </varlistentry>
-</variablelist>
 
-</refsect1>
-
-<refsect1>
-<title>Usage</title>
+<varlistentry>
+<term><option>-h, --help</option></term>
+<listitem>
 <para>
-A standard way to run this program is by simply specifying the following
-command at the prompt
-<userinput><command>kbuildsycoca5</command></userinput>
+Show a brief help text.
 </para>
+</listitem>
+</varlistentry>
 
+<varlistentry>
+<term><option>-v , --version</option></term>
+<listitem>
+<para>
+Show version information.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
 </refsect1>
+
+
 
 <refsect1>
 <title>Files</title>
-
 <variablelist>
 <varlistentry>
-<term><filename>/var/tmp/kde-$USER/ksycoca5</filename></term>
+<term><filename><varname>cachedir</varname>/ksycoca5</filename></term>
 <listitem>
-<para>The default directory where the cache files are stored.</para>
+<para>The KService cache generated by <command>kbuildsycoca5</command>.  On Unix systems, <varname>cachedir</varname> is typically <filename class="directory">~/.config</filename></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><filename><varname>cachedir</varname>/ksycoca5stamp</filename></term>
+<listitem>
+<para>The timestamp and other meta-information about the main cache file.  On Unix systems, <varname>cachedir</varname> is typically <filename class="directory">~/.config</filename></para>
 </listitem>
 </varlistentry>
 </variablelist>
-
 </refsect1>
 
-<refsect1>
-<title>Environment Variables</title>
-<variablelist>
-<varlistentry>
-<term>$<envar>KDEDIRS</envar></term>
-<listitem>
-<para>Specifies which directories are part of the KDE
-installations</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term>$<envar>KDESYCOCA</envar></term>
-<listitem>
-<para>Specifies the path to the sycoca database file</para>
-</listitem>
-</varlistentry>
-</variablelist>
 
-</refsect1>
 
 <refsect1>
 <title>See Also</title>
-
-<para>kdeinit4</para>
-
+<para>
+<citerefentry><refentrytitle>kded5</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+<citerefentry><refentrytitle>kdeinit5</refentrytitle><manvolnum>8</manvolnum></citerefentry>
+</para>
 </refsect1>
+
+
 
 <refsect1>
 <title>Bugs</title>
-
-<para>There are probably tons of bugs. Use <ulink url="http://bugs.kde.org">bugs.kde.org</ulink> to report them.</para>
-
+<para>There are probably tons of bugs. Use <ulink url="http://bugs.kde.org">KDE's bugtracker</ulink> to report them.</para>
 </refsect1>
 
 </refentry>
