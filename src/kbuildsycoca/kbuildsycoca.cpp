@@ -47,6 +47,7 @@
 
 #include <kcrash.h>
 #include <kmemfile_p.h>
+#include <klocalizedstring.h>
 #include <kaboutdata.h>
 
 #include <qplatformdefs.h>
@@ -610,26 +611,32 @@ static const char appVersion[] = "5.0";
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
-    app.setApplicationVersion(appVersion);
-    KAboutData about(KBUILDSYCOCA_EXENAME, "kdelibs4", QCoreApplication::translate("main", "KBuildSycoca"), appVersion,
-                     QCoreApplication::translate("main", "Rebuilds the system configuration cache."),
-                     KAboutData::License_GPL, QCoreApplication::translate("main", "(c) 1999-2002 KDE Developers"));
-    about.addAuthor(QCoreApplication::translate("main", "David Faure"), QCoreApplication::translate("main", "Author"), "faure@kde.org");
-    about.addAuthor(QCoreApplication::translate("main", "Waldo Bastian"), QCoreApplication::translate("main", "Author"), "bastian@kde.org");
+
+    KLocalizedString::setApplicationDomain("kservice5");
+
+    KAboutData about(KBUILDSYCOCA_EXENAME,
+                     "kservice5",
+                     i18nc("application name", "KBuildSycoca"),
+                     appVersion,
+                     i18nc("application description", "Rebuilds the system configuration cache."),
+                     KAboutData::License_GPL,
+                     i18n("Copyright 1999-2002 KDE Developers"));
+    about.addAuthor(i18n("David Faure"), i18n("Author"), "faure@kde.org");
+    about.addAuthor(i18n("Waldo Bastian"), i18n("Author"), "bastian@kde.org");
+    KAboutData::setApplicationData(about);
 
     QCommandLineParser parser;
     about.setupCommandLine(&parser);
     parser.addVersionOption();
-    parser.setApplicationDescription(QCoreApplication::translate("main", "Rebuilds the system configuration cache."));
     parser.addHelpOption();
-    parser.addOption(QCommandLineOption(QStringList() << "nosignal", QCoreApplication::translate("main", "Do not signal applications to update")));
-    parser.addOption(QCommandLineOption(QStringList() << "noincremental", QCoreApplication::translate("main", "Disable incremental update, re-read everything")));
-    parser.addOption(QCommandLineOption(QStringList() << "checkstamps", QCoreApplication::translate("main", "Check file timestamps")));
-    parser.addOption(QCommandLineOption(QStringList() << "nocheckfiles", QCoreApplication::translate("main", "Disable checking files (dangerous)")));
-    parser.addOption(QCommandLineOption(QStringList() << "global", QCoreApplication::translate("main", "Create global database")));
-    parser.addOption(QCommandLineOption(QStringList() << "menutest", QCoreApplication::translate("main", "Perform menu generation test run only")));
-    parser.addOption(QCommandLineOption(QStringList() << "track", QCoreApplication::translate("main", "Track menu id for debug purposes"), "menu-id"));
-    parser.addOption(QCommandLineOption(QStringList() << "testmode", QCoreApplication::translate("main", "Switch QStandardPaths to test mode, for unit tests only")));
+    parser.addOption(QCommandLineOption(QStringList() << "nosignal", i18nc("command-line option", "Do not signal applications to update")));
+    parser.addOption(QCommandLineOption(QStringList() << "noincremental", i18nc("command-line option", "Disable incremental update, re-read everything")));
+    parser.addOption(QCommandLineOption(QStringList() << "checkstamps", i18nc("command-line option", "Check file timestamps")));
+    parser.addOption(QCommandLineOption(QStringList() << "nocheckfiles", i18nc("command-line option", "Disable checking files (dangerous)")));
+    parser.addOption(QCommandLineOption(QStringList() << "global", i18nc("command-line option", "Create global database")));
+    parser.addOption(QCommandLineOption(QStringList() << "menutest", i18nc("command-line option", "Perform menu generation test run only")));
+    parser.addOption(QCommandLineOption(QStringList() << "track", i18nc("command-line option", "Track menu id for debug purposes"), "menu-id"));
+    parser.addOption(QCommandLineOption(QStringList() << "testmode", i18nc("command-line option", "Switch QStandardPaths to test mode, for unit tests only")));
     parser.process(app);
     about.processCommandLine(&parser);
 

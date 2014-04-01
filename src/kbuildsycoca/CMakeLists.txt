@@ -21,6 +21,7 @@ target_link_libraries(kbuildsycoca5
    KF5::Service #KBuildMimeTypeFactory subclasses KMimeTypeFactory, KServiceGroupFactory and KService used as well
    KF5::Crash  #set a crash handler for ksycoca binary
    KF5::CoreAddons # KAboutData
+   KF5::I18n
    Qt5::Xml #vfolder menui QDomDocument and family
    Qt5::DBus #kbuildsycoca uses QDBus to talk with interested applications
 )
