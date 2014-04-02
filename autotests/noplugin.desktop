@@ -1,6 +1,20 @@
 [Desktop Entry]
 Name=No Plugin
+Name[de]=Kein Modul
+Name[hu]=Nincsenek bővítmények
+Name[ia]=Necun Plugin
+Name[pl]=Brak wtyczki
+Name[pt]=Sem 'Plugin'
+Name[sv]=Inget insticksprogram
+Name[uk]=Не додаток
 Comment=This does not have a library
+Comment[de]=Dies hat keine Bibliothek
+Comment[hu]=Ennek nincsen függvénykönyvtára
+Comment[ia]=Isto non ha un bibliotheca
+Comment[pl]=Nie ma to biblioteki
+Comment[pt]=Não possui nenhuma biblioteca
+Comment[sv]=Detta har inte ett bibliotek
+Comment[uk]=Для цього модуля бібліотеки немає
 Type=Service
 Icon=preferences-system-time
 
