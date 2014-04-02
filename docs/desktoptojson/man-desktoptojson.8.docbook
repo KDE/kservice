@@ -6,19 +6,29 @@
 <refentry>
 
 <refentryinfo>
-<title>&kde; User's Manual</title>
+<title>&kde; Frameworks: KService</title>
 <author>
 <firstname>Scarlett</firstname>
 <surname>Clark</surname>
+<contrib>Wrote the original documentation.</contrib>
 <affiliation>
 <address><email>scarlett@scarlettgatelyclark.com</email></address>
 </affiliation>
 </author>
+<author>
+<firstname>Alex</firstname>
+<surname>Merry</surname>
+<contrib>Edited the documentation.</contrib>
+<affiliation>
+<address><email>alexmerry@kde.org</email></address>
+</affiliation>
+</author>
 
-<date>2014-01-16</date>
-<releaseinfo>(&kde; 4.13)</releaseinfo>
+<date>2014-04-01</date>
+<releaseinfo>5.0</releaseinfo>
 
 </refentryinfo>
+
 
 <refmeta>
 <refentrytitle><command>desktoptojson</command></refentrytitle>
@@ -27,7 +37,7 @@
 
 <refnamediv>
 <refname><command>desktoptojson</command></refname>
-<refpurpose>Small program which takes a <literal role="extension">.desktop</literal> file and converts it to json. This is useful to convert plugins which have their metadata in <literal role="extension">.desktop</literal> files (i.e. all KDE plugins) to Qt's new plugin system.</refpurpose>
+<refpurpose>Converts a <filename class="extension">.desktop</filename> file to a <filename class="extension">.json</filename> file.</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
@@ -35,91 +45,92 @@
 
 <cmdsynopsis>
 <command>desktoptojson</command>
-
-<group>
-<arg choice="opt">--version</arg>
-<arg choice="opt">--help</arg>
-<arg choice="opt">--input</arg>
-<arg choice="opt">--output</arg>
+<arg choice="plain">--input <replaceable>DESKTOP-FILE</replaceable></arg>
+<arg choice="plain">--output <replaceable>JSON-FILE</replaceable></arg>
+</cmdsynopsis>
+<cmdsynopsis>
+<command>desktoptojson</command>
+<group choice="req">
+<arg choice="plain">--version</arg>
+<arg choice="plain">--help</arg>
 </group>
 </cmdsynopsis>
 
 </refsynopsisdiv>
 
+
+
+
 <refsect1>
 <title>Description</title>
 
-<para>
-<command>desktoptojson</command>, Small program which takes a <literal role="extension">.desktop</literal> file and converts it to json. This is useful to convert plugins which have their metadata in <literal role="extension">.desktop</literal> files (i.e. all KDE plugins) to Qt's new plugin system.
-</para>
-<para>Use a <literal role="extension">.desktop</literal> file as the input file to generate json.</para>
+<para>The KService framework uses information contained in <filename class="extension">.desktop</filename> files to locate services, including plugins for Qt5-based applications and libraries.  The Qt5 plugin system, however, uses JSON data embedded in the plugin itself.  <command>desktoptojson</command> allows the information contained in a <filename class="extension">.desktop</filename> file to also be used as the embedded data for a Qt5 plugin by converting the <filename class="extension">.desktop</filename> file entries into JSON data.</para>
 
+<para>The generated JSON data is a JSON object that maps the entries from the <literal>[Desktop Entry]</literal> group of the <filename class="extension">.desktop</filename> file.  Any other groups are ignored.  Most entries are just converted to JSON strings, but certain entries (such as <literal>Hidden</literal> and <literal>X-KDE-PluginInfo-EnabledByDefault</literal>) are known to be boolean values and converted as such, and similarly some (such as <literal>X-KDE-ServiceTypes</literal> and <literal>X-KDE-PluginInfo-Depends</literal>) are always converted to arrays of strings.</para>
 </refsect1>
+
+
 
 <refsect1>
 <title>Options</title>
-
 <variablelist>
+
 <varlistentry>
-<term><option>--version</option></term>
+  <term><option>--input <replaceable>DESKTOP-FILE</replaceable></option></term>
 <listitem>
-<para>Displays version information.</para>
+<para>The <filename class="extension">.desktop</filename> file to convert.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--output <replaceable>JSON-FILE</replaceable></option></term>
+<listitem>
+<para>The file to write the generated JSON data to.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><option>--help</option></term>
 <listitem>
-<para>Displays help</para>
+<para>Show a brief help text.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-  <term><option>--input <replaceable>name</replaceable></option></term>
+<term><option>--version</option></term>
 <listitem>
-<para>Read input from a file.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-  <term><option>--output <replaceable>name</replaceable></option></term>
-<listitem>
-<para>Write output to a file.</para>
+<para>Show version information.</para>
 </listitem>
 </varlistentry>
 
 </variablelist>
 </refsect1>
+
+
 
 <refsect1>
 <title>Usage</title>
 <para>
-A standard way to run this program is by simply specifying the following
-command at the prompt
-<userinput><command>desktoptojson</command></userinput> --input <replaceable>filename.desktop</replaceable> --output <replaceable>filename.json</replaceable>
+Most users of this utility will use the CMake macro
+<function>kservice_desktop_to_json</function> as part of the process of building
+a plugin.
+<programlisting language="cmake">
+<![CDATA[
+add_library(myplugin MODULE ${myplugin_SRCS})
+kservice_desktop_to_json(myplugin myplugin.desktop)
+]]>
+</programlisting>
+This will produce the JSON file <filename>myplugin.json</filename>, which can be
+referenced from the <function>K_PLUGIN_FACTORY_WITH_JSON</function> or
+<function>Q_PLUGIN_METADATA</function> macros.
 </para>
-
 </refsect1>
 
-<refsect1>
-<title>Files</title>
 
-<variablelist>
-<varlistentry>
-<term><filename>/usr/bin/desktoptojson</filename></term>
-<listitem>
-<para>The default directory where the excecutable resides.</para>
-</listitem>
-</varlistentry>
-</variablelist>
-
-</refsect1>
 
 <refsect1>
 <title>Bugs</title>
-
-<para>If you find bugs use <ulink url="http://bugs.kde.org">bugs.kde.org</ulink> to report them.</para>
-
+<para>There are probably tons of bugs. Use <ulink url="http://bugs.kde.org">KDE's bugtracker</ulink> to report them.</para>
 </refsect1>
 
 </refentry>
