@@ -359,8 +359,10 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
     // together with the entries. We can't only load the entries afterwards
     // since the offsets could have been changed if the database has changed.
 
+    KServiceGroup::Ptr grp;
     if (!m_bDeep) {
-        KServiceGroup::Ptr grp = KServiceGroupFactory::self()->findGroupByDesktopPath(path, true);
+        grp = KServiceGroupFactory::self()->findGroupByDesktopPath(path, true);
+
         group = grp.data();
         if (0 == group) { // No guarantee that we still exist!
             return KServiceGroup::List();
