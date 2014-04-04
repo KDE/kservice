@@ -132,7 +132,7 @@ void KMimeTypeTrader::filterMimeTypeOffers(KServiceOfferList &list, const QStrin
         if (!KServiceFactory::self()->hasOffer(genericServiceTypePtr->offset(),
                                                genericServiceTypePtr->serviceOffersOffset(),
                                                servPtr->offset())
-                || !servPtr->showInKDE()) {
+                || !servPtr->showInCurrentDesktop()) {
             it.remove();
         }
     }
@@ -150,7 +150,7 @@ void KMimeTypeTrader::filterMimeTypeOffers(KService::List &list, const QString &
         if (!KServiceFactory::self()->hasOffer(genericServiceTypePtr->offset(),
                                                genericServiceTypePtr->serviceOffersOffset(),
                                                servPtr->offset())
-                || !servPtr->showInKDE()) {
+                || !servPtr->showInCurrentDesktop()) {
             it.remove();
         }
     }

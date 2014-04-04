@@ -307,8 +307,23 @@ public:
      * from its results.
      *
      * @since 4.5
+     * @deprecated since 5.0, use showInCurrentDesktop()
      */
-    bool showInKDE() const;
+#ifndef KSERVICE_NO_DEPRECATED
+    KSERVICE_DEPRECATED bool showInKDE() const { return showInCurrentDesktop(); }
+#endif
+
+    /**
+     * Whether the service should be shown in the current desktop
+     * (including in context menus).
+     * @return true if the service should be shown.
+     *
+     * KMimeTypeTrader honors this and removes such services
+     * from its results.
+     *
+     * @since 5.0
+     */
+    bool showInCurrentDesktop() const;
 
     /**
      * Whether the service should be shown on the current

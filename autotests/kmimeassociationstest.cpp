@@ -92,6 +92,8 @@ static void writeAppDesktopFile(const QString &path, const QStringList &mimeType
     group.writeEntry("Name", "FakeApplication");
     group.writeEntry("Type", "Application");
     group.writeEntry("Exec", "ls");
+    group.writeEntry("OnlyShowIn", "KDE;UDE");
+    group.writeEntry("NotShowIn", "GNOME");
     group.writeEntry("InitialPreference", initialPreference);
     group.writeXdgListEntry("MimeType", mimeTypes);
 }
@@ -107,6 +109,8 @@ private Q_SLOTS:
     void initTestCase()
     {
         QStandardPaths::enableTestMode(true);
+        qputenv("XDG_CURRENT_DESKTOP", "KDE");
+
         m_localApps = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1Char('/');
 
         // Create factory on the heap and don't delete it.
