@@ -137,7 +137,7 @@ private Q_SLOTS:
         fakeDefaultTextApplication = m_localApps + "fakedefaulttextapplication.desktop";
         if (!QFile::exists(fakeDefaultTextApplication)) {
             mustUpdateKSycoca = true;
-            writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << "text/plain", 9);
+            writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << "text/plain", 19);
         }
 
         // An app (like emacs) listing explicitly the derived mimetype (c-src); not in mimeapps.list
@@ -427,6 +427,18 @@ private Q_SLOTS:
 
         offers = KMimeTypeTrader::self()->query("application/x-theme");
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
+    }
+
+    void testPreferredApplication()
+    {
+        KService::Ptr preferredForPlain = KMimeTypeTrader::self()->preferredApplication("text/plain");
+        QCOMPARE(preferredForPlain->entryPath(), fakeDefaultTextApplication);
+        QVERIFY(!KMimeTypeTrader::self()->preferredApplication("text/plain", KMimeTypeTrader::WithoutFallback));
+
+        writeToMimeApps(QByteArray("[Default Applications]\n"
+                                   "text/plain=doesnotexist.desktop;faketextapplication.desktop;\n"));
+        preferredForPlain = KMimeTypeTrader::self()->preferredApplication("text/plain");
+        QCOMPARE(preferredForPlain->entryPath(), fakeTextApplication);
     }
 
 private:

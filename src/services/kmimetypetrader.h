@@ -97,6 +97,38 @@ public:
     KService::Ptr preferredService(const QString &mimeType, const QString &genericServiceType = QString::fromLatin1("Application"));
 
     /**
+     * Defines what preferredApplication() should do if no application was chosen for the given mimetype
+     * (neither by the user or by the distribution).
+     *
+     * @since 5.0
+     */
+    enum PreferredApplicationBehavior {
+        /**
+         * Fallback to any application that supports the requested mime type
+         */
+        WithFallback,
+        /**
+         * Return null, the application will have to call query() and ask the user to choose
+         * a default application, and then store it as the preferred application.
+         */
+        WithoutFallback
+    };
+
+    /**
+     * Returns the preferred application for @p mimeType
+     *
+     * @param mimeType the mime type
+     * @return the preferred application, or nullptr.
+     *
+     * See PreferredApplicationBehavior for the behavior in case no application was chosen as
+     * preferred. Note that even when using WithFallback, this method can return nullptr if no
+     * application at all supports the mimetype.
+     *
+     * @since 5.0
+     */
+    KService::Ptr preferredApplication(const QString &mimeType, PreferredApplicationBehavior behavior = WithFallback);
+
+    /**
      * This method creates and returns a part object from the trader query for a given \p mimeType.
      *
      * Example:
@@ -197,6 +229,7 @@ private:
     // class-static so that it can access KSycocaEntry::offset()
     static void filterMimeTypeOffers(KServiceOfferList &list, const QString &genericServiceType);
     static void filterMimeTypeOffers(KService::List &list, const QString &genericServiceType);
+    static KService::Ptr preferredServiceImpl(const QString &mimeType, const QString &genericServiceType);
     friend class KMimeTypeTraderSingleton;
 };
 

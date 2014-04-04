@@ -24,8 +24,10 @@
 #include "kservicetypetrader.h"
 #include "kservicefactory.h"
 #include "kmimetypefactory_p.h"
+#include <kconfiggroup.h>
 #include <qmimedatabase.h>
 #include <QDebug>
+#include <QFile>
 
 class KMimeTypeTrader::Private
 {
@@ -173,7 +175,7 @@ KService::List KMimeTypeTrader::query(const QString &mimeType,
     return lst;
 }
 
-KService::Ptr KMimeTypeTrader::preferredService(const QString &mimeType, const QString &genericServiceType)
+KService::Ptr KMimeTypeTrader::preferredServiceImpl(const QString &mimeType, const QString &genericServiceType)
 {
     // First, get all offers known to ksycoca.
     KServiceOfferList offers = mimeTypeSycocaOffers(mimeType);
@@ -191,5 +193,72 @@ KService::Ptr KMimeTypeTrader::preferredService(const QString &mimeType, const Q
     }
 
     //qDebug() << "No offers, or none allowed as default";
+    return KService::Ptr();
+}
+
+KService::Ptr KMimeTypeTrader::preferredService(const QString &mimeType, const QString &genericServiceType)
+{
+    if (genericServiceType == QLatin1String("Application")) {
+        qWarning("KMimeTypeTrader::preferredService(mimeType, \"Application\") is deprecated, please use KMimeTypeTrader::preferredApplication(mimeType)");
+        return preferredApplication(mimeType);
+    }
+    return preferredServiceImpl(mimeType, genericServiceType);
+}
+
+// Return the various filenames that should be tried, e.g. kde-mimeapps.list and mimeapps.list
+// http://standards.freedesktop.org/mime-apps-spec/mime-apps-spec-1.0.html
+static QStringList mimeAppsListFileNames()
+{
+    static QStringList xdgCurrentDesktops = QString::fromLatin1(qgetenv("XDG_CURRENT_DESKTOP")).split(':');
+    QStringList fileNames;
+    foreach (const QString &desktop, xdgCurrentDesktops) {
+        fileNames.append(desktop.toLower() + QStringLiteral("-mimeapps.list"));
+    }
+    fileNames.append(QStringLiteral("mimeapps.list"));
+    return fileNames;
+}
+
+// Return the mimeapps.list files that actually exist in the system
+// http://standards.freedesktop.org/mime-apps-spec/mime-apps-spec-1.0.html
+static QStringList allMimeAppsList()
+{
+    QStringList files;
+    static const auto addExistingFiles = [&files](const QStringList &dirs) {
+        static QStringList fileNames = mimeAppsListFileNames();
+        foreach (const QString &dir, dirs) {
+            foreach (const QString &fileName, fileNames) {
+                const QString file = dir + '/' + fileName;
+                if (QFile::exists(file)) {
+                    files.append(file);
+                }
+            }
+        }
+    };
+    const QStringList configDirs = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation);
+    addExistingFiles(configDirs);
+    const QStringList dataDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+    addExistingFiles(dataDirs);
+    return files;
+}
+
+KService::Ptr KMimeTypeTrader::preferredApplication(const QString &mimeType, PreferredApplicationBehavior behavior)
+{
+    // Iterate from most-local to most-global and stop at the first installed application mentionned
+    // in the file.
+    foreach(const QString &mimeAppsFile, allMimeAppsList()) {
+        KConfig config(mimeAppsFile, KConfig::SimpleConfig);
+        KConfigGroup group(&config, "Default Applications");
+        foreach(const QString &desktopFile, group.readXdgListEntry(mimeType)) {
+            KService::Ptr serv = KService::serviceByMenuId(desktopFile);
+            if (serv) {
+                return serv;
+            }
+        }
+    }
+
+    if (behavior == WithFallback) {
+        return preferredServiceImpl(mimeType, "Application");
+    }
+
     return KService::Ptr();
 }
