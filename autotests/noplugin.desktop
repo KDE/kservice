@@ -2,6 +2,7 @@
 Name=No Plugin
 Name[cs]=Žádný modul
 Name[de]=Kein Modul
+Name[fi]=Ei liitännäistä
 Name[hu]=Nincsenek bővítmények
 Name[ia]=Necun Plugin
 Name[nds]=Keen Moduul
@@ -16,6 +17,7 @@ Name[x-test]=xxNo Pluginxx
 Comment=This does not have a library
 Comment[cs]=Toto nemá knihovnu
 Comment[de]=Dies hat keine Bibliothek
+Comment[fi]=Tällä ei ole kirjastoa
 Comment[hu]=Ennek nincsen függvénykönyvtára
 Comment[ia]=Isto non ha un bibliotheca
 Comment[nds]=Dor gifft dat keen Bibliotheek to
