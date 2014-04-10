@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=No Plugin
 Name[ca]=Sense connector
+Name[ca@valencia]=Sense connector
 Name[cs]=Žádný modul
 Name[de]=Kein Modul
 Name[es]=Ningún complemento
@@ -23,6 +24,7 @@ Name[uk]=Не додаток
 Name[x-test]=xxNo Pluginxx
 Comment=This does not have a library
 Comment[ca]=Això no té cap biblioteca
+Comment[ca@valencia]=Això no té cap biblioteca
 Comment[cs]=Toto nemá knihovnu
 Comment[de]=Dies hat keine Bibliothek
 Comment[es]=Esto no posee una biblioteca
