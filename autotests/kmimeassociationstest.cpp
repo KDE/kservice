@@ -127,6 +127,13 @@ private Q_SLOTS:
             writeAppDesktopFile(fakeTextApplication, QStringList() << "text/plain");
         }
 
+        // Create fake application (associated with text/plain in mimeapps.list)
+        fakeTextApplicationPrefixed = m_localApps + "fakepfx/faketextapplicationpfx.desktop";
+        if (!QFile::exists(fakeTextApplicationPrefixed)) {
+            mustUpdateKSycoca = true;
+            writeAppDesktopFile(fakeTextApplicationPrefixed, QStringList() << "text/plain");
+        }
+
         // A fake "default" application for text/plain (high initial preference, but not in mimeapps.list)
         fakeDefaultTextApplication = m_localApps + "fakedefaulttextapplication.desktop";
         if (!QFile::exists(fakeDefaultTextApplication)) {
@@ -164,6 +171,12 @@ private Q_SLOTS:
             writeAppDesktopFile(fakeHtmlApplication, QStringList() << "text/html");
         }
 
+        fakeHtmlApplicationPrefixed = m_localApps + "fakepfx/fakehtmlapplicationpfx.desktop";
+        if (!QFile::exists(fakeHtmlApplicationPrefixed)) {
+            mustUpdateKSycoca = true;
+            writeAppDesktopFile(fakeHtmlApplicationPrefixed, QStringList() << "text/html");
+        }
+
         if (mustUpdateKSycoca || !KSycoca::isAvailable()) {
             // Update ksycoca in ~/.kde-unit-test after creating the above
             runKBuildSycoca();
@@ -189,25 +202,29 @@ private Q_SLOTS:
 
         m_mimeAppsFileContents = "[Added Associations]\n"
                                  "image/jpeg=fakejpegapplication.desktop;\n"
-                                 "text/html=fakehtmlapplication.desktop;\n"
-                                 // konsole.desktop is without kde4- to test fallback lookup
-                                 "text/plain=faketextapplication.desktop;kde4-kwrite.desktop;konsole.desktop;idontexist.desktop;\n"
+                                 "text/html=fakehtmlapplication.desktop;fakehtmlapplicationpfx.desktop;\n"
+                                 "text/plain=faketextapplication.desktop;fakepfx-faketextapplicationpfx.desktop;gvim.desktop;wine.desktop;idontexist.desktop;\n"
                                  // test alias resolution
                                  "application/x-pdf=fakejpegapplication.desktop;\n"
                                  "[Added KParts/ReadOnlyPart Associations]\n"
                                  "text/plain=katepart.desktop;\n"
                                  "[Removed Associations]\n"
                                  "image/jpeg=firefox.desktop;\n"
-                                 "text/html=kde4-dolphin.desktop;kde4-kwrite.desktop;\n";
+                                 "text/html=gvim.desktop;abiword.desktop;\n";
         // Expected results
         preferredApps["image/jpeg"] << "fakejpegapplication.desktop";
         preferredApps["application/pdf"] << "fakejpegapplication.desktop";
-        preferredApps["text/plain"] << "faketextapplication.desktop" << "kde4-kwrite.desktop";
-        preferredApps["text/x-csrc"] << "faketextapplication.desktop" << "kde4-kwrite.desktop";
-        preferredApps["text/html"] << "fakehtmlapplication.desktop";
+        preferredApps["text/plain"] << "faketextapplication.desktop"
+                                    << "fakepfx-faketextapplicationpfx.desktop"
+                                    << "gvim.desktop";
+        preferredApps["text/x-csrc"] << "faketextapplication.desktop"
+                                     << "fakepfx-faketextapplicationpfx.desktop"
+                                     << "gvim.desktop";
+        preferredApps["text/html"] << "fakehtmlapplication.desktop"
+                                   << "fakepfx-fakehtmlapplicationpfx.desktop";
         preferredApps["application/msword"] << "fakecsrcmswordapplication.desktop";
         removedApps["image/jpeg"] << "firefox.desktop";
-        removedApps["text/html"] << "kde4-dolphin.desktop" << "kde4-kwrite.desktop";
+        removedApps["text/html"] << "gvim.desktop" << "abiword.desktop";
 
         // Clean-up non-existing apps
         removeNonExisting(preferredApps);
@@ -503,10 +520,12 @@ private:
     QString m_localApps;
     QByteArray m_mimeAppsFileContents;
     QString fakeTextApplication;
+    QString fakeTextApplicationPrefixed;
     QString fakeDefaultTextApplication;
     QString fakeCSrcApplication;
     QString fakeJpegApplication;
     QString fakeHtmlApplication;
+    QString fakeHtmlApplicationPrefixed;
     QString fakeArkApplication;
 
     ExpectedResultsMap preferredApps;
