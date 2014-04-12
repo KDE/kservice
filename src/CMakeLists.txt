@@ -30,8 +30,6 @@ set(kservice_SRCS
    sycoca/ksycocafactory.cpp
    sycoca/ksycocautils.cpp
    sycoca/kmemfile.cpp
-   plugin/kpluginfactory.cpp
-   plugin/kpluginloader.cpp
    plugin/kplugintrader.cpp
    plugin/kdbusservicestarter.cpp
 )
@@ -72,8 +70,8 @@ target_include_directories(KF5Service INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_I
 target_link_libraries(KF5Service
   PUBLIC
     KF5::ConfigCore   # KConfig and friends
+    KF5::CoreAddons   # KShell KPluginLoader
   PRIVATE
-    KF5::CoreAddons   # KShell
     KF5::I18n
     KF5::DBusAddons   # KDEInitInterface
 )
@@ -85,9 +83,6 @@ set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION_STRING}
 
 ecm_generate_headers(KService_HEADERS
   HEADER_NAMES
-  KPluginFactory
-  KPluginLoader
-  KExportPlugin
   KPluginTrader
   KDBusServiceStarter
 
