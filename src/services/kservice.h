@@ -566,6 +566,8 @@ private:
     friend QDataStream &operator>>(QDataStream &, ServiceTypeAndPreference &);
     friend QDataStream &operator<<(QDataStream &, const ServiceTypeAndPreference &);
 
+    Q_DISABLE_COPY(KService)
+
     Q_DECLARE_PRIVATE(KService)
 
     friend class KServiceFactory;
