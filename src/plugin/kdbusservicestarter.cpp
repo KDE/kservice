@@ -83,9 +83,12 @@ int KDBusServiceStarter::findServiceFor(const QString &serviceType,
     QString dbusService = ptr->property(QStringLiteral("X-DBUS-ServiceName")).toString();
 
     if (!QDBusConnection::sessionBus().interface()->isServiceRegistered(dbusService)) {
-        QString error;
-        if (startServiceFor(serviceType, constraint, &error, &dbusService, flags) != 0) {
-            //qDebug() << "Couldn't start service:" << error;
+        QString err;
+        if (startServiceFor(serviceType, constraint, &err, &dbusService, flags) != 0) {
+            if (error) {
+                *error = err;
+            }
+            qWarning() << "Couldn't start service" << dbusService << "for" << serviceType << ":" << err;
             return -2;
         }
     }
