@@ -61,6 +61,7 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfig.cmake"
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kservice_version.h
         DESTINATION ${INCLUDE_INSTALL_DIR} COMPONENT Devel )
 
+add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
 add_subdirectory(docs)
 add_subdirectory(src)
 if (BUILD_TESTING)
