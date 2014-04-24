@@ -113,14 +113,8 @@ private Q_SLOTS:
 
         m_localApps = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1Char('/');
 
-        // Create factory on the heap and don't delete it.
-        // It registers to KSycoca, which deletes it at end of program execution.
-        KServiceFactory *factory = new FakeServiceFactory;
-        QCOMPARE(KServiceFactory::self(), factory); // ctor sets s_self
         bool mustUpdateKSycoca = false;
-        if (!KSycoca::isAvailable()) {
-            mustUpdateKSycoca = true;
-        }
+
         if (QFile::exists(m_localApps + "/mimeapps.list")) {
             QFile::remove(m_localApps + "/mimeapps.list");
             mustUpdateKSycoca = true;
@@ -170,10 +164,16 @@ private Q_SLOTS:
             writeAppDesktopFile(fakeHtmlApplication, QStringList() << "text/html");
         }
 
-        if (mustUpdateKSycoca) {
+        if (mustUpdateKSycoca || !KSycoca::isAvailable()) {
             // Update ksycoca in ~/.kde-unit-test after creating the above
             runKBuildSycoca();
         }
+
+        // Create factory on the heap and don't delete it. This must happen after
+        // Sycoca is built, in case it did not exist before.
+        // It registers to KSycoca, which deletes it at end of program execution.
+        KServiceFactory *factory = new FakeServiceFactory;
+        QCOMPARE(KServiceFactory::self(), factory); // ctor sets s_self
 
         // For debugging: print all services and their storageId
 #if 0
