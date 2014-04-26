@@ -34,7 +34,7 @@ public:
     KSycocaResourceList() { }
 
     // resource is just used in the databaseChanged signal
-    // subdir is always under QStandardPaths::GenericDataLocation. E.g. mime, kde5/services, etc.
+    // subdir is always under QStandardPaths::GenericDataLocation. E.g. mime, kservices5, etc.
     void add(const QByteArray &resource, const QString &subdir, const QString &filter)
     {
         KSycocaResource res;

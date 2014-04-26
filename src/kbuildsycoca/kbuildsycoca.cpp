@@ -487,7 +487,7 @@ void KBuildSycoca::save(QDataStream *str)
     (*str) << newTimestamp;
     (*str) << QLocale::languageToString(QLocale().language());
     // This makes it possible to trigger a ksycoca update for all users (KIOSK feature)
-    (*str) << calcResourceHash("kde5/services", "update_ksycoca");
+    (*str) << calcResourceHash("kservices5", "update_ksycoca");
     (*str) << (*g_allResourceDirs);
 
     // Calculate per-servicetype/mimetype data
@@ -700,7 +700,7 @@ int main(int argc, char **argv)
         KSycoca::disableAutoRebuild(); // Prevent deadlock
         QString current_language = QLocale::languageToString(QLocale().language());
         QString ksycoca_language = KSycoca::self()->language();
-        quint32 current_update_sig = KBuildSycoca::calcResourceHash("kde5/services", "update_ksycoca");
+        quint32 current_update_sig = KBuildSycoca::calcResourceHash("kservices5", "update_ksycoca");
         quint32 ksycoca_update_sig = KSycoca::self()->updateSignature();
         QString current_prefixes = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
         QString ksycoca_prefixes = static_cast<KBuildSycoca *>(KSycoca::self())->kfsstnd_prefixes();

@@ -49,7 +49,7 @@ KBuildServiceFactory::KBuildServiceFactory(KSycocaFactory *serviceTypeFactory,
     m_resourceList = new KSycocaResourceList();
     // We directly care about services desktop files.
     // All the application desktop files are parsed on demand from the vfolder menu code.
-    m_resourceList->add("services", "kde5/services", "*.desktop");
+    m_resourceList->add("services", "kservices5", "*.desktop");
 
     m_nameDict = new KSycocaDict();
     m_relNameDict = new KSycocaDict();
@@ -58,7 +58,7 @@ KBuildServiceFactory::KBuildServiceFactory(KSycocaFactory *serviceTypeFactory,
 
 QStringList KBuildServiceFactory::resourceDirs()
 {
-    return QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "kde5/services", QStandardPaths::LocateDirectory);
+    return QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "kservices5", QStandardPaths::LocateDirectory);
 }
 
 KBuildServiceFactory::~KBuildServiceFactory()
@@ -83,7 +83,7 @@ KService::Ptr KBuildServiceFactory::findServiceByMenuId(const QString &menuId)
 
 KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
 {
-    Q_ASSERT(!file.startsWith("kde5/services/")); // we add this ourselves, below
+    Q_ASSERT(!file.startsWith("kservices5/")); // we add this ourselves, below
 
     QString name = file;
     int pos = name.lastIndexOf('/');
@@ -99,7 +99,7 @@ KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
         if (QDir::isAbsolutePath(file)) { // vfolder sends us full paths for applications
             serv = new KService(file);
         } else { // we get relative paths for services
-            KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, "kde5/services/" + file);
+            KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, "kservices5/" + file);
             // Note that the second arg below MUST be 'file', unchanged.
             // If the entry path doesn't match the 'file' parameter to createEntry, reusing old entries
             // (via time dict, which uses the entry path as key) cannot work.

@@ -129,7 +129,7 @@ private:
     QString m_trackId;
 
     QByteArray g_resource; // e.g. "services" (old resource name, now only used for the signal, see kctimefactory.cpp)
-    QString g_resourceSubdir; // e.g. "kde5/services" (xdgdata subdir)
+    QString g_resourceSubdir; // e.g. "kservices5" (xdgdata subdir)
 };
 
 #endif

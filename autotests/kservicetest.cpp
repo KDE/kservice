@@ -86,7 +86,7 @@ void KServiceTest::initTestCase()
 
     // fakeservice: deleted and recreated by testKSycocaUpdate, don't use in other tests
     bool mustUpdateKSycoca = !KService::serviceByDesktopPath("fakeservice.desktop");
-    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + "fakeservice.desktop";
+    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakeservice.desktop";
     if (!QFile::exists(fakeService)) {
         mustUpdateKSycoca = true;
         createFakeService();
@@ -96,7 +96,7 @@ void KServiceTest::initTestCase()
     if (!KService::serviceByDesktopPath("fakepart.desktop")) {
         mustUpdateKSycoca = true;
     }
-    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + "fakepart.desktop";
+    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart.desktop";
     if (!QFile::exists(fakePart)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(fakePart);
@@ -109,7 +109,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("MimeType", "text/plain;text/html;");
     }
 
-    const QString fakePart2 = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + "fakepart2.desktop";
+    const QString fakePart2 = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart2.desktop";
     if (!QFile::exists(fakePart2)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(fakePart2);
@@ -121,7 +121,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("MimeType", "text/plain;");
     }
 
-    const QString preferredPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + "preferredpart.desktop";
+    const QString preferredPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "preferredpart.desktop";
     if (!QFile::exists(preferredPart)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(preferredPart);
@@ -133,7 +133,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("MimeType", "text/plain;");
     }
 
-    const QString fakeCookie = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/kded/") + "fakekcookiejar.desktop";
+    const QString fakeCookie = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/kded/") + "fakekcookiejar.desktop";
     if (!QFile::exists(fakeCookie)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(fakeCookie);
@@ -147,7 +147,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("X-KDE-Kded-load-on-demand", "true");
     }
 
-    const QString otherPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + "otherpart.desktop";
+    const QString otherPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "otherpart.desktop";
     if (!QFile::exists(otherPart)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(otherPart);
@@ -163,7 +163,7 @@ void KServiceTest::initTestCase()
     if (!KService::serviceByDesktopPath("faketextplugin.desktop")) {
         mustUpdateKSycoca = true;
     }
-    const QString fakeTextplugin = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + "faketextplugin.desktop";
+    const QString fakeTextplugin = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "faketextplugin.desktop";
     if (!QFile::exists(fakeTextplugin)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(fakeTextplugin);
@@ -179,7 +179,7 @@ void KServiceTest::initTestCase()
     if (!KServiceType::serviceType("FakePluginType")) {
         mustUpdateKSycoca = true;
     }
-    const QString fakePluginType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/servicetypes/") + "fakeplugintype.desktop";
+    const QString fakePluginType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + "fakeplugintype.desktop";
     if (!QFile::exists(fakePluginType)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(fakePluginType);
@@ -194,7 +194,7 @@ void KServiceTest::initTestCase()
     if (!KServiceType::serviceType("FakeBasePart")) {
         mustUpdateKSycoca = true;
     }
-    const QString fakeBasePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/servicetypes/") + "fakebasepart.desktop";
+    const QString fakeBasePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + "fakebasepart.desktop";
     if (!QFile::exists(fakeBasePart)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(fakeBasePart);
@@ -208,7 +208,7 @@ void KServiceTest::initTestCase()
     if (!KServiceType::serviceType("FakeDerivedPart")) {
         mustUpdateKSycoca = true;
     }
-    const QString fakeDerivedPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/servicetypes/") + "fakederivedpart.desktop";
+    const QString fakeDerivedPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + "fakederivedpart.desktop";
     if (!QFile::exists(fakeDerivedPart)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(fakeDerivedPart);
@@ -220,7 +220,7 @@ void KServiceTest::initTestCase()
     }
 
     // fakekdedmodule
-    const QString fakeKdedModule = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/servicetypes/") + "fakekdedmodule.desktop";
+    const QString fakeKdedModule = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + "fakekdedmodule.desktop";
     if (!QFile::exists(fakeKdedModule)) {
         const QString src = QFINDTESTDATA("fakekdedmodule.desktop");
         QVERIFY(QFile::copy(src, fakeKdedModule));
@@ -261,12 +261,12 @@ void KServiceTest::cleanupTestCase()
     // as the preferred part for text/plain...
     QStringList services; services << "fakeservice.desktop" << "fakepart.desktop" << "faketextplugin.desktop";
     Q_FOREACH (const QString &service, services) {
-        const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + service;
+        const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + service;
         QFile::remove(fakeService);
     }
     QStringList serviceTypes; serviceTypes << "fakeplugintype.desktop";
     Q_FOREACH (const QString &serviceType, serviceTypes) {
-        const QString fakeServiceType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/servicetypes/") + serviceType;
+        const QString fakeServiceType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + serviceType;
         //QFile::remove(fakeServiceType);
     }
     QProcess proc;
@@ -515,14 +515,14 @@ void KServiceTest::testTraderConstraints()
 
 void KServiceTest::testHasServiceType1() // with services constructed with a full path (rare)
 {
-    QString fakepartPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "fakepart.desktop");
+    QString fakepartPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kservices5/") + "fakepart.desktop");
     QVERIFY(!fakepartPath.isEmpty());
     KService fakepart(fakepartPath);
     QVERIFY(fakepart.hasServiceType("FakeBasePart"));
     QVERIFY(fakepart.hasServiceType("FakeDerivedPart"));
     QCOMPARE(fakepart.mimeTypes(), QStringList() << "text/plain" << "text/html");
 
-    QString faketextPluginPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "faketextplugin.desktop");
+    QString faketextPluginPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kservices5/") + "faketextplugin.desktop");
     QVERIFY(!faketextPluginPath.isEmpty());
     KService faketextPlugin(faketextPluginPath);
     QVERIFY(faketextPlugin.hasServiceType("FakePluginType"));
@@ -609,7 +609,7 @@ void KServiceTest::testDeleteServiceTypeProfile()
 
 void KServiceTest::testActionsAndDataStream()
 {
-    const QString servicePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kde5/services/") + "ScreenSavers/krandom.desktop");
+    const QString servicePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kservices5/") + "ScreenSavers/krandom.desktop");
     if (servicePath.isEmpty()) {
         QSKIP("kdebase not installed, krandom.desktop not found");
     }
@@ -673,7 +673,7 @@ void KServiceTest::testKSycocaUpdate()
     QVERIFY(fakeService); // see initTestCase; it should be found.
 
     // Test deleting a service
-    const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/fakeservice.desktop");
+    const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice.desktop");
     QVERIFY(QFile::exists(servPath));
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
     QVERIFY(spy.isValid());
@@ -708,7 +708,7 @@ void KServiceTest::testKSycocaUpdate()
 
 void KServiceTest::createFakeService()
 {
-    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/fakeservice.desktop");
+    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice.desktop");
     KDesktopFile file(fakeService);
     KConfigGroup group = file.desktopGroup();
     group.writeEntry("Name", "FakePlugin");
