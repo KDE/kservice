@@ -16,4 +16,4 @@ target_link_libraries(desktoptojson
     KF5::ConfigCore
 )
 
-install(TARGETS desktoptojson EXPORT KF5ServiceTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS desktoptojson EXPORT KF5ServiceTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})

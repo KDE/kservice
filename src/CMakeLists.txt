@@ -65,7 +65,7 @@ set(kservice_includes
 )
 target_include_directories(KF5Service PUBLIC "$<BUILD_INTERFACE:${kservice_includes}>")
 
-target_include_directories(KF5Service INTERFACE "$<INSTALL_INTERFACE:${INCLUDE_INSTALL_DIR}/KService>")
+target_include_directories(KF5Service INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KService>")
 
 target_link_libraries(KF5Service
   PUBLIC
@@ -123,12 +123,12 @@ install(FILES
    DESTINATION ${SERVICETYPES_INSTALL_DIR}
 )
 
-install(TARGETS KF5Service EXPORT KF5ServiceTargets ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
    "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
    ${KService_HEADERS}
-   DESTINATION ${INCLUDE_INSTALL_DIR}/KService COMPONENT Devel
+   DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KService COMPONENT Devel
 )
 
 add_subdirectory(kbuildsycoca)

@@ -26,7 +26,7 @@ target_link_libraries(kbuildsycoca5
    Qt5::DBus #kbuildsycoca uses QDBus to talk with interested applications
 )
 
-install(TARGETS kbuildsycoca5 ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS kbuildsycoca5 ${KF5_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 if (WIN32)
