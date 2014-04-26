@@ -1,1 +1,9 @@
+maintainer: dfaure
+description: Advanced plugin and service introspection
 tier: 3
+type: solution
+platforms:
+    - name: All
+portingAid: false
+deprecated: false
+release: true
