@@ -2,6 +2,7 @@
 Type=Service
 Icon=
 Name=Dummy
+Name[nl]=Dummy
 Name[uk]=Макет
 Name[x-test]=xxDummyxx
 ServiceTypes=Dummy

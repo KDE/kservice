@@ -3,6 +3,7 @@ Encoding=UTF-8
 Type=ServiceType
 X-KDE-ServiceType=KDEDModule
 Comment=KDED Module
+Comment[nl]=KDED module
 Comment[uk]=Модуль KDED
 Comment[x-test]=xxKDED Modulexx
 [PropertyDef::X-KDE-FactoryName]

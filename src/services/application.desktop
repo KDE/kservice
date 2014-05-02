@@ -2,6 +2,7 @@
 Type=ServiceType
 X-KDE-ServiceType=Application
 Name=Application
+Name[nl]=Toepassing
 Name[uk]=Програма
 Name[x-test]=xxApplicationxx
 
