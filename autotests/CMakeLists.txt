@@ -1,6 +1,6 @@
 remove_definitions(-DQT_NO_CAST_FROM_ASCII)
 
-include(ECMMarkAsTest)
+include(ECMAddTests)
 
 ########### unittests ###############
 
@@ -8,14 +8,9 @@ find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Concurrent Test)
 
 macro(KSERVICE_UNIT_TESTS)
   foreach(_testname ${ARGN})
-    add_executable(${_testname} ${_testname}.cpp kwaitforsignal.cpp)
-    add_test(kservice-${_testname} ${_testname})
-    target_link_libraries(${_testname}
-       KF5::Service
-       Qt5::Test
-       Qt5::Concurrent
-    )
-    ecm_mark_as_test(${_testname})
+    ecm_add_test(${_testname}.cpp kwaitforsignal.cpp TEST_NAME ${_testname}
+    NAME_PREFIX "kservice-"
+    LINK_LIBRARIES KF5::Service Qt5::Test Qt5::Concurrent)
   endforeach()
 endmacro(KSERVICE_UNIT_TESTS)
 
@@ -36,10 +31,7 @@ target_link_libraries(fakeplugin KF5::Service)
 
 set(kmimeassociationstest_SRCS kmimeassociationstest.cpp ../src/kbuildsycoca/kmimeassociations.cpp)
 
-add_executable(kmimeassociationstest ${kmimeassociationstest_SRCS})
-add_test(kservice-kmimeassociationstest kmimeassociationstest)
-ecm_mark_as_test(kmimeassociationstest)
-
-target_link_libraries(kmimeassociationstest KF5::Service Qt5::Test)
-target_include_directories(kmimeassociationstest PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../src/kbuildsycoca/")
+ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
+             NAME_PREFIX "kservice-" LINK_LIBRARIES KF5::Service Qt5::Test)
+target_include_directories(kservice-kmimeassociationstest PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../src/kbuildsycoca/")
 

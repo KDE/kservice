@@ -1,13 +1,7 @@
 project("plugintest")
 
-add_executable(plugintest
-    main.cpp
-    plugintest.cpp
-)
-add_test(kservice-pluginloadertest plugintest)
+include(ECMAddTests)
 
-target_link_libraries(plugintest
-    Qt5::Core
-    KF5::Service
-)
-ecm_mark_as_test(plugintest)
+ecm_add_test(plugintest.cpp main.cpp
+             TEST_NAME kservice-pluginloadertest
+	     LINK_LIBRARIES Qt5::Core KF5::Service)
