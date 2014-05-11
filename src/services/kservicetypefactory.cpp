@@ -34,7 +34,8 @@ KServiceTypeFactory::KServiceTypeFactory()
     kServiceTypeFactoryInstance()->instanceCreated(this);
     if (!KSycoca::self()->isBuilding()) {
         QDataStream *str = stream();
-        Q_ASSERT(str);
+        Q_ASSERT_X(str, "KServiceTypeFactory::KServiceTypeFactory()",
+                   "Could not open sycoca database, you must run kbuildsycoca first!");
         if (str) {
             // Read Header
             qint32 n;
