@@ -614,11 +614,10 @@ int main(int argc, char **argv)
     KLocalizedString::setApplicationDomain("kservice5");
 
     KAboutData about(KBUILDSYCOCA_EXENAME,
-                     QStringLiteral("kservice5"),
                      i18nc("application name", "KBuildSycoca"),
                      QStringLiteral("5.0"),
                      i18nc("application description", "Rebuilds the system configuration cache."),
-                     KAboutData::License_GPL,
+                     KAboutLicense::GPL,
                      i18nc("@info:credit", "Copyright 1999-2014 KDE Developers"));
     about.addAuthor(i18nc("@info:credit", "David Faure"),
                     i18nc("@info:credit", "Author"),
