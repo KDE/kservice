@@ -22,7 +22,7 @@
 
 	<Menu>
 		<Name>Applications</Name>
-		<Directory>kde-unknown.directory</Directory>
+		<Directory>kf5-unknown.directory</Directory>
 		<OnlyUnallocated/>
 		<Include>
 			<Not>
@@ -55,10 +55,10 @@
 	</Menu>
 	<Menu>
 		<Name>Development</Name>
-		<Directory>kde-development.directory</Directory>
+		<Directory>kf5-development.directory</Directory>
 		<Menu>
 			<Name>X-KDE-KDevelopIDE</Name>
-			<Directory>kde-development-kdevelop.directory</Directory>
+			<Directory>kf5-development-kdevelop.directory</Directory>
 			<Include>
 				<And>
 					<Category>Development</Category>
@@ -68,7 +68,7 @@
 		</Menu>
 		<Menu>
 			<Name>Translation</Name>
-			<Directory>kde-development-translation.directory</Directory>
+			<Directory>kf5-development-translation.directory</Directory>
 			<Include>
 				<And>
 					<Category>Development</Category>
@@ -78,7 +78,7 @@
 		</Menu>
 		<Menu>
 			<Name>Web Development</Name>
-			<Directory>kde-development-webdevelopment.directory</Directory>
+			<Directory>kf5-development-webdevelopment.directory</Directory>
 			<Include>
 				<And>
 					<Category>Development</Category>
@@ -97,7 +97,7 @@
         </Menu>
 	<Menu>
 		<Name>Science</Name>
-		<Directory>kde-science.directory</Directory>
+		<Directory>kf5-science.directory</Directory>
 		<Include>
 			<And><!-- Include /any/ Science app which is not an Education app -->
 				<Or>
@@ -116,10 +116,10 @@
 	</Menu>
 	<Menu>
 		<Name>Education</Name>
-		<Directory>kde-education.directory</Directory>
+		<Directory>kf5-education.directory</Directory>
 		<Menu>
 			<Name>Languages</Name>
-			<Directory>kde-edu-languages.directory</Directory>
+			<Directory>kf5-edu-languages.directory</Directory>
 			<Include>
 				<And>
 					<Category>Education</Category>
@@ -132,7 +132,7 @@
 		</Menu>
 		<Menu>
 			<Name>Mathematics</Name>
-			<Directory>kde-edu-mathematics.directory</Directory>
+			<Directory>kf5-edu-mathematics.directory</Directory>
 			<Include>
 				<And>
 					<Category>Education</Category>
@@ -142,7 +142,7 @@
 		</Menu>
 		<Menu>
 			<Name>Miscellaneous</Name>
-			<Directory>kde-edu-miscellaneous.directory</Directory>
+			<Directory>kf5-edu-miscellaneous.directory</Directory>
 			<Include>
 				<And>
 					<Category>Education</Category>
@@ -159,7 +159,7 @@
 		</Menu>
 		<Menu>
 			<Name>Science</Name>
-			<Directory>kde-edu-science.directory</Directory>
+			<Directory>kf5-edu-science.directory</Directory>
 			<Include>
 				<And>
 					<Category>Education</Category>
@@ -169,7 +169,7 @@
 		</Menu>
 		<Menu>
 			<Name>Tools</Name>
-			<Directory>kde-edu-tools.directory</Directory>
+			<Directory>kf5-edu-tools.directory</Directory>
 			<Include>
 				<And>
 					<Category>Education</Category>
@@ -183,10 +183,10 @@
 	</Menu>
 	<Menu>
 		<Name>Games</Name>
-		<Directory>kde-games.directory</Directory>
+		<Directory>kf5-games.directory</Directory>
 		<Menu>
 			<Name>Arcade</Name>
-			<Directory>kde-games-arcade.directory</Directory>
+			<Directory>kf5-games-arcade.directory</Directory>
 			<Include>
 				<And>
 					<Category>Game</Category>
@@ -196,7 +196,7 @@
 		</Menu>
 		<Menu>
 			<Name>Board</Name>
-			<Directory>kde-games-board.directory</Directory>
+			<Directory>kf5-games-board.directory</Directory>
 			<Include>
 				<And>
 					<Category>Game</Category>
@@ -206,7 +206,7 @@
 		</Menu>
 		<Menu>
 			<Name>Card</Name>
-			<Directory>kde-games-card.directory</Directory>
+			<Directory>kf5-games-card.directory</Directory>
 			<Include>
 				<And>
 					<Category>Game</Category>
@@ -216,7 +216,7 @@
 		</Menu>
 		<Menu>
 			<Name>Kidsgames</Name>
-			<Directory>kde-games-kids.directory</Directory>
+			<Directory>kf5-games-kids.directory</Directory>
 			<Include>
 				<And>
 					<Category>Game</Category>
@@ -229,7 +229,7 @@
 		</Menu>
 		<Menu>
 			<Name>TacticStrategy</Name>
-			<Directory>kde-games-strategy.directory</Directory>
+			<Directory>kf5-games-strategy.directory</Directory>
 			<Include>
 				<And>
 					<Category>Game</Category>
@@ -239,7 +239,7 @@
 		</Menu>
 		<Menu>
 			<Name>Logic</Name>
-			<Directory>kde-games-logic.directory</Directory>
+			<Directory>kf5-games-logic.directory</Directory>
 			<Include>
 				<And>
 					<Category>Game</Category>
@@ -263,7 +263,7 @@
 		</Include>
 		<Menu>
 			<Name>Toys</Name>
-			<Directory>kde-toys.directory</Directory>
+			<Directory>kf5-toys.directory</Directory>
 			<Include>
 				<Category>Amusement</Category>
 			</Include>
@@ -271,7 +271,7 @@
 	</Menu>
 	<Menu>
 		<Name>Graphics</Name>
-		<Directory>kde-graphics.directory</Directory>
+		<Directory>kf5-graphics.directory</Directory>
 		<Include>
 			<And>
 				<Category>Graphics</Category>
@@ -280,7 +280,7 @@
 		</Include>
 		<Menu>
 			<Name>More</Name>
-			<Directory>kde-more.directory</Directory>
+			<Directory>kf5-more.directory</Directory>
 			<Include>
 				<And>
 					<Category>Graphics</Category>
@@ -291,7 +291,7 @@
 	</Menu>
 	<Menu>
 		<Name>Internet</Name>
-		<Directory>kde-internet.directory</Directory>
+		<Directory>kf5-internet.directory</Directory>
 		<Include>
 			<And>
 				<Category>Network</Category>
@@ -300,11 +300,11 @@
 		</Include>
 		<Menu>
 			<Name>Terminal</Name>
-			<Directory>kde-internet-terminal.directory</Directory>
+			<Directory>kf5-internet-terminal.directory</Directory>
 		</Menu>
 		<Menu>
 			<Name>More</Name>
-			<Directory>kde-more.directory</Directory>
+			<Directory>kf5-more.directory</Directory>
 			<Include>
 				<And>
 					<Category>Network</Category>
@@ -315,7 +315,7 @@
 	</Menu>
 	<Menu>
 		<Name>Multimedia</Name>
-		<Directory>kde-multimedia.directory</Directory>
+		<Directory>kf5-multimedia.directory</Directory>
 		<Include>
 			<And>
 				<Category>AudioVideo</Category>
@@ -324,7 +324,7 @@
 		</Include>
 		<Menu>
 			<Name>More</Name>
-			<Directory>kde-more.directory</Directory>
+			<Directory>kf5-more.directory</Directory>
 			<Include>
 				<And>
 					<Category>AudioVideo</Category>
@@ -335,7 +335,7 @@
 	</Menu>
 	<Menu>
 		<Name>Office</Name>
-		<Directory>kde-office.directory</Directory>
+		<Directory>kf5-office.directory</Directory>
 		<Layout>
 			<Merge type="menus"/>
 			<Filename>kde-koshell.desktop</Filename>
@@ -356,7 +356,7 @@
 		</Include>
 		<Menu>
 			<Name>More</Name>
-			<Directory>kde-more.directory</Directory>
+			<Directory>kf5-more.directory</Directory>
 			<Include>
 				<And>
 					<Category>Office</Category>
@@ -367,14 +367,14 @@
 	</Menu>
 	<Menu>
 		<Name>Settingsmenu</Name>
-		<Directory>kde-settingsmenu.directory</Directory>
+		<Directory>kf5-settingsmenu.directory</Directory>
 		<Include>
 			<Category>Settings</Category>
 		</Include>
 	</Menu>
 	<Menu>
 		<Name>System</Name>
-		<Directory>kde-system.directory</Directory>
+		<Directory>kf5-system.directory</Directory>
 		<Include>
 			<And>
 				<Category>System</Category>
@@ -383,7 +383,7 @@
 		</Include>
 		<Menu>
 			<Name>More</Name>
-			<Directory>kde-more.directory</Directory>
+			<Directory>kf5-more.directory</Directory>
 			<Include>
 				<And>
 					<Category>System</Category>
@@ -393,16 +393,16 @@
 		</Menu>
 		<Menu>
 			<Name>ScreenSavers</Name>
-			<Directory>kde-system-screensavers.directory</Directory>
+			<Directory>kf5-system-screensavers.directory</Directory>
 		</Menu>
 		<Menu>
 			<Name>Terminal</Name>
-			<Directory>kde-system-terminal.directory</Directory>
+			<Directory>kf5-system-terminal.directory</Directory>
 		</Menu>
 	</Menu>
 	<Menu>
 		<Name>Utilities</Name>
-		<Directory>kde-utilities.directory</Directory>
+		<Directory>kf5-utilities.directory</Directory>
 		<Include>
 			<And>
 				<Category>Utility</Category>
@@ -417,11 +417,11 @@
 		</Include>
 		<Menu>
 			<Name>XUtilities</Name>
-			<Directory>kde-utilities-xutils.directory</Directory>
+			<Directory>kf5-utilities-xutils.directory</Directory>
 		</Menu>
 		<Menu>
 			<Name>More</Name>
-			<Directory>kde-more.directory</Directory>
+			<Directory>kf5-more.directory</Directory>
 			<Include>
 				<And>
 					<Category>Utility</Category>
