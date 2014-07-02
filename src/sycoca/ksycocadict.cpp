@@ -527,7 +527,7 @@ KSycocaDict::save(QDataStream &str)
                                    QByteArray("entry offset is 0, save() was not called on "
                                               + (*dup)->payload->storageId().toLatin1()
                                               + " entryPath="
-                                              + (*dup)->payload->entryPath().toLatin1())
+                                              + (*dup)->payload->entryPath().toLatin1()).constData()
                                   );
                     }
                     str << offset;                       // Positive ID
