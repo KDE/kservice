@@ -31,26 +31,16 @@
 #include <QtCore/QHash>
 #include <QtAlgorithms>
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 1, 1)
-// TODO: remove this when the new Q_GLOBAL_STATIC is in
-static bool s_serviceTypeProfilesExists = false;
-#endif
 // servicetype -> profile
 class KServiceTypeProfiles : public QHash<QString, KServiceTypeProfileEntry *>
 {
 public:
     KServiceTypeProfiles()
     {
-#if QT_VERSION < QT_VERSION_CHECK(5, 1, 1)
-        s_serviceTypeProfilesExists = true;
-#endif
         m_parsed = false; ensureParsed();
     }
     ~KServiceTypeProfiles()
     {
-#if QT_VERSION < QT_VERSION_CHECK(5, 1, 1)
-        s_serviceTypeProfilesExists = false;
-#endif
         clear();
     }
     void clear()
@@ -116,11 +106,7 @@ void KServiceTypeProfiles::ensureParsed()
 //static
 void KServiceTypeProfile::clearCache()
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 1, 1)
     if (s_serviceTypeProfiles.exists())
-#else
-    if (s_serviceTypeProfilesExists)
-#endif
         s_serviceTypeProfiles()->clear();
 }
 
@@ -240,11 +226,7 @@ void KServiceTypeProfile::deleteServiceTypeProfile(const QString &serviceType)
 
     // Not threadsafe, but well the whole idea of using this method isn't
     // threadsafe in the first place.
-#if QT_VERSION >= QT_VERSION_CHECK(5,1,1)
     if (s_serviceTypeProfiles.exists()) {
-#else
-    if (s_serviceTypeProfiles()) {
-#endif
         delete s_serviceTypeProfiles()->take(serviceType);
     }
 }
