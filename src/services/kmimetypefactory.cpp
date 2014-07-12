@@ -113,7 +113,8 @@ QStringList KMimeTypeFactory::allMimeTypes()
             it != list.end();
             ++it) {
         Q_ASSERT((*it)->isType(KST_KMimeTypeEntry));
-        result.append(MimeTypeEntry::Ptr(*it)->name());
+        MimeTypeEntry::Ptr mimeType(static_cast<MimeTypeEntry*>((*it).data()));
+        result.append(mimeType->name());
     }
     return result;
 }

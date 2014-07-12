@@ -213,7 +213,8 @@ KService::List KServiceFactory::allServices()
     for (; it != end; ++it) {
         const KSycocaEntry::Ptr entry = *it;
         if (entry->isType(KST_KService)) {
-            result.append(QExplicitlySharedDataPointer<KService>(entry));
+            KService::Ptr service(static_cast<KService*>(entry.data()));
+            result.append(service);
         }
     }
     return result;

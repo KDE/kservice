@@ -519,7 +519,7 @@ KSycocaDict::save(QDataStream &str)
                         const QString storageId = (*dup)->payload->storageId();
                         qDebug() << "about to assert! dict=" << this << "storageId=" << storageId << (*dup)->payload.data();
                         if ((*dup)->payload->isType(KST_KService)) {
-                            KService::Ptr service = KService::Ptr((*dup)->payload);
+                            KService::Ptr service(static_cast<KService*>((*dup)->payload.data()));
                             qDebug() << service->storageId() << service->entryPath();
                         }
                         // save() must have been called on the entry

@@ -50,7 +50,7 @@ KServiceType::Ptr KBuildServiceTypeFactory::findServiceTypeByName(const QString 
     assert(KSycoca::self()->isBuilding());
     // We're building a database - the service type must be in memory
     KSycocaEntry::Ptr servType = m_entryDict->value(_name);
-    return KServiceType::Ptr(servType);
+    return KServiceType::Ptr(static_cast<KServiceType*>(servType.data()));
 }
 
 KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
@@ -131,7 +131,7 @@ KBuildServiceTypeFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
 {
     KSycocaFactory::addEntry(newEntry);
 
-    KServiceType::Ptr serviceType = KServiceType::Ptr(newEntry);
+    KServiceType::Ptr serviceType(static_cast<KServiceType*>(newEntry.data()));
 
     const QMap<QString, QVariant::Type> &pd = serviceType->propertyDefs();
     QMap<QString, QVariant::Type>::ConstIterator pit = pd.begin();

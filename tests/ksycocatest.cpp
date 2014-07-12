@@ -101,11 +101,11 @@ int main(int argc, char *argv[])
             it != list.constEnd(); ++it) {
         KSycocaEntry::Ptr p = (*it);
         if (p->isType(KST_KService)) {
-            KService::Ptr service = KService::Ptr(p);
+            KService::Ptr service(static_cast<KService*>(p.data()));
             qDebug("%s", qPrintable(service->name()));
             qDebug("%s", qPrintable(service->entryPath()));
         } else if (p->isType(KST_KServiceGroup)) {
-            KServiceGroup::Ptr serviceGroup = KServiceGroup::Ptr(p);
+            KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup*>(p.data()));
             qDebug("             %s -->", qPrintable(serviceGroup->caption()));
             if (!first) {
                 first = serviceGroup;
@@ -122,10 +122,10 @@ int main(int argc, char *argv[])
                 it != list.constEnd(); ++it) {
             KSycocaEntry::Ptr p = (*it);
             if (p->isType(KST_KService)) {
-                KService::Ptr service = KService::Ptr(p);
+                KService::Ptr service(static_cast<KService*>(p.data()));
                 qDebug("             %s", qPrintable(service->name()));
             } else if (p->isType(KST_KServiceGroup)) {
-                KServiceGroup::Ptr serviceGroup = KServiceGroup::Ptr(p);
+                KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup*>(p.data()));
                 qDebug("             %s -->", qPrintable(serviceGroup->caption()));
             } else {
                 qDebug("KServiceGroup: Unexpected object in list!");
