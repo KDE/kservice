@@ -31,6 +31,6 @@ NSAPlugin::NSAPlugin(QObject *parent, const QVariantList &args)
     setObjectName(m_pluginInfo.comment());
 }
 
-K_PLUGIN_FACTORY_WITH_JSON(nsapluginfa, "fakeplugin.json", registerPlugin<NSAPlugin>();)
+K_PLUGIN_FACTORY_WITH_JSON(nsaplugin, "fakeplugin.json", registerPlugin<NSAPlugin>();)
 
 #include "nsaplugin.moc"
