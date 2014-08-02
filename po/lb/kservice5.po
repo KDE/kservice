@@ -1,0 +1,204 @@
+# translation of kdelibs4.po to Luxembourgish
+# kevin claude everard <kevin@math.uni-sb.de>, 2005.
+# Michel Ludwig <michel.ludwig@kdemail.net>, 2005, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-05-14 08:06+0000\n"
+"PO-Revision-Date: 2006-06-22 16:29+0200\n"
+"Last-Translator: Michel Ludwig <michel.ludwig@kdemail.net>\n"
+"Language-Team: Luxembourgish <kde-i18n-lb@kde.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.2\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Kevin Claude Everard,Michel Ludwig"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kevin@math.uni-sb.de,miclud@studcs.uni-sb.de"
+
+#: kbuildsycoca/kbuildsycoca.cpp:617
+#, fuzzy
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+#, fuzzy
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Baut de Cache vun der Systemconfiguratioun nees op."
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca.cpp:622
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca.cpp:623 kbuildsycoca/kbuildsycoca.cpp:626
+#, fuzzy
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Auteur"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca.cpp:636
+#, fuzzy
+#| msgid "Do not signal applications to update"
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Déi Uwendungen, déi z'aktualiséiere sinn net uweisen"
+
+#: kbuildsycoca/kbuildsycoca.cpp:639
+#, fuzzy
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Keng fortlafend Aktualiséierung, ëmmer alles nei liesen"
+
+#: kbuildsycoca/kbuildsycoca.cpp:642
+#, fuzzy
+#| msgid "Check file timestamps"
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Ännerungszäite vun der Datei nokucken"
+
+#: kbuildsycoca/kbuildsycoca.cpp:645
+#, fuzzy
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Keng Dateie méi nokucken (geféierlech)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:648
+#, fuzzy
+#| msgid "Create global database"
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Eng global Datebank erstellen"
+
+#: kbuildsycoca/kbuildsycoca.cpp:651
+#, fuzzy
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Just ën Test fir d'Menü-Erstellung maachen"
+
+#: kbuildsycoca/kbuildsycoca.cpp:654
+#, fuzzy
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "D'Menü-ID fir ën Debugging späicheren"
+
+#: kbuildsycoca/kbuildsycoca.cpp:658
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, fuzzy, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr "De KLauncher konnt net iwwer DCOP erreecht ginn\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Konnt de Mailprogramm net starten:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+#, fuzzy
+#| msgid "Could not Launch Mail Client"
+msgid "Could not launch Mail Client"
+msgstr "Konnt de Mailprogramm net starten"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Konnt de Browser net starten:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, fuzzy
+#| msgid "Could not Launch Browser"
+msgid "Could not launch Browser"
+msgstr "Konnt de Browser net starten"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, fuzzy, kde-format
+#| msgid ""
+#| "Could not launch the mail client:\n"
+#| "\n"
+#| "%1"
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Konnt de Mailprogramm net starten:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+#, fuzzy
+#| msgid "Could not Launch Mail Client"
+msgid "Could not launch Terminal Client"
+msgstr "Konnt de Mailprogramm net starten"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1028
+msgid "The provided service is not valid"
+msgstr ""
+
+#: services/kservice.cpp:1032
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
