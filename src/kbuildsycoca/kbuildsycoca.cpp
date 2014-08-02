@@ -485,7 +485,7 @@ void KBuildSycoca::save(QDataStream *str)
     // Write XDG_DATA_DIRS
     (*str) << QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
     (*str) << newTimestamp;
-    (*str) << QLocale::languageToString(QLocale().language());
+    (*str) << QLocale().bcp47Name();
     // This makes it possible to trigger a ksycoca update for all users (KIOSK feature)
     (*str) << calcResourceHash("kservices5", "update_ksycoca");
     (*str) << (*g_allResourceDirs);
@@ -672,10 +672,6 @@ int main(int argc, char **argv)
 
     KCrash::setEmergencySaveFunction(crashHandler);
 
-    // force generating of KLocale object. if not, the database will get
-    // be translated
-    QLocale::setDefault(QLocale::C);
-
     while (QDBusConnection::sessionBus().isConnected()) {
         // kapp registered already, but with the PID in the name.
         // We need to re-register without it, to detect already-running kbuildsycoca instances.
@@ -697,7 +693,7 @@ int main(int argc, char **argv)
     bool incremental = !bGlobalDatabase && !parser.isSet("noincremental") && checkfiles;
     if (incremental || !checkfiles) {
         KSycoca::disableAutoRebuild(); // Prevent deadlock
-        QString current_language = QLocale::languageToString(QLocale().language());
+        QString current_language = QLocale().bcp47Name();
         QString ksycoca_language = KSycoca::self()->language();
         quint32 current_update_sig = KBuildSycoca::calcResourceHash("kservices5", "update_ksycoca");
         quint32 ksycoca_update_sig = KSycoca::self()->updateSignature();

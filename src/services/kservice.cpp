@@ -54,7 +54,6 @@ QDataStream &operator>>(QDataStream &s, KService::ServiceTypeAndPreference &st)
 
 void KServicePrivate::init(const KDesktopFile *config, KService *q)
 {
-    QMimeDatabase db;
     const QString entryPath = q->entryPath();
     bool absPath = !QDir::isRelativePath(entryPath);
 
