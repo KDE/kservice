@@ -16,9 +16,3 @@ If you are using CMake, you need to have
 
 (or similar) in your CMakeLists.txt file, and you need to link to KF5::Service.
 
-## Links
-
-- Home page: <https://projects.kde.org/projects/frameworks/kservice>
-- Mailing list: <https://mail.kde.org/mailman/listinfo/kde-frameworks-devel>
-- IRC channel: #kde-devel on Freenode
-- Git repository: <https://projects.kde.org/projects/frameworks/kservice/repository>
