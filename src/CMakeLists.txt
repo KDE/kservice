@@ -132,7 +132,6 @@ install(FILES
 )
 
 add_subdirectory(kbuildsycoca)
-add_subdirectory(desktoptojson)
 
 include(ECMGeneratePriFile)
 ecm_generate_pri_file(BASE_NAME KService LIB_NAME KF5Service DEPS "KConfigCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KF5_INCLUDE_INSTALL_DIR}/KService)
