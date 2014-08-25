@@ -32,7 +32,6 @@
 #include <kservicetypeprofile.h>
 
 #include <qstandardpaths.h>
-#include "kwaitforsignal.h" // for kWaitForSignal
 #include <QDebug>
 
 // Helper method for all the trader tests

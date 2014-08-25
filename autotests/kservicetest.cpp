@@ -37,7 +37,6 @@
 #include <qstandardpaths.h>
 #include <qthread.h>
 #include <qsignalspy.h>
-#include <kwaitforsignal.h>
 
 #include <QTimer>
 #include <QDebug>
