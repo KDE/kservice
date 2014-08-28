@@ -425,6 +425,11 @@ QVariant KPluginInfo::property(const QString &key) const
     return d->metaData.value(key);
 }
 
+QVariantMap KPluginInfo::properties() const
+{
+    return d->metaData;
+}
+
 void KPluginInfo::save(KConfigGroup config)
 {
     KPLUGININFO_ISVALID_ASSERTION;

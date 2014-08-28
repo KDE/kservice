@@ -21,12 +21,29 @@
 
 #include <kplugininfo.h>
 
+Q_DECLARE_METATYPE(KPluginInfo)
+
 class KPluginInfoTest : public QObject
 {
     Q_OBJECT
-private Q_SLOTS:
-    void testLoadDesktop()
+private:
+    static KPluginInfo withCustomProperty(const KPluginInfo &info)
     {
+        QVariantMap result;
+        QVariantMap metaData = info.properties();
+        metaData["X-Foo-Bar"] = QStringLiteral("Baz");
+        result["MetaData"] = metaData;
+        return KPluginInfo(QVariantList() << result, info.libraryPath());
+    }
+private Q_SLOTS:
+    void testLoadDesktop_data()
+    {
+        QTest::addColumn<QString>("desktopFilePath");
+        QTest::addColumn<KPluginInfo>("info");
+        QTest::addColumn<KPluginInfo>("infoGerman");
+        QTest::addColumn<QVariant>("customValue");
+
+
         QString fakepluginDesktop = QFINDTESTDATA("fakeplugin.desktop");
         QVERIFY2(!fakepluginDesktop.isEmpty(), "Could not find fakeplugin.desktop");
         // translations are performed when the object is constructed, not later
@@ -34,7 +51,23 @@ private Q_SLOTS:
         KPluginInfo info(fakepluginDesktop);
         QLocale::setDefault(QLocale(QLocale::German, QLocale::Germany));
         KPluginInfo infoGerman(fakepluginDesktop);
+        QLocale::setDefault(QLocale::c());
+
+        QTest::newRow("no custom property") << fakepluginDesktop << info << infoGerman << QVariant();
+        // when adding the custom property entryPath() cannot be copied -> expect empty string
+        QTest::newRow("with custom property") << QString() << withCustomProperty(info)
+            << withCustomProperty(infoGerman) << QVariant("Baz");
+    }
+
+    void testLoadDesktop()
+    {
+        QFETCH(KPluginInfo, info);
+        QFETCH(KPluginInfo, infoGerman);
+        QFETCH(QVariant, customValue);
+        QFETCH(QString, desktopFilePath);
+
         QVERIFY(info.isValid());
+        QVERIFY(infoGerman.isValid());
         // TODO: should isValid really return true if the file could not be found (it doesn't for the KService::Ptr constructor)?
         QVERIFY(KPluginInfo("/this/path/does/not/exist.desktop").isValid());
 
@@ -48,7 +81,7 @@ private Q_SLOTS:
         QCOMPARE(info.category(), QStringLiteral("Examples"));
         QCOMPARE(info.dependencies(), QStringList() << ""); // TODO: shouldn't this actually return an empty list?
         QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
-        QCOMPARE(info.entryPath(), fakepluginDesktop);
+        QCOMPARE(info.entryPath(), desktopFilePath);
         QCOMPARE(info.icon(), QStringLiteral("preferences-system-time"));
         QCOMPARE(info.isHidden(), false);
         QCOMPARE(info.isPluginEnabled(), false);
@@ -59,6 +92,9 @@ private Q_SLOTS:
         QCOMPARE(info.serviceTypes(), QStringList());
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
+
+        QCOMPARE(info.property("X-Foo-Bar"), customValue);
+
     }
 
 };

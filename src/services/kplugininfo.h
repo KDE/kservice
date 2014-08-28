@@ -237,6 +237,13 @@ public:
     QVariant property(const QString &key) const;
 
     /**
+     * @return All properties of this object. This can be used to read custom values.
+     * @since 5.3
+     * @see KPluginInfo::property()
+     */
+    QVariantMap properties() const;
+
+    /**
      * @return The user visible name of the plugin.
      */
     QString name() const;
