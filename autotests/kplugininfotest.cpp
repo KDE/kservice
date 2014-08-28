@@ -85,11 +85,7 @@ private Q_SLOTS:
 
         QCOMPARE(info.author(), QStringLiteral("Sebastian Kügler"));
         QCOMPARE(info.category(), QStringLiteral("Examples"));
-        if (QTest::currentDataTag() == QLatin1String("from KService::Ptr")) {
-            QCOMPARE(info.dependencies(), QStringList());
-        } else {
-            QCOMPARE(info.dependencies(), QStringList() << ""); // TODO: shouldn't this actually return an empty list?
-        }
+        QCOMPARE(info.dependencies(), QStringList());
         QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(info.entryPath(), desktopFilePath);
         QCOMPARE(info.icon(), QStringLiteral("preferences-system-time"));

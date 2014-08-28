@@ -105,7 +105,7 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
     d->metaData.insert(s_websiteKey, cg.readEntryUntranslated(s_websiteKey));
     d->metaData.insert(s_categoryKey, cg.readEntryUntranslated(s_categoryKey));
     d->metaData.insert(s_licenseKey, cg.readEntryUntranslated(s_licenseKey));
-    d->metaData.insert(s_dependenciesKey, cg.readEntryUntranslated(s_dependenciesKey));
+    d->metaData.insert(s_dependenciesKey, cg.readEntry(s_dependenciesKey, QStringList()));
     d->metaData.insert(s_enabledbyDefaultKey, cg.readEntryUntranslated(s_enabledbyDefaultKey));
     d->enabledbydefault = cg.readEntry(s_enabledbyDefaultKey, false);
     d->libraryPath = cg.readEntry(s_libraryKey);
