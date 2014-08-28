@@ -434,6 +434,13 @@ public:
      * @return a KPluginMetaData object with equivalent meta data.
      */
     static KPluginMetaData toMetaData(const KPluginInfo &info);
+
+    /**
+     * @param meta the KPluginMetaData to convert
+     * @return a KPluginInfo object with equivalent meta data.
+     */
+    static KPluginInfo fromMetaData(const KPluginMetaData &meta);
+
 private:
     friend KSERVICE_EXPORT uint qHash(const KPluginInfo &);
     QExplicitlySharedDataPointer<KPluginInfoPrivate> d;

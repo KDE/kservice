@@ -18,6 +18,8 @@
 
 #include <QtTest/QTest>
 #include <QLocale>
+#include <QJsonDocument>
+#include <QFileInfo>
 
 #include <KAboutData>
 #include <KPluginMetaData>
@@ -145,6 +147,56 @@ private Q_SLOTS:
         QCOMPARE(metaGerman, KPluginInfo::toMetaData(infoGerman));
     }
 
+    void testFromMetaData()
+    {
+        QJsonParseError e;
+        QJsonObject jo = QJsonDocument::fromJson("{\n"
+            " \"KPlugin\": {\n"
+                " \"Name\": \"NSA Plugin\",\n"
+                " \"Name[de]\": \"NSA-Modul\",\n"
+                " \"Description\": \"Test Plugin Spy\",\n"
+                " \"Description[de]\": \"Test-Spionagemodul\",\n"
+                " \"Icon\": \"preferences-system-time\",\n"
+                " \"Authors\": { \"Name\": \"Sebastian Kügler\", \"Email\": \"sebas@kde.org\" },\n"
+                " \"Category\": \"Examples\",\n"
+                " \"Dependencies\": [],\n"
+                " \"EnabledByDefault\": \"true\",\n"
+                " \"License\": \"LGPL\",\n"
+                " \"Id\": \"fakeplugin\",\n" // not strictly required
+                " \"Version\": \"1.0\",\n"
+                " \"Website\": \"http://kde.org/\",\n"
+                " \"ServiceTypes\": []\n"
+            " }\n}\n", &e).object();
+        QCOMPARE(e.error, QJsonParseError::NoError);
+        KPluginMetaData meta(jo, "fakeplugin");
+
+        QLocale::setDefault(QLocale::c());
+        KPluginInfo info = KPluginInfo::fromMetaData(meta);
+        QLocale::setDefault(QLocale(QLocale::German, QLocale::Germany));
+        KPluginInfo infoGerman = KPluginInfo::fromMetaData(meta);
+        QLocale::setDefault(QLocale::c());
+
+        QCOMPARE(info.comment(), QStringLiteral("Test Plugin Spy"));
+        QCOMPARE(infoGerman.comment(), QStringLiteral("Test-Spionagemodul"));
+        QCOMPARE(info.name(), QStringLiteral("NSA Plugin"));
+        QCOMPARE(infoGerman.name(), QStringLiteral("NSA-Modul"));
+
+        QCOMPARE(info.author(), QStringLiteral("Sebastian Kügler"));
+        QCOMPARE(info.category(), QStringLiteral("Examples"));
+        QCOMPARE(info.dependencies(), QStringList());
+        QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
+        QCOMPARE(info.entryPath(), QString());
+        QCOMPARE(info.icon(), QStringLiteral("preferences-system-time"));
+        QCOMPARE(info.isHidden(), false);
+        QCOMPARE(info.isPluginEnabled(), false);
+        QCOMPARE(info.isPluginEnabledByDefault(), true);
+        QCOMPARE(info.libraryPath(), QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath());
+        QCOMPARE(info.license(), QStringLiteral("LGPL"));
+        QCOMPARE(info.pluginName(), QStringLiteral("fakeplugin"));
+        QCOMPARE(info.serviceTypes(), QStringList());
+        QCOMPARE(info.version(), QStringLiteral("1.0"));
+        QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
+    }
 };
 
 QTEST_MAIN(KPluginInfoTest)

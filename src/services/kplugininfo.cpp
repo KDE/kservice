@@ -26,6 +26,7 @@
 #include <QJsonArray>
 #include <QStandardPaths>
 
+#include <kaboutdata.h>
 #include <kconfiggroup.h>
 #include <kdesktopfile.h>
 #include <kpluginmetadata.h>
@@ -480,6 +481,30 @@ void KPluginInfo::defaults()
 uint qHash(const KPluginInfo &p)
 {
     return qHash(reinterpret_cast<quint64>(p.d.data()));
+}
+
+KPluginInfo KPluginInfo::fromMetaData(const KPluginMetaData &md)
+{
+    QVariantMap metaData;
+    const QList<KAboutPerson> &authors = md.authors();
+    if (!authors.isEmpty()) {
+        metaData[s_authorKey] = authors[0].name();
+        metaData[s_emailKey] = authors[0].emailAddress();
+    }
+    metaData[s_categoryKey] = md.category();
+    metaData[s_commentKey] = md.description();
+    metaData[s_dependenciesKey] = md.dependencies();
+    metaData[s_enabledbyDefaultKey] = md.isEnabledByDefault();
+    metaData[s_iconKey] = md.iconName();
+    metaData[s_licenseKey] = md.license();
+    metaData[s_nameKey] = md.name();
+    metaData[s_pluginNameKey] = md.pluginId();
+    metaData[s_xKDEServiceTypes] = md.serviceTypes();
+    metaData[s_versionKey] = md.version();
+    metaData[s_websiteKey] = md.website();
+    QVariantMap result;
+    result[QStringLiteral("MetaData")] = metaData;
+    return KPluginInfo(QVariantList() << result, md.fileName());
 }
 
 KPluginMetaData KPluginInfo::toMetaData() const
