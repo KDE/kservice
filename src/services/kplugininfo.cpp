@@ -19,15 +19,18 @@
 */
 
 #include "kplugininfo.h"
-#include <kservicetypetrader.h>
-#include <kdesktopfile.h>
-#include <kservice.h>
+
 #include <QList>
 #include <QDebug>
 #include <QDirIterator>
+#include <QJsonArray>
+#include <QStandardPaths>
+
 #include <kconfiggroup.h>
-#include <qstandardpaths.h>
-#include <qdebug.h>
+#include <kdesktopfile.h>
+#include <kpluginmetadata.h>
+#include <kservice.h>
+#include <kservicetypetrader.h>
 
 //#ifndef NDEBUG
 #define KPLUGININFO_ISVALID_ASSERTION \
@@ -479,5 +482,49 @@ uint qHash(const KPluginInfo &p)
     return qHash(reinterpret_cast<quint64>(p.d.data()));
 }
 
-#undef KPLUGININFO_ISVALID_ASSERTION
+KPluginMetaData KPluginInfo::toMetaData() const
+{
+    KPLUGININFO_ISVALID_ASSERTION;
+    QJsonObject metadata;
+    QJsonObject kplugin;
+    /* Metadata structure is as follows:
+     "KPlugin": {
+        "Name": "Date and Time",
+        "Description": "Date and time by timezone",
+        "Icon": "preferences-system-time",
+        "Authors": { "Name": "Aaron Seigo", "Email": "aseigo@kde.org" },
+        "Category": "Date and Time",
+        "Dependencies": [],
+        "EnabledByDefault": "true",
+        "License": "LGPL",
+        "Id": "time",
+        "Version": "1.0",
+        "Website": "http://plasma.kde.org/",
+        "ServiceTypes": ["Plasma/DataEngine"]
+     }
+     */
+    kplugin[QStringLiteral("Name")] = name();
+    kplugin[QStringLiteral("Description")] = comment();
+    kplugin[QStringLiteral("Icon")] = icon();
+    QJsonObject authors;
+    authors[QStringLiteral("Name")] = author();
+    authors[QStringLiteral("Email")] = email();
+    kplugin[QStringLiteral("Authors")] = authors;
+    kplugin[QStringLiteral("Category")] = category();
+    kplugin[QStringLiteral("Dependencies")] = QJsonArray::fromStringList(dependencies());
+    kplugin[QStringLiteral("EnabledByDefault")] = isPluginEnabledByDefault();
+    kplugin[QStringLiteral("License")] = license();
+    kplugin[QStringLiteral("Id")] = pluginName();
+    kplugin[QStringLiteral("Version")] = version();
+    kplugin[QStringLiteral("Website")] = website();
+    kplugin[QStringLiteral("ServiceTypes")] = QJsonArray::fromStringList(serviceTypes());
+    metadata[QStringLiteral("KPlugin")] = kplugin;
+    return KPluginMetaData(metadata, d->libraryPath);
+}
 
+KPluginMetaData KPluginInfo::toMetaData(const KPluginInfo& info)
+{
+    return info.toMetaData();
+}
+
+#undef KPLUGININFO_ISVALID_ASSERTION

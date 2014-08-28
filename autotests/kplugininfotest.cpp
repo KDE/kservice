@@ -19,6 +19,9 @@
 #include <QtTest/QTest>
 #include <QLocale>
 
+#include <KAboutData>
+#include <KPluginMetaData>
+
 #include <kplugininfo.h>
 #include <kservice.h>
 
@@ -100,6 +103,46 @@ private Q_SLOTS:
 
         QCOMPARE(info.property("X-Foo-Bar"), customValue);
 
+    }
+
+    void testToMetaData()
+    {
+        QString fakepluginDesktop = QFINDTESTDATA("fakeplugin.desktop");
+        QVERIFY2(!fakepluginDesktop.isEmpty(), "Could not find fakeplugin.desktop");
+        // translations are performed when the object is constructed, not later
+        QLocale::setDefault(QLocale::c());
+        KPluginInfo info(fakepluginDesktop);
+        QLocale::setDefault(QLocale(QLocale::German, QLocale::Germany));
+        KPluginInfo infoGerman(fakepluginDesktop);
+        QVERIFY(info.isValid());
+        KPluginMetaData meta = info.toMetaData();
+        // translations will be broken (since not all are read), it will always return the german version even with QLocale::c()
+        KPluginMetaData metaGerman = infoGerman.toMetaData();
+        QLocale::setDefault(QLocale::c());
+
+        // check the translatable keys first
+        QCOMPARE(meta.description(), QStringLiteral("Test Plugin Spy"));
+        QCOMPARE(metaGerman.description(), QStringLiteral("Test-Spionagemodul"));
+        QCOMPARE(meta.name(), QStringLiteral("NSA Plugin"));
+        QCOMPARE(metaGerman.name(), QStringLiteral("NSA-Modul"));
+
+        QCOMPARE(meta.authors().size(), 1);
+        QCOMPARE(meta.authors()[0].name(), QStringLiteral("Sebastian Kügler"));
+        QCOMPARE(meta.authors()[0].emailAddress(), QStringLiteral("sebas@kde.org"));
+        QCOMPARE(meta.category(), QStringLiteral("Examples"));
+        QCOMPARE(meta.dependencies(), QStringList());
+        QCOMPARE(meta.fileName(), QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath());
+        QCOMPARE(meta.pluginId(), QStringLiteral("fakeplugin"));
+        QCOMPARE(meta.iconName(), QStringLiteral("preferences-system-time"));
+        QCOMPARE(meta.isEnabledByDefault(), true);
+        QCOMPARE(meta.license(), QStringLiteral("LGPL"));
+        QCOMPARE(meta.serviceTypes(), QStringList());
+        QCOMPARE(meta.version(), QStringLiteral("1.0"));
+        QCOMPARE(meta.website(), QStringLiteral("http://kde.org/"));
+
+        // also test the static version
+        QCOMPARE(meta, KPluginInfo::toMetaData(info));
+        QCOMPARE(metaGerman, KPluginInfo::toMetaData(infoGerman));
     }
 
 };

@@ -29,6 +29,7 @@
 #include <kservice.h>
 #include <QtCore/QList>
 
+class KPluginMetaData;
 class KPluginInfoPrivate;
 
 /**
@@ -423,6 +424,16 @@ public:
 
     friend class KPluginTrader;
 
+    /**
+     * @return a KPluginMetaData object with equivalent meta data.
+     */
+    KPluginMetaData toMetaData() const;
+
+    /**
+     * @param info the KPluginInfo object to convert
+     * @return a KPluginMetaData object with equivalent meta data.
+     */
+    static KPluginMetaData toMetaData(const KPluginInfo &info);
 private:
     friend KSERVICE_EXPORT uint qHash(const KPluginInfo &);
     QExplicitlySharedDataPointer<KPluginInfoPrivate> d;
