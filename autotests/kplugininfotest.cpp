@@ -74,8 +74,7 @@ private Q_SLOTS:
 
         QVERIFY(info.isValid());
         QVERIFY(infoGerman.isValid());
-        // TODO: should isValid really return true if the file could not be found (it doesn't for the KService::Ptr constructor)?
-        QVERIFY(KPluginInfo("/this/path/does/not/exist.desktop").isValid());
+        QVERIFY(!KPluginInfo("/this/path/does/not/exist.desktop").isValid());
 
         // check the translatable keys first
         QCOMPARE(info.comment(), QStringLiteral("Test Plugin Spy"));

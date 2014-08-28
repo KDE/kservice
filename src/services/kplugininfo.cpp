@@ -87,9 +87,14 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
 {
     KDesktopFile file(/*resource,*/ filename);
 
-    d->entryPath = filename;
-
     KConfigGroup cg = file.desktopGroup();
+    if (!cg.exists()) {
+        qWarning() << filename << "has no desktop group, cannot construct a KPluginInfo object from it.";
+        d.reset();
+        return;
+    }
+    d->entryPath = file.fileName();
+
     d->hidden = cg.readEntry(s_hiddenKey, false);
     if (d->hidden) {
         return;
