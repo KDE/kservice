@@ -150,6 +150,7 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
     }
     d->service = service;
     d->entryPath = service->entryPath();
+    d->libraryPath = service->library();
 
     if (service->isDeleted()) {
         d->hidden = true;
