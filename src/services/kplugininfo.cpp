@@ -485,7 +485,7 @@ uint qHash(const KPluginInfo &p)
 
 KPluginInfo KPluginInfo::fromMetaData(const KPluginMetaData &md)
 {
-    QVariantMap metaData;
+    QVariantMap metaData = md.rawData().toVariantMap();
     const QList<KAboutPerson> &authors = md.authors();
     if (!authors.isEmpty()) {
         metaData[s_authorKey] = authors[0].name();
@@ -510,7 +510,7 @@ KPluginInfo KPluginInfo::fromMetaData(const KPluginMetaData &md)
 KPluginMetaData KPluginInfo::toMetaData() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    QJsonObject metadata;
+    QJsonObject metadata = QJsonObject::fromVariantMap(d->metaData);
     QJsonObject kplugin;
     /* Metadata structure is as follows:
      "KPlugin": {

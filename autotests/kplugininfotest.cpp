@@ -113,9 +113,9 @@ private Q_SLOTS:
         QVERIFY2(!fakepluginDesktop.isEmpty(), "Could not find fakeplugin.desktop");
         // translations are performed when the object is constructed, not later
         QLocale::setDefault(QLocale::c());
-        KPluginInfo info(fakepluginDesktop);
+        KPluginInfo info = withCustomProperty(KPluginInfo(fakepluginDesktop));
         QLocale::setDefault(QLocale(QLocale::German, QLocale::Germany));
-        KPluginInfo infoGerman(fakepluginDesktop);
+        KPluginInfo infoGerman = withCustomProperty(KPluginInfo(fakepluginDesktop));
         QVERIFY(info.isValid());
         KPluginMetaData meta = info.toMetaData();
         // translations will be broken (since not all are read), it will always return the german version even with QLocale::c()
@@ -145,6 +145,10 @@ private Q_SLOTS:
         // also test the static version
         QCOMPARE(meta, KPluginInfo::toMetaData(info));
         QCOMPARE(metaGerman, KPluginInfo::toMetaData(infoGerman));
+
+        // make sure custom values are also retained
+        QCOMPARE(info.property("X-Foo-Bar"), QVariant("Baz"));
+        QCOMPARE(meta.rawData().value("X-Foo-Bar").toString(), QStringLiteral("Baz"));
     }
 
     void testFromMetaData()
@@ -166,7 +170,9 @@ private Q_SLOTS:
                 " \"Version\": \"1.0\",\n"
                 " \"Website\": \"http://kde.org/\",\n"
                 " \"ServiceTypes\": []\n"
-            " }\n}\n", &e).object();
+            " },\n"
+        " \"X-Foo-Bar\": \"Baz\"\n"
+        "}", &e).object();
         QCOMPARE(e.error, QJsonParseError::NoError);
         KPluginMetaData meta(jo, "fakeplugin");
 
@@ -196,6 +202,10 @@ private Q_SLOTS:
         QCOMPARE(info.serviceTypes(), QStringList());
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
+
+        // make sure custom values are also retained
+        QCOMPARE(meta.rawData().value("X-Foo-Bar").toString(), QStringLiteral("Baz"));
+        QCOMPARE(info.property("X-Foo-Bar"), QVariant("Baz"));
     }
 };
 
