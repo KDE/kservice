@@ -528,11 +528,12 @@ KPluginMetaData KPluginInfo::toMetaData() const
         "ServiceTypes": ["Plasma/DataEngine"]
      }
      */
-    kplugin[QStringLiteral("Name")] = name();
+    const QString nameStr = QStringLiteral("Name");
+    kplugin[nameStr] = name();
     kplugin[QStringLiteral("Description")] = comment();
     kplugin[QStringLiteral("Icon")] = icon();
     QJsonObject authors;
-    authors[QStringLiteral("Name")] = author();
+    authors[nameStr] = author();
     authors[QStringLiteral("Email")] = email();
     kplugin[QStringLiteral("Authors")] = authors;
     kplugin[QStringLiteral("Category")] = category();
