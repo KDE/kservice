@@ -19,6 +19,7 @@ kservice_unit_tests(
  ksycocathreadtest
  kservicetest
  pluginlocatortest
+ kplugininfotest
 )
 
 add_library(fakeplugin MODULE nsaplugin.cpp)
