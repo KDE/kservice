@@ -44,6 +44,7 @@ static const char s_hiddenKey[] = "Hidden";
 static const char s_nameKey[] = "Name";
 static const char s_commentKey[] = "Comment";
 static const char s_iconKey[] = "Icon";
+static const char s_libraryKey[] = "X-KDE-Library";
 static const char s_authorKey[] = "X-KDE-PluginInfo-Author";
 static const char s_emailKey[] = "X-KDE-PluginInfo-Email";
 static const char s_pluginNameKey[] = "X-KDE-PluginInfo-Name";
@@ -107,6 +108,7 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
     d->metaData.insert(s_dependenciesKey, cg.readEntryUntranslated(s_dependenciesKey));
     d->metaData.insert(s_enabledbyDefaultKey, cg.readEntryUntranslated(s_enabledbyDefaultKey));
     d->enabledbydefault = cg.readEntry(s_enabledbyDefaultKey, false);
+    d->libraryPath = cg.readEntry(s_libraryKey);
 }
 
 KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)

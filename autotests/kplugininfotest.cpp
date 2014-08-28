@@ -96,7 +96,7 @@ private Q_SLOTS:
         QCOMPARE(info.isHidden(), false);
         QCOMPARE(info.isPluginEnabled(), false);
         QCOMPARE(info.isPluginEnabledByDefault(), true);
-        QCOMPARE(info.libraryPath(), QStringLiteral("")); //TODO: shouldn't this return fakeplugin (X-KDE-Library)
+        QCOMPARE(info.libraryPath(), QStringLiteral("fakeplugin"));
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
         QCOMPARE(info.pluginName(), QStringLiteral("fakeplugin"));
         QCOMPARE(info.serviceTypes(), QStringList());
