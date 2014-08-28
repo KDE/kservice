@@ -20,6 +20,7 @@
 #include <QLocale>
 
 #include <kplugininfo.h>
+#include <kservice.h>
 
 Q_DECLARE_METATYPE(KPluginInfo)
 
@@ -49,14 +50,19 @@ private Q_SLOTS:
         // translations are performed when the object is constructed, not later
         QLocale::setDefault(QLocale::c());
         KPluginInfo info(fakepluginDesktop);
+        KService::Ptr fakepluginService(new KService(fakepluginDesktop));
+        KPluginInfo infoFromService(fakepluginService);
         QLocale::setDefault(QLocale(QLocale::German, QLocale::Germany));
         KPluginInfo infoGerman(fakepluginDesktop);
+        KService::Ptr fakepluginServiceGerman(new KService(fakepluginDesktop));
+        KPluginInfo infoFromServiceGerman(fakepluginServiceGerman);
         QLocale::setDefault(QLocale::c());
 
         QTest::newRow("no custom property") << fakepluginDesktop << info << infoGerman << QVariant();
         // when adding the custom property entryPath() cannot be copied -> expect empty string
         QTest::newRow("with custom property") << QString() << withCustomProperty(info)
             << withCustomProperty(infoGerman) << QVariant("Baz");
+        QTest::newRow("from KService::Ptr") << fakepluginDesktop << infoFromService << infoFromServiceGerman << QVariant();
     }
 
     void testLoadDesktop()
@@ -79,7 +85,11 @@ private Q_SLOTS:
 
         QCOMPARE(info.author(), QStringLiteral("Sebastian Kügler"));
         QCOMPARE(info.category(), QStringLiteral("Examples"));
-        QCOMPARE(info.dependencies(), QStringList() << ""); // TODO: shouldn't this actually return an empty list?
+        if (QTest::currentDataTag() == QLatin1String("from KService::Ptr")) {
+            QCOMPARE(info.dependencies(), QStringList());
+        } else {
+            QCOMPARE(info.dependencies(), QStringList() << ""); // TODO: shouldn't this actually return an empty list?
+        }
         QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(info.entryPath(), desktopFilePath);
         QCOMPARE(info.icon(), QStringLiteral("preferences-system-time"));
