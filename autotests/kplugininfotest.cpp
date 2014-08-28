@@ -149,6 +149,13 @@ private Q_SLOTS:
         // make sure custom values are also retained
         QCOMPARE(info.property("X-Foo-Bar"), QVariant("Baz"));
         QCOMPARE(meta.rawData().value("X-Foo-Bar").toString(), QStringLiteral("Baz"));
+
+
+        KPluginInfo::List srcList = KPluginInfo::List() << info << infoGerman;
+        QVector<KPluginMetaData> convertedList = KPluginInfo::toMetaData(srcList);
+        QCOMPARE(convertedList.size(), 2);
+        QCOMPARE(convertedList[0], meta);
+        QCOMPARE(convertedList[1], metaGerman);
     }
 
     void testFromMetaData()
@@ -206,6 +213,28 @@ private Q_SLOTS:
         // make sure custom values are also retained
         QCOMPARE(meta.rawData().value("X-Foo-Bar").toString(), QStringLiteral("Baz"));
         QCOMPARE(info.property("X-Foo-Bar"), QVariant("Baz"));
+
+        QVector<KPluginMetaData> srcList = QVector<KPluginMetaData>() << meta;
+        KPluginInfo::List convertedList = KPluginInfo::fromMetaData(srcList);
+        QCOMPARE(convertedList.size(), 1);
+        // KPluginInfo::operator== compares identity of the d-pointer -> manual structural comparison
+        QCOMPARE(convertedList[0].comment(), info.comment());
+        QCOMPARE(convertedList[0].name(), info.name());
+        QCOMPARE(convertedList[0].author(), info.author());
+        QCOMPARE(convertedList[0].category(), info.category());
+        QCOMPARE(convertedList[0].dependencies(), info.dependencies());
+        QCOMPARE(convertedList[0].email(), info.email());
+        QCOMPARE(convertedList[0].entryPath(), info.entryPath());
+        QCOMPARE(convertedList[0].icon(), info.icon());
+        QCOMPARE(convertedList[0].isHidden(), info.isHidden());
+        QCOMPARE(convertedList[0].isPluginEnabled(), info.isPluginEnabled());
+        QCOMPARE(convertedList[0].isPluginEnabledByDefault(), info.isPluginEnabledByDefault());
+        QCOMPARE(convertedList[0].libraryPath(), info.libraryPath());
+        QCOMPARE(convertedList[0].license(), info.license());
+        QCOMPARE(convertedList[0].pluginName(), info.pluginName());
+        QCOMPARE(convertedList[0].serviceTypes(), info.serviceTypes());
+        QCOMPARE(convertedList[0].version(), info.version());
+        QCOMPARE(convertedList[0].website(), info.website());
     }
 };
 

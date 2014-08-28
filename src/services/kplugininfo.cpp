@@ -552,4 +552,25 @@ KPluginMetaData KPluginInfo::toMetaData(const KPluginInfo& info)
     return info.toMetaData();
 }
 
+KPluginInfo::List KPluginInfo::fromMetaData(const QVector<KPluginMetaData> &list)
+{
+    KPluginInfo::List ret;
+    ret.reserve(list.size());
+    foreach(const KPluginMetaData &md, list) {
+        ret.append(KPluginInfo::fromMetaData(md));
+    }
+    return ret;
+}
+
+QVector<KPluginMetaData> KPluginInfo::toMetaData(const KPluginInfo::List &list)
+{
+    QVector<KPluginMetaData> ret;
+    ret.reserve(list.size());
+    foreach(const KPluginInfo &info, list) {
+        ret.append(info.toMetaData());
+    }
+    return ret;
+}
+
+
 #undef KPLUGININFO_ISVALID_ASSERTION
