@@ -91,7 +91,7 @@ public Q_SLOTS:
      * @deprecated since 5.0, use QDesktopServices::openUrl(mailtoURL),
      * using QUrl::setPath(address) and a query item of "subject" for the subject.
      */
-    static void invokeMailer(const QString &address, const QString &subject,
+    KSERVICE_DEPRECATED static void invokeMailer(const QString &address, const QString &subject,
                              const QByteArray &startup_id = QByteArray());
 
     /**
@@ -104,7 +104,7 @@ public Q_SLOTS:
      *           The default is false; do not honor requests for attachments.
      * @deprecated since 5.0, use QDesktopServices::openUrl(mailtoURL)
      */
-    static void invokeMailer(const QUrl &mailtoURL, const QByteArray &startup_id = QByteArray(),
+    KSERVICE_DEPRECATED static void invokeMailer(const QUrl &mailtoURL, const QByteArray &startup_id = QByteArray(),
                              bool allowAttachments = false);
 
     /**
@@ -143,8 +143,8 @@ public Q_SLOTS:
      *           "" ( empty string ) is the default
      * @deprecated since 5.0, use QDesktopServices::openUrl(url)
      */
-    static void invokeBrowser(const QString &url,
-                              const QByteArray &startup_id = QByteArray());
+    KSERVICE_DEPRECATED static void invokeBrowser(const QString &url,
+                                                  const QByteArray &startup_id = QByteArray());
 
     /**
      * Invokes the standard terminal application.
