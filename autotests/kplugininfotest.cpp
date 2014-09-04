@@ -99,7 +99,7 @@ private Q_SLOTS:
         QCOMPARE(info.libraryPath(), QStringLiteral("fakeplugin"));
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
         QCOMPARE(info.pluginName(), QStringLiteral("fakeplugin"));
-        QCOMPARE(info.serviceTypes(), QStringList());
+        QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
 
@@ -138,7 +138,7 @@ private Q_SLOTS:
         QCOMPARE(meta.iconName(), QStringLiteral("preferences-system-time"));
         QCOMPARE(meta.isEnabledByDefault(), true);
         QCOMPARE(meta.license(), QStringLiteral("LGPL"));
-        QCOMPARE(meta.serviceTypes(), QStringList());
+        QCOMPARE(meta.serviceTypes(), QStringList() << "KService/NSA");
         QCOMPARE(meta.version(), QStringLiteral("1.0"));
         QCOMPARE(meta.website(), QStringLiteral("http://kde.org/"));
 
@@ -176,7 +176,7 @@ private Q_SLOTS:
                 " \"Id\": \"fakeplugin\",\n" // not strictly required
                 " \"Version\": \"1.0\",\n"
                 " \"Website\": \"http://kde.org/\",\n"
-                " \"ServiceTypes\": []\n"
+                " \"ServiceTypes\": [\"KService/NSA\"]\n"
             " },\n"
         " \"X-Foo-Bar\": \"Baz\"\n"
         "}", &e).object();
@@ -206,7 +206,7 @@ private Q_SLOTS:
         QCOMPARE(info.libraryPath(), QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath());
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
         QCOMPARE(info.pluginName(), QStringLiteral("fakeplugin"));
-        QCOMPARE(info.serviceTypes(), QStringList());
+        QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
 

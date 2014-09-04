@@ -116,6 +116,8 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
     d->metaData.insert(s_licenseKey, cg.readEntryUntranslated(s_licenseKey));
     d->metaData.insert(s_dependenciesKey, cg.readEntry(s_dependenciesKey, QStringList()));
     d->metaData.insert(s_enabledbyDefaultKey, cg.readEntryUntranslated(s_enabledbyDefaultKey));
+    d->metaData.insert(s_serviceTypesKey, cg.readEntryUntranslated(s_serviceTypesKey));
+    d->metaData.insert(s_xKDEServiceTypes, cg.readEntryUntranslated(s_xKDEServiceTypes));
     d->enabledbydefault = cg.readEntry(s_enabledbyDefaultKey, false);
     d->libraryPath = cg.readEntry(s_libraryKey);
 }
@@ -172,6 +174,7 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
     d->metaData.insert(s_categoryKey, service->property(s_categoryKey));
     d->metaData.insert(s_licenseKey, service->property(s_licenseKey));
     d->metaData.insert(s_dependenciesKey, service->property(s_dependenciesKey));
+    d->metaData.insert(s_xKDEServiceTypes, service->serviceTypes());
     QVariant tmp = service->property(s_enabledbyDefaultKey);
     d->metaData.insert(s_enabledbyDefaultKey, tmp.toBool());
     d->enabledbydefault = d->metaData.value(s_enabledbyDefaultKey).toBool();
