@@ -497,7 +497,49 @@ QVariant KPluginInfo::property(const QString &key) const
     if (d->service) {
         return d->service->property(key);
     }
-    return d->metaData.rawData().value(key).toVariant();
+    QVariant result = d->metaData.rawData().value(key).toVariant();
+    if (result.isValid()) {
+        return result;
+    }
+    // If the key was not found check compatibility for old key names and print a warning
+    // These warnings should only happen if JSON was generated with kcoreaddons_desktop_to_json
+    // but the application uses KPluginTrader::query() instead of KPluginLoader::findPlugins()
+    // TODO: KF6 remove
+#define RETURN_WITH_DEPRECATED_WARNING(ret) \
+    qWarning("Calling KPluginInfo::property(\"%s\") is deprecated, use KPluginInfo::" #ret " instead.", qPrintable(key));\
+    return ret;
+    if (key == QLatin1String(s_authorKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(author());
+    } else if (key == QLatin1String(s_categoryKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(category());
+    } else if (key == QLatin1String(s_commentKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(comment());
+    } else if (key == QLatin1String(s_dependenciesKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(dependencies());
+    } else if (key == QLatin1String(s_emailKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(email());
+    } else if (key == QLatin1String(s_enabledbyDefaultKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(isPluginEnabledByDefault());
+    } else if (key == QLatin1String(s_libraryKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(libraryPath());
+    } else if (key == QLatin1String(s_licenseKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(license());
+    } else if (key == QLatin1String(s_nameKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(name());
+    } else if (key == QLatin1String(s_pluginNameKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(pluginName());
+    } else if (key == QLatin1String(s_serviceTypesKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(serviceTypes());
+    } else if (key == QLatin1String(s_versionKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(version());
+    } else if (key == QLatin1String(s_websiteKey)) {
+        RETURN_WITH_DEPRECATED_WARNING(website());
+    } else if (key == QLatin1String(s_xKDEServiceTypes)) {
+        RETURN_WITH_DEPRECATED_WARNING(serviceTypes());
+    }
+#undef RETURN_WITH_DEPRECATED_WARNING
+    // not a compatibility key -> return invalid QVariant
+    return result;
 }
 
 QVariantMap KPluginInfo::properties() const
