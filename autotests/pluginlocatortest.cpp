@@ -30,6 +30,11 @@
 
 QTEST_MAIN(PluginTest)
 
+void PluginTest::initTestCase()
+{
+    QCoreApplication::setLibraryPaths(QStringList() << QDir::currentPath());
+}
+
 void PluginTest::findPlugin_data()
 {
     QTest::addColumn<QString>("serviceType");
