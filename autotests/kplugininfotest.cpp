@@ -96,7 +96,7 @@ private Q_SLOTS:
         QCOMPARE(info.isHidden(), false);
         QCOMPARE(info.isPluginEnabled(), false);
         QCOMPARE(info.isPluginEnabledByDefault(), true);
-        QCOMPARE(info.libraryPath(), QStringLiteral("fakeplugin"));
+        QCOMPARE(info.libraryPath(), QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath());
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
         QCOMPARE(info.pluginName(), QStringLiteral("fakeplugin"));
         QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
@@ -189,10 +189,17 @@ private Q_SLOTS:
         KPluginInfo infoGerman = KPluginInfo::fromMetaData(meta);
         QLocale::setDefault(QLocale::c());
 
-        QCOMPARE(info.comment(), QStringLiteral("Test Plugin Spy"));
-        QCOMPARE(infoGerman.comment(), QStringLiteral("Test-Spionagemodul"));
+        // translations work correctly here since they are not fixed at load time
         QCOMPARE(info.name(), QStringLiteral("NSA Plugin"));
+        QCOMPARE(infoGerman.name(), QStringLiteral("NSA Plugin"));
+        QCOMPARE(info.comment(), QStringLiteral("Test Plugin Spy"));
+        QCOMPARE(infoGerman.comment(), QStringLiteral("Test Plugin Spy"));
+        QLocale::setDefault(QLocale(QLocale::German, QLocale::Germany));
+        QCOMPARE(info.comment(), QStringLiteral("Test-Spionagemodul"));
+        QCOMPARE(infoGerman.comment(), QStringLiteral("Test-Spionagemodul"));
+        QCOMPARE(info.name(), QStringLiteral("NSA-Modul"));
         QCOMPARE(infoGerman.name(), QStringLiteral("NSA-Modul"));
+        QLocale::setDefault(QLocale::c());
 
         QCOMPARE(info.author(), QStringLiteral("Sebastian Kügler"));
         QCOMPARE(info.category(), QStringLiteral("Examples"));
