@@ -111,12 +111,13 @@ private Q_SLOTS:
         QStandardPaths::enableTestMode(true);
         qputenv("XDG_CURRENT_DESKTOP", "KDE");
 
+        m_localConfig = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1Char('/');
         m_localApps = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1Char('/');
 
         bool mustUpdateKSycoca = false;
 
-        if (QFile::exists(m_localApps + "/mimeapps.list")) {
-            QFile::remove(m_localApps + "/mimeapps.list");
+        if (QFile::exists(m_localConfig + "/mimeapps.list")) {
+            QFile::remove(m_localConfig + "/mimeapps.list");
             mustUpdateKSycoca = true;
         }
 
@@ -233,7 +234,7 @@ private Q_SLOTS:
 
     void cleanupTestCase()
     {
-        QFile::remove(m_localApps + "/mimeapps.list");
+        QFile::remove(m_localConfig + "/mimeapps.list");
         runKBuildSycoca();
     }
 
@@ -467,7 +468,7 @@ private:
 
     void writeToMimeApps(const QByteArray &contents)
     {
-        QString mimeAppsPath = m_localApps + "/mimeapps.list";
+        QString mimeAppsPath = m_localConfig + "/mimeapps.list";
         QFile mimeAppsFile(mimeAppsPath);
         QVERIFY(mimeAppsFile.open(QIODevice::WriteOnly));
         mimeAppsFile.write(contents);
@@ -518,6 +519,7 @@ private:
         }
     }
     QString m_localApps;
+    QString m_localConfig;
     QByteArray m_mimeAppsFileContents;
     QString fakeTextApplication;
     QString fakeTextApplicationPrefixed;
@@ -532,7 +534,6 @@ private:
     ExpectedResultsMap removedApps;
 };
 
-// QT5 TODO QTEST_GUILESS_MAIN(KMimeAssociationsTest)
-QTEST_MAIN(KMimeAssociationsTest)
+QTEST_GUILESS_MAIN(KMimeAssociationsTest)
 
 #include "kmimeassociationstest.moc"
