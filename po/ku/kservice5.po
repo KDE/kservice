@@ -1,0 +1,218 @@
+# translation of kdelibs4.po to Kurdish
+# Kurdish translation for kdelibs
+# Copyright (c) (c) 2006 Canonical Ltd, and Rosetta Contributors 2006
+# This file is distributed under the same license as the kdelibs package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
+# Erdal Ronahi <erdal.ronahi@nospam.gmail.com>, 2006, 2008.
+# Erdal Ronahi <erdal.ronahi@nospam.gmail.com>, 2007, 2008, 2009.
+# Amed Çeko Jiyan <amedcj@gmail.com>, 2008.
+# Erdal Ronahî <erdal.ronahi@nospam.gmail.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-03 08:17+0000\n"
+"PO-Revision-Date: 2010-08-13 15:45+0200\n"
+"Last-Translator: Erdal Ronahî <erdal.ronahi@nospam.gmail.com>\n"
+"Language-Team: Kurdish Team http://pckurd.net\n"
+"Language: ku\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.6.1\n"
+"X-Launchpad-Export-Date: 2007-11-26 09:44+0000\n"
+"X-Poedit-Language: Kurdish\n"
+"X-Poedit-Country: Kurdistan\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Erdal Ronahi"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "erdal.ronahi@nospam.gmail.com"
+
+#: kbuildsycoca/kbuildsycoca.cpp:617
+#, fuzzy
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+#, fuzzy
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Pêşbîra veavakirina pergalê ji nû ve saz dike."
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+#, fuzzy
+#| msgid "(c) 1999-2002 KDE Developers"
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "(c) 1999-2002 Pêşdebirên KDE"
+
+#: kbuildsycoca/kbuildsycoca.cpp:622
+#, fuzzy
+#| msgid "David Faure"
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:623 kbuildsycoca/kbuildsycoca.cpp:626
+#, fuzzy
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Nivîskar"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625
+#, fuzzy
+#| msgid "Waldo Bastian"
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:636
+#, fuzzy
+#| msgid "Do not signal applications to update"
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Ji bo rojanekirina bernameyan sînyalan nede"
+
+#: kbuildsycoca/kbuildsycoca.cpp:639
+#, fuzzy
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr ""
+"Rojanekirina her diçe zêde dibe bigire û dêvila vêya her tiştî ji nû ve "
+"bixwîne"
+
+#: kbuildsycoca/kbuildsycoca.cpp:642
+#, fuzzy
+#| msgid "Check file timestamps"
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Agahiyên dîrokê yên pelî kontrol bike"
+
+#: kbuildsycoca/kbuildsycoca.cpp:645
+#, fuzzy
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Nikare kontrola pelan bike (talûke)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:648
+#, fuzzy
+#| msgid "Create global database"
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Danegireke giştî çêbike"
+
+#: kbuildsycoca/kbuildsycoca.cpp:651
+#, fuzzy
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Tenê ceribandina çêkirina pêşekan bike"
+
+#: kbuildsycoca/kbuildsycoca.cpp:654
+#, fuzzy
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Ji bo neqandina çewtiyan nasnameya pêşekê bişopîne"
+
+#: kbuildsycoca/kbuildsycoca.cpp:658
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "Fonksiyon divê ji perçeya mak were betalkirin."
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Çewtiya destpêkirina %1. An KLauncher êdî naxebite, an jî destpêkirina "
+"sepanê têk çû."
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"Bi alîkariya D-Bus KLauncher nehat gihandin. Dema %1 hat banga kirin:.\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Bernameya e-peyaman nehate xebitandin:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+msgid "Could not launch Mail Client"
+msgstr "Bernameya e-peyaman nehate destpêkirin"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Geroka webê nehate destpêkirin:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+msgid "Could not launch Browser"
+msgstr "Geroka webê nehate destpêkirin"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Xebitandina bernameya termînal biserneket:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+msgid "Could not launch Terminal Client"
+msgstr "Destpêkirina Bernameya Termînalê biserneket"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1027
+msgid "The provided service is not valid"
+msgstr "Servîsa peydekirî nederbasdar e"
+
+#: services/kservice.cpp:1031
+#, fuzzy, kde-format
+#| msgid ""
+#| "The service '%1' provides no library or the Library key is missing in "
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "Servîsa '%1' tu pitûkxane peyde nake an jî mifteya Pirtûkxanê winda ye"
