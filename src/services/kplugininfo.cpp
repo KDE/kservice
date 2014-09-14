@@ -172,6 +172,7 @@ KPluginInfo::KPluginInfo(const KPluginMetaData &md)
     } else {
         d->metaData = md;
     }
+    d->entryPath = md.fileName();
     if (!d->metaData.isValid()) {
         d.reset();
     }

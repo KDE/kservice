@@ -27,6 +27,15 @@ ecm_mark_as_test(fakeplugin)
 target_link_libraries(fakeplugin KF5::Service)
 
 
+# generate new-style and old-style JSON from the .desktop file
+file(COPY fakeplugin.desktop DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(RENAME ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin.desktop ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_json_old.desktop)
+kcoreaddons_desktop_to_json(fakeplugin ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_json_old.desktop COMPAT_MODE)
+
+file(COPY fakeplugin.desktop DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(RENAME ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin.desktop ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_json_new.desktop)
+kcoreaddons_desktop_to_json(fakeplugin ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_json_new.desktop)
+
 ######### kmimeassociationstest ########
 
 set(kmimeassociationstest_SRCS kmimeassociationstest.cpp ../src/kbuildsycoca/kmimeassociations.cpp)
