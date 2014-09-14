@@ -22,6 +22,9 @@ kservice_unit_tests(
  kplugininfotest
 )
 
+# we want to test the deprecated API without a (useless) warning
+target_compile_definitions(kplugininfotest PRIVATE KSERVICE_DEPRECATED=)
+
 add_library(fakeplugin MODULE nsaplugin.cpp)
 ecm_mark_as_test(fakeplugin)
 target_link_libraries(fakeplugin KF5::Service)
