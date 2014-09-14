@@ -426,30 +426,35 @@ public:
 
     /**
      * @return a KPluginMetaData object with equivalent meta data.
+     * @since 5.3
      */
     KPluginMetaData toMetaData() const;
 
     /**
      * @param info the KPluginInfo object to convert
      * @return a KPluginMetaData object with equivalent meta data.
+     * @since 5.3
      */
     static KPluginMetaData toMetaData(const KPluginInfo &info);
 
     /**
      * @param meta the KPluginMetaData to convert
      * @return a KPluginInfo object with equivalent meta data.
+     * @since 5.3
      */
     static KPluginInfo fromMetaData(const KPluginMetaData &meta);
 
     /**
      * @param list the list of KPluginInfo objects to convert
      * @return a list of KPluginMetaData objects with equivalent meta data.
+     * @since 5.3
      */
     static QVector<KPluginMetaData> toMetaData(const KPluginInfo::List &list);
 
     /**
      * @param list the list of KPluginMetaData objects to convert
      * @return a list of KPluginInfo objects with equivalent meta data.
+     * @since 5.3
      */
     static KPluginInfo::List fromMetaData(const QVector<KPluginMetaData> &list);
 
