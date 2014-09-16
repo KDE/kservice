@@ -124,7 +124,7 @@ public:
      * Use (Q|K)PluginLoader and build the metadata into the plugin using
      * K_PLUGIN_FACTORY_WITH_JSON( ..., "mypluginmetadata.json", ...)
      *
-     * You can use the "kconfigtojson tool to generate a .json file from your .desktop file.
+     * You can use the "desktoptojson tool to generate a .json file from your .desktop file.
      * The .json file should look like this:
      *
      * \verbatim
