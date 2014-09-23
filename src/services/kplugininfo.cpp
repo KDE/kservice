@@ -627,7 +627,6 @@ uint qHash(const KPluginInfo &p)
 
 KPluginInfo KPluginInfo::fromMetaData(const KPluginMetaData &md)
 {
-    KPluginInfo ret;
     return KPluginInfo(md);
 }
 
