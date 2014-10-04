@@ -1,0 +1,211 @@
+# translation of kdelibs4.po to Euskara/Basque (eu)
+# KDE: EUSKERA TRANSLATION
+# Copyright (C) 1999,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011, Free Software Foundation, Inc.
+#
+# Marcos <marcos@euskalgnu.org>, 2002,2003, 2004, 2005.
+# Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
+# marcos <marcos@euskalgnu.org>, 2006, 2007, 2008, 2009, 2010.
+# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2009.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2011, 2012, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-03 08:17+0000\n"
+"PO-Revision-Date: 2014-03-02 19:49+0100\n"
+"Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
+"Language-Team: Basque <kde-i18n-doc@kde.org>\n"
+"Language: eu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Marcos,Ion Gaztañaga,Iñigo Salvador Azurmendi"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "marcos@euskalgnu.org,igaztanaga@gmail.com,xalba@euskalnet.net"
+
+#: kbuildsycoca/kbuildsycoca.cpp:617
+#, fuzzy
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+#, fuzzy
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Sistemaren konfigurazio cache-a bereraikitzen du."
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+#, fuzzy
+#| msgid "(c) 1999-2002 KDE Developers"
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "(c) 1999-2002 KDE Developers"
+
+#: kbuildsycoca/kbuildsycoca.cpp:622
+#, fuzzy
+#| msgid "David Faure"
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:623 kbuildsycoca/kbuildsycoca.cpp:626
+#, fuzzy
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Egilea"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625
+#, fuzzy
+#| msgid "Waldo Bastian"
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:636
+#, fuzzy
+#| msgid "Do not signal applications to update"
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Ez bidali seinalerik aplikazioei eguneratzeko."
+
+#: kbuildsycoca/kbuildsycoca.cpp:639
+#, fuzzy
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Ezgaitu eguneraket inkrementala, ber-irakurri dena"
+
+#: kbuildsycoca/kbuildsycoca.cpp:642
+#, fuzzy
+#| msgid "Check file timestamps"
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Egiaztatu fitxategiaren data eta ordua."
+
+#: kbuildsycoca/kbuildsycoca.cpp:645
+#, fuzzy
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Ezgaitu fitxategiak egiaztatzea (arriskutsua)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:648
+#, fuzzy
+#| msgid "Create global database"
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Sortu datu base globala."
+
+#: kbuildsycoca/kbuildsycoca.cpp:651
+#, fuzzy
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Egikaritu menu sortze proba bakarrik"
+
+#: kbuildsycoca/kbuildsycoca.cpp:654
+#, fuzzy
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Gorde menuaren id-a arazketarako"
+
+#: kbuildsycoca/kbuildsycoca.cpp:658
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "Funtzioa hari nagusitik deitu behar da."
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Errorea %1 abiaraztean. KLauncher ez da gehiago exekutatzen ari, edo huts "
+"egin du aplikazioa abiaraztean."
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"Ezin izan da KLauncher-era iritsi D-Busaren bidez. Errorea %1 deitzean:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Posta bezeroa ezin abiarazi:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+msgid "Could not launch Mail Client"
+msgstr "Posta bezeroa ezin abiarazi"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Arakatzailea ezin abiarazi:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+msgid "Could not launch Browser"
+msgstr "Arakatzailea ezin abiarazi"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Terminal bezeroa ezin abiarazi:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+msgid "Could not launch Terminal Client"
+msgstr "Terminal bezeroa ezin abiarazi"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1027
+msgid "The provided service is not valid"
+msgstr "Zehaztutako zerbitzua baliogabea da"
+
+#: services/kservice.cpp:1031
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"'%1' zerbitzuak ez du liburutegirik hornitzen edo liburutegi-gakoa falta da "
