@@ -477,10 +477,11 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
                     // the same module with a different name, for test mode.
                     // On the other hand, the use of other kded modules (cookies, timezone, etc.)
                     // is also better separated from the user's kded anyway.
+                } else {
+                    sycoca.call(QLatin1String("enableTestMode"));
+                    Q_ASSERT(QDBusReply<bool>(sycoca.call(QLatin1String("isTestModeEnabled"))).value());
                 }
             }
-            sycoca.call(QLatin1String("enableTestMode"));
-            Q_ASSERT(QDBusReply<bool>(sycoca.call(QLatin1String("isTestModeEnabled"))).value());
         }
 
         //qDebug() << "We have no database.... asking kded to create it";
