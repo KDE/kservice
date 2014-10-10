@@ -464,6 +464,9 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
             } else {
                 //qDebug() << "kded5 registered";
                 kdedRunning = true;
+                if (QStandardPaths::isTestModeEnabled()) {
+                    sycoca.call(QLatin1String("enableTestMode"));
+                }
             }
         } else {
             //qDebug() << "kded5 found";
@@ -477,9 +480,6 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
                     // the same module with a different name, for test mode.
                     // On the other hand, the use of other kded modules (cookies, timezone, etc.)
                     // is also better separated from the user's kded anyway.
-                } else {
-                    sycoca.call(QLatin1String("enableTestMode"));
-                    Q_ASSERT(QDBusReply<bool>(sycoca.call(QLatin1String("isTestModeEnabled"))).value());
                 }
             }
         }
