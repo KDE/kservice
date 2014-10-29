@@ -78,6 +78,7 @@ private Q_SLOTS:
 
         QVERIFY(info.isValid());
         QVERIFY(infoGerman.isValid());
+        QTest::ignoreMessage(QtWarningMsg, "\"/this/path/does/not/exist.desktop\" has no desktop group, cannot construct a KPluginInfo object from it.");
         QVERIFY(!KPluginInfo("/this/path/does/not/exist.desktop").isValid());
 
         // check the translatable keys first
