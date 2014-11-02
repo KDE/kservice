@@ -1,0 +1,192 @@
+# Translation of kdelibs4 to Norwegian Nynorsk
+#
+# Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 2003, 2004, 2005, 2006.
+# Håvard Korsvoll <korsvoll@skulelinux.no>, 2003, 2005.
+# Karl Ove Hufthammer <karl@huftis.org>, 2004, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Eirik U. Birkeland <eirbir@gmail.com>, 2008, 2009, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-03 08:17+0000\n"
+"PO-Revision-Date: 2014-10-05 09:59+0200\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
+"Language: nn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Gaute Hvoslef Kvalnes,Karl Ove Hufthammer"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "gaute@verdsveven.com,karl@huftis.org"
+
+#: kbuildsycoca/kbuildsycoca.cpp:617
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Byggjer systemoppsettlageret på nytt."
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "© 1999–2014 KDE-utviklarane"
+
+#: kbuildsycoca/kbuildsycoca.cpp:622
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:623 kbuildsycoca/kbuildsycoca.cpp:626
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Opphavsperson"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:636
+#, fuzzy
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Ikkje send oppdateringssignal til programma"
+
+#: kbuildsycoca/kbuildsycoca.cpp:639
+#, fuzzy
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Slå av stegvis oppdatering, les alt på nytt"
+
+#: kbuildsycoca/kbuildsycoca.cpp:642
+#, fuzzy
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Sjekk tidsstempel på filer"
+
+#: kbuildsycoca/kbuildsycoca.cpp:645
+#, fuzzy
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Slå av filsjekking (farleg)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:648
+#, fuzzy
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Lag global database"
+
+#: kbuildsycoca/kbuildsycoca.cpp:651
+#, fuzzy
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Berre testkøyring av menygenerering"
+
+#: kbuildsycoca/kbuildsycoca.cpp:654
+#, fuzzy
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Spor meny-ID-en for avlusing"
+
+#: kbuildsycoca/kbuildsycoca.cpp:658
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "Funksjonen må kallast frå hovudtråden."
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Klarte ikkje starta «%1». Anten så køyrer ikkje KLauncher meir, eller så "
+"klarte ikkje KLauncher å starta programmet."
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"Kan ikkje nå KLauncher via D-Bus. Feil ved kall til %1:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Klarte ikkje starta e-postklienten:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+msgid "Could not launch Mail Client"
+msgstr "Klarte ikkje starta e-postklienten"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Klarte ikkje starta nettlesaren:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+msgid "Could not launch Browser"
+msgstr "Klarte ikkje starta nettlesaren"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Klarte ikkje starta terminalklienten:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+msgid "Could not launch Terminal Client"
+msgstr "Klarte ikkje starta terminalklienten"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr "Inga teneste for %1"
+
+#: services/kservice.cpp:1027
+msgid "The provided service is not valid"
+msgstr "Den tilbydde tenesta er ikkje gyldig"
+
+#: services/kservice.cpp:1031
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"Tenesta «%1» tilbyr ikkje noko bibliotek, eller så manglar «Library»-nøkkelen"

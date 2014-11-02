@@ -1,0 +1,184 @@
+# Translation of kdelibs4.po to Low Saxon
+# Heiko Evermann <heiko@evermann.de>, 2004.
+# Heiko Evermann <heiko.evermann@gmx.de>, 2004, 2005.
+# Volker Jockheck <volkae@gmx.net>, 2004.
+# Sönke Dibbern <s_dibbern@web.de>, 2004, 2005, 2006, 2007, 2008, 2009, 2014.
+# Manfred Wiese <m.j.wiese@web.de>, 2008, 2009, 2010, 2011, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-03 08:17+0000\n"
+"PO-Revision-Date: 2014-05-11 00:55+0200\n"
+"Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
+"Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
+"Language: nds\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Sönke Dibbern, Manfred Wiese"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "s_dibbern@web.de, m.j.wiese@web.de"
+
+#: kbuildsycoca/kbuildsycoca.cpp:617
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Stellt den Twischenspieker för Systeeminstellen nieg op."
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "Copyright 1999-2014, de KDE-Schrieverslüüd"
+
+#: kbuildsycoca/kbuildsycoca.cpp:622
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:623 kbuildsycoca/kbuildsycoca.cpp:626
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Autor"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:636
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Programmen nich Bescheed geven, dat se opfrischen schöölt"
+
+#: kbuildsycoca/kbuildsycoca.cpp:639
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Verscheelopfrischen utmaken, allens nieg lesen"
+
+#: kbuildsycoca/kbuildsycoca.cpp:642
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Datumstempels nakieken"
+
+#: kbuildsycoca/kbuildsycoca.cpp:645
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Dateipröven utmaken (riskant)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:648
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Globale Datenbank opstellen"
+
+#: kbuildsycoca/kbuildsycoca.cpp:651
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Bloots versöken, wat sik dat Menü opstellen lett"
+
+#: kbuildsycoca/kbuildsycoca.cpp:654
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Menü-ID för de Fehlersöök verfolgen"
+
+#: kbuildsycoca/kbuildsycoca.cpp:658
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr "QStandardPaths op Testbedrief ännern, bloots för Eenheittests"
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "Funkschoon mutt vun den Hööftstrang opropen warrn"
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Fehler bi't Opropen vun „%1“. KLauncher löppt wull nich mehr, oder dat kann "
+"dat Programm nich opropen."
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher lett sik nich över den D-Bus ansnacken. Fehler bi't Opropen vun "
+"„%1“:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Dat Nettpostprogramm lett sik nich starten:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+msgid "Could not launch Mail Client"
+msgstr "Dat Nettpostprogramm lett sik nich starten."
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"De Nettkieker lett sik nich starten:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+msgid "Could not launch Browser"
+msgstr "De Nettkieker lett sik nich starten."
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Dat Terminalprogramm lett sik nich starten:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+msgid "Could not launch Terminal Client"
+msgstr "Dat Terminalprogramm lett sik nich starten."
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr "Keen Deenst stellt „%1“ praat."
+
+#: services/kservice.cpp:1027
+msgid "The provided service is not valid"
+msgstr "De angeven Deenst is leeg"
+
+#: services/kservice.cpp:1031
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"De Deenst „%1“ stellt keen Bibliotheek praat, oder dat gifft keen „Library“-"
+"Indrag."

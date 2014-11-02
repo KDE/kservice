@@ -1,0 +1,183 @@
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# g.sora <g.sora@tiscali.it>, 2010, 2011, 2012, 2013, 2014.
+# Giovanni Sora <g.sora@tioscali.it>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-03 08:17+0000\n"
+"PO-Revision-Date: 2014-04-04 15:58+0200\n"
+"Last-Translator: G.Sora <g.sora@tiscali.it>\n"
+"Language-Team: Interlingua <kde-l10n-ia@kde.org>\n"
+"Language: ia\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Giovanni Sora"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "g.sora@tiscali.it"
+
+#: kbuildsycoca/kbuildsycoca.cpp:617
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Il reconstrue le cache de configuration de systema"
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "Copyright 1999-2014, disveloppatores de KDE"
+
+#: kbuildsycoca/kbuildsycoca.cpp:622
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:623 kbuildsycoca/kbuildsycoca.cpp:626
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Autor"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:636
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Il non signala applicationes de actualisar"
+
+#: kbuildsycoca/kbuildsycoca.cpp:639
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Il dishabilita le actualisation incremental, re-lege omne cosas"
+
+#: kbuildsycoca/kbuildsycoca.cpp:642
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Verifica  le marcas horari del file"
+
+#: kbuildsycoca/kbuildsycoca.cpp:645
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Dishabilita le verifica de files (periculose)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:648
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Crea un base de datos global"
+
+#: kbuildsycoca/kbuildsycoca.cpp:651
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Exeque solmente un execution de essayo de generation de menu"
+
+#: kbuildsycoca/kbuildsycoca.cpp:654
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Tracia id de menu per propositos de cribrar"
+
+#: kbuildsycoca/kbuildsycoca.cpp:658
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+"Commuta QStandardPaths al moddo de essayar, solmente pro unitate de essayar"
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "Le function debe esser clamate per le thread principal"
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Error durante que lanceava %1. O Klauncher  non executa in omne caso, o illo "
+"falleva ponente in marcha le application."
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"Klauncher non pote esser attingite via D-Bus. Il ha un error quando il clama "
+"%1:\n"
+"%2:\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Il non pote lancear le cliente de posta:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+msgid "Could not launch Mail Client"
+msgstr "Il non pote lancear le Cliente de Posta"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Il non pote lancear le navigator:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+msgid "Could not launch Browser"
+msgstr "Il non pote lancear le navigator"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Il non pote lancear le terminal cliente:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+msgid "Could not launch Terminal Client"
+msgstr "Il non pote lancear Terminal Cliente"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr "Il non es actuante alcun servicio %1"
+
+#: services/kservice.cpp:1027
+msgid "The provided service is not valid"
+msgstr "Le servicio fornite es invalide"
+
+#: services/kservice.cpp:1031
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"Le servicio '%1' non forni alcun libreria o le clave del libreria es mancante"

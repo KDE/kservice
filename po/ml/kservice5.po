@@ -1,0 +1,211 @@
+# translation of kdelibs4.po to
+# Malayalam translation of kdelibs4.
+# Copyright (C) 2007-2010 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kdelibs package.
+# Anoop | അനൂപ് Panavalappil | പനവളപ്പില്‍ <gnuanu@gmail.com>, 2008.
+# ANI PETER|അനി പീറ്റര്‍ <peter.ani@gmail.com>, 2008.
+# Maxin B. John <maxinbjohn@gmail.com>, 2007.
+# Manu S Madhav | മനു എസ് മാധവ് <manusmad@gmail.com>, 2008.
+# Praveen Arimbrathodiyil <pravi.a@gmail.com>, 2007, 2008, 2009, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-08-03 08:17+0000\n"
+"PO-Revision-Date: 2010-12-29 15:32+0530\n"
+"Last-Translator: \n"
+"Language-Team:  <en@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.4\n"
+"X-Poedit-Country: INDIA\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "പ്രവീണ്‍ അരിമ്പ്രത്തൊടിയില്‍, അനി പീറ്റര്‍, മാക്സിന്‍ ജോണ്‍, അനൂപ് പനവളപ്പില്‍, മനു എസ് മാധവ്"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"pravi.a@gmail.com, peter.ani@gmail.com, maxinbjohn@gmail.com, gnuanu@gmail."
+"com, manusmad@gmail.com"
+
+#: kbuildsycoca/kbuildsycoca.cpp:617
+#, fuzzy
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+#, fuzzy
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "സിസ്റ്റം ക്രമീകരണത്തിന്റെ കാഷ് വീണ്ടും സൃഷ്ടിയ്ക്കുന്നു."
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+#, fuzzy
+#| msgid "(c) 1999-2002 KDE Developers"
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "(c) 1999-2002 കെഡിഇ വികസിപ്പിച്ചവര്‍"
+
+#: kbuildsycoca/kbuildsycoca.cpp:622
+#, fuzzy
+#| msgid "David Faure"
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "ഡേവിഡ് ഫൌര്‍"
+
+#: kbuildsycoca/kbuildsycoca.cpp:623 kbuildsycoca/kbuildsycoca.cpp:626
+#, fuzzy
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "രചയിതാവ്"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625
+#, fuzzy
+#| msgid "Waldo Bastian"
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "വാല്‍ഡോ ബാസ്റ്റിയന്‍"
+
+#: kbuildsycoca/kbuildsycoca.cpp:636
+#, fuzzy
+#| msgid "Do not signal applications to update"
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "പ്രയോഗങ്ങളോട് പുതുക്കാനായി പറയരുത്"
+
+#: kbuildsycoca/kbuildsycoca.cpp:639
+#, fuzzy
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "ഒന്നൊന്നായി പുതുക്കുന്നതു് പ്രവര്‍ത്തനരഹിതമാക്കുക, എല്ലാം വീണ്ടും വായിയ്ക്കുക"
+
+#: kbuildsycoca/kbuildsycoca.cpp:642
+#, fuzzy
+#| msgid "Check file timestamps"
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "ഫയലിന്റെ സമയം പരിശോദിയ്ക്കുക"
+
+#: kbuildsycoca/kbuildsycoca.cpp:645
+#, fuzzy
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "ഫയലുകള്‍ പരിശോദിയ്ക്കുന്നതു് പ്രവര്‍ത്തനരഹിതമാക്കുക(അപകടകരം)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:648
+#, fuzzy
+#| msgid "Create global database"
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "എല്ലായിടത്തും ബാധകമായ ഡാറ്റാബേസുണ്ടാക്കുക"
+
+#: kbuildsycoca/kbuildsycoca.cpp:651
+#, fuzzy
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "മെനു സൃഷ്ടിയ്ക്കുന്നതു് പരീക്ഷണമായി മാത്രം പ്രവര്‍ത്തിപ്പിയ്ക്കുക"
+
+#: kbuildsycoca/kbuildsycoca.cpp:654
+#, fuzzy
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "പിഴവു് തിരുത്തുന്നതിനു് സഹായിയ്ക്കാനായി മെനുവിന്റെ ഐഡി പിന്തുടരുക"
+
+#: kbuildsycoca/kbuildsycoca.cpp:658
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "ഫങ്ഷന്‍ പ്രധാന ത്രെഡ്ഡില്‍നിന്നുതന്നെ വിളിക്കണം."
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"മെയില്‍ ക്ളൈന്‍റ് തുടങ്ങുവാന്‍ സാധിച്ചില്ല:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+msgid "Could not launch Mail Client"
+msgstr "മെയില്‍ ക്ലയന്റ് തുടങ്ങുവാന്‍ സാധിച്ചില്ല"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"ബ്രൌസര്‍ തുടങ്ങുവാന്‍ സാധിച്ചില്ല:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+msgid "Could not launch Browser"
+msgstr "ബ്രൌസര്‍ തുടങ്ങുവാന്‍ സാധിച്ചില്ല"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"ടെര്‍മിനല്‍ ക്ളൈന്‍റ് തുടങ്ങുവാന്‍ സാധിച്ചില്ല:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+msgid "Could not launch Terminal Client"
+msgstr "ടെര്‍മിനല്‍ ക്ലയന്റ് തുടങ്ങുവാന്‍ സാധിച്ചില്ല"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1027
+msgid "The provided service is not valid"
+msgstr "നല്‍കിയ സേവനം സാധുവല്ല"
+
+#: services/kservice.cpp:1031
+#, fuzzy, kde-format
+#| msgid ""
+#| "The service '%1' provides no library or the Library key is missing in "
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "'%1' എന്ന സേവനം ലൈബ്രറിയൊന്നും നല്‍കുന്നില്ല അഥവാ ലൈബ്രറി കീ കാണാനില്ലാത്തതു് "
