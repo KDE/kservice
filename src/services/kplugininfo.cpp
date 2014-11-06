@@ -100,6 +100,9 @@ public:
     KConfigGroup config;
     KService::Ptr service;
     mutable QList<KService::Ptr> kcmservices;
+
+    /** assigns the @p md to @c metaData, but also ensures that compatibility values are handled */
+    void setMetaData(const KPluginMetaData &md);
 };
 
 // maps the KService, QVariant and KDesktopFile keys to the new KPluginMetaData keys
@@ -168,16 +171,23 @@ static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QStr
     return KPluginMetaData(obj, lib);
 }
 
+void KPluginInfoPrivate::setMetaData(const KPluginMetaData& md)
+{
+    const QJsonObject json = md.rawData();
+    if (!json.contains(s_jsonKPluginKey())) {
+        // "KPlugin" key does not exists -> convert from compatibility mode
+        metaData = fromCompatibilityJson(json, md.fileName());
+    } else {
+        metaData = md;
+    }
+}
+
+
+
 KPluginInfo::KPluginInfo(const KPluginMetaData &md)
     :d(new KPluginInfoPrivate)
 {
-    const QJsonObject json = md.rawData();
-    if (json.constFind(s_jsonKPluginKey()) == json.constEnd()) {
-        // "KPlugin" key does not exists -> convert from compatibility mode
-        d->metaData = fromCompatibilityJson(json, md.fileName());
-    } else {
-        d->metaData = md;
-    }
+    d->setMetaData(md);
     d->entryPath = md.fileName();
     if (!d->metaData.isValid()) {
         d.reset();
@@ -231,13 +241,7 @@ KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
                     d->hidden = true;
                     break;
                 }
-                const QJsonObject json = QJsonObject::fromVariantMap(map);
-                if (json.constFind(s_jsonKPluginKey()) == json.constEnd()) {
-                    // "KPlugin" key does not exists -> convert from compatibility mode
-                    d->metaData = fromCompatibilityJson(json, libraryPath);
-                } else {
-                    d->metaData = KPluginMetaData(json, libraryPath);
-                }
+                d->setMetaData(KPluginMetaData(QJsonObject::fromVariantMap(map), libraryPath));
                 break;
             }
         }
@@ -264,7 +268,7 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
     }
 
     QJsonObject json;
-    static const auto readPropertyCallback = [](const KService::Ptr service, const QString &key) {
+    static const auto readPropertyCallback = [](const KService::Ptr &service, const QString &key) {
         return QJsonValue::fromVariant(service->property(key));
     };
     QJsonObject kplugin = mapToJsonKPluginKey(service->name(), service->comment(),
