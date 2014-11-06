@@ -64,8 +64,7 @@ private Q_SLOTS:
         QLocale::setDefault(QLocale::c());
 
         QTest::newRow("no custom property") << fakepluginDesktop << info << infoGerman << QVariant();
-        // when adding the custom property entryPath() cannot be copied -> expect empty string
-        QTest::newRow("with custom property") << QString() << withCustomProperty(info)
+        QTest::newRow("with custom property") << QFileInfo(info.libraryPath()).absoluteFilePath() << withCustomProperty(info)
             << withCustomProperty(infoGerman) << QVariant("Baz");
         QTest::newRow("from KService::Ptr") << fakepluginDesktop << infoFromService << infoFromServiceGerman << QVariant();
     }
@@ -198,7 +197,7 @@ private Q_SLOTS:
         QCOMPARE(info.category(), QStringLiteral("Examples"));
         QCOMPARE(info.dependencies(), QStringList());
         QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
-        QCOMPARE(info.entryPath(), QString());
+        QCOMPARE(info.entryPath(), QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath());
         QCOMPARE(info.icon(), QStringLiteral("preferences-system-time"));
         QCOMPARE(info.isHidden(), false);
         QCOMPARE(info.isPluginEnabled(), false);

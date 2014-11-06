@@ -127,6 +127,7 @@ KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
 {
     static const QString metaData = QStringLiteral("MetaData");
     d->libraryPath = libraryPath;
+    d->entryPath = QFileInfo(libraryPath).absoluteFilePath();
 
     foreach (const QVariant &v, args) {
         if (v.canConvert<QVariantMap>()) {
