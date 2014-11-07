@@ -24,22 +24,13 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDirIterator>
 #include <QtCore/QJsonObject>
-
 #include <QDebug>
+#include <QJsonArray>
+
+#include <KPluginLoader>
+#include <KPluginMetaData>
 
 using namespace KTraderParse;
-
-static inline QStringList suffixFilters()
-{
-#if defined(Q_OS_WIN) || defined(Q_OS_CYGWIN)
-    return QStringList() << QStringLiteral(".dll");
-#else
-    return QStringList() << QStringLiteral("*.so")
-           << QStringLiteral("*.dylib")
-           << QStringLiteral("*.bundle")
-           << QStringLiteral("*.sl");
-#endif
-}
 
 class KPluginTraderSingleton
 {
@@ -89,31 +80,23 @@ void KPluginTrader::applyConstraints(KPluginInfo::List &lst, const QString &cons
 
 KPluginInfo::List KPluginTrader::query(const QString &subDirectory, const QString &servicetype, const QString &constraint)
 {
-    QPluginLoader loader;
-    QStringList libraryPaths;
-    KPluginInfo::List lst;
-
-    if (QDir::isAbsolutePath(subDirectory)) {
-        //qDebug() << "ABSOLUTE path: " << subDirectory;
-        libraryPaths << subDirectory;
-    } else {
-        Q_FOREACH (const QString &dir, QCoreApplication::libraryPaths()) {
-            libraryPaths << dir + QDir::separator() + subDirectory;
+    auto filter = [&](const KPluginMetaData &md)
+    {
+        const auto &types = md.serviceTypes();
+        if (!types.isEmpty() && types.contains(servicetype)) {
+            return true;
         }
-    }
-    Q_FOREACH (const QString &plugindir, libraryPaths) {
-        QDirIterator it(plugindir, suffixFilters(), QDir::Files);
-        while (it.hasNext()) {
-            it.next();
-            const QString _f = it.fileInfo().absoluteFilePath();
-            loader.setFileName(_f);
-            const QVariantList argsWithMetaData = QVariantList() << loader.metaData().toVariantMap();
-            KPluginInfo info(argsWithMetaData, _f);
-            if (info.isValid() && (servicetype.isEmpty() || info.serviceTypes().contains(servicetype))) {
-                lst << info;
-            }
+        // handle compatibility JSON:
+        const auto &data = md.rawData();
+        const auto &jsonTypes = data.value(QStringLiteral("X-KDE-ServiceTypes")).toArray();
+        if (!jsonTypes.isEmpty() && jsonTypes.contains(servicetype)) {
+            return true;
         }
-    }
+        return data.value(QStringLiteral("ServiceTypes")).toArray().contains(servicetype);
+    };
+    QVector<KPluginMetaData> plugins = servicetype.isEmpty() ?
+            KPluginLoader::findPlugins(subDirectory) : KPluginLoader::findPlugins(subDirectory, filter);
+    KPluginInfo::List lst = KPluginInfo::fromMetaData(plugins);
     applyConstraints(lst, constraint);
     return lst;
 }
