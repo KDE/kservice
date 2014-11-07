@@ -44,36 +44,42 @@
 //#define KPLUGININFO_ISVALID_ASSERTION
 //#endif
 
-static const char s_hiddenKey[] = "Hidden";
-static const char s_nameKey[] = "Name";
-static const char s_commentKey[] = "Comment";
-static const char s_iconKey[] = "Icon";
-static const char s_libraryKey[] = "X-KDE-Library";
-static const char s_authorKey[] = "X-KDE-PluginInfo-Author";
-static const char s_emailKey[] = "X-KDE-PluginInfo-Email";
-static const char s_pluginNameKey[] = "X-KDE-PluginInfo-Name";
-static const char s_versionKey[] = "X-KDE-PluginInfo-Version";
-static const char s_websiteKey[] = "X-KDE-PluginInfo-Website";
-static const char s_categoryKey[] = "X-KDE-PluginInfo-Category";
-static const char s_licenseKey[] = "X-KDE-PluginInfo-License";
-static const char s_dependenciesKey[] = "X-KDE-PluginInfo-Depends";
-static const char s_serviceTypesKey[] = "ServiceTypes";
-static const char s_xKDEServiceTypes[] = "X-KDE-ServiceTypes";
-static const char s_enabledbyDefaultKey[] = "X-KDE-PluginInfo-EnabledByDefault";
-static const char s_enabledKey[] = "Enabled";
+#define GlobalQStringLiteral(name, str) inline QString name() { return QStringLiteral(str); }
+
+namespace {
+
+GlobalQStringLiteral(s_hiddenKey, "Hidden")
+GlobalQStringLiteral(s_nameKey, "Name")
+GlobalQStringLiteral(s_commentKey, "Comment")
+GlobalQStringLiteral(s_iconKey, "Icon")
+GlobalQStringLiteral(s_libraryKey, "X-KDE-Library")
+GlobalQStringLiteral(s_authorKey, "X-KDE-PluginInfo-Author")
+GlobalQStringLiteral(s_emailKey, "X-KDE-PluginInfo-Email")
+GlobalQStringLiteral(s_pluginNameKey, "X-KDE-PluginInfo-Name")
+GlobalQStringLiteral(s_versionKey, "X-KDE-PluginInfo-Version")
+GlobalQStringLiteral(s_websiteKey, "X-KDE-PluginInfo-Website")
+GlobalQStringLiteral(s_categoryKey, "X-KDE-PluginInfo-Category")
+GlobalQStringLiteral(s_licenseKey, "X-KDE-PluginInfo-License")
+GlobalQStringLiteral(s_dependenciesKey, "X-KDE-PluginInfo-Depends")
+GlobalQStringLiteral(s_serviceTypesKey, "ServiceTypes")
+GlobalQStringLiteral(s_xKDEServiceTypes, "X-KDE-ServiceTypes")
+GlobalQStringLiteral(s_enabledbyDefaultKey, "X-KDE-PluginInfo-EnabledByDefault")
+GlobalQStringLiteral(s_enabledKey, "Enabled")
 
 // these keys are used in the json metadata
-static const char s_jsonDescriptionKey[] = "Description";
-static const char s_jsonAuthorsKey[] = "Authors";
-static const char s_jsonEmailKey[] = "Email";
-static const char s_jsonCategoryKey[] = "Category";
-static const char s_jsonDependenciesKey[] = "Dependencies";
-static const char s_jsonEnabledByDefaultKey[] = "EnabledByDefault";
-static const char s_jsonLicenseKey[] = "License";
-static const char s_jsonIdKey[] = "Id";
-static const char s_jsonVersionKey[] = "Version";
-static const char s_jsonWebsiteKey[] = "Website";
-static const char s_jsonKPluginKey[] = "KPlugin";
+GlobalQStringLiteral(s_jsonDescriptionKey, "Description")
+GlobalQStringLiteral(s_jsonAuthorsKey, "Authors")
+GlobalQStringLiteral(s_jsonEmailKey, "Email")
+GlobalQStringLiteral(s_jsonCategoryKey, "Category")
+GlobalQStringLiteral(s_jsonDependenciesKey, "Dependencies")
+GlobalQStringLiteral(s_jsonEnabledByDefaultKey, "EnabledByDefault")
+GlobalQStringLiteral(s_jsonLicenseKey, "License")
+GlobalQStringLiteral(s_jsonIdKey, "Id")
+GlobalQStringLiteral(s_jsonVersionKey, "Version")
+GlobalQStringLiteral(s_jsonWebsiteKey, "Website")
+GlobalQStringLiteral(s_jsonKPluginKey, "KPlugin")
+
+}
 
 class KPluginInfoPrivate : public QSharedData
 {
@@ -118,26 +124,26 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
      }
      */
     QJsonObject kplugin;
-    kplugin[s_nameKey] = name;
-    kplugin[s_jsonDescriptionKey] = description;
-    kplugin[s_iconKey] = accessor(data, s_iconKey);
+    kplugin[s_nameKey()] = name;
+    kplugin[s_jsonDescriptionKey()] = description;
+    kplugin[s_iconKey()] = accessor(data, s_iconKey());
     QJsonObject authors;
-    authors[s_nameKey] = accessor(data, s_authorKey);
-    authors[s_jsonEmailKey] = accessor(data, s_emailKey);
-    kplugin[s_jsonAuthorsKey] = authors;
-    kplugin[s_jsonCategoryKey] = accessor(data, s_categoryKey);
-    QJsonValue enabledByDefault = accessor(data, s_enabledbyDefaultKey);
+    authors[s_nameKey()] = accessor(data, s_authorKey());
+    authors[s_jsonEmailKey()] = accessor(data, s_emailKey());
+    kplugin[s_jsonAuthorsKey()] = authors;
+    kplugin[s_jsonCategoryKey()] = accessor(data, s_categoryKey());
+    QJsonValue enabledByDefault = accessor(data, s_enabledbyDefaultKey());
     // make sure that enabledByDefault is bool and not string
     if (!enabledByDefault.isBool()) {
         enabledByDefault = enabledByDefault.toString().compare("true", Qt::CaseInsensitive) == 0;
     }
-    kplugin[s_jsonEnabledByDefaultKey] = enabledByDefault;
-    kplugin[s_jsonLicenseKey] = accessor(data, s_licenseKey);
-    kplugin[s_jsonIdKey] = accessor(data, s_pluginNameKey);
-    kplugin[s_jsonVersionKey] = accessor(data, s_versionKey);
-    kplugin[s_jsonWebsiteKey] = accessor(data, s_websiteKey);
-    kplugin[s_serviceTypesKey] = QJsonArray::fromStringList(serviceTypes);
-    kplugin[s_jsonDependenciesKey] = QJsonArray::fromStringList(dependencies);
+    kplugin[s_jsonEnabledByDefaultKey()] = enabledByDefault;
+    kplugin[s_jsonLicenseKey()] = accessor(data, s_licenseKey());
+    kplugin[s_jsonIdKey()] = accessor(data, s_pluginNameKey());
+    kplugin[s_jsonVersionKey()] = accessor(data, s_versionKey());
+    kplugin[s_jsonWebsiteKey()] = accessor(data, s_websiteKey());
+    kplugin[s_serviceTypesKey()] = QJsonArray::fromStringList(serviceTypes);
+    kplugin[s_jsonDependenciesKey()] = QJsonArray::fromStringList(dependencies);
     return kplugin;
 }
 
@@ -148,17 +154,17 @@ static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QStr
     qDebug() << "Constructing a KPluginInfo object from old style JSON. Please use"
             " kcoreaddons_desktop_to_json() instead of kservice_desktop_to_json()"
             " in your CMake code.";
-    QStringList serviceTypes = KPluginMetaData::readStringList(json, s_xKDEServiceTypes);
+    QStringList serviceTypes = KPluginMetaData::readStringList(json, s_xKDEServiceTypes());
     if (serviceTypes.isEmpty()) {
-        serviceTypes = KPluginMetaData::readStringList(json, s_serviceTypesKey);
+        serviceTypes = KPluginMetaData::readStringList(json, s_serviceTypesKey());
     }
     QJsonObject obj = json;
-    QString name = KPluginMetaData::readTranslatedString(json, s_nameKey);
-    QString description = KPluginMetaData::readTranslatedString(json, s_commentKey);
+    QString name = KPluginMetaData::readTranslatedString(json, s_nameKey());
+    QString description = KPluginMetaData::readTranslatedString(json, s_commentKey());
     QJsonObject kplugin = mapToJsonKPluginKey(name, description,
-            KPluginMetaData::readStringList(json, s_dependenciesKey), serviceTypes, json,
-            [](const QJsonObject &o, const char *key) { return o.value(key); });
-    obj.insert(s_jsonKPluginKey, kplugin);
+            KPluginMetaData::readStringList(json, s_dependenciesKey()), serviceTypes, json,
+            [](const QJsonObject &o, const QString &key) { return o.value(key); });
+    obj.insert(s_jsonKPluginKey(), kplugin);
     return KPluginMetaData(obj, lib);
 }
 
@@ -166,7 +172,7 @@ KPluginInfo::KPluginInfo(const KPluginMetaData &md)
     :d(new KPluginInfoPrivate)
 {
     const QJsonObject json = md.rawData();
-    if (json.constFind(s_jsonKPluginKey) == json.constEnd()) {
+    if (json.constFind(s_jsonKPluginKey()) == json.constEnd()) {
         // "KPlugin" key does not exists -> convert from compatibility mode
         d->metaData = fromCompatibilityJson(json, md.fileName());
     } else {
@@ -191,22 +197,22 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
     }
     d->entryPath = file.fileName();
 
-    d->hidden = cg.readEntry(s_hiddenKey, false);
+    d->hidden = cg.readEntry(s_hiddenKey(), false);
     if (d->hidden) {
         return;
     }
 
-    QStringList serviceTypes = cg.readEntry(s_xKDEServiceTypes, QStringList());
+    QStringList serviceTypes = cg.readEntry(s_xKDEServiceTypes(), QStringList());
     if (serviceTypes.isEmpty()) {
-        serviceTypes = cg.readEntry(s_serviceTypesKey, QStringList());
+        serviceTypes = cg.readEntry(s_serviceTypesKey(), QStringList());
     }
     QJsonObject json;
     QJsonObject kplugin = mapToJsonKPluginKey(file.readName(), file.readComment(),
-            cg.readEntry(s_dependenciesKey, QStringList()), serviceTypes, cg,
-            [](const KConfigGroup &cg, const char *key) { return QJsonValue(cg.readEntryUntranslated(key)); });
-    json[s_jsonKPluginKey] = kplugin;
+            cg.readEntry(s_dependenciesKey(), QStringList()), serviceTypes, cg,
+            [](const KConfigGroup &cg, const QString &key) { return QJsonValue(cg.readEntryUntranslated(key)); });
+    json[s_jsonKPluginKey()] = kplugin;
 
-    d->metaData = KPluginMetaData(json, cg.readEntry(s_libraryKey));
+    d->metaData = KPluginMetaData(json, cg.readEntry(s_libraryKey()));
 }
 
 KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
@@ -221,12 +227,12 @@ KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
             const QVariant &_metadata = m.value(metaData);
             if (_metadata.canConvert<QVariantMap>()) {
                 const QVariantMap &map = _metadata.toMap();
-                if (map.value(s_hiddenKey).toBool()) {
+                if (map.value(s_hiddenKey()).toBool()) {
                     d->hidden = true;
                     break;
                 }
                 const QJsonObject json = QJsonObject::fromVariantMap(map);
-                if (json.constFind(s_jsonKPluginKey) == json.constEnd()) {
+                if (json.constFind(s_jsonKPluginKey()) == json.constEnd()) {
                     // "KPlugin" key does not exists -> convert from compatibility mode
                     d->metaData = fromCompatibilityJson(json, libraryPath);
                 } else {
@@ -258,13 +264,13 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
     }
 
     QJsonObject json;
-    static const auto readPropertyCallback = [](const KService::Ptr service, const char *key) {
+    static const auto readPropertyCallback = [](const KService::Ptr service, const QString &key) {
         return QJsonValue::fromVariant(service->property(key));
     };
     QJsonObject kplugin = mapToJsonKPluginKey(service->name(), service->comment(),
-            service->property(s_dependenciesKey).toStringList(), service->serviceTypes(),
+            service->property(s_dependenciesKey()).toStringList(), service->serviceTypes(),
             service, readPropertyCallback);
-    json[s_jsonKPluginKey] = kplugin;
+    json[s_jsonKPluginKey()] = kplugin;
 
     d->metaData = KPluginMetaData(json, service->library());
 }
@@ -535,33 +541,33 @@ QVariant KPluginInfo::property(const QString &key) const
 #define RETURN_WITH_DEPRECATED_WARNING(ret) \
     qWarning("Calling KPluginInfo::property(\"%s\") is deprecated, use KPluginInfo::" #ret " instead.", qPrintable(key));\
     return ret;
-    if (key == QLatin1String(s_authorKey)) {
+    if (key == s_authorKey()) {
         RETURN_WITH_DEPRECATED_WARNING(author());
-    } else if (key == QLatin1String(s_categoryKey)) {
+    } else if (key == s_categoryKey()) {
         RETURN_WITH_DEPRECATED_WARNING(category());
-    } else if (key == QLatin1String(s_commentKey)) {
+    } else if (key == s_commentKey()) {
         RETURN_WITH_DEPRECATED_WARNING(comment());
-    } else if (key == QLatin1String(s_dependenciesKey)) {
+    } else if (key == s_dependenciesKey()) {
         RETURN_WITH_DEPRECATED_WARNING(dependencies());
-    } else if (key == QLatin1String(s_emailKey)) {
+    } else if (key == s_emailKey()) {
         RETURN_WITH_DEPRECATED_WARNING(email());
-    } else if (key == QLatin1String(s_enabledbyDefaultKey)) {
+    } else if (key == s_enabledbyDefaultKey()) {
         RETURN_WITH_DEPRECATED_WARNING(isPluginEnabledByDefault());
-    } else if (key == QLatin1String(s_libraryKey)) {
+    } else if (key == s_libraryKey()) {
         RETURN_WITH_DEPRECATED_WARNING(libraryPath());
-    } else if (key == QLatin1String(s_licenseKey)) {
+    } else if (key == s_licenseKey()) {
         RETURN_WITH_DEPRECATED_WARNING(license());
-    } else if (key == QLatin1String(s_nameKey)) {
+    } else if (key == s_nameKey()) {
         RETURN_WITH_DEPRECATED_WARNING(name());
-    } else if (key == QLatin1String(s_pluginNameKey)) {
+    } else if (key == s_pluginNameKey()) {
         RETURN_WITH_DEPRECATED_WARNING(pluginName());
-    } else if (key == QLatin1String(s_serviceTypesKey)) {
+    } else if (key == s_serviceTypesKey()) {
         RETURN_WITH_DEPRECATED_WARNING(serviceTypes());
-    } else if (key == QLatin1String(s_versionKey)) {
+    } else if (key == s_versionKey()) {
         RETURN_WITH_DEPRECATED_WARNING(version());
-    } else if (key == QLatin1String(s_websiteKey)) {
+    } else if (key == s_websiteKey()) {
         RETURN_WITH_DEPRECATED_WARNING(website());
-    } else if (key == QLatin1String(s_xKDEServiceTypes)) {
+    } else if (key == s_xKDEServiceTypes()) {
         RETURN_WITH_DEPRECATED_WARNING(serviceTypes());
     }
 #undef RETURN_WITH_DEPRECATED_WARNING
@@ -579,13 +585,13 @@ void KPluginInfo::save(KConfigGroup config)
     KPLUGININFO_ISVALID_ASSERTION;
     //qDebug() << Q_FUNC_INFO;
     if (config.isValid()) {
-        config.writeEntry(pluginName() + s_enabledKey, isPluginEnabled());
+        config.writeEntry(pluginName() + s_enabledKey(), isPluginEnabled());
     } else {
         if (!d->config.isValid()) {
             qWarning() << "no KConfigGroup, cannot save";
             return;
         }
-        d->config.writeEntry(pluginName() + s_enabledKey, isPluginEnabled());
+        d->config.writeEntry(pluginName() + s_enabledKey(), isPluginEnabled());
     }
 }
 
@@ -594,13 +600,13 @@ void KPluginInfo::load(const KConfigGroup &config)
     KPLUGININFO_ISVALID_ASSERTION;
     //qDebug() << Q_FUNC_INFO;
     if (config.isValid()) {
-        setPluginEnabled(config.readEntry(pluginName() + s_enabledKey, isPluginEnabledByDefault()));
+        setPluginEnabled(config.readEntry(pluginName() + s_enabledKey(), isPluginEnabledByDefault()));
     } else {
         if (!d->config.isValid()) {
             qWarning() << "no KConfigGroup, cannot load";
             return;
         }
-        setPluginEnabled(d->config.readEntry(pluginName() + s_enabledKey, isPluginEnabledByDefault()));
+        setPluginEnabled(d->config.readEntry(pluginName() + s_enabledKey(), isPluginEnabledByDefault()));
     }
 }
 
