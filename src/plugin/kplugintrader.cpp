@@ -109,7 +109,7 @@ KPluginInfo::List KPluginTrader::query(const QString &subDirectory, const QStrin
             loader.setFileName(_f);
             const QVariantList argsWithMetaData = QVariantList() << loader.metaData().toVariantMap();
             KPluginInfo info(argsWithMetaData, _f);
-            if (servicetype.isEmpty() || info.serviceTypes().contains(servicetype)) {
+            if (info.isValid() && (servicetype.isEmpty() || info.serviceTypes().contains(servicetype))) {
                 lst << info;
             }
         }
