@@ -57,6 +57,8 @@
 #include <qcommandlineparser.h>
 #include <qcommandlineoption.h>
 
+#include "../../kservice_version.h"
+
 typedef QHash<QString, KSycocaEntry::Ptr> KBSEntryDict;
 typedef QList<KSycocaEntry::List> KSycocaEntryListList;
 
@@ -615,7 +617,7 @@ int main(int argc, char **argv)
 
     KAboutData about(KBUILDSYCOCA_EXENAME,
                      i18nc("application name", "KBuildSycoca"),
-                     QStringLiteral("5.0"),
+                     QStringLiteral(KSERVICE_VERSION_STRING),
                      i18nc("application description", "Rebuilds the system configuration cache."),
                      KAboutLicense::GPL,
                      i18nc("@info:credit", "Copyright 1999-2014 KDE Developers"));
