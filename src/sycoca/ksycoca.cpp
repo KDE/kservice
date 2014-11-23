@@ -26,6 +26,7 @@
 #include "kmemfile_p.h"
 #include "kconfiggroup.h"
 #include "ksharedconfig.h"
+#include "sycocadebug.h"
 
 #include <qstandardpaths.h>
 #include <QtCore/QDataStream>
@@ -34,7 +35,6 @@
 #include <QtCore/QFileInfo>
 #include <QtCore/QBuffer>
 #include <QProcess>
-#include <QDebug>
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDBusInterface>
@@ -136,7 +136,7 @@ bool KSycocaPrivate::tryMmap()
     /* POSIX mandates only MAP_FAILED, but we are paranoid so check for
        null pointer too.  */
     if (sycoca_mmap == (const char *) MAP_FAILED || sycoca_mmap == 0) {
-        qDebug().nospace() << "mmap failed. (length = " << sycoca_size << ")";
+        qCDebug(SYCOCA).nospace() << "mmap failed. (length = " << sycoca_size << ")";
         sycoca_mmap = 0;
         return false;
     } else {
@@ -200,11 +200,11 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
     QString path = KSycoca::absoluteFilePath();
 
     bool canRead = QFileInfo(path).isReadable();
-    qDebug() << "Trying to open ksycoca from" << path;
+    qCDebug(SYCOCA) << "Trying to open ksycoca from" << path;
     if (!canRead) {
         path = KSycoca::absoluteFilePath(KSycoca::GlobalDatabase);
         if (!path.isEmpty()) {
-            qDebug() << "Trying to open global ksycoca from " << path;
+            qCDebug(SYCOCA) << "Trying to open global ksycoca from " << path;
             canRead = QFileInfo(path).isReadable();
         }
     }
@@ -214,12 +214,12 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
         m_databasePath = path;
         checkVersion();
     } else { // No database file
-        //qDebug() << "Could not open ksycoca";
+        //qCDebug(SYCOCA) << "Could not open ksycoca";
         m_databasePath.clear();
         databaseStatus = NoDatabase;
         if (openDummyIfNotFound) {
             // We open a dummy database instead.
-            //qDebug() << "No database, opening a dummy one.";
+            //qCDebug(SYCOCA) << "No database, opening a dummy one.";
 
             m_sycocaStrategy = StrategyDummyBuffer;
             QDataStream *str = stream();
@@ -360,7 +360,7 @@ bool KSycoca::isChanged(const char *type)
 void KSycoca::notifyDatabaseChanged(const QStringList &changeList)
 {
     d->changeList = changeList;
-    //qDebug() << QThread::currentThread() << "got a notifyDatabaseChanged signal" << changeList;
+    //qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal" << changeList;
     // kbuildsycoca tells us the database file changed
     // Close the database and forget all about what we knew
     // The next call to any public method will recreate
@@ -378,12 +378,12 @@ QDataStream *KSycoca::findEntry(int offset, KSycocaType &type)
 {
     QDataStream *str = stream();
     Q_ASSERT(str);
-    //qDebug() << QString("KSycoca::_findEntry(offset=%1)").arg(offset,8,16);
+    //qCDebug(SYCOCA) << QString("KSycoca::_findEntry(offset=%1)").arg(offset,8,16);
     str->device()->seek(offset);
     qint32 aType;
     *str >> aType;
     type = KSycocaType(aType);
-    //qDebug() << QString("KSycoca::found type %1").arg(aType);
+    //qCDebug(SYCOCA) << QString("KSycoca::found type %1").arg(aType);
     return str;
 }
 
@@ -401,7 +401,7 @@ bool KSycocaPrivate::checkVersion()
     qint32 aVersion;
     *m_str >> aVersion;
     if (aVersion < KSYCOCA_VERSION) {
-        qDebug() << "Found version" << aVersion << ", expecting version" << KSYCOCA_VERSION << "or higher.";
+        qCDebug(SYCOCA) << "Found version" << aVersion << ", expecting version" << KSYCOCA_VERSION << "or higher.";
         databaseStatus = BadVersion;
         return false;
     } else {
@@ -462,14 +462,14 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
                     proc.waitForFinished();
                 }
             } else {
-                //qDebug() << "kded5 registered";
+                //qCDebug(SYCOCA) << "kded5 registered";
                 kdedRunning = true;
                 if (QStandardPaths::isTestModeEnabled()) {
                     sycoca.call(QLatin1String("enableTestMode"));
                 }
             }
         } else {
-            //qDebug() << "kded5 found";
+            //qCDebug(SYCOCA) << "kded5 found";
             if (QStandardPaths::isTestModeEnabled()) {
                 const QDBusReply<bool> testMode = sycoca.call(QLatin1String("isTestModeEnabled"));
                 if (!testMode.value()) {
@@ -484,7 +484,7 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
             }
         }
 
-        //qDebug() << "We have no database.... asking kded to create it";
+        //qCDebug(SYCOCA) << "We have no database.... asking kded to create it";
         if (kdedRunning) {
             sycoca.call(QLatin1String("recreate"));
         }
@@ -493,11 +493,11 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
 
         // Ok, the new database should be here now, open it.
         if (!openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
-            qDebug() << "Still no database...";
+            qCDebug(SYCOCA) << "Still no database...";
             return false; // Still no database - uh oh
         }
         if (!checkVersion()) {
-            qDebug() << "Still outdated...";
+            qCDebug(SYCOCA) << "Still outdated...";
             return false; // Still outdated - uh oh
         }
         return true;
@@ -526,7 +526,7 @@ QDataStream *KSycoca::findFactory(KSycocaFactoryId id)
         }
         *str >> aOffset;
         if (aId == id) {
-            //qDebug() << "KSycoca::findFactory(" << id << ") offset " << aOffset;
+            //qCDebug(SYCOCA) << "KSycoca::findFactory(" << id << ") offset " << aOffset;
             str->device()->seek(aOffset);
             return str;
         }

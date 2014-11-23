@@ -30,6 +30,7 @@ set(kservice_SRCS
    sycoca/ksycocafactory.cpp
    sycoca/ksycocautils.cpp
    sycoca/kmemfile.cpp
+   sycoca/sycocadebug.cpp
    plugin/kplugintrader.cpp
    plugin/kdbusservicestarter.cpp
 )
