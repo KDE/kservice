@@ -88,11 +88,11 @@ KPluginInfo::List KPluginTrader::query(const QString &subDirectory, const QStrin
         }
         // handle compatibility JSON:
         const auto &data = md.rawData();
-        const auto &jsonTypes = data.value(QStringLiteral("X-KDE-ServiceTypes")).toArray();
+        const auto &jsonTypes = data.value(QStringLiteral("X-KDE-ServiceTypes")).toVariant().toStringList();
         if (!jsonTypes.isEmpty() && jsonTypes.contains(servicetype)) {
             return true;
         }
-        return data.value(QStringLiteral("ServiceTypes")).toArray().contains(servicetype);
+        return data.value(QStringLiteral("ServiceTypes")).toVariant().toStringList().contains(servicetype);
     };
     QVector<KPluginMetaData> plugins = servicetype.isEmpty() ?
             KPluginLoader::findPlugins(subDirectory) : KPluginLoader::findPlugins(subDirectory, filter);
