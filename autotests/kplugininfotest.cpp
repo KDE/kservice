@@ -30,18 +30,20 @@
 
 Q_DECLARE_METATYPE(KPluginInfo)
 
+static QString pluginName = QStringLiteral("fakeplugin");
+
 class KPluginInfoTest : public QObject
 {
     Q_OBJECT
 private:
     static KPluginInfo withCustomProperty(const KPluginInfo &info)
     {
-        QVariantMap result;
-        QVariantMap metaData = info.properties();
-        metaData["X-Foo-Bar"] = QStringLiteral("Baz");
-        result["MetaData"] = metaData;
-        return KPluginInfo(QVariantList() << result, info.libraryPath());
+        KPluginMetaData metaData = info.toMetaData();
+        QJsonObject json = metaData.rawData();
+        json["X-Foo-Bar"] = QStringLiteral("Baz");
+        return KPluginInfo(KPluginMetaData(json, info.libraryPath()));
     }
+
 private Q_SLOTS:
     void testLoadDesktop_data()
     {
@@ -69,7 +71,7 @@ private Q_SLOTS:
         QVERIFY(metaData.isValid());
         QVERIFY(!metaData.name().isEmpty());
         QVERIFY(!metaData.authors().isEmpty());
-        KPluginInfo jsonInfo(KPluginMetaData(json, "fakeplugin"));
+        KPluginInfo jsonInfo(KPluginMetaData(json, pluginName));
 
         QFile compatJsonFile(fakePluginCompatJsonPath);
         QVERIFY(compatJsonFile.open(QFile::ReadOnly));
@@ -82,31 +84,31 @@ private Q_SLOTS:
         KPluginInfo info(fakepluginDesktop);
         KService::Ptr fakepluginService(new KService(fakepluginDesktop));
         KPluginInfo infoFromService(fakepluginService);
-        KPluginInfo compatJsonInfo(KPluginMetaData(compatJson, "fakeplugin"));
+        KPluginInfo compatJsonInfo(KPluginMetaData(compatJson, pluginName));
         QLocale::setDefault(QLocale(QLocale::German, QLocale::Germany));
         KPluginInfo infoGerman(fakepluginDesktop);
         KService::Ptr fakepluginServiceGerman(new KService(fakepluginDesktop));
         KPluginInfo infoFromServiceGerman(fakepluginServiceGerman);
-        KPluginInfo compatJsonInfoGerman(KPluginMetaData(compatJson, "fakeplugin"));
+        KPluginInfo compatJsonInfoGerman(KPluginMetaData(compatJson, pluginName));
         QLocale::setDefault(QLocale::c());
 
         QTest::ignoreMessage(QtWarningMsg, "\"/this/path/does/not/exist.desktop\" has no desktop group, cannot construct a KPluginInfo object from it.");
         QVERIFY(!KPluginInfo("/this/path/does/not/exist.desktop").isValid());
 
         QTest::newRow("from .desktop") << fakepluginDesktop << info << infoGerman << QVariant() << true;
-        QTest::newRow("with custom property") << QFileInfo(info.libraryPath()).absoluteFilePath() << withCustomProperty(info)
+        QTest::newRow("with custom property") << info.libraryPath() << withCustomProperty(info)
             << withCustomProperty(infoGerman) << QVariant("Baz") << true;
         QTest::newRow("from KService::Ptr") << fakepluginDesktop << infoFromService
                 << infoFromServiceGerman << QVariant() << true;
-        QTest::newRow("from KService::Ptr + custom property") << QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath()
+        QTest::newRow("from KService::Ptr + custom property") << pluginName
                 << withCustomProperty(infoFromService) << withCustomProperty(infoFromServiceGerman)
                 << QVariant("Baz") << true;
-        QTest::newRow("from JSON file") << QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath() << jsonInfo << jsonInfo << QVariant() << false;
-        QTest::newRow("from JSON file + custom property") << QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath()
+        QTest::newRow("from JSON file") << pluginName << jsonInfo << jsonInfo << QVariant() << false;
+        QTest::newRow("from JSON file + custom property") << pluginName
                 << withCustomProperty(jsonInfo) << withCustomProperty(jsonInfo) << QVariant("Baz") << false;
-        QTest::newRow("from JSON file (compatibility)") << QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath()
+        QTest::newRow("from JSON file (compatibility)") << pluginName
                 << compatJsonInfo << compatJsonInfoGerman << QVariant() << true;
-        QTest::newRow("from JSON file (compatibility) + custom property") << QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath()
+        QTest::newRow("from JSON file (compatibility) + custom property") << pluginName
                 << withCustomProperty(compatJsonInfo) << withCustomProperty(compatJsonInfoGerman)
                 << QVariant("Baz") << true;
     }
@@ -151,9 +153,9 @@ private Q_SLOTS:
         QCOMPARE(info.isHidden(), false);
         QCOMPARE(info.isPluginEnabled(), false);
         QCOMPARE(info.isPluginEnabledByDefault(), true);
-        QCOMPARE(info.libraryPath(), QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath());
+        QCOMPARE(info.libraryPath(), pluginName);
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
-        QCOMPARE(info.pluginName(), QStringLiteral("fakeplugin"));
+        QCOMPARE(info.pluginName(), pluginName);
         QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
@@ -188,8 +190,8 @@ private Q_SLOTS:
         QCOMPARE(meta.authors()[0].emailAddress(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(meta.category(), QStringLiteral("Examples"));
         QCOMPARE(meta.dependencies(), QStringList());
-        QCOMPARE(meta.fileName(), QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath());
-        QCOMPARE(meta.pluginId(), QStringLiteral("fakeplugin"));
+        QCOMPARE(meta.fileName(), pluginName);
+        QCOMPARE(meta.pluginId(), pluginName);
         QCOMPARE(meta.iconName(), QStringLiteral("preferences-system-time"));
         QCOMPARE(meta.isEnabledByDefault(), true);
         QCOMPARE(meta.license(), QStringLiteral("LGPL"));
@@ -236,7 +238,7 @@ private Q_SLOTS:
         " \"X-Foo-Bar\": \"Baz\"\n"
         "}", &e).object();
         QCOMPARE(e.error, QJsonParseError::NoError);
-        KPluginMetaData meta(jo, "fakeplugin");
+        KPluginMetaData meta(jo, pluginName);
 
         QLocale::setDefault(QLocale::c());
         KPluginInfo info = KPluginInfo::fromMetaData(meta);
@@ -260,14 +262,14 @@ private Q_SLOTS:
         QCOMPARE(info.category(), QStringLiteral("Examples"));
         QCOMPARE(info.dependencies(), QStringList());
         QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
-        QCOMPARE(info.entryPath(), QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath());
+        QCOMPARE(info.entryPath(), pluginName);
         QCOMPARE(info.icon(), QStringLiteral("preferences-system-time"));
         QCOMPARE(info.isHidden(), false);
         QCOMPARE(info.isPluginEnabled(), false);
         QCOMPARE(info.isPluginEnabledByDefault(), true);
-        QCOMPARE(info.libraryPath(), QFileInfo(QStringLiteral("fakeplugin")).absoluteFilePath());
+        QCOMPARE(info.libraryPath(), pluginName);
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
-        QCOMPARE(info.pluginName(), QStringLiteral("fakeplugin"));
+        QCOMPARE(info.pluginName(), pluginName);
         QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
