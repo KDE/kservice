@@ -90,8 +90,6 @@ public:
         , kcmservicesCached(false)
     {}
 
-    QString entryPath; // the filename of the file containing all the info
-
     bool hidden : 1;
     bool pluginenabled : 1;
     mutable bool kcmservicesCached : 1;
@@ -188,7 +186,6 @@ KPluginInfo::KPluginInfo(const KPluginMetaData &md)
     :d(new KPluginInfoPrivate)
 {
     d->setMetaData(md);
-    d->entryPath = md.fileName();
     if (!d->metaData.isValid()) {
         d.reset();
     }
@@ -205,8 +202,6 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
         d.reset();
         return;
     }
-    d->entryPath = file.fileName();
-
     d->hidden = cg.readEntry(s_hiddenKey(), false);
     if (d->hidden) {
         return;
@@ -222,15 +217,13 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
             [](const KConfigGroup &cg, const QString &key) { return QJsonValue(cg.readEntryUntranslated(key)); });
     json[s_jsonKPluginKey()] = kplugin;
 
-    d->metaData = KPluginMetaData(json, cg.readEntry(s_libraryKey()));
+    d->metaData = KPluginMetaData(json, cg.readEntry(s_libraryKey()), file.fileName());
 }
 
 KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
     : d(new KPluginInfoPrivate)
 {
     static const QString metaData = QStringLiteral("MetaData");
-    d->entryPath = QFileInfo(libraryPath).absoluteFilePath();
-
     foreach (const QVariant &v, args) {
         if (v.canConvert<QVariantMap>()) {
             const QVariantMap &m = v.toMap();
@@ -260,8 +253,6 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
         return;
     }
     d->service = service;
-    d->entryPath = service->entryPath();
-
     if (service->isDeleted()) {
         d->hidden = true;
         return;
@@ -276,7 +267,7 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
             service, readPropertyCallback);
     json[s_jsonKPluginKey()] = kplugin;
 
-    d->metaData = KPluginMetaData(json, service->library());
+    d->metaData = KPluginMetaData(json, service->library(), service->entryPath());
 }
 #endif
 
@@ -423,7 +414,7 @@ QString KPluginInfo::icon() const
 QString KPluginInfo::entryPath() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    return d->entryPath;
+    return d->metaData.metaDataFileName();
 }
 
 QString KPluginInfo::author() const
