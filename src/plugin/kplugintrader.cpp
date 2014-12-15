@@ -80,7 +80,7 @@ void KPluginTrader::applyConstraints(KPluginInfo::List &lst, const QString &cons
 
 KPluginInfo::List KPluginTrader::query(const QString &subDirectory, const QString &servicetype, const QString &constraint)
 {
-    auto filter = [&](const KPluginMetaData &md)
+    auto filter = [&](const KPluginMetaData &md) -> bool
     {
         const auto &types = md.serviceTypes();
         if (!types.isEmpty() && types.contains(servicetype)) {
