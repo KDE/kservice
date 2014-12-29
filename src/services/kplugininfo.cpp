@@ -100,7 +100,7 @@ public:
     mutable QList<KService::Ptr> kcmservices;
 
     /** assigns the @p md to @c metaData, but also ensures that compatibility values are handled */
-    void setMetaData(const KPluginMetaData &md);
+    void setMetaData(const KPluginMetaData &md, bool warnOnOldStyle);
 };
 
 // maps the KService, QVariant and KDesktopFile keys to the new KPluginMetaData keys
@@ -149,7 +149,9 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
 }
 
 // TODO: KF6 remove
-static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QString &lib) {
+static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QString &lib,
+                                             const QString &metaDataFile, bool warnOnOldStyle)
+{
     // This is not added to KPluginMetaData(QJsonObject, QString) to ensure that all the compatility code
     // remains in kservice and does not increase the size of kcoreaddons
     QStringList serviceTypes = KPluginMetaData::readStringList(json, s_xKDEServiceTypes());
@@ -158,35 +160,35 @@ static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QStr
     }
     QJsonObject obj = json;
     QString name = KPluginMetaData::readTranslatedString(json, s_nameKey());
-    qWarning("Constructing a KPluginInfo object from old style JSON. Please use"
-            " kcoreaddons_desktop_to_json() for \"%s\" instead of kservice_desktop_to_json()"
-            " in your CMake code.",
-            qPrintable(lib));
+    if (warnOnOldStyle) {
+        qWarning("Constructing a KPluginInfo object from old style JSON. Please use"
+                " kcoreaddons_desktop_to_json() for \"%s\" instead of kservice_desktop_to_json()"
+                " in your CMake code.",
+                qPrintable(lib));
+    }
     QString description = KPluginMetaData::readTranslatedString(json, s_commentKey());
     QJsonObject kplugin = mapToJsonKPluginKey(name, description,
             KPluginMetaData::readStringList(json, s_dependenciesKey()), serviceTypes, json,
             [](const QJsonObject &o, const QString &key) { return o.value(key); });
     obj.insert(s_jsonKPluginKey(), kplugin);
-    return KPluginMetaData(obj, lib);
+    return KPluginMetaData(obj, lib, metaDataFile);
 }
 
-void KPluginInfoPrivate::setMetaData(const KPluginMetaData& md)
+void KPluginInfoPrivate::setMetaData(const KPluginMetaData& md, bool warnOnOldStyle)
 {
     const QJsonObject json = md.rawData();
     if (!json.contains(s_jsonKPluginKey())) {
         // "KPlugin" key does not exists -> convert from compatibility mode
-        metaData = fromCompatibilityJson(json, md.fileName());
+        metaData = fromCompatibilityJson(json, md.fileName(), md.metaDataFileName(), warnOnOldStyle);
     } else {
         metaData = md;
     }
 }
 
-
-
 KPluginInfo::KPluginInfo(const KPluginMetaData &md)
     :d(new KPluginInfoPrivate)
 {
-    d->setMetaData(md);
+    d->setMetaData(md, true);
     if (!d->metaData.isValid()) {
         d.reset();
     }
@@ -235,7 +237,7 @@ KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
                     d->hidden = true;
                     break;
                 }
-                d->setMetaData(KPluginMetaData(QJsonObject::fromVariantMap(map), libraryPath));
+                d->setMetaData(KPluginMetaData(QJsonObject::fromVariantMap(map), libraryPath), true);
                 break;
             }
         }
@@ -260,15 +262,16 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
     }
 
     QJsonObject json;
-    static const auto readPropertyCallback = [](const KService::Ptr &service, const QString &key) {
-        return QJsonValue::fromVariant(service->property(key));
-    };
-    QJsonObject kplugin = mapToJsonKPluginKey(service->name(), service->comment(),
-            service->property(s_dependenciesKey()).toStringList(), service->serviceTypes(),
-            service, readPropertyCallback);
-    json[s_jsonKPluginKey()] = kplugin;
-
-    d->metaData = KPluginMetaData(json, service->library(), service->entryPath());
+    foreach (const QString &key, service->propertyNames()) {
+        QVariant v = service->property(key);
+        if (v.isValid()) {
+            json[key] = QJsonValue::fromVariant(v);
+        }
+    }
+    d->setMetaData(KPluginMetaData(json, service->library(), service->entryPath()), false);
+    if (!d->metaData.isValid()) {
+        d.reset();
+    }
 }
 #endif
 
