@@ -77,21 +77,23 @@ void KSycocaDictTest::testStandardDict()
         runKBuildSycoca();
     }
 
-    if (!KServiceType::serviceType("KCModule")) {
-        QSKIP("Missing servicetypes");
-    }
-
     QStringList serviceTypes;
     serviceTypes << "KUriFilter/Plugin"
                  << "KDataTool"
                  << "KCModule"
                  << "KScan/KScanDialog"
-                 << "Browser/View";
+                 << "Browser/View"
+                 << "Plasma/Applet"
+                 << "Plasma/Runner";
 
-    if (KServiceType::serviceType("Plasma/Applet")) {
-        serviceTypes << "Plasma/Applet"
-                     << "Plasma/Runner";
+    // Skip servicetypes that are not installed
+    QMutableListIterator<QString> it(serviceTypes);
+    while (it.hasNext()) {
+        if (!KServiceType::serviceType(it.next())) {
+            it.remove();
+        }
     }
+    //qDebug() << serviceTypes;
 
     QBENCHMARK {
         QByteArray buffer;
