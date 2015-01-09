@@ -161,7 +161,7 @@ static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QStr
     qWarning("Constructing a KPluginInfo object from old style JSON. Please use"
             " kcoreaddons_desktop_to_json() for \"%s\" instead of kservice_desktop_to_json()"
             " in your CMake code.",
-            qPrintable(name));
+            qPrintable(lib));
     QString description = KPluginMetaData::readTranslatedString(json, s_commentKey());
     QJsonObject kplugin = mapToJsonKPluginKey(name, description,
             KPluginMetaData::readStringList(json, s_dependenciesKey()), serviceTypes, json,
