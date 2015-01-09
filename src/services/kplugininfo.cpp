@@ -152,15 +152,16 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
 static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QString &lib) {
     // This is not added to KPluginMetaData(QJsonObject, QString) to ensure that all the compatility code
     // remains in kservice and does not increase the size of kcoreaddons
-    qDebug() << "Constructing a KPluginInfo object from old style JSON. Please use"
-            " kcoreaddons_desktop_to_json() instead of kservice_desktop_to_json()"
-            " in your CMake code.";
     QStringList serviceTypes = KPluginMetaData::readStringList(json, s_xKDEServiceTypes());
     if (serviceTypes.isEmpty()) {
         serviceTypes = KPluginMetaData::readStringList(json, s_serviceTypesKey());
     }
     QJsonObject obj = json;
     QString name = KPluginMetaData::readTranslatedString(json, s_nameKey());
+    qWarning("Constructing a KPluginInfo object from old style JSON. Please use"
+            " kcoreaddons_desktop_to_json() for \"%s\" instead of kservice_desktop_to_json()"
+            " in your CMake code.",
+            qPrintable(name));
     QString description = KPluginMetaData::readTranslatedString(json, s_commentKey());
     QJsonObject kplugin = mapToJsonKPluginKey(name, description,
             KPluginMetaData::readStringList(json, s_dependenciesKey()), serviceTypes, json,
