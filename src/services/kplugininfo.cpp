@@ -535,7 +535,7 @@ QVariant KPluginInfo::property(const QString &key) const
     // but the application uses KPluginTrader::query() instead of KPluginLoader::findPlugins()
     // TODO: KF6 remove
 #define RETURN_WITH_DEPRECATED_WARNING(ret) \
-    qWarning("Calling KPluginInfo::property(\"%s\") is deprecated, use KPluginInfo::" #ret " instead.", qPrintable(key));\
+    qWarning("Calling KPluginInfo::property(\"%s\") is deprecated, use KPluginInfo::" #ret " in \"%s\" instead.", qPrintable(key), qPrintable(d->metaData.fileName()));\
     return ret;
     if (key == s_authorKey()) {
         RETURN_WITH_DEPRECATED_WARNING(author());
