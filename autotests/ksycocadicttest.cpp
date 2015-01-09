@@ -22,6 +22,8 @@
 #include <QtTest>
 #include <QDebug>
 #include <kservicetype.h>
+#include <kdesktopfile.h>
+#include <kconfiggroup.h>
 #include <ksycocadict_p.h>
 
 extern KSERVICE_EXPORT bool kservice_require_kded;
@@ -35,6 +37,26 @@ private Q_SLOTS:
     {
         QStandardPaths::enableTestMode(true);
         kservice_require_kded = false;
+
+        // fakeplugintype: a servicetype
+        bool mustUpdateKSycoca = !KSycoca::isAvailable();
+        if (!KServiceType::serviceType("FakePluginType")) {
+            mustUpdateKSycoca = true;
+        }
+        const QString fakePluginType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + "fakeplugintype.desktop";
+        if (!QFile::exists(fakePluginType)) {
+            mustUpdateKSycoca = true;
+            KDesktopFile file(fakePluginType);
+            KConfigGroup group = file.desktopGroup();
+            group.writeEntry("Comment", "Fake Text Plugin");
+            group.writeEntry("Type", "ServiceType");
+            group.writeEntry("X-KDE-ServiceType", "FakePluginType");
+            file.group("PropertyDef::X-KDE-Version").writeEntry("Type", "double"); // like in ktexteditorplugin.desktop
+        }
+        if (mustUpdateKSycoca) {
+            runKBuildSycoca();
+        }
+
     }
     void testStandardDict();
     //void testExtensionDict();
@@ -47,11 +69,12 @@ private:
         }
         dict.add(key, KSycocaEntry::Ptr(ptr));
     }
+    static void runKBuildSycoca();
 };
 
 QTEST_MAIN(KSycocaDictTest)
 
-static void runKBuildSycoca()
+void KSycocaDictTest::runKBuildSycoca()
 {
     QProcess proc;
     const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
@@ -73,12 +96,11 @@ static void runKBuildSycoca()
 // Standard use of KSycocaDict: mapping entry name to entry
 void KSycocaDictTest::testStandardDict()
 {
-    if (!KSycoca::isAvailable()) {
-        runKBuildSycoca();
-    }
+    QVERIFY(KSycoca::isAvailable());
 
     QStringList serviceTypes;
-    serviceTypes << "KUriFilter/Plugin"
+    serviceTypes << "FakePluginType"
+                 << "KUriFilter/Plugin"
                  << "KDataTool"
                  << "KCModule"
                  << "KScan/KScanDialog"
@@ -93,7 +115,7 @@ void KSycocaDictTest::testStandardDict()
             it.remove();
         }
     }
-    //qDebug() << serviceTypes;
+    qDebug() << serviceTypes;
 
     QBENCHMARK {
         QByteArray buffer;
@@ -103,8 +125,8 @@ void KSycocaDictTest::testStandardDict()
             {
                 add(dict, str, str);
             }
-            dict.remove("KCModule"); // just to test remove
-            add(dict, "KCModule", "KCModule");
+            dict.remove("FakePluginType"); // just to test remove
+            add(dict, "FakePluginType", "FakePluginType");
             QCOMPARE((int)dict.count(), serviceTypes.count());
             QDataStream saveStream(&buffer, QIODevice::WriteOnly);
             dict.save(saveStream);
@@ -112,9 +134,9 @@ void KSycocaDictTest::testStandardDict()
 
         QDataStream stream(buffer);
         KSycocaDict loadingDict(&stream, 0);
-        int offset = loadingDict.find_string("Browser/View");
+        int offset = loadingDict.find_string("FakePluginType");
         QVERIFY(offset > 0);
-        QCOMPARE(offset, KServiceType::serviceType("Browser/View")->offset());
+        QCOMPARE(offset, KServiceType::serviceType("FakePluginType")->offset());
         foreach (const QString &str, serviceTypes)
         {
             int offset = loadingDict.find_string(str);
