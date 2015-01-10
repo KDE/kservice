@@ -66,7 +66,7 @@ set(kservice_includes
 )
 target_include_directories(KF5Service PUBLIC "$<BUILD_INTERFACE:${kservice_includes}>")
 
-target_include_directories(KF5Service INTERFACE "$<INSTALL_INTERFACE:${KF5_INCLUDE_INSTALL_DIR}/KService>")
+target_include_directories(KF5Service INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KService>")
 
 target_link_libraries(KF5Service
   PUBLIC
@@ -121,7 +121,7 @@ ecm_generate_headers(KService_HEADERS
 install(FILES
    services/kplugininfo.desktop
    services/application.desktop
-   DESTINATION ${SERVICETYPES_INSTALL_DIR}
+   DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR}
 )
 
 install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
@@ -129,11 +129,11 @@ install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF5_INSTALL_TARGETS_DEFAUL
 install(FILES
    "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
    ${KService_HEADERS}
-   DESTINATION ${KF5_INCLUDE_INSTALL_DIR}/KService COMPONENT Devel
+   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KService COMPONENT Devel
 )
 
 add_subdirectory(kbuildsycoca)
 
 include(ECMGeneratePriFile)
-ecm_generate_pri_file(BASE_NAME KService LIB_NAME KF5Service DEPS "KConfigCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KF5_INCLUDE_INSTALL_DIR}/KService)
+ecm_generate_pri_file(BASE_NAME KService LIB_NAME KF5Service DEPS "KConfigCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KService)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
