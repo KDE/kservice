@@ -39,8 +39,8 @@ private Q_SLOTS:
         kservice_require_kded = false;
 
         // fakeplugintype: a servicetype
-        bool mustUpdateKSycoca = !KSycoca::isAvailable();
-        if (!KServiceType::serviceType("FakePluginType")) {
+        bool mustUpdateKSycoca = false;
+        if (!KSycoca::isAvailable() || !KServiceType::serviceType("FakePluginType")) {
             mustUpdateKSycoca = true;
         }
         const QString fakePluginType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + "fakeplugintype.desktop";
