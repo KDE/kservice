@@ -32,6 +32,7 @@
 #include <kpluginmetadata.h>
 #include <kservice.h>
 #include <kservicetypetrader.h>
+#include <kservicetypefactory.h>
 
 //#ifndef NDEBUG
 #define KPLUGININFO_ISVALID_ASSERTION \
@@ -263,7 +264,11 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
 
     QJsonObject json;
     foreach (const QString &key, service->propertyNames()) {
-        QVariant v = service->property(key);
+        QVariant::Type t = KServiceTypeFactory::self()->findPropertyTypeByName(key);
+        if (t == QVariant::Invalid) {
+            t = QVariant::String; // default to string if the type is not known
+        }
+        QVariant v = service->property(key, t);
         if (v.isValid()) {
             json[key] = QJsonValue::fromVariant(v);
         }
