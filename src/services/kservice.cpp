@@ -61,18 +61,18 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     const KConfigGroup desktopGroup = const_cast<KDesktopFile *>(config)->desktopGroup();
     QMap<QString, QString> entryMap = desktopGroup.entryMap();
 
-    entryMap.remove(QLatin1String("Encoding")); // reserved as part of Desktop Entry Standard
-    entryMap.remove(QLatin1String("Version"));  // reserved as part of Desktop Entry Standard
+    entryMap.remove(QStringLiteral("Encoding")); // reserved as part of Desktop Entry Standard
+    entryMap.remove(QStringLiteral("Version"));  // reserved as part of Desktop Entry Standard
 
     q->setDeleted(desktopGroup.readEntry("Hidden", false));
-    entryMap.remove(QLatin1String("Hidden"));
+    entryMap.remove(QStringLiteral("Hidden"));
     if (q->isDeleted()) {
         m_bValid = false;
         return;
     }
 
     m_strName = config->readName();
-    entryMap.remove(QLatin1String("Name"));
+    entryMap.remove(QStringLiteral("Name"));
     if (m_strName.isEmpty()) {
         // Try to make up a name.
         m_strName = entryPath;
@@ -80,19 +80,19 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         m_strName = m_strName.mid(i + 1);
         i = m_strName.lastIndexOf(QLatin1Char('.'));
         if (i != -1) {
-            m_strName = m_strName.left(i);
+            m_strName.truncate(i);
         }
     }
 
     m_strType = config->readType();
-    entryMap.remove(QLatin1String("Type"));
+    entryMap.remove(QStringLiteral("Type"));
     if (m_strType.isEmpty()) {
         /*kWarning(servicesDebugArea()) << "The desktop entry file " << entryPath
           << " has no Type=... entry."
           << " It should be \"Application\" or \"Service\"";
           m_bValid = false;
           return;*/
-        m_strType = QString::fromLatin1("Application");
+        m_strType = QStringLiteral("Application");
     } else if (m_strType != QLatin1String("Application") && m_strType != QLatin1String("Service")) {
         qWarning() << "The desktop entry file " << entryPath
                    << " has Type=" << m_strType
@@ -106,7 +106,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     // behaviour still happens if the "e" flag is set, maintaining
     // backwards compatibility.
     m_strExec = desktopGroup.readEntry("Exec", QString());
-    entryMap.remove(QLatin1String("Exec"));
+    entryMap.remove(QStringLiteral("Exec"));
 
     if (m_strType == QLatin1String("Application")) {
         // It's an application? Should have an Exec line then, otherwise we can't run it
@@ -153,37 +153,37 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     }
     pos = _name.indexOf(QLatin1Char('.'));
     if (pos != -1) {
-        _name = _name.left(pos);
+        _name.truncate(pos);
     }
 
     m_strIcon = config->readIcon();
-    entryMap.remove(QLatin1String("Icon"));
+    entryMap.remove(QStringLiteral("Icon"));
     m_bTerminal = desktopGroup.readEntry("Terminal", false);  // should be a property IMHO
-    entryMap.remove(QLatin1String("Terminal"));
+    entryMap.remove(QStringLiteral("Terminal"));
     m_strTerminalOptions = desktopGroup.readEntry("TerminalOptions");   // should be a property IMHO
-    entryMap.remove(QLatin1String("TerminalOptions"));
+    entryMap.remove(QStringLiteral("TerminalOptions"));
     m_strPath = config->readPath();
-    entryMap.remove(QLatin1String("Path"));
+    entryMap.remove(QStringLiteral("Path"));
     m_strComment = config->readComment();
-    entryMap.remove(QLatin1String("Comment"));
+    entryMap.remove(QStringLiteral("Comment"));
     m_strGenName = config->readGenericName();
-    entryMap.remove(QLatin1String("GenericName"));
+    entryMap.remove(QStringLiteral("GenericName"));
     QString _untranslatedGenericName = desktopGroup.readEntryUntranslated("GenericName");
     if (!_untranslatedGenericName.isEmpty()) {
-        entryMap.insert(QLatin1String("UntranslatedGenericName"), _untranslatedGenericName);
+        entryMap.insert(QStringLiteral("UntranslatedGenericName"), _untranslatedGenericName);
     }
 
     m_lstKeywords = desktopGroup.readXdgListEntry("Keywords", QStringList());
-    entryMap.remove(QLatin1String("Keywords"));
+    entryMap.remove(QStringLiteral("Keywords"));
     m_lstKeywords += desktopGroup.readEntry("X-KDE-Keywords", QStringList());
-    entryMap.remove(QLatin1String("X-KDE-Keywords"));
+    entryMap.remove(QStringLiteral("X-KDE-Keywords"));
     categories = desktopGroup.readXdgListEntry("Categories");
-    entryMap.remove(QLatin1String("Categories"));
+    entryMap.remove(QStringLiteral("Categories"));
     // TODO KDE5: only care for X-KDE-Library in Type=Service desktop files
     // This will prevent people defining a part and an app in the same desktop file
     // which makes user-preference handling difficult.
     m_strLibrary = desktopGroup.readEntry("X-KDE-Library");
-    entryMap.remove(QLatin1String("X-KDE-Library"));
+    entryMap.remove(QStringLiteral("X-KDE-Library"));
     if (!m_strLibrary.isEmpty() && m_strType == QLatin1String("Application")) {
         qWarning() << "The desktop entry file" << entryPath << "has Type=" << m_strType
                    << "but also has a X-KDE-Library key. This works for now,"
@@ -192,20 +192,20 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     }
 
     QStringList lstServiceTypes = desktopGroup.readEntry("ServiceTypes", QStringList());
-    entryMap.remove(QLatin1String("ServiceTypes"));
+    entryMap.remove(QStringLiteral("ServiceTypes"));
     lstServiceTypes += desktopGroup.readEntry("X-KDE-ServiceTypes", QStringList());
-    entryMap.remove(QLatin1String("X-KDE-ServiceTypes"));
+    entryMap.remove(QStringLiteral("X-KDE-ServiceTypes"));
     lstServiceTypes += desktopGroup.readXdgListEntry("MimeType");
-    entryMap.remove(QLatin1String("MimeType"));
+    entryMap.remove(QStringLiteral("MimeType"));
 
     if (m_strType == QLatin1String("Application") && !lstServiceTypes.contains(QLatin1String("Application")))
         // Applications implement the service type "Application" ;-)
     {
-        lstServiceTypes += QString::fromLatin1("Application");
+        lstServiceTypes += QStringLiteral("Application");
     }
 
     m_initialPreference = desktopGroup.readEntry("InitialPreference", 1);
-    entryMap.remove(QLatin1String("InitialPreference"));
+    entryMap.remove(QStringLiteral("InitialPreference"));
 
     // Assign the "initial preference" to each mimetype/servicetype
     // (and to set such preferences in memory from kbuildsycoca)
@@ -230,12 +230,12 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
     }
 
-    if (entryMap.contains(QLatin1String("Actions"))) {
+    if (entryMap.contains(QStringLiteral("Actions"))) {
         parseActions(config, q);
     }
 
     QString dbusStartupType = desktopGroup.readEntry("X-DBUS-StartupType").toLower();
-    entryMap.remove(QLatin1String("X-DBUS-StartupType"));
+    entryMap.remove(QStringLiteral("X-DBUS-StartupType"));
     if (dbusStartupType == QLatin1String("unique")) {
         m_DBUSStartusType = KService::DBusUnique;
     } else if (dbusStartupType == QLatin1String("multi")) {
@@ -247,14 +247,14 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     m_strDesktopEntryName = _name.toLower();
 
     m_bAllowAsDefault = desktopGroup.readEntry("AllowDefault", true);
-    entryMap.remove(QLatin1String("AllowDefault"));
+    entryMap.remove(QStringLiteral("AllowDefault"));
 
     // allow plugin users to translate categories without needing a separate key
     QMap<QString, QString>::Iterator entry = entryMap.find(QString::fromLatin1("X-KDE-PluginInfo-Category"));
     if (entry != entryMap.end()) {
         const QString &key = entry.key();
         m_mapProps.insert(key, QVariant(desktopGroup.readEntryUntranslated(key)));
-        m_mapProps.insert(key + QLatin1String("-Translated"), QVariant(*entry));
+        m_mapProps.insert(key + QStringLiteral("-Translated"), QVariant(*entry));
         entryMap.erase(entry);
     }
 
@@ -361,7 +361,7 @@ KService::KService(const QString &_name, const QString &_exec, const QString &_i
     : KSycocaEntry(*new KServicePrivate(QString()))
 {
     Q_D(KService);
-    d->m_strType = QString::fromLatin1("Application");
+    d->m_strType = QStringLiteral("Application");
     d->m_strName = _name;
     d->m_strExec = _exec;
     d->m_strIcon = _icon;
@@ -642,7 +642,7 @@ KService::Ptr KService::serviceByStorageId(const QString &_storageId)
 
 bool KService::substituteUid() const
 {
-    QVariant v = property(QLatin1String("X-KDE-SubstituteUID"), QVariant::Bool);
+    QVariant v = property(QStringLiteral("X-KDE-SubstituteUID"), QVariant::Bool);
     return v.isValid() && v.toBool();
 }
 
@@ -650,13 +650,13 @@ QString KService::username() const
 {
     // See also KDesktopFile::tryExec()
     QString user;
-    QVariant v = property(QLatin1String("X-KDE-Username"), QVariant::String);
+    QVariant v = property(QStringLiteral("X-KDE-Username"), QVariant::String);
     user = v.isValid() ? v.toString() : QString();
     if (user.isEmpty()) {
         user = QString::fromLocal8Bit(qgetenv("ADMIN_ACCOUNT"));
     }
     if (user.isEmpty()) {
-        user = QString::fromLatin1("root");
+        user = QStringLiteral("root");
     }
     return user;
 }
@@ -669,12 +669,12 @@ bool KService::showInCurrentDesktop() const
     if (currentDesktops.isEmpty()) {
         // This could be an old display manager, or e.g. a failsafe session with no desktop name
         // In doubt, let's say we show KDE stuff.
-        currentDesktops << "KDE";
+        currentDesktops << QStringLiteral("KDE");
     }
 
     // This algorithm is described in the desktop entry spec
 
-    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QString::fromLatin1("OnlyShowIn"));
+    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("OnlyShowIn"));
     if ((it != d->m_mapProps.end()) && (it->isValid())) {
         const QStringList aList = it->toString().split(QLatin1Char(';'));
         foreach (const QString &desktop, currentDesktops) {
@@ -685,7 +685,7 @@ bool KService::showInCurrentDesktop() const
         return false;
     }
 
-    it = d->m_mapProps.find(QString::fromLatin1("NotShowIn"));
+    it = d->m_mapProps.find(QStringLiteral("NotShowIn"));
     if ((it != d->m_mapProps.end()) && (it->isValid())) {
         const QStringList aList = it->toString().split(QLatin1Char(';'));
         foreach (const QString &desktop, currentDesktops) {
@@ -725,7 +725,7 @@ bool KService::showOnCurrentPlatform() const
 
 bool KService::noDisplay() const
 {
-    if (qvariant_cast<bool>(property(QString::fromLatin1("NoDisplay"), QVariant::Bool))) {
+    if (qvariant_cast<bool>(property(QStringLiteral("NoDisplay"), QVariant::Bool))) {
         return true;
     }
 
@@ -746,14 +746,14 @@ bool KService::noDisplay() const
 
 QString KService::untranslatedGenericName() const
 {
-    QVariant v = property(QString::fromLatin1("UntranslatedGenericName"), QVariant::String);
+    QVariant v = property(QStringLiteral("UntranslatedGenericName"), QVariant::String);
     return v.isValid() ? v.toString() : QString();
 }
 
 QString KService::parentApp() const
 {
     Q_D(const KService);
-    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QLatin1String("X-KDE-ParentApp"));
+    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("X-KDE-ParentApp"));
     if ((it == d->m_mapProps.end()) || (!it->isValid())) {
         return QString();
     }
@@ -764,7 +764,7 @@ QString KService::parentApp() const
 QString KService::pluginKeyword() const
 {
     Q_D(const KService);
-    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QString::fromLatin1("X-KDE-PluginKeyword"));
+    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("X-KDE-PluginKeyword"));
     if ((it == d->m_mapProps.end()) || (!it->isValid())) {
         return QString();
     }
@@ -775,9 +775,9 @@ QString KService::pluginKeyword() const
 QString KService::docPath() const
 {
     Q_D(const KService);
-    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QLatin1String("X-DocPath"));
+    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("X-DocPath"));
     if ((it == d->m_mapProps.end()) || (!it->isValid())) {
-        it = d->m_mapProps.find(QString::fromLatin1("DocPath"));
+        it = d->m_mapProps.find(QStringLiteral("DocPath"));
         if ((it == d->m_mapProps.end()) || (!it->isValid())) {
             return QString();
         }
@@ -839,9 +839,9 @@ QString KService::newServicePath(bool showInMenu, const QString &suggestedName,
     QString result;
     for (int i = 1; true; i++) {
         if (i == 1) {
-            result = base + QString::fromLatin1(".desktop");
+            result = base + QStringLiteral(".desktop");
         } else {
-            result = base + QString::fromLatin1("-%1.desktop").arg(i);
+            result = base + QStringLiteral("-%1.desktop").arg(i);
         }
 
         if (reservedMenuIds && reservedMenuIds->contains(result)) {

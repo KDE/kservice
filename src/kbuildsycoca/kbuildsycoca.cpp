@@ -297,7 +297,7 @@ bool KBuildSycoca::build()
 
     if (result || bMenuTest) {
         g_resource = "apps";
-        g_resourceSubdir = "applications";
+        g_resourceSubdir = QStringLiteral("applications");
         g_currentFactory = g_serviceFactory;
         g_currentEntryDict = serviceEntryDict;
         g_changed = false;
@@ -307,9 +307,9 @@ bool KBuildSycoca::build()
             g_vfolder->setTrackId(m_trackId);
         }
 
-        VFolderMenu::SubMenu *kdeMenu = g_vfolder->parseMenu("applications.menu");
+        VFolderMenu::SubMenu *kdeMenu = g_vfolder->parseMenu(QStringLiteral("applications.menu"));
 
-        KServiceGroup::Ptr entry = g_buildServiceGroupFactory->addNew("/", kdeMenu->directoryFile, KServiceGroup::Ptr(), false);
+        KServiceGroup::Ptr entry = g_buildServiceGroupFactory->addNew(QStringLiteral("/"), kdeMenu->directoryFile, KServiceGroup::Ptr(), false);
         entry->setLayoutInfo(kdeMenu->layoutList);
         createMenu(QString(), QString(), kdeMenu);
 
@@ -339,7 +339,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
 
         QString directoryFile = subMenu->directoryFile;
         if (directoryFile.isEmpty()) {
-            directoryFile = subName + ".directory";
+            directoryFile = subName + QStringLiteral(".directory");
         }
         quint32 timeStamp = g_ctimeInfo->dict()->ctime(directoryFile, g_resource);
         if (!timeStamp) {
@@ -439,7 +439,7 @@ bool KBuildSycoca::recreate()
 
     if (!bGlobalDatabase) {
         // update the timestamp file
-        QString stamppath = path + "stamp";
+        QString stamppath = path + QStringLiteral("stamp");
         QFile ksycocastamp(stamppath);
         ksycocastamp.open(QIODevice::WriteOnly);
         QDataStream str(&ksycocastamp);
@@ -489,7 +489,7 @@ void KBuildSycoca::save(QDataStream *str)
     (*str) << newTimestamp;
     (*str) << QLocale().bcp47Name();
     // This makes it possible to trigger a ksycoca update for all users (KIOSK feature)
-    (*str) << calcResourceHash("kservices5", "update_ksycoca");
+    (*str) << calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
     (*str) << (*g_allResourceDirs);
 
     // Calculate per-servicetype/mimetype data
@@ -661,10 +661,10 @@ int main(int argc, char **argv)
     parser.process(app);
     about.processCommandLine(&parser);
 
-    bGlobalDatabase = parser.isSet("global");
-    bMenuTest = parser.isSet("menutest");
+    bGlobalDatabase = parser.isSet(QStringLiteral("global"));
+    bMenuTest = parser.isSet(QStringLiteral("menutest"));
 
-    if (parser.isSet("testmode")) {
+    if (parser.isSet(QStringLiteral("testmode"))) {
         QStandardPaths::enableTestMode(true);
     }
 
@@ -690,14 +690,14 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "%s running...\n", KBUILDSYCOCA_EXENAME);
 
-    bool checkfiles = bGlobalDatabase || !parser.isSet("nocheckfiles");
+    bool checkfiles = bGlobalDatabase || !parser.isSet(QStringLiteral("nocheckfiles"));
 
-    bool incremental = !bGlobalDatabase && !parser.isSet("noincremental") && checkfiles;
+    bool incremental = !bGlobalDatabase && !parser.isSet(QStringLiteral("noincremental")) && checkfiles;
     if (incremental || !checkfiles) {
         KSycoca::disableAutoRebuild(); // Prevent deadlock
         QString current_language = QLocale().bcp47Name();
         QString ksycoca_language = KSycoca::self()->language();
-        quint32 current_update_sig = KBuildSycoca::calcResourceHash("kservices5", "update_ksycoca");
+        quint32 current_update_sig = KBuildSycoca::calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
         quint32 ksycoca_update_sig = KSycoca::self()->updateSignature();
         QString current_prefixes = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
         QString ksycoca_prefixes = static_cast<KBuildSycoca *>(KSycoca::self())->kfsstnd_prefixes();
@@ -713,11 +713,11 @@ int main(int argc, char **argv)
         }
     }
 
-    bool checkstamps = incremental && parser.isSet("checkstamps") && checkfiles;
+    bool checkstamps = incremental && parser.isSet(QStringLiteral("checkstamps")) && checkfiles;
     quint32 filestamp = 0;
     QStringList oldresourcedirs;
     if (checkstamps && incremental) {
-        QString path = sycocaPath() + "stamp";
+        QString path = sycocaPath() + QStringLiteral("stamp");
         QByteArray qPath = QFile::encodeName(path);
         cSycocaPath = qPath.data(); // Delete timestamps on crash
         QFile ksycocastamp(path);
@@ -782,8 +782,8 @@ int main(int argc, char **argv)
         cSycocaPath = 0;
 
         KBuildSycoca *sycoca = new KBuildSycoca; // Build data base (deletes oldSycoca)
-        if (parser.isSet("track")) {
-            sycoca->setTrackId(parser.value("track"));
+        if (parser.isSet(QStringLiteral("track"))) {
+            sycoca->setTrackId(parser.value(QStringLiteral("track")));
         }
         if (!sycoca->recreate()) {
             return -1;
@@ -799,7 +799,7 @@ int main(int argc, char **argv)
         }
     }
 
-    if (!parser.isSet("nosignal")) {
+    if (!parser.isSet(QStringLiteral("nosignal"))) {
         // Notify ALL applications that have a ksycoca object, using a signal
         QDBusMessage signal = QDBusMessage::createSignal("/", "org.kde.KSycoca", "notifyDatabaseChanged");
         signal << changedResources;
@@ -831,12 +831,12 @@ quint32 KBuildSycoca::calcResourceHash(const QString &resourceSubDir, const QStr
     if (!QDir::isRelativePath(filename)) {
         return updateHash(filename, hash);
     }
-    const QStringList files = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, resourceSubDir + '/' + filename);
+    const QStringList files = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, resourceSubDir + QLatin1Char('/') + filename);
     Q_FOREACH (const QString &file, files) {
         hash = updateHash(file, hash);
     }
-    if (hash == 0 && !filename.endsWith("update_ksycoca")
-            && !filename.endsWith(".directory") // bug? needs investigation from someone who understands the VFolder spec
+    if (hash == 0 && !filename.endsWith(QLatin1String("update_ksycoca"))
+            && !filename.endsWith(QLatin1String(".directory")) // bug? needs investigation from someone who understands the VFolder spec
        ) {
         qWarning() << "File not found or not readable:" << filename << "found:" << files;
         Q_ASSERT(hash != 0);

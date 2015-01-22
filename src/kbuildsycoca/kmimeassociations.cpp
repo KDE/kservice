@@ -48,9 +48,10 @@ text/plain=gnome-gedit.desktop;gnu-emacs.desktop;
 
 bool KMimeAssociations::parseAllMimeAppsList()
 {
+    const QString MIMEAPPS_LIST=QStringLiteral("mimeapps.list");
     // Using the "merged view" from KConfig is not enough since we -add- at every level, we don't replace.
-    const QStringList mimeappsFiles = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, "mimeapps.list")
-                                    + QStandardPaths::locateAll(QStandardPaths::ApplicationsLocation, "mimeapps.list");
+    const QStringList mimeappsFiles = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, MIMEAPPS_LIST)
+                                    + QStandardPaths::locateAll(QStandardPaths::ApplicationsLocation, MIMEAPPS_LIST);
     if (mimeappsFiles.isEmpty()) {
         return false;
     }

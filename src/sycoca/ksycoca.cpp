@@ -425,11 +425,13 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
 
     closeDatabase(); // close the dummy one
 
+    const QString KDED_SERVICE_NAME=QStringLiteral("org.kde.kded5");
+    const QString KBUILDSYCOCA_PATH=QStringLiteral("/kbuildsycoca");
     // We can only use the installed ksycoca file if kded is running,
     // since kded is what keeps the file uptodate.
     QDBusConnectionInterface *bus = QDBusConnection::sessionBus().interface();
-    const bool kdedRunning = bus->isServiceRegistered(QString::fromLatin1("org.kde.kded5")) ||
-                             qAppName() == "kbuildsycoca5";
+    const bool kdedRunning = bus->isServiceRegistered(KDED_SERVICE_NAME) ||
+                             qAppName() == QLatin1String("kbuildsycoca5");
 
     // Check if new database already available
     if ((kdedRunning || !kservice_require_kded) && openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
@@ -443,9 +445,9 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
         // Ask kded to rebuild ksycoca
         // (so that it's not only built, but also kept up-to-date...)
         bool kdedRunning = false;
-        if (!bus->isServiceRegistered(QLatin1String("org.kde.kded5"))) {
+        if (!bus->isServiceRegistered(KDED_SERVICE_NAME)) {
             // kded isn't even running: start it
-            QDBusReply<void> reply = bus->startService(QLatin1String("org.kde.kded5"));
+            QDBusReply<void> reply = bus->startService(KDED_SERVICE_NAME);
             if (!reply.isValid()) {
                 // kded isn't even available, fall back to kbuildsycoca
                 qWarning() << "Couldn't start kded5 from org.kde.kded5.service:" << reply.error() << ", falling back to running" << KBUILDSYCOCA_EXENAME;
@@ -454,7 +456,7 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
                 if (!kbuildsycoca.isEmpty()) {
                     QStringList args;
                     if (QStandardPaths::isTestModeEnabled()) {
-                        args << "--testmode";
+                        args << QLatin1String("--testmode");
                     }
                     proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
                     proc.start(kbuildsycoca, args);
@@ -464,14 +466,14 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
                 //qCDebug(SYCOCA) << "kded5 registered";
                 kdedRunning = true;
                 if (QStandardPaths::isTestModeEnabled()) {
-                    QDBusInterface sycoca(QLatin1String("org.kde.kded5"), QLatin1String("/kbuildsycoca"));
-                    sycoca.call(QLatin1String("enableTestMode"));
+                    QDBusInterface sycoca(KDED_SERVICE_NAME, KBUILDSYCOCA_PATH);
+                    sycoca.call(QStringLiteral("enableTestMode"));
                 }
             }
         } else {
             //qCDebug(SYCOCA) << "kded5 found";
             if (QStandardPaths::isTestModeEnabled()) {
-                QDBusInterface sycoca(QLatin1String("org.kde.kded5"), QLatin1String("/kbuildsycoca"));
+                QDBusInterface sycoca(KDED_SERVICE_NAME, KBUILDSYCOCA_PATH);
                 const QDBusReply<bool> testMode = sycoca.call(QLatin1String("isTestModeEnabled"));
                 if (!testMode.value()) {
                     qWarning() << "This unit test uses ksycoca, it needs to be run in a separate DBus session, so that kded can be started in 'test mode'.";
@@ -487,8 +489,8 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
 
         //qCDebug(SYCOCA) << "We have no database.... asking kded to create it";
         if (kdedRunning) {
-            QDBusInterface sycoca(QLatin1String("org.kde.kded5"), QLatin1String("/kbuildsycoca"));
-            sycoca.call(QLatin1String("recreate"));
+            QDBusInterface sycoca(KDED_SERVICE_NAME, KBUILDSYCOCA_PATH);
+            sycoca.call(QStringLiteral("recreate"));
         }
 
         closeDatabase(); // close the dummy one
