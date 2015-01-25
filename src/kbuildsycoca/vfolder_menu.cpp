@@ -30,8 +30,6 @@
 #include <QtCore/QDirIterator>
 #include <QStandardPaths>
 
-static const QString MENUS_SLASH=QStringLiteral("menus/");
-
 static void foldNode(QDomElement &docElem, QDomElement &e, QMap<QString, QDomElement> &dupeList, QString s = QString()) //krazy:exclude=passbyvalue
 {
     if (s.isEmpty()) {
@@ -410,7 +408,7 @@ VFolderMenu::absoluteDir(const QString &_dir, const QString &baseDir, bool keepR
     bool relative = QDir::isRelativePath(dir);
     if (relative && !keepRelativeToCfg) {
         relative = false;
-        dir = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, MENUS_SLASH + dir, QStandardPaths::LocateDirectory);
+        dir = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + dir, QStandardPaths::LocateDirectory);
     }
 
     if (!relative) {
@@ -603,7 +601,7 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
             Q_ASSERT(dir.endsWith('/'));
 
             const bool relative = QDir::isRelativePath(dir);
-            const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, MENUS_SLASH + dir, QStandardPaths::LocateDirectory);
+            const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + dir, QStandardPaths::LocateDirectory);
             Q_FOREACH (const QString &menuDir, dirs) {
                 registerDirectory(menuDir);
             }
@@ -706,7 +704,7 @@ VFolderMenu::pushDocInfoParent(const QString &basePath, const QString &baseDir)
     m_docInfo.baseName = fileName.left(fileName.length() - 5);   // without ".menu"
     QString baseName = QDir::cleanPath(m_docInfo.baseDir + fileName);
 
-    QStringList result = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, MENUS_SLASH + baseName);
+    QStringList result = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + baseName);
 
     // Remove anything "more local" than basePath.
     while (!result.isEmpty() && (result.at(0) != basePath)) {
@@ -750,12 +748,12 @@ VFolderMenu::locateMenuFile(const QString &fileName)
 
         QString baseName = QDir::cleanPath(m_docInfo.baseDir +
                                            fileInfo.path() + '/' + fileNameOnly);
-        result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, MENUS_SLASH + baseName);
+        result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + baseName);
     }
 
     if (result.isEmpty()) {
         QString baseName = QDir::cleanPath(m_docInfo.baseDir + fileName);
-        result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, MENUS_SLASH + baseName);
+        result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + baseName);
     }
 
     return result;

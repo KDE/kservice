@@ -224,7 +224,7 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
 KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
     : d(new KPluginInfoPrivate)
 {
-    static const QString metaData = QStringLiteral("MetaData");
+    const QString metaData = QStringLiteral("MetaData");
     foreach (const QVariant &v, args) {
         if (v.canConvert<QVariantMap>()) {
             const QVariantMap &m = v.toMap();
