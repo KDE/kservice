@@ -156,7 +156,12 @@ private Q_SLOTS:
         QCOMPARE(info.libraryPath(), pluginName);
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
         QCOMPARE(info.pluginName(), pluginName);
-        QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
+        if (info.service() || QTest::currentDataTag() == QByteArrayLiteral("from KService::Ptr + custom property")) {
+            // KService merges X-KDE-ServiceTypes and MimeTypes
+            QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA" << "text/plain" << "image/png");
+        } else {
+            QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
+        }
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
 

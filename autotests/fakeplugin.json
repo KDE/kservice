@@ -16,5 +16,9 @@
     "X-KDE-PluginInfo-Website": "http://kde.org/",
     "X-KDE-ServiceTypes": [
         "KService/NSA"
-    ]
+    ],
+    "X-My-Custom-Property": "foo",
+    "Keywords": "word1;word2",
+    "X-KDE-Keywords": "word3,word4",
+    "MimeType": "text/plain;image/png"
 }
