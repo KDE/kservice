@@ -928,7 +928,7 @@ VFolderMenu::loadApplications(const QString &dir, const QString &prefix)
         it.next();
         const QFileInfo fi = it.fileInfo();
         const QString fn = fi.fileName();
-        if (fi.isDir()) {
+        if (fi.isDir() && !fi.isBundle()) {
             if (fn == QLatin1String(".") || fn == QLatin1String("..")) {
                 continue;
             }
