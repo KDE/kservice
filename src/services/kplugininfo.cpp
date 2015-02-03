@@ -211,17 +211,12 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
         return;
     }
 
-    QStringList serviceTypes = cg.readEntry(s_xKDEServiceTypes(), QStringList());
-    if (serviceTypes.isEmpty()) {
-        serviceTypes = cg.readEntry(s_serviceTypesKey(), QStringList());
+    qDebug() << "fname" << file.fileName();
+    d->setMetaData(KPluginMetaData(file.fileName()), true);
+    if (!d->metaData.isValid()) {
+        qWarning() << "Failed to read metadata from .desktop file" << file.fileName();
+        d.reset();
     }
-    QJsonObject json;
-    QJsonObject kplugin = mapToJsonKPluginKey(file.readName(), file.readComment(),
-            cg.readEntry(s_dependenciesKey(), QStringList()), serviceTypes, cg,
-            [](const KConfigGroup &cg, const QString &key) { return QJsonValue(cg.readEntryUntranslated(key)); });
-    json[s_jsonKPluginKey()] = kplugin;
-
-    d->metaData = KPluginMetaData(json, cg.readEntry(s_libraryKey()), file.fileName());
 }
 
 KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)

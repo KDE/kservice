@@ -95,9 +95,9 @@ private Q_SLOTS:
         QTest::ignoreMessage(QtWarningMsg, "\"/this/path/does/not/exist.desktop\" has no desktop group, cannot construct a KPluginInfo object from it.");
         QVERIFY(!KPluginInfo("/this/path/does/not/exist.desktop").isValid());
 
-        QTest::newRow("from .desktop") << fakepluginDesktop << info << infoGerman << QVariant() << true;
+        QTest::newRow("from .desktop") << fakepluginDesktop << info << infoGerman << QVariant() << false;
         QTest::newRow("with custom property") << info.libraryPath() << withCustomProperty(info)
-            << withCustomProperty(infoGerman) << QVariant("Baz") << true;
+            << withCustomProperty(infoGerman) << QVariant("Baz") << false;
         QTest::newRow("from KService::Ptr") << fakepluginDesktop << infoFromService
                 << infoFromServiceGerman << QVariant() << true;
         QTest::newRow("from KService::Ptr + custom property") << pluginName
@@ -159,8 +159,10 @@ private Q_SLOTS:
         if (info.service() || QTest::currentDataTag() == QByteArrayLiteral("from KService::Ptr + custom property")) {
             // KService merges X-KDE-ServiceTypes and MimeTypes
             QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA" << "text/plain" << "image/png");
+            // KService does not include X-My-Custom-Property since there is no service type installed that defines it
         } else {
             QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
+            QCOMPARE(info.property("X-My-Custom-Property"), QVariant("foo"));
         }
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
@@ -173,22 +175,21 @@ private Q_SLOTS:
     {
         QString fakepluginDesktop = QFINDTESTDATA("fakeplugin.desktop");
         QVERIFY2(!fakepluginDesktop.isEmpty(), "Could not find fakeplugin.desktop");
-        // translations are performed when the object is constructed, not later
-        QLocale::setDefault(QLocale::c());
         KPluginInfo info = withCustomProperty(KPluginInfo(fakepluginDesktop));
-        QLocale::setDefault(QLocale(QLocale::German, QLocale::Germany));
-        KPluginInfo infoGerman = withCustomProperty(KPluginInfo(fakepluginDesktop));
         QVERIFY(info.isValid());
         KPluginMetaData meta = info.toMetaData();
-        // translations will be broken (since not all are read), it will always return the german version even with QLocale::c()
-        KPluginMetaData metaGerman = infoGerman.toMetaData();
-        QLocale::setDefault(QLocale::c());
+        QVERIFY(meta.isValid());
 
         // check the translatable keys first
+        // as of 5.7 translations are performed at runtime and not when the file is read
+        QLocale::setDefault(QLocale::c());
         QCOMPARE(meta.description(), QStringLiteral("Test Plugin Spy"));
-        QCOMPARE(metaGerman.description(), QStringLiteral("Test-Spionagemodul"));
         QCOMPARE(meta.name(), QStringLiteral("NSA Plugin"));
-        QCOMPARE(metaGerman.name(), QStringLiteral("NSA-Modul"));
+        QLocale::setDefault(QLocale(QLocale::German));
+        QCOMPARE(meta.description(), QStringLiteral("Test-Spionagemodul"));
+        QCOMPARE(meta.name(), QStringLiteral("NSA-Modul"));
+        QLocale::setDefault(QLocale::c());
+
 
         QCOMPARE(meta.authors().size(), 1);
         QCOMPARE(meta.authors()[0].name(), QStringLiteral("Sebastian Kügler"));
@@ -206,18 +207,17 @@ private Q_SLOTS:
 
         // also test the static version
         QCOMPARE(meta, KPluginInfo::toMetaData(info));
-        QCOMPARE(metaGerman, KPluginInfo::toMetaData(infoGerman));
 
         // make sure custom values are also retained
         QCOMPARE(info.property("X-Foo-Bar"), QVariant("Baz"));
         QCOMPARE(meta.rawData().value("X-Foo-Bar").toString(), QStringLiteral("Baz"));
 
 
-        KPluginInfo::List srcList = KPluginInfo::List() << info << infoGerman;
+        KPluginInfo::List srcList = KPluginInfo::List() << info << info;
         QVector<KPluginMetaData> convertedList = KPluginInfo::toMetaData(srcList);
         QCOMPARE(convertedList.size(), 2);
         QCOMPARE(convertedList[0], meta);
-        QCOMPARE(convertedList[1], metaGerman);
+        QCOMPARE(convertedList[1], meta);
     }
 
     void testFromMetaData()
