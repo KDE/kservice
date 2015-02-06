@@ -101,8 +101,10 @@ X-KDE-PluginInfo-EnabledByDefault=true
 
 X-My-Custom-Property=foo
 Keywords=word1;word2
+Keywords[ca]=paraula1;paraula2
 Keywords[da]=ord1;ord2
 Keywords[es]=palabra1;palabra2
+Keywords[fi]=sana1;sana2
 Keywords[nl]=woord1;woord2
 Keywords[pt]=palavra1;palavra2
 Keywords[pt_BR]=palavra1;palavra2
@@ -112,8 +114,10 @@ Keywords[uk]=слово1;слово2;word1;word2
 Keywords[x-test]=xxword1xx;xxword2xx
 #this one is comma separated
 X-KDE-Keywords=word3,word4
+X-KDE-Keywords[ca]=paraula3,paraula4
 X-KDE-Keywords[da]=ord3,ord4
 X-KDE-Keywords[es]=palabra3,palabra4
+X-KDE-Keywords[fi]=sana3,sana4
 X-KDE-Keywords[nl]=woord3,woord4
 X-KDE-Keywords[pt]=palavra3,palavra4
 X-KDE-Keywords[pt_BR]=palavra3;palavra4
