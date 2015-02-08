@@ -1,0 +1,341 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Italian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<refentry>
+
+<refentryinfo>
+<title
+>&kde; Frameworks: KService</title>
+<author
+><firstname
+>Darian</firstname
+> <surname
+>Lanx</surname
+> <contrib
+>Ha scritto la documentazione originale.</contrib>
+<affiliation>
+<address
+><email
+>content@openprojects.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alex</firstname
+> <surname
+>Merry</surname
+> <contrib
+>Ha aggiornato la documentazione per &kde; Frameworks 5.</contrib>
+<affiliation>
+<address
+><email
+>alexmerry@kde.org</email
+></address>
+</affiliation>
+</author>
+
+<date
+>2014-04-01</date>
+<releaseinfo
+>5.0</releaseinfo>
+
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kbuildsycoca5</command
+></refentrytitle>
+<manvolnum
+>8</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kbuildsycoca5</command
+></refname>
+<refpurpose
+>Ricostruisce la cache della configurazione del filesystem di KService.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<title
+>Sintassi</title>
+
+<cmdsynopsis
+><command
+>kbuildsycoca5</command
+> <group choice="opt" rep="repeat"
+><replaceable class="option"
+>OPZIONI</replaceable
+></group
+> </cmdsynopsis>
+
+</refsynopsisdiv>
+
+
+
+<refsect1>
+<title
+>Descrizione</title>
+
+<para
+><command
+>kbuildsycoca5</command
+> genera una cache binaria dei dati memorizzati nei file <literal role="extension"
+>.desktop</literal
+> e file di tipo <literal role="extension"
+>.xml</literal
+> che l'infrastruttura KService usa per trovare estensioni, applicazioni e altri servizi. </para>
+
+<para
+>La libreria KService usa questa banca dati per fornire efficacemente le informazioni richieste. </para>
+
+<para
+>Gli utenti normalmente non devono eseguire questa applicazione direttamente; KService verrà eseguito quando necessario, e se KDED è in esecuzione eseguirà <command
+>kbuildsyscoca5</command
+> ogni volta che qualsiasi file i cui dati sono memorizzati viene modificato. </para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Opzioni</title>
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>--checkstamps</option
+></term>
+<listitem>
+<para
+>Controlla la data e l'ora dei file della cache e le cartelle delle risorse contenenti i dati da memorizzare, e aggiorna la banca dati solo se una delle cartelle è stata modificata più recentemente della cache. Viene ignorato se sono impostati <option
+>--nocheckfiles</option
+> o <option
+>--noincremental</option
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--global</option
+></term>
+<listitem>
+<para
+>Ignora tutti i file impostati dall'utente (in <varname
+>XDG_DATA_HOME</varname
+>). Questo è attualmente supportato solo sui sistemi Unix.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--nocheckfiles</option
+></term>
+<listitem>
+<para
+>Non rigenera la cache a meno che qualcos'altro che una modifica dei file delle risorse lo richieda (come il cambiamento del formato della cache, o la modifica di <varname
+>XDG_DATA_DIRS</varname
+> sui sistemi Unix). Viene ignorato se è impostato <option
+>--global</option
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--noincremental</option
+></term>
+<listitem>
+<para
+>Invece di usare la cache attuale e aggiornare solo le informazioni che sono state modificate o aggiunte, comincia con una cache vuota. Viene ignorato se è impostato <option
+>--global</option
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--nosignal</option
+></term>
+<listitem>
+<para
+>Normalmente, <command
+>kbuildsyscoca5</command
+> invia un segnale via D-Bus una volta che la cache è stata modificata a tutte le applicazioni che usano KService, in modo che lavorino sempre con le informazioni più recenti. Questa opzione sopprime questo comportamento.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--menutest</option
+></term>
+<listitem>
+<para
+>Fa una prova di generazione della banca dati dei menu delle applicazioni. Non genera realmente la cache.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--testmode</option
+></term>
+<listitem>
+<para
+>Usa la «modalità di prova» di QStandardPaths per evitare di interferire con i dati degli utenti. È pensato per essere usato in prove di unità.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--track <replaceable
+>identificativo_menu</replaceable
+></option
+></term>
+<listitem>
+<para
+>Traccia un identificativo di menu per debug.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem>
+<para
+>Mostra le informazioni sull'autore. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem>
+<para
+>Mostra le informazioni sulla licenza. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-h, --help</option
+></term>
+<listitem>
+<para
+>Mostra un breve testo di aiuto. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v , --version</option
+></term>
+<listitem>
+<para
+>Mostra le informazioni sulla versione. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>File</title>
+<variablelist>
+<varlistentry>
+<term
+><filename
+><varname
+>cachedir</varname
+>/ksycoca5</filename
+></term>
+<listitem>
+<para
+>La cache di KService generata da <command
+>kbuildsycoca5</command
+>. Sui sistemi Unix, <varname
+>cachedir</varname
+> è tipicamente <filename class="directory"
+>~/.config</filename
+>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><filename
+><varname
+>cachedir</varname
+>/ksycoca5stamp</filename
+></term>
+<listitem>
+<para
+>La data, l'ora e altre informazioni aggiuntive sul file principale della cache. Sui sistemi Unix, <varname
+>cachedir</varname
+> è tipicamente <filename class="directory"
+>~/.config</filename
+>.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Vedi anche</title>
+<para
+><citerefentry
+><refentrytitle
+>kded5</refentrytitle
+><manvolnum
+>8</manvolnum
+></citerefentry
+>, <citerefentry
+><refentrytitle
+>kdeinit5</refentrytitle
+><manvolnum
+>8</manvolnum
+></citerefentry
+> </para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Errori</title>
+<para
+>Probabilmente ci sono un sacco di errori. Usa <ulink url="http://bugs.kde.org"
+>il tracciatore di errori di KDE</ulink
+> per segnalarli.</para>
+</refsect1>
+
+</refentry>
+
+
+
