@@ -48,6 +48,7 @@ private Q_SLOTS:
     void testReaderThreads();
     void testThreads();
     void testOperatorKPluginName();
+    void testKPluginInfoQuery();
 
 private:
     void createFakeService();

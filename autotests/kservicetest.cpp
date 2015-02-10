@@ -31,6 +31,8 @@
 #include <kservicetypetrader.h>
 #include <kservicetype.h>
 #include <kservicetypeprofile.h>
+#include <kpluginmetadata.h>
+#include <kplugininfo.h>
 
 #include <qfile.h>
 #include <qprocess.h>
@@ -118,6 +120,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("X-KDE-Library", "fakepart2");
         group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart");
         group.writeEntry("MimeType", "text/plain;");
+        group.writeEntry("X-KDE-TestList", QStringList() << "item1" << "item2");
     }
 
     const QString preferredPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "preferredpart.desktop";
@@ -201,6 +204,9 @@ void KServiceTest::initTestCase()
         group.writeEntry("Comment", "Fake Base Part");
         group.writeEntry("Type", "ServiceType");
         group.writeEntry("X-KDE-ServiceType", "FakeBasePart");
+
+        KConfigGroup listGroup(&file, "PropertyDef::X-KDE-TestList");
+        listGroup.writeEntry("Type", "QStringList");
     }
 
     // fakederivedpart: a servicetype deriving from FakeBasePart (like ReadWritePart derives from ReadOnlyPart)
@@ -790,3 +796,9 @@ void KServiceTest::testOperatorKPluginName()
     QVERIFY(!iplugin.factory());
 }
 
+void KServiceTest::testKPluginInfoQuery()
+{
+    KPluginInfo info(KPluginMetaData(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart2.desktop"));
+
+    QCOMPARE(info.property("X-KDE-TestList").value<QStringList>().size(), 2);
+}

@@ -91,6 +91,9 @@ public:
         , kcmservicesCached(false)
     {}
 
+    QStringList deserializeList(const QString &data);
+
+
     bool hidden : 1;
     bool pluginenabled : 1;
     mutable bool kcmservicesCached : 1;
@@ -103,6 +106,38 @@ public:
     /** assigns the @p md to @c metaData, but also ensures that compatibility values are handled */
     void setMetaData(const KPluginMetaData &md, bool warnOnOldStyle);
 };
+
+//This comes from KConfigGroupPrivate::deserializeList()
+QStringList KPluginInfoPrivate::deserializeList(const QString &data)
+{
+    if (data.isEmpty()) {
+        return QStringList();
+    }
+    if (data == QLatin1String("\\0")) {
+        return QStringList(QString());
+    }
+    QStringList value;
+    QString val;
+    val.reserve(data.size());
+    bool quoted = false;
+    for (int p = 0; p < data.length(); p++) {
+        if (quoted) {
+            val += data[p];
+            quoted = false;
+        } else if (data[p].unicode() == '\\') {
+            quoted = true;
+        } else if (data[p].unicode() == ',' || data[p].unicode() == ';') {
+            val.squeeze(); // release any unused memory
+            value.append(val);
+            val.clear();
+            val.reserve(data.size() - p);
+        } else {
+            val += data[p];
+        }
+    }
+    value.append(val);
+    return value;
+}
 
 // maps the KService, QVariant and KDesktopFile keys to the new KPluginMetaData keys
 template<typename T, typename Func>
@@ -531,8 +566,15 @@ QVariant KPluginInfo::property(const QString &key) const
     }
     QVariant result = d->metaData.rawData().value(key).toVariant();
     if (result.isValid()) {
+        const QVariant::Type t = KServiceTypeFactory::self()->findPropertyTypeByName(key);
+
+        //special case if we want a stringlist: split values by ',' or ';' and construct the list
+        if (t == QVariant::StringList) {
+            result = d->deserializeList(result.toString());
+        }
         return result;
     }
+
     // If the key was not found check compatibility for old key names and print a warning
     // These warnings should only happen if JSON was generated with kcoreaddons_desktop_to_json
     // but the application uses KPluginTrader::query() instead of KPluginLoader::findPlugins()
