@@ -570,7 +570,17 @@ QVariant KPluginInfo::property(const QString &key) const
 
         //special case if we want a stringlist: split values by ',' or ';' and construct the list
         if (t == QVariant::StringList) {
-            result = d->deserializeList(result.toString());
+            if (result.canConvert<QString>()) {
+                result = d->deserializeList(result.toString());
+            } else if (result.canConvert<QVariantList>()) {
+                QVariantList list = result.toList();
+                QStringList newResult;
+                foreach (const QVariant &value, list) {
+                    newResult += value.toString();
+                }
+                result = newResult;
+            } else
+                qWarning() << "Cannot interpret" << result << "into a string list";
         }
         return result;
     }
