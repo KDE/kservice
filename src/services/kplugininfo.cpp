@@ -246,7 +246,6 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
         return;
     }
 
-    qDebug() << "fname" << file.fileName();
     d->setMetaData(KPluginMetaData(file.fileName()), true);
     if (!d->metaData.isValid()) {
         qWarning() << "Failed to read metadata from .desktop file" << file.fileName();
