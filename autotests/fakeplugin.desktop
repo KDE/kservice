@@ -121,6 +121,7 @@ Keywords[sv]=ord1;ord2
 Keywords[tr]=kelime1;kelime2
 Keywords[uk]=слово1;слово2;word1;word2
 Keywords[x-test]=xxword1xx;xxword2xx
+Keywords[zh_CN]=word1;word2
 Keywords[zh_TW]=單字1:單字2
 #this one is comma separated
 X-KDE-Keywords=word3,word4
@@ -144,6 +145,7 @@ X-KDE-Keywords[sv]=ord3,ord4
 X-KDE-Keywords[tr]=kelime3,kelime4
 X-KDE-Keywords[uk]=слово3,слово4,word3,word4
 X-KDE-Keywords[x-test]=xxword3xx,xxword4xx
+X-KDE-Keywords[zh_CN]=word3,word4
 X-KDE-Keywords[zh_TW]=單字3:單字4
 
 MimeType=text/plain;image/png
