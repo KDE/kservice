@@ -1,0 +1,191 @@
+# translation of kdelibs4.po to Swedish
+# Översättning kdelibs4.po till Svenska
+#
+# Copyright (C) 1997,2002,2003, 2004, 2005, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
+# Magnus Reftel <d96reftl@dtek.chalmers.se>, 1997.
+# Anders Widell <awl@hem.passagen.se>, 1998-2000.
+# Per Lindström <pelinstr@algonet.se>, 2000.
+# Mattias Newzella <newzella@linux.nu>, 2000, 2001, 2002,2003, 2004, 2005.
+# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2002.
+# Stefan Asserhäll <stefan.asserhall@bredband.net>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
+# Stefan Asserhall <stefan.asserhall@bredband.net>, 2010, 2011, 2012, 2013, 2014.
+# Arve Eriksson <031299870@telia.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2014-11-20 07:56+0000\n"
+"PO-Revision-Date: 2014-04-02 16:16+0200\n"
+"Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
+"Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+"Magnus Reftel,Anders Widell,Per Lindström,Mattias Newzella,Stefan Asserhäll"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"d96reftl@dtek.chalmers.se,awl@hem.passagen.se,pelinstr@algonet.se,"
+"newzella@linux.nu,stefan.asserhall@telia.com"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "Kbuildsycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Bygger om systemets inställningscache."
+
+#: kbuildsycoca/kbuildsycoca.cpp:623
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "Copyright 1999-2014 KDE-utvecklarna"
+
+#: kbuildsycoca/kbuildsycoca.cpp:624
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625 kbuildsycoca/kbuildsycoca.cpp:628
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Upphovsman"
+
+#: kbuildsycoca/kbuildsycoca.cpp:627
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:638
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Signalera inte program att uppdatera"
+
+#: kbuildsycoca/kbuildsycoca.cpp:641
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Inaktivera deluppdatering, läs in allt igen"
+
+#: kbuildsycoca/kbuildsycoca.cpp:644
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Kontrollera filtidsstämplar"
+
+#: kbuildsycoca/kbuildsycoca.cpp:647
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Inaktivera kontroll av filer (farligt)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:650
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Skapa global databas"
+
+#: kbuildsycoca/kbuildsycoca.cpp:653
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Skapa bara menyer på prov"
+
+#: kbuildsycoca/kbuildsycoca.cpp:656
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Spåra menyidentifikation i felsökningssyfte"
+
+#: kbuildsycoca/kbuildsycoca.cpp:660
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr "Byt QStandardPaths för utprovning, bara för enhetsprov"
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "Funktionen måste anropas från huvudtråden."
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Fel vid start av %1. Antingen kör inte Klauncher längre, eller misslyckades "
+"det starta programmet."
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher kunde inte nås via D-Bus. Fel vid anrop av %1:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Kunde inte starta e-postklient:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+msgid "Could not launch Mail Client"
+msgstr "Kunde inte starta e-postklient"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Kunde inte starta webbläsare:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+msgid "Could not launch Browser"
+msgstr "Kunde inte starta webbläsare"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Kunde inte starta terminalklient:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+msgid "Could not launch Terminal Client"
+msgstr "Kunde inte starta terminalklient"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr "Ingen tjänst som implementerar %1"
+
+#: services/kservice.cpp:1027
+msgid "The provided service is not valid"
+msgstr "Tjänsten som tillhandahålls är inte giltig"
+
+#: services/kservice.cpp:1031
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"Tjänsten '%1' tillhandahåller inget bibliotek eller biblioteksnyckeln saknas"
