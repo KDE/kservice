@@ -277,12 +277,14 @@ VFolderMenu::insertService(SubMenu *parentMenu, const QString &name, KService::P
 }
 
 VFolderMenu::VFolderMenu(KBuildServiceFactory *serviceFactory, KBuildSycocaInterface *kbuildsycocaInterface)
-    : m_track(false),
-      m_serviceFactory(serviceFactory),
-      m_kbuildsycocaInterface(kbuildsycocaInterface)
+    : m_appsInfo(0)
+    , m_rootMenu(0)
+    , m_currentMenu(0)
+    , m_track(false)
+    , m_serviceFactory(serviceFactory)
+    , m_kbuildsycocaInterface(kbuildsycocaInterface)
 {
     m_usedAppsDict.reserve(797);
-    m_rootMenu = 0;
     initDirs();
 }
 

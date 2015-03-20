@@ -28,9 +28,10 @@ Q_GLOBAL_STATIC(KSycocaFactorySingleton<KServiceGroupFactory>, kServiceGroupFact
 
 KServiceGroupFactory::KServiceGroupFactory()
     : KSycocaFactory(KST_KServiceGroupFactory)
+    , m_baseGroupDict(0)
+    , m_baseGroupDictOffset(0)
 {
     kServiceGroupFactoryInstance()->instanceCreated(this);
-    m_baseGroupDictOffset = 0;
     if (!KSycoca::self()->isBuilding()) {
         QDataStream *str = stream();
         // Read Header

@@ -52,9 +52,10 @@ class KSycocaDict::Private
 {
 public:
     Private()
-        : stringlist(0),
-          stream(0),
-          offset(0)
+        : stringlist(0)
+        , stream(0)
+        , offset(0)
+        , hashTableSize(0)
     {
     }
 
