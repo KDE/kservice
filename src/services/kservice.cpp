@@ -40,6 +40,7 @@
 
 #include "kservicefactory.h"
 #include "kservicetypefactory.h"
+#include "kserviceutil_p.h"
 
 QDataStream &operator<<(QDataStream &s, const KService::ServiceTypeAndPreference &st)
 {
@@ -146,15 +147,9 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         return;
     }
 
-    QString _name = entryPath;
-    int pos = _name.lastIndexOf(QLatin1Char('/'));
-    if (pos != -1) {
-        _name = _name.mid(pos + 1);
-    }
-    pos = _name.indexOf(QLatin1Char('.'));
-    if (pos != -1) {
-        _name.truncate(pos);
-    }
+    // entryPath To desktopEntryName
+    // (e.g. "/home/x/.qttest/share/kservices5/fakepart2.desktop" --> "fakepart2")
+    QString _name = KServiceUtilPrivate::completeBaseName(entryPath);
 
     m_strIcon = config->readIcon();
     entryMap.remove(QStringLiteral("Icon"));

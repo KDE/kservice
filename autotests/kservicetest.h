@@ -49,6 +49,8 @@ private Q_SLOTS:
     void testThreads();
     void testOperatorKPluginName();
     void testKPluginInfoQuery();
+    void testCompleteBaseName();
+    void testEntryPathToName();
 
 private:
     void createFakeService();

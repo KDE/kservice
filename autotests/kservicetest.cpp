@@ -26,6 +26,7 @@
 #include <kconfiggroup.h>
 #include <kdesktopfile.h>
 #include <ksycoca.h>
+#include <../src/services/kserviceutil_p.h>
 
 #include <kservicegroup.h>
 #include <kservicetypetrader.h>
@@ -801,4 +802,18 @@ void KServiceTest::testKPluginInfoQuery()
     KPluginInfo info(KPluginMetaData(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart2.desktop"));
 
     QCOMPARE(info.property("X-KDE-TestList").value<QStringList>().size(), 2);
+}
+
+void KServiceTest::testCompleteBaseName()
+{
+    QCOMPARE(KServiceUtilPrivate::completeBaseName("/home/x/.qttest/share/kservices5/fakepart2.desktop"), QString("fakepart2"));
+    // dots in filename before .desktop extension:
+    QCOMPARE(KServiceUtilPrivate::completeBaseName("/home/x/.qttest/share/kservices5/org.kde.fakeapp.desktop"), QString("org.kde.fakeapp"));
+}
+
+void KServiceTest::testEntryPathToName()
+{
+    QCOMPARE(KService("c.desktop").name(), QString("c"));
+    QCOMPARE(KService("a.b.c.desktop").name(), QString("a.b.c")); // dots in filename before .desktop extension
+    QCOMPARE(KService("/hallo/a.b.c.desktop").name(), QString("a.b.c"));
 }

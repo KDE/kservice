@@ -42,6 +42,7 @@ public:
     }
 
     void init(const KDesktopFile *config, KService *q);
+
     void parseActions(const KDesktopFile *config, KService *q);
     void load(QDataStream &);
     virtual void save(QDataStream &);
