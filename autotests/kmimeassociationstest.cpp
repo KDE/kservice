@@ -112,35 +112,25 @@ private Q_SLOTS:
         qputenv("XDG_CURRENT_DESKTOP", "KDE");
 
         m_localConfig = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1Char('/');
+        QDir(m_localConfig).removeRecursively();
+        QVERIFY(QDir().mkpath(m_localConfig));
         m_localApps = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1Char('/');
-
-        bool mustUpdateKSycoca = false;
-
-        if (QFile::exists(m_localConfig + "/mimeapps.list")) {
-            QFile::remove(m_localConfig + "/mimeapps.list");
-            mustUpdateKSycoca = true;
-        }
+        QDir(m_localApps).removeRecursively();
+        QVERIFY(QDir().mkpath(m_localApps));
+        QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QLatin1Char('/');
+        QDir(cacheDir).removeRecursively();
 
         // Create fake application (associated with text/plain in mimeapps.list)
         fakeTextApplication = m_localApps + "faketextapplication.desktop";
-        if (!QFile::exists(fakeTextApplication)) {
-            mustUpdateKSycoca = true;
-            writeAppDesktopFile(fakeTextApplication, QStringList() << "text/plain");
-        }
+        writeAppDesktopFile(fakeTextApplication, QStringList() << "text/plain");
 
         // Create fake application (associated with text/plain in mimeapps.list)
         fakeTextApplicationPrefixed = m_localApps + "fakepfx/faketextapplicationpfx.desktop";
-        if (!QFile::exists(fakeTextApplicationPrefixed)) {
-            mustUpdateKSycoca = true;
-            writeAppDesktopFile(fakeTextApplicationPrefixed, QStringList() << "text/plain");
-        }
+        writeAppDesktopFile(fakeTextApplicationPrefixed, QStringList() << "text/plain");
 
         // A fake "default" application for text/plain (high initial preference, but not in mimeapps.list)
         fakeDefaultTextApplication = m_localApps + "fakedefaulttextapplication.desktop";
-        if (!QFile::exists(fakeDefaultTextApplication)) {
-            mustUpdateKSycoca = true;
-            writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << "text/plain", 9);
-        }
+        writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << "text/plain", 9);
 
         // An app (like emacs) listing explicitly the derived mimetype (c-src); not in mimeapps.list
         // This interacted badly with mimeapps.list listing another app for text/plain, but the
@@ -149,39 +139,22 @@ private Q_SLOTS:
         //
         // Also include aliases (msword), to check they don't cancel each other out.
         fakeCSrcApplication = m_localApps + "fakecsrcmswordapplication.desktop";
-        if (!QFile::exists(fakeCSrcApplication)) {
-            mustUpdateKSycoca = true;
-            writeAppDesktopFile(fakeCSrcApplication, QStringList() << "text/plain" << "text/c-src" << "application/vnd.ms-word" << "application/msword", 8);
-        }
+        writeAppDesktopFile(fakeCSrcApplication, QStringList() << "text/plain" << "text/c-src" << "application/vnd.ms-word" << "application/msword", 8);
 
         fakeJpegApplication = m_localApps + "fakejpegapplication.desktop";
-        if (!QFile::exists(fakeJpegApplication)) {
-            mustUpdateKSycoca = true;
-            writeAppDesktopFile(fakeJpegApplication, QStringList() << "image/jpeg");
-        }
+        writeAppDesktopFile(fakeJpegApplication, QStringList() << "image/jpeg");
 
         fakeArkApplication = m_localApps + "fakearkapplication.desktop";
-        if (!QFile::exists(fakeArkApplication)) {
-            mustUpdateKSycoca = true;
-            writeAppDesktopFile(fakeArkApplication, QStringList() << "application/zip");
-        }
+        writeAppDesktopFile(fakeArkApplication, QStringList() << "application/zip");
 
         fakeHtmlApplication = m_localApps + "fakehtmlapplication.desktop";
-        if (!QFile::exists(fakeHtmlApplication)) {
-            mustUpdateKSycoca = true;
-            writeAppDesktopFile(fakeHtmlApplication, QStringList() << "text/html");
-        }
+        writeAppDesktopFile(fakeHtmlApplication, QStringList() << "text/html");
 
         fakeHtmlApplicationPrefixed = m_localApps + "fakepfx/fakehtmlapplicationpfx.desktop";
-        if (!QFile::exists(fakeHtmlApplicationPrefixed)) {
-            mustUpdateKSycoca = true;
-            writeAppDesktopFile(fakeHtmlApplicationPrefixed, QStringList() << "text/html");
-        }
+        writeAppDesktopFile(fakeHtmlApplicationPrefixed, QStringList() << "text/html");
 
-        if (mustUpdateKSycoca || !KSycoca::isAvailable()) {
-            // Update ksycoca in ~/.kde-unit-test after creating the above
-            runKBuildSycoca();
-        }
+        // Update ksycoca in ~/.kde-unit-test after creating the above
+        runKBuildSycoca();
 
         // Create factory on the heap and don't delete it. This must happen after
         // Sycoca is built, in case it did not exist before.
