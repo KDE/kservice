@@ -1,0 +1,190 @@
+# translation of kdelibs4.po to Italian
+# Andrea Rizzi <rizzi@kde.org>, 2003, 2004, 2005.
+# Federico Cozzi <federicocozzi@federicocozzi.it>, 2004.
+# Federico Zenith <federico.zenith@member.fsf.org>, 2004, 2008, 2009, 2010, 2011.
+# Andrea Rizzi <Andrea.Rizzi@sns.it>, 2004.
+# Nicola Ruggero <nixprog.adsl@tiscali.it>, 2005, 2006.
+# Nicola Ruggero <nicola@nxnt.org>, 2006, 2007, 2010.
+# Luciano Montanaro <mikelima@cirulla.net>, 2007.
+# Dario Panico <Dareus_Persarumrex@fastwebnet.it>, 2008.
+# Pino Toscano <toscano.pino@tiscali.it>, 2008.
+# Federico Zenith <federico.zenith@member.fsf.org>, 2008, 2012, 2013, 2014, 2015.
+# Innocenzo Ventre <innocenzo.ventre@gmail.com>, 2012.
+# Vincenzo Reale <smart2128@baslug.org>, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2015-04-11 08:52+0000\n"
+"PO-Revision-Date: 2015-01-11 20:36+0100\n"
+"Last-Translator: Federico Zenith <zenith.federico@gmail.com>\n"
+"Language-Team: Italian <kde-i18n-it@kde.org>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.5\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+"Federico Zenith,Vincenzo Reale,Dario Panico,Nicola Ruggero,Federico Cozzi"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "federico.zenith@member.fsf.org,,,,"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Ricostruisce la cache della configurazione di sistema."
+
+#: kbuildsycoca/kbuildsycoca.cpp:623
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "Copyright 1999-2014 Gli sviluppatori di KDE"
+
+#: kbuildsycoca/kbuildsycoca.cpp:624
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625 kbuildsycoca/kbuildsycoca.cpp:628
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Autore"
+
+#: kbuildsycoca/kbuildsycoca.cpp:627
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:638
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Non segnalare alle applicazioni di aggiornarsi"
+
+#: kbuildsycoca/kbuildsycoca.cpp:641
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Disabilita l'aggiornamento incrementale, rileggi tutto"
+
+#: kbuildsycoca/kbuildsycoca.cpp:644
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Controlla data e ora dei file"
+
+#: kbuildsycoca/kbuildsycoca.cpp:647
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Disabilita il controllo dei file (pericoloso)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:650
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Crea la banca dati globale"
+
+#: kbuildsycoca/kbuildsycoca.cpp:653
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Effettua soltanto la prova di generazione del menu"
+
+#: kbuildsycoca/kbuildsycoca.cpp:656
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Traccia l'id del menu a scopo di debug"
+
+#: kbuildsycoca/kbuildsycoca.cpp:660
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr "Commuta QStandardPaths in modalità test, solo per i test di unità"
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "Questa funzione deve essere chiamata dal thread principale."
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Errore nell'avvio di %1. O KLauncher non è più in esecuzione, o non è "
+"riuscito ad avviare l'applicazione."
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher non può essere raggiunto tramite D-Bus. Errore nella chiamata a "
+"%1:\n"
+"%2.\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Impossibile avviare il programma di posta:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+msgid "Could not launch Mail Client"
+msgstr "Impossibile avviare il programma di posta"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Impossibile avviare il browser:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+msgid "Could not launch Browser"
+msgstr "Impossibile avviare il browser"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Impossibile avviare il programma di terminale:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+msgid "Could not launch Terminal Client"
+msgstr "Impossibile avviare il programma di terminale"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr "Nessun servizio che implementa %1"
+
+#: services/kservice.cpp:1022
+msgid "The provided service is not valid"
+msgstr "Il servizio fornito non è valido"
+
+#: services/kservice.cpp:1026
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "Il servizio «%1» non fornisce librerie o manca la chiave Library"

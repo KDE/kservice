@@ -1,0 +1,221 @@
+# translation of kdelibs4.po to Upper Sorbian
+# translation of kdelibs4.po to
+# Copyright (C) 2003,2004, 2005, 2007 Free Software Foundation, Inc.
+# Eduard Werner <e.werner@rz.uni-leipzig.de>, 2003.
+# Prof. Dr. Eduard Werner <e.werner@rz.uni-leipzig.de>, 2003,2004.
+# Eduard Werner <edi.werner@gmx.de>, 2005.
+# Eduard Werner/Edward Wornar <edi.werner@gmx.de>, 2007, 2008.
+# Bianka Šwejdźic <hertn@gmx.de>, 2007, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2015-04-11 08:52+0000\n"
+"PO-Revision-Date: 2008-12-19 22:49+0100\n"
+"Last-Translator: Eduard Werner <edi.werner@gmx.de>\n"
+"Language-Team: en_US <kde-i18n-doc@lists.kde.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3;\n"
+"X-Generator: KAider 0.1\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Edward Wornar"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "edi.werner@gmx.de"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+#, fuzzy
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+#, fuzzy
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Reinitializuje cache za konfiguraciju systema."
+
+#: kbuildsycoca/kbuildsycoca.cpp:623
+#, fuzzy
+#| msgid "(c) 1999-2002 KDE Developers"
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "(c) 1999-2002 KDE Wuwiwarjo"
+
+#: kbuildsycoca/kbuildsycoca.cpp:624
+#, fuzzy
+#| msgid "David Faure"
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625 kbuildsycoca/kbuildsycoca.cpp:628
+#, fuzzy
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Awtor"
+
+#: kbuildsycoca/kbuildsycoca.cpp:627
+#, fuzzy
+#| msgid "Waldo Bastian"
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:638
+#, fuzzy
+#| msgid "Do not signal applications to update"
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Njepraj programam, zo maja so aktualizować"
+
+#: kbuildsycoca/kbuildsycoca.cpp:641
+#, fuzzy
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Inkrementalny update znjemóžnić, wšitko znowa začitać."
+
+#: kbuildsycoca/kbuildsycoca.cpp:644
+#, fuzzy
+#| msgid "Check file timestamps"
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Přepruwuj podaća časa na datajach."
+
+#: kbuildsycoca/kbuildsycoca.cpp:647
+#, fuzzy
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Přepruwowanje datajow znjemóžnić (strašne)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:650
+#, fuzzy
+#| msgid "Create global database"
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Globalnu datowu bazu stworić."
+
+#: kbuildsycoca/kbuildsycoca.cpp:653
+#, fuzzy
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Test za stworjenje menija jenož jónu přewjesć."
+
+#: kbuildsycoca/kbuildsycoca.cpp:656
+#, fuzzy
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Menijowy id sćěhować za debugowanje"
+
+#: kbuildsycoca/kbuildsycoca.cpp:660
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "Funkcija dyrbi so z hłowneho threada zwołać."
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Zmylk při startowanju %1. Pak KLauncher hižo njeběži, abo so njeje poradźilo "
+"aplikaciju startować."
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher njehodźi so přez dbus dosćahnyć. Zmylk při startowanju: %1\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Njemóžach emailowy program startować:\n"
+" \n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+#, fuzzy
+#| msgid "Could not Launch Mail Client"
+msgid "Could not launch Mail Client"
+msgstr "Njemóžach emailowy program startować."
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Njemóžach přehladowar startować:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, fuzzy
+#| msgid "Could not Launch Browser"
+msgid "Could not launch Browser"
+msgstr "Njemóžach přehladowar startować"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Njemóžach terminalowy program startować:\n"
+" \n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+#, fuzzy
+#| msgid "Could not Launch Terminal Client"
+msgid "Could not launch Terminal Client"
+msgstr "Njemóžach terminalowy program startować."
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1022
+msgid "The provided service is not valid"
+msgstr ""
+
+#: services/kservice.cpp:1026
+#, fuzzy, kde-format
+#| msgid ""
+#| "The service '%1' provides no library or the Library key is missing in "
+#| "the .desktop file."
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"Serwis '%1' njestaji biblioteku k dispoziciji abo kluč 'Biblioteka' w ."
+"desktop-dataji pobrachuje."

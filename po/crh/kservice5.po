@@ -1,0 +1,215 @@
+# translation of kdelibs4.po to Qırımtatarca (Qırım Türkçesi)
+# Copyright (C) 2008 This_file_is_part_of_KDE
+# This file is distributed under the same license as the kdelibs package.
+#
+# Reşat SABIQ <tilde.birlik@gmail.com>, 2008, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2015-04-11 08:52+0000\n"
+"PO-Revision-Date: 2009-02-12 23:29-0600\n"
+"Last-Translator: Reşat SABIQ <tilde.birlik@gmail.com>\n"
+"Language-Team: Qırımtatarca (Qırım Türkçesi)\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: KBabel 1.11.4\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Reşat SABIQ"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "tilde.birlik@gmail.com"
+
+#: kbuildsycoca/kbuildsycoca.cpp:619
+#, fuzzy
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:621
+#, fuzzy
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Sistem ayarlama ög-hafizasını kene inşa eter."
+
+#: kbuildsycoca/kbuildsycoca.cpp:623
+#, fuzzy
+#| msgid "(c) 1999-2002 KDE Developers"
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "(c) 1999-2002 KDE İnkişafçıları"
+
+#: kbuildsycoca/kbuildsycoca.cpp:624
+#, fuzzy
+#| msgid "David Faure"
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:625 kbuildsycoca/kbuildsycoca.cpp:628
+#, fuzzy
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Müellif"
+
+#: kbuildsycoca/kbuildsycoca.cpp:627
+#, fuzzy
+#| msgid "Waldo Bastian"
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:638
+#, fuzzy
+#| msgid "Do not signal applications to update"
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Uyğulamalarnı yañartmağa signallama"
+
+#: kbuildsycoca/kbuildsycoca.cpp:641
+#, fuzzy
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Artımsal yañartmanı ğayrı qabilleştir, er şeyni kene oqu"
+
+#: kbuildsycoca/kbuildsycoca.cpp:644
+#, fuzzy
+#| msgid "Check file timestamps"
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Dosye vaqıt-müürlerini teşker"
+
+#: kbuildsycoca/kbuildsycoca.cpp:647
+#, fuzzy
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Dosye teşkerüvini ğayrı qabilleştir (telükeli)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:650
+#, fuzzy
+#| msgid "Create global database"
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Umumiy berüv-tabanını icat et"
+
+#: kbuildsycoca/kbuildsycoca.cpp:653
+#, fuzzy
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Tek menü doğurma sınama çaptırmasını icra et"
+
+#: kbuildsycoca/kbuildsycoca.cpp:656
+#, fuzzy
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Menü kimligini arızasızlandırma maqsatlarında izle"
+
+#: kbuildsycoca/kbuildsycoca.cpp:660
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "Funktsiya ana yipten çağırılmalı"
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher D-Bus vastasınen irişilamadı. %1 çağırılğanda hata:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Poçta müşterisini fırlatamadım:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+#, fuzzy
+#| msgid "Could not Launch Mail Client"
+msgid "Could not launch Mail Client"
+msgstr "Poçta Müşterisini fırlatamadım"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Kezicini fırlatamadım:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, fuzzy
+#| msgid "Could not Launch Browser"
+msgid "Could not launch Browser"
+msgstr "Kezicini Fırlatamadım"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Terminal müşterisini fırlatamadım:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+#, fuzzy
+#| msgid "Could not Launch Terminal Client"
+msgid "Could not launch Terminal Client"
+msgstr "Terminal Müşterisini Fırlatamadım"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1022
+msgid "The provided service is not valid"
+msgstr ""
+
+#: services/kservice.cpp:1026
+#, fuzzy, kde-format
+#| msgid ""
+#| "The service '%1' provides no library or the Library key is missing in "
+#| "the .desktop file."
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"'%1' hızmeti iç bir kitaphane teminlemey yaki .desktop dosyesinde Library "
+"anahtarı eksiktir."
