@@ -66,7 +66,7 @@ public:
     explicit KMimeAssociations(KOfferHash &offerHash, KServiceFactory *serviceFactory);
 
     // Read mimeapps.list files
-    bool parseAllMimeAppsList();
+    void parseAllMimeAppsList();
 
     void parseMimeAppsList(const QString &file, int basePreference);
 

@@ -24,6 +24,7 @@
 #include <kconfiggroup.h>
 #include <kconfig.h>
 #include <QDebug>
+#include <QFile>
 #include <qstandardpaths.h>
 #include <qmimedatabase.h>
 
@@ -47,15 +48,29 @@ text/plain=gnome-gedit.desktop;gnu-emacs.desktop;
 
 */
 
-bool KMimeAssociations::parseAllMimeAppsList()
+void KMimeAssociations::parseAllMimeAppsList()
 {
-    const QString MIMEAPPS_LIST=QStringLiteral("mimeapps.list");
-    // Using the "merged view" from KConfig is not enough since we -add- at every level, we don't replace.
-    const QStringList mimeappsFiles = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, MIMEAPPS_LIST)
-                                    + QStandardPaths::locateAll(QStandardPaths::ApplicationsLocation, MIMEAPPS_LIST);
-    if (mimeappsFiles.isEmpty()) {
-        return false;
+    QStringList mimeappsFileNames;
+    // make the list of possible filenames from the spec ($desktop-mimeapps.list, then mimeapps.list)
+    const QString desktops = QString::fromLocal8Bit(qgetenv("XDG_CURRENT_DESKTOP"));
+    foreach (const QString &desktop, desktops.split(":", QString::SkipEmptyParts)) {
+        mimeappsFileNames.append(desktop.toLower() + QLatin1String("-mimeapps.list"));
     }
+    mimeappsFileNames.append(QStringLiteral("mimeapps.list"));
+    // list the dirs in the order of the spec (XDG_CONFIG_HOME, XDG_CONFIG_DIRS, XDG_DATA_HOME, XDG_DATA_DIRS)
+    const QStringList mimeappsDirs = QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation)
+                                    + QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+    QStringList mimeappsFiles;
+    // collect existing files
+    foreach (const QString &dir, mimeappsDirs) {
+        foreach (const QString &file, mimeappsFileNames) {
+            const QString filePath = dir + '/' + file;
+            if (QFile::exists(filePath)) {
+                mimeappsFiles.append(filePath);
+            }
+        }
+    }
+    //qDebug() << "FILE LIST:" << mimeappsFiles;
 
     int basePreference = 1000; // start high :)
     QListIterator<QString> mimeappsIter(mimeappsFiles);
@@ -66,18 +81,23 @@ bool KMimeAssociations::parseAllMimeAppsList()
         parseMimeAppsList(mimeappsFile, basePreference);
         basePreference += 50;
     }
-    return true;
 }
 
 void KMimeAssociations::parseMimeAppsList(const QString &file, int basePreference)
 {
     KConfig profile(file, KConfig::SimpleConfig);
-    parseAddedAssociations(KConfigGroup(&profile, "Added Associations"), file, basePreference);
-    parseRemovedAssociations(KConfigGroup(&profile, "Removed Associations"), file);
+    if (file.endsWith("/mimeapps.list")) { // not for $desktop-mimeapps.list
+        parseAddedAssociations(KConfigGroup(&profile, "Added Associations"), file, basePreference);
+        parseRemovedAssociations(KConfigGroup(&profile, "Removed Associations"), file);
 
-    // KDE extension for parts and plugins, see settings/filetypes/mimetypedata.cpp
-    parseAddedAssociations(KConfigGroup(&profile, "Added KDE Service Associations"), file, basePreference);
-    parseRemovedAssociations(KConfigGroup(&profile, "Removed KDE Service Associations"), file);
+        // KDE extension for parts and plugins, see settings/filetypes/mimetypedata.cpp
+        parseAddedAssociations(KConfigGroup(&profile, "Added KDE Service Associations"), file, basePreference);
+        parseRemovedAssociations(KConfigGroup(&profile, "Removed KDE Service Associations"), file);
+    }
+
+    // TODO "Default Applications" is a separate query and a separate algorithm, says the spec.
+    // For now this is better than nothing though.
+    parseAddedAssociations(KConfigGroup(&profile, "Default Applications"), file, basePreference);
 }
 
 void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const QString &file, int basePreference)
