@@ -89,10 +89,13 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
 {
     KService::List lst;
     QMimeDatabase db;
-    const QString mime = db.mimeTypeForName(mimeType).name();
+    QString mime = db.mimeTypeForName(mimeType).name();
     if (mime.isEmpty()) {
-        qWarning() << "KMimeTypeTrader: mimeType" << mimeType << "not found";
-        return lst; // empty
+        if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler mimetypes
+            qWarning() << "KMimeTypeTrader: mimeType" << mimeType << "not found";
+            return lst; // empty
+        }
+        mime = mimeType;
     }
     KMimeTypeFactory *factory = KMimeTypeFactory::self();
     const int offset = factory->entryOffset(mime);
