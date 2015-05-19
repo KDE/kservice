@@ -423,6 +423,19 @@ bool KBuildSycoca::recreate()
         }
         delete str;
         str = 0;
+
+        //if we are currently via sudo, preserve the original owner
+        //as $HOME may also be that of another user rather than /root
+#ifdef Q_OS_UNIX
+        if (qEnvironmentVariableIsSet("SUDO_UID")) {
+            const int uid = QString(qgetenv("SUDO_UID")).toInt();
+            const int gid = QString(qgetenv("SUDO_GID")).toInt();
+            if (uid && gid) {
+                fchown(database.handle(), uid, gid);
+            }
+        }
+#endif
+
         if (!database.commit()) {
             fprintf(stderr, KBUILDSYCOCA_EXENAME ": ERROR writing database '%s'!\n", database.fileName().toLocal8Bit().data());
             fprintf(stderr, KBUILDSYCOCA_EXENAME ": Disk full?\n");
