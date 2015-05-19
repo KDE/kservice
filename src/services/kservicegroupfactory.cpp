@@ -34,6 +34,9 @@ KServiceGroupFactory::KServiceGroupFactory()
     kServiceGroupFactoryInstance()->instanceCreated(this);
     if (!KSycoca::self()->isBuilding()) {
         QDataStream *str = stream();
+        if (!str) {
+            return;
+        }
         // Read Header
         qint32 i;
         (*str) >> i;
