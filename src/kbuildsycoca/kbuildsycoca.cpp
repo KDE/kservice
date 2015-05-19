@@ -393,7 +393,8 @@ bool KBuildSycoca::recreate()
 
     QSaveFile database(path);
     bool openedOK = database.open(QIODevice::WriteOnly);
-    if (!openedOK && database.error() == QFile::PermissionsError && QFile::exists(path)) {
+
+    if (!openedOK && database.error() == QFile::WriteError && QFile::exists(path)) {
         QFile::remove(path);
         openedOK = database.open(QIODevice::WriteOnly);
     }
