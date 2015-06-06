@@ -1,0 +1,194 @@
+# translation of kdelibs4.po to Uzbek
+# translation of kdelibs4.po to
+# Copyright (C) 2003, 2004, 2005, 2006, 2008 Free Software Foundation, Inc.
+# Mashrab Kuvatov <kmashrab@uni-bremen.de>, 2003, 2004, 2005, 2006, 2008, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2015-05-29 08:32+0000\n"
+"PO-Revision-Date: 2009-10-17 00:34+0200\n"
+"Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
+"Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
+"Language: uz\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Машраб Қуватов"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "kmashrab@uni-bremen.de"
+
+#: kbuildsycoca/kbuildsycoca.cpp:633
+#, fuzzy
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:635
+#, fuzzy
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Тизимнинг мослаш кэшини қайтадан яратади."
+
+#: kbuildsycoca/kbuildsycoca.cpp:637
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca.cpp:638
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca.cpp:639 kbuildsycoca/kbuildsycoca.cpp:642
+#, fuzzy
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Муаллиф"
+
+#: kbuildsycoca/kbuildsycoca.cpp:641
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca.cpp:652
+#, fuzzy
+#| msgid "Do not signal applications to update"
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "Дастурларга янгилаш учун хабар юборилмасин"
+
+#: kbuildsycoca/kbuildsycoca.cpp:655
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca.cpp:658
+#, fuzzy
+#| msgid "Check file timestamps"
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "Файлнинг вақтини текшириш"
+
+#: kbuildsycoca/kbuildsycoca.cpp:661
+#, fuzzy
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "Файллар текширилмасин (хавфли)"
+
+#: kbuildsycoca/kbuildsycoca.cpp:664
+#, fuzzy
+#| msgid "Create global database"
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Глобал маълумот базасини яратиш"
+
+#: kbuildsycoca/kbuildsycoca.cpp:667
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca.cpp:670
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca.cpp:674
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, fuzzy, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr "DCOP орқали KLauncher'ни ишлатиб бўлмади.\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:259
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Хат-хабар клиентини ишга тушириб бўлмади:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:260
+#, fuzzy
+#| msgid "Could not Launch Mail Client"
+msgid "Could not launch Mail Client"
+msgstr "Хат-хабар клиентини ишга тушириб бўлмади"
+
+#: kdeinit/ktoolinvocation_x11.cpp:309 kdeinit/ktoolinvocation_x11.cpp:334
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Браузерни ишга тушириб бўлмади:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:310 kdeinit/ktoolinvocation_x11.cpp:335
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, fuzzy
+#| msgid "Could not Launch Browser"
+msgid "Could not launch Browser"
+msgstr "Браузерни ишга тушириб бўлмади"
+
+#: kdeinit/ktoolinvocation_x11.cpp:393
+#, fuzzy, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Хат-хабар клиентини ишга тушириб бўлмади:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:394
+#, fuzzy
+msgid "Could not launch Terminal Client"
+msgstr "Хат-хабар клиентини ишга тушириб бўлмади"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1022
+msgid "The provided service is not valid"
+msgstr ""
+
+#: services/kservice.cpp:1026
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
