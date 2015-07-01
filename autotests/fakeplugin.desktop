@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=NSA Plugin
+Name[ast]=Complemetnu NSA
 Name[bs]=NSA priključak
 Name[ca]=Connector de la NSA
 Name[ca@valencia]=Connector de la NSA
@@ -43,6 +44,7 @@ Name[x-test]=xxNSA Pluginxx
 Name[zh_CN]=NSA 插件
 Name[zh_TW]=NSA 外掛程式
 Comment=Test Plugin Spy
+Comment[ast]=Complementu qu'escluca de prueba
 Comment[bs]=Špijun za test priključaka
 Comment[ca]=Connector de proves espia
 Comment[ca@valencia]=Connector de proves espia
@@ -102,6 +104,7 @@ X-KDE-PluginInfo-EnabledByDefault=true
 
 X-My-Custom-Property=foo
 Keywords=word1;word2
+Keywords[ast]=pallabra1;pallabra2
 Keywords[ca]=paraula1;paraula2
 Keywords[da]=ord1;ord2
 Keywords[de]=Welt1;Welt2
@@ -132,6 +135,7 @@ Keywords[zh_CN]=word1;word2
 Keywords[zh_TW]=單字1:單字2
 #this one is comma separated
 X-KDE-Keywords=word3,word4
+X-KDE-Keywords[ast]=pallabra1;pallabra2
 X-KDE-Keywords[ca]=paraula3,paraula4
 X-KDE-Keywords[da]=ord3,ord4
 X-KDE-Keywords[de]=Welt3,Welt4

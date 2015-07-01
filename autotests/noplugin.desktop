@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=No Plugin
+Name[ast]=Ensin complementos
 Name[ca]=Sense connector
 Name[ca@valencia]=Sense connector
 Name[cs]=Žádný modul
@@ -41,6 +42,7 @@ Name[x-test]=xxNo Pluginxx
 Name[zh_CN]=无插件
 Name[zh_TW]=沒有外掛程式
 Comment=This does not have a library
+Comment[ast]=Esto nun tien una llibrería
 Comment[ca]=Aquest no té cap biblioteca
 Comment[ca@valencia]=Això no té cap biblioteca
 Comment[cs]=Toto nemá knihovnu
