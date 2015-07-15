@@ -224,33 +224,25 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
     attachlist.prepend(QLatin1Char('\''));
     attachlist.append(QLatin1Char('\''));
     keyMap.insert(QLatin1Char('A'), attachlist);
-
-    for (QStringList::Iterator it = cmdTokens.begin(); it != cmdTokens.end();) {
-        if (*it == QLatin1String("%A")) {
-            if (it == cmdTokens.begin()) { // better safe than sorry ...
-                continue;
-            }
-            QStringList::ConstIterator urlit = attachURLs.begin();
-            QStringList::ConstIterator urlend = attachURLs.end();
-            if (urlit != urlend) {
-                QStringList::Iterator previt = it;
-                --previt;
-                *it = *urlit;
-                ++it;
-                while (++urlit != urlend) {
-                    cmdTokens.insert(it, *previt);
-                    cmdTokens.insert(it, *urlit);
-                }
+    for (int i = 0; i < cmdTokens.count(); ++i) {
+        if (cmdTokens.at(i) == QLatin1String("%A")) {
+            if (attachURLs.isEmpty()) {
+                cmdTokens.removeAt(i);
             } else {
-                --it;
-                it = cmdTokens.erase(cmdTokens.erase(it));
+                const QString previousStr = cmdTokens.at(i-1);
+                cmdTokens.removeAt(i);
+                const int currentPos = i;
+                Q_FOREACH(const QString &url, attachURLs) {
+                    cmdTokens.insert(currentPos, previousStr);
+                    cmdTokens.insert(currentPos, url);
+                    i += 2;
+                }
             }
         } else {
-            *it = KMacroExpander::expandMacros(*it, keyMap);
-            ++it;
+            const QString str = KMacroExpander::expandMacros(cmdTokens.at(i), keyMap);
+            cmdTokens[i] = str;
         }
     }
-
     QString error;
     // TODO this should check if cmd has a .desktop file, and use data from it, together
     // with sending more ASN data
