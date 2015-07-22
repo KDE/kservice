@@ -683,7 +683,11 @@ int main(int argc, char **argv)
     }
 
     if (bGlobalDatabase) {
-        qputenv("XDG_DATA_HOME", "-");
+        // Qt uses XDG_DATA_HOME as first choice for GenericDataLocation so we set it to 2nd entry
+        QStringList paths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+        if (paths.size() >= 2) {
+            qputenv("XDG_DATA_HOME", paths.at(1).toLocal8Bit());
+        }
     }
 
     KCrash::setEmergencySaveFunction(crashHandler);
