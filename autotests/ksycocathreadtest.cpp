@@ -45,7 +45,7 @@ static QString fakeTextPluginDesktopFile()
 
 static QString fakeServiceDesktopFile()
 {
-    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakeservice.desktop";
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "threadfakeservice.desktop";
 }
 
 // Helper method for all the trader tests
@@ -145,7 +145,7 @@ public:
         m_stop = true;
     }
 private:
-    bool m_stop;
+    QAtomicInt m_stop; // bool
 };
 
 /**
@@ -262,7 +262,7 @@ void KSycocaThreadTest::initTestCase()
     if (QFile::exists(servPath)) {
         QFile::remove(servPath);
     }
-    if (KService::serviceByDesktopPath("fakeservice.desktop")) {
+    if (KService::serviceByDesktopPath("threadfakeservice.desktop")) {
         deleteFakeService();
     }
     threads.resize(5);
@@ -284,13 +284,13 @@ void KSycocaThreadTest::testCreateService()
     qDebug() << "executing kbuildsycoca (1)";
     runKBuildSycoca();
 
-    QTRY_VERIFY(KService::serviceByDesktopPath("fakeservice.desktop"));
+    QTRY_VERIFY(KService::serviceByDesktopPath("threadfakeservice.desktop"));
 }
 
 void KSycocaThreadTest::deleteFakeService()
 {
     qDebug() << "now deleting the fake service";
-    KService::Ptr fakeService = KService::serviceByDesktopPath("fakeservice.desktop");
+    KService::Ptr fakeService = KService::serviceByDesktopPath("threadfakeservice.desktop");
     QVERIFY(fakeService);
     const QString servPath = fakeServiceDesktopFile();
     QFile::remove(servPath);
@@ -311,9 +311,9 @@ void KSycocaThreadTest::createFakeService()
 {
     KDesktopFile file(fakeServiceDesktopFile());
     KConfigGroup group = file.desktopGroup();
-    group.writeEntry("Name", "FakeService");
+    group.writeEntry("Name", "ThreadFakeService");
     group.writeEntry("Type", "Service");
-    group.writeEntry("X-KDE-Library", "fakeservice");
+    group.writeEntry("X-KDE-Library", "threadfakeservice");
     group.writeEntry("X-KDE-Protocols", "http,ftp");
     group.writeEntry("ServiceTypes", "KPluginInfo");
     group.writeEntry("MimeType", "text/plain;");
