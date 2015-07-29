@@ -34,6 +34,16 @@
 #include <qstandardpaths.h>
 #include <QDebug>
 
+static QString fakeTextPluginDesktopFile()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "faketextplugin.desktop";
+}
+
+static QString fakeServiceDesktopFile()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakeservice.desktop";
+}
+
 // Helper method for all the trader tests
 static bool offerListHasService(const KService::List &offers,
                                 const QString &entryPath)
@@ -221,7 +231,7 @@ static void runKBuildSycoca()
 void KSycocaThreadTest::launch()
 {
     // This service is always there. Used in the trader queries from the thread.
-    const QString fakeTextPlugin = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "faketextplugin.desktop";
+    const QString fakeTextPlugin = fakeTextPluginDesktopFile();
     if (!QFile::exists(fakeTextPlugin)) {
         KDesktopFile file(fakeTextPlugin);
         KConfigGroup group = file.desktopGroup();
@@ -245,7 +255,7 @@ void KSycocaThreadTest::launch()
     }
 
     // Start clean
-    const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakeservice.desktop";
+    const QString servPath = fakeServiceDesktopFile();
     if (QFile::exists(servPath)) {
         QFile::remove(servPath);
     }
@@ -262,16 +272,13 @@ void KSycocaThreadTest::launch()
 
 void KSycocaThreadTest::cleanupTestCase()
 {
-    const QString fakeTextPlugin = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "faketextplugin.desktop";
-    QFile::remove(fakeTextPlugin);
+    QFile::remove(fakeTextPluginDesktopFile());
 }
 
 void KSycocaThreadTest::testCreateService()
 {
     createFakeService();
-    const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakeservice.desktop";
-
-    Q_ASSERT(QFile::exists(servPath));
+    Q_ASSERT(QFile::exists(fakeServiceDesktopFile()));
     qDebug() << "executing kbuildsycoca (1)";
     runKBuildSycoca();
 
@@ -282,7 +289,7 @@ void KSycocaThreadTest::deleteFakeService()
 {
     KService::Ptr fakeService = KService::serviceByDesktopPath("fakeservice.desktop");
     Q_ASSERT(fakeService);
-    const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakeservice.desktop";
+    const QString servPath = fakeServiceDesktopFile();
     QFile::remove(servPath);
 
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
@@ -298,8 +305,7 @@ void KSycocaThreadTest::deleteFakeService()
 
 void KSycocaThreadTest::createFakeService()
 {
-    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakeservice.desktop";
-    KDesktopFile file(fakeService);
+    KDesktopFile file(fakeServiceDesktopFile());
     KConfigGroup group = file.desktopGroup();
     group.writeEntry("Name", "FakeService");
     group.writeEntry("Type", "Service");
