@@ -19,24 +19,28 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <kservicegroup.h>
-#include <qmimedatabase.h>
-#include <QtTest>
+#include <QtTest/QTest>
+#include <QtTest/QSignalSpy>
+
+#include <QMimeDatabase>
+#include <QTimer>
+#include <QStandardPaths>
+#include <QDebug>
+#include <QProcess>
+#include <QFile>
 
 #include <kconfig.h>
 #include <kconfiggroup.h>
 #include <kdesktopfile.h>
 #include <ksycoca.h>
-
+#include <kservicegroup.h>
 #include <kservicetype.h>
 #include <kservicetypeprofile.h>
 
-#include <qstandardpaths.h>
-#include <QDebug>
 
 static QString fakeTextPluginDesktopFile()
 {
-    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "faketextplugin.desktop";
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "threadtextplugin.desktop";
 }
 
 static QString fakeServiceDesktopFile()
@@ -110,11 +114,11 @@ public Q_SLOTS:
         }
 
         KService::List offers = KServiceTypeTrader::self()->query("KPluginInfo");
-        Q_ASSERT(offerListHasService(offers, "faketextplugin.desktop"));
+        Q_ASSERT(offerListHasService(offers, "threadtextplugin.desktop"));
 
-        offers = KServiceTypeTrader::self()->query("KPluginInfo", "Library == 'faketextplugin'");
+        offers = KServiceTypeTrader::self()->query("KPluginInfo", "Library == 'threadtextplugin'");
         Q_ASSERT(offers.count() == 1);
-        QVERIFY(offerListHasService(offers, "faketextplugin.desktop"));
+        QVERIFY(offerListHasService(offers, "threadtextplugin.desktop"));
 
         KServiceGroup::Ptr root = KServiceGroup::root();
         Q_ASSERT(root);
@@ -171,19 +175,15 @@ public:
 
 extern KSERVICE_EXPORT bool kservice_require_kded;
 
+// This code runs in the main thread
 class KSycocaThreadTest : public QObject
 {
     Q_OBJECT
-public:
-    KSycocaThreadTest()
-    {
-        kservice_require_kded = false;
-    }
-    void launch();
 
 private Q_SLOTS:
     // Note that this isn't a QTest based test.
     // All these methods are called manually.
+    void initTestCase();
     void cleanupTestCase();
     void testCreateService();
     void testDeleteService()
@@ -224,20 +224,23 @@ static void runKBuildSycoca()
     QVERIFY(spy.wait(10000));
 
     qDebug() << "got signal";
-    proc.waitForFinished();
+    QVERIFY(proc.waitForFinished());
     QCOMPARE(proc.exitStatus(), QProcess::NormalExit);
 }
 
-void KSycocaThreadTest::launch()
+void KSycocaThreadTest::initTestCase()
 {
+    QStandardPaths::enableTestMode(true);
+    kservice_require_kded = false;
+
     // This service is always there. Used in the trader queries from the thread.
     const QString fakeTextPlugin = fakeTextPluginDesktopFile();
     if (!QFile::exists(fakeTextPlugin)) {
         KDesktopFile file(fakeTextPlugin);
         KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Name", "FakeTextPlugin");
+        group.writeEntry("Name", "ThreadTextPlugin");
         group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-Library", "faketextplugin");
+        group.writeEntry("X-KDE-Library", "threadtextplugin");
         group.writeEntry("X-KDE-Protocols", "http,ftp");
         group.writeEntry("ServiceTypes", "KPluginInfo");
         group.writeEntry("MimeType", "text/plain;");
@@ -246,10 +249,10 @@ void KSycocaThreadTest::launch()
         runKBuildSycoca();
         // Process the event
         int count = 0;
-        while (!KService::serviceByDesktopPath("faketextplugin.desktop")) {
+        while (!KService::serviceByDesktopPath("threadtextplugin.desktop")) {
             qApp->processEvents();
             if (++count == 20) {
-                qFatal("sycoca doesn't have faketextplugin.desktop");
+                qFatal("sycoca doesn't have threadtextplugin.desktop");
             }
         }
     }
@@ -267,7 +270,6 @@ void KSycocaThreadTest::launch()
         threads[i] = i < 3 ? new WorkerThread : new EventLoopThread;
         threads[i]->start();
     }
-    testCreateService();
 }
 
 void KSycocaThreadTest::cleanupTestCase()
@@ -278,29 +280,31 @@ void KSycocaThreadTest::cleanupTestCase()
 void KSycocaThreadTest::testCreateService()
 {
     createFakeService();
-    Q_ASSERT(QFile::exists(fakeServiceDesktopFile()));
+    QVERIFY(QFile::exists(fakeServiceDesktopFile()));
     qDebug() << "executing kbuildsycoca (1)";
     runKBuildSycoca();
 
-    QTimer::singleShot(1000, this, SLOT(testDeleteService()));
+    QTRY_VERIFY(KService::serviceByDesktopPath("fakeservice.desktop"));
 }
 
 void KSycocaThreadTest::deleteFakeService()
 {
+    qDebug() << "now deleting the fake service";
     KService::Ptr fakeService = KService::serviceByDesktopPath("fakeservice.desktop");
-    Q_ASSERT(fakeService);
+    QVERIFY(fakeService);
     const QString servPath = fakeServiceDesktopFile();
     QFile::remove(servPath);
 
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
-    Q_ASSERT(spy.isValid());
+    QVERIFY(spy.isValid());
 
     qDebug() << "executing kbuildsycoca (2)";
     runKBuildSycoca();
-    Q_ASSERT(spy[0][0].toStringList().contains("services"));
+    QVERIFY(!spy.isEmpty());
+    QVERIFY(spy[0][0].toStringList().contains("services"));
 
-    Q_ASSERT(fakeService); // the whole point of refcounting is that this KService instance is still valid.
-    Q_ASSERT(!QFile::exists(servPath));
+    QVERIFY(fakeService); // the whole point of refcounting is that this KService instance is still valid.
+    QVERIFY(!QFile::exists(servPath));
 }
 
 void KSycocaThreadTest::createFakeService()
@@ -315,13 +319,6 @@ void KSycocaThreadTest::createFakeService()
     group.writeEntry("MimeType", "text/plain;");
 }
 
-int main(int argc, char **argv)
-{
-    QStandardPaths::enableTestMode(true);
-    QCoreApplication app(argc, argv);
-    KSycocaThreadTest mainObj;
-    mainObj.launch();
-    return app.exec();
-}
 
+QTEST_MAIN(KSycocaThreadTest)
 #include "ksycocathreadtest.moc"
