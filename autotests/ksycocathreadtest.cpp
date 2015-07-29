@@ -75,7 +75,7 @@ public:
 public Q_SLOTS:
     void work()
     {
-        qDebug() << QThread::currentThread() << "working...";
+        //qDebug() << QThread::currentThread() << "working...";
 
         const KServiceType::List allServiceTypes = KServiceType::allServiceTypes();
         Q_ASSERT(!allServiceTypes.isEmpty());
