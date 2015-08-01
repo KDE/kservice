@@ -23,6 +23,7 @@
 #include <QtTest/QSignalSpy>
 
 #include <QMimeDatabase>
+#include <QThread>
 #include <QTimer>
 #include <QStandardPaths>
 #include <QDebug>
