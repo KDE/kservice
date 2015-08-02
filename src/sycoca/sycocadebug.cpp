@@ -15,4 +15,9 @@
 
 #include "sycocadebug.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 4, 0)
+// logging category for this framework, default: log stuff >= warning
+Q_LOGGING_CATEGORY(SYCOCA, "kf5.kservice.sycoca", QtWarningMsg)
+#else
 Q_LOGGING_CATEGORY(SYCOCA, "kf5.kservice.sycoca")
+#endif
