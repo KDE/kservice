@@ -3,7 +3,7 @@
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
 
-<refentry>
+<refentry lang="&language;">
 
 <refentryinfo>
 <title>&kde; Frameworks: KService</title>
@@ -24,8 +24,9 @@
 </affiliation>
 </author>
 
-<date>2014-04-01</date>
-<releaseinfo>5.0</releaseinfo>
+<date>2014-04-02</date>
+<releaseinfo>Frameworks 5.0</releaseinfo>
+<productname>KDE Frameworks</productname>
 
 </refentryinfo>
 
@@ -130,7 +131,7 @@ referenced from the <function>K_PLUGIN_FACTORY_WITH_JSON</function> or
 
 <refsect1>
 <title>Bugs</title>
-<para>There are probably tons of bugs. Use <ulink url="http://bugs.kde.org">KDE's bugtracker</ulink> to report them.</para>
+<para>Please use <ulink url="http://bugs.kde.org">KDE's bugtracker</ulink> to report bugs.</para>
 </refsect1>
 
 </refentry>
