@@ -169,6 +169,9 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         entryMap.insert(QStringLiteral("UntranslatedGenericName"), _untranslatedGenericName);
     }
 
+    m_lstFormFactors = desktopGroup.readEntry("X-KDE-FormFactors", QStringList());
+    entryMap.remove(QStringLiteral("X-KDE-FormFactors"));
+
     m_lstKeywords = desktopGroup.readXdgListEntry("Keywords", QStringList());
     entryMap.remove(QStringLiteral("Keywords"));
     m_lstKeywords += desktopGroup.readEntry("X-KDE-Keywords", QStringList());
@@ -319,7 +322,8 @@ void KServicePrivate::load(QDataStream &s)
       >> m_strDesktopEntryName
       >> initpref
       >> m_lstKeywords >> m_strGenName
-      >> categories >> menuId >> m_actions >> m_serviceTypes;
+      >> categories >> menuId >> m_actions >> m_serviceTypes
+      >> m_lstFormFactors;
 
     m_bAllowAsDefault = (bool)def;
     m_bTerminal = (bool)term;
@@ -348,7 +352,8 @@ void KServicePrivate::save(QDataStream &s)
       << m_strDesktopEntryName
       << initpref
       << m_lstKeywords << m_strGenName
-      << categories << menuId << m_actions << m_serviceTypes;
+      << categories << menuId << m_actions << m_serviceTypes
+      << m_lstFormFactors;
 }
 
 ////
@@ -524,6 +529,8 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
         return QVariant(categories);
     } else if (_name == QLatin1String("Keywords")) {
         return QVariant(m_lstKeywords);
+    } else if (_name == QLatin1String("FormFactors")) {
+        return QVariant(m_lstFormFactors);
     }
 
     // Ok we need to convert the property from a QString to its real type.
@@ -582,6 +589,7 @@ QStringList KServicePrivate::propertyNames() const
     res.append(QString::fromLatin1("DesktopEntryPath"));
     res.append(QString::fromLatin1("DesktopEntryName"));
     res.append(QString::fromLatin1("Keywords"));
+    res.append(QString::fromLatin1("FormFactors"));
     res.append(QString::fromLatin1("Categories"));
 
     return res;

@@ -146,6 +146,10 @@ public:
             "X-KDE-PluginInfo-Website": "http://plasma.kde.org/",
             "X-KDE-ServiceTypes": [
                 "Plasma/DataEngine"
+            ],
+            "X-KDE-FormFactors": [
+                "tablet",
+                "handset"
             ]
         }
        \endverbatim
@@ -338,6 +342,16 @@ public:
      * @since 5.0
      */
     QStringList serviceTypes() const;
+
+    /**
+     * @return A list of FormFactors this plugin offers, corresponds to the
+     * "X-KDE-FormFactors" value in a .desktop service file, or to the "FormFactors"
+     * value in the "KPlugin" block of the json metadata. Formfactor values are
+     * freestyle, common values are "desktop", "handset", "tablet", "mediacenter".
+     * Values are comma-separated.
+     * @since 5.14
+     */
+    QStringList formFactors() const;
 
     /**
      * @return The absolute path of the plugin on disk. This can be used to load the plugin from, using

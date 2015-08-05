@@ -164,5 +164,6 @@ X-KDE-Keywords[uk]=слово3,слово4,word3,word4
 X-KDE-Keywords[x-test]=xxword3xx,xxword4xx
 X-KDE-Keywords[zh_CN]=word3,word4
 X-KDE-Keywords[zh_TW]=單字3:單字4
+X-KDE-FormFactors=tablet,handset
 
 MimeType=text/plain;image/png

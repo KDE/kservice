@@ -3,6 +3,10 @@
     "Icon": "preferences-system-time",
     "Name": "NSA Plugin",
     "Type": "Service",
+    "FormFactors" : [
+        "tablet",
+        "handset"
+    ],
     "X-KDE-Library": "fakeplugin",
     "X-KDE-PluginInfo-Author": "Sebastian Kügler",
     "X-KDE-PluginInfo-Category": "Examples",

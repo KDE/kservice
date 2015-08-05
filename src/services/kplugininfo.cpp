@@ -65,6 +65,7 @@ GlobalQStringLiteral(s_licenseKey, "X-KDE-PluginInfo-License")
 GlobalQStringLiteral(s_dependenciesKey, "X-KDE-PluginInfo-Depends")
 GlobalQStringLiteral(s_serviceTypesKey, "ServiceTypes")
 GlobalQStringLiteral(s_xKDEServiceTypes, "X-KDE-ServiceTypes")
+GlobalQStringLiteral(s_formFactorsKey, "X-KDE-FormFactors")
 GlobalQStringLiteral(s_enabledbyDefaultKey, "X-KDE-PluginInfo-EnabledByDefault")
 GlobalQStringLiteral(s_enabledKey, "Enabled")
 
@@ -75,6 +76,7 @@ GlobalQStringLiteral(s_jsonEmailKey, "Email")
 GlobalQStringLiteral(s_jsonCategoryKey, "Category")
 GlobalQStringLiteral(s_jsonDependenciesKey, "Dependencies")
 GlobalQStringLiteral(s_jsonEnabledByDefaultKey, "EnabledByDefault")
+GlobalQStringLiteral(s_jsonFormFactorsKey, "FormFactors")
 GlobalQStringLiteral(s_jsonLicenseKey, "License")
 GlobalQStringLiteral(s_jsonIdKey, "Id")
 GlobalQStringLiteral(s_jsonVersionKey, "Version")
@@ -143,7 +145,8 @@ QStringList KPluginInfoPrivate::deserializeList(const QString &data)
 // maps the KService, QVariant and KDesktopFile keys to the new KPluginMetaData keys
 template<typename T, typename Func>
 static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &description,
-        const QStringList &dependencies, const QStringList &serviceTypes, const T &data, Func accessor)
+                                       const QStringList &dependencies, const QStringList &serviceTypes,
+                                       const QStringList &formFactors, const T &data, Func accessor)
 {
     /* Metadata structure is as follows:
      "KPlugin": {
@@ -159,7 +162,8 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
         "Version": "1.0",
         "Website": "http://plasma.kde.org/",
         "ServiceTypes": ["Plasma/DataEngine"]
-     }
+        "FormFactors": ["tablet", "handset"]
+    }
      */
     QJsonObject kplugin;
     kplugin[s_nameKey()] = name;
@@ -180,6 +184,7 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
     kplugin[s_jsonIdKey()] = accessor(data, s_pluginNameKey());
     kplugin[s_jsonVersionKey()] = accessor(data, s_versionKey());
     kplugin[s_jsonWebsiteKey()] = accessor(data, s_websiteKey());
+    kplugin[s_jsonFormFactorsKey()] = QJsonArray::fromStringList(formFactors);
     kplugin[s_serviceTypesKey()] = QJsonArray::fromStringList(serviceTypes);
     kplugin[s_jsonDependenciesKey()] = QJsonArray::fromStringList(dependencies);
     return kplugin;
@@ -204,8 +209,9 @@ static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QStr
                 qPrintable(lib));
     }
     QString description = KPluginMetaData::readTranslatedString(json, s_commentKey());
+    QStringList formfactors = KPluginMetaData::readStringList(json, s_jsonFormFactorsKey());
     QJsonObject kplugin = mapToJsonKPluginKey(name, description,
-            KPluginMetaData::readStringList(json, s_dependenciesKey()), serviceTypes, json,
+            KPluginMetaData::readStringList(json, s_dependenciesKey()), serviceTypes, formfactors, json,
             [](const QJsonObject &o, const QString &key) { return o.value(key); });
     obj.insert(s_jsonKPluginKey(), kplugin);
     return KPluginMetaData(obj, lib, metaDataFile);
@@ -478,6 +484,12 @@ QString KPluginInfo::category() const
     return d->metaData.category();
 }
 
+QStringList KPluginInfo::formFactors() const
+{
+    KPLUGININFO_ISVALID_ASSERTION;
+    return d->metaData.formFactors();
+}
+
 QString KPluginInfo::pluginName() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
@@ -623,6 +635,8 @@ QVariant KPluginInfo::property(const QString &key) const
         RETURN_WITH_DEPRECATED_WARNING(website());
     } else if (key == s_xKDEServiceTypes()) {
         RETURN_WITH_DEPRECATED_WARNING(serviceTypes());
+    } else if (key == s_formFactorsKey()) {
+        RETURN_WITH_DEPRECATED_WARNING(formFactors());
     }
 #undef RETURN_WITH_DEPRECATED_WARNING
     // not a compatibility key -> return invalid QVariant

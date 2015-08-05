@@ -28,6 +28,7 @@ public:
     KServiceTest() : m_sycocaUpdateDone(0) {}
 private Q_SLOTS:
     void initTestCase();
+    void testKPluginMetaData();
     void cleanupTestCase();
     void testByName();
     void testProperty();

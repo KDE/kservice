@@ -109,6 +109,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("X-KDE-Protocols", "http,ftp");
         group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart,FakeDerivedPart");
         group.writeEntry("MimeType", "text/plain;text/html;");
+        group.writeEntry("X-KDE-FormFactors", "tablet,handset");
     }
 
     const QString fakePart2 = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart2.desktop";
@@ -122,6 +123,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart");
         group.writeEntry("MimeType", "text/plain;");
         group.writeEntry("X-KDE-TestList", QStringList() << "item1" << "item2");
+        group.writeEntry("X-KDE-FormFactors", "tablet,handset");
     }
 
     const QString preferredPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "preferredpart.desktop";
@@ -191,6 +193,7 @@ void KServiceTest::initTestCase()
         group.writeEntry("Type", "ServiceType");
         group.writeEntry("X-KDE-ServiceType", "FakePluginType");
         file.group("PropertyDef::X-KDE-Version").writeEntry("Type", "double"); // like in ktexteditorplugin.desktop
+        group.writeEntry("X-KDE-FormFactors", "tablet,handset");
     }
 
     // fakebasepart: a servicetype (like ReadOnlyPart)
@@ -816,4 +819,14 @@ void KServiceTest::testEntryPathToName()
     QCOMPARE(KService("c.desktop").name(), QString("c"));
     QCOMPARE(KService("a.b.c.desktop").name(), QString("a.b.c")); // dots in filename before .desktop extension
     QCOMPARE(KService("/hallo/a.b.c.desktop").name(), QString("a.b.c"));
+}
+
+void KServiceTest::testKPluginMetaData()
+{
+    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart.desktop";
+    KPluginMetaData md(fakePart);
+    KService::Ptr service(new KService(fakePart));
+    KPluginInfo info(service);
+    auto info_md = info.toMetaData();
+    QCOMPARE(info_md.formFactors(), md.formFactors());
 }

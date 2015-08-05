@@ -71,6 +71,8 @@ private Q_SLOTS:
         QVERIFY(metaData.isValid());
         QVERIFY(!metaData.name().isEmpty());
         QVERIFY(!metaData.authors().isEmpty());
+        QVERIFY(!metaData.formFactors().isEmpty());
+        QCOMPARE(metaData.formFactors(), QStringList() << "tablet" << "handset");
         KPluginInfo jsonInfo(KPluginMetaData(json, pluginName));
 
         QFile compatJsonFile(fakePluginCompatJsonPath);
@@ -202,6 +204,7 @@ private Q_SLOTS:
         QCOMPARE(meta.isEnabledByDefault(), true);
         QCOMPARE(meta.license(), QStringLiteral("LGPL"));
         QCOMPARE(meta.serviceTypes(), QStringList() << "KService/NSA");
+        QCOMPARE(meta.formFactors(), QStringList() << "tablet" << "handset");
         QCOMPARE(meta.version(), QStringLiteral("1.0"));
         QCOMPARE(meta.website(), QStringLiteral("http://kde.org/"));
 
@@ -238,7 +241,8 @@ private Q_SLOTS:
                 " \"Id\": \"fakeplugin\",\n" // not strictly required
                 " \"Version\": \"1.0\",\n"
                 " \"Website\": \"http://kde.org/\",\n"
-                " \"ServiceTypes\": [\"KService/NSA\"]\n"
+                " \"ServiceTypes\": [\"KService/NSA\"],\n"
+                " \"FormFactors\": [\"tablet\", \"handset\"]\n"
             " },\n"
         " \"X-Foo-Bar\": \"Baz\"\n"
         "}", &e).object();
@@ -278,6 +282,8 @@ private Q_SLOTS:
         QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
+        QCOMPARE(info.toMetaData().formFactors(), QStringList() << "tablet" << "handset");
+        QCOMPARE(info.formFactors(), QStringList() << "tablet" << "handset");
 
         // make sure custom values are also retained
         QCOMPARE(meta.rawData().value("X-Foo-Bar").toString(), QStringLiteral("Baz"));
@@ -304,6 +310,7 @@ private Q_SLOTS:
         QCOMPARE(convertedList[0].serviceTypes(), info.serviceTypes());
         QCOMPARE(convertedList[0].version(), info.version());
         QCOMPARE(convertedList[0].website(), info.website());
+        QCOMPARE(convertedList[0].formFactors(), info.formFactors());
     }
 };
 

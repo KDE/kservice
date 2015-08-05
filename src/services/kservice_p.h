@@ -91,6 +91,7 @@ public:
     QString m_strDesktopEntryName;
     KService::DBusStartupType m_DBUSStartusType;
     QMap<QString, QVariant> m_mapProps;
+    QStringList m_lstFormFactors;
     QStringList m_lstKeywords;
     QString m_strGenName;
     QList<KServiceAction> m_actions;
