@@ -37,6 +37,7 @@
 #include <kservicegroup.h>
 #include <kservicetype.h>
 #include <kservicetypeprofile.h>
+#include <QMutex>
 
 
 static QString fakeTextPluginDesktopFile()
@@ -66,6 +67,15 @@ static bool offerListHasService(const KService::List &offers,
     }
     return found;
 }
+
+static QSet<QThread *> s_threadsWhoSawFakeService;
+static QMutex s_setMutex;
+static int threadsWhoSawFakeService() {
+    QMutexLocker locker(&s_setMutex);
+    return s_threadsWhoSawFakeService.count();
+}
+static QAtomicInt s_fakeServiceDeleted = 0;
+
 
 class WorkerObject : public QObject
 {
@@ -99,6 +109,12 @@ public Q_SLOTS:
             Q_ASSERT(!entryPath.isEmpty());
 
             KService::Ptr lookedupService = KService::serviceByDesktopPath(entryPath);
+            if (!lookedupService) {
+                if (entryPath == "threadfakeservice.desktop" && s_fakeServiceDeleted) { // ok, it got deleted meanwhile
+                    continue;
+                }
+                qWarning() << entryPath << "is gone!";
+            }
             Q_ASSERT(lookedupService);   // not null
             QCOMPARE(lookedupService->entryPath(), entryPath);
 
@@ -109,6 +125,12 @@ public Q_SLOTS:
                 }
                 Q_ASSERT(!menuId.isEmpty());
                 lookedupService = KService::serviceByMenuId(menuId);
+                if (!lookedupService) {
+                    if (menuId == "threadfakeservice" && s_fakeServiceDeleted) { // ok, it got deleted meanwhile
+                        continue;
+                    }
+                    qWarning() << menuId << "is gone!";
+                }
                 Q_ASSERT(lookedupService);   // not null
                 QCOMPARE(lookedupService->menuId(), menuId);
             }
@@ -123,6 +145,11 @@ public Q_SLOTS:
 
         KServiceGroup::Ptr root = KServiceGroup::root();
         Q_ASSERT(root);
+
+        if (KService::serviceByDesktopPath("threadfakeservice.desktop")) {
+            QMutexLocker locker(&s_setMutex);
+            s_threadsWhoSawFakeService.insert(QThread::currentThread());
+        }
     }
 };
 
@@ -222,10 +249,12 @@ static void runKBuildSycoca()
     proc.start(kbuildsycoca, args);
     qDebug() << "waiting for signal";
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
-    QVERIFY(spy.wait(10000));
+    QVERIFY(spy.wait(20000));
 
     qDebug() << "got signal";
-    QVERIFY(proc.waitForFinished());
+    if (proc.state() != QProcess::NotRunning) {
+        QVERIFY(proc.waitForFinished());
+    }
     QCOMPARE(proc.exitStatus(), QProcess::NormalExit);
 }
 
@@ -286,10 +315,16 @@ void KSycocaThreadTest::testCreateService()
     runKBuildSycoca();
 
     QTRY_VERIFY(KService::serviceByDesktopPath("threadfakeservice.desktop"));
+
+    // Now wait to check that all threads saw that new service
+    QTRY_COMPARE(threadsWhoSawFakeService(), threads.size());
+
 }
 
 void KSycocaThreadTest::deleteFakeService()
 {
+    s_fakeServiceDeleted = 1;
+
     qDebug() << "now deleting the fake service";
     KService::Ptr fakeService = KService::serviceByDesktopPath("threadfakeservice.desktop");
     QVERIFY(fakeService);

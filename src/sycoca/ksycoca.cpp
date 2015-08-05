@@ -362,9 +362,8 @@ void KSycoca::notifyDatabaseChanged(const QStringList &changeList)
     d->changeList = changeList;
     //qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal" << changeList;
     // kbuildsycoca tells us the database file changed
-    // Close the database and forget all about what we knew
-    // The next call to any public method will recreate
-    // everything that's needed.
+    // We would have found out in the next call to ensureCacheValid(), but for
+    // now keep the call to closeDatabase, to help refcounting to 0 the old mmaped file earlier.
     d->closeDatabase();
 
     // Now notify applications
@@ -657,3 +656,35 @@ void KSycoca::clearCaches()
         ksycocaInstance()->sycoca()->d->closeDatabase();
 }
 
+void KSycoca::ensureCacheValid()
+{
+    if (isBuilding()) {
+        return;
+    }
+
+    if (d->m_databasePath.isEmpty()) {
+        return;
+    }
+
+    if (d->databaseStatus == KSycocaPrivate::DatabaseNotOpen) {
+        return;
+    }
+
+    if (d->m_lastCheck.isValid() && d->m_lastCheck.elapsed() <= 1500) {
+        return;
+    }
+
+    // Check if the file on disk was modified since we last checked it.
+    QFileInfo info(d->m_databasePath);
+    if (info.lastModified() == d->m_dbLastModified) {
+        return;
+    }
+
+    d->m_dbLastModified = info.lastModified();
+    d->m_lastCheck.start();
+
+    // Close the database and forget all about what we knew.
+    // The next call to any public method will recreate
+    // everything that's needed.
+    d->closeDatabase();
+}

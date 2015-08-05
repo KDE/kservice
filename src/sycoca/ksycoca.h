@@ -167,6 +167,15 @@ public:
      */
     static void flagError();
 
+    /**
+     * Checks if ksycoca's internal cache is up to date
+     * and if it is not, it closes the database, so the next use reopens it.
+     * Warning: this deletes all sycoca factories!
+     *
+     * @internal
+     */
+    void ensureCacheValid();
+
 Q_SIGNALS:
     /**
      * Connect to this to get notified when the database changes

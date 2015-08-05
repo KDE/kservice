@@ -182,11 +182,13 @@ KServiceType::propertyDefNames() const
 
 KServiceType::Ptr KServiceType::serviceType(const QString &_name)
 {
+    KSycoca::self()->ensureCacheValid();
     return KServiceTypeFactory::self()->findServiceTypeByName(_name);
 }
 
 KServiceType::List KServiceType::allServiceTypes()
 {
+    KSycoca::self()->ensureCacheValid();
     return KServiceTypeFactory::self()->allServiceTypes();
 }
 
@@ -204,6 +206,7 @@ KServiceType::Ptr KServiceType::parentType()
         return KServiceType::Ptr();
     }
 
+    KSycoca::self()->ensureCacheValid();
     d->parentType = KServiceTypeFactory::self()->findServiceTypeByName(parentSt);
     if (!d->parentType) {
         qWarning() << entryPath() << "specifies undefined mimetype/servicetype" << parentSt;

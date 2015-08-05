@@ -356,6 +356,8 @@ static void addItem(KServiceGroup::List &sorted, const KSycocaEntry::Ptr &p, boo
 KServiceGroup::List
 KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDisplay, bool allowSeparators, bool sortByGenericName)
 {
+    KSycoca::self()->ensureCacheValid();
+
     // If the entries haven't been loaded yet, we have to reload ourselves
     // together with the entries. We can't only load the entries afterwards
     // since the offsets could have been changed if the database has changed.
@@ -658,6 +660,7 @@ QStringList KServiceGroup::layoutInfo() const
 KServiceGroup::Ptr
 KServiceGroup::root()
 {
+    KSycoca::self()->ensureCacheValid();
     return KServiceGroupFactory::self()->findGroupByDesktopPath(QString::fromLatin1("/"), true);
 }
 
@@ -667,12 +670,14 @@ KServiceGroup::group(const QString &relPath)
     if (relPath.isEmpty()) {
         return root();
     }
+    KSycoca::self()->ensureCacheValid();
     return KServiceGroupFactory::self()->findGroupByDesktopPath(relPath, true);
 }
 
 KServiceGroup::Ptr
 KServiceGroup::childGroup(const QString &parent)
 {
+    KSycoca::self()->ensureCacheValid();
     return KServiceGroupFactory::self()->findGroupByDesktopPath(QString::fromLatin1("#parent#") + parent, true);
 }
 

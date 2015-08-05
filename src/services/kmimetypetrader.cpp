@@ -19,6 +19,7 @@
 
 #include "kmimetypetrader.h"
 
+#include "ksycoca.h"
 #include "kservicetypeprofile.h"
 #include "kservicetype.h"
 #include "kservicetypetrader.h"
@@ -69,6 +70,7 @@ static KServiceOfferList mimeTypeSycocaOffers(const QString &mimeType)
         }
         mime = mimeType;
     }
+    KSycoca::self()->ensureCacheValid();
     KMimeTypeFactory *factory = KMimeTypeFactory::self();
     const int offset = factory->entryOffset(mime);
     if (!offset) { // shouldn't happen, now that we know the mimetype exists
@@ -97,6 +99,7 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
         }
         mime = mimeType;
     }
+    KSycoca::self()->ensureCacheValid();
     KMimeTypeFactory *factory = KMimeTypeFactory::self();
     const int offset = factory->entryOffset(mime);
     if (!offset) {
@@ -128,6 +131,8 @@ void KMimeTypeTrader::filterMimeTypeOffers(KServiceOfferList &list, const QStrin
     KServiceType::Ptr genericServiceTypePtr = KServiceType::serviceType(genericServiceType);
     CHECK_SERVICETYPE(genericServiceTypePtr);
 
+    KSycoca::self()->ensureCacheValid();
+
     QMutableListIterator<KServiceOffer> it(list);
     while (it.hasNext()) {
         const KService::Ptr servPtr = it.next().service();
@@ -145,6 +150,8 @@ void KMimeTypeTrader::filterMimeTypeOffers(KService::List &list, const QString &
 {
     KServiceType::Ptr genericServiceTypePtr = KServiceType::serviceType(genericServiceType);
     CHECK_SERVICETYPE(genericServiceTypePtr);
+
+    KSycoca::self()->ensureCacheValid();
 
     QMutableListIterator<KService::Ptr> it(list);
     while (it.hasNext()) {

@@ -23,6 +23,8 @@
 
 #include "ksycocafactory_p.h"
 #include <QStringList>
+#include <QElapsedTimer>
+#include <QDateTime>
 class QFile;
 class QDataStream;
 class KSycocaAbstractDevice;
@@ -72,6 +74,8 @@ public:
         return &m_factories;
     }
 
+    QElapsedTimer m_lastCheck;
+    QDateTime m_dbLastModified;
 private:
     KSycocaFactoryList m_factories;
     size_t sycoca_size;

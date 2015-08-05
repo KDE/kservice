@@ -20,6 +20,7 @@
 #include "kservice.h"
 #include "kservice_p.h"
 #include "kmimetypefactory_p.h"
+#include "ksycoca.h"
 
 #include <qplatformdefs.h>
 
@@ -407,6 +408,7 @@ bool KService::hasServiceType(const QString &serviceType) const
     //if ( serviceOffset == 0 )
     //    serviceOffset = serviceByStorageId( storageId() );
     if (serviceOffset) {
+        KSycoca::self()->ensureCacheValid();
         return KServiceFactory::self()->hasOffer(ptr->offset(), ptr->serviceOffersOffset(), serviceOffset);
     }
 
@@ -439,6 +441,7 @@ bool KService::hasMimeType(const QString &mimeType) const
     }
     int serviceOffset = offset();
     if (serviceOffset) {
+        KSycoca::self()->ensureCacheValid();
         KMimeTypeFactory *factory = KMimeTypeFactory::self();
         const int mimeOffset = factory->entryOffset(mime);
         const int serviceOffersOffset = factory->serviceOffersOffset(mime);
@@ -529,6 +532,7 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
         // No luck, let's ask KServiceTypeFactory what the type of this property
         // is supposed to be.
         // ######### this looks in all servicetypes, not just the ones this service supports!
+        KSycoca::self()->ensureCacheValid();
         t = KServiceTypeFactory::self()->findPropertyTypeByName(_name);
         if (t == QVariant::Invalid) {
             qDebug() << "Request for unknown property" << _name;
@@ -585,21 +589,25 @@ QStringList KServicePrivate::propertyNames() const
 
 KService::List KService::allServices()
 {
+    KSycoca::self()->ensureCacheValid();
     return KServiceFactory::self()->allServices();
 }
 
 KService::Ptr KService::serviceByDesktopPath(const QString &_name)
 {
+    KSycoca::self()->ensureCacheValid();
     return KServiceFactory::self()->findServiceByDesktopPath(_name);
 }
 
 KService::Ptr KService::serviceByDesktopName(const QString &_name)
 {
+    KSycoca::self()->ensureCacheValid();
     return KServiceFactory::self()->findServiceByDesktopName(_name);
 }
 
 KService::Ptr KService::serviceByMenuId(const QString &_name)
 {
+    KSycoca::self()->ensureCacheValid();
     return KServiceFactory::self()->findServiceByMenuId(_name);
 }
 
