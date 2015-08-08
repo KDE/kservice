@@ -111,6 +111,9 @@ private Q_SLOTS:
         QStandardPaths::enableTestMode(true);
         qputenv("XDG_CURRENT_DESKTOP", "KDE");
 
+        extern KSERVICE_EXPORT bool kservice_require_kded;
+        kservice_require_kded = false;
+
         m_localConfig = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1Char('/');
         QDir(m_localConfig).removeRecursively();
         QVERIFY(QDir().mkpath(m_localConfig));
