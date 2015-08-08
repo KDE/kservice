@@ -317,8 +317,7 @@ void KSycocaThreadTest::testCreateService()
     QTRY_VERIFY(KService::serviceByDesktopPath("threadfakeservice.desktop"));
 
     // Now wait to check that all threads saw that new service
-    QTRY_COMPARE(threadsWhoSawFakeService(), threads.size());
-
+    QTRY_COMPARE_WITH_TIMEOUT(threadsWhoSawFakeService(), threads.size(), 20000);
 }
 
 void KSycocaThreadTest::deleteFakeService()
