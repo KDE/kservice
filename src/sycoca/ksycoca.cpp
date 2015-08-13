@@ -199,19 +199,22 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
     delete m_device; m_device = 0;
     QString path = KSycoca::absoluteFilePath();
 
-    bool canRead = QFileInfo(path).isReadable();
+    QFileInfo info(path);
+    bool canRead = info.isReadable();
     qCDebug(SYCOCA) << "Trying to open ksycoca from" << path;
     if (!canRead) {
         path = KSycoca::absoluteFilePath(KSycoca::GlobalDatabase);
         if (!path.isEmpty()) {
             qCDebug(SYCOCA) << "Trying to open global ksycoca from " << path;
-            canRead = QFileInfo(path).isReadable();
+            info.setFile(path);
+            canRead = info.isReadable();
         }
     }
 
     bool result = true;
     if (canRead) {
         m_databasePath = path;
+        m_dbLastModified = info.lastModified();
         checkVersion();
     } else { // No database file
         //qCDebug(SYCOCA) << "Could not open ksycoca";
@@ -680,7 +683,6 @@ void KSycoca::ensureCacheValid()
         return;
     }
 
-    d->m_dbLastModified = info.lastModified();
     d->m_lastCheck.start();
 
     // Close the database and forget all about what we knew.
