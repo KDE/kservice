@@ -307,8 +307,33 @@ void KSycocaThreadTest::cleanupTestCase()
     QFile::remove(fakeTextPluginDesktopFile());
 }
 
+// duplicated from kcoreaddons/autotests/kdirwatch_unittest.cpp
+static void waitUntilAfter(const QDateTime &ctime)
+{
+    int totalWait = 0;
+    QDateTime now;
+    Q_FOREVER {
+        now = QDateTime::currentDateTime();
+        if (now.toTime_t() == ctime.toTime_t())   // truncate milliseconds
+        {
+            totalWait += 50;
+            QTest::qWait(50);
+        } else {
+            QVERIFY(now > ctime); // can't go back in time ;)
+            QTest::qWait(50); // be safe
+            break;
+        }
+    }
+    //if (totalWait > 0)
+    qDebug() << "Waited" << totalWait << "ms so that now" << now.toString(Qt::ISODate) << "is >" << ctime.toString(Qt::ISODate);
+}
+
 void KSycocaThreadTest::testCreateService()
 {
+    // Wait one second so that ksycoca can detect a mtime change
+    // ## IMHO this is a Qt bug, QFileInfo::lastModified() should include milliseconds
+    waitUntilAfter(QDateTime::currentDateTime());
+
     createFakeService();
     QVERIFY(QFile::exists(fakeServiceDesktopFile()));
     qDebug() << "executing kbuildsycoca (1)";
