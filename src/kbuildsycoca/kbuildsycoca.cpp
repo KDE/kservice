@@ -82,7 +82,7 @@ static const char *cSycocaPath = 0;
 static bool bGlobalDatabase = false;
 static bool bMenuTest = false;
 
-void crashHandler(int)
+static void crashHandler(int)
 {
     // If we crash while reading sycoca, we delete the database
     // in an attempt to recover.
@@ -99,6 +99,8 @@ static QString sycocaPath()
     }
     return fi.absoluteFilePath();
 }
+
+KBuildSycocaInterface::~KBuildSycocaInterface() {}
 
 KBuildSycoca::KBuildSycoca()
     : KSycoca(true)
@@ -476,7 +478,7 @@ void KBuildSycoca::save(QDataStream *str)
     // Write header (#pass 1)
     str->device()->seek(0);
 
-    (*str) << (qint32) KSycoca::version();
+    (*str) << qint32(KSycoca::version());
     //KSycocaFactory * servicetypeFactory = 0;
     //KBuildMimeTypeFactory * mimeTypeFactory = 0;
     KBuildServiceFactory *serviceFactory = 0;
@@ -497,7 +499,7 @@ void KBuildSycoca::save(QDataStream *str)
         (*str) << aId;
         (*str) << aOffset;
     }
-    (*str) << (qint32) 0; // No more factories.
+    (*str) << qint32(0); // No more factories.
     // Write XDG_DATA_DIRS
     (*str) << QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
     (*str) << newTimestamp;
@@ -527,7 +529,7 @@ void KBuildSycoca::save(QDataStream *str)
     // Write header (#pass 2)
     str->device()->seek(0);
 
-    (*str) << (qint32) KSycoca::version();
+    (*str) << qint32(KSycoca::version());
     for (KSycocaFactoryList::Iterator factory = factories()->begin();
             factory != factories()->end(); ++factory) {
         qint32 aId;
@@ -537,7 +539,7 @@ void KBuildSycoca::save(QDataStream *str)
         (*str) << aId;
         (*str) << aOffset;
     }
-    (*str) << (qint32) 0; // No more factories.
+    (*str) << qint32(0); // No more factories.
 
     // Jump to end of database
     str->device()->seek(endOfData);
@@ -765,7 +767,7 @@ int main(int argc, char **argv)
         cSycocaPath = 0;
     }
 
-    newTimestamp = (quint32) time(0);
+    newTimestamp = quint32(time(0));
     QStringList changedResources;
 
     if (checkfiles && (!checkstamps || !KBuildSycoca::checkTimestamps(filestamp, oldresourcedirs))) {

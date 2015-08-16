@@ -94,7 +94,7 @@ void KBuildMimeTypeFactory::save(QDataStream &str)
 {
     KSycocaFactory::save(str);
 
-    str << (qint32) 0;
+    str << qint32(0);
 
     const int endOfFactoryData = str.device()->pos();
 

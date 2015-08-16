@@ -325,9 +325,9 @@ void KServicePrivate::load(QDataStream &s)
       >> categories >> menuId >> m_actions >> m_serviceTypes
       >> m_lstFormFactors;
 
-    m_bAllowAsDefault = (bool)def;
-    m_bTerminal = (bool)term;
-    m_DBUSStartusType = (KService::DBusStartupType) dst;
+    m_bAllowAsDefault = bool(def);
+    m_bTerminal = bool(term);
+    m_DBUSStartusType = static_cast<KService::DBusStartupType>(dst);
     m_initialPreference = initpref;
 
     m_bValid = true;
@@ -338,7 +338,7 @@ void KServicePrivate::save(QDataStream &s)
     KSycocaEntryPrivate::save(s);
     qint8 def = m_bAllowAsDefault, initpref = m_initialPreference;
     qint8 term = m_bTerminal;
-    qint8 dst = (qint8) m_DBUSStartusType;
+    qint8 dst = qint8(m_DBUSStartusType);
 
     // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KService 5.x VERSIONS!
     // !! This data structure should remain binary compatible at all times !!
@@ -553,10 +553,9 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
         return QVariant(); // No property set.
     }
 
-    switch (t) {
-    case QVariant::String:
+    if (t == QVariant::String) {
         return *it; // no conversion necessary
-    default:
+    } else {
         // All others
         // For instance properties defined as StringList, like MimeTypes.
         // XXX This API is accessible only through a friend declaration.

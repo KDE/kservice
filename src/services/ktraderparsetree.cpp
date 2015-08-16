@@ -129,10 +129,10 @@ bool ParseTreeCALC::eval(ParseContext *_context) const
      */
     if (c1.type == ParseContext::T_NUM && c2.type == ParseContext::T_DOUBLE) {
         c1.type = ParseContext::T_DOUBLE;
-        c1.f = (double)c1.i;
+        c1.f = c1.i;
     } else if (c1.type == ParseContext::T_DOUBLE && c2.type == ParseContext::T_NUM) {
         c2.type = ParseContext::T_DOUBLE;
-        c2.f = (double)c2.i;
+        c2.f = c2.i;
     }
     // Bool extension
     else if (c1.type == ParseContext::T_BOOL && c2.type == ParseContext::T_NUM) {
@@ -241,10 +241,10 @@ bool ParseTreeCMP::eval(ParseContext *_context) const
      */
     if (c1.type == ParseContext::T_NUM && c2.type == ParseContext::T_DOUBLE) {
         c1.type = ParseContext::T_DOUBLE;
-        c1.f = (double)c1.i;
+        c1.f = c1.i;
     } else if (c1.type == ParseContext::T_DOUBLE && c2.type == ParseContext::T_NUM) {
         c2.type = ParseContext::T_DOUBLE;
-        c2.f = (double)c2.i;
+        c2.f = c2.i;
     }
 
     /**
@@ -272,7 +272,7 @@ bool ParseTreeCMP::eval(ParseContext *_context) const
             return true;
         }
         if (c1.type == ParseContext::T_DOUBLE) {
-            _context->b = (c1.f == c2.f);
+            _context->b = qFuzzyCompare(c1.f, c2.f);
             return true;
         }
         if (c1.type == ParseContext::T_NUM) {
@@ -299,7 +299,7 @@ bool ParseTreeCMP::eval(ParseContext *_context) const
             return true;
         }
         if (c1.type == ParseContext::T_DOUBLE) {
-            _context->b = (c1.f != c2.f);
+            _context->b = !qFuzzyCompare(c1.f, c2.f);
             return true;
         }
         if (c1.type == ParseContext::T_NUM) {
@@ -461,7 +461,7 @@ bool ParseTreeIN::eval(ParseContext *_context) const
         _context->b = false;
         for (; it != end; ++it)
             if ((*it).type() == QVariant::Double &&
-                    (*it).toDouble() == c1.i) {
+                    qFuzzyCompare((*it).toDouble(), c1.i)) {
                 _context->b = true;
                 break;
             }
@@ -555,8 +555,8 @@ bool ParseTreeMIN2::eval(ParseContext *_context) const
     }
 
     if (prop.type() == QVariant::Int && it.value().type == PreferencesMaxima::PM_INT) {
-        _context->f = (double)(prop.toInt() - it.value().iMin) /
-                      (double)(it.value().iMax - it.value().iMin) * (-2.0) + 1.0;
+        _context->f = double(prop.toInt() - it.value().iMin) /
+                      double(it.value().iMax - it.value().iMin) * (-2.0) + 1.0;
         return true;
     } else if (prop.type() == QVariant::Double && it.value().type == PreferencesMaxima::PM_DOUBLE) {
         _context->f = (prop.toDouble() - it.value().fMin) / (it.value().fMax - it.value().fMin)
@@ -589,8 +589,8 @@ bool ParseTreeMAX2::eval(ParseContext *_context) const
     }
 
     if (prop.type() == QVariant::Int && it.value().type == PreferencesMaxima::PM_INT) {
-        _context->f = (double)(prop.toInt() - it.value().iMin) /
-                      (double)(it.value().iMax - it.value().iMin) * 2.0 - 1.0;
+        _context->f = double(prop.toInt() - it.value().iMin) /
+                      double(it.value().iMax - it.value().iMin) * 2.0 - 1.0;
         return true;
     } else if (prop.type() == QVariant::Double && it.value().type == PreferencesMaxima::PM_DOUBLE) {
         _context->f = (prop.toDouble() - it.value().fMin) /
@@ -732,6 +732,41 @@ bool ParseContext::initMaxima(const QString &_prop)
     // Did we succeed ?
     return (extrema.type == PreferencesMaxima::PM_DOUBLE ||
             extrema.type == PreferencesMaxima::PM_INT);
+}
+
+ParseTreeBase::~ParseTreeBase() { }
+
+bool ParseTreeSTRING::eval(ParseContext *_context) const
+{
+    _context->type = ParseContext::T_STRING;
+    _context->str = m_str;
+    return true;
+}
+
+bool ParseTreeNUM::eval(ParseContext *_context) const
+{
+    _context->type = ParseContext::T_NUM;
+    _context->i = m_int;
+    return true;
+}
+
+bool ParseTreeBRACKETS::eval(ParseContext *_context) const
+{
+    return m_pLeft->eval(_context);
+}
+
+bool ParseTreeDOUBLE::eval(ParseContext *_context) const
+{
+    _context->type = ParseContext::T_DOUBLE;
+    _context->f = m_double;
+    return true;
+}
+
+bool ParseTreeBOOL::eval(ParseContext *_context) const
+{
+    _context->type = ParseContext::T_BOOL;
+    _context->b = m_bool;
+    return true;
 }
 
 }

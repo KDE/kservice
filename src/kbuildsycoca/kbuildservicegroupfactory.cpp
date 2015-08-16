@@ -149,7 +149,7 @@ KBuildServiceGroupFactory::saveHeader(QDataStream &str)
 {
     KSycocaFactory::saveHeader(str);
 
-    str << (qint32) m_baseGroupDictOffset;
+    str << qint32(m_baseGroupDictOffset);
 }
 
 void

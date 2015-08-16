@@ -25,6 +25,7 @@ set(kservice_SRCS
    services/lex.c
    services/kplugininfo.cpp
    sycoca/ksycoca.cpp
+   sycoca/ksycocadevices.cpp
    sycoca/ksycocadict.cpp
    sycoca/ksycocaentry.cpp
    sycoca/ksycocafactory.cpp

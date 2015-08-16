@@ -109,7 +109,7 @@ KServiceTypePrivate::save(QDataStream &_str)
     // You may add new fields at the end. Make sure to update the version
     // number in ksycoca.h
     _str << m_strName << QString() /*was icon*/ << m_strComment << m_mapProps << m_mapPropDefs
-         << (qint8) 1 << m_serviceOffersOffset;
+         << qint8(1) << m_serviceOffersOffset;
 }
 
 KServiceType::~KServiceType()

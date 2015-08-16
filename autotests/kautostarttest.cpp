@@ -76,16 +76,16 @@ void KAutostartTest::testStartphase_data()
     QTest::addColumn<QString>("service");
     QTest::addColumn<int>("startPhase");
     if (KAutostart::isServiceRegistered("plasma-desktop")) {
-        QTest::newRow("plasma-desktop") << "plasma-desktop" << (int)KAutostart::BaseDesktop;
+        QTest::newRow("plasma-desktop") << "plasma-desktop" << int(KAutostart::BaseDesktop);
     }
     if (KAutostart::isServiceRegistered("klipper")) {
-        QTest::newRow("klipper") << "klipper" << (int)KAutostart::Applications;
+        QTest::newRow("klipper") << "klipper" << int(KAutostart::Applications);
     }
     if (KAutostart::isServiceRegistered("khotkeys")) {
-        QTest::newRow("khotkeys") << "ktip" << (int)KAutostart::Applications;
+        QTest::newRow("khotkeys") << "ktip" << int(KAutostart::Applications);
     }
     QTest::newRow("does not exist") << "doesnotexist"
-                                    << (int)KAutostart::Applications;
+                                    << int(KAutostart::Applications);
 }
 
 void KAutostartTest::testStartphase()
@@ -94,7 +94,7 @@ void KAutostartTest::testStartphase()
     QFETCH(int, startPhase);
 
     KAutostart autostart(service);
-    QCOMPARE((int)autostart.startPhase(), startPhase);
+    QCOMPARE(int(autostart.startPhase()), startPhase);
 }
 
 void KAutostartTest::testStartName()
@@ -156,7 +156,7 @@ void KAutostartTest::testRegisteringAndManipulatingANewService()
         QCOMPARE(autostart.autostarts("XFCE", KAutostart::CheckCommand), true);
         QCOMPARE(autostart.visibleName(), QString("doesnotexisttest"));
         QCOMPARE(autostart.commandToCheck(), QString("/bin/ls"));
-        QCOMPARE((int)autostart.startPhase(), (int)KAutostart::BaseDesktop);
+        QCOMPARE(int(autostart.startPhase()), int(KAutostart::BaseDesktop));
         QCOMPARE(autostart.allowedEnvironments(), allowedEnvs);
         QCOMPARE(autostart.excludedEnvironments(), excludedEnvs);
 

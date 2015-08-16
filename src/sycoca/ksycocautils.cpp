@@ -39,7 +39,7 @@ void KSycocaUtilsPrivate::read(QDataStream &s, QString &str)
         char *b = t;
         s.readRawData(b, bytes);
         while (bt--) {
-            *ch++ = (ushort)(((ushort)b[0]) << 8) | (uchar)b[1];
+            *ch++ = ushort((ushort(b[0]) << 8) | uchar(b[1]));
             b += 2;
         }
     } else {

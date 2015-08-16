@@ -116,21 +116,18 @@ KServiceType::List KServiceTypeFactory::allServiceTypes()
 
 KServiceType *KServiceTypeFactory::createEntry(int offset) const
 {
-    KServiceType *newEntry = 0;
     KSycocaType type;
     QDataStream *str = KSycoca::self()->findEntry(offset, type);
     if (!str) {
         return 0;
     }
 
-    switch (type) {
-    case KST_KServiceType:
-        newEntry = new KServiceType(*str, offset);
-        break;
-    default:
+    if (type != KST_KServiceType) {
         qWarning() << "KServiceTypeFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
-        break;
+        return 0;
     }
+
+    KServiceType *newEntry = new KServiceType(*str, offset);
     if (newEntry && !newEntry->isValid()) {
         qWarning() << "KServiceTypeFactory: corrupt object in KSycoca database!";
         delete newEntry;

@@ -111,7 +111,7 @@ class ParseTreeBase : public QSharedData
 public:
     typedef QExplicitlySharedDataPointer<ParseTreeBase> Ptr;
     ParseTreeBase() { }
-    virtual ~ParseTreeBase() { }
+    virtual ~ParseTreeBase();
 
     virtual bool eval(ParseContext *_context) const = 0;
 };
@@ -253,10 +253,7 @@ public:
         m_pLeft = _ptr;
     }
 
-    bool eval(ParseContext *_context) const
-    {
-        return m_pLeft->eval(_context);
-    }
+    bool eval(ParseContext *_context) const;
 
 protected:
     ParseTreeBase::Ptr m_pLeft;
@@ -324,12 +321,7 @@ public:
         m_str = QString::fromUtf8(arg);
     }
 
-    bool eval(ParseContext *_context) const
-    {
-        _context->type = ParseContext::T_STRING;
-        _context->str = m_str;
-        return true;
-    }
+    bool eval(ParseContext *_context) const;
 
 protected:
     QString m_str;
@@ -346,12 +338,7 @@ public:
         m_int = arg;
     }
 
-    bool eval(ParseContext *_context) const
-    {
-        _context->type = ParseContext::T_NUM;
-        _context->i = m_int;
-        return true;
-    }
+    bool eval(ParseContext *_context) const;
 
 protected:
     int m_int;
@@ -368,12 +355,7 @@ public:
         m_double = arg;
     }
 
-    bool eval(ParseContext *_context) const
-    {
-        _context->type = ParseContext::T_DOUBLE;
-        _context->f = m_double;
-        return true;
-    }
+    bool eval(ParseContext *_context) const;
 
 protected:
     double m_double;
@@ -390,12 +372,7 @@ public:
         m_bool = arg;
     }
 
-    bool eval(ParseContext *_context) const
-    {
-        _context->type = ParseContext::T_BOOL;
-        _context->b = m_bool;
-        return true;
-    }
+    bool eval(ParseContext *_context) const;
 
 protected:
     bool m_bool;

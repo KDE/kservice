@@ -105,9 +105,9 @@ void
 KBuildServiceTypeFactory::saveHeader(QDataStream &str)
 {
     KSycocaFactory::saveHeader(str);
-    str << (qint32) m_propertyTypeDict.count();
+    str << qint32(m_propertyTypeDict.count());
     for (QMap<QString, int>::ConstIterator it = m_propertyTypeDict.constBegin(); it != m_propertyTypeDict.constEnd(); ++it) {
-        str << it.key() << (qint32)it.value();
+        str << it.key() << qint32(it.value());
     }
 }
 

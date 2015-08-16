@@ -72,48 +72,48 @@ void KTraderParse_error(const char *err)
 
 void *KTraderParse_newOR(void *_ptr1, void *_ptr2)
 {
-    return new ParseTreeOR((ParseTreeBase *)_ptr1, (ParseTreeBase *)_ptr2);
+    return new ParseTreeOR(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2));
 }
 
 void *KTraderParse_newAND(void *_ptr1, void *_ptr2)
 {
-    return new ParseTreeAND((ParseTreeBase *)_ptr1, (ParseTreeBase *)_ptr2);
+    return new ParseTreeAND(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2));
 }
 
 void *KTraderParse_newCMP(void *_ptr1, void *_ptr2, int _i)
 {
-    return new ParseTreeCMP((ParseTreeBase *)_ptr1, (ParseTreeBase *)_ptr2, _i);
+    return new ParseTreeCMP(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2), _i);
 }
 
 void *KTraderParse_newIN(void *_ptr1, void *_ptr2, int _cs)
 {
-    return new ParseTreeIN((ParseTreeBase *)_ptr1, (ParseTreeBase *)_ptr2, _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive);
+    return new ParseTreeIN(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2), _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive);
 }
 
 void *KTraderParse_newSubstringIN(void *_ptr1, void *_ptr2, int _cs)
 {
-    return new ParseTreeIN((ParseTreeBase *)_ptr1, (ParseTreeBase *)_ptr2,
+    return new ParseTreeIN(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2),
                            _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive, true);
 }
 
 void *KTraderParse_newMATCH(void *_ptr1, void *_ptr2, int _cs)
 {
-    return new ParseTreeMATCH((ParseTreeBase *)_ptr1, (ParseTreeBase *)_ptr2, _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive);
+    return new ParseTreeMATCH(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2), _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive);
 }
 
 void *KTraderParse_newCALC(void *_ptr1, void *_ptr2, int _i)
 {
-    return new ParseTreeCALC((ParseTreeBase *)_ptr1, (ParseTreeBase *)_ptr2, _i);
+    return new ParseTreeCALC(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2), _i);
 }
 
 void *KTraderParse_newBRACKETS(void *_ptr1)
 {
-    return new ParseTreeBRACKETS((ParseTreeBase *)_ptr1);
+    return new ParseTreeBRACKETS(static_cast<ParseTreeBase *>(_ptr1));
 }
 
 void *KTraderParse_newNOT(void *_ptr1)
 {
-    return new ParseTreeNOT((ParseTreeBase *)_ptr1);
+    return new ParseTreeNOT(static_cast<ParseTreeBase *>(_ptr1));
 }
 
 void *KTraderParse_newEXIST(char *_ptr1)
@@ -149,7 +149,7 @@ void *KTraderParse_newFLOAT(float _f)
 
 void *KTraderParse_newBOOL(char _b)
 {
-    return new ParseTreeBOOL((bool)_b);
+    return new ParseTreeBOOL(_b);
 }
 
 void *KTraderParse_newMAX2(char *_id)

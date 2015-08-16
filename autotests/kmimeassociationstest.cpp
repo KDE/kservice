@@ -36,6 +36,7 @@ class FakeServiceFactory : public KServiceFactory
 {
 public:
     FakeServiceFactory() : KServiceFactory() {}
+    ~FakeServiceFactory();
 
     virtual KService::Ptr findServiceByMenuId(const QString &name)
     {
@@ -509,6 +510,10 @@ private:
     ExpectedResultsMap preferredApps;
     ExpectedResultsMap removedApps;
 };
+
+FakeServiceFactory::~FakeServiceFactory()
+{
+}
 
 QTEST_GUILESS_MAIN(KMimeAssociationsTest)
 

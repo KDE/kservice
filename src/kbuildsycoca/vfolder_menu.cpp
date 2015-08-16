@@ -430,7 +430,7 @@ VFolderMenu::absoluteDir(const QString &_dir, const QString &baseDir, bool keepR
 static void tagBaseDir(QDomDocument &doc, const QString &tag, const QString &dir)
 {
     QDomNodeList mergeFileList = doc.elementsByTagName(tag);
-    for (int i = 0; i < (int)mergeFileList.count(); i++) {
+    for (int i = 0; i < mergeFileList.count(); i++) {
         QDomAttr attr = doc.createAttribute(QStringLiteral("__BaseDir"));
         attr.setValue(dir);
         mergeFileList.item(i).toElement().setAttributeNode(attr);
@@ -440,7 +440,7 @@ static void tagBaseDir(QDomDocument &doc, const QString &tag, const QString &dir
 static void tagBasePath(QDomDocument &doc, const QString &tag, const QString &path)
 {
     QDomNodeList mergeFileList = doc.elementsByTagName(tag);
-    for (int i = 0; i < (int)mergeFileList.count(); i++) {
+    for (int i = 0; i < mergeFileList.count(); i++) {
         QDomAttr attr = doc.createAttribute(QStringLiteral("__BasePath"));
         attr.setValue(path);
         mergeFileList.item(i).toElement().setAttributeNode(attr);

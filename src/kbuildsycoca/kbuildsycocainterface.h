@@ -25,7 +25,7 @@
 class KBuildSycocaInterface
 {
 public:
-    virtual ~KBuildSycocaInterface() {}
+    virtual ~KBuildSycocaInterface();
     virtual KService::Ptr createService(const QString &path) = 0;
 };
 

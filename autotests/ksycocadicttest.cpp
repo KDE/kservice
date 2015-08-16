@@ -129,7 +129,7 @@ void KSycocaDictTest::testStandardDict()
             }
             dict.remove("DictTestPluginType"); // just to test remove
             add(dict, "DictTestPluginType", "DictTestPluginType");
-            QCOMPARE((int)dict.count(), serviceTypes.count());
+            QCOMPARE(int(dict.count()), serviceTypes.count());
             QDataStream saveStream(&buffer, QIODevice::WriteOnly);
             dict.save(saveStream);
         }

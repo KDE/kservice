@@ -88,9 +88,9 @@ KSycocaFactory::saveHeader(QDataStream &str)
 {
     // Write header
     str.device()->seek(d->mOffset);
-    str << (qint32) d->m_sycocaDictOffset;
-    str << (qint32) d->m_beginEntryOffset;
-    str << (qint32) d->m_endEntryOffset;
+    str << qint32(d->m_sycocaDictOffset);
+    str << qint32(d->m_beginEntryOffset);
+    str << qint32(d->m_endEntryOffset);
 }
 
 void
@@ -125,7 +125,7 @@ KSycocaFactory::save(QDataStream &str)
 
     // Write indices...
     // Linear index
-    str << (qint32) entryCount;
+    str << qint32(entryCount);
     for (KSycocaEntryDict::Iterator it = m_entryDict->begin();
             it != m_entryDict->end(); ++it) {
         str << qint32(it->data()->offset());

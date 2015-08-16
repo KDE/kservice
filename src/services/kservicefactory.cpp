@@ -185,17 +185,13 @@ KService::Ptr KServiceFactory::findServiceByMenuId(const QString &_menuId)
 
 KService *KServiceFactory::createEntry(int offset) const
 {
-    KService *newEntry = 0L;
     KSycocaType type;
     QDataStream *str = KSycoca::self()->findEntry(offset, type);
-    switch (type) {
-    case KST_KService:
-        newEntry = new KService(*str, offset);
-        break;
-    default:
+    if (type != KST_KService) {
         qWarning() << "KServiceFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
         return 0;
     }
+    KService *newEntry = new KService(*str, offset);
     if (!newEntry->isValid()) {
         qWarning() << "KServiceFactory: corrupt object in KSycoca database!";
         delete newEntry;

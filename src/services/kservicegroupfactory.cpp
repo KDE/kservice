@@ -109,18 +109,14 @@ KServiceGroup::Ptr KServiceGroupFactory::findBaseGroup(const QString &_baseGroup
 
 KServiceGroup *KServiceGroupFactory::createGroup(int offset, bool deep) const
 {
-    KServiceGroup *newEntry = 0L;
     KSycocaType type;
     QDataStream *str = KSycoca::self()->findEntry(offset, type);
-    switch (type) {
-    case KST_KServiceGroup:
-        newEntry = new KServiceGroup(*str, offset, deep);
-        break;
-
-    default:
+    if (type != KST_KServiceGroup) {
         qWarning() << "KServiceGroupFactory: unexpected object entry in KSycoca database (type = " << int(type) << ")";
         return 0;
     }
+
+    KServiceGroup *newEntry = new KServiceGroup(*str, offset, deep);
     if (!newEntry->isValid()) {
         qWarning() << "KServiceGroupFactory: corrupt object in KSycoca database!";
         delete newEntry;

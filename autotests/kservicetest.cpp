@@ -413,7 +413,7 @@ void KServiceTest::testDBUSStartupType()
     QVERIFY(konsole);
     QCOMPARE(konsole->menuId(), QString("kde5-konsole.desktop"));
     //qDebug() << konsole->entryPath();
-    QCOMPARE((int)konsole->dbusStartupType(), (int)KService::DBusUnique);
+    QCOMPARE(int(konsole->dbusStartupType()), int(KService::DBusUnique));
 }
 
 void KServiceTest::testByStorageId()

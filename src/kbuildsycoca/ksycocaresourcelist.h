@@ -20,7 +20,6 @@
 
 #include <QtCore/QLinkedList>
 #include <QtCore/QString>
-#include <QtCore/QRegExp>
 
 struct KSycocaResource {
     QByteArray resource;

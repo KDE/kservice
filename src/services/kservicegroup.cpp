@@ -411,7 +411,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
         size_t ln = strxfrm(key.data(), nameStr.constData(), key.size());
         if (ln != size_t(-1)) {
             key.resize(ln);
-            if ((int)ln >= key.size()) {
+            if (int(ln) >= key.size()) {
                 // didn't fit?
                 ln = strxfrm(key.data(), nameStr.constData(), key.size());
                 if (ln == size_t(-1)) {
@@ -703,15 +703,21 @@ public:
     {
     }
 
-    virtual QString name() const
-    {
-        return QLatin1String("separator");
-    }
-
+    virtual QString name() const;
 };
 
+QString KServiceSeparatorPrivate::name() const
+{
+    return QStringLiteral("separator");
+}
+
+
 KServiceSeparator::KServiceSeparator()
-    : KSycocaEntry(*new KServiceSeparatorPrivate(QString::fromLatin1("separator")))
+    : KSycocaEntry(*new KServiceSeparatorPrivate(QStringLiteral("separator")))
+{
+}
+
+KServiceSeparator::~KServiceSeparator()
 {
 }
 

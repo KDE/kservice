@@ -90,7 +90,7 @@ void KCTimeDict::save(QDataStream &str) const
     for (; it != end; ++it) {
         str << it.key() << it.value();
     }
-    str << QString() << (quint32) 0;
+    str << QString() << quint32(0);
 }
 
 ///////////

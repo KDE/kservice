@@ -222,7 +222,7 @@ void KAutostart::setCommandToCheck(const QString &exec)
 
 // do not specialize the readEntry template -
 // http://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=100911
-KAutostart::StartPhase readEntry(const KConfigGroup &group, const char *key, const KAutostart::StartPhase &aDefault)
+static KAutostart::StartPhase readEntry(const KConfigGroup &group, const char *key, const KAutostart::StartPhase &aDefault)
 {
     const QByteArray data = group.readEntry(key, QByteArray());
 

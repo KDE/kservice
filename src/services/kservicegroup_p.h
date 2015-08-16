@@ -91,6 +91,7 @@ public:
      * Construct a service separator
      */
     KServiceSeparator();
+    ~KServiceSeparator();
 
 };
 

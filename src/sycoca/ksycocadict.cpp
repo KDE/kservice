@@ -375,7 +375,7 @@ KSycocaDict::save(QDataStream &str)
     // use "almost prime" number for sz (to calculate diversity) and later
     // for the table size of big tables
     // int sz = d->stringlist->count()*5-1;
-    register unsigned int sz = count() * 4 + 1;
+    unsigned int sz = count() * 4 + 1;
     while (!(((sz % 3) && (sz % 5) && (sz % 7) && (sz % 11) && (sz % 13)))) {
         sz += 2;
     }
@@ -495,11 +495,11 @@ KSycocaDict::save(QDataStream &str)
         for (uint i = 0; i < d->hashTableSize; i++) {
             qint32 tmpid;
             if (!hashTable[i].entry) {
-                tmpid = (qint32) 0;
+                tmpid = 0;
             } else if (!hashTable[i].duplicates) {
-                tmpid = (qint32) hashTable[i].entry->payload->offset();    // Positive ID
+                tmpid = hashTable[i].entry->payload->offset();    // Positive ID
             } else {
-                tmpid = (qint32) - hashTable[i].duplicate_offset;    // Negative ID
+                tmpid = - hashTable[i].duplicate_offset;    // Negative ID
             }
             str << tmpid;
             //qDebug() << QString("Hash table : %1").arg(tmpid,8,16);
@@ -534,7 +534,7 @@ KSycocaDict::save(QDataStream &str)
                     str << offset;                       // Positive ID
                     str << (*dup)->keyStr;                // Key (QString)
                 }
-                str << (qint32) 0;               // End of list marker (0)
+                str << qint32(0);               // End of list marker (0)
             }
         }
         //qDebug() << QString("End of Dict, offset = %1").arg(str.device()->at(),8,16);

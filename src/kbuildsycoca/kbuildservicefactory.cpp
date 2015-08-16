@@ -128,10 +128,10 @@ void KBuildServiceFactory::saveHeader(QDataStream &str)
 {
     KSycocaFactory::saveHeader(str);
 
-    str << (qint32) m_nameDictOffset;
-    str << (qint32) m_relNameDictOffset;
-    str << (qint32) m_offerListOffset;
-    str << (qint32) m_menuIdDictOffset;
+    str << qint32(m_nameDictOffset);
+    str << qint32(m_relNameDictOffset);
+    str << qint32(m_offerListOffset);
+    str << qint32(m_menuIdDictOffset);
 }
 
 void KBuildServiceFactory::save(QDataStream &str)
@@ -380,10 +380,10 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
                 it2 != offers.constEnd(); ++it2) {
             //qDebug() << "servicetype offers list:" << entry->name() << "->" << (*it2).service()->entryPath();
 
-            str << (qint32) entry->offset();
-            str << (qint32)(*it2).service()->offset();
-            str << (qint32)(*it2).preference();
-            str << (qint32) 0; // mimeTypeInheritanceLevel
+            str << qint32(entry->offset());
+            str << qint32((*it2).service()->offset());
+            str << qint32((*it2).preference());
+            str << qint32(0); // mimeTypeInheritanceLevel
             // update offerEntrySize in populateServiceTypes if you add/remove something here
         }
     }
@@ -402,15 +402,15 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
                 it2 != offers.constEnd(); ++it2) {
             //qDebug() << "mimetype offers list:" << entry->name() << "->" << (*it2).service()->entryPath() << "pref" << (*it2).preference();
             Q_ASSERT((*it2).service()->offset() != 0);
-            str << (qint32) entry->offset();
-            str << (qint32)(*it2).service()->offset();
-            str << (qint32)(*it2).preference();
-            str << (qint32)(*it2).mimeTypeInheritanceLevel();
+            str << qint32(entry->offset());
+            str << qint32((*it2).service()->offset());
+            str << qint32((*it2).preference());
+            str << qint32((*it2).mimeTypeInheritanceLevel());
             // update offerEntrySize in populateServiceTypes if you add/remove something here
         }
     }
 
-    str << (qint32) 0;               // End of list marker (0)
+    str << qint32(0);               // End of list marker (0)
 }
 
 void KBuildServiceFactory::addEntry(const KSycocaEntry::Ptr &newEntry)

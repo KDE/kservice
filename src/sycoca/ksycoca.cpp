@@ -23,7 +23,6 @@
 #include "ksycocautils_p.h"
 #include "ksycocatype.h"
 #include "ksycocafactory_p.h"
-#include "kmemfile_p.h"
 #include "kconfiggroup.h"
 #include "ksharedconfig.h"
 #include "sycocadebug.h"
@@ -33,7 +32,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
-#include <QtCore/QBuffer>
 #include <QProcess>
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
@@ -45,10 +43,6 @@
 
 #include "ksycocadevices_p.h"
 
-// TODO: remove mmap() from kdewin32 and use QFile::mmap() when needed
-#ifdef Q_OS_WIN
-#undef HAVE_MMAP
-#endif
 /**
  * Sycoca file version number.
  * If the existing file is outdated, it will not get read
@@ -130,23 +124,25 @@ bool KSycocaPrivate::tryMmap()
     }
     fcntl(m_mmapFile->handle(), F_SETFD, FD_CLOEXEC);
     sycoca_size = m_mmapFile->size();
-    sycoca_mmap = (const char *) mmap(0, sycoca_size,
-                                      PROT_READ, MAP_SHARED,
-                                      m_mmapFile->handle(), 0);
+    void *mmapRet = mmap(0, sycoca_size,
+                       PROT_READ, MAP_SHARED,
+                       m_mmapFile->handle(), 0);
     /* POSIX mandates only MAP_FAILED, but we are paranoid so check for
        null pointer too.  */
-    if (sycoca_mmap == (const char *) MAP_FAILED || sycoca_mmap == 0) {
+    if (mmapRet == MAP_FAILED || mmapRet == 0) {
         qCDebug(SYCOCA).nospace() << "mmap failed. (length = " << sycoca_size << ")";
         sycoca_mmap = 0;
         return false;
     } else {
+        sycoca_mmap = static_cast<const char *>(mmapRet);
 #if HAVE_MADVISE
-        (void) posix_madvise((void *)sycoca_mmap, sycoca_size, POSIX_MADV_WILLNEED);
+        (void) posix_madvise(mmapRet, sycoca_size, POSIX_MADV_WILLNEED);
 #endif // HAVE_MADVISE
         return true;
     }
-#endif // HAVE_MMAP
+#else
     return false;
+#endif // HAVE_MMAP
 }
 
 int KSycoca::version()
@@ -334,8 +330,6 @@ void KSycocaPrivate::closeDatabase()
     m_factories.clear();
 #if HAVE_MMAP
     if (sycoca_mmap) {
-        //QBuffer *buf = static_cast<QBuffer*>(device);
-        //buf->buffer().clear();
         // Solaris has munmap(char*, size_t) and everything else should
         // be happy with a char* for munmap(void*, size_t)
         munmap(const_cast<char *>(sycoca_mmap), sycoca_size);

@@ -75,26 +75,17 @@ int KMimeTypeFactory::serviceOffersOffset(const QString &mimeTypeName)
 
 KMimeTypeFactory::MimeTypeEntry *KMimeTypeFactory::createEntry(int offset) const
 {
-    MimeTypeEntry *newEntry = 0;
     KSycocaType type;
     QDataStream *str = KSycoca::self()->findEntry(offset, type);
     if (!str) {
         return 0;
     }
 
-    switch (type) {
-    case KST_KMimeTypeEntry:
-        newEntry = new MimeTypeEntry(*str, offset);
-        break;
-
-    // Old, now unused
-    case KST_KMimeType:
-        return 0;
-
-    default:
+    if (type != KST_KMimeTypeEntry) {
         qWarning() << "KMimeTypeFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
-        break;
+        return 0;
     }
+    MimeTypeEntry *newEntry = new MimeTypeEntry(*str, offset);
     if (newEntry && !newEntry->isValid()) {
         qWarning() << "KMimeTypeFactory: corrupt object in KSycoca database!\n";
         delete newEntry;
@@ -138,15 +129,19 @@ public:
     {
         return m_name;
     }
-    virtual void save(QDataStream &s)
-    {
-        KSycocaEntryPrivate::save(s);
-        s << m_name << m_serviceOffersOffset;
-    }
+    virtual void save(QDataStream &s);
 
     QString m_name;
     int m_serviceOffersOffset;
 };
+
+void KMimeTypeFactory::MimeTypeEntryPrivate::save(QDataStream &s)
+{
+    KSycocaEntryPrivate::save(s);
+    s << m_name << m_serviceOffersOffset;
+}
+
+////
 
 KMimeTypeFactory::MimeTypeEntry::MimeTypeEntry(const QString &file, const QString &name)
     : KSycocaEntry(*new MimeTypeEntryPrivate(file, name))
@@ -157,6 +152,8 @@ KMimeTypeFactory::MimeTypeEntry::MimeTypeEntry(QDataStream &s, int offset)
     : KSycocaEntry(*new MimeTypeEntryPrivate(s, offset))
 {
 }
+
+KMimeTypeFactory::MimeTypeEntry::~MimeTypeEntry() {}
 
 int KMimeTypeFactory::MimeTypeEntry::serviceOffersOffset() const
 {
@@ -169,3 +166,4 @@ void KMimeTypeFactory::MimeTypeEntry::setServiceOffersOffset(int off)
     Q_D(MimeTypeEntry);
     d->m_serviceOffersOffset = off;
 }
+
