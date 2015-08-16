@@ -21,6 +21,7 @@
 #define KMIMETYPETRADER_H
 
 #include <kservice.h>
+class KMimeTypeTraderPrivate;
 class KServiceOffer;
 typedef QList<KServiceOffer> KServiceOfferList;
 
@@ -191,8 +192,7 @@ private:
     KMimeTypeTrader();
 
 private:
-    class Private;
-    Private *const d;
+    KMimeTypeTraderPrivate *const d;
 
     // class-static so that it can access KSycocaEntry::offset()
     static void filterMimeTypeOffers(KServiceOfferList &list, const QString &genericServiceType);

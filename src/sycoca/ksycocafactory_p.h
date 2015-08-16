@@ -29,7 +29,7 @@ template <typename T> class QList;
 template <typename KT, typename VT> class QHash;
 
 typedef QHash<QString, KSycocaEntry::Ptr> KSycocaEntryDict;
-
+class KSycocaFactoryPrivate;
 /**
  * @internal
  * Base class for sycoca factories
@@ -135,8 +135,7 @@ protected:
 
 private:
     QDataStream *m_str;
-    class Private;
-    Private *const d;
+    KSycocaFactoryPrivate *const d;
 
 protected:
     /** Virtual hook, used to add new "virtual" functions while maintaining

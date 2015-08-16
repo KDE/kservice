@@ -40,7 +40,7 @@ class KServiceTypePrivate;
  * Service types are stored as desktop files in $KDEDIR/share/servicetypes.
  * @see KService, KServiceTypeTrader
  */
-class KSERVICE_EXPORT KServiceType : public KSycocaEntry // TODO KDE5: inherit kshared, but move KSycocaEntry to Private
+class KSERVICE_EXPORT KServiceType : public KSycocaEntry // TODO KDE5: inherit kshared, but move KSycocaEntry to KServiceTypePrivate
 {
 public:
     typedef QExplicitlySharedDataPointer<KServiceType> Ptr;

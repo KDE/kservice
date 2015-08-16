@@ -19,10 +19,10 @@
 
 #include "kserviceoffer.h"
 
-class KServiceOffer::Private
+class KServiceOfferPrivate
 {
 public:
-    Private()
+    KServiceOfferPrivate()
         : preference(-1),
           mimeTypeInheritanceLevel(0),
           bAllowAsDefault(false),
@@ -37,18 +37,18 @@ public:
 };
 
 KServiceOffer::KServiceOffer()
-    : d(new Private)
+    : d(new KServiceOfferPrivate)
 {
 }
 
 KServiceOffer::KServiceOffer(const KServiceOffer &_o)
-    : d(new Private)
+    : d(new KServiceOfferPrivate)
 {
     *d = *_o.d;
 }
 
 KServiceOffer::KServiceOffer(const KService::Ptr &_service, int _pref, int mimeTypeInheritanceLevel, bool _default)
-    : d(new Private)
+    : d(new KServiceOfferPrivate)
 {
     d->pService = _service;
     d->preference = _pref;

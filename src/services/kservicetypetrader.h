@@ -22,7 +22,7 @@
 #include "kservice.h"
 class KServiceOffer;
 typedef QList<KServiceOffer> KServiceOfferList;
-
+class KServiceTypeTraderPrivate;
 /**
  * KDE's trader interface (similar to the CORBA Trader), which provides a way
  * to query the KDE infrastructure for specific applications or components.
@@ -215,8 +215,7 @@ private:
 
     static KServiceOfferList weightedOffers(const QString &serviceType);
 
-    class Private;
-    Private *const d;
+    KServiceTypeTraderPrivate *const d;
 
     friend class KServiceTypeTraderSingleton;
 };

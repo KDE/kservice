@@ -23,6 +23,7 @@
 #include "ksycocaentry.h"
 
 #include <QList>
+class KSycocaDictPrivate;
 
 class QString;
 class QDataStream;
@@ -128,8 +129,7 @@ public:
 
 private:
     Q_DISABLE_COPY(KSycocaDict)
-    class Private;
-    Private *d;
+    KSycocaDictPrivate *d;
 };
 
 #endif

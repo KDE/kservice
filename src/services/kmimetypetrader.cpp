@@ -28,10 +28,10 @@
 #include <qmimedatabase.h>
 #include <QDebug>
 
-class KMimeTypeTrader::Private
+class KMimeTypeTraderPrivate
 {
 public:
-    Private() {}
+    KMimeTypeTraderPrivate() {}
 };
 
 class KMimeTypeTraderSingleton
@@ -48,7 +48,7 @@ KMimeTypeTrader *KMimeTypeTrader::self()
 }
 
 KMimeTypeTrader::KMimeTypeTrader()
-    : d(new Private())
+    : d(new KMimeTypeTraderPrivate())
 {
 }
 

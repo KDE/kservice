@@ -28,14 +28,14 @@
 #include <QThread>
 #include <QtCore/QHash>
 
-class KSycocaFactory::Private
+class KSycocaFactoryPrivate
 {
 public:
-    Private() : mOffset(0),
+    KSycocaFactoryPrivate() : mOffset(0),
         m_sycocaDictOffset(0),
         m_beginEntryOffset(0),
         m_endEntryOffset(0) {}
-    ~Private()
+    ~KSycocaFactoryPrivate()
     {
         delete m_sycocaDict;
     }
@@ -48,7 +48,7 @@ public:
 };
 
 KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id)
-    : m_resourceList(0), m_entryDict(0), m_str(0), d(new Private)
+    : m_resourceList(0), m_entryDict(0), m_str(0), d(new KSycocaFactoryPrivate)
 {
     if (!KSycoca::self()->isBuilding() && (m_str = KSycoca::self()->findFactory(factory_id))) {
         // Read position of index tables....

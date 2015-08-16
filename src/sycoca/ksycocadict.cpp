@@ -48,10 +48,10 @@ public:
     }
 };
 
-class KSycocaDict::Private
+class KSycocaDictPrivate
 {
 public:
-    Private()
+    KSycocaDictPrivate()
         : stringlist(0)
         , stream(0)
         , offset(0)
@@ -59,7 +59,7 @@ public:
     {
     }
 
-    ~Private()
+    ~KSycocaDictPrivate()
     {
         delete stringlist;
     }
@@ -78,12 +78,12 @@ public:
 };
 
 KSycocaDict::KSycocaDict()
-    : d(new Private)
+    : d(new KSycocaDictPrivate)
 {
 }
 
 KSycocaDict::KSycocaDict(QDataStream *str, int offset)
-    : d(new Private)
+    : d(new KSycocaDictPrivate)
 {
     d->stream = str;
     d->offset = offset;
@@ -237,7 +237,7 @@ KSycocaDict::clear()
     d = 0;
 }
 
-uint KSycocaDict::Private::hashKey(const QString &key) const
+uint KSycocaDictPrivate::hashKey(const QString &key) const
 {
     int len = key.length();
     uint h = 0;
@@ -547,7 +547,7 @@ KSycocaDict::save(QDataStream &str)
     delete [] hashTable;
 }
 
-qint32 KSycocaDict::Private::offsetForKey(const QString &key) const
+qint32 KSycocaDictPrivate::offsetForKey(const QString &key) const
 {
     if (!stream || !offset) {
         qWarning() << "No ksycoca database available! Tried running" << KBUILDSYCOCA_EXENAME << "?";

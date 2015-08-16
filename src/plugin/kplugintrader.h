@@ -21,7 +21,7 @@
 #define __kplugintrader_h__
 
 #include "kplugininfo.h"
-
+class KPluginTraderPrivate;
 /**
  * \class KPluginTrader kplugintrader.h <KPluginTrader>
  *
@@ -260,8 +260,7 @@ private:
     KPluginTrader(const KPluginTrader &other);
     KPluginTrader &operator=(const KPluginTrader &rhs);
 
-    class Private;
-    Private *const d;
+    KPluginTraderPrivate *const d;
 
     friend class KPluginTraderSingleton;
 };

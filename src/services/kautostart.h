@@ -23,6 +23,7 @@
 #include <kservice_export.h>
 
 #include <QtCore/QObject>
+class KAutostartPrivate;
 
 class QStringList;
 
@@ -278,8 +279,7 @@ public:
 
 private:
     bool checkStartCondition() const;
-    class Private;
-    Private *const d;
+    KAutostartPrivate *const d;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KAutostart::Conditions)

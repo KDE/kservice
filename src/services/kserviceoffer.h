@@ -22,6 +22,7 @@
 
 #include <QtCore/QString>
 #include <kservice.h>
+class KServiceOfferPrivate;
 
 /**
  * @internal
@@ -124,8 +125,7 @@ public:
     int mimeTypeInheritanceLevel() const;
 
 private:
-    class Private;
-    Private *const d;
+    KServiceOfferPrivate *const d;
 };
 
 /**

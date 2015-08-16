@@ -26,16 +26,16 @@
 #include <QtCore/QFile>
 #include <QStringList>
 
-class KAutostart::Private
+class KAutostartPrivate
 {
 public:
-    Private()
+    KAutostartPrivate()
         : df(0),
           copyIfNeededChecked(false)
     {
     }
 
-    ~Private()
+    ~KAutostartPrivate()
     {
         delete df;
     }
@@ -47,7 +47,7 @@ public:
     bool copyIfNeededChecked;
 };
 
-void KAutostart::Private::copyIfNeeded()
+void KAutostartPrivate::copyIfNeeded()
 {
     if (copyIfNeededChecked) {
         return;
@@ -70,7 +70,7 @@ void KAutostart::Private::copyIfNeeded()
 
 KAutostart::KAutostart(const QString &entryName, QObject *parent)
     : QObject(parent),
-      d(new Private)
+      d(new KAutostartPrivate)
 {
     if (entryName.isEmpty()) {
         d->name = QCoreApplication::applicationName();
