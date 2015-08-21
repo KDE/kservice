@@ -49,16 +49,16 @@ private:
  * Internal factory for storing the timestamp of each file in ksycoca
  * @internal
  */
-class KCTimeInfo : public KSycocaFactory // TODO rename to KCTimeFactory
+class KCTimeFactory : public KSycocaFactory
 {
     K_SYCOCAFACTORY(KST_CTimeInfo)
 public:
     /**
      * Create factory
      */
-    KCTimeInfo();
+    KCTimeFactory();
 
-    virtual ~KCTimeInfo();
+    virtual ~KCTimeFactory();
 
     /**
      * Write out header information

@@ -67,7 +67,7 @@ static quint32 newTimestamp = 0;
 static KBuildServiceFactory *g_serviceFactory = 0;
 static KBuildServiceGroupFactory *g_buildServiceGroupFactory = 0;
 static KSycocaFactory *g_currentFactory = 0;
-static KCTimeInfo *g_ctimeInfo = 0; // factory
+static KCTimeFactory *g_ctimeFactory = 0;
 static KCTimeDict *g_ctimeDict = 0; // old timestamps
 static KBSEntryDict *g_currentEntryDict = 0;
 static KBSEntryDict *g_serviceGroupEntryDict = 0;
@@ -114,7 +114,7 @@ KBuildSycoca::~KBuildSycoca()
 
 KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFactory)
 {
-    quint32 timeStamp = g_ctimeInfo->dict()->ctime(file, g_resource);
+    quint32 timeStamp = g_ctimeFactory->dict()->ctime(file, g_resource);
     if (!timeStamp) {
         timeStamp = calcResourceHash(g_resourceSubdir, file);
     }
@@ -149,7 +149,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
             qDebug() << "new:" << file;
         }
     }
-    g_ctimeInfo->dict()->addCTime(file, g_resource, timeStamp);
+    g_ctimeFactory->dict()->addCTime(file, g_resource, timeStamp);
     if (!entry) {
         // Create a new entry
         entry = g_currentFactory->createEntry(file);
@@ -219,7 +219,7 @@ bool KBuildSycoca::build()
         }
     }
 
-    g_ctimeInfo = new KCTimeInfo(); // This is a build factory too, don't delete!!
+    g_ctimeFactory = new KCTimeFactory(); // This is a build factory too, don't delete!!
     bool uptodate = true;
     for (QMap<QString, QByteArray>::ConstIterator it1 = allResourcesSubDirs.constBegin();
             it1 != allResourcesSubDirs.constEnd();
@@ -343,7 +343,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
         if (directoryFile.isEmpty()) {
             directoryFile = subName + QStringLiteral(".directory");
         }
-        quint32 timeStamp = g_ctimeInfo->dict()->ctime(directoryFile, g_resource);
+        quint32 timeStamp = g_ctimeFactory->dict()->ctime(directoryFile, g_resource);
         if (!timeStamp) {
             timeStamp = calcResourceHash(g_resourceSubdir, directoryFile);
         }
@@ -363,7 +363,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
             }
         }
         if (timeStamp) { // bug? (see calcResourceHash). There might not be a .directory file...
-            g_ctimeInfo->dict()->addCTime(directoryFile, g_resource, timeStamp);
+            g_ctimeFactory->dict()->addCTime(directoryFile, g_resource, timeStamp);
         }
 
         entry = g_buildServiceGroupFactory->addNew(subName, subMenu->directoryFile, entry, subMenu->isDeleted);
@@ -796,7 +796,7 @@ int main(int argc, char **argv)
                 g_allEntries->append(list);
             }
             delete factories; factories = 0;
-            KCTimeInfo *ctimeInfo = new KCTimeInfo;
+            KCTimeFactory *ctimeInfo = new KCTimeFactory;
             *g_ctimeDict = ctimeInfo->loadDict();
         }
         cSycocaPath = 0;

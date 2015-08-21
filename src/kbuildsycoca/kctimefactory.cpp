@@ -95,7 +95,7 @@ void KCTimeDict::save(QDataStream &str) const
 
 ///////////
 
-KCTimeInfo::KCTimeInfo()
+KCTimeFactory::KCTimeFactory()
     : KSycocaFactory(KST_CTimeInfo), m_ctimeDict()
 {
     if (!KSycoca::self()->isBuilding()) {
@@ -106,19 +106,19 @@ KCTimeInfo::KCTimeInfo()
     }
 }
 
-KCTimeInfo::~KCTimeInfo()
+KCTimeFactory::~KCTimeFactory()
 {
 }
 
 void
-KCTimeInfo::saveHeader(QDataStream &str)
+KCTimeFactory::saveHeader(QDataStream &str)
 {
     KSycocaFactory::saveHeader(str);
 
     str << m_dictOffset;
 }
 
-void KCTimeInfo::save(QDataStream &str)
+void KCTimeFactory::save(QDataStream &str)
 {
     KSycocaFactory::save(str);
 
@@ -129,7 +129,7 @@ void KCTimeInfo::save(QDataStream &str)
     str.device()->seek(endOfFactoryData);
 }
 
-KCTimeDict KCTimeInfo::loadDict() const
+KCTimeDict KCTimeFactory::loadDict() const
 {
     KCTimeDict dict;
     QDataStream *str = stream();
