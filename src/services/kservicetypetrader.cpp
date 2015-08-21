@@ -23,8 +23,8 @@
 #include "ktraderparsetree_p.h"
 #include <kservicetypeprofile.h>
 #include "kservicetype.h"
-#include "kservicetypefactory.h"
-#include "kservicefactory.h"
+#include "kservicetypefactory_p.h"
+#include "kservicefactory_p.h"
 
 #include <QDebug>
 

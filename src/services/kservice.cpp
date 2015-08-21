@@ -39,8 +39,8 @@
 #include <qstandardpaths.h>
 #include <qdebug.h>
 
-#include "kservicefactory.h"
-#include "kservicetypefactory.h"
+#include "kservicefactory_p.h"
+#include "kservicetypefactory_p.h"
 #include "kserviceutil_p.h"
 
 QDataStream &operator<<(QDataStream &s, const KService::ServiceTypeAndPreference &st)

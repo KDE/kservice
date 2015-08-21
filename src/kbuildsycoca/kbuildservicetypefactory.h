@@ -20,7 +20,7 @@
 #ifndef KDED_KBUILD_SERVICE_TYPE_FACTORY_H
 #define KDED_KBUILD_SERVICE_TYPE_FACTORY_H
 
-#include <kservicetypefactory.h>
+#include <kservicetypefactory_p.h>
 #include <QtCore/QStringList>
 
 /**

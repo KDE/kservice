@@ -20,7 +20,7 @@
 #define KDED_KBUILD_SERVICE_GROUP_FACTORY_H
 
 #include <kservice.h>
-#include <kservicegroupfactory.h>
+#include <kservicegroupfactory_p.h>
 #include <QtCore/QStringList>
 
 /**

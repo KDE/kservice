@@ -18,8 +18,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef __kservicefactory_h__
-#define __kservicefactory_h__
+#ifndef KSERVICEFACTORY_P_H
+#define KSERVICEFACTORY_P_H
 
 #include <QtCore/QStringList>
 

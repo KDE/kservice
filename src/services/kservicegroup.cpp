@@ -18,8 +18,8 @@
 
 #include "kservicegroup.h"
 #include "kservicegroup_p.h"
-#include "kservicefactory.h"
-#include "kservicegroupfactory.h"
+#include "kservicefactory_p.h"
+#include "kservicegroupfactory_p.h"
 #include "kservice.h"
 #include <ksycoca.h>
 #include <kdesktopfile.h>

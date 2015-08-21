@@ -33,7 +33,7 @@
 #include <kpluginmetadata.h>
 #include <kservice.h>
 #include <kservicetypetrader.h>
-#include <kservicetypefactory.h>
+#include <kservicetypefactory_p.h>
 
 //#ifndef NDEBUG
 #define KPLUGININFO_ISVALID_ASSERTION \

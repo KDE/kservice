@@ -23,7 +23,7 @@
 #include "kservicetypeprofile.h"
 #include "kservicetype.h"
 #include "kservicetypetrader.h"
-#include "kservicefactory.h"
+#include "kservicefactory_p.h"
 #include "kmimetypefactory_p.h"
 #include <qmimedatabase.h>
 #include <QDebug>

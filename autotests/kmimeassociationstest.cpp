@@ -24,7 +24,7 @@
 #include <kconfiggroup.h>
 #include <kdesktopfile.h>
 #include <kmimetypetrader.h>
-#include <kservicefactory.h>
+#include <kservicefactory_p.h>
 #include <qtemporaryfile.h>
 #include <qtest.h>
 #include "kmimeassociations.h"

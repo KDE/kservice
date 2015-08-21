@@ -17,8 +17,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef __k_service_type_factory_h__
-#define __k_service_type_factory_h__
+#ifndef KSERVICETYPEFACTORY_P_H
+#define KSERVICETYPEFACTORY_P_H
 
 #include <assert.h>
 

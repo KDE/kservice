@@ -21,8 +21,8 @@
 #include "kservicetype_p.h"
 #include "ksycoca.h"
 #include "kservice.h"
-#include "kservicetypefactory.h"
-#include "kservicefactory.h"
+#include "kservicetypefactory_p.h"
+#include "kservicefactory_p.h"
 #include "kservicetypeprofile.h"
 #include <assert.h>
 #include <kdesktopfile.h>
