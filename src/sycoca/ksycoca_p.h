@@ -57,7 +57,7 @@ public:
     } databaseStatus;
     bool readError;
 
-    quint32 timeStamp;
+    qint64 timeStamp;
     enum { StrategyMmap, StrategyMemFile, StrategyFile, StrategyDummyBuffer } m_sycocaStrategy;
     QString m_databasePath;
     QStringList changeList;

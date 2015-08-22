@@ -35,7 +35,7 @@ QDataStream *&KSycocaAbstractDevice::stream()
 {
     if (!m_stream) {
         m_stream = new QDataStream(device());
-        m_stream->setVersion(QDataStream::Qt_3_1);
+        m_stream->setVersion(QDataStream::Qt_5_3);
     }
     return m_stream;
 }

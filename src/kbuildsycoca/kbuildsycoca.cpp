@@ -62,7 +62,7 @@
 typedef QHash<QString, KSycocaEntry::Ptr> KBSEntryDict;
 typedef QList<KSycocaEntry::List> KSycocaEntryListList;
 
-static quint32 newTimestamp = 0;
+static qint64 newTimestamp = 0;
 
 static KBuildServiceFactory *g_serviceFactory = 0;
 static KBuildServiceGroupFactory *g_buildServiceGroupFactory = 0;
@@ -407,7 +407,7 @@ bool KBuildSycoca::recreate()
     }
 
     QDataStream *str = new QDataStream(&database);
-    str->setVersion(QDataStream::Qt_3_1);
+    str->setVersion(QDataStream::Qt_5_3);
 
     qDebug().nospace() << "Recreating ksycoca file (" << path << ", version " << KSycoca::version() << ")";
 
@@ -459,7 +459,7 @@ bool KBuildSycoca::recreate()
         QFile ksycocastamp(stamppath);
         ksycocastamp.open(QIODevice::WriteOnly);
         QDataStream str(&ksycocastamp);
-        str.setVersion(QDataStream::Qt_3_1);
+        str.setVersion(QDataStream::Qt_5_3);
         str << newTimestamp;
         str << existingResourceDirs();
         if (g_vfolder) {
@@ -572,11 +572,10 @@ static bool checkDirTimestamps(const QString &dirname, const QDateTime &stamp)
 // and also their directories
 // if all of them are older than the timestamp in file ksycocastamp, this
 // means that there's no need to rebuild ksycoca
-bool KBuildSycoca::checkTimestamps(quint32 timestamp, const QStringList &dirs)
+static bool checkTimestamps(qint64 timestamp, const QStringList &dirs)
 {
     qDebug() << "checking file timestamps";
-    QDateTime stamp;
-    stamp.setTime_t(timestamp);
+    const QDateTime stamp = QDateTime::fromMSecsSinceEpoch(timestamp);
     for (QStringList::ConstIterator it = dirs.begin();
             it != dirs.end();
             ++it) {
@@ -731,7 +730,7 @@ int main(int argc, char **argv)
     }
 
     bool checkstamps = incremental && parser.isSet(QStringLiteral("checkstamps")) && checkfiles;
-    quint32 filestamp = 0;
+    qint64 filestamp = 0;
     QStringList oldresourcedirs;
     if (checkstamps && incremental) {
         QString path = sycocaPath() + QStringLiteral("stamp");
@@ -740,7 +739,7 @@ int main(int argc, char **argv)
         QFile ksycocastamp(path);
         if (ksycocastamp.open(QIODevice::ReadOnly)) {
             QDataStream str(&ksycocastamp);
-            str.setVersion(QDataStream::Qt_3_1);
+            str.setVersion(QDataStream::Qt_5_3);
 
             if (!str.atEnd()) {
                 str >> filestamp;
@@ -764,10 +763,10 @@ int main(int argc, char **argv)
         cSycocaPath = 0;
     }
 
-    newTimestamp = quint32(time(0));
+    newTimestamp = QDateTime::currentMSecsSinceEpoch();
     QStringList changedResources;
 
-    if (checkfiles && (!checkstamps || !KBuildSycoca::checkTimestamps(filestamp, oldresourcedirs))) {
+    if (checkfiles && (!checkstamps || !checkTimestamps(filestamp, oldresourcedirs))) {
         QByteArray qSycocaPath = QFile::encodeName(sycocaPath());
         cSycocaPath = qSycocaPath.data();
 

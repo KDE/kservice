@@ -48,7 +48,7 @@
  * If the existing file is outdated, it will not get read
  * but instead we'll ask kded to regenerate a new one...
  */
-#define KSYCOCA_VERSION 301
+#define KSYCOCA_VERSION 302
 
 /**
  * Sycoca file name, used internally (by kbuildsycoca)
@@ -568,7 +568,7 @@ quint32 KSycoca::timeStamp()
     if (!d->timeStamp) {
         (void) kfsstnd_prefixes();
     }
-    return d->timeStamp;
+    return d->timeStamp / 1000; // from ms to s
 }
 
 quint32 KSycoca::updateSignature()

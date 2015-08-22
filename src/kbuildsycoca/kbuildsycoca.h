@@ -48,8 +48,6 @@ public:
      */
     bool recreate();
 
-    static bool checkTimestamps(quint32 timestamp, const QStringList &dirs);
-
     static QStringList existingResourceDirs();
 
     void setTrackId(const QString &id)
