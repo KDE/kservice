@@ -65,10 +65,6 @@ public:
     {
         KSycoca::clearCaches();
     }
-    QString kfsstnd_prefixes()
-    {
-        return KSycoca::kfsstnd_prefixes();
-    }
 
     /**
      * Returns a number that identifies the current version of the file @p filename,
@@ -77,6 +73,12 @@ public:
      * When a change is made to the file this number will change.
      */
     static quint32 calcResourceHash(const QString &subdir, const QString &filename);
+
+    /**
+     * Compare our current settings (language, prefixes...) with the ones from the existing ksycoca global header.
+     * @return true if they match (= we can reuse this ksycoca), false otherwise (full build)
+     */
+    static bool checkGlobalHeader();
 
 private:
     /**

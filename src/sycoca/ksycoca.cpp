@@ -534,11 +534,12 @@ QDataStream *KSycoca::findFactory(KSycocaFactoryId id)
     return 0;
 }
 
-QString KSycoca::kfsstnd_prefixes()
+KSycoca::KSycocaHeader KSycoca::readSycocaHeader()
 {
+    KSycocaHeader header;
     // do not try to launch kbuildsycoca from here; this code is also called by kbuildsycoca.
     if (!d->checkDatabase(KSycocaPrivate::IfNotFoundDoNothing)) {
-        return QString();
+        return header;
     }
     QDataStream *str = stream();
     Q_ASSERT(str);
@@ -554,19 +555,24 @@ QString KSycoca::kfsstnd_prefixes()
         }
     }
     // We now point to the header
-    QString prefixes;
-    KSycocaUtilsPrivate::read(*str, prefixes);
-    *str >> d->timeStamp;
-    KSycocaUtilsPrivate::read(*str, d->language);
-    *str >> d->updateSig;
+    KSycocaUtilsPrivate::read(*str, header.prefixes);
+    *str >> header.timeStamp;
+    KSycocaUtilsPrivate::read(*str, header.language);
+    *str >> header.updateSignature;
     KSycocaUtilsPrivate::read(*str, d->allResourceDirs);
-    return prefixes;
+
+    // for the useless public accessors. KF6: remove these three lines and the vars.
+    d->timeStamp = header.timeStamp;
+    d->language = header.language;
+    d->updateSig = header.updateSignature;
+
+    return header;
 }
 
 quint32 KSycoca::timeStamp()
 {
     if (!d->timeStamp) {
-        (void) kfsstnd_prefixes();
+        (void) readSycocaHeader();
     }
     return d->timeStamp / 1000; // from ms to s
 }
@@ -574,7 +580,7 @@ quint32 KSycoca::timeStamp()
 quint32 KSycoca::updateSignature()
 {
     if (!d->timeStamp) {
-        (void) kfsstnd_prefixes();
+        (void) readSycocaHeader();
     }
     return d->updateSig;
 }
@@ -600,7 +606,7 @@ QString KSycoca::absoluteFilePath(DatabaseType type)
 QString KSycoca::language()
 {
     if (d->language.isEmpty()) {
-        (void) kfsstnd_prefixes();
+        (void) readSycocaHeader();
     }
     return d->language;
 }
@@ -608,7 +614,7 @@ QString KSycoca::language()
 QStringList KSycoca::allResourceDirs()
 {
     if (!d->timeStamp) {
-        (void) kfsstnd_prefixes();
+        (void) readSycocaHeader();
     }
     return d->allResourceDirs;
 }

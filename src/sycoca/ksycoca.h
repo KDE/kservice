@@ -106,7 +106,7 @@ public:
     /**
      * @internal - returns language stored inside database
      */
-    QString language(); // KF6: make it private
+    QString language(); // KF6: remove
 
     /**
      * @internal - returns timestamp of database
@@ -125,7 +125,7 @@ public:
      * Touching this file causes the database to be recreated
      * from scratch.
      */
-    quint32 updateSignature(); // KF6: make it private
+    quint32 updateSignature(); // KF6: remove
 
     /**
      * @internal - returns all directories with information
@@ -219,10 +219,17 @@ private:
      * @internal only used by kded and kbuildsycoca.
      */
     static void clearCaches();
-    /**
-     * @internal - returns kfsstnd stored inside database
-     */
-    QString kfsstnd_prefixes();
+
+    struct KSycocaHeader {
+        KSycocaHeader() : timeStamp(0), updateSignature(0) {}
+        QString prefixes;
+        QString language;
+        qint64 timeStamp;
+        quint32 updateSignature;
+    };
+
+    KSycocaHeader readSycocaHeader();
+
     friend class KBuildSycoca;
     friend class Kded;
 

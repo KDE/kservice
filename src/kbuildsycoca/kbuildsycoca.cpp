@@ -711,18 +711,7 @@ int main(int argc, char **argv)
     bool incremental = !bGlobalDatabase && !parser.isSet(QStringLiteral("noincremental")) && checkfiles;
     if (incremental || !checkfiles) {
         KSycoca::disableAutoRebuild(); // Prevent deadlock
-        QString current_language = QLocale().bcp47Name();
-        QString ksycoca_language = KSycoca::self()->language();
-        quint32 current_update_sig = KBuildSycoca::calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
-        quint32 ksycoca_update_sig = KSycoca::self()->updateSignature();
-        QString current_prefixes = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
-        QString ksycoca_prefixes = static_cast<KBuildSycoca *>(KSycoca::self())->kfsstnd_prefixes();
-        Q_ASSERT(!ksycoca_prefixes.split(':').contains(QDir::homePath()));
-
-        if ((current_update_sig != ksycoca_update_sig) ||
-                (current_language != ksycoca_language) ||
-                (current_prefixes != ksycoca_prefixes) ||
-                (KSycoca::self()->timeStamp() == 0)) {
+        if (!KBuildSycoca::checkGlobalHeader()) {
             incremental = false;
             checkfiles = true;
             KBuildSycoca::clearCaches();
@@ -858,4 +847,19 @@ quint32 KBuildSycoca::calcResourceHash(const QString &resourceSubDir, const QStr
         Q_ASSERT(hash != 0);
     }
     return hash;
+}
+
+bool KBuildSycoca::checkGlobalHeader()
+{
+    const QString current_language = QLocale().bcp47Name();
+    const quint32 current_update_sig = KBuildSycoca::calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
+    const QString current_prefixes = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
+
+    const KSycocaHeader header = KSycoca::self()->readSycocaHeader();
+    Q_ASSERT(!header.prefixes.split(':').contains(QDir::homePath()));
+
+    return (current_update_sig == header.updateSignature) &&
+            (current_language == header.language) &&
+            (current_prefixes == header.prefixes) &&
+            (header.timeStamp != 0);
 }
