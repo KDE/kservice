@@ -133,7 +133,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
             !absPath) {
         qWarning() << "The desktop entry file" << entryPath
                    << "has Type=" << m_strType << "but is located under \"" << QStandardPaths::displayName(resource)
-                   << "\" instead of \"apps\"";
+                   << "\" instead of \"Applications\"";
         m_bValid = false;
         return;
     }
@@ -143,7 +143,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
             !absPath) {
         qWarning() << "The desktop entry file" << entryPath
                    << "has Type=" << m_strType << "but is located under \"" << QStandardPaths::displayName(resource)
-                   << "\" instead of \"shared data\"";
+                   << "\" instead of \"Shared Data\"/kservices5";
         m_bValid = false;
         return;
     }
