@@ -113,8 +113,6 @@ private:
      */
     void clear();
 
-    static bool checkDirTimestamps(const QString &dir, const QDateTime &stamp, bool top);
-
     /**
      * @internal
      * @return true if building (i.e. if a KBuildSycoca);

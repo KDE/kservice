@@ -545,15 +545,8 @@ void KBuildSycoca::save(QDataStream *str)
     str->device()->seek(endOfData);
 }
 
-bool KBuildSycoca::checkDirTimestamps(const QString &dirname, const QDateTime &stamp, bool top)
+static bool checkDirTimestamps(const QString &dirname, const QDateTime &stamp)
 {
-    if (top) {
-        QFileInfo inf(dirname);
-        if (inf.lastModified() > stamp) {
-            qDebug() << "timestamp changed:" << dirname;
-            return false;
-        }
-    }
     QDir dir(dirname);
     const QFileInfoList list = dir.entryInfoList(QDir::NoFilter, QDir::Unsorted);
     if (list.isEmpty()) {
@@ -565,17 +558,17 @@ bool KBuildSycoca::checkDirTimestamps(const QString &dirname, const QDateTime &s
             continue;
         }
         if (fi.lastModified() > stamp) {
-            qDebug() << "timestamp changed:" << fi.filePath();
+            qDebug() << "timestamp changed:" << fi.filePath() << fi.lastModified() << ">" << stamp;
             return false;
         }
-        if (fi.isDir() && !checkDirTimestamps(fi.filePath(), stamp, false)) {
+        if (fi.isDir() && !checkDirTimestamps(fi.filePath(), stamp)) {
             return false;
         }
     }
     return true;
 }
 
-// check times of last modification of all files on which ksycoca depens,
+// check times of last modification of all files on which ksycoca depends,
 // and also their directories
 // if all of them are older than the timestamp in file ksycocastamp, this
 // means that there's no need to rebuild ksycoca
@@ -587,7 +580,12 @@ bool KBuildSycoca::checkTimestamps(quint32 timestamp, const QStringList &dirs)
     for (QStringList::ConstIterator it = dirs.begin();
             it != dirs.end();
             ++it) {
-        if (!checkDirTimestamps(*it, stamp, true)) {
+        QFileInfo inf(*it);
+        if (inf.lastModified() > stamp) {
+            qDebug() << "timestamp changed:" << *it;
+            return false;
+        }
+        if (!checkDirTimestamps(*it, stamp)) {
             return false;
         }
     }
