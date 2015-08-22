@@ -691,8 +691,7 @@ int main(int argc, char **argv)
     KCrash::setEmergencySaveFunction(crashHandler);
 
     while (QDBusConnection::sessionBus().isConnected()) {
-        // kapp registered already, but with the PID in the name.
-        // We need to re-register without it, to detect already-running kbuildsycoca instances.
+        // Detect already-running kbuildsycoca instances using DBus.
         if (QDBusConnection::sessionBus().interface()->registerService(appFullName, QDBusConnectionInterface::QueueService)
                 != QDBusConnectionInterface::ServiceQueued) {
             break; // Go
