@@ -87,12 +87,12 @@ public:
      * @internal - called by factories in read-only mode
      * This is how factories get a stream to an entry
      */
-    QDataStream *findEntry(int offset, KSycocaType &type);
+    QDataStream *findEntry(int offset, KSycocaType &type); // KF6: make it private
     /**
      * @internal - called by factories in read-only mode
      * Returns stream(), but positioned for reading this factory, 0 on error.
      */
-    QDataStream *findFactory(KSycocaFactoryId id);
+    QDataStream *findFactory(KSycocaFactoryId id); // KF6: make it private
     /**
      * @internal - returns absolute file path of the database
      *
@@ -106,7 +106,7 @@ public:
     /**
      * @internal - returns language stored inside database
      */
-    QString language();
+    QString language(); // KF6: make it private
 
     /**
      * @internal - returns timestamp of database
@@ -114,7 +114,7 @@ public:
      * The database contains all changes made _before_ this time and
      * _might_ contain changes made after that.
      */
-    quint32 timeStamp();
+    quint32 timeStamp(); // KF6: remove
 
     /**
      * @internal - returns update signature of database
@@ -125,18 +125,18 @@ public:
      * Touching this file causes the database to be recreated
      * from scratch.
      */
-    quint32 updateSignature();
+    quint32 updateSignature(); // KF6: make it private
 
     /**
      * @internal - returns all directories with information
      * stored inside sycoca.
      */
-    QStringList allResourceDirs();
+    QStringList allResourceDirs(); // KF6: make it private
 
     /**
      * @internal - add a factory
      */
-    void addFactory(KSycocaFactory *);
+    void addFactory(KSycocaFactory *); // KF6: make it private
 
     /**
      * @internal
