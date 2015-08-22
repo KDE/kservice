@@ -421,8 +421,8 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
 
     closeDatabase(); // close the dummy one
 
-    const QString KDED_SERVICE_NAME=QStringLiteral("org.kde.kded5");
-    const QString KBUILDSYCOCA_PATH=QStringLiteral("/kbuildsycoca");
+    const QString KDED_SERVICE_NAME = QStringLiteral("org.kde.kded5");
+    const QString KBUILDSYCOCA_PATH = QStringLiteral("/kbuildsycoca");
     // We can only use the installed ksycoca file if kded is running,
     // since kded is what keeps the file uptodate.
     QDBusConnectionInterface *bus = QDBusConnection::sessionBus().interface();
