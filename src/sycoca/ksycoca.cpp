@@ -40,6 +40,7 @@
 
 #include <stdlib.h>
 #include <fcntl.h>
+#include <QDir>
 
 #include "ksycocadevices_p.h"
 
@@ -406,7 +407,8 @@ bool KSycocaPrivate::checkVersion()
     }
 }
 
-// Allow unittests to skip the kded requirement
+// This is now completely useless. KF6: remove
+extern KSERVICE_EXPORT bool kservice_require_kded;
 KSERVICE_EXPORT bool kservice_require_kded = true;
 
 // If it returns true, we have a valid database and the stream has rewinded to the beginning
@@ -421,86 +423,26 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
 
     closeDatabase(); // close the dummy one
 
-    const QString KDED_SERVICE_NAME = QStringLiteral("org.kde.kded5");
-    const QString KBUILDSYCOCA_PATH = QStringLiteral("/kbuildsycoca");
-    // We can only use the installed ksycoca file if kded is running,
-    // since kded is what keeps the file uptodate.
-    QDBusConnectionInterface *bus = QDBusConnection::sessionBus().interface();
-    const bool kdedRunning = bus->isServiceRegistered(KDED_SERVICE_NAME) ||
-                             qAppName() == QLatin1String("kbuildsycoca5");
-
     // Check if new database already available
-    if ((kdedRunning || !kservice_require_kded) && openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
+    if (openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
         if (checkVersion()) {
-            // Database exists, and version is ok.
+            // Database exists, and version is ok, we can read it.
+
+            if (qAppName() != KBUILDSYCOCA_EXENAME) {
+
+                // Ensure it's uptodate, rebuild if needed
+                checkDirectories(ifNotFound);
+
+                // Don't check again for some time
+                m_lastCheck.start();
+            }
+
             return true;
         }
     }
 
     if (ifNotFound & IfNotFoundRecreate) {
-        // Ask kded to rebuild ksycoca
-        // (so that it's not only built, but also kept up-to-date...)
-        bool kdedRunning = false;
-        if (!bus->isServiceRegistered(KDED_SERVICE_NAME)) {
-            // kded isn't even running: start it
-            QDBusReply<void> reply = bus->startService(KDED_SERVICE_NAME);
-            if (!reply.isValid()) {
-                // kded isn't even available, fall back to kbuildsycoca
-                qWarning() << "Couldn't start kded5 from org.kde.kded5.service:" << reply.error() << ", falling back to running" << KBUILDSYCOCA_EXENAME;
-                QProcess proc;
-                const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
-                if (!kbuildsycoca.isEmpty()) {
-                    QStringList args;
-                    if (QStandardPaths::isTestModeEnabled()) {
-                        args << QLatin1String("--testmode");
-                    }
-                    proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
-                    proc.start(kbuildsycoca, args);
-                    proc.waitForFinished();
-                }
-            } else {
-                //qCDebug(SYCOCA) << "kded5 registered";
-                kdedRunning = true;
-                if (QStandardPaths::isTestModeEnabled()) {
-                    QDBusInterface sycoca(KDED_SERVICE_NAME, KBUILDSYCOCA_PATH);
-                    sycoca.call(QStringLiteral("enableTestMode"));
-                }
-            }
-        } else {
-            //qCDebug(SYCOCA) << "kded5 found";
-            if (QStandardPaths::isTestModeEnabled()) {
-                QDBusInterface sycoca(KDED_SERVICE_NAME, KBUILDSYCOCA_PATH);
-                const QDBusReply<bool> testMode = sycoca.call(QLatin1String("isTestModeEnabled"));
-                if (!testMode.value()) {
-                    qWarning() << "This unit test uses ksycoca, it needs to be run in a separate DBus session, so that kded can be started in 'test mode'.";
-                    qWarning() << "KSycoca updates will very likely fail unless you do that.";
-                    qWarning() << "`eval dbus-launch` ; make test";
-                    // Idea for the future: move kbuildsycoca stuff to its own kded module, and use
-                    // the same module with a different name, for test mode.
-                    // On the other hand, the use of other kded modules (cookies, timezone, etc.)
-                    // is also better separated from the user's kded anyway.
-                }
-            }
-        }
-
-        //qCDebug(SYCOCA) << "We have no database.... asking kded to create it";
-        if (kdedRunning) {
-            QDBusInterface sycoca(KDED_SERVICE_NAME, KBUILDSYCOCA_PATH);
-            sycoca.call(QStringLiteral("recreate"));
-        }
-
-        closeDatabase(); // close the dummy one
-
-        // Ok, the new database should be here now, open it.
-        if (!openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
-            qCDebug(SYCOCA) << "Still no database...";
-            return false; // Still no database - uh oh
-        }
-        if (!checkVersion()) {
-            qCDebug(SYCOCA) << "Still outdated...";
-            return false; // Still outdated - uh oh
-        }
-        return true;
+        return buildSycoca(ifNotFound);
     }
 
     return false;
@@ -536,12 +478,19 @@ QDataStream *KSycoca::findFactory(KSycocaFactoryId id)
 
 KSycoca::KSycocaHeader KSycoca::readSycocaHeader()
 {
-    KSycocaHeader header;
+    return d->readSycocaHeader();
+}
+
+KSycoca::KSycocaHeader KSycocaPrivate::readSycocaHeader()
+{
+    KSycoca::KSycocaHeader header;
     // do not try to launch kbuildsycoca from here; this code is also called by kbuildsycoca.
-    if (!d->checkDatabase(KSycocaPrivate::IfNotFoundDoNothing)) {
+    if (!checkDatabase(KSycocaPrivate::IfNotFoundDoNothing)) {
         return header;
     }
     QDataStream *str = stream();
+    qint64 oldPos = str->device()->pos();
+
     Q_ASSERT(str);
     qint32 aId;
     qint32 aOffset;
@@ -559,14 +508,102 @@ KSycoca::KSycocaHeader KSycoca::readSycocaHeader()
     *str >> header.timeStamp;
     KSycocaUtilsPrivate::read(*str, header.language);
     *str >> header.updateSignature;
-    KSycocaUtilsPrivate::read(*str, d->allResourceDirs);
+    KSycocaUtilsPrivate::read(*str, allResourceDirs);
 
-    // for the useless public accessors. KF6: remove these three lines and the vars.
-    d->timeStamp = header.timeStamp;
-    d->language = header.language;
-    d->updateSig = header.updateSignature;
+    str->device()->seek(oldPos);
+
+    timeStamp = header.timeStamp;
+
+    // for the useless public accessors. KF6: remove these two lines, the accessors and the vars.
+    language = header.language;
+    updateSig = header.updateSignature;
 
     return header;
+}
+
+static bool checkDirTimestamps(const QString &dirname, const QDateTime &stamp)
+{
+    QDir dir(dirname);
+    const QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs, QDir::Unsorted);
+    if (list.isEmpty()) {
+        return true;
+    }
+    foreach (const QFileInfo &fi, list) {
+        if (fi.lastModified() > stamp) {
+            qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << fi.lastModified() << ">" << stamp;
+            return false;
+        }
+        if (fi.isDir() && !checkDirTimestamps(fi.filePath(), stamp)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Check times of last modification of all directories on which ksycoca depends,
+// If all of them are older than the timestamp in file ksycocastamp, this
+// means that there's no need to rebuild ksycoca.
+// kbuildsycoca has a similar check (when launched with --checkstamps, which nobody does),
+// but it even looks at every file. We can't afford doing that here.
+static bool checkTimestamps(qint64 timestamp, const QStringList &dirs)
+{
+    qCDebug(SYCOCA) << "checking file timestamps";
+    const QDateTime stamp = QDateTime::fromMSecsSinceEpoch(timestamp);
+    for (QStringList::ConstIterator it = dirs.begin(); it != dirs.end(); ++it) {
+        const QString dir = *it;
+        QFileInfo inf(dir);
+        if (inf.lastModified() > stamp) {
+            qCDebug(SYCOCA) << "timestamp changed:" << dir;
+            return false;
+        }
+        // Recurse only for services and menus.
+        // Apps and servicetypes don't need recursion, so save the directory listing.
+        if (dir.contains("/applications") || dir.contains("/kservicetypes5")) {
+            continue;
+        }
+        if (!checkDirTimestamps(dir, stamp)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void KSycocaPrivate::checkDirectories(BehaviorsIfNotFound ifNotFound)
+{
+    if (!timeStamp && databaseStatus == DatabaseOK) {
+        (void) readSycocaHeader();
+    }
+    if (timeStamp == 0 || !checkTimestamps(timeStamp, allResourceDirs)) {
+        buildSycoca(ifNotFound);
+    }
+}
+
+bool KSycocaPrivate::buildSycoca(BehaviorsIfNotFound ifNotFound)
+{
+    QProcess proc;
+    const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
+    if (!kbuildsycoca.isEmpty()) {
+        QStringList args;
+        if (QStandardPaths::isTestModeEnabled()) {
+            args << QLatin1String("--testmode");
+        }
+        proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
+        proc.start(kbuildsycoca, args);
+        proc.waitForFinished();
+    }
+
+    closeDatabase(); // close the dummy one
+
+    // Ok, the new database should be here now, open it.
+    if (!openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
+        qCDebug(SYCOCA) << "Still no database...";
+        return false; // Still no database - uh oh
+    }
+    if (!checkVersion()) {
+        qCDebug(SYCOCA) << "Still outdated...";
+        return false; // Still outdated - uh oh
+    }
+    return true;
 }
 
 quint32 KSycoca::timeStamp()
@@ -676,14 +713,15 @@ void KSycoca::ensureCacheValid()
     if (d->m_lastCheck.isValid() && d->m_lastCheck.elapsed() <= 1500) {
         return;
     }
+    d->m_lastCheck.start();
 
     // Check if the file on disk was modified since we last checked it.
     QFileInfo info(d->m_databasePath);
     if (info.lastModified() == d->m_dbLastModified) {
+        // Check if the watched directories were modified, then the cache needs a rebuild.
+        d->checkDirectories(KSycocaPrivate::IfNotFoundOpenDummy);
         return;
     }
-
-    d->m_lastCheck.start();
 
     // Close the database and forget all about what we knew.
     // The next call to any public method will recreate

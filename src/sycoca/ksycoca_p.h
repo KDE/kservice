@@ -46,6 +46,18 @@ public:
     void setStrategyFromString(const QString &strategy);
     bool tryMmap();
 
+    /**
+     * Check if the on-disk cache needs to be rebuilt, and do it then.
+     */
+    void checkDirectories(BehaviorsIfNotFound ifNotFound);
+
+    /**
+     * Recreate the cache and reopen the database
+     */
+    bool buildSycoca(BehaviorsIfNotFound ifNotFound);
+
+    KSycoca::KSycocaHeader readSycocaHeader();
+
     KSycocaAbstractDevice *device();
     QDataStream *&stream();
 
