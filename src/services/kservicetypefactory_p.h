@@ -78,6 +78,11 @@ public:
     KServiceType::List allServiceTypes();
 
     /**
+     * Returns the directories to watch for this factory.
+     */
+    static QStringList resourceDirs();
+
+    /**
      * @return the unique servicetype factory, creating it if necessary
      */
     static KServiceTypeFactory *self();

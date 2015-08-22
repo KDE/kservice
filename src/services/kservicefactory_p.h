@@ -104,6 +104,11 @@ public:
     KService::List allServices();
 
     /**
+     * Returns the directories to watch for this factory.
+     */
+    static QStringList resourceDirs();
+
+    /**
      * @return the unique service factory, creating it if necessary
      */
     static KServiceFactory *self();

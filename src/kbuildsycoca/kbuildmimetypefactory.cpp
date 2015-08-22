@@ -35,13 +35,6 @@ KBuildMimeTypeFactory::KBuildMimeTypeFactory() :
     m_resourceList->add("xdgdata-mime", "mime", "*.xml");
 }
 
-// return all resource types for this factory
-// i.e. first arguments to m_resourceList->add() above
-QStringList KBuildMimeTypeFactory::resourceDirs()
-{
-    return QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "mime", QStandardPaths::LocateDirectory);
-}
-
 KBuildMimeTypeFactory::~KBuildMimeTypeFactory()
 {
     delete m_resourceList;

@@ -81,11 +81,6 @@ public:
      */
     virtual void saveHeader(QDataStream &str);
 
-    /**
-     * Returns all resource types for this service factory
-     */
-    static QStringList resourceDirs();
-
     void postProcessServices();
 
 private:

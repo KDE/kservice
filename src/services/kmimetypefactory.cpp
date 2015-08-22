@@ -110,6 +110,11 @@ QStringList KMimeTypeFactory::allMimeTypes()
     return result;
 }
 
+QStringList KMimeTypeFactory::resourceDirs()
+{
+    return KSycocaFactory::allDirectories(QStringLiteral("mime"));
+}
+
 ////
 
 class KMimeTypeFactory::MimeTypeEntryPrivate : public KSycocaEntryPrivate

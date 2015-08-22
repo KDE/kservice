@@ -35,11 +35,6 @@ KBuildServiceTypeFactory::KBuildServiceTypeFactory() :
     m_resourceList->add("servicetypes", "kservicetypes5", "*.desktop");
 }
 
-QStringList KBuildServiceTypeFactory::resourceDirs()
-{
-    return QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "kservicetypes5", QStandardPaths::LocateDirectory);
-}
-
 KBuildServiceTypeFactory::~KBuildServiceTypeFactory()
 {
     delete m_resourceList;

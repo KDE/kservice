@@ -114,6 +114,11 @@ KServiceType::List KServiceTypeFactory::allServiceTypes()
     return result;
 }
 
+QStringList KServiceTypeFactory::resourceDirs()
+{
+    return KSycocaFactory::allDirectories(QStringLiteral("kservicetypes5"));
+}
+
 KServiceType *KServiceTypeFactory::createEntry(int offset) const
 {
     KSycocaType type;

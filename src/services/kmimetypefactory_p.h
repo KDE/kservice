@@ -66,6 +66,11 @@ public:
      */
     int serviceOffersOffset(const QString &mimeTypeName);
 
+    /**
+     * Returns the directories to watch for this factory.
+     */
+    static QStringList resourceDirs();
+
 public:
     /**
      * @return all mimetypes

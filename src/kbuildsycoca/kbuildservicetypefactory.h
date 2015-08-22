@@ -71,11 +71,6 @@ public:
      * this function.
      */
     virtual void saveHeader(QDataStream &str);
-
-    /**
-     * Returns all resource types for this factory
-     */
-    static QStringList resourceDirs();
 };
 
 #endif

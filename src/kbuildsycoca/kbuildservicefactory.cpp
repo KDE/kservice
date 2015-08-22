@@ -56,11 +56,6 @@ KBuildServiceFactory::KBuildServiceFactory(KSycocaFactory *serviceTypeFactory,
     m_menuIdDict = new KSycocaDict();
 }
 
-QStringList KBuildServiceFactory::resourceDirs()
-{
-    return QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "kservices5", QStandardPaths::LocateDirectory);
-}
-
 KBuildServiceFactory::~KBuildServiceFactory()
 {
     delete m_resourceList;

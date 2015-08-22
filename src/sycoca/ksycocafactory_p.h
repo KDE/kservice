@@ -31,7 +31,7 @@ template <typename KT, typename VT> class QHash;
 typedef QHash<QString, KSycocaEntry::Ptr> KSycocaEntryDict;
 class KSycocaFactoryPrivate;
 /**
- * @internal
+ * @internal (only exported for kbuildsycoca)
  * Base class for sycoca factories
  */
 class KSERVICE_EXPORT KSycocaFactory
@@ -132,6 +132,12 @@ protected:
 
     KSycocaResourceList *m_resourceList;
     KSycocaEntryDict *m_entryDict;
+
+    /**
+     * Returns all directories for the given @p subdir of GenericDataLocation.
+     * Helper function for AnyFactory::resourceDirs().
+     */
+    static QStringList allDirectories(const QString &subdir);
 
 private:
     QDataStream *m_str;

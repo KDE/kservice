@@ -604,10 +604,9 @@ QStringList KBuildSycoca::existingResourceDirs()
     dirs = new QStringList;
     g_allResourceDirs = new QStringList;
     // these are all resource dirs cached by ksycoca
-    *dirs += KBuildServiceTypeFactory::resourceDirs();
-    *dirs += KBuildMimeTypeFactory::resourceDirs();
-    *dirs += KBuildServiceGroupFactory::resourceDirs();
-    *dirs += KBuildServiceFactory::resourceDirs();
+    *dirs += KServiceTypeFactory::resourceDirs();
+    *dirs += KMimeTypeFactory::resourceDirs();
+    *dirs += KServiceFactory::resourceDirs();
 
     *g_allResourceDirs = *dirs;
 

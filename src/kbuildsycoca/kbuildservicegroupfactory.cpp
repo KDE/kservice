@@ -35,11 +35,6 @@ KBuildServiceGroupFactory::KBuildServiceGroupFactory() :
     m_baseGroupDict = new KSycocaDict();
 }
 
-QStringList KBuildServiceGroupFactory::resourceDirs()
-{
-    return QStringList();
-}
-
 KBuildServiceGroupFactory::~KBuildServiceGroupFactory()
 {
     delete m_resourceList;
