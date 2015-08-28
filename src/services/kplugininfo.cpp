@@ -66,6 +66,7 @@ GlobalQStringLiteral(s_licenseKey, "X-KDE-PluginInfo-License")
 GlobalQStringLiteral(s_dependenciesKey, "X-KDE-PluginInfo-Depends")
 GlobalQStringLiteral(s_serviceTypesKey, "ServiceTypes")
 GlobalQStringLiteral(s_xKDEServiceTypes, "X-KDE-ServiceTypes")
+GlobalQStringLiteral(s_mimeTypeKey, "MimeType")
 GlobalQStringLiteral(s_formFactorsKey, "X-KDE-FormFactors")
 GlobalQStringLiteral(s_enabledbyDefaultKey, "X-KDE-PluginInfo-EnabledByDefault")
 GlobalQStringLiteral(s_enabledKey, "Enabled")
@@ -82,6 +83,7 @@ GlobalQStringLiteral(s_jsonLicenseKey, "License")
 GlobalQStringLiteral(s_jsonIdKey, "Id")
 GlobalQStringLiteral(s_jsonVersionKey, "Version")
 GlobalQStringLiteral(s_jsonWebsiteKey, "Website")
+GlobalQStringLiteral(s_jsonMimeTypesKey, "MimeTypes")
 GlobalQStringLiteral(s_jsonKPluginKey, "KPlugin")
 
 }
@@ -95,7 +97,7 @@ public:
         , kcmservicesCached(false)
     {}
 
-    QStringList deserializeList(const QString &data);
+    static QStringList deserializeList(const QString &data);
 
 
     bool hidden : 1;
@@ -188,6 +190,16 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
     kplugin[s_jsonFormFactorsKey()] = QJsonArray::fromStringList(formFactors);
     kplugin[s_serviceTypesKey()] = QJsonArray::fromStringList(serviceTypes);
     kplugin[s_jsonDependenciesKey()] = QJsonArray::fromStringList(dependencies);
+    QJsonValue mimeTypes = accessor(data, s_mimeTypeKey());
+    if (mimeTypes.isString()) {
+        QStringList mimeList = KPluginInfoPrivate::deserializeList(mimeTypes.toString());
+        if (!mimeList.isEmpty()) {
+            mimeTypes = QJsonArray::fromStringList(mimeList);
+        } else {
+            mimeTypes = QJsonValue();
+        }
+    }
+    kplugin[s_jsonMimeTypesKey()] = mimeTypes;
     return kplugin;
 }
 
@@ -540,7 +552,8 @@ QStringList KPluginInfo::dependencies() const
 QStringList KPluginInfo::serviceTypes() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    return d->metaData.serviceTypes();
+    // KService/KPluginInfo include the MIME types in serviceTypes()
+    return d->metaData.serviceTypes() + d->metaData.mimeTypes();
 }
 
 KService::Ptr KPluginInfo::service() const
@@ -589,7 +602,7 @@ QVariant KPluginInfo::property(const QString &key) const
         //special case if we want a stringlist: split values by ',' or ';' and construct the list
         if (t == QVariant::StringList) {
             if (result.canConvert<QString>()) {
-                result = d->deserializeList(result.toString());
+                result = KPluginInfoPrivate::deserializeList(result.toString());
             } else if (result.canConvert<QVariantList>()) {
                 QVariantList list = result.toList();
                 QStringList newResult;

@@ -158,12 +158,10 @@ private Q_SLOTS:
         QCOMPARE(info.libraryPath(), pluginName);
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
         QCOMPARE(info.pluginName(), pluginName);
-        if (info.service() || QTest::currentDataTag() == QByteArrayLiteral("from KService::Ptr + custom property")) {
-            // KService merges X-KDE-ServiceTypes and MimeTypes
-            QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA" << "text/plain" << "image/png");
+        // KService/KPluginInfo merges X-KDE-ServiceTypes and MimeTypes
+        QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA" << "text/plain" << "image/png");
+        if (!info.service()) {
             // KService does not include X-My-Custom-Property since there is no service type installed that defines it
-        } else {
-            QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
             QCOMPARE(info.property("X-My-Custom-Property"), QVariant("foo"));
         }
         QCOMPARE(info.version(), QStringLiteral("1.0"));
