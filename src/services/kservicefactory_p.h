@@ -78,6 +78,8 @@ public:
      */
     virtual KService::Ptr findServiceByMenuId(const QString &_menuId);
 
+    KService::Ptr findServiceByStorageId(const QString &_storageId);
+
     /**
      * @return the services supporting the given service type
      * The @p serviceOffersOffset allows to jump to the right entries directly.

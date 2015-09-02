@@ -620,34 +620,8 @@ KService::Ptr KService::serviceByMenuId(const QString &_name)
 
 KService::Ptr KService::serviceByStorageId(const QString &_storageId)
 {
-    KService::Ptr service = KService::serviceByMenuId(_storageId);
-    if (service) {
-        return service;
-    }
-
-    service = KService::serviceByDesktopPath(_storageId);
-    if (service) {
-        return service;
-    }
-
-    if (!QDir::isRelativePath(_storageId) && QFile::exists(_storageId)) {
-        return KService::Ptr(new KService(_storageId));
-    }
-
-    QString tmp = _storageId;
-    tmp = tmp.mid(tmp.lastIndexOf(QLatin1Char('/')) + 1); // Strip dir
-
-    if (tmp.endsWith(QLatin1String(".desktop"))) {
-        tmp.truncate(tmp.length() - 8);
-    }
-
-    if (tmp.endsWith(QLatin1String(".kdelnk"))) {
-        tmp.truncate(tmp.length() - 7);
-    }
-
-    service = KService::serviceByDesktopName(tmp);
-
-    return service;
+    KSycoca::self()->ensureCacheValid();
+    return KServiceFactory::self()->findServiceByStorageId(_storageId);
 }
 
 bool KService::substituteUid() const
