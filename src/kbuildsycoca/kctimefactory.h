@@ -56,7 +56,7 @@ public:
     /**
      * Create factory
      */
-    KCTimeFactory();
+    KCTimeFactory(KSycoca *db);
 
     virtual ~KCTimeFactory();
 

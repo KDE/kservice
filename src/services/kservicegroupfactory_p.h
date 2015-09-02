@@ -42,7 +42,7 @@ public:
     /**
      * Create factory
      */
-    KServiceGroupFactory();
+    KServiceGroupFactory(KSycoca *db);
     virtual ~KServiceGroupFactory();
 
     /**

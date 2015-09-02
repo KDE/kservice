@@ -47,10 +47,10 @@ public:
     KSycocaDict *m_sycocaDict;
 };
 
-KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id)
-    : m_resourceList(0), m_entryDict(0), m_str(0), d(new KSycocaFactoryPrivate)
+KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id, KSycoca *sycoca)
+    : m_resourceList(0), m_entryDict(0), m_str(0), m_sycoca(sycoca), d(new KSycocaFactoryPrivate)
 {
-    if (!KSycoca::self()->isBuilding() && (m_str = KSycoca::self()->findFactory(factory_id))) {
+    if (!m_sycoca->isBuilding() && (m_str = m_sycoca->findFactory(factory_id))) {
         // Read position of index tables....
         qint32 i;
         (*m_str) >> i;
@@ -74,7 +74,7 @@ KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id)
 
         // m_resourceList will be filled in by inherited constructors
     }
-    KSycoca::self()->addFactory(this);
+    m_sycoca->addFactory(this);
 }
 
 KSycocaFactory::~KSycocaFactory()

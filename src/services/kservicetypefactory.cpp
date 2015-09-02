@@ -28,11 +28,12 @@
 
 Q_GLOBAL_STATIC(KSycocaFactorySingleton<KServiceTypeFactory>, kServiceTypeFactoryInstance)
 
-KServiceTypeFactory::KServiceTypeFactory()
-    : KSycocaFactory(KST_KServiceTypeFactory)
+KServiceTypeFactory::KServiceTypeFactory(KSycoca *db)
+    : KSycocaFactory(KST_KServiceTypeFactory, db)
 {
+    qDebug() << "CREATED" << this;
     kServiceTypeFactoryInstance()->instanceCreated(this);
-    if (!KSycoca::self()->isBuilding()) {
+    if (!sycoca()->isBuilding()) {
         QDataStream *str = stream();
         Q_ASSERT_X(str, "KServiceTypeFactory::KServiceTypeFactory()",
                    "Could not open sycoca database, you must run kbuildsycoca first!");
@@ -57,6 +58,7 @@ KServiceTypeFactory::KServiceTypeFactory()
 
 KServiceTypeFactory::~KServiceTypeFactory()
 {
+    qDebug() << "DELETED" << this;
     KServiceTypeProfile::clearCache();
     if (kServiceTypeFactoryInstance()) {
         kServiceTypeFactoryInstance()->instanceDestroyed(this);
@@ -73,7 +75,7 @@ KServiceType::Ptr KServiceTypeFactory::findServiceTypeByName(const QString &_nam
     if (!sycocaDict()) {
         return KServiceType::Ptr();    // Error!
     }
-    assert(!KSycoca::self()->isBuilding());
+    assert(!sycoca()->isBuilding());
     int offset = sycocaDict()->find_string(_name);
     if (!offset) {
         return KServiceType::Ptr();    // Not found
@@ -94,7 +96,7 @@ QVariant::Type KServiceTypeFactory::findPropertyTypeByName(const QString &_name)
         return QVariant::Invalid;    // Error!
     }
 
-    assert(!KSycoca::self()->isBuilding());
+    assert(!sycoca()->isBuilding());
 
     return static_cast<QVariant::Type>(m_propertyTypeDict.value(_name, QVariant::Invalid));
 }
@@ -122,7 +124,7 @@ QStringList KServiceTypeFactory::resourceDirs()
 KServiceType *KServiceTypeFactory::createEntry(int offset) const
 {
     KSycocaType type;
-    QDataStream *str = KSycoca::self()->findEntry(offset, type);
+    QDataStream *str = sycoca()->findEntry(offset, type);
     if (!str) {
         return 0;
     }

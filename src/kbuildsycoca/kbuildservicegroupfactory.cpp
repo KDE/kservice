@@ -26,8 +26,8 @@
 #include <assert.h>
 #include <QtCore/QHash>
 
-KBuildServiceGroupFactory::KBuildServiceGroupFactory() :
-    KServiceGroupFactory()
+KBuildServiceGroupFactory::KBuildServiceGroupFactory(KSycoca *db)
+    : KServiceGroupFactory(db)
 {
     m_resourceList = new KSycocaResourceList;
 //   m_resourceList->add( "apps", "*.directory" );
@@ -166,7 +166,7 @@ KBuildServiceGroupFactory::save(QDataStream &str)
 
 KServiceGroup::Ptr KBuildServiceGroupFactory::findGroupByDesktopPath(const QString &_name, bool deep)
 {
-    assert(KSycoca::self()->isBuilding());
+    assert(sycoca()->isBuilding());
     Q_UNUSED(deep); // ?
     // We're building a database - the service type must be in memory
     KSycocaEntry::Ptr group = m_entryDict->value(_name);

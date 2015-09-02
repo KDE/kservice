@@ -26,13 +26,13 @@
 
 Q_GLOBAL_STATIC(KSycocaFactorySingleton<KServiceGroupFactory>, kServiceGroupFactoryInstance)
 
-KServiceGroupFactory::KServiceGroupFactory()
-    : KSycocaFactory(KST_KServiceGroupFactory)
+KServiceGroupFactory::KServiceGroupFactory(KSycoca *db)
+    : KSycocaFactory(KST_KServiceGroupFactory, db)
     , m_baseGroupDict(0)
     , m_baseGroupDictOffset(0)
 {
     kServiceGroupFactoryInstance()->instanceCreated(this);
-    if (!KSycoca::self()->isBuilding()) {
+    if (!sycoca()->isBuilding()) {
         QDataStream *str = stream();
         if (!str) {
             return;
@@ -110,7 +110,7 @@ KServiceGroup::Ptr KServiceGroupFactory::findBaseGroup(const QString &_baseGroup
 KServiceGroup *KServiceGroupFactory::createGroup(int offset, bool deep) const
 {
     KSycocaType type;
-    QDataStream *str = KSycoca::self()->findEntry(offset, type);
+    QDataStream *str = sycoca()->findEntry(offset, type);
     if (type != KST_KServiceGroup) {
         qWarning() << "KServiceGroupFactory: unexpected object entry in KSycoca database (type = " << int(type) << ")";
         return 0;

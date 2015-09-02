@@ -45,7 +45,7 @@ public:
     /**
      * Create factory
      */
-    KServiceFactory();
+    KServiceFactory(KSycoca *sycoca);
     virtual ~KServiceFactory();
 
     /**

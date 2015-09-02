@@ -28,8 +28,8 @@
 #include <QtCore/QHash>
 #include <qstandardpaths.h>
 
-KBuildServiceTypeFactory::KBuildServiceTypeFactory() :
-    KServiceTypeFactory()
+KBuildServiceTypeFactory::KBuildServiceTypeFactory(KSycoca *db)
+    : KServiceTypeFactory(db)
 {
     m_resourceList = new KSycocaResourceList;
     m_resourceList->add("servicetypes", "kservicetypes5", "*.desktop");
@@ -42,7 +42,7 @@ KBuildServiceTypeFactory::~KBuildServiceTypeFactory()
 
 KServiceType::Ptr KBuildServiceTypeFactory::findServiceTypeByName(const QString &_name)
 {
-    assert(KSycoca::self()->isBuilding());
+    assert(sycoca()->isBuilding());
     // We're building a database - the service type must be in memory
     KSycocaEntry::Ptr servType = m_entryDict->value(_name);
     return KServiceType::Ptr(static_cast<KServiceType*>(servType.data()));

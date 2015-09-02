@@ -22,7 +22,10 @@
 #include <ksycocaentry.h>
 #include <qstandardpaths.h>
 
+#include <ksycoca.h> // for KSycoca::self()
+
 class QString;
+class KSycoca;
 class KSycocaDict;
 class KSycocaResourceList;
 template <typename T> class QList;
@@ -44,7 +47,7 @@ protected: // virtual class
      * Create a factory which can be used to lookup from/create a database
      * (depending on KSycoca::isBuilding())
      */
-    explicit KSycocaFactory(KSycocaFactoryId factory_id);
+    explicit KSycocaFactory(KSycocaFactoryId factory_id, KSycoca *sycoca);
 
 public:
     virtual ~KSycocaFactory();
@@ -127,6 +130,8 @@ public:
      */
     bool isEmpty() const;
 
+    KSycoca *sycoca() const { return m_sycoca; }
+
 protected:
     QDataStream *stream() const;
 
@@ -141,6 +146,7 @@ protected:
 
 private:
     QDataStream *m_str;
+    KSycoca *m_sycoca;
     KSycocaFactoryPrivate *const d;
 
 protected:
@@ -214,7 +220,7 @@ public:
     F *self()
     {
         if (!m_factories.hasLocalData()) {
-            new F; // calls instanceCreated, which calls setLocalData
+            new F(KSycoca::self()); // calls instanceCreated, which calls setLocalData
             Q_ASSERT(m_factories.hasLocalData());
         }
         return m_factories.localData()->factory();

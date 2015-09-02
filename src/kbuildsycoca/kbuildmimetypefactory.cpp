@@ -27,8 +27,8 @@
 #include <QtCore/QHash>
 #include <qstandardpaths.h>
 
-KBuildMimeTypeFactory::KBuildMimeTypeFactory() :
-    KMimeTypeFactory()
+KBuildMimeTypeFactory::KBuildMimeTypeFactory(KSycoca *db)
+    : KMimeTypeFactory(db)
 {
     m_resourceList = new KSycocaResourceList;
     // We want all xml files under xdgdata/mime - but not mime/packages/*.xml
@@ -42,7 +42,7 @@ KBuildMimeTypeFactory::~KBuildMimeTypeFactory()
 
 KSycocaEntry::List KBuildMimeTypeFactory::allEntries() const
 {
-    assert(KSycoca::self()->isBuilding());
+    assert(sycoca()->isBuilding());
     KSycocaEntry::List lst;
     KSycocaEntryDict::Iterator itmime = m_entryDict->begin();
     const KSycocaEntryDict::Iterator endmime = m_entryDict->end();

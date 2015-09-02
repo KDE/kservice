@@ -26,8 +26,8 @@ extern int servicesDebugArea();
 
 Q_GLOBAL_STATIC(KSycocaFactorySingleton<KMimeTypeFactory>, kMimeTypeFactoryInstance)
 
-KMimeTypeFactory::KMimeTypeFactory()
-    : KSycocaFactory(KST_KMimeTypeFactory)
+KMimeTypeFactory::KMimeTypeFactory(KSycoca *sycoca)
+    : KSycocaFactory(KST_KMimeTypeFactory, sycoca)
 {
     kMimeTypeFactoryInstance()->instanceCreated(this);
 }
@@ -49,7 +49,7 @@ int KMimeTypeFactory::entryOffset(const QString &mimeTypeName)
     if (!sycocaDict()) {
         return -1;    // Error!
     }
-    assert(!KSycoca::self()->isBuilding());
+    assert(!sycoca()->isBuilding());
     const int offset = sycocaDict()->find_string(mimeTypeName);
     return offset;
 }
@@ -76,7 +76,7 @@ int KMimeTypeFactory::serviceOffersOffset(const QString &mimeTypeName)
 KMimeTypeFactory::MimeTypeEntry *KMimeTypeFactory::createEntry(int offset) const
 {
     KSycocaType type;
-    QDataStream *str = KSycoca::self()->findEntry(offset, type);
+    QDataStream *str = sycoca()->findEntry(offset, type);
     if (!str) {
         return 0;
     }

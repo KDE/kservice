@@ -95,10 +95,10 @@ void KCTimeDict::save(QDataStream &str) const
 
 ///////////
 
-KCTimeFactory::KCTimeFactory()
-    : KSycocaFactory(KST_CTimeInfo), m_ctimeDict()
+KCTimeFactory::KCTimeFactory(KSycoca *db)
+    : KSycocaFactory(KST_CTimeInfo, db), m_ctimeDict()
 {
-    if (!KSycoca::self()->isBuilding()) {
+    if (!sycoca()->isBuilding()) {
         QDataStream *str = stream();
         (*str) >> m_dictOffset;
     } else {

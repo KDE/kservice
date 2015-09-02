@@ -27,8 +27,8 @@ extern int servicesDebugArea();
 
 Q_GLOBAL_STATIC(KSycocaFactorySingleton<KServiceFactory>, kServiceFactoryInstance)
 
-KServiceFactory::KServiceFactory()
-    : KSycocaFactory(KST_KServiceFactory),
+KServiceFactory::KServiceFactory(KSycoca *db)
+    : KSycocaFactory(KST_KServiceFactory, db),
       m_nameDict(0),
       m_relNameDict(0),
       m_menuIdDict(0)
@@ -38,7 +38,7 @@ KServiceFactory::KServiceFactory()
     m_nameDictOffset = 0;
     m_relNameDictOffset = 0;
     m_menuIdDictOffset = 0;
-    if (!KSycoca::self()->isBuilding()) {
+    if (!sycoca()->isBuilding()) {
         QDataStream *str = stream();
         Q_ASSERT(str);
         if (!str) {
@@ -186,7 +186,7 @@ KService::Ptr KServiceFactory::findServiceByMenuId(const QString &_menuId)
 KService *KServiceFactory::createEntry(int offset) const
 {
     KSycocaType type;
-    QDataStream *str = KSycoca::self()->findEntry(offset, type);
+    QDataStream *str = sycoca()->findEntry(offset, type);
     if (type != KST_KService) {
         qWarning() << "KServiceFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
         return 0;

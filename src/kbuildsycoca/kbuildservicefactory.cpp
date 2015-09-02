@@ -37,7 +37,7 @@
 KBuildServiceFactory::KBuildServiceFactory(KSycocaFactory *serviceTypeFactory,
         KBuildMimeTypeFactory *mimeTypeFactory,
         KBuildServiceGroupFactory *serviceGroupFactory) :
-    KServiceFactory(),
+    KServiceFactory(serviceTypeFactory->sycoca()),
     m_nameMemoryHash(),
     m_relNameMemoryHash(),
     m_menuIdMemoryHash(),

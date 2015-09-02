@@ -33,7 +33,7 @@ public:
     /**
      * Create factory
      */
-    KBuildMimeTypeFactory();
+    KBuildMimeTypeFactory(KSycoca *db);
 
     virtual ~KBuildMimeTypeFactory();
 

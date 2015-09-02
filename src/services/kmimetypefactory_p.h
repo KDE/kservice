@@ -43,7 +43,7 @@ public:
     /**
      * Create factory
      */
-    KMimeTypeFactory();
+    KMimeTypeFactory(KSycoca *sycoca);
 
     virtual ~KMimeTypeFactory();
 

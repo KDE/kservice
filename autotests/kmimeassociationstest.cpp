@@ -35,7 +35,7 @@
 class FakeServiceFactory : public KServiceFactory
 {
 public:
-    FakeServiceFactory() : KServiceFactory() {}
+    FakeServiceFactory(KSycoca *db) : KServiceFactory(db) {}
     ~FakeServiceFactory();
 
     virtual KService::Ptr findServiceByMenuId(const QString &name)
@@ -163,7 +163,7 @@ private Q_SLOTS:
         // Create factory on the heap and don't delete it. This must happen after
         // Sycoca is built, in case it did not exist before.
         // It registers to KSycoca, which deletes it at end of program execution.
-        KServiceFactory *factory = new FakeServiceFactory;
+        KServiceFactory *factory = new FakeServiceFactory(KSycoca::self());
         QCOMPARE(KServiceFactory::self(), factory); // ctor sets s_self
 
         // For debugging: print all services and their storageId
