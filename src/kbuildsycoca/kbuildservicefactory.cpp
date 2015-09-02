@@ -20,6 +20,7 @@
 #include "kbuildservicefactory.h"
 #include "kbuildservicegroupfactory.h"
 #include "kbuildmimetypefactory.h"
+#include "kservicetypefactory_p.h"
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
 #include "ksycocaresourcelist.h"
@@ -34,7 +35,7 @@
 #include <kmimetypefactory_p.h>
 #include <qstandardpaths.h>
 
-KBuildServiceFactory::KBuildServiceFactory(KSycocaFactory *serviceTypeFactory,
+KBuildServiceFactory::KBuildServiceFactory(KServiceTypeFactory *serviceTypeFactory,
         KBuildMimeTypeFactory *mimeTypeFactory,
         KBuildServiceGroupFactory *serviceGroupFactory) :
     KServiceFactory(serviceTypeFactory->sycoca()),
@@ -272,7 +273,7 @@ void KBuildServiceFactory::populateServiceTypes()
         for (int i = 0; i < serviceTypeList.count() /*don't cache it, it can change during iteration!*/; ++i) {
             const QString stName = serviceTypeList[i].serviceType;
             // It could be a servicetype or a mimetype.
-            KServiceType::Ptr serviceType = KServiceType::serviceType(stName);
+            KServiceType::Ptr serviceType = m_serviceTypeFactory->findServiceTypeByName(stName);
             if (serviceType) {
                 const int preference = serviceTypeList[i].preference;
                 const QString parent = serviceType->parentServiceType();
@@ -319,7 +320,7 @@ void KBuildServiceFactory::populateServiceTypes()
     }
 
     // Read user preferences (added/removed associations) and add/remove serviceoffers to m_offerHash
-    KMimeAssociations mimeAssociations(m_offerHash);
+    KMimeAssociations mimeAssociations(m_offerHash, this);
     mimeAssociations.parseAllMimeAppsList();
 
     // Now for each mimetype, collect services from parent mimetypes

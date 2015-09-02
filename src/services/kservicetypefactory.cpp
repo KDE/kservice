@@ -31,9 +31,8 @@ Q_GLOBAL_STATIC(KSycocaFactorySingleton<KServiceTypeFactory>, kServiceTypeFactor
 KServiceTypeFactory::KServiceTypeFactory(KSycoca *db)
     : KSycocaFactory(KST_KServiceTypeFactory, db)
 {
-    qDebug() << "CREATED" << this;
-    kServiceTypeFactoryInstance()->instanceCreated(this);
     if (!sycoca()->isBuilding()) {
+        kServiceTypeFactoryInstance()->instanceCreated(this);
         QDataStream *str = stream();
         Q_ASSERT_X(str, "KServiceTypeFactory::KServiceTypeFactory()",
                    "Could not open sycoca database, you must run kbuildsycoca first!");
@@ -58,10 +57,11 @@ KServiceTypeFactory::KServiceTypeFactory(KSycoca *db)
 
 KServiceTypeFactory::~KServiceTypeFactory()
 {
-    qDebug() << "DELETED" << this;
-    KServiceTypeProfile::clearCache();
-    if (kServiceTypeFactoryInstance()) {
-        kServiceTypeFactoryInstance()->instanceDestroyed(this);
+    if (!sycoca()->isBuilding()) {
+        KServiceTypeProfile::clearCache();
+        if (kServiceTypeFactoryInstance()) {
+            kServiceTypeFactoryInstance()->instanceDestroyed(this);
+        }
     }
 }
 

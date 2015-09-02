@@ -293,8 +293,6 @@ QDataStream *&KSycocaPrivate::stream()
 KSycoca::KSycoca(bool /* dummy */)
     : d(new KSycocaPrivate)
 {
-    // This instance was not created by the singleton, but by a direct call to new!
-    ksycocaInstance()->setSycoca(this);
 }
 
 KSycoca *KSycoca::self()

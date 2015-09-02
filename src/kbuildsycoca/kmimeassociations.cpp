@@ -20,14 +20,15 @@
 
 #include "kmimeassociations.h"
 #include <kservice.h>
+#include <kservicefactory_p.h>
 #include <kconfiggroup.h>
 #include <kconfig.h>
 #include <QDebug>
 #include <qstandardpaths.h>
 #include <qmimedatabase.h>
 
-KMimeAssociations::KMimeAssociations(KOfferHash &offerHash)
-    : m_offerHash(offerHash)
+KMimeAssociations::KMimeAssociations(KOfferHash &offerHash, KServiceFactory *serviceFactory)
+    : m_offerHash(offerHash), m_serviceFactory(serviceFactory)
 {
 }
 
@@ -91,7 +92,7 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
         } else {
             int pref = basePreference;
             Q_FOREACH (const QString &service, services) {
-                KService::Ptr pService = KService::serviceByStorageId(service);
+                KService::Ptr pService = m_serviceFactory->findServiceByStorageId(service);
                 if (!pService) {
                     //qDebug() << file << "specifies unknown service" << service << "in" << group.name();
                 } else {
@@ -110,7 +111,7 @@ void KMimeAssociations::parseRemovedAssociations(const KConfigGroup &group, cons
     Q_FOREACH (const QString &mime, group.keyList()) {
         const QStringList services = group.readXdgListEntry(mime);
         Q_FOREACH (const QString &service, services) {
-            KService::Ptr pService = KService::serviceByStorageId(service);
+            KService::Ptr pService =  m_serviceFactory->findServiceByStorageId(service);
             if (!pService) {
                 //qDebug() << file << "specifies unknown service" << service << "in" << group.name();
             } else {

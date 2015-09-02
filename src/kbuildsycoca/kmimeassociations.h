@@ -26,6 +26,7 @@
 #include <QHash>
 #include <kserviceoffer.h>
 class KConfigGroup;
+class KServiceFactory;
 
 struct ServiceTypeOffersData {
     QList<KServiceOffer> offers; // service + initial preference + allow as default
@@ -62,7 +63,7 @@ private:
 class KMimeAssociations
 {
 public:
-    explicit KMimeAssociations(KOfferHash &offerHash);
+    explicit KMimeAssociations(KOfferHash &offerHash, KServiceFactory *serviceFactory);
 
     // Read mimeapps.list files
     bool parseAllMimeAppsList();
@@ -74,6 +75,7 @@ private:
     void parseRemovedAssociations(const KConfigGroup &group, const QString &file);
 
     KOfferHash &m_offerHash;
+    KServiceFactory *m_serviceFactory;
 };
 
 #endif /* KMIMEASSOCIATIONS_H */

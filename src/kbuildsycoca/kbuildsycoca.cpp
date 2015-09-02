@@ -108,7 +108,9 @@ KBuildSycoca::KBuildSycoca()
 
 KBuildSycoca::~KBuildSycoca()
 {
-
+    // Delete the factories while we exist, so that the virtual isBuilding() still works
+    qDeleteAll(*factories());
+    factories()->clear();
 }
 
 KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFactory)
@@ -411,7 +413,7 @@ bool KBuildSycoca::recreate()
     qDebug().nospace() << "Recreating ksycoca file (" << path << ", version " << KSycoca::version() << ")";
 
     // It is very important to build the servicetype one first
-    KSycocaFactory *stf = new KBuildServiceTypeFactory(this);
+    KBuildServiceTypeFactory *stf = new KBuildServiceTypeFactory(this);
     KBuildMimeTypeFactory *mimeTypeFactory = new KBuildMimeTypeFactory(this);
     g_buildServiceGroupFactory = new KBuildServiceGroupFactory(this);
     g_serviceFactory = new KBuildServiceFactory(stf, mimeTypeFactory, g_buildServiceGroupFactory);
@@ -782,14 +784,14 @@ int main(int argc, char **argv)
         }
         s_cSycocaPath = 0;
 
-        KBuildSycoca *sycoca = new KBuildSycoca; // Build data base (deletes oldSycoca, which deletes the factories created above)
+        KBuildSycoca sycoca; // Build data base
         if (parser.isSet(QStringLiteral("track"))) {
-            sycoca->setTrackId(parser.value(QStringLiteral("track")));
+            sycoca.setTrackId(parser.value(QStringLiteral("track")));
         }
-        if (!sycoca->recreate()) {
+        if (!sycoca.recreate()) {
             return -1;
         }
-        changedResources = sycoca->changedResources();
+        changedResources = sycoca.changedResources();
 
         if (bGlobalDatabase) {
             // These directories may have been created with 0700 permission

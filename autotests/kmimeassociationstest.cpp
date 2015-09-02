@@ -218,7 +218,7 @@ private Q_SLOTS:
     void testParseSingleFile()
     {
         KOfferHash offerHash;
-        KMimeAssociations parser(offerHash);
+        KMimeAssociations parser(offerHash, KServiceFactory::self());
 
         QTemporaryFile tempFile;
         QVERIFY(tempFile.open());
@@ -266,7 +266,7 @@ private Q_SLOTS:
     void testGlobalAndLocalFiles()
     {
         KOfferHash offerHash;
-        KMimeAssociations parser(offerHash);
+        KMimeAssociations parser(offerHash, KServiceFactory::self());
 
         // Write global file
         QTemporaryFile tempFileGlobal;

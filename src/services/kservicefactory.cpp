@@ -35,12 +35,12 @@ KServiceFactory::KServiceFactory(KSycoca *db)
       m_relNameDict(0),
       m_menuIdDict(0)
 {
-    kServiceFactoryInstance()->instanceCreated(this);
     m_offerListOffset = 0;
     m_nameDictOffset = 0;
     m_relNameDictOffset = 0;
     m_menuIdDictOffset = 0;
     if (!sycoca()->isBuilding()) {
+        kServiceFactoryInstance()->instanceCreated(this);
         QDataStream *str = stream();
         Q_ASSERT(str);
         if (!str) {
@@ -70,8 +70,10 @@ KServiceFactory::KServiceFactory(KSycoca *db)
 
 KServiceFactory::~KServiceFactory()
 {
-    if (kServiceFactoryInstance()) {
-        kServiceFactoryInstance()->instanceDestroyed(this);
+    if (!sycoca()->isBuilding()) {
+        if (kServiceFactoryInstance()) {
+            kServiceFactoryInstance()->instanceDestroyed(this);
+        }
     }
     delete m_nameDict;
     delete m_relNameDict;

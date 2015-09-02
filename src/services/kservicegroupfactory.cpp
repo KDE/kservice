@@ -31,8 +31,8 @@ KServiceGroupFactory::KServiceGroupFactory(KSycoca *db)
     , m_baseGroupDict(0)
     , m_baseGroupDictOffset(0)
 {
-    kServiceGroupFactoryInstance()->instanceCreated(this);
     if (!sycoca()->isBuilding()) {
+        kServiceGroupFactoryInstance()->instanceCreated(this);
         QDataStream *str = stream();
         if (!str) {
             return;
@@ -52,8 +52,11 @@ KServiceGroupFactory::KServiceGroupFactory(KSycoca *db)
 KServiceGroupFactory::~KServiceGroupFactory()
 {
     delete m_baseGroupDict;
-    if (kServiceGroupFactoryInstance()) {
-        kServiceGroupFactoryInstance()->instanceDestroyed(this);
+    if (!sycoca()->isBuilding()) {
+
+        if (kServiceGroupFactoryInstance()) {
+            kServiceGroupFactoryInstance()->instanceDestroyed(this);
+        }
     }
 }
 
