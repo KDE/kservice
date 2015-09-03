@@ -34,6 +34,8 @@
 #include "vfolder_menu.h"
 
 class QDataStream;
+class KCTimeFactory;
+class KCTimeDict;
 
 class KBuildSycoca : public KSycoca, public KBuildSycocaInterface
 {
@@ -47,6 +49,7 @@ public:
      */
     bool recreate(bool incremental);
 
+    static QStringList factoryResourceDirs();
     static QStringList existingResourceDirs();
 
     void setTrackId(const QString &id)
@@ -129,6 +132,19 @@ private:
     QString m_resourceSubdir; // e.g. "kservices5" (xdgdata subdir)
 
     KSycocaEntry::List m_tempStorage;
+    typedef QList<KSycocaEntry::List> KSycocaEntryListList;
+    KSycocaEntryListList *m_allEntries; // entries from existing ksycoca
+    KBuildServiceFactory *m_serviceFactory;
+    KBuildServiceGroupFactory *m_buildServiceGroupFactory;
+    KSycocaFactory *m_currentFactory;
+    KCTimeFactory *m_ctimeFactory;
+    KCTimeDict *m_ctimeDict; // old timestamps
+    typedef QHash<QString, KSycocaEntry::Ptr> KBSEntryDict;
+    KBSEntryDict *m_currentEntryDict;
+    KBSEntryDict *m_serviceGroupEntryDict;
+    VFolderMenu *m_vfolder;
+
+    bool m_changed;
 };
 
 #endif

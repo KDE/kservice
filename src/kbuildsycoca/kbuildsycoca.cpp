@@ -41,9 +41,6 @@
 #include <QDirIterator>
 #include <QDateTime>
 #include <qsavefile.h>
-#include <errno.h>
-
-#include <assert.h>
 
 #include <kcrash.h>
 #include <kmemfile_p.h>
@@ -59,23 +56,7 @@
 
 #include "../../kservice_version.h"
 
-typedef QHash<QString, KSycocaEntry::Ptr> KBSEntryDict;
-typedef QList<KSycocaEntry::List> KSycocaEntryListList;
-
 static qint64 newTimestamp = 0;
-
-static KBuildServiceFactory *g_serviceFactory = 0;
-static KBuildServiceGroupFactory *g_buildServiceGroupFactory = 0;
-static KSycocaFactory *g_currentFactory = 0;
-static KCTimeFactory *g_ctimeFactory = 0;
-static KCTimeDict *g_ctimeDict = 0; // old timestamps
-static KBSEntryDict *g_currentEntryDict = 0;
-static KBSEntryDict *g_serviceGroupEntryDict = 0;
-static KSycocaEntryListList *g_allEntries = 0; // entries from existing ksycoca
-static QStringList *g_allResourceDirs = 0;
-static bool g_changed = false;
-static VFolderMenu *g_vfolder = 0;
-
 
 static bool bGlobalDatabase = false;
 static bool bMenuTest = false;
@@ -102,7 +83,17 @@ static QString sycocaPath()
 KBuildSycocaInterface::~KBuildSycocaInterface() {}
 
 KBuildSycoca::KBuildSycoca()
-    : KSycoca(true)
+    : KSycoca(true),
+      m_allEntries(0),
+      m_serviceFactory(0),
+      m_buildServiceGroupFactory(0),
+      m_currentFactory(0),
+      m_ctimeFactory(0),
+      m_ctimeDict(0),
+      m_currentEntryDict(0),
+      m_serviceGroupEntryDict(0),
+      m_vfolder(0),
+      m_changed(false)
 {
 }
 
@@ -115,49 +106,49 @@ KBuildSycoca::~KBuildSycoca()
 
 KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFactory)
 {
-    quint32 timeStamp = g_ctimeFactory->dict()->ctime(file, m_resource);
+    quint32 timeStamp = m_ctimeFactory->dict()->ctime(file, m_resource);
     if (!timeStamp) {
         timeStamp = calcResourceHash(m_resourceSubdir, file);
     }
     KSycocaEntry::Ptr entry;
-    if (g_allEntries) {
-        assert(g_ctimeDict);
-        quint32 oldTimestamp = g_ctimeDict->ctime(file, m_resource);
+    if (m_allEntries) {
+        Q_ASSERT(m_ctimeDict);
+        quint32 oldTimestamp = m_ctimeDict->ctime(file, m_resource);
         if (file.contains("fake")) {
-            qDebug() << "g_ctimeDict->ctime(" << file << ") = " << oldTimestamp << "compared with" << timeStamp;
+            qDebug() << "m_ctimeDict->ctime(" << file << ") = " << oldTimestamp << "compared with" << timeStamp;
         }
 
         if (timeStamp && (timeStamp == oldTimestamp)) {
             // Re-use old entry
-            if (g_currentFactory == g_buildServiceGroupFactory) { // Strip .directory from service-group entries
-                entry = g_currentEntryDict->value(file.left(file.length() - 10));
+            if (m_currentFactory == m_buildServiceGroupFactory) { // Strip .directory from service-group entries
+                entry = m_currentEntryDict->value(file.left(file.length() - 10));
             } else {
-                entry = g_currentEntryDict->value(file);
+                entry = m_currentEntryDict->value(file);
             }
-            // remove from g_ctimeDict; if g_ctimeDict is not empty
+            // remove from m_ctimeDict; if m_ctimeDict is not empty
             // after all files have been processed, it means
             // some files were removed since last time
             if (file.contains("fake")) {
                 qDebug() << "reusing (and removing) old entry for:" << file << "entry=" << entry;
             }
-            g_ctimeDict->remove(file, m_resource);
+            m_ctimeDict->remove(file, m_resource);
         } else if (oldTimestamp) {
-            g_changed = true;
-            g_ctimeDict->remove(file, m_resource);
+            m_changed = true;
+            m_ctimeDict->remove(file, m_resource);
             qDebug() << "modified:" << file;
         } else {
-            g_changed = true;
+            m_changed = true;
             qDebug() << "new:" << file;
         }
     }
-    g_ctimeFactory->dict()->addCTime(file, m_resource, timeStamp);
+    m_ctimeFactory->dict()->addCTime(file, m_resource, timeStamp);
     if (!entry) {
         // Create a new entry
-        entry = g_currentFactory->createEntry(file);
+        entry = m_currentFactory->createEntry(file);
     }
     if (entry && entry->isValid()) {
         if (addToFactory) {
-            g_currentFactory->addEntry(entry);
+            m_currentFactory->addEntry(entry);
         } else {
             m_tempStorage.append(entry);
         }
@@ -186,18 +177,18 @@ bool KBuildSycoca::build()
             factory != factories()->end();
             ++factory) {
         KBSEntryDict *entryDict = new KBSEntryDict;
-        if (g_allEntries) {
-            const KSycocaEntry::List list = (*g_allEntries)[i++];
+        if (m_allEntries) {
+            const KSycocaEntry::List list = (*m_allEntries)[i++];
             Q_FOREACH (const KSycocaEntry::Ptr &entry, list) {
                 //if (entry->entryPath().contains("fake"))
                 //    qDebug() << "inserting into entryDict:" << entry->entryPath() << entry;
                 entryDict->insert(entry->entryPath(), entry);
             }
         }
-        if ((*factory) == g_serviceFactory) {
+        if ((*factory) == m_serviceFactory) {
             serviceEntryDict = entryDict;
-        } else if ((*factory) == g_buildServiceGroupFactory) {
-            g_serviceGroupEntryDict = entryDict;
+        } else if ((*factory) == m_buildServiceGroupFactory) {
+            m_serviceGroupEntryDict = entryDict;
         }
         entryDictList.append(entryDict);
     }
@@ -220,12 +211,12 @@ bool KBuildSycoca::build()
         }
     }
 
-    g_ctimeFactory = new KCTimeFactory(this); // This is a build factory too, don't delete!!
+    m_ctimeFactory = new KCTimeFactory(this); // This is a build factory too, don't delete!!
     bool uptodate = true;
     for (QMap<QString, QByteArray>::ConstIterator it1 = allResourcesSubDirs.constBegin();
             it1 != allResourcesSubDirs.constEnd();
             ++it1) {
-        g_changed = false;
+        m_changed = false;
         m_resourceSubdir = it1.key();
         m_resource = it1.value();
 
@@ -249,11 +240,11 @@ bool KBuildSycoca::build()
         KSycocaFactoryList::const_iterator it = factories()->constBegin();
         const KSycocaFactoryList::const_iterator end = factories()->constEnd();
         for (; it != end; ++it, ++ed_it) {
-            g_currentFactory = (*it);
-            // g_ctimeInfo gets created after the initial loop, so it has no entryDict.
-            g_currentEntryDict = ed_it == ed_end ? 0 : *ed_it;
+            m_currentFactory = (*it);
+            // m_ctimeInfo gets created after the initial loop, so it has no entryDict.
+            m_currentEntryDict = ed_it == ed_end ? 0 : *ed_it;
             // For each resource the factory deals with
-            const KSycocaResourceList *list = g_currentFactory->resourceList();
+            const KSycocaResourceList *list = m_currentFactory->resourceList();
             if (!list) {
                 continue;
             }
@@ -278,22 +269,22 @@ bool KBuildSycoca::build()
                 }
             }
         }
-        if (g_changed || !g_allEntries) {
+        if (m_changed || !m_allEntries) {
             uptodate = false;
             //qDebug() << "CHANGED:" << resource;
             m_changedResources.append(m_resource);
         }
     }
 
-    bool result = !uptodate || (g_ctimeDict && !g_ctimeDict->isEmpty());
-    if (g_ctimeDict && !g_ctimeDict->isEmpty()) {
+    bool result = !uptodate || (m_ctimeDict && !m_ctimeDict->isEmpty());
+    if (m_ctimeDict && !m_ctimeDict->isEmpty()) {
         //qDebug() << "Still in time dict:";
-        //g_ctimeDict->dump();
+        //m_ctimeDict->dump();
         // ## It seems entries filtered out by vfolder are still in there,
         // so we end up always saving ksycoca, i.e. this method never returns false
 
         // Get the list of resources from which some files were deleted
-        const QStringList resources = g_ctimeDict->remainingResourceList();
+        const QStringList resources = m_ctimeDict->remainingResourceList();
         qDebug() << "Still in the time dict (i.e. deleted files)" << resources;
         m_changedResources += resources;
     }
@@ -301,27 +292,27 @@ bool KBuildSycoca::build()
     if (result || bMenuTest) {
         m_resource = "apps";
         m_resourceSubdir = QStringLiteral("applications");
-        g_currentFactory = g_serviceFactory;
-        g_currentEntryDict = serviceEntryDict;
-        g_changed = false;
+        m_currentFactory = m_serviceFactory;
+        m_currentEntryDict = serviceEntryDict;
+        m_changed = false;
 
-        g_vfolder = new VFolderMenu(g_serviceFactory, this);
+        m_vfolder = new VFolderMenu(m_serviceFactory, this);
         if (!m_trackId.isEmpty()) {
-            g_vfolder->setTrackId(m_trackId);
+            m_vfolder->setTrackId(m_trackId);
         }
 
-        VFolderMenu::SubMenu *kdeMenu = g_vfolder->parseMenu(QStringLiteral("applications.menu"));
+        VFolderMenu::SubMenu *kdeMenu = m_vfolder->parseMenu(QStringLiteral("applications.menu"));
 
-        KServiceGroup::Ptr entry = g_buildServiceGroupFactory->addNew(QStringLiteral("/"), kdeMenu->directoryFile, KServiceGroup::Ptr(), false);
+        KServiceGroup::Ptr entry = m_buildServiceGroupFactory->addNew(QStringLiteral("/"), kdeMenu->directoryFile, KServiceGroup::Ptr(), false);
         entry->setLayoutInfo(kdeMenu->layoutList);
         createMenu(QString(), QString(), kdeMenu);
 
-        (void) existingResourceDirs();
-        *g_allResourceDirs += g_vfolder->allDirectories();
+        m_allResourceDirs = factoryResourceDirs();
+        m_allResourceDirs += m_vfolder->allDirectories();
 
-        if (g_changed || !g_allEntries) {
+        if (m_changed || !m_allEntries) {
             uptodate = false;
-            //qDebug() << "CHANGED:" << g_resource;
+            //qDebug() << "CHANGED:" << m_resource;
             m_changedResources.append(m_resource);
         }
         if (bMenuTest) {
@@ -344,17 +335,17 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
         if (directoryFile.isEmpty()) {
             directoryFile = subName + QStringLiteral(".directory");
         }
-        quint32 timeStamp = g_ctimeFactory->dict()->ctime(directoryFile, m_resource);
+        quint32 timeStamp = m_ctimeFactory->dict()->ctime(directoryFile, m_resource);
         if (!timeStamp) {
             timeStamp = calcResourceHash(m_resourceSubdir, directoryFile);
         }
 
         KServiceGroup::Ptr entry;
-        if (g_allEntries) {
-            const quint32 oldTimestamp = g_ctimeDict->ctime(directoryFile, m_resource);
+        if (m_allEntries) {
+            const quint32 oldTimestamp = m_ctimeDict->ctime(directoryFile, m_resource);
 
             if (timeStamp && (timeStamp == oldTimestamp)) {
-                KSycocaEntry::Ptr group = g_serviceGroupEntryDict->value(subName);
+                KSycocaEntry::Ptr group = m_serviceGroupEntryDict->value(subName);
                 if (group) {
                     entry = KServiceGroup::Ptr(static_cast<KServiceGroup*>(group.data()));
                     if (entry->directoryEntryPath() != directoryFile) {
@@ -364,10 +355,10 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
             }
         }
         if (timeStamp) { // bug? (see calcResourceHash). There might not be a .directory file...
-            g_ctimeFactory->dict()->addCTime(directoryFile, m_resource, timeStamp);
+            m_ctimeFactory->dict()->addCTime(directoryFile, m_resource, timeStamp);
         }
 
-        entry = g_buildServiceGroupFactory->addNew(subName, subMenu->directoryFile, entry, subMenu->isDeleted);
+        entry = m_buildServiceGroupFactory->addNew(subName, subMenu->directoryFile, entry, subMenu->isDeleted);
         entry->setLayoutInfo(subMenu->layoutList);
         if (!(bMenuTest && entry->noDisplay())) {
             createMenu(caption + entry->caption() + '/', subName, subMenu);
@@ -385,7 +376,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
                 printf("%s\t%s\t%s\n", qPrintable(caption), qPrintable(p->menuId()),
                        qPrintable(QStandardPaths::locate(QStandardPaths::ApplicationsLocation, p->entryPath())));
         } else {
-            g_buildServiceGroupFactory->addNewEntryTo(name, p);
+            m_buildServiceGroupFactory->addNewEntryTo(name, p);
         }
     }
 }
@@ -397,22 +388,22 @@ bool KBuildSycoca::recreate(bool incremental)
     QByteArray qSycocaPath = QFile::encodeName(path);
     s_cSycocaPath = qSycocaPath.data();
 
-    g_allEntries = 0;
-    g_ctimeDict = 0;
+    m_allEntries = 0;
+    m_ctimeDict = 0;
     if (incremental) {
         qDebug() << "Reusing existing ksycoca";
         KSycoca *oldSycoca = KSycoca::self();
-        g_allEntries = new KSycocaEntryListList;
-        g_ctimeDict = new KCTimeDict;
+        m_allEntries = new KSycocaEntryListList;
+        m_ctimeDict = new KCTimeDict;
 
         // Must be in same order as in KBuildSycoca::recreate()!
-        g_allEntries->append(KServiceTypeFactory::self()->allEntries());
-        g_allEntries->append(KMimeTypeFactory::self()->allEntries());
-        g_allEntries->append(KServiceGroupFactory::self()->allEntries());
-        g_allEntries->append(KServiceFactory::self()->allEntries());
+        m_allEntries->append(KServiceTypeFactory::self()->allEntries());
+        m_allEntries->append(KMimeTypeFactory::self()->allEntries());
+        m_allEntries->append(KServiceGroupFactory::self()->allEntries());
+        m_allEntries->append(KServiceFactory::self()->allEntries());
 
         KCTimeFactory *ctimeInfo = new KCTimeFactory(oldSycoca);
-        *g_ctimeDict = ctimeInfo->loadDict();
+        *m_ctimeDict = ctimeInfo->loadDict();
     }
     s_cSycocaPath = 0;
 
@@ -437,8 +428,8 @@ bool KBuildSycoca::recreate(bool incremental)
     // It is very important to build the servicetype one first
     KBuildServiceTypeFactory *stf = new KBuildServiceTypeFactory(this);
     KBuildMimeTypeFactory *mimeTypeFactory = new KBuildMimeTypeFactory(this);
-    g_buildServiceGroupFactory = new KBuildServiceGroupFactory(this);
-    g_serviceFactory = new KBuildServiceFactory(stf, mimeTypeFactory, g_buildServiceGroupFactory);
+    m_buildServiceGroupFactory = new KBuildServiceGroupFactory(this);
+    m_serviceFactory = new KBuildServiceFactory(stf, mimeTypeFactory, m_buildServiceGroupFactory);
 
     if (build()) { // Parse dirs
         save(str); // Save database
@@ -484,8 +475,8 @@ bool KBuildSycoca::recreate(bool incremental)
         str.setVersion(QDataStream::Qt_5_3);
         str << newTimestamp;
         str << existingResourceDirs();
-        if (g_vfolder) {
-            str << g_vfolder->allDirectories();    // Extra resource dirs
+        if (m_vfolder) {
+            str << m_vfolder->allDirectories();    // Extra resource dirs
         }
     }
     if (d->m_sycocaStrategy == KSycocaPrivate::StrategyMemFile) {
@@ -528,7 +519,7 @@ void KBuildSycoca::save(QDataStream *str)
     (*str) << QLocale().bcp47Name();
     // This makes it possible to trigger a ksycoca update for all users (KIOSK feature)
     (*str) << calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
-    (*str) << (*g_allResourceDirs);
+    (*str) << m_allResourceDirs;
 
     // Calculate per-servicetype/mimetype data
     if (serviceFactory) serviceFactory->postProcessServices();
@@ -614,20 +605,28 @@ static bool checkTimestamps(qint64 timestamp, const QStringList &dirs)
     return true;
 }
 
-QStringList KBuildSycoca::existingResourceDirs()
+QStringList KBuildSycoca::factoryResourceDirs()
 {
     static QStringList *dirs = NULL;
     if (dirs != NULL) {
         return *dirs;
     }
     dirs = new QStringList;
-    g_allResourceDirs = new QStringList;
     // these are all resource dirs cached by ksycoca
     *dirs += KServiceTypeFactory::resourceDirs();
     *dirs += KMimeTypeFactory::resourceDirs();
     *dirs += KServiceFactory::resourceDirs();
 
-    *g_allResourceDirs = *dirs;
+    return *dirs;
+}
+
+QStringList KBuildSycoca::existingResourceDirs()
+{
+    static QStringList *dirs = NULL;
+    if (dirs != NULL) {
+        return *dirs;
+    }
+    dirs = new QStringList(factoryResourceDirs());
 
     for (QStringList::Iterator it = dirs->begin();
             it != dirs->end();) {
