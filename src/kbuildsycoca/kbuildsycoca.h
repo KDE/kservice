@@ -45,7 +45,7 @@ public:
     /**
      * Recreate the database file
      */
-    bool recreate();
+    bool recreate(bool incremental);
 
     static QStringList existingResourceDirs();
 

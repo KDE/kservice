@@ -390,9 +390,31 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
     }
 }
 
-bool KBuildSycoca::recreate()
+bool KBuildSycoca::recreate(bool incremental)
 {
     QString path(sycocaPath());
+
+    QByteArray qSycocaPath = QFile::encodeName(path);
+    s_cSycocaPath = qSycocaPath.data();
+
+    g_allEntries = 0;
+    g_ctimeDict = 0;
+    if (incremental) {
+        qDebug() << "Reusing existing ksycoca";
+        KSycoca *oldSycoca = KSycoca::self();
+        g_allEntries = new KSycocaEntryListList;
+        g_ctimeDict = new KCTimeDict;
+
+        // Must be in same order as in KBuildSycoca::recreate()!
+        g_allEntries->append(KServiceTypeFactory::self()->allEntries());
+        g_allEntries->append(KMimeTypeFactory::self()->allEntries());
+        g_allEntries->append(KServiceGroupFactory::self()->allEntries());
+        g_allEntries->append(KServiceFactory::self()->allEntries());
+
+        KCTimeFactory *ctimeInfo = new KCTimeFactory(oldSycoca);
+        *g_ctimeDict = ctimeInfo->loadDict();
+    }
+    s_cSycocaPath = 0;
 
     QSaveFile database(path);
     bool openedOK = database.open(QIODevice::WriteOnly);
@@ -755,40 +777,12 @@ int main(int argc, char **argv)
     QStringList changedResources;
 
     if (checkfiles && (!checkstamps || !checkTimestamps(filestamp, oldresourcedirs))) {
-        QByteArray qSycocaPath = QFile::encodeName(sycocaPath());
-        s_cSycocaPath = qSycocaPath.data();
-
-        g_allEntries = 0;
-        g_ctimeDict = 0;
-        if (incremental) {
-            qDebug() << "Reusing existing ksycoca";
-            KSycoca *oldSycoca = KSycoca::self();
-            QList<KSycocaFactory *> factories;
-            g_allEntries = new KSycocaEntryListList;
-            g_ctimeDict = new KCTimeDict;
-
-            // Must be in same order as in KBuildSycoca::recreate()!
-            factories.append(new KServiceTypeFactory(oldSycoca));
-            factories.append(new KMimeTypeFactory(oldSycoca));
-            factories.append(new KServiceGroupFactory(oldSycoca));
-            factories.append(new KServiceFactory(oldSycoca));
-
-            // For each factory
-            for (KSycocaFactoryList::const_iterator factory = factories.constBegin();
-                    factory != factories.constEnd(); ++factory) {
-                const KSycocaEntry::List list = (*factory)->allEntries();
-                g_allEntries->append(list);
-            }
-            KCTimeFactory *ctimeInfo = new KCTimeFactory(oldSycoca);
-            *g_ctimeDict = ctimeInfo->loadDict();
-        }
-        s_cSycocaPath = 0;
 
         KBuildSycoca sycoca; // Build data base
         if (parser.isSet(QStringLiteral("track"))) {
             sycoca.setTrackId(parser.value(QStringLiteral("track")));
         }
-        if (!sycoca.recreate()) {
+        if (!sycoca.recreate(incremental)) {
             return -1;
         }
         changedResources = sycoca.changedResources();
