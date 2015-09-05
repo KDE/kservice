@@ -17,8 +17,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef KDED_KBUILD_SERVICE_TYPE_FACTORY_H
-#define KDED_KBUILD_SERVICE_TYPE_FACTORY_H
+#ifndef KBUILD_SERVICE_TYPE_FACTORY_H
+#define KBUILD_SERVICE_TYPE_FACTORY_H
 
 #include <kservicetypefactory_p.h>
 #include <QtCore/QStringList>

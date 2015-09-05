@@ -16,8 +16,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef KDED_KCTIME_FACTORY_H
-#define KDED_KCTIME_FACTORY_H
+#ifndef KCTIME_FACTORY_H
+#define KCTIME_FACTORY_H
 
 #include <ksycocafactory_p.h>
 #include <QtCore/QHash>

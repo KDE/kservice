@@ -26,7 +26,6 @@
 #include <kconfiggroup.h>
 #include <ksycocadict_p.h>
 
-extern KSERVICE_EXPORT bool kservice_require_kded;
 
 class KSycocaDictTest : public QObject
 {
@@ -36,7 +35,6 @@ private Q_SLOTS:
     void initTestCase()
     {
         QStandardPaths::enableTestMode(true);
-        kservice_require_kded = false;
 
         // we don't need the services dir -> ensure there isn't one, so we can check allResourceDirs below.
         QDir(servicesDir()).removeRecursively();

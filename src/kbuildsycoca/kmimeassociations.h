@@ -18,8 +18,8 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#ifndef KDED_KMIMEASSOCIATIONS_H
-#define KDED_KMIMEASSOCIATIONS_H
+#ifndef KMIMEASSOCIATIONS_H
+#define KMIMEASSOCIATIONS_H
 
 #include <QSet>
 #include <QStringList>

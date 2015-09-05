@@ -17,8 +17,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef KDED_KBUILD_MIME_TYPE_FACTORY_H
-#define KDED_KBUILD_MIME_TYPE_FACTORY_H
+#ifndef KBUILD_MIME_TYPE_FACTORY_H
+#define KBUILD_MIME_TYPE_FACTORY_H
 
 #include <kmimetypefactory_p.h>
 #include <QtCore/QStringList>

@@ -59,13 +59,11 @@ static void eraseProfiles()
     }
 }
 
-extern KSERVICE_EXPORT bool kservice_require_kded;
 
 void KServiceTest::initTestCase()
 {
     QStandardPaths::enableTestMode(true);
 
-    kservice_require_kded = false;
 
     // A non-C locale is necessary for some tests.
     // This locale must have the following properties:

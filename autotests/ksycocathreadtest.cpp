@@ -201,7 +201,6 @@ public:
     }
 };
 
-extern KSERVICE_EXPORT bool kservice_require_kded;
 
 // This code runs in the main thread
 class KSycocaThreadTest : public QObject
@@ -261,7 +260,6 @@ static void runKBuildSycoca()
 void KSycocaThreadTest::initTestCase()
 {
     QStandardPaths::enableTestMode(true);
-    kservice_require_kded = false;
 
     // This service is always there. Used in the trader queries from the thread.
     const QString fakeTextPlugin = fakeTextPluginDesktopFile();

@@ -69,9 +69,7 @@ requested of it.
 
 <para>
 Users do not normally need to run this application directly; KService will run
-it if necessary, and if KDED is installed and running it will run
-<command>kbuildsyscoca5</command> whenever any of the files whose data is cached
-are changed.
+it if necessary, when any of the files whose data is cached are changed.
 </para>
 </refsect1>
 
