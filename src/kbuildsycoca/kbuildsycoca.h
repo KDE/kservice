@@ -20,8 +20,6 @@
 
 #include "kbuildsycocainterface.h"
 
-#include <sys/stat.h>
-
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
@@ -29,10 +27,10 @@
 #include <ksycoca.h>
 #include <ksycocatype.h>
 #include <ksycocaentry.h>
-#include <kservicegroup.h>
 
 #include "vfolder_menu.h"
 
+class KBuildServiceGroupFactory;
 class QDataStream;
 class KCTimeFactory;
 class KCTimeDict;
@@ -97,7 +95,7 @@ private:
      * Implementation of KBuildSycocaInterface
      * Create service and return it. The caller must add it to the servicefactory.
      */
-    /*! \reimp */ KService::Ptr createService(const QString &path);
+    KService::Ptr createService(const QString &path) Q_DECL_OVERRIDE;
 
     /**
      * Convert a VFolderMenu::SubMenu to KServiceGroups.
@@ -123,7 +121,7 @@ private:
      * @internal
      * @return true if building (i.e. if a KBuildSycoca);
      */
-    virtual bool isBuilding()
+    bool isBuilding() Q_DECL_OVERRIDE
     {
         return true;
     }

@@ -40,9 +40,9 @@ public:
     /**
      * Create new entry.
      */
-    virtual KServiceGroup *createEntry(const QString &) const;
+    KServiceGroup *createEntry(const QString &) const Q_DECL_OVERRIDE;
 
-    virtual KServiceGroup *createEntry(int) const
+    KServiceGroup *createEntry(int) const Q_DECL_OVERRIDE
     {
         assert(0);
         return 0L;
@@ -71,22 +71,22 @@ public:
     /**
      * Find a group ( by desktop path, e.g. "Applications/Editors")
      */
-    virtual KServiceGroup::Ptr findGroupByDesktopPath(const QString &_name, bool deep = true);
+    KServiceGroup::Ptr findGroupByDesktopPath(const QString &_name, bool deep = true) Q_DECL_OVERRIDE;
 
     /**
      * Add a new menu entry
      */
-    virtual void addEntry(const KSycocaEntry::Ptr &newEntry);
+    void addEntry(const KSycocaEntry::Ptr &newEntry) Q_DECL_OVERRIDE;
 
     /**
      * Write out servicegroup  specific index files.
      */
-    virtual void save(QDataStream &str);
+    void save(QDataStream &str) Q_DECL_OVERRIDE;
 
     /**
      * Write out header information
      */
-    virtual void saveHeader(QDataStream &str);
+    void saveHeader(QDataStream &str) Q_DECL_OVERRIDE;
 };
 
 #endif

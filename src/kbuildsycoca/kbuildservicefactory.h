@@ -47,18 +47,18 @@ public:
     virtual ~KBuildServiceFactory();
 
     /// Reimplemented from KServiceFactory
-    virtual KService::Ptr findServiceByDesktopName(const QString &name);
+    KService::Ptr findServiceByDesktopName(const QString &name) Q_DECL_OVERRIDE;
     /// Reimplemented from KServiceFactory
-    virtual KService::Ptr findServiceByDesktopPath(const QString &name);
+    KService::Ptr findServiceByDesktopPath(const QString &name) Q_DECL_OVERRIDE;
     /// Reimplemented from KServiceFactory
-    virtual KService::Ptr findServiceByMenuId(const QString &menuId);
+    KService::Ptr findServiceByMenuId(const QString &menuId) Q_DECL_OVERRIDE;
 
     /**
      * Construct a KService from a config file.
      */
-    virtual KSycocaEntry *createEntry(const QString &file) const;
+    KSycocaEntry *createEntry(const QString &file) const Q_DECL_OVERRIDE;
 
-    virtual KService *createEntry(int) const
+    KService *createEntry(int) const Q_DECL_OVERRIDE
     {
         assert(0);
         return 0;
@@ -67,12 +67,12 @@ public:
     /**
      * Add a new entry.
      */
-    virtual void addEntry(const KSycocaEntry::Ptr &newEntry);
+    void addEntry(const KSycocaEntry::Ptr &newEntry) Q_DECL_OVERRIDE;
 
     /**
      * Write out service specific index files.
      */
-    virtual void save(QDataStream &str);
+    void save(QDataStream &str) Q_DECL_OVERRIDE;
 
     /**
      * Write out header information
@@ -80,7 +80,7 @@ public:
      * Don't forget to call the parent first when you override
      * this function.
      */
-    virtual void saveHeader(QDataStream &str);
+    void saveHeader(QDataStream &str) Q_DECL_OVERRIDE;
 
     void postProcessServices();
 

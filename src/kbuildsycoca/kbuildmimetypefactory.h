@@ -37,14 +37,14 @@ public:
 
     virtual ~KBuildMimeTypeFactory();
 
-    virtual KSycocaEntry::List allEntries() const;
+    KSycocaEntry::List allEntries() const Q_DECL_OVERRIDE;
 
     /**
      * Construct a KMimeType from a config file.
      */
-    virtual KSycocaEntry *createEntry(const QString &file) const;
+    KSycocaEntry *createEntry(const QString &file) const Q_DECL_OVERRIDE;
 
-    virtual MimeTypeEntry *createEntry(int) const
+    MimeTypeEntry *createEntry(int) const Q_DECL_OVERRIDE
     {
         assert(0);
         return 0L;
@@ -55,7 +55,7 @@ public:
     /**
      * Write out mime type specific index files.
      */
-    virtual void save(QDataStream &str);
+    void save(QDataStream &str) Q_DECL_OVERRIDE;
 
     /**
      * Write out header information
@@ -63,7 +63,7 @@ public:
      * Don't forget to call the parent first when you override
      * this function.
      */
-    virtual void saveHeader(QDataStream &str);
+    void saveHeader(QDataStream &str) Q_DECL_OVERRIDE;
 };
 
 #endif
