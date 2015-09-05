@@ -1,0 +1,187 @@
+# translation of kdelibs4.po to Chinese Traditional
+# Copyright (C) 2001, 2002, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+# Eric Cheng <ericc@shinewave.com.tw>, unknown.
+# This file referenced zh_CN translations at 2002.
+# Chih-Wei Huang <cwhuang@linux.org.tw>, 2001.
+# Kenduest Lee <kenduest@i18n.linux.org.tw>, 2001, 2002.
+# Jouston Huang (Huang, Jiun-Jeng) <jouston@housediy.com>, 2002.
+# Chia-Lin, Kao <acelan@linux.org.tw>, 2004.
+# Yuan-Chen Cheng <ycheng@slat.org>, 2002.
+# Goodhorse <franklin@goodhorse.idv.tw>, 2008.
+# Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2006-2009, 2010.
+# Franklin Weng <franklin@mail.everfocus.com.tw>, 2010, 2011, 2012.
+# Franklin Weng <franklin@goodhorse.idv.tw>, 2010, 2011, 2012, 2013, 2014.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2015-09-03 08:20+0000\n"
+"PO-Revision-Date: 2014-04-22 10:36+0800\n"
+"Last-Translator: Franklin Weng <franklin at goodhorse dot idv dot tw>\n"
+"Language-Team: Chinese Traditional <kde-tw@googlegroups.com>\n"
+"Language: zh_TW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Frank Weng (a.k.a. Franklin)"
+
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "franklin@goodhorse.idv.tw"
+
+#: kbuildsycoca/kbuildsycoca.cpp:652
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca.cpp:654
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "重建系統設定快取。"
+
+#: kbuildsycoca/kbuildsycoca.cpp:656
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "Copyright 1999-2014 KDE 開發團隊"
+
+#: kbuildsycoca/kbuildsycoca.cpp:657
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca.cpp:658 kbuildsycoca/kbuildsycoca.cpp:661
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "作者"
+
+#: kbuildsycoca/kbuildsycoca.cpp:660
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca.cpp:671
+msgctxt "@info:shell command-line option"
+msgid "Do not signal applications to update"
+msgstr "不向應用程式發出更新訊號。"
+
+#: kbuildsycoca/kbuildsycoca.cpp:674
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "取消逐步更新，並重新讀取所有資料。"
+
+#: kbuildsycoca/kbuildsycoca.cpp:677
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps"
+msgstr "檢查檔案的時間標記。"
+
+#: kbuildsycoca/kbuildsycoca.cpp:680
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (dangerous)"
+msgstr "不檢查檔案（危險）"
+
+#: kbuildsycoca/kbuildsycoca.cpp:683
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "建立全域資料庫"
+
+#: kbuildsycoca/kbuildsycoca.cpp:686
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "僅執行產生選單的測試。"
+
+#: kbuildsycoca/kbuildsycoca.cpp:689
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "追蹤選單代碼做為偵錯之用"
+
+#: kbuildsycoca/kbuildsycoca.cpp:693
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr "將 QStandardPaths 切換到測試模式，做單元測試用"
+
+#: kdeinit/ktoolinvocation.cpp:66
+msgid "Function must be called from the main thread."
+msgstr "函式必須從主執行緒中呼叫。"
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"啟動 %1 時發生錯誤。可能是 KLauncher 未執行，或啟動應用程式時發生問題。"
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"無法透過 DBus 啟動 KLauncher，呼叫 %1 時發生錯誤：\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:251
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"無法執行電子郵件客戶程式：\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:252
+msgid "Could not launch Mail Client"
+msgstr "無法執行電子郵件客戶程式。"
+
+#: kdeinit/ktoolinvocation_x11.cpp:301 kdeinit/ktoolinvocation_x11.cpp:326
+#: kdeinit/ktoolinvocation_x11.cpp:345
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"無法執行網頁瀏覽器：\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:302 kdeinit/ktoolinvocation_x11.cpp:327
+#: kdeinit/ktoolinvocation_x11.cpp:346
+msgid "Could not launch Browser"
+msgstr "無法執行網頁瀏覽器"
+
+#: kdeinit/ktoolinvocation_x11.cpp:385
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"無法執行終端機客戶程式：\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:386
+msgid "Could not launch Terminal Client"
+msgstr "無法執行終端機客戶程式。"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr "沒有服務實作 %1"
+
+#: services/kservice.cpp:1011
+msgid "The provided service is not valid"
+msgstr "提供的服務不合法"
+
+#: services/kservice.cpp:1015
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "此服務 %1 沒有提供函式庫，或是遺失了函式庫的主鍵值。"
