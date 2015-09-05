@@ -49,12 +49,14 @@ public:
      */
     bool recreate(bool incremental);
 
-    static QStringList factoryResourceDirs();
-    static QStringList existingResourceDirs();
-
     void setTrackId(const QString &id)
     {
         m_trackId = id;
+    }
+
+    void setMenuTest(bool b)
+    {
+        m_menuTest = b;
     }
 
     QStringList changedResources() const
@@ -67,6 +69,8 @@ public:
     {
         KSycoca::clearCaches();
     }
+    static QStringList factoryResourceDirs();
+    static QStringList existingResourceDirs();
 
     /**
      * Returns a number that identifies the current version of the file @p filename,
@@ -146,6 +150,7 @@ private:
     qint64 m_newTimestamp;
 
     bool m_globalDatabase;
+    bool m_menuTest;
     bool m_changed;
 };
 

@@ -56,8 +56,6 @@
 
 #include "../../kservice_version.h"
 
-static bool bMenuTest = false;
-
 static const char *s_cSycocaPath = 0;
 static void crashHandler(int)
 {
@@ -279,7 +277,7 @@ bool KBuildSycoca::build()
         m_changedResources += resources;
     }
 
-    if (result || bMenuTest) {
+    if (result || m_menuTest) {
         m_resource = "apps";
         m_resourceSubdir = QStringLiteral("applications");
         m_currentFactory = m_serviceFactory;
@@ -305,7 +303,7 @@ bool KBuildSycoca::build()
             //qDebug() << "CHANGED:" << m_resource;
             m_changedResources.append(m_resource);
         }
-        if (bMenuTest) {
+        if (m_menuTest) {
             result = false;
         }
     }
@@ -350,7 +348,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
 
         entry = m_buildServiceGroupFactory->addNew(subName, subMenu->directoryFile, entry, subMenu->isDeleted);
         entry->setLayoutInfo(subMenu->layoutList);
-        if (!(bMenuTest && entry->noDisplay())) {
+        if (!(m_menuTest && entry->noDisplay())) {
             createMenu(caption + entry->caption() + '/', subName, subMenu);
         }
     }
@@ -361,7 +359,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
         name += '/';
     }
     foreach (const KService::Ptr &p, menu->items) {
-        if (bMenuTest) {
+        if (m_menuTest) {
             if (!menu->isDeleted && !p->noDisplay())
                 printf("%s\t%s\t%s\n", qPrintable(caption), qPrintable(p->menuId()),
                        qPrintable(QStandardPaths::locate(QStandardPaths::ApplicationsLocation, p->entryPath())));
@@ -456,7 +454,7 @@ bool KBuildSycoca::recreate(bool incremental)
         delete str;
         str = 0;
         database.cancelWriting();
-        if (bMenuTest) {
+        if (m_menuTest) {
             return true;
         }
         qDebug() << "Database is up to date";
@@ -697,7 +695,7 @@ int main(int argc, char **argv)
     about.processCommandLine(&parser);
 
     const bool bGlobalDatabase = parser.isSet(QStringLiteral("global"));
-    bMenuTest = parser.isSet(QStringLiteral("menutest"));
+    const bool bMenuTest = parser.isSet(QStringLiteral("menutest"));
 
     if (parser.isSet(QStringLiteral("testmode"))) {
         QStandardPaths::enableTestMode(true);
@@ -782,6 +780,7 @@ int main(int argc, char **argv)
         if (parser.isSet(QStringLiteral("track"))) {
             sycoca.setTrackId(parser.value(QStringLiteral("track")));
         }
+        sycoca.setMenuTest(bMenuTest);
         if (!sycoca.recreate(incremental)) {
             return -1;
         }
