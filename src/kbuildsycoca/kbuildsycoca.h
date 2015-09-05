@@ -20,13 +20,8 @@
 
 #include "kbuildsycocainterface.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
-
 #include <kservice.h>
 #include <ksycoca.h>
-#include <ksycocatype.h>
-#include <ksycocaentry.h>
 
 #include "vfolder_menu.h"
 
