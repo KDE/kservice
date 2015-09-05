@@ -738,7 +738,7 @@ int main(int argc, char **argv)
         }
     }
 
-    bool checkstamps = incremental && parser.isSet(QStringLiteral("checkstamps")) && checkfiles;
+    bool checkstamps = incremental && parser.isSet(QStringLiteral("checkstamps"));
     qint64 filestamp = 0;
     QStringList oldresourcedirs;
     if (checkstamps && incremental) {
