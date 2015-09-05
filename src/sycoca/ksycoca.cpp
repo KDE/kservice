@@ -696,7 +696,7 @@ void KSycoca::clearCaches()
 
 void KSycoca::ensureCacheValid()
 {
-    if (isBuilding()) {
+    if (qAppName() == KBUILDSYCOCA_EXENAME) {
         return;
     }
 
