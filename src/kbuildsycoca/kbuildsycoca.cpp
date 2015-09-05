@@ -56,9 +56,6 @@
 
 #include "../../kservice_version.h"
 
-static qint64 newTimestamp = 0;
-
-static bool bGlobalDatabase = false;
 static bool bMenuTest = false;
 
 static const char *s_cSycocaPath = 0;
@@ -71,18 +68,9 @@ static void crashHandler(int)
     }
 }
 
-static QString sycocaPath()
-{
-    QFileInfo fi(KSycoca::absoluteFilePath(bGlobalDatabase ? KSycoca::GlobalDatabase : KSycoca::LocalDatabase));
-    if (!QDir().mkpath(fi.absolutePath())) {
-        qWarning() << "Couldn't create" << fi.absolutePath();
-    }
-    return fi.absoluteFilePath();
-}
-
 KBuildSycocaInterface::~KBuildSycocaInterface() {}
 
-KBuildSycoca::KBuildSycoca()
+KBuildSycoca::KBuildSycoca(bool globalDatabase)
     : KSycoca(true),
       m_allEntries(0),
       m_serviceFactory(0),
@@ -93,6 +81,8 @@ KBuildSycoca::KBuildSycoca()
       m_currentEntryDict(0),
       m_serviceGroupEntryDict(0),
       m_vfolder(0),
+      m_newTimestamp(0),
+      m_globalDatabase(globalDatabase),
       m_changed(false)
 {
 }
@@ -383,7 +373,12 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
 
 bool KBuildSycoca::recreate(bool incremental)
 {
-    QString path(sycocaPath());
+    QFileInfo fi(KSycoca::absoluteFilePath(m_globalDatabase ? KSycoca::GlobalDatabase : KSycoca::LocalDatabase));
+    if (!QDir().mkpath(fi.absolutePath())) {
+        qWarning() << "Couldn't create" << fi.absolutePath();
+        return false;
+    }
+    QString path(fi.absoluteFilePath());
 
     QByteArray qSycocaPath = QFile::encodeName(path);
     s_cSycocaPath = qSycocaPath.data();
@@ -423,6 +418,7 @@ bool KBuildSycoca::recreate(bool incremental)
     QDataStream *str = new QDataStream(&database);
     str->setVersion(QDataStream::Qt_5_3);
 
+    m_newTimestamp = QDateTime::currentMSecsSinceEpoch();
     qDebug().nospace() << "Recreating ksycoca file (" << path << ", version " << KSycoca::version() << ")";
 
     // It is very important to build the servicetype one first
@@ -466,18 +462,24 @@ bool KBuildSycoca::recreate(bool incremental)
         qDebug() << "Database is up to date";
     }
 
-    if (!bGlobalDatabase) {
+    if (!m_globalDatabase) {
         // update the timestamp file
         QString stamppath = path + QStringLiteral("stamp");
         QFile ksycocastamp(stamppath);
         ksycocastamp.open(QIODevice::WriteOnly);
         QDataStream str(&ksycocastamp);
         str.setVersion(QDataStream::Qt_5_3);
-        str << newTimestamp;
+        str << m_newTimestamp;
         str << existingResourceDirs();
         if (m_vfolder) {
             str << m_vfolder->allDirectories();    // Extra resource dirs
         }
+    } else {
+        // These directories may have been created with 0700 permission
+        // better delete them if they are empty
+        QString appsDir = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
+        QDir().remove(appsDir);
+        // was doing the same with servicetypes, but I don't think any of these gets created-by-mistake anymore.
     }
     if (d->m_sycocaStrategy == KSycocaPrivate::StrategyMemFile) {
         KMemFile::fileContentsChanged(path);
@@ -515,7 +517,7 @@ void KBuildSycoca::save(QDataStream *str)
     (*str) << qint32(0); // No more factories.
     // Write XDG_DATA_DIRS
     (*str) << QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
-    (*str) << newTimestamp;
+    (*str) << m_newTimestamp;
     (*str) << QLocale().bcp47Name();
     // This makes it possible to trigger a ksycoca update for all users (KIOSK feature)
     (*str) << calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
@@ -694,7 +696,7 @@ int main(int argc, char **argv)
     parser.process(app);
     about.processCommandLine(&parser);
 
-    bGlobalDatabase = parser.isSet(QStringLiteral("global"));
+    const bool bGlobalDatabase = parser.isSet(QStringLiteral("global"));
     bMenuTest = parser.isSet(QStringLiteral("menutest"));
 
     if (parser.isSet(QStringLiteral("testmode"))) {
@@ -741,9 +743,9 @@ int main(int argc, char **argv)
     bool checkstamps = incremental && parser.isSet(QStringLiteral("checkstamps"));
     qint64 filestamp = 0;
     QStringList oldresourcedirs;
-    if (checkstamps && incremental) {
-        QString path = sycocaPath() + QStringLiteral("stamp");
-        QByteArray qPath = QFile::encodeName(path);
+    if (checkstamps) {
+        const QString path = KSycoca::absoluteFilePath(bGlobalDatabase ? KSycoca::GlobalDatabase : KSycoca::LocalDatabase) + QStringLiteral("stamp");
+        const QByteArray qPath = QFile::encodeName(path);
         s_cSycocaPath = qPath.data(); // Delete timestamps on crash
         QFile ksycocastamp(path);
         if (ksycocastamp.open(QIODevice::ReadOnly)) {
@@ -772,12 +774,11 @@ int main(int argc, char **argv)
         s_cSycocaPath = 0;
     }
 
-    newTimestamp = QDateTime::currentMSecsSinceEpoch();
     QStringList changedResources;
 
     if (checkfiles && (!checkstamps || !checkTimestamps(filestamp, oldresourcedirs))) {
 
-        KBuildSycoca sycoca; // Build data base
+        KBuildSycoca sycoca(bGlobalDatabase); // Build data base
         if (parser.isSet(QStringLiteral("track"))) {
             sycoca.setTrackId(parser.value(QStringLiteral("track")));
         }
@@ -785,14 +786,6 @@ int main(int argc, char **argv)
             return -1;
         }
         changedResources = sycoca.changedResources();
-
-        if (bGlobalDatabase) {
-            // These directories may have been created with 0700 permission
-            // better delete them if they are empty
-            QString appsDir = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
-            QDir().remove(appsDir);
-            // was doing the same with servicetypes, but I don't think any of these gets created-by-mistake anymore.
-        }
     }
 
     if (!parser.isSet(QStringLiteral("nosignal"))) {

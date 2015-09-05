@@ -41,7 +41,7 @@ class KBuildSycoca : public KSycoca, public KBuildSycocaInterface
 {
     Q_OBJECT
 public:
-    KBuildSycoca();
+    KBuildSycoca(bool globalDatabase);
     virtual ~KBuildSycoca();
 
     /**
@@ -143,7 +143,9 @@ private:
     KBSEntryDict *m_currentEntryDict;
     KBSEntryDict *m_serviceGroupEntryDict;
     VFolderMenu *m_vfolder;
+    qint64 m_newTimestamp;
 
+    bool m_globalDatabase;
     bool m_changed;
 };
 
