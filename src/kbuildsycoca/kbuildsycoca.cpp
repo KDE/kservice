@@ -559,53 +559,6 @@ void KBuildSycoca::save(QDataStream *str)
     str->device()->seek(endOfData);
 }
 
-static bool checkDirTimestamps(const QString &dirname, const QDateTime &stamp)
-{
-    QDir dir(dirname);
-    const QFileInfoList list = dir.entryInfoList(QDir::NoFilter, QDir::Unsorted);
-    if (list.isEmpty()) {
-        return true;
-    }
-
-    foreach (const QFileInfo &fi, list) {
-        if (fi.fileName() == "." || fi.fileName() == "..") {
-            continue;
-        }
-        if (fi.lastModified() > stamp) {
-            qDebug() << "timestamp changed:" << fi.filePath() << fi.lastModified() << ">" << stamp;
-            return false;
-        }
-        if (fi.isDir() && !checkDirTimestamps(fi.filePath(), stamp)) {
-            return false;
-        }
-    }
-    return true;
-}
-
-// check times of last modification of all files on which ksycoca depends,
-// and also their directories
-// if all of them are older than the timestamp in file ksycocastamp, this
-// means that there's no need to rebuild ksycoca
-static bool checkTimestamps(qint64 timestamp, const QStringList &dirs)
-{
-    qDebug() << "checking file timestamps";
-    const QDateTime stamp = QDateTime::fromMSecsSinceEpoch(timestamp);
-    for (QStringList::ConstIterator it = dirs.begin();
-            it != dirs.end();
-            ++it) {
-        QFileInfo inf(*it);
-        if (inf.lastModified() > stamp) {
-            qDebug() << "timestamp changed:" << *it;
-            return false;
-        }
-        if (!checkDirTimestamps(*it, stamp)) {
-            return false;
-        }
-    }
-    qDebug() << "timestamps check ok";
-    return true;
-}
-
 QStringList KBuildSycoca::factoryResourceDirs()
 {
     static QStringList *dirs = NULL;
@@ -675,10 +628,10 @@ int main(int argc, char **argv)
                       "Disable incremental update, re-read everything")));
     parser.addOption(QCommandLineOption(QStringLiteral("checkstamps"),
                 i18nc("@info:shell command-line option",
-                      "Check file timestamps")));
+                      "Check file timestamps (deprecated, no longer having any effect)")));
     parser.addOption(QCommandLineOption(QStringLiteral("nocheckfiles"),
                 i18nc("@info:shell command-line option",
-                      "Disable checking files (dangerous)")));
+                      "Disable checking files (deprecated, no longer having any effect)")));
     parser.addOption(QCommandLineOption(QStringLiteral("global"),
                 i18nc("@info:shell command-line option",
                       "Create global database")));
@@ -727,66 +680,25 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "%s running...\n", KBUILDSYCOCA_EXENAME);
 
-    bool checkfiles = bGlobalDatabase || !parser.isSet(QStringLiteral("nocheckfiles"));
+    bool incremental = !bGlobalDatabase && !parser.isSet(QStringLiteral("noincremental"));
 
-    bool incremental = !bGlobalDatabase && !parser.isSet(QStringLiteral("noincremental")) && checkfiles;
-    if (incremental || !checkfiles) {
+    if (incremental) {
         KSycoca::disableAutoRebuild(); // Prevent deadlock
         if (!KBuildSycoca::checkGlobalHeader()) {
             incremental = false;
-            checkfiles = true;
             KBuildSycoca::clearCaches();
         }
     }
 
-    bool checkstamps = incremental && parser.isSet(QStringLiteral("checkstamps"));
-    qint64 filestamp = 0;
-    QStringList oldresourcedirs;
-    if (checkstamps) {
-        const QString path = KSycoca::absoluteFilePath(bGlobalDatabase ? KSycoca::GlobalDatabase : KSycoca::LocalDatabase) + QStringLiteral("stamp");
-        const QByteArray qPath = QFile::encodeName(path);
-        s_cSycocaPath = qPath.data(); // Delete timestamps on crash
-        QFile ksycocastamp(path);
-        if (ksycocastamp.open(QIODevice::ReadOnly)) {
-            QDataStream str(&ksycocastamp);
-            str.setVersion(QDataStream::Qt_5_3);
-
-            if (!str.atEnd()) {
-                str >> filestamp;
-            }
-            if (!str.atEnd()) {
-                str >> oldresourcedirs;
-                if (oldresourcedirs != KBuildSycoca::existingResourceDirs()) {
-                    checkstamps = false;
-                }
-            } else {
-                checkstamps = false;
-            }
-            if (!str.atEnd()) {
-                QStringList extraResourceDirs;
-                str >> extraResourceDirs;
-                oldresourcedirs += extraResourceDirs;
-            }
-        } else {
-            checkstamps = false;
-        }
-        s_cSycocaPath = 0;
+    KBuildSycoca sycoca(bGlobalDatabase); // Build data base
+    if (parser.isSet(QStringLiteral("track"))) {
+        sycoca.setTrackId(parser.value(QStringLiteral("track")));
     }
-
-    QStringList changedResources;
-
-    if (checkfiles && (!checkstamps || !checkTimestamps(filestamp, oldresourcedirs))) {
-
-        KBuildSycoca sycoca(bGlobalDatabase); // Build data base
-        if (parser.isSet(QStringLiteral("track"))) {
-            sycoca.setTrackId(parser.value(QStringLiteral("track")));
-        }
-        sycoca.setMenuTest(bMenuTest);
-        if (!sycoca.recreate(incremental)) {
-            return -1;
-        }
-        changedResources = sycoca.changedResources();
+    sycoca.setMenuTest(bMenuTest);
+    if (!sycoca.recreate(incremental)) {
+        return -1;
     }
+    const QStringList changedResources = sycoca.changedResources();
 
     if (!parser.isSet(QStringLiteral("nosignal"))) {
         // Notify ALL applications that have a ksycoca object, using a signal

@@ -80,23 +80,9 @@ it if necessary, when any of the files whose data is cached are changed.
 <variablelist>
 
 <varlistentry>
-<term><option>--checkstamps</option></term>
-<listitem>
-<para>Checks the file timestamps of the cache and the resource directories containing the data to be cached, and only updates the database if any of the resource directories have been modified more recently than the cache.  Ignored if <option>--nocheckfiles</option> or <option>--noincremental</option> is set.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
 <term><option>--global</option></term>
 <listitem>
 <para>Ignores any user-set files (in <varname>XDG_DATA_HOME</varname>).  This is currently only supported on Unix systems.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--nocheckfiles</option></term>
-<listitem>
-<para>Does not rebuild the cache unless something other than a change in the resource files requires it (such as the format of the cache changing, or <varname>XDG_DATA_DIRS</varname> being changed on a Unix system). Ignored if <option>--global</option> is set.</para>
 </listitem>
 </varlistentry>
 
