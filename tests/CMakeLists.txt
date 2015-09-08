@@ -18,6 +18,6 @@ endmacro()
 kservice_executable_tests(
   startserviceby
   kdbusservicestartertest
-  ksycocatest
+  kservicegroup_dumper
   findservice
 )
