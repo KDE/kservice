@@ -382,8 +382,10 @@ QList<KPluginInfo> KPluginInfo::fromServices(const KService::List &services, con
     for (KService::List::ConstIterator it = services.begin();
             it != services.end(); ++it) {
         KPluginInfo info(*it);
-        info.setConfig(config);
-        infolist += info;
+        if (info.isValid()) {
+            info.setConfig(config);
+            infolist += info;
+        }
     }
     return infolist;
 }
