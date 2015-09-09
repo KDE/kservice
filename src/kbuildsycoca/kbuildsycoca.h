@@ -74,6 +74,11 @@ public:
      */
     bool checkGlobalHeader();
 
+    /**
+     * @brief path to the sycoca file, for the crash handler in kbuildsycoca
+     */
+    static const char *sycocaPath();
+
 private:
     /**
      * Add single entry to the sycoca database.

@@ -1,6 +1,7 @@
 include(ECMMarkNonGuiExecutable)
 
 set(kbuildsycoca_SRCS
+   kbuildsycoca_main.cpp
    kbuildsycoca.cpp
    kbuildmimetypefactory.cpp
    kmimeassociations.cpp
