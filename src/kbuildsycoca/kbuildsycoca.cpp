@@ -17,18 +17,18 @@
  *  Boston, MA 02110-1301, USA.
  **/
 
-#include "kbuildsycoca.h"
+#include "kbuildsycoca_p.h"
 #include "ksycoca_p.h"
-#include "ksycocaresourcelist.h"
-#include "vfolder_menu.h"
+#include "ksycocaresourcelist_p.h"
+#include "vfolder_menu_p.h"
 
 #include <kservicegroup.h>
 #include <kservice.h>
-#include "kbuildservicetypefactory.h"
-#include "kbuildmimetypefactory.h"
-#include "kbuildservicefactory.h"
-#include "kbuildservicegroupfactory.h"
-#include "kctimefactory.h"
+#include "kbuildservicetypefactory_p.h"
+#include "kbuildmimetypefactory_p.h"
+#include "kbuildservicefactory_p.h"
+#include "kbuildservicegroupfactory_p.h"
+#include "kctimefactory_p.h"
 #include <QtCore/QDataStream>
 #include <QtCore/QDir>
 #include <QtCore/QEventLoop>

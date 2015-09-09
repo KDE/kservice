@@ -17,13 +17,13 @@
  *  Boston, MA 02110-1301, USA.
  **/
 
-#include "kbuildservicefactory.h"
-#include "kbuildservicegroupfactory.h"
-#include "kbuildmimetypefactory.h"
+#include "kbuildservicefactory_p.h"
+#include "kbuildservicegroupfactory_p.h"
+#include "kbuildmimetypefactory_p.h"
 #include "kservicetypefactory_p.h"
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
-#include "ksycocaresourcelist.h"
+#include "ksycocaresourcelist_p.h"
 #include "kdesktopfile.h"
 #include <kservicetype.h>
 

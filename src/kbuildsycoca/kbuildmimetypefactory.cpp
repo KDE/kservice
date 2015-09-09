@@ -17,10 +17,10 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#include "kbuildmimetypefactory.h"
+#include "kbuildmimetypefactory_p.h"
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
-#include "ksycocaresourcelist.h"
+#include "ksycocaresourcelist_p.h"
 
 #include <assert.h>
 #include <QDebug>

@@ -18,7 +18,7 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#include "kmimeassociations.h"
+#include "kmimeassociations_p.h"
 #include <kservice.h>
 #include <kservicefactory_p.h>
 #include <kconfiggroup.h>

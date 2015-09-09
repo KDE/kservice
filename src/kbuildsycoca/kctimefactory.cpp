@@ -16,7 +16,7 @@
  *  Boston, MA 02110-1301, USA.
  **/
 
-#include "kctimefactory.h"
+#include "kctimefactory_p.h"
 #include <ksycoca.h>
 #include <ksycocautils_p.h>
 #include <ksycocatype.h>

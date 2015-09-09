@@ -1,4 +1,4 @@
-#include <kbuildsycoca.h>
+#include <kbuildsycoca_p.h>
 
 #include "../../kservice_version.h"
 

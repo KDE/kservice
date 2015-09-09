@@ -18,12 +18,12 @@
 #ifndef KBUILDSYCOCA_H
 #define KBUILDSYCOCA_H
 
-#include "kbuildsycocainterface.h"
+#include "kbuildsycocainterface_p.h"
 
 #include <kservice.h>
 #include <ksycoca.h>
 
-#include "vfolder_menu.h"
+#include "vfolder_menu_p.h"
 
 class KBuildServiceGroupFactory;
 class QDataStream;

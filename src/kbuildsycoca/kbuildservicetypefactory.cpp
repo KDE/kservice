@@ -16,10 +16,10 @@
  *  Boston, MA 02110-1301, USA.
  **/
 
-#include "kbuildservicetypefactory.h"
+#include "kbuildservicetypefactory_p.h"
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
-#include "ksycocaresourcelist.h"
+#include "ksycocaresourcelist_p.h"
 
 #include <QDebug>
 #include <assert.h>

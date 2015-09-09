@@ -16,9 +16,9 @@
  *  Boston, MA 02110-1301, USA.
  **/
 
-#include "vfolder_menu.h"
-#include "kbuildservicefactory.h"
-#include "kbuildsycocainterface.h"
+#include "vfolder_menu_p.h"
+#include "kbuildservicefactory_p.h"
+#include "kbuildsycocainterface_p.h"
 
 #include <kservice.h>
 
