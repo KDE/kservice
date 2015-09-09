@@ -384,7 +384,7 @@ bool KBuildSycoca::recreate(bool incremental)
 
     m_allEntries = 0;
     m_ctimeDict = 0;
-    if (incremental) {
+    if (incremental && checkGlobalHeader()) {
         qDebug() << "Reusing existing ksycoca";
         KSycoca *oldSycoca = KSycoca::self();
         m_allEntries = new KSycocaEntryListList;
@@ -680,15 +680,7 @@ int main(int argc, char **argv)
     }
     fprintf(stderr, "%s running...\n", KBUILDSYCOCA_EXENAME);
 
-    bool incremental = !bGlobalDatabase && !parser.isSet(QStringLiteral("noincremental"));
-
-    if (incremental) {
-        KSycoca::disableAutoRebuild(); // Prevent deadlock
-        if (!KBuildSycoca::checkGlobalHeader()) {
-            incremental = false;
-            KBuildSycoca::clearCaches();
-        }
-    }
+    const bool incremental = !bGlobalDatabase && !parser.isSet(QStringLiteral("noincremental"));
 
     KBuildSycoca sycoca(bGlobalDatabase); // Build data base
     if (parser.isSet(QStringLiteral("track"))) {

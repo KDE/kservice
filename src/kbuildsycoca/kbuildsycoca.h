@@ -57,11 +57,6 @@ public:
         return m_changedResources;
     }
 
-    // Use our friendly-access-to-KSycoca to make this public
-    static void clearCaches()
-    {
-        KSycoca::clearCaches();
-    }
     static QStringList factoryResourceDirs();
     static QStringList existingResourceDirs();
 
@@ -77,7 +72,7 @@ public:
      * Compare our current settings (language, prefixes...) with the ones from the existing ksycoca global header.
      * @return true if they match (= we can reuse this ksycoca), false otherwise (full build)
      */
-    static bool checkGlobalHeader();
+    bool checkGlobalHeader();
 
 private:
     /**
