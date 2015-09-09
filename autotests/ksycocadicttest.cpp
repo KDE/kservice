@@ -36,9 +36,6 @@ private Q_SLOTS:
     {
         QStandardPaths::enableTestMode(true);
 
-        // we don't need the services dir -> ensure there isn't one, so we can check allResourceDirs below.
-        QDir(servicesDir()).removeRecursively();
-
         // dicttestplugintype: a servicetype
         const QString dictTestPluginType = serviceTypesDir() + "/dicttestplugintype.desktop";
         if (!QFile::exists(dictTestPluginType)) {
@@ -52,11 +49,9 @@ private Q_SLOTS:
         }
         runKBuildSycoca();
     }
-    void testAllResourceDirs();
     void testStandardDict();
 
 private:
-    QString servicesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservices5"; }
     QString serviceTypesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservicetypes5"; }
 
     void add(KSycocaDict &dict, const QString &key, const QString &name)
@@ -90,14 +85,6 @@ void KSycocaDictTest::runKBuildSycoca()
     QVERIFY(spy.wait(10000));
     qDebug() << "got signal";
 
-}
-
-void KSycocaDictTest::testAllResourceDirs()
-{
-    // Dirs that exist and dirs that don't exist, should both in allResourceDirs().
-    const QStringList dirs = KSycoca::self()->allResourceDirs();
-    QVERIFY2(dirs.contains(servicesDir()), qPrintable(dirs.join(',')));
-    QVERIFY2(dirs.contains(serviceTypesDir()), qPrintable(dirs.join(',')));
 }
 
 // Standard use of KSycocaDict: mapping entry name to entry
