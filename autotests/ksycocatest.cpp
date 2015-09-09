@@ -18,6 +18,7 @@
 */
 
 #include <ksycoca.h>
+#include <QTemporaryDir>
 #include <QTest>
 #include <QDebug>
 #include <kservicetype.h>
