@@ -64,8 +64,6 @@
 #define MAP_FAILED ((void *) -1)
 #endif
 
-static bool s_autoRebuild = true;
-
 // The following limitations are in place:
 // Maximum length of a single string: 8192 bytes
 // Maximum length of a string list: 1024 strings
@@ -662,7 +660,7 @@ void KSycoca::flagError()
         return;
     }
     d->readError = true;
-    if (s_autoRebuild) {
+    if (qAppName() != KBUILDSYCOCA_EXENAME) {
         // Rebuild the damned thing.
         if (QProcess::execute(QStandardPaths::findExecutable(QString::fromLatin1(KBUILDSYCOCA_EXENAME))) != 0) {
             qWarning("ERROR: Running %s failed", KBUILDSYCOCA_EXENAME);
@@ -680,7 +678,7 @@ bool KSycoca::isBuilding()
 
 void KSycoca::disableAutoRebuild()
 {
-    s_autoRebuild = false;
+    qWarning("KSycoca::disableAutoRebuild() is internal, do not call it.");
 }
 
 QDataStream *&KSycoca::stream()

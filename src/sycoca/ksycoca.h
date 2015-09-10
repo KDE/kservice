@@ -146,8 +146,9 @@ public:
 
     /**
      * @internal - disables launching of kbuildsycoca
+     * @deprecated since 5.15, it only outputs a warning
      */
-    static void disableAutoRebuild();
+    KSERVICE_DEPRECATED static void disableAutoRebuild(); // KF6: remove
 
     /**
      * When you receive a "databaseChanged" signal, you can query here if
