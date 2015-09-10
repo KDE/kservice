@@ -27,7 +27,7 @@
 #include <kservicefactory_p.h>
 #include <qtemporaryfile.h>
 #include <qtest.h>
-#include "kmimeassociations.h"
+#include "kmimeassociations_p.h"
 #include <ksycoca.h>
 
 // We need a factory that returns the same KService::Ptr every time it's asked for a given service.
