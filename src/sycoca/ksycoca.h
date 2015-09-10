@@ -106,7 +106,7 @@ public:
     /**
      * @internal - returns language stored inside database
      */
-    QString language(); // KF6: remove
+    KSERVICE_DEPRECATED QString language(); // KF6: remove
 
     /**
      * @internal - returns timestamp of database
@@ -114,7 +114,7 @@ public:
      * The database contains all changes made _before_ this time and
      * _might_ contain changes made after that.
      */
-    quint32 timeStamp(); // KF6: remove
+    KSERVICE_DEPRECATED quint32 timeStamp(); // KF6: remove
 
     /**
      * @internal - returns update signature of database
@@ -125,7 +125,7 @@ public:
      * Touching this file causes the database to be recreated
      * from scratch.
      */
-    quint32 updateSignature(); // KF6: remove
+    KSERVICE_DEPRECATED quint32 updateSignature(); // KF6: remove
 
     /**
      * @internal - returns all directories with information
