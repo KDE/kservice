@@ -46,6 +46,7 @@
 #include <time.h>
 #include <memory> // auto_ptr
 #include <qstandardpaths.h>
+#include <QLockFile>
 
 static const char *s_cSycocaPath = 0;
 
@@ -360,6 +361,18 @@ bool KBuildSycoca::recreate(bool incremental)
         return false;
     }
     QString path(fi.absoluteFilePath());
+
+    QLockFile lockFile(path + ".lock");
+    if (!lockFile.tryLock()) {
+        qDebug() <<  "Waiting for already running" << KBUILDSYCOCA_EXENAME << "to finish.";
+        if (!lockFile.lock()) {
+            return false;
+        }
+        if (!needsRebuild()) {
+            //qDebug() << "Up-to-date, skipping.";
+            return false;
+        }
+    }
 
     QByteArray qSycocaPath = QFile::encodeName(path);
     s_cSycocaPath = qSycocaPath.data();

@@ -31,7 +31,6 @@
 #include <QStandardPaths>
 #include <QDBusConnection>
 #include <QDBusMessage>
-#include <QDBusConnectionInterface>
 #include <QFile>
 #include <QDebug>
 #include <QDir>
@@ -48,8 +47,6 @@ static void crashHandler(int)
         unlink(KBuildSycoca::sycocaPath());
     }
 }
-
-static const char appFullName[] = "org.kde.kbuildsycoca";
 
 int main(int argc, char **argv)
 {
@@ -120,19 +117,6 @@ int main(int argc, char **argv)
 
     KCrash::setEmergencySaveFunction(crashHandler);
 
-    while (QDBusConnection::sessionBus().isConnected()) {
-        // Detect already-running kbuildsycoca instances using DBus.
-        if (QDBusConnection::sessionBus().interface()->registerService(appFullName, QDBusConnectionInterface::QueueService)
-                != QDBusConnectionInterface::ServiceQueued) {
-            break; // Go
-        }
-        fprintf(stderr, "Waiting for already running %s to finish.\n", KBUILDSYCOCA_EXENAME);
-
-        QEventLoop eventLoop;
-        QObject::connect(QDBusConnection::sessionBus().interface(), SIGNAL(serviceRegistered(QString)),
-                         &eventLoop, SLOT(quit()));
-        eventLoop.exec(QEventLoop::ExcludeUserInputEvents);
-    }
     fprintf(stderr, "%s running...\n", KBUILDSYCOCA_EXENAME);
 
     const bool incremental = !bGlobalDatabase && !parser.isSet(QStringLiteral("noincremental"));

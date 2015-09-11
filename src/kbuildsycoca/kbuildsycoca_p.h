@@ -38,7 +38,8 @@ public:
     virtual ~KBuildSycoca();
 
     /**
-     * Recreate the database file
+     * Recreate the database file.
+     * @return true if it was indeed recreated.
      */
     bool recreate(bool incremental);
 

@@ -477,6 +477,11 @@ KSycoca::KSycocaHeader KSycoca::readSycocaHeader()
     return d->readSycocaHeader();
 }
 
+bool KSycoca::needsRebuild()
+{
+    return d->needsRebuild();
+}
+
 KSycoca::KSycocaHeader KSycocaPrivate::readSycocaHeader()
 {
     KSycoca::KSycocaHeader header;
@@ -566,12 +571,17 @@ static bool checkTimestamps(qint64 timestamp, const QStringList &dirs)
 
 void KSycocaPrivate::checkDirectories(BehaviorsIfNotFound ifNotFound)
 {
+    if (needsRebuild()) {
+        buildSycoca(ifNotFound);
+    }
+}
+
+bool KSycocaPrivate::needsRebuild()
+{
     if (!timeStamp && databaseStatus == DatabaseOK) {
         (void) readSycocaHeader();
     }
-    if (timeStamp == 0 || !checkTimestamps(timeStamp, allResourceDirs)) {
-        buildSycoca(ifNotFound);
-    }
+    return timeStamp != 0 && !checkTimestamps(timeStamp, allResourceDirs);
 }
 
 bool KSycocaPrivate::buildSycoca(BehaviorsIfNotFound ifNotFound)

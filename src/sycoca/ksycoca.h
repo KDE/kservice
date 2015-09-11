@@ -230,6 +230,7 @@ private:
     };
 
     KSycocaHeader readSycocaHeader();
+    bool needsRebuild();
 
     friend class KBuildSycoca;
     friend class Kded;
