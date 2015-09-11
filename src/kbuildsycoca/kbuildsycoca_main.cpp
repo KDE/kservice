@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     parser.addHelpOption();
     parser.addOption(QCommandLineOption(QStringLiteral("nosignal"),
                 i18nc("@info:shell command-line option",
-                      "Do not signal applications to update")));
+                      "Do not signal applications to update (deprecated, no longer having any effect)")));
     parser.addOption(QCommandLineOption(QStringLiteral("noincremental"),
                 i18nc("@info:shell command-line option",
                       "Disable incremental update, re-read everything")));
@@ -129,18 +129,18 @@ int main(int argc, char **argv)
     if (!sycoca.recreate(incremental)) {
         return -1;
     }
-    const QStringList changedResources = sycoca.changedResources();
 
-    if (!parser.isSet(QStringLiteral("nosignal"))) {
+    if (QDBusConnection::sessionBus().isConnected()) {
+        const QStringList changedResources = sycoca.changedResources();
+        qDebug() << "Emitting notifyDatabaseChanged" << changedResources;
         // Notify ALL applications that have a ksycoca object, using a signal
+        // KSycoca itself doesn't require this anymore, when being called it will open the new db.
+        // However this is useful for GUIs to update (e.g. any app that's always showing associated apps for a file)
         QDBusMessage signal = QDBusMessage::createSignal("/", "org.kde.KSycoca", "notifyDatabaseChanged");
         signal << changedResources;
 
-        if (QDBusConnection::sessionBus().isConnected()) {
-            qDebug() << "Emitting notifyDatabaseChanged" << changedResources;
-            QDBusConnection::sessionBus().send(signal);
-            qApp->processEvents(); // make sure the dbus signal is sent before we quit.
-        }
+        QDBusConnection::sessionBus().send(signal);
+        qApp->processEvents(); // make sure the dbus signal is sent before we quit.
     }
 
     return 0;
