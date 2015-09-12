@@ -33,10 +33,7 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QProcess>
-#include <QDBusConnection>
-#include <QDBusConnectionInterface>
-#include <QDBusInterface>
-#include <QDBusReply>
+#include <QThread>
 
 #include <stdlib.h>
 #include <fcntl.h>
@@ -177,14 +174,37 @@ private:
 
 Q_GLOBAL_STATIC(KSycocaSingleton, ksycocaInstance)
 
+QString KSycocaPrivate::findDatabase()
+{
+    Q_ASSERT(databaseStatus == DatabaseNotOpen);
+
+    QString path = KSycoca::absoluteFilePath();
+    QFileInfo info(path);
+    bool canRead = info.isReadable();
+    if (!canRead) {
+        path = KSycoca::absoluteFilePath(KSycoca::GlobalDatabase);
+        if (!path.isEmpty()) {
+            info.setFile(path);
+            canRead = info.isReadable();
+        }
+    }
+    if (canRead) {
+        m_fileWatcher.addFile(path);
+        return path;
+    }
+    return QString();
+}
+
 // Read-only constructor
+// One instance per thread
 KSycoca::KSycoca()
     : d(new KSycocaPrivate)
 {
-    QDBusConnection::sessionBus().connect(QString(), QString(),
-                                          QString::fromLatin1("org.kde.KSycoca"),
-                                          QString::fromLatin1("notifyDatabaseChanged"),
-                                          this, SLOT(slotNotifyDatabaseChanged(QStringList)));
+    // Need this here (for unittests at least, who expect the signal even without actually reading from ksycoca)
+    // (TODO: use connectNotify to optimise away the file watching for apps/threads who don't care)
+    d->m_databasePath = d->findDatabase();
+
+    connect(&d->m_fileWatcher, &KDirWatch::created, this, [this](){ d->slotDatabaseChanged(); });
 }
 
 bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
@@ -192,24 +212,15 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
     Q_ASSERT(databaseStatus == DatabaseNotOpen);
 
     delete m_device; m_device = 0;
-    QString path = KSycoca::absoluteFilePath();
 
-    QFileInfo info(path);
-    bool canRead = info.isReadable();
-    qCDebug(SYCOCA) << "Trying to open ksycoca from" << path;
-    if (!canRead) {
-        path = KSycoca::absoluteFilePath(KSycoca::GlobalDatabase);
-        if (!path.isEmpty()) {
-            qCDebug(SYCOCA) << "Trying to open global ksycoca from " << path;
-            info.setFile(path);
-            canRead = info.isReadable();
-        }
+    if (m_databasePath.isEmpty()) {
+        m_databasePath = findDatabase();
     }
 
     bool result = true;
-    if (canRead) {
-        m_databasePath = path;
-        m_dbLastModified = info.lastModified();
+    if (!m_databasePath.isEmpty()) {
+        qCDebug(SYCOCA) << "Opening ksycoca from" << m_databasePath;
+        m_dbLastModified = QFileInfo(m_databasePath).lastModified();
         checkVersion();
     } else { // No database file
         //qCDebug(SYCOCA) << "Could not open ksycoca";
@@ -287,6 +298,26 @@ QDataStream *&KSycocaPrivate::stream()
     return m_device->stream();
 }
 
+void KSycocaPrivate::slotDatabaseChanged()
+{
+    // We don't have information anymore on what resources changed, so emit them all
+    changeList = QStringList() << "services" << "servicetypes" << "xdgdata-mime" << "apps";
+
+    qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal";
+    // kbuildsycoca tells us the database file changed
+    // We would have found out in the next call to ensureCacheValid(), but for
+    // now keep the call to closeDatabase, to help refcounting to 0 the old mmaped file earlier.
+    closeDatabase();
+    // Start monitoring the new file right away
+    m_databasePath = findDatabase();
+
+    // Now notify applications
+    KSycoca *q = KSycoca::self();
+    Q_ASSERT(q->d == this); // only the readonly ctor connects to this slot
+    emit q->databaseChanged();
+    emit q->databaseChanged(changeList);
+}
+
 // Read-write constructor - only for KBuildSycoca
 KSycoca::KSycoca(bool /* dummy */)
     : d(new KSycocaPrivate)
@@ -350,22 +381,6 @@ bool KSycoca::isChanged(const char *type)
     return self()->d->changeList.contains(QString::fromLatin1(type));
 }
 #endif
-
-void KSycoca::slotNotifyDatabaseChanged(const QStringList &changeList)
-{
-    d->changeList = changeList;
-    //qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal" << changeList;
-    // kbuildsycoca tells us the database file changed
-    // We would have found out in the next call to ensureCacheValid(), but for
-    // now keep the call to closeDatabase, to help refcounting to 0 the old mmaped file earlier.
-    d->closeDatabase();
-
-    // Now notify applications
-#ifndef KSERVICE_NO_DEPRECATED
-    emit databaseChanged();
-#endif
-    emit databaseChanged(changeList);
-}
 
 QDataStream *KSycoca::findEntry(int offset, KSycocaType &type)
 {
@@ -675,9 +690,6 @@ void KSycoca::flagError()
         if (QProcess::execute(QStandardPaths::findExecutable(QString::fromLatin1(KBUILDSYCOCA_EXENAME))) != 0) {
             qWarning("ERROR: Running %s failed", KBUILDSYCOCA_EXENAME);
         }
-        // Old comment, maybe not true anymore:
-        // Do not wait until the DBUS signal from kbuildsycoca here.
-        // It deletes m_str which is a problem when flagError is called during the KSycocaFactory ctor...
     }
 }
 
@@ -705,10 +717,6 @@ void KSycoca::clearCaches()
 void KSycoca::ensureCacheValid()
 {
     if (qAppName() == KBUILDSYCOCA_EXENAME) {
-        return;
-    }
-
-    if (d->m_databasePath.isEmpty()) {
         return;
     }
 

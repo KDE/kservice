@@ -29,8 +29,6 @@
 #include <QCommandLineParser>
 #include <QCoreApplication>
 #include <QStandardPaths>
-#include <QDBusConnection>
-#include <QDBusMessage>
 #include <QFile>
 #include <QDebug>
 #include <QDir>
@@ -128,19 +126,6 @@ int main(int argc, char **argv)
     sycoca.setMenuTest(bMenuTest);
     if (!sycoca.recreate(incremental)) {
         return -1;
-    }
-
-    if (QDBusConnection::sessionBus().isConnected()) {
-        const QStringList changedResources = sycoca.changedResources();
-        qDebug() << "Emitting notifyDatabaseChanged" << changedResources;
-        // Notify ALL applications that have a ksycoca object, using a signal
-        // KSycoca itself doesn't require this anymore, when being called it will open the new db.
-        // However this is useful for GUIs to update (e.g. any app that's always showing associated apps for a file)
-        QDBusMessage signal = QDBusMessage::createSignal("/", "org.kde.KSycoca", "notifyDatabaseChanged");
-        signal << changedResources;
-
-        QDBusConnection::sessionBus().send(signal);
-        qApp->processEvents(); // make sure the dbus signal is sent before we quit.
     }
 
     return 0;

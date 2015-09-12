@@ -179,12 +179,15 @@ public:
 
 Q_SIGNALS:
     /**
-     * Connect to this to get notified when the database changes
-     * @deprecated use the databaseChanged(QStringList) signal
+     * Connect to this to get notified when the database changes.
+     *
+     * Example: after creating a .desktop file in KOpenWithDialog, it
+     * must wait until kbuildsycoca5 finishes until the KService::Ptr is available.
+     * Other examples: anything that displays a list of apps or plugins to the user
+     * and which is always visible (otherwise querying sycoca before showing
+     * could be enough).
      */
-#ifndef KSERVICE_NO_DEPRECATED
-    QT_MOC_COMPAT void databaseChanged(); // KDE5 TODO: remove
-#endif
+    void databaseChanged();
 
     /**
      * Connect to this to get notified when the database changes
@@ -197,7 +200,7 @@ Q_SIGNALS:
      * This can include the following resources (as defined in KStandardDirs) :
      * apps, xdgdata-apps, services, servicetypes, xdgdata-mime.
      */
-    void databaseChanged(const QStringList &changedResources);
+    void databaseChanged(const QStringList &changedResources); // KF6: deprecate
 
 protected:
     // @internal used by kbuildsycoca
@@ -207,12 +210,6 @@ protected:
     QDataStream *&stream();
     friend class KSycocaFactory;
     friend class KSycocaDict;
-
-private Q_SLOTS:
-    /**
-     * internal function for receiving kbuildsycoca's signal, when the sycoca file changes
-     */
-    void slotNotifyDatabaseChanged(const QStringList &);
 
 private:
     /**

@@ -24,7 +24,6 @@ target_link_libraries(kbuildsycoca5
    KF5::CoreAddons # KAboutData
    KF5::I18n
    Qt5::Xml #vfolder menui QDomDocument and family
-   Qt5::DBus #kbuildsycoca uses QDBus to talk with interested applications
 )
 
 install(TARGETS kbuildsycoca5 ${KF5_INSTALL_TARGETS_DEFAULT_ARGS} )
