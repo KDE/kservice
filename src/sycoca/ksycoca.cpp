@@ -184,7 +184,7 @@ KSycoca::KSycoca()
     QDBusConnection::sessionBus().connect(QString(), QString(),
                                           QString::fromLatin1("org.kde.KSycoca"),
                                           QString::fromLatin1("notifyDatabaseChanged"),
-                                          this, SLOT(notifyDatabaseChanged(QStringList)));
+                                          this, SLOT(slotNotifyDatabaseChanged(QStringList)));
 }
 
 bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
@@ -351,7 +351,7 @@ bool KSycoca::isChanged(const char *type)
 }
 #endif
 
-void KSycoca::notifyDatabaseChanged(const QStringList &changeList)
+void KSycoca::slotNotifyDatabaseChanged(const QStringList &changeList)
 {
     d->changeList = changeList;
     //qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal" << changeList;

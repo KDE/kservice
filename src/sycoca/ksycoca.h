@@ -212,7 +212,7 @@ private Q_SLOTS:
     /**
      * internal function for receiving kbuildsycoca's signal, when the sycoca file changes
      */
-    void notifyDatabaseChanged(const QStringList &);
+    void slotNotifyDatabaseChanged(const QStringList &);
 
 private:
     /**
