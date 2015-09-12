@@ -155,7 +155,7 @@ private Q_SLOTS:
         fakeHtmlApplicationPrefixed = m_localApps + "fakepfx/fakehtmlapplicationpfx.desktop";
         writeAppDesktopFile(fakeHtmlApplicationPrefixed, QStringList() << "text/html");
 
-        // Update ksycoca in ~/.kde-unit-test after creating the above
+        // Update ksycoca in ~/.qttest after creating the above
         runKBuildSycoca();
 
         // Create factory on the heap and don't delete it. This must happen after

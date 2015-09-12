@@ -235,7 +235,7 @@ void KServiceTest::initTestCase()
     }
 
     if (mustUpdateKSycoca) {
-        // Update ksycoca in ~/.kde-unit-test after creating the above
+        // Update ksycoca in ~/.qttest after creating the above
         runKBuildSycoca(true);
     }
     QVERIFY(KServiceType::serviceType("FakePluginType"));
@@ -253,7 +253,8 @@ void KServiceTest::runKBuildSycoca(bool noincremental)
     if (noincremental) {
         args << "--noincremental";
     }
-    //proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
+    proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
+    //proc.setProcessChannelMode(QProcess::ForwardedChannels); // use this to see the kbuildsycoca output
     proc.start(kbuildsycoca, args);
     proc.waitForFinished();
     qDebug() << "waiting for signal";
