@@ -84,12 +84,20 @@ void KServiceTest::initTestCase()
 
     // Create some fake services for the tests below, and ensure they are in ksycoca.
 
+    bool mustUpdateKSycoca = false;
+
     // fakeservice: deleted and recreated by testKSycocaUpdate, don't use in other tests
-    bool mustUpdateKSycoca = !KService::serviceByDesktopPath("fakeservice.desktop");
-    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakeservice.desktop";
+    const QString fakeServiceDeleteMe = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice_deleteme.desktop");
+    if (!QFile::exists(fakeServiceDeleteMe)) {
+        mustUpdateKSycoca = true;
+        createFakeService("fakeservice_deleteme.desktop", QString());
+    }
+
+    // fakeservice: a plugin that implements FakePluginType
+    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice.desktop");
     if (!QFile::exists(fakeService)) {
         mustUpdateKSycoca = true;
-        createFakeService();
+        createFakeService("fakeservice.desktop", "FakePluginType");
     }
 
     // fakepart: a readwrite part, like katepart
@@ -675,13 +683,14 @@ void KServiceTest::testServiceGroups()
     // No unit test here yet, but at least this can be valgrinded for errors.
 }
 
-void KServiceTest::testKSycocaUpdate()
+void KServiceTest::testDeletingService()
 {
-    KService::Ptr fakeService = KService::serviceByDesktopPath("fakeservice.desktop");
+    const QString serviceName = "fakeservice_deleteme.desktop";
+    KService::Ptr fakeService = KService::serviceByDesktopPath(serviceName);
     QVERIFY(fakeService); // see initTestCase; it should be found.
 
     // Test deleting a service
-    const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice.desktop");
+    const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + serviceName;
     QVERIFY(QFile::exists(servPath));
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
     QVERIFY(spy.isValid());
@@ -691,7 +700,7 @@ void KServiceTest::testKSycocaUpdate()
         QTest::qWait(50);
     }
     QVERIFY(!spy.isEmpty());
-    QVERIFY(!KService::serviceByDesktopPath("fakeservice.desktop")); // not in ksycoca anymore
+    QVERIFY(!KService::serviceByDesktopPath(serviceName)); // not in ksycoca anymore
     QVERIFY(spy[0][0].toStringList().contains("services"));
     qDebug() << "got signal ok";
 
@@ -700,7 +709,7 @@ void KServiceTest::testKSycocaUpdate()
     QVERIFY(!QFile::exists(servPath));
 
     // Recreate it, for future tests
-    createFakeService();
+    createFakeService(serviceName, QString());
     QVERIFY(QFile::exists(servPath));
     qDebug() << "executing kbuildsycoca (2)";
     runKBuildSycoca();
@@ -714,16 +723,16 @@ void KServiceTest::testKSycocaUpdate()
     }
 }
 
-void KServiceTest::createFakeService()
+void KServiceTest::createFakeService(const QString &filename, const QString& serviceType)
 {
-    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice.desktop");
+    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + filename;
     KDesktopFile file(fakeService);
     KConfigGroup group = file.desktopGroup();
     group.writeEntry("Name", "FakePlugin");
     group.writeEntry("Type", "Service");
     group.writeEntry("X-KDE-Library", "fakeservice");
     group.writeEntry("X-KDE-Version", "4.56");
-    group.writeEntry("ServiceTypes", "FakePluginType");
+    group.writeEntry("ServiceTypes", serviceType);
     group.writeEntry("MimeType", "text/plain;");
 }
 
@@ -756,7 +765,7 @@ void KServiceTest::testThreads()
     QFutureSynchronizer<void> sync;
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testHasServiceType1));
-    sync.addFuture(QtConcurrent::run(this, &KServiceTest::testKSycocaUpdate));
+    sync.addFuture(QtConcurrent::run(this, &KServiceTest::testDeletingService));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testTraderConstraints));
     while (m_sycocaUpdateDone.load() == 0) { // not using a bool, just to silence helgrind
         QTest::qWait(100);    // process D-Bus events!

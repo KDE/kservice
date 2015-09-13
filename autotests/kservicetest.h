@@ -45,7 +45,7 @@ private Q_SLOTS:
     void testByStorageId();
     void testActionsAndDataStream();
     void testServiceGroups();
-    void testKSycocaUpdate();
+    void testDeletingService();
     void testReaderThreads();
     void testThreads();
     void testOperatorKPluginName();
@@ -54,7 +54,7 @@ private Q_SLOTS:
     void testEntryPathToName();
 
 private:
-    void createFakeService();
+    void createFakeService(const QString &filenameSuffix, const QString &serviceType);
     void runKBuildSycoca(bool noincremental = false);
 
     QString m_firstOffer;
