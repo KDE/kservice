@@ -21,6 +21,7 @@
 #include "kservice_p.h"
 #include "kmimetypefactory_p.h"
 #include "ksycoca.h"
+#include "ksycoca_p.h"
 
 #include <qplatformdefs.h>
 
@@ -414,7 +415,7 @@ bool KService::hasServiceType(const QString &serviceType) const
     //    serviceOffset = serviceByStorageId( storageId() );
     if (serviceOffset) {
         KSycoca::self()->ensureCacheValid();
-        return KServiceFactory::self()->hasOffer(ptr->offset(), ptr->serviceOffersOffset(), serviceOffset);
+        return KSycocaPrivate::self()->serviceFactory()->hasOffer(ptr->offset(), ptr->serviceOffersOffset(), serviceOffset);
     }
 
     // fall-back code for services that are NOT from ksycoca
@@ -447,13 +448,13 @@ bool KService::hasMimeType(const QString &mimeType) const
     int serviceOffset = offset();
     if (serviceOffset) {
         KSycoca::self()->ensureCacheValid();
-        KMimeTypeFactory *factory = KMimeTypeFactory::self();
+        KMimeTypeFactory *factory = KSycocaPrivate::self()->mimeTypeFactory();
         const int mimeOffset = factory->entryOffset(mime);
         const int serviceOffersOffset = factory->serviceOffersOffset(mime);
         if (serviceOffersOffset == -1) {
             return false;
         }
-        return KServiceFactory::self()->hasOffer(mimeOffset, serviceOffersOffset, serviceOffset);
+        return KSycocaPrivate::self()->serviceFactory()->hasOffer(mimeOffset, serviceOffersOffset, serviceOffset);
     }
 
     // fall-back code for services that are NOT from ksycoca
@@ -540,7 +541,7 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
         // is supposed to be.
         // ######### this looks in all servicetypes, not just the ones this service supports!
         KSycoca::self()->ensureCacheValid();
-        t = KServiceTypeFactory::self()->findPropertyTypeByName(_name);
+        t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(_name);
         if (t == QVariant::Invalid) {
             qDebug() << "Request for unknown property" << _name;
             return QVariant(); // Unknown property: Invalid variant.
@@ -597,31 +598,31 @@ QStringList KServicePrivate::propertyNames() const
 KService::List KService::allServices()
 {
     KSycoca::self()->ensureCacheValid();
-    return KServiceFactory::self()->allServices();
+    return KSycocaPrivate::self()->serviceFactory()->allServices();
 }
 
 KService::Ptr KService::serviceByDesktopPath(const QString &_name)
 {
     KSycoca::self()->ensureCacheValid();
-    return KServiceFactory::self()->findServiceByDesktopPath(_name);
+    return KSycocaPrivate::self()->serviceFactory()->findServiceByDesktopPath(_name);
 }
 
 KService::Ptr KService::serviceByDesktopName(const QString &_name)
 {
     KSycoca::self()->ensureCacheValid();
-    return KServiceFactory::self()->findServiceByDesktopName(_name);
+    return KSycocaPrivate::self()->serviceFactory()->findServiceByDesktopName(_name);
 }
 
 KService::Ptr KService::serviceByMenuId(const QString &_name)
 {
     KSycoca::self()->ensureCacheValid();
-    return KServiceFactory::self()->findServiceByMenuId(_name);
+    return KSycocaPrivate::self()->serviceFactory()->findServiceByMenuId(_name);
 }
 
 KService::Ptr KService::serviceByStorageId(const QString &_storageId)
 {
     KSycoca::self()->ensureCacheValid();
-    return KServiceFactory::self()->findServiceByStorageId(_storageId);
+    return KSycocaPrivate::self()->serviceFactory()->findServiceByStorageId(_storageId);
 }
 
 bool KService::substituteUid() const

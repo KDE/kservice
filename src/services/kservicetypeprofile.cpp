@@ -19,15 +19,16 @@
 
 #include "kservicetypeprofile.h"
 #include "kservicetypeprofile_p.h"
-#include <QMutex>
 #include "kservice.h"
 #include "kservicetype.h"
 #include "kservicetypefactory_p.h"
 #include "kservicefactory_p.h"
+#include "ksycoca_p.h"
 
 #include <kconfig.h>
 #include <kconfiggroup.h>
 
+#include <QMutex>
 #include <QtCore/QHash>
 #include <QtAlgorithms>
 
@@ -72,7 +73,7 @@ void KServiceTypeProfiles::ensureParsed()
     m_parsed = true;
 
     // Make sure that a KServiceTypeFactory gets created.
-    (void) KServiceTypeFactory::self();
+    (void) KSycocaPrivate::self()->serviceTypeFactory();
 
     // Read the service type profiles from servicetype_profilerc
     // See writeServiceTypeProfile for a description of the file format.

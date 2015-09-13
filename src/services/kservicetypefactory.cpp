@@ -26,13 +26,10 @@
 
 #include <assert.h>
 
-Q_GLOBAL_STATIC(KSycocaFactorySingleton<KServiceTypeFactory>, kServiceTypeFactoryInstance)
-
 KServiceTypeFactory::KServiceTypeFactory(KSycoca *db)
     : KSycocaFactory(KST_KServiceTypeFactory, db)
 {
     if (!sycoca()->isBuilding()) {
-        kServiceTypeFactoryInstance()->instanceCreated(this);
         QDataStream *str = stream();
         Q_ASSERT_X(str, "KServiceTypeFactory::KServiceTypeFactory()",
                    "Could not open sycoca database, you must run kbuildsycoca first!");
@@ -59,15 +56,7 @@ KServiceTypeFactory::~KServiceTypeFactory()
 {
     if (!sycoca()->isBuilding()) {
         KServiceTypeProfile::clearCache();
-        if (kServiceTypeFactoryInstance()) {
-            kServiceTypeFactoryInstance()->instanceDestroyed(this);
-        }
     }
-}
-
-KServiceTypeFactory *KServiceTypeFactory::self()
-{
-    return kServiceTypeFactoryInstance()->self();
 }
 
 KServiceType::Ptr KServiceTypeFactory::findServiceTypeByName(const QString &_name)

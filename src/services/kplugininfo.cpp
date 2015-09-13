@@ -27,6 +27,7 @@
 #include <QStandardPaths>
 
 #include "ksycoca.h"
+#include "ksycoca_p.h"
 #include <kaboutdata.h>
 #include <kconfiggroup.h>
 #include <kdesktopfile.h>
@@ -302,7 +303,7 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
 
     QJsonObject json;
     foreach (const QString &key, service->propertyNames()) {
-        QVariant::Type t = KServiceTypeFactory::self()->findPropertyTypeByName(key);
+        QVariant::Type t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(key);
         if (t == QVariant::Invalid) {
             t = QVariant::String; // default to string if the type is not known
         }
@@ -583,7 +584,7 @@ QVariant KPluginInfo::property(const QString &key) const
     QVariant result = d->metaData.rawData().value(key).toVariant();
     if (result.isValid()) {
         KSycoca::self()->ensureCacheValid();
-        const QVariant::Type t = KServiceTypeFactory::self()->findPropertyTypeByName(key);
+        const QVariant::Type t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(key);
 
         //special case if we want a stringlist: split values by ',' or ';' and construct the list
         if (t == QVariant::StringList) {

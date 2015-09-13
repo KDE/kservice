@@ -20,6 +20,7 @@
 #include "kmimetypetrader.h"
 
 #include "ksycoca.h"
+#include "ksycoca_p.h"
 #include "kservicetypeprofile.h"
 #include "kservicetype.h"
 #include "kservicetypetrader.h"
@@ -71,7 +72,7 @@ static KServiceOfferList mimeTypeSycocaOffers(const QString &mimeType)
         mime = mimeType;
     }
     KSycoca::self()->ensureCacheValid();
-    KMimeTypeFactory *factory = KMimeTypeFactory::self();
+    KMimeTypeFactory *factory = KSycocaPrivate::self()->mimeTypeFactory();
     const int offset = factory->entryOffset(mime);
     if (!offset) { // shouldn't happen, now that we know the mimetype exists
         if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler mimetypes
@@ -82,7 +83,7 @@ static KServiceOfferList mimeTypeSycocaOffers(const QString &mimeType)
 
     const int serviceOffersOffset = factory->serviceOffersOffset(mime);
     if (serviceOffersOffset > -1) {
-        lst = KServiceFactory::self()->offers(offset, serviceOffersOffset);
+        lst = KSycocaPrivate::self()->serviceFactory()->offers(offset, serviceOffersOffset);
     }
     return lst;
 }
@@ -100,7 +101,7 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
         mime = mimeType;
     }
     KSycoca::self()->ensureCacheValid();
-    KMimeTypeFactory *factory = KMimeTypeFactory::self();
+    KMimeTypeFactory *factory = KSycocaPrivate::self()->mimeTypeFactory();
     const int offset = factory->entryOffset(mime);
     if (!offset) {
         qWarning() << "KMimeTypeTrader: mimeType" << mimeType << "not found";
@@ -108,7 +109,7 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     }
     const int serviceOffersOffset = factory->serviceOffersOffset(mime);
     if (serviceOffersOffset > -1) {
-        lst = KServiceFactory::self()->serviceOffers(offset, serviceOffersOffset);
+        lst = KSycocaPrivate::self()->serviceFactory()->serviceOffers(offset, serviceOffersOffset);
     }
     return lst;
 }
@@ -137,7 +138,7 @@ void KMimeTypeTrader::filterMimeTypeOffers(KServiceOfferList &list, const QStrin
     while (it.hasNext()) {
         const KService::Ptr servPtr = it.next().service();
         // Expand servPtr->hasServiceType( genericServiceTypePtr ) to avoid lookup each time:
-        if (!KServiceFactory::self()->hasOffer(genericServiceTypePtr->offset(),
+        if (!KSycocaPrivate::self()->serviceFactory()->hasOffer(genericServiceTypePtr->offset(),
                                                genericServiceTypePtr->serviceOffersOffset(),
                                                servPtr->offset())
                 || !servPtr->showInCurrentDesktop()) {
@@ -157,7 +158,7 @@ void KMimeTypeTrader::filterMimeTypeOffers(KService::List &list, const QString &
     while (it.hasNext()) {
         const KService::Ptr servPtr = it.next();
         // Expand servPtr->hasServiceType( genericServiceTypePtr ) to avoid lookup each time:
-        if (!KServiceFactory::self()->hasOffer(genericServiceTypePtr->offset(),
+        if (!KSycocaPrivate::self()->serviceFactory()->hasOffer(genericServiceTypePtr->offset(),
                                                genericServiceTypePtr->serviceOffersOffset(),
                                                servPtr->offset())
                 || !servPtr->showInCurrentDesktop()) {

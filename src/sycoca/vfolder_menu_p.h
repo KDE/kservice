@@ -30,7 +30,7 @@
 #include <kservice.h>
 
 class KBuildSycocaInterface;
-class KBuildServiceFactory;
+class KServiceFactory;
 
 class VFolderMenu : public QObject
 {
@@ -62,7 +62,7 @@ public:
         AppsInfo *apps_info;
     };
 
-    VFolderMenu(KBuildServiceFactory *serviceFactory, KBuildSycocaInterface *kbuildsycocaInterface);
+    VFolderMenu(KServiceFactory *serviceFactory, KBuildSycocaInterface *kbuildsycocaInterface);
     ~VFolderMenu();
 
     /**
@@ -272,7 +272,7 @@ private:
     void loadApplications(const QString &, const QString &);
 
 private:
-    KBuildServiceFactory *m_serviceFactory;
+    KServiceFactory *m_serviceFactory;
     KBuildSycocaInterface *m_kbuildsycocaInterface;
 };
 

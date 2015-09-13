@@ -21,6 +21,7 @@
 #include "kservicefactory_p.h"
 #include "kservicegroupfactory_p.h"
 #include "kservice.h"
+#include "ksycoca_p.h"
 #include <ksycoca.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
@@ -235,13 +236,13 @@ void KServiceGroupPrivate::load(QDataStream &s)
         Q_FOREACH (const QString &path, groupList) {
             if (path.endsWith(QLatin1Char('/'))) {
                 KServiceGroup::Ptr serviceGroup;
-                serviceGroup = KServiceGroupFactory::self()->findGroupByDesktopPath(path, false);
+                serviceGroup = KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(path, false);
                 if (serviceGroup) {
                     m_serviceList.append(KServiceGroup::SPtr(serviceGroup));
                 }
             } else {
                 KService::Ptr service;
-                service = KServiceFactory::self()->findServiceByDesktopPath(path);
+                service = KSycocaPrivate::self()->serviceFactory()->findServiceByDesktopPath(path);
                 if (service) {
                     m_serviceList.append(KServiceGroup::SPtr(service));
                 }
@@ -364,7 +365,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
 
     KServiceGroup::Ptr grp;
     if (!m_bDeep) {
-        grp = KServiceGroupFactory::self()->findGroupByDesktopPath(path, true);
+        grp = KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(path, true);
 
         group = grp.data();
         if (0 == group) { // No guarantee that we still exist!
@@ -661,7 +662,7 @@ KServiceGroup::Ptr
 KServiceGroup::root()
 {
     KSycoca::self()->ensureCacheValid();
-    return KServiceGroupFactory::self()->findGroupByDesktopPath(QString::fromLatin1("/"), true);
+    return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(QString::fromLatin1("/"), true);
 }
 
 KServiceGroup::Ptr
@@ -671,14 +672,14 @@ KServiceGroup::group(const QString &relPath)
         return root();
     }
     KSycoca::self()->ensureCacheValid();
-    return KServiceGroupFactory::self()->findGroupByDesktopPath(relPath, true);
+    return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(relPath, true);
 }
 
 KServiceGroup::Ptr
 KServiceGroup::childGroup(const QString &parent)
 {
     KSycoca::self()->ensureCacheValid();
-    return KServiceGroupFactory::self()->findGroupByDesktopPath(QString::fromLatin1("#parent#") + parent, true);
+    return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(QString::fromLatin1("#parent#") + parent, true);
 }
 
 QString KServiceGroup::baseGroupName() const

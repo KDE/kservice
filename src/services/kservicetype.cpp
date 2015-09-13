@@ -20,6 +20,7 @@
 #include "kservicetype.h"
 #include "kservicetype_p.h"
 #include "ksycoca.h"
+#include "ksycoca_p.h"
 #include "kservice.h"
 #include "kservicetypefactory_p.h"
 #include "kservicefactory_p.h"
@@ -183,13 +184,13 @@ KServiceType::propertyDefNames() const
 KServiceType::Ptr KServiceType::serviceType(const QString &_name)
 {
     KSycoca::self()->ensureCacheValid();
-    return KServiceTypeFactory::self()->findServiceTypeByName(_name);
+    return KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(_name);
 }
 
 KServiceType::List KServiceType::allServiceTypes()
 {
     KSycoca::self()->ensureCacheValid();
-    return KServiceTypeFactory::self()->allServiceTypes();
+    return KSycocaPrivate::self()->serviceTypeFactory()->allServiceTypes();
 }
 
 KServiceType::Ptr KServiceType::parentType()
@@ -207,7 +208,7 @@ KServiceType::Ptr KServiceType::parentType()
     }
 
     KSycoca::self()->ensureCacheValid();
-    d->parentType = KServiceTypeFactory::self()->findServiceTypeByName(parentSt);
+    d->parentType = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(parentSt);
     if (!d->parentType) {
         qWarning() << entryPath() << "specifies undefined mimetype/servicetype" << parentSt;
     }

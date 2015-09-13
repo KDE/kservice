@@ -277,7 +277,7 @@ VFolderMenu::insertService(SubMenu *parentMenu, const QString &name, KService::P
     insertService(menu, s2, newService);
 }
 
-VFolderMenu::VFolderMenu(KBuildServiceFactory *serviceFactory, KBuildSycocaInterface *kbuildsycocaInterface)
+VFolderMenu::VFolderMenu(KServiceFactory *serviceFactory, KBuildSycocaInterface *kbuildsycocaInterface)
     : m_appsInfo(0)
     , m_rootMenu(0)
     , m_currentMenu(0)

@@ -24,15 +24,12 @@
 
 #include <QDebug>
 
-Q_GLOBAL_STATIC(KSycocaFactorySingleton<KServiceGroupFactory>, kServiceGroupFactoryInstance)
-
 KServiceGroupFactory::KServiceGroupFactory(KSycoca *db)
     : KSycocaFactory(KST_KServiceGroupFactory, db)
     , m_baseGroupDict(0)
     , m_baseGroupDictOffset(0)
 {
     if (!sycoca()->isBuilding()) {
-        kServiceGroupFactoryInstance()->instanceCreated(this);
         QDataStream *str = stream();
         if (!str) {
             return;
@@ -52,17 +49,6 @@ KServiceGroupFactory::KServiceGroupFactory(KSycoca *db)
 KServiceGroupFactory::~KServiceGroupFactory()
 {
     delete m_baseGroupDict;
-    if (!sycoca()->isBuilding()) {
-
-        if (kServiceGroupFactoryInstance()) {
-            kServiceGroupFactoryInstance()->instanceDestroyed(this);
-        }
-    }
-}
-
-KServiceGroupFactory *KServiceGroupFactory::self()
-{
-    return kServiceGroupFactoryInstance()->self();
 }
 
 KServiceGroup::Ptr KServiceGroupFactory::findGroupByDesktopPath(const QString &_name, bool deep)

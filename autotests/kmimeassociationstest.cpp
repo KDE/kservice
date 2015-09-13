@@ -29,6 +29,7 @@
 #include "kmimeassociations_p.h"
 #include <kbuildsycoca_p.h>
 #include <ksycoca.h>
+#include "ksycoca_p.h"
 
 // We need a factory that returns the same KService::Ptr every time it's asked for a given service.
 // Otherwise the changes to the service's serviceTypes by KMimeAssociationsTest have no effect
@@ -162,7 +163,8 @@ private Q_SLOTS:
         // Sycoca is built, in case it did not exist before.
         // It registers to KSycoca, which deletes it at end of program execution.
         KServiceFactory *factory = new FakeServiceFactory(KSycoca::self());
-        QCOMPARE(KServiceFactory::self(), factory); // ctor sets s_self
+        KSycocaPrivate::self()->m_serviceFactory = factory;
+        QCOMPARE(KSycocaPrivate::self()->serviceFactory(), factory);
 
         // For debugging: print all services and their storageId
 #if 0
@@ -216,7 +218,7 @@ private Q_SLOTS:
     void testParseSingleFile()
     {
         KOfferHash offerHash;
-        KMimeAssociations parser(offerHash, KServiceFactory::self());
+        KMimeAssociations parser(offerHash, KSycocaPrivate::self()->serviceFactory());
 
         QTemporaryFile tempFile;
         QVERIFY(tempFile.open());
@@ -264,7 +266,7 @@ private Q_SLOTS:
     void testGlobalAndLocalFiles()
     {
         KOfferHash offerHash;
-        KMimeAssociations parser(offerHash, KServiceFactory::self());
+        KMimeAssociations parser(offerHash, KSycocaPrivate::self()->serviceFactory());
 
         // Write global file
         QTemporaryFile tempFileGlobal;

@@ -27,8 +27,6 @@
 
 extern int servicesDebugArea();
 
-Q_GLOBAL_STATIC(KSycocaFactorySingleton<KServiceFactory>, kServiceFactoryInstance)
-
 KServiceFactory::KServiceFactory(KSycoca *db)
     : KSycocaFactory(KST_KServiceFactory, db),
       m_nameDict(0),
@@ -40,7 +38,6 @@ KServiceFactory::KServiceFactory(KSycoca *db)
     m_relNameDictOffset = 0;
     m_menuIdDictOffset = 0;
     if (!sycoca()->isBuilding()) {
-        kServiceFactoryInstance()->instanceCreated(this);
         QDataStream *str = stream();
         Q_ASSERT(str);
         if (!str) {
@@ -70,19 +67,9 @@ KServiceFactory::KServiceFactory(KSycoca *db)
 
 KServiceFactory::~KServiceFactory()
 {
-    if (!sycoca()->isBuilding()) {
-        if (kServiceFactoryInstance()) {
-            kServiceFactoryInstance()->instanceDestroyed(this);
-        }
-    }
     delete m_nameDict;
     delete m_relNameDict;
     delete m_menuIdDict;
-}
-
-KServiceFactory *KServiceFactory::self()
-{
-    return kServiceFactoryInstance()->self();
 }
 
 KService::Ptr KServiceFactory::findServiceByName(const QString &_name)

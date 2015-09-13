@@ -29,11 +29,23 @@
 class QFile;
 class QDataStream;
 class KSycocaAbstractDevice;
+class KMimeTypeFactory;
+class KServiceTypeFactory;
+class KServiceFactory;
+class KServiceGroupFactory;
 
-class KSycocaPrivate
+/**
+ * \internal
+ * Exported for unittests
+ */
+class KSERVICE_EXPORT KSycocaPrivate
 {
 public:
     KSycocaPrivate();
+
+    // per-thread "singleton"
+    static KSycocaPrivate *self() { return KSycoca::self()->d; }
+
     bool checkVersion();
     bool openDatabase(bool openDummyIfNotFound = true);
     enum BehaviorIfNotFound {
@@ -69,6 +81,11 @@ public:
 
     QString findDatabase();
     void slotDatabaseChanged();
+
+    KMimeTypeFactory *mimeTypeFactory();
+    KServiceTypeFactory *serviceTypeFactory();
+    KServiceFactory *serviceFactory();
+    KServiceGroupFactory *serviceGroupFactory();
 
     enum {
         DatabaseNotOpen, // openDatabase must be called
@@ -111,6 +128,12 @@ private:
     const char *sycoca_mmap;
     QFile *m_mmapFile;
     KSycocaAbstractDevice *m_device;
+
+public:
+    KMimeTypeFactory *m_mimeTypeFactory;
+    KServiceTypeFactory *m_serviceTypeFactory;
+    KServiceFactory *m_serviceFactory;
+    KServiceGroupFactory *m_serviceGroupFactory;
 };
 
 #endif /* KSYCOCA_P_H */

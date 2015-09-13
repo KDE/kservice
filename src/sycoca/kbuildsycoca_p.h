@@ -136,7 +136,6 @@ private:
     KSycocaEntry::List m_tempStorage;
     typedef QList<KSycocaEntry::List> KSycocaEntryListList;
     KSycocaEntryListList *m_allEntries; // entries from existing ksycoca
-    KBuildServiceFactory *m_serviceFactory;
     KBuildServiceGroupFactory *m_buildServiceGroupFactory;
     KSycocaFactory *m_currentFactory;
     KCTimeFactory *m_ctimeFactory;

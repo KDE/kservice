@@ -20,6 +20,7 @@
 #include "kservicetypetrader.h"
 
 #include "ksycoca.h"
+#include "ksycoca_p.h"
 #include "ktraderparsetree_p.h"
 #include <kservicetypeprofile.h>
 #include "kservicetype.h"
@@ -101,7 +102,7 @@ KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType)
     //qDebug() << "KServiceTypeTrader::weightedOffers( " << serviceType << " )";
 
     KSycoca::self()->ensureCacheValid();
-    KServiceType::Ptr servTypePtr = KServiceTypeFactory::self()->findServiceTypeByName(serviceType);
+    KServiceType::Ptr servTypePtr = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(serviceType);
     if (!servTypePtr) {
         qWarning() << "KServiceTypeTrader: serviceType" << serviceType << "not found";
         return KServiceOfferList();
@@ -111,7 +112,7 @@ KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType)
     }
 
     // First, get all offers known to ksycoca.
-    const KServiceOfferList services = KServiceFactory::self()->offers(servTypePtr->offset(), servTypePtr->serviceOffersOffset());
+    const KServiceOfferList services = KSycocaPrivate::self()->serviceFactory()->offers(servTypePtr->offset(), servTypePtr->serviceOffersOffset());
 
     const KServiceOfferList offers = KServiceTypeProfile::sortServiceTypeOffers(services, serviceType);
     //qDebug() << "Found profile: " << offers.count() << " offers";
@@ -127,7 +128,7 @@ KService::List KServiceTypeTrader::defaultOffers(const QString &serviceType,
         const QString &constraint) const
 {
     KSycoca::self()->ensureCacheValid();
-    KServiceType::Ptr servTypePtr = KServiceTypeFactory::self()->findServiceTypeByName(serviceType);
+    KServiceType::Ptr servTypePtr = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(serviceType);
     if (!servTypePtr) {
         qWarning() << "KServiceTypeTrader: serviceType" << serviceType << "not found";
         return KService::List();
@@ -137,7 +138,7 @@ KService::List KServiceTypeTrader::defaultOffers(const QString &serviceType,
     }
 
     KService::List lst =
-        KServiceFactory::self()->serviceOffers(servTypePtr->offset(), servTypePtr->serviceOffersOffset());
+        KSycocaPrivate::self()->serviceFactory()->serviceOffers(servTypePtr->offset(), servTypePtr->serviceOffersOffset());
 
     applyConstraints(lst, constraint);
 

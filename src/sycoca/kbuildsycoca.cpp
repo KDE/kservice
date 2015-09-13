@@ -56,8 +56,6 @@ KBuildSycocaInterface::~KBuildSycocaInterface() {}
 KBuildSycoca::KBuildSycoca(bool globalDatabase)
     : KSycoca(true),
       m_allEntries(0),
-      m_serviceFactory(0),
-      m_buildServiceGroupFactory(0),
       m_currentFactory(0),
       m_ctimeFactory(0),
       m_ctimeDict(0),
@@ -94,7 +92,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
 
         if (timeStamp && (timeStamp == oldTimestamp)) {
             // Re-use old entry
-            if (m_currentFactory == m_buildServiceGroupFactory) { // Strip .directory from service-group entries
+            if (m_currentFactory == d->m_serviceFactory) { // Strip .directory from service-group entries
                 entry = m_currentEntryDict->value(file.left(file.length() - 10));
             } else {
                 entry = m_currentEntryDict->value(file);
@@ -159,7 +157,7 @@ bool KBuildSycoca::build()
                 entryDict->insert(entry->entryPath(), entry);
             }
         }
-        if ((*factory) == m_serviceFactory) {
+        if ((*factory) == d->m_serviceFactory) {
             serviceEntryDict = entryDict;
         } else if ((*factory) == m_buildServiceGroupFactory) {
             m_serviceGroupEntryDict = entryDict;
@@ -266,11 +264,11 @@ bool KBuildSycoca::build()
     if (result || m_menuTest) {
         m_resource = "apps";
         m_resourceSubdir = QStringLiteral("applications");
-        m_currentFactory = m_serviceFactory;
+        m_currentFactory = d->m_serviceFactory;
         m_currentEntryDict = serviceEntryDict;
         m_changed = false;
 
-        m_vfolder = new VFolderMenu(m_serviceFactory, this);
+        m_vfolder = new VFolderMenu(d->m_serviceFactory, this);
         if (!m_trackId.isEmpty()) {
             m_vfolder->setTrackId(m_trackId);
         }
@@ -389,10 +387,10 @@ bool KBuildSycoca::recreate(bool incremental)
         m_ctimeDict = new KCTimeDict;
 
         // Must be in same order as in KBuildSycoca::recreate()!
-        m_allEntries->append(KServiceTypeFactory::self()->allEntries());
-        m_allEntries->append(KMimeTypeFactory::self()->allEntries());
-        m_allEntries->append(KServiceGroupFactory::self()->allEntries());
-        m_allEntries->append(KServiceFactory::self()->allEntries());
+        m_allEntries->append(KSycocaPrivate::self()->serviceTypeFactory()->allEntries());
+        m_allEntries->append(KSycocaPrivate::self()->mimeTypeFactory()->allEntries());
+        m_allEntries->append(KSycocaPrivate::self()->serviceGroupFactory()->allEntries());
+        m_allEntries->append(KSycocaPrivate::self()->serviceFactory()->allEntries());
 
         KCTimeFactory *ctimeInfo = new KCTimeFactory(oldSycoca);
         *m_ctimeDict = ctimeInfo->loadDict();
@@ -418,10 +416,13 @@ bool KBuildSycoca::recreate(bool incremental)
     qDebug().nospace() << "Recreating ksycoca file (" << path << ", version " << KSycoca::version() << ")";
 
     // It is very important to build the servicetype one first
-    KBuildServiceTypeFactory *stf = new KBuildServiceTypeFactory(this);
-    KBuildMimeTypeFactory *mimeTypeFactory = new KBuildMimeTypeFactory(this);
+    KBuildServiceTypeFactory *buildServiceTypeFactory = new KBuildServiceTypeFactory(this);
+    d->m_serviceTypeFactory = buildServiceTypeFactory;
+    KBuildMimeTypeFactory *buildMimeTypeFactory = new KBuildMimeTypeFactory(this);
+    d->m_mimeTypeFactory = buildMimeTypeFactory;
     m_buildServiceGroupFactory = new KBuildServiceGroupFactory(this);
-    m_serviceFactory = new KBuildServiceFactory(stf, mimeTypeFactory, m_buildServiceGroupFactory);
+    d->m_serviceGroupFactory = m_buildServiceGroupFactory;
+    d->m_serviceFactory = new KBuildServiceFactory(buildServiceTypeFactory, buildMimeTypeFactory, m_buildServiceGroupFactory);
 
     if (build()) { // Parse dirs
         save(str); // Save database

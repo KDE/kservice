@@ -33,11 +33,16 @@
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
 #include <QThread>
+#include <QThreadStorage>
 #include <QMetaMethod>
 
 #include <stdlib.h>
 #include <fcntl.h>
 #include <QDir>
+#include <kmimetypefactory_p.h>
+#include <kservicetypefactory_p.h>
+#include <kservicegroupfactory_p.h>
+#include <kservicefactory_p.h>
 
 #include "kbuildsycoca_p.h"
 #include "ksycocadevices_p.h"
@@ -82,7 +87,11 @@ KSycocaPrivate::KSycocaPrivate()
       sycoca_size(0),
       sycoca_mmap(0),
       m_mmapFile(0),
-      m_device(0)
+      m_device(0),
+      m_mimeTypeFactory(0),
+      m_serviceTypeFactory(0),
+      m_serviceFactory(0),
+      m_serviceGroupFactory(0)
 {
 #ifdef Q_OS_WIN
     /*
@@ -318,6 +327,38 @@ void KSycocaPrivate::slotDatabaseChanged()
     emit q->databaseChanged(changeList);
 }
 
+KMimeTypeFactory *KSycocaPrivate::mimeTypeFactory()
+{
+    if (!m_mimeTypeFactory) {
+        m_mimeTypeFactory = new KMimeTypeFactory(KSycoca::self());
+    }
+    return m_mimeTypeFactory;
+}
+
+KServiceTypeFactory *KSycocaPrivate::serviceTypeFactory()
+{
+    if (!m_serviceTypeFactory) {
+        m_serviceTypeFactory = new KServiceTypeFactory(KSycoca::self());
+    }
+    return m_serviceTypeFactory;
+}
+
+KServiceFactory *KSycocaPrivate::serviceFactory()
+{
+    if (!m_serviceFactory) {
+        m_serviceFactory = new KServiceFactory(KSycoca::self());
+    }
+    return m_serviceFactory;
+}
+
+KServiceGroupFactory *KSycocaPrivate::serviceGroupFactory()
+{
+    if (!m_serviceGroupFactory) {
+        m_serviceGroupFactory = new KServiceGroupFactory(KSycoca::self());
+    }
+    return m_serviceGroupFactory;
+}
+
 // Read-write constructor - only for KBuildSycoca
 KSycoca::KSycoca(bool /* dummy */)
     : d(new KSycocaPrivate)
@@ -356,6 +397,12 @@ void KSycocaPrivate::closeDatabase()
     // refcounted, and deleted when the last thread is done with them
     qDeleteAll(m_factories);
     m_factories.clear();
+
+    m_mimeTypeFactory = 0;
+    m_serviceFactory = 0;
+    m_serviceTypeFactory = 0;
+    m_serviceGroupFactory = 0;
+
 #if HAVE_MMAP
     if (sycoca_mmap) {
         // Solaris has munmap(char*, size_t) and everything else should
