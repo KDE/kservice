@@ -253,6 +253,7 @@ void KServiceTest::initTestCase()
 
 void KServiceTest::runKBuildSycoca(bool noincremental)
 {
+    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
     QProcess proc;
     const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
     QVERIFY(!kbuildsycoca.isEmpty());
@@ -265,10 +266,11 @@ void KServiceTest::runKBuildSycoca(bool noincremental)
     //proc.setProcessChannelMode(QProcess::ForwardedChannels); // use this to see the kbuildsycoca output
     proc.start(kbuildsycoca, args);
     proc.waitForFinished();
-    qDebug() << "waiting for signal";
-    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
-    QVERIFY(spy.wait(10000));
-    qDebug() << "got signal";
+    if (spy.isEmpty()) {
+        qDebug() << "waiting for signal";
+        QVERIFY(spy.wait(10000));
+        qDebug() << "got signal";
+    }
 }
 
 void KServiceTest::cleanupTestCase()
@@ -692,19 +694,10 @@ void KServiceTest::testDeletingService()
     // Test deleting a service
     const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + serviceName;
     QVERIFY(QFile::exists(servPath));
-    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
-    QVERIFY(spy.isValid());
     QFile::remove(servPath);
     runKBuildSycoca();
-    while (spy.isEmpty()) {
-        QTest::qWait(50);
-    }
-    QVERIFY(!spy.isEmpty());
     QVERIFY(!KService::serviceByDesktopPath(serviceName)); // not in ksycoca anymore
-    QVERIFY(spy[0][0].toStringList().contains("services"));
-    qDebug() << "got signal ok";
 
-    spy.clear();
     QVERIFY(fakeService); // the whole point of refcounting is that this KService instance is still valid.
     QVERIFY(!QFile::exists(servPath));
 
@@ -713,11 +706,6 @@ void KServiceTest::testDeletingService()
     QVERIFY(QFile::exists(servPath));
     qDebug() << "executing kbuildsycoca (2)";
     runKBuildSycoca();
-    while (spy.isEmpty()) {
-        QTest::qWait(50);
-    }
-    qDebug() << "got signal ok (2)";
-    QVERIFY(spy[0][0].toStringList().contains("services"));
     if (QThread::currentThread() != QCoreApplication::instance()->thread()) {
         m_sycocaUpdateDone.ref();
     }
@@ -767,9 +755,8 @@ void KServiceTest::testThreads()
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testHasServiceType1));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testDeletingService));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testTraderConstraints));
-    while (m_sycocaUpdateDone.load() == 0) { // not using a bool, just to silence helgrind
-        QTest::qWait(100);    // process D-Bus events!
-    }
+    // process events (DBus, inotify...), until we get all expected signals
+    QTRY_COMPARE_WITH_TIMEOUT(m_sycocaUpdateDone.load(), 1, 15000); // not using a bool, just to silence helgrind
     qDebug() << "Joining all threads";
     sync.waitForFinished();
 }
