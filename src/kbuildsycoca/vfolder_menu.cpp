@@ -37,7 +37,7 @@ static void foldNode(QDomElement &docElem, QDomElement &e, QMap<QString, QDomEle
     }
     QMap<QString, QDomElement>::iterator it = dupeList.find(s);
     if (it != dupeList.end()) {
-        qDebug() << e.tagName() << "and" << s << "requires combining!";
+        //qDebug() << e.tagName() << "and" << s << "requires combining!";
 
         docElem.removeChild(*it);
         dupeList.erase(it);
