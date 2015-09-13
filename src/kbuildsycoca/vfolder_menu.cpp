@@ -290,8 +290,8 @@ VFolderMenu::VFolderMenu(KBuildServiceFactory *serviceFactory, KBuildSycocaInter
 
 VFolderMenu::~VFolderMenu()
 {
+    qDeleteAll(m_appsInfoList);
     delete m_rootMenu;
-    delete m_appsInfo;
 }
 
 #define FOR_ALL_APPLICATIONS(it) \

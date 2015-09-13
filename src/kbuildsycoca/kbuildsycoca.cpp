@@ -479,6 +479,10 @@ bool KBuildSycoca::recreate(bool incremental)
         KMemFile::fileContentsChanged(path);
     }
 
+    delete m_ctimeDict;
+    delete m_allEntries;
+    delete m_vfolder;
+
     return true;
 }
 
