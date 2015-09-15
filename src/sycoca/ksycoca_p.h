@@ -103,6 +103,8 @@ public:
     // and fails to re-add an inotify watch after the file was replaced at some point (KServiceTest::testThreads),
     // thinking it only got changed and not removed+recreated.
     KDirWatch m_fileWatcher;
+    bool m_haveListeners;
+
 private:
     KSycocaFactoryList m_factories;
     size_t sycoca_size;

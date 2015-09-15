@@ -211,6 +211,8 @@ protected:
     friend class KSycocaFactory;
     friend class KSycocaDict;
 
+    void connectNotify(const QMetaMethod &signal) Q_DECL_OVERRIDE;
+
 private:
     /**
      * Clear all caches related to ksycoca contents.

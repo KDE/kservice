@@ -34,6 +34,7 @@
 #include <QtCore/QFileInfo>
 #include <QProcess>
 #include <QThread>
+#include <QMetaMethod>
 
 #include <stdlib.h>
 #include <fcntl.h>
@@ -77,6 +78,7 @@ KSycocaPrivate::KSycocaPrivate()
       timeStamp(0),
       m_databasePath(),
       updateSig(0),
+      m_haveListeners(false),
       sycoca_size(0),
       sycoca_mmap(0),
       m_mmapFile(0),
@@ -189,7 +191,9 @@ QString KSycocaPrivate::findDatabase()
         }
     }
     if (canRead) {
-        m_fileWatcher.addFile(path);
+        if (m_haveListeners) {
+            m_fileWatcher.addFile(path);
+        }
         return path;
     }
     return QString();
@@ -200,10 +204,6 @@ QString KSycocaPrivate::findDatabase()
 KSycoca::KSycoca()
     : d(new KSycocaPrivate)
 {
-    // Need this here (for unittests at least, who expect the signal even without actually reading from ksycoca)
-    // (TODO: use connectNotify to optimise away the file watching for apps/threads who don't care)
-    d->m_databasePath = d->findDatabase();
-
     connect(&d->m_fileWatcher, &KDirWatch::created, this, [this](){ d->slotDatabaseChanged(); });
 }
 
@@ -706,6 +706,18 @@ void KSycoca::disableAutoRebuild()
 QDataStream *&KSycoca::stream()
 {
     return d->stream();
+}
+
+void KSycoca::connectNotify(const QMetaMethod &signal)
+{
+    if (signal.name() == "databaseChanged" && !d->m_haveListeners) {
+        d->m_haveListeners = true;
+        if (d->m_databasePath.isEmpty()) {
+            d->m_databasePath = d->findDatabase();
+        } else {
+            d->m_fileWatcher.addFile(d->m_databasePath);
+        }
+    }
 }
 
 void KSycoca::clearCaches()
