@@ -34,8 +34,9 @@ template <typename KT, typename VT> class QHash;
 typedef QHash<QString, KSycocaEntry::Ptr> KSycocaEntryDict;
 class KSycocaFactoryPrivate;
 /**
- * @internal (only exported for kbuildsycoca)
+ * @internal
  * Base class for sycoca factories
+ * Exported for unit tests
  */
 class KSERVICE_EXPORT KSycocaFactory
 {
@@ -160,7 +161,7 @@ protected:
  * This, instead of a typedef, allows to declare "class ..." in header files.
  * @internal
  */
-class KSERVICE_EXPORT KSycocaFactoryList : public QList<KSycocaFactory *> //krazy:exclude=dpointer (acts as a typedef)
+class KSycocaFactoryList : public QList<KSycocaFactory *> //krazy:exclude=dpointer (acts as a typedef)
 {
 public:
     KSycocaFactoryList() { }

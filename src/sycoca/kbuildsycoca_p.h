@@ -30,7 +30,11 @@ class QDataStream;
 class KCTimeFactory;
 class KCTimeDict;
 
-class KBuildSycoca : public KSycoca, public KBuildSycocaInterface
+/**
+ * @internal
+ * Exported for kbuildsycoca, but not installed.
+ */
+class KSERVICE_EXPORT KBuildSycoca : public KSycoca, public KBuildSycocaInterface
 {
     Q_OBJECT
 public:

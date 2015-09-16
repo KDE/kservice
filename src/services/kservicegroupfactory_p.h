@@ -35,7 +35,7 @@ class KSycocaDict;
  *
  * Exported for kbuildsycoca, but not installed.
  */
-class KSERVICE_EXPORT KServiceGroupFactory : public KSycocaFactory
+class KServiceGroupFactory : public KSycocaFactory
 {
     K_SYCOCAFACTORY(KST_KServiceGroupFactory)
 public:

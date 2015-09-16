@@ -36,7 +36,7 @@
  * is automatically destroyed when the last process closed KMemFile.
  */
 
-class KSERVICE_EXPORT KMemFile : public QIODevice
+class KMemFile : public QIODevice
 {
 public:
     /**

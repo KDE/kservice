@@ -20,20 +20,17 @@
 #ifndef KSYCOCAUTILS_P_H
 #define KSYCOCAUTILS_P_H
 
-#include "kservice_export.h"
 class QString;
 class QStringList;
 class QDataStream;
 
 namespace KSycocaUtilsPrivate
 {
-// exported for kbuildsycoca
-
 /**
  * Safe demarshalling functions.
  */
-KSERVICE_EXPORT void read(QDataStream &s, QString &str);
-KSERVICE_EXPORT void read(QDataStream &s, QStringList &list);
+void read(QDataStream &s, QString &str);
+void read(QDataStream &s, QStringList &list);
 }
 
 #endif /* KSYCOCAUTILS_P_H */

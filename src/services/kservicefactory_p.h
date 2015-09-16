@@ -36,7 +36,7 @@ class KSycocaDict;
  * It loads the services from parsing directories (e.g. prefix/share/applications/)
  * but can also create service from data streams or single config files
  *
- * Exported for kbuildsycoca, but not installed.
+ * Exported for unit tests
  */
 class KSERVICE_EXPORT KServiceFactory : public KSycocaFactory
 {

@@ -42,7 +42,7 @@ kcoreaddons_desktop_to_json(fakeplugin ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_js
 
 ######### kmimeassociationstest ########
 
-set(kmimeassociationstest_SRCS kmimeassociationstest.cpp ../src/kbuildsycoca/kmimeassociations.cpp)
+set(kmimeassociationstest_SRCS kmimeassociationstest.cpp ../src/sycoca/kmimeassociations.cpp)
 
 ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
              LINK_LIBRARIES KF5::Service Qt5::Test)

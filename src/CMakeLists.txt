@@ -32,6 +32,14 @@ set(kservice_SRCS
    sycoca/ksycocautils.cpp
    sycoca/kmemfile.cpp
    sycoca/sycocadebug.cpp
+   sycoca/kbuildmimetypefactory.cpp
+   sycoca/kbuildservicetypefactory.cpp
+   sycoca/kbuildservicefactory.cpp
+   sycoca/kbuildservicegroupfactory.cpp
+   sycoca/kbuildsycoca.cpp
+   sycoca/kctimefactory.cpp
+   sycoca/kmimeassociations.cpp
+   sycoca/vfolder_menu.cpp
    plugin/kplugintrader.cpp
    plugin/kdbusservicestarter.cpp
 )
@@ -76,6 +84,7 @@ target_link_libraries(KF5Service
   PRIVATE
     KF5::I18n
     KF5::DBusAddons   # KDEInitInterface
+    Qt5::Xml          # (for vfolder menu) QDomDocument
 )
 
 set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION_STRING}
@@ -124,6 +133,12 @@ install(FILES
    services/application.desktop
    DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR}
 )
+
+if (WIN32)
+install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_DATAROOTDIR}/xdg/menus )
+else ()
+install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_SYSCONFDIR}/xdg/menus )
+endif ()
 
 install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 

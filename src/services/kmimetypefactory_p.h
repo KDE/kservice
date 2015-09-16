@@ -36,7 +36,7 @@ class KSycoca;
  * This is only used to point to the "service offers" in ksycoca for each mimetype.
  * @see KMimeType
  */
-class KSERVICE_EXPORT KMimeTypeFactory : public KSycocaFactory
+class KMimeTypeFactory : public KSycocaFactory
 {
     K_SYCOCAFACTORY(KST_KMimeTypeFactory)
 public:
