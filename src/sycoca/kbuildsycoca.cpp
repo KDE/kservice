@@ -65,6 +65,7 @@ KBuildSycoca::KBuildSycoca(bool globalDatabase)
       m_vfolder(0),
       m_newTimestamp(0),
       m_globalDatabase(globalDatabase),
+      m_menuTest(false),
       m_changed(false)
 {
 }
