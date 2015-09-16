@@ -18,6 +18,7 @@
 */
 
 #include <ksycoca.h>
+#include <ksycoca_p.h>
 #include <QTemporaryDir>
 #include <QTest>
 #include <QDebug>
@@ -27,6 +28,7 @@
 #include <QSignalSpy>
 #include <QProcess>
 #include <kservice.h>
+#include <kservicefactory_p.h>
 
 class KSycocaTest : public QObject
 {
@@ -42,7 +44,11 @@ private Q_SLOTS:
         // we don't need the services dir -> ensure there isn't one, so we can check allResourceDirs below.
         QDir(servicesDir()).removeRecursively();
 
+        QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
         runKBuildSycoca(QProcessEnvironment::systemEnvironment());
+        qDebug() << "waiting for signal";
+        QVERIFY(spy.wait(10000));
+        qDebug() << "got signal";
     }
     void testAllResourceDirs();
     void testOtherAppDir();
@@ -60,7 +66,6 @@ QTEST_MAIN(KSycocaTest)
 
 void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment)
 {
-    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
     QProcess proc;
     const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
     QVERIFY(!kbuildsycoca.isEmpty());
@@ -72,15 +77,11 @@ void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment)
 
     proc.waitForFinished();
     QCOMPARE(proc.exitStatus(), QProcess::NormalExit);
-
-    qDebug() << "waiting for signal";
-    QVERIFY(spy.wait(10000));
-    qDebug() << "got signal";
 }
 
 void KSycocaTest::testAllResourceDirs()
 {
-    // Dirs that exist and dirs that don't exist, should both in allResourceDirs().
+    // Dirs that exist and dirs that don't exist, should both be in allResourceDirs().
     const QStringList dirs = KSycoca::self()->allResourceDirs();
     QVERIFY2(dirs.contains(servicesDir()), qPrintable(dirs.join(',')));
     QVERIFY2(dirs.contains(serviceTypesDir()), qPrintable(dirs.join(',')));
@@ -126,7 +127,17 @@ void KSycocaTest::testOtherAppDir()
     }
 #endif
 
-    QVERIFY(KService::serviceByStorageId("test_app_other.desktop"));
+    // This is still NOT available. kbuildsycoca created a different DB file, the one we read from hasn't changed.
+    // Changing XDG_DATA_DIRS at runtime isn't supported, so this test isn't doing what apps would do.
+    // The point however is that another app using different dirs cannot mess up our DB.
+    QVERIFY(!KService::serviceByStorageId("test_app_other.desktop"));
+
+    // Check here what the other app would see, by creating another sycoca instance.
+    KSycoca otherAppSycoca;
+    // do what serviceByStorageId does:
+    otherAppSycoca.ensureCacheValid();
+    QVERIFY(otherAppSycoca.d->serviceFactory()->findServiceByStorageId("test_app_other.desktop"));
+    QVERIFY(otherAppSycoca.d->m_databasePath != KSycoca::self()->d->m_databasePath); // check that they use a different filename
 }
 
 #include "ksycocatest.moc"

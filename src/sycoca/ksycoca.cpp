@@ -43,6 +43,7 @@
 #include <kservicetypefactory_p.h>
 #include <kservicegroupfactory_p.h>
 #include <kservicefactory_p.h>
+#include <QCryptographicHash>
 
 #include "kbuildsycoca_p.h"
 #include "ksycocadevices_p.h"
@@ -53,11 +54,6 @@
  * but instead we'll ask kded to regenerate a new one...
  */
 #define KSYCOCA_VERSION 302
-
-/**
- * Sycoca file name, used internally (by kbuildsycoca)
- */
-#define KSYCOCA_FILENAME "ksycoca5"
 
 #if HAVE_MADVISE || HAVE_MMAP
 #include <sys/mman.h> // This #include was checked when looking for posix_madvise
@@ -684,17 +680,28 @@ quint32 KSycoca::updateSignature()
 
 QString KSycoca::absoluteFilePath(DatabaseType type)
 {
+    const QString paths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
+    QString suffix = QLatin1Char('_') + QLocale().bcp47Name();
+
     if (type == GlobalDatabase) {
-        QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString::fromLatin1("kservices5/" KSYCOCA_FILENAME));
+        const QString fileName = QStringLiteral("ksycoca5") + suffix;
+        QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kservices5/") + fileName);
         if (path.isEmpty()) {
-            return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QString::fromLatin1("/kservices5/" KSYCOCA_FILENAME);
+            return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/kservices5/") + fileName;
         }
         return path;
     }
 
     const QByteArray ksycoca_env = qgetenv("KDESYCOCA");
     if (ksycoca_env.isEmpty()) {
-        return QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1Char('/') + QString::fromLatin1(KSYCOCA_FILENAME);
+        const QByteArray pathHash = QCryptographicHash::hash(paths.toUtf8(), QCryptographicHash::Sha1);
+        suffix += QLatin1Char('_') + QString::fromLatin1(pathHash.toBase64());
+        suffix.replace('/', '_');
+#ifdef Q_OS_WIN
+        suffix.replace(':', '_');
+#endif
+        const QString fileName = QStringLiteral("ksycoca5") + suffix;
+        return QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1Char('/') + fileName;
     } else {
         return QFile::decodeName(ksycoca_env);
     }

@@ -244,6 +244,7 @@ private:
     friend class KBuildSycoca;
     friend class Kded;
     friend class KSycocaPrivate;
+    friend class KSycocaTest;
 
     Q_DISABLE_COPY(KSycoca)
     KSycocaPrivate *const d;

@@ -448,6 +448,21 @@ bool KBuildSycoca::recreate(bool incremental)
             qCWarning(SYCOCA) << "ERROR writing database" << database.fileName() << ". Disk full?";
             return false;
         }
+
+        if (!m_globalDatabase) {
+            // Compatibility code for KF < 5.15: provide a ksycoca5 symlink after the filename change, for old apps to keep working during the upgrade
+            const QString oldSycoca = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1String("/ksycoca5");
+            if (QFile::exists(oldSycoca)) {
+                QFile::remove(oldSycoca);
+#ifdef Q_OS_UNIX
+                if (::link(QFile::encodeName(path).constData(), QFile::encodeName(oldSycoca).constData()) != 0) {
+                    QFile::copy(path, oldSycoca);
+                }
+#else
+                QFile::copy(path, oldSycoca);
+#endif
+            }
+        }
     } else {
         delete str;
         str = 0;
@@ -615,6 +630,7 @@ quint32 KBuildSycoca::calcResourceHash(const QString &resourceSubDir, const QStr
 
 bool KBuildSycoca::checkGlobalHeader()
 {
+    // Since it's part of the filename, we are 99% sure that the locale and prefixes will match.
     const QString current_language = QLocale().bcp47Name();
     const quint32 current_update_sig = KBuildSycoca::calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
     const QString current_prefixes = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
