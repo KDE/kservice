@@ -77,13 +77,14 @@
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KSycocaPrivate::BehaviorsIfNotFound)
 
-KSycocaPrivate::KSycocaPrivate()
+KSycocaPrivate::KSycocaPrivate(KSycoca *q)
     : databaseStatus(DatabaseNotOpen),
       readError(false),
       timeStamp(0),
       m_databasePath(),
       updateSig(0),
       m_haveListeners(false),
+      q(q),
       sycoca_size(0),
       sycoca_mmap(0),
       m_mmapFile(0),
@@ -211,7 +212,7 @@ QString KSycocaPrivate::findDatabase()
 // Read-only constructor
 // One instance per thread
 KSycoca::KSycoca()
-    : d(new KSycocaPrivate)
+    : d(new KSycocaPrivate(this))
 {
     connect(&d->m_fileWatcher, &KDirWatch::created, this, [this](){ d->slotDatabaseChanged(); });
 }
@@ -321,8 +322,6 @@ void KSycocaPrivate::slotDatabaseChanged()
     m_databasePath = findDatabase();
 
     // Now notify applications
-    KSycoca *q = KSycoca::self();
-    Q_ASSERT(q->d == this); // only the readonly ctor connects to this slot
     emit q->databaseChanged();
     emit q->databaseChanged(changeList);
 }
@@ -330,7 +329,7 @@ void KSycocaPrivate::slotDatabaseChanged()
 KMimeTypeFactory *KSycocaPrivate::mimeTypeFactory()
 {
     if (!m_mimeTypeFactory) {
-        m_mimeTypeFactory = new KMimeTypeFactory(KSycoca::self());
+        m_mimeTypeFactory = new KMimeTypeFactory(q);
     }
     return m_mimeTypeFactory;
 }
@@ -338,7 +337,7 @@ KMimeTypeFactory *KSycocaPrivate::mimeTypeFactory()
 KServiceTypeFactory *KSycocaPrivate::serviceTypeFactory()
 {
     if (!m_serviceTypeFactory) {
-        m_serviceTypeFactory = new KServiceTypeFactory(KSycoca::self());
+        m_serviceTypeFactory = new KServiceTypeFactory(q);
     }
     return m_serviceTypeFactory;
 }
@@ -346,7 +345,7 @@ KServiceTypeFactory *KSycocaPrivate::serviceTypeFactory()
 KServiceFactory *KSycocaPrivate::serviceFactory()
 {
     if (!m_serviceFactory) {
-        m_serviceFactory = new KServiceFactory(KSycoca::self());
+        m_serviceFactory = new KServiceFactory(q);
     }
     return m_serviceFactory;
 }
@@ -354,14 +353,14 @@ KServiceFactory *KSycocaPrivate::serviceFactory()
 KServiceGroupFactory *KSycocaPrivate::serviceGroupFactory()
 {
     if (!m_serviceGroupFactory) {
-        m_serviceGroupFactory = new KServiceGroupFactory(KSycoca::self());
+        m_serviceGroupFactory = new KServiceGroupFactory(q);
     }
     return m_serviceGroupFactory;
 }
 
 // Read-write constructor - only for KBuildSycoca
 KSycoca::KSycoca(bool /* dummy */)
-    : d(new KSycocaPrivate)
+    : d(new KSycocaPrivate(this))
 {
 }
 

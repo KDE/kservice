@@ -41,7 +41,7 @@ class KServiceGroupFactory;
 class KSERVICE_EXPORT KSycocaPrivate
 {
 public:
-    KSycocaPrivate();
+    KSycocaPrivate(KSycoca *q);
 
     // per-thread "singleton"
     static KSycocaPrivate *self() { return KSycoca::self()->d; }
@@ -122,6 +122,7 @@ public:
     KDirWatch m_fileWatcher;
     bool m_haveListeners;
 
+    KSycoca *q;
 private:
     KSycocaFactoryList m_factories;
     size_t sycoca_size;
