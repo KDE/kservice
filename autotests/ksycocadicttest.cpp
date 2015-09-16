@@ -25,6 +25,7 @@
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
 #include <ksycocadict_p.h>
+#include <kbuildsycoca_p.h>
 
 
 class KSycocaDictTest : public QObject
@@ -70,17 +71,8 @@ QTEST_MAIN(KSycocaDictTest)
 void KSycocaDictTest::runKBuildSycoca()
 {
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
-    QProcess proc;
-    const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
-    QVERIFY(!kbuildsycoca.isEmpty());
-    QStringList args;
-    args << "--testmode";
-    proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
-    proc.start(kbuildsycoca, args);
-
-    proc.waitForFinished();
-    QCOMPARE(proc.exitStatus(), QProcess::NormalExit);
-
+    KBuildSycoca builder;
+    QVERIFY(builder.recreate());
     qDebug() << "waiting for signal";
     QVERIFY(spy.wait(10000));
     qDebug() << "got signal";

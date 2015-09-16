@@ -439,7 +439,7 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
         if (checkVersion()) {
             // Database exists, and version is ok, we can read it.
 
-            if (qAppName() != KBUILDSYCOCA_EXENAME) {
+            if (qAppName() != KBUILDSYCOCA_EXENAME && ifNotFound != IfNotFoundDoNothing) {
 
                 // Ensure it's uptodate, rebuild if needed
                 checkDirectories(ifNotFound);

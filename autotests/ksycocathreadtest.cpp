@@ -27,8 +27,8 @@
 #include <QTimer>
 #include <QStandardPaths>
 #include <QDebug>
-#include <QProcess>
 #include <QFile>
+#include <kbuildsycoca_p.h>
 
 #include <kconfig.h>
 #include <kconfiggroup.h>
@@ -239,22 +239,12 @@ private:
 
 static void runKBuildSycoca()
 {
-    QProcess proc;
-    const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
-    QVERIFY(!kbuildsycoca.isEmpty());
-    QStringList args;
-    args << "--testmode";
-    proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
-    proc.start(kbuildsycoca, args);
-    qDebug() << "waiting for signal";
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
+    KBuildSycoca builder;
+    QVERIFY(builder.recreate());
+    qDebug() << "waiting for signal";
     QVERIFY(spy.wait(20000));
-
     qDebug() << "got signal";
-    if (proc.state() != QProcess::NotRunning) {
-        QVERIFY(proc.waitForFinished());
-    }
-    QCOMPARE(proc.exitStatus(), QProcess::NormalExit);
 }
 
 void KSycocaThreadTest::initTestCase()

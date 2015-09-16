@@ -26,6 +26,7 @@
 #include <kconfiggroup.h>
 #include <kdesktopfile.h>
 #include <ksycoca.h>
+#include <kbuildsycoca_p.h>
 #include <../src/services/kserviceutil_p.h>
 
 #include <kservicegroup.h>
@@ -36,7 +37,6 @@
 #include <kplugininfo.h>
 
 #include <qfile.h>
-#include <qprocess.h>
 #include <qstandardpaths.h>
 #include <qthread.h>
 #include <qsignalspy.h>
@@ -254,18 +254,8 @@ void KServiceTest::initTestCase()
 void KServiceTest::runKBuildSycoca(bool noincremental)
 {
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
-    QProcess proc;
-    const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
-    QVERIFY(!kbuildsycoca.isEmpty());
-    QStringList args;
-    args << "--testmode";
-    if (noincremental) {
-        args << "--noincremental";
-    }
-    proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
-    //proc.setProcessChannelMode(QProcess::ForwardedChannels); // use this to see the kbuildsycoca output
-    proc.start(kbuildsycoca, args);
-    proc.waitForFinished();
+    KBuildSycoca builder;
+    QVERIFY(builder.recreate(!noincremental));
     if (spy.isEmpty()) {
         qDebug() << "waiting for signal";
         QVERIFY(spy.wait(10000));
@@ -287,10 +277,8 @@ void KServiceTest::cleanupTestCase()
         const QString fakeServiceType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + serviceType;
         //QFile::remove(fakeServiceType);
     }
-    QProcess proc;
-    proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
-    proc.start(QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME), QStringList() << "--testmode");
-    proc.waitForFinished();
+    KBuildSycoca builder;
+    builder.recreate();
 }
 
 void KServiceTest::testByName()

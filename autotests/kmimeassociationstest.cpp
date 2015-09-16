@@ -20,7 +20,6 @@
 
 #include <QDebug>
 #include <QDir>
-#include <QtCore/QProcess>
 #include <kconfiggroup.h>
 #include <kdesktopfile.h>
 #include <kmimetypetrader.h>
@@ -28,6 +27,7 @@
 #include <qtemporaryfile.h>
 #include <qtest.h>
 #include "kmimeassociations_p.h"
+#include <kbuildsycoca_p.h>
 #include <ksycoca.h>
 
 // We need a factory that returns the same KService::Ptr every time it's asked for a given service.
@@ -427,17 +427,12 @@ private:
 
     void runKBuildSycoca()
     {
-        //qDebug();
         // Wait for notifyDatabaseChanged DBus signal
         // (The real KCM code simply does the refresh in a slot, asynchronously)
         QEventLoop loop;
         QObject::connect(KSycoca::self(), SIGNAL(databaseChanged(QStringList)), &loop, SLOT(quit()));
-        QProcess proc;
-        const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
-        QVERIFY(!kbuildsycoca.isEmpty());
-        proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
-        proc.start(kbuildsycoca, QStringList() << "--testmode");
-        proc.waitForFinished();
+        KBuildSycoca builder;
+        QVERIFY(builder.recreate());
         loop.exec();
     }
 
