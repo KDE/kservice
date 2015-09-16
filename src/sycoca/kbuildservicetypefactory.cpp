@@ -20,6 +20,7 @@
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
 #include "ksycocaresourcelist_p.h"
+#include "sycocadebug.h"
 
 #include <QDebug>
 #include <assert.h>
@@ -69,14 +70,14 @@ KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
 
     const QString type = desktopGroup.readEntry("Type");
     if (type != QLatin1String("ServiceType")) {
-        qWarning() << "The service type config file " << desktopFile.fileName() << " has Type=" << type << " instead of Type=ServiceType";
+        qCWarning(SYCOCA) << "The service type config file " << desktopFile.fileName() << " has Type=" << type << " instead of Type=ServiceType";
         return 0;
     }
 
     const QString serviceType = desktopGroup.readEntry("X-KDE-ServiceType");
 
     if (serviceType.isEmpty()) {
-        qWarning() << "The service type config file " << desktopFile.fileName() << " does not contain a ServiceType=... entry";
+        qCWarning(SYCOCA) << "The service type config file " << desktopFile.fileName() << " does not contain a ServiceType=... entry";
         return 0;
     }
 
@@ -88,7 +89,7 @@ KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
     }
 
     if (!(e->isValid())) {
-        qWarning() << "Invalid ServiceType : " << file;
+        qCWarning(SYCOCA) << "Invalid ServiceType : " << file;
         delete e;
         return 0;
     }
@@ -136,7 +137,7 @@ KBuildServiceTypeFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
         if (dictit == m_propertyTypeDict.end()) {
             m_propertyTypeDict.insert(property, pit.value());
         } else if (*dictit != static_cast<int>(pit.value())) {
-            qWarning() << "Property '" << property << "' is defined multiple times (" << serviceType->name() << ")";
+            qCWarning(SYCOCA) << "Property '" << property << "' is defined multiple times (" << serviceType->name() << ")";
         }
     }
 }

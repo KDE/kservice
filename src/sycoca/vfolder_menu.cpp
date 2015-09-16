@@ -19,6 +19,7 @@
 #include "vfolder_menu_p.h"
 #include "kbuildservicefactory_p.h"
 #include "kbuildsycocainterface_p.h"
+#include "sycocadebug.h"
 
 #include <kservice.h>
 
@@ -456,14 +457,14 @@ VFolderMenu::loadDoc()
     }
     QFile file(m_docInfo.path);
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "Could not open " << m_docInfo.path;
+        qCWarning(SYCOCA) << "Could not open " << m_docInfo.path;
         return doc;
     }
     QString errorMsg;
     int errorRow;
     int errorCol;
     if (!doc.setContent(&file, &errorMsg, &errorRow, &errorCol)) {
-        qWarning() << "Parse error in " << m_docInfo.path << ", line " << errorRow << ", col " << errorCol << ": " << errorMsg;
+        qCWarning(SYCOCA) << "Parse error in " << m_docInfo.path << ", line " << errorRow << ", col " << errorCol << ": " << errorMsg;
         file.close();
         return doc;
     }
@@ -813,7 +814,7 @@ VFolderMenu::loadMenu(const QString &fileName)
         if (m_docInfo.path.isEmpty()) {
             qCritical() << fileName << " not found in " << m_allDirectories << endl;
         } else {
-            qWarning() << "Load error (" << m_docInfo.path << ")";
+            qCWarning(SYCOCA) << "Load error (" << m_docInfo.path << ")";
         }
         return;
     }
@@ -1344,7 +1345,7 @@ static QStringList parseLayoutNode(const QDomElement &docElem)
     if (!mergeTagExists) {
         layout.append(QStringLiteral(":M"));
         layout.append(QStringLiteral(":F"));
-        qWarning() << "The menu spec file contains a Layout or DefaultLayout tag without the mandatory Merge tag inside. Please fix your file.";
+        qCWarning(SYCOCA) << "The menu spec file contains a Layout or DefaultLayout tag without the mandatory Merge tag inside. Please fix your file.";
     }
     return layout;
 }

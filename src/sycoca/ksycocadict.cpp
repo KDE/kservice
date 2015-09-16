@@ -17,6 +17,7 @@
  **/
 
 #include "ksycocadict_p.h"
+#include "sycocadebug.h"
 #include <kservice.h>
 #include "ksycocaentry.h"
 #include "ksycoca.h"
@@ -550,7 +551,7 @@ KSycocaDict::save(QDataStream &str)
 qint32 KSycocaDictPrivate::offsetForKey(const QString &key) const
 {
     if (!stream || !offset) {
-        qWarning() << "No ksycoca database available! Tried running" << KBUILDSYCOCA_EXENAME << "?";
+        qCWarning(SYCOCA) << "No ksycoca database available! Tried running" << KBUILDSYCOCA_EXENAME << "?";
         return 0;
     }
 

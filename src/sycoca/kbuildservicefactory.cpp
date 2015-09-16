@@ -25,7 +25,8 @@
 #include "ksycocadict_p.h"
 #include "ksycocaresourcelist_p.h"
 #include "kdesktopfile.h"
-#include <kservicetype.h>
+#include "kservicetype.h"
+#include "sycocadebug.h"
 
 #include <QDebug>
 #include <QDir>
@@ -111,7 +112,7 @@ KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
             return serv;
         } else {
             if (!serv->isDeleted()) {
-                qWarning() << "Invalid Service : " << file;
+                qCWarning(SYCOCA) << "Invalid Service : " << file;
             }
             delete serv;
             return 0;

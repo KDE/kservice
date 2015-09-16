@@ -21,6 +21,7 @@
 #include "ksycocadict_p.h"
 #include "ksycocaresourcelist_p.h"
 #include <kservicegroup_p.h>
+#include "sycocadebug.h"
 
 #include <QDebug>
 #include <assert.h>
@@ -43,7 +44,7 @@ KBuildServiceGroupFactory::~KBuildServiceGroupFactory()
 KServiceGroup *KBuildServiceGroupFactory::createEntry(const QString &) const
 {
     // Unused
-    qWarning() << "called!";
+    qCWarning(SYCOCA) << "called!";
     return 0;
 }
 
@@ -56,7 +57,7 @@ void KBuildServiceGroupFactory::addNewEntryTo(const QString &menuName, const KSe
     }
 
     if (!entry) {
-        qWarning() << "( " << menuName << ", " << newEntry->name() << " ): menu does not exists!";
+        qCWarning(SYCOCA) << "( " << menuName << ", " << newEntry->name() << " ): menu does not exists!";
         return;
     }
     entry->addEntry(KSycocaEntry::Ptr(newEntry));
@@ -67,7 +68,7 @@ KBuildServiceGroupFactory::addNew(const QString &menuName, const QString &file, 
 {
     KSycocaEntry::Ptr ptr = m_entryDict->value(menuName);
     if (ptr) {
-        qWarning() << "( " << menuName << ", " << file << " ): menu already exists!";
+        qCWarning(SYCOCA) << "( " << menuName << ", " << file << " ): menu already exists!";
         return KServiceGroup::Ptr(static_cast<KServiceGroup*>(ptr.data()));
     }
 
@@ -96,7 +97,7 @@ KBuildServiceGroupFactory::addNew(const QString &menuName, const QString &file, 
             parentEntry = KServiceGroup::Ptr(static_cast<KServiceGroup*>(ptr.data()));
         }
         if (!parentEntry) {
-            qWarning() << "( " << menuName << ", " << file << " ): parent menu does not exist!";
+            qCWarning(SYCOCA) << "( " << menuName << ", " << file << " ): parent menu does not exist!";
         } else {
             if (!isDeleted && !entry->isDeleted()) {
                 parentEntry->addEntry(KSycocaEntry::Ptr(entry));

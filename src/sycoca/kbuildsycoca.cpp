@@ -21,6 +21,7 @@
 #include "ksycoca_p.h"
 #include "ksycocaresourcelist_p.h"
 #include "vfolder_menu_p.h"
+#include "sycocadebug.h"
 
 #include <kservicegroup.h>
 #include <kservice.h>
@@ -358,7 +359,7 @@ bool KBuildSycoca::recreate(bool incremental)
 {
     QFileInfo fi(KSycoca::absoluteFilePath(m_globalDatabase ? KSycoca::GlobalDatabase : KSycoca::LocalDatabase));
     if (!QDir().mkpath(fi.absolutePath())) {
-        qWarning() << "Couldn't create" << fi.absolutePath();
+        qCWarning(SYCOCA) << "Couldn't create" << fi.absolutePath();
         return false;
     }
     QString path(fi.absoluteFilePath());
@@ -367,6 +368,7 @@ bool KBuildSycoca::recreate(bool incremental)
     if (!lockFile.tryLock()) {
         qDebug() <<  "Waiting for already running" << KBUILDSYCOCA_EXENAME << "to finish.";
         if (!lockFile.lock()) {
+            qCWarning(SYCOCA) << "Couldn't lock" << path + ".lock";
             return false;
         }
         if (!needsRebuild()) {
@@ -405,8 +407,7 @@ bool KBuildSycoca::recreate(bool incremental)
         openedOK = database.open(QIODevice::WriteOnly);
     }
     if (!openedOK) {
-        fprintf(stderr, KBUILDSYCOCA_EXENAME ": ERROR creating database '%s'! %s\n",
-                path.toLocal8Bit().data(), database.errorString().toLocal8Bit().data());
+        qCWarning(SYCOCA) << "ERROR creating database" << path << ":" << database.errorString();
         return false;
     }
 
@@ -443,8 +444,7 @@ bool KBuildSycoca::recreate(bool incremental)
 #endif
 
         if (!database.commit()) {
-            fprintf(stderr, KBUILDSYCOCA_EXENAME ": ERROR writing database '%s'!\n", database.fileName().toLocal8Bit().data());
-            fprintf(stderr, KBUILDSYCOCA_EXENAME ": Disk full?\n");
+            qCWarning(SYCOCA) << "ERROR writing database" << database.fileName() << ". Disk full?";
             return false;
         }
     } else {
@@ -618,7 +618,7 @@ quint32 KBuildSycoca::calcResourceHash(const QString &resourceSubDir, const QStr
     if (hash == 0 && !filename.endsWith(QLatin1String("update_ksycoca"))
             && !filename.endsWith(QLatin1String(".directory")) // bug? needs investigation from someone who understands the VFolder spec
        ) {
-        qWarning() << "File not found or not readable:" << filename << "found:" << files;
+        qCWarning(SYCOCA) << "File not found or not readable:" << filename << "found:" << files;
         Q_ASSERT(hash != 0);
     }
     return hash;

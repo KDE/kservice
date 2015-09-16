@@ -106,7 +106,7 @@ void KSycocaPrivate::setStrategyFromString(const QString &strategy)
     } else if (strategy == QLatin1String("sharedmem")) {
         m_sycocaStrategy = StrategyMemFile;
     } else if (!strategy.isEmpty()) {
-        qWarning() << "Unknown sycoca strategy:" << strategy;
+        qCWarning(SYCOCA) << "Unknown sycoca strategy:" << strategy;
     }
 }
 
@@ -274,7 +274,7 @@ KSycocaAbstractDevice *KSycocaPrivate::device()
         if (!device) {
             device = new KSycocaFileDevice(m_databasePath);
             if (!device->device()->open(QIODevice::ReadOnly)) {
-                qWarning() << "Couldn't open" << m_databasePath << "even though it is readable? Impossible.";
+                qCWarning(SYCOCA) << "Couldn't open" << m_databasePath << "even though it is readable? Impossible.";
                 //delete device; device = 0; // this would crash in the return statement...
             }
         }
@@ -474,7 +474,7 @@ QDataStream *KSycoca::findFactory(KSycocaFactoryId id)
     while (true) {
         *str >> aId;
         if (aId == 0) {
-            qWarning() << "Error, KSycocaFactory (id =" << int(id) << ") not found!";
+            qCWarning(SYCOCA) << "Error, KSycocaFactory (id =" << int(id) << ") not found!";
             break;
         }
         *str >> aOffset;
@@ -672,7 +672,7 @@ QStringList KSycoca::allResourceDirs()
 
 void KSycoca::flagError()
 {
-    qWarning() << "ERROR: KSycoca database corruption!";
+    qCWarning(SYCOCA) << "ERROR: KSycoca database corruption!";
     KSycoca *sycoca = self();
     if (sycoca->d->readError) {
         return;
@@ -692,7 +692,7 @@ bool KSycoca::isBuilding()
 
 void KSycoca::disableAutoRebuild()
 {
-    qWarning("KSycoca::disableAutoRebuild() is internal, do not call it.");
+    qCWarning(SYCOCA) << "KSycoca::disableAutoRebuild() is internal, do not call it.";
 }
 
 QDataStream *&KSycoca::stream()
