@@ -457,19 +457,7 @@ bool KBuildSycoca::recreate(bool incremental)
         qDebug() << "Database is up to date";
     }
 
-    if (!m_globalDatabase) {
-        // update the timestamp file
-        QString stamppath = path + QStringLiteral("stamp");
-        QFile ksycocastamp(stamppath);
-        ksycocastamp.open(QIODevice::WriteOnly);
-        QDataStream str(&ksycocastamp);
-        str.setVersion(QDataStream::Qt_5_3);
-        str << m_newTimestamp;
-        str << existingResourceDirs();
-        if (m_vfolder) {
-            str << m_vfolder->allDirectories();    // Extra resource dirs
-        }
-    } else {
+    if (m_globalDatabase) {
         // These directories may have been created with 0700 permission
         // better delete them if they are empty
         QString appsDir = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
