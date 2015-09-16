@@ -371,7 +371,7 @@ bool KBuildSycoca::recreate(bool incremental)
         }
         if (!needsRebuild()) {
             //qDebug() << "Up-to-date, skipping.";
-            return false;
+            return true;
         }
     }
 

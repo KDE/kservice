@@ -38,14 +38,14 @@ class KSERVICE_EXPORT KBuildSycoca : public KSycoca, public KBuildSycocaInterfac
 {
     Q_OBJECT
 public:
-    KBuildSycoca(bool globalDatabase);
+    KBuildSycoca(bool globalDatabase = false);
     virtual ~KBuildSycoca();
 
     /**
      * Recreate the database file.
-     * @return true if it was indeed recreated.
+     * @return true if it was indeed recreated (by us or possibly by someone else), false on error
      */
-    bool recreate(bool incremental);
+    bool recreate(bool incremental = true);
 
     void setTrackId(const QString &id)
     {

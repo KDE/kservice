@@ -32,7 +32,6 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QFile>
 #include <QtCore/QFileInfo>
-#include <QProcess>
 #include <QThread>
 #include <QMetaMethod>
 
@@ -40,6 +39,7 @@
 #include <fcntl.h>
 #include <QDir>
 
+#include "kbuildsycoca_p.h"
 #include "ksycocadevices_p.h"
 
 /**
@@ -601,16 +601,9 @@ bool KSycocaPrivate::needsRebuild()
 
 bool KSycocaPrivate::buildSycoca(BehaviorsIfNotFound ifNotFound)
 {
-    QProcess proc;
-    const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
-    if (!kbuildsycoca.isEmpty()) {
-        QStringList args;
-        if (QStandardPaths::isTestModeEnabled()) {
-            args << QLatin1String("--testmode");
-        }
-        proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
-        proc.start(kbuildsycoca, args);
-        proc.waitForFinished();
+    KBuildSycoca builder;
+    if (!builder.recreate()) {
+        return false; // error
     }
 
     closeDatabase(); // close the dummy one
@@ -680,16 +673,15 @@ QStringList KSycoca::allResourceDirs()
 void KSycoca::flagError()
 {
     qWarning() << "ERROR: KSycoca database corruption!";
-    KSycocaPrivate *d = ksycocaInstance()->sycoca()->d;
-    if (d->readError) {
+    KSycoca *sycoca = self();
+    if (sycoca->d->readError) {
         return;
     }
-    d->readError = true;
-    if (qAppName() != KBUILDSYCOCA_EXENAME) {
+    sycoca->d->readError = true;
+    if (qAppName() != KBUILDSYCOCA_EXENAME && !sycoca->isBuilding()) {
         // Rebuild the damned thing.
-        if (QProcess::execute(QStandardPaths::findExecutable(QString::fromLatin1(KBUILDSYCOCA_EXENAME))) != 0) {
-            qWarning("ERROR: Running %s failed", KBUILDSYCOCA_EXENAME);
-        }
+        KBuildSycoca builder;
+        (void)builder.recreate();
     }
 }
 
