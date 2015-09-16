@@ -49,7 +49,7 @@
  * If the existing file is outdated, it will not get read
  * but instead we'll ask kded to regenerate a new one...
  */
-#define KSYCOCA_VERSION 302
+#define KSYCOCA_VERSION 303
 
 /**
  * Sycoca file name, used internally (by kbuildsycoca)
@@ -503,7 +503,9 @@ KSycoca::KSycocaHeader KSycocaPrivate::readSycocaHeader()
     }
     // We now point to the header
     KSycocaUtilsPrivate::read(*str, header.prefixes);
-    *str >> header.timeStamp;
+    quint32 oldTimeStamp; // compat code --> TODO remove this when switching to a different fileName
+    *str >> oldTimeStamp;
+    header.timeStamp = oldTimeStamp * 1000;
     KSycocaUtilsPrivate::read(*str, header.language);
     *str >> header.updateSignature;
     KSycocaUtilsPrivate::read(*str, allResourceDirs);

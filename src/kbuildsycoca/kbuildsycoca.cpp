@@ -421,7 +421,7 @@ bool KBuildSycoca::recreate(bool incremental)
     }
 
     QDataStream *str = new QDataStream(&database);
-    str->setVersion(QDataStream::Qt_5_3);
+    str->setVersion(QDataStream::Qt_3_1);
 
     qDebug().nospace() << "Recreating ksycoca file (" << path << ", version " << KSycoca::version() << ")";
 
@@ -515,7 +515,7 @@ void KBuildSycoca::save(QDataStream *str)
     (*str) << qint32(0); // No more factories.
     // Write XDG_DATA_DIRS
     (*str) << QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
-    (*str) << newTimestamp;
+    (*str) << (quint32)newTimestamp / 1000; // TODO just newTimestamp when using a new filename
     (*str) << QLocale().bcp47Name();
     // This makes it possible to trigger a ksycoca update for all users (KIOSK feature)
     (*str) << calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
