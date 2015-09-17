@@ -35,7 +35,7 @@
 #include <QDateTime>
 #include <QFileInfo>
 
-#include <unistd.h> // for unlink
+#include <qplatformdefs.h> // for unlink
 
 static void crashHandler(int)
 {
