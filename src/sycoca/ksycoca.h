@@ -181,7 +181,9 @@ public:
      *
      * This is however useful for GUIs that allow to create a new desktop file
      * and then want to ensure it is available immediately in KSycoca.
-     * KBuildSycocaProgressDialog can also be used for that.
+     * This is also useful after modifying a mimeapps.list file.
+     *
+     * KBuildSycocaProgressDialog can also be used instead of this method, in GUI apps.
      *
      * @since 5.15
      */
