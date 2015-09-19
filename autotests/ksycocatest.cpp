@@ -138,6 +138,8 @@ void KSycocaTest::testOtherAppDir()
     otherAppSycoca.ensureCacheValid();
     QVERIFY(otherAppSycoca.d->serviceFactory()->findServiceByStorageId("test_app_other.desktop"));
     QVERIFY(otherAppSycoca.d->m_databasePath != KSycoca::self()->d->m_databasePath); // check that they use a different filename
+    // check that the timestamp code works
+    QVERIFY(!otherAppSycoca.d->needsRebuild());
 }
 
 #include "ksycocatest.moc"
