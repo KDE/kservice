@@ -144,20 +144,6 @@ void KServiceTest::initTestCase()
         group.writeEntry("MimeType", "text/plain;");
     }
 
-    const QString fakeCookie = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/kded/") + "fakekcookiejar.desktop";
-    if (!QFile::exists(fakeCookie)) {
-        mustUpdateKSycoca = true;
-        KDesktopFile file(fakeCookie);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Name", "OtherPart");
-        group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-ServiceTypes", "FakeKDEDModule");
-        group.writeEntry("X-KDE-Library", "kcookiejar");
-        group.writeEntry("X-KDE-DBus-ModuleName", "kcookiejar");
-        group.writeEntry("X-KDE-Kded-autoload", "false");
-        group.writeEntry("X-KDE-Kded-load-on-demand", "true");
-    }
-
     const QString otherPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "otherpart.desktop";
     if (!QFile::exists(otherPart)) {
         mustUpdateKSycoca = true;
@@ -298,6 +284,23 @@ void KServiceTest::testByName()
 
 void KServiceTest::testProperty()
 {
+    extern KSERVICE_EXPORT int ksycoca_ms_between_checks;
+    ksycoca_ms_between_checks = 0;
+
+    // Let's try creating a desktop file and ensuring it's noticed by the timestamp check
+    const QString fakeCookie = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/kded/") + "fakekcookiejar.desktop";
+    if (!QFile::exists(fakeCookie)) {
+        KDesktopFile file(fakeCookie);
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Name", "OtherPart");
+        group.writeEntry("Type", "Service");
+        group.writeEntry("X-KDE-ServiceTypes", "FakeKDEDModule");
+        group.writeEntry("X-KDE-Library", "kcookiejar");
+        group.writeEntry("X-KDE-DBus-ModuleName", "kcookiejar");
+        group.writeEntry("X-KDE-Kded-autoload", "false");
+        group.writeEntry("X-KDE-Kded-load-on-demand", "true");
+    }
+
     KService::Ptr kdedkcookiejar = KService::serviceByDesktopPath("kded/fakekcookiejar.desktop");
     QVERIFY(kdedkcookiejar);
     QCOMPARE(kdedkcookiejar->entryPath(), QString("kded/fakekcookiejar.desktop"));
@@ -320,6 +323,9 @@ void KServiceTest::testProperty()
     QCOMPARE(fakePart->mimeTypes(), QStringList() << "text/plain" << "text/html"); // okular relies on subclasses being kept here
     const QStringList protocols = fakePart->property("X-KDE-Protocols").toStringList();
     QCOMPARE(protocols, QStringList() << "http" << "ftp");
+
+    // Restore value
+    ksycoca_ms_between_checks = 1500;
 }
 
 void KServiceTest::testAllServiceTypes()

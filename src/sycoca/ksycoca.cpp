@@ -771,6 +771,9 @@ void KSycoca::clearCaches()
         ksycocaInstance()->sycoca()->d->closeDatabase();
 }
 
+extern KSERVICE_EXPORT int ksycoca_ms_between_checks;
+KSERVICE_EXPORT int ksycoca_ms_between_checks = 1500;
+
 void KSycoca::ensureCacheValid()
 {
     if (qAppName() == KBUILDSYCOCA_EXENAME) {
@@ -781,7 +784,7 @@ void KSycoca::ensureCacheValid()
         return;
     }
 
-    if (d->m_lastCheck.isValid() && d->m_lastCheck.elapsed() <= 1500) {
+    if (d->m_lastCheck.isValid() && d->m_lastCheck.elapsed() <= ksycoca_ms_between_checks) {
         return;
     }
     d->m_lastCheck.start();
