@@ -505,7 +505,7 @@ KSycoca::KSycocaHeader KSycocaPrivate::readSycocaHeader()
     KSycocaUtilsPrivate::read(*str, header.prefixes);
     quint32 oldTimeStamp; // compat code --> TODO remove this when switching to a different fileName
     *str >> oldTimeStamp;
-    header.timeStamp = oldTimeStamp * 1000;
+    header.timeStamp = static_cast<quint64>(oldTimeStamp) * 1000;
     KSycocaUtilsPrivate::read(*str, header.language);
     *str >> header.updateSignature;
     KSycocaUtilsPrivate::read(*str, allResourceDirs);
