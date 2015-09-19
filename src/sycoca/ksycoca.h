@@ -169,13 +169,23 @@ public:
     static void flagError();
 
     /**
-     * Checks if ksycoca's internal cache is up to date
-     * and if it is not, it closes the database, so the next use reopens it.
-     * Warning: this deletes all sycoca factories!
+     * Ensures the ksycoca database is up to date.
+     * If the database was modified by another process, close it, so the next use reopens it.
+     * If the desktop files have been modified more recently than the database, update it.
      *
-     * @internal
+     * Update the sycoca file from the files on disk (e.g. desktop files or mimeapps.list).
+     * You don't normally have to call this because the next use of KSycoca
+     * (e.g. via KMimeTypeTrader, KService etc.) will notice that the sycoca
+     * database is out of date, by looking a directory modification times.
+     * In addition, in a full KDE session, kded monitors directories to detect changes.
+     *
+     * This is however useful for GUIs that allow to create a new desktop file
+     * and then want to ensure it is available immediately in KSycoca.
+     * KBuildSycocaProgressDialog can also be used for that.
+     *
+     * @since 5.15
      */
-    void ensureCacheValid();
+    void ensureCacheValid(); // Warning for kservice code: this can delete all the factories.
 
 Q_SIGNALS:
     /**
