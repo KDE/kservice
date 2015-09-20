@@ -93,16 +93,23 @@ public:
      * Returns stream(), but positioned for reading this factory, 0 on error.
      */
     QDataStream *findFactory(KSycocaFactoryId id); // KF6: make it private
+
     /**
      * @internal - returns absolute file path of the database
      *
-     * for global database type the database is searched under
-     * the 'services' install path.
+     * For the global database type, the database is searched under
+     * the 'share/ksycoca' install path.
      * Otherwise, the value from the environment variable KDESYCOCA
-     * is returned if set. If not set the path is build based on
-     * KStandardDirs cache save location.
+     * is returned if set. If not set the path is built based on
+     * QStandardPaths cache save location, typically ~/.cache on Unix.
+     *
+     * Since 5.15, the filename includes language and a sha1 of the directories
+     * in GenericDataLocation, i.e. the directories with the desktop files.
+     * This allows to have one database per setup, when using different install prefixes
+     * or when switching languages.
      */
     static QString absoluteFilePath(DatabaseType type = LocalDatabase);
+
     /**
      * @internal - returns language stored inside database
      */
