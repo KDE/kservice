@@ -79,7 +79,7 @@ void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
     runKBuildSycoca(QProcessEnvironment::systemEnvironment());
     qDebug() << "waiting for signal";
-    QVERIFY(spy.wait(10000));
+    QVERIFY(spy.wait(20000));
     qDebug() << "got signal";
 }
 
