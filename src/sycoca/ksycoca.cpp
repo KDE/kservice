@@ -413,6 +413,7 @@ void KSycocaPrivate::closeDatabase()
 #endif
 
     databaseStatus = DatabaseNotOpen;
+    m_databasePath.clear();
     timeStamp = 0;
 }
 
@@ -805,7 +806,7 @@ void KSycoca::ensureCacheValid()
         }
     }
 
-    if (d->m_lastCheck.isValid() && d->m_lastCheck.elapsed() <= ksycoca_ms_between_checks) {
+    if (d->m_lastCheck.isValid() && d->m_lastCheck.elapsed() < ksycoca_ms_between_checks) {
         return;
     }
     d->m_lastCheck.start();
