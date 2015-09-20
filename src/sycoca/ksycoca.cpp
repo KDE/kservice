@@ -80,6 +80,7 @@ KSycocaPrivate::KSycocaPrivate(KSycoca *q)
       m_databasePath(),
       updateSig(0),
       m_haveListeners(false),
+      m_globalDatabase(false),
       q(q),
       sycoca_size(0),
       sycoca_mmap(0),
@@ -186,6 +187,7 @@ QString KSycocaPrivate::findDatabase()
 {
     Q_ASSERT(databaseStatus == DatabaseNotOpen);
 
+    m_globalDatabase = false;
     QString path = KSycoca::absoluteFilePath();
     QFileInfo info(path);
     bool canRead = info.isReadable();
@@ -194,6 +196,9 @@ QString KSycocaPrivate::findDatabase()
         if (!path.isEmpty()) {
             info.setFile(path);
             canRead = info.isReadable();
+            if (canRead) {
+                m_globalDatabase = true;
+            }
         }
     }
     if (canRead) {
@@ -576,6 +581,16 @@ KSycoca::KSycocaHeader KSycocaPrivate::readSycocaHeader()
     language = header.language;
     updateSig = header.updateSignature;
 
+    if (m_globalDatabase) {
+        // The global database doesn't point to the user's local dirs, but we need to check them too
+        // to react on something being created there
+        const QString dataHome = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+        allResourceDirs << dataHome + QLatin1String("/kservices5");
+        allResourceDirs << dataHome + QLatin1String("/kservicetypes5");
+        allResourceDirs << dataHome + QLatin1String("/mime");
+        allResourceDirs << dataHome + QLatin1String("/applications");
+    }
+
     return header;
 }
 
@@ -685,9 +700,9 @@ QString KSycoca::absoluteFilePath(DatabaseType type)
 
     if (type == GlobalDatabase) {
         const QString fileName = QStringLiteral("ksycoca5") + suffix;
-        QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kservices5/") + fileName);
+        QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("ksycoca/") + fileName);
         if (path.isEmpty()) {
-            return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/kservices5/") + fileName;
+            return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/ksycoca/") + fileName;
         }
         return path;
     }

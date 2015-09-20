@@ -121,6 +121,7 @@ public:
     // thinking it only got changed and not removed+recreated.
     KDirWatch m_fileWatcher;
     bool m_haveListeners;
+    bool m_globalDatabase;
 
     KSycoca *q;
 private:
