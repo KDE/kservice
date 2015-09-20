@@ -236,7 +236,6 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
     } else { // No database file
         //qCDebug(SYCOCA) << "Could not open ksycoca";
         m_databasePath.clear();
-        databaseStatus = NoDatabase;
         if (openDummyIfNotFound) {
             // We open a dummy database instead.
             //qCDebug(SYCOCA) << "No database, opening a dummy one.";
@@ -381,7 +380,7 @@ KSycoca::~KSycoca()
     //    ksycocaInstance->self = 0;
 }
 
-bool KSycoca::isAvailable()
+bool KSycoca::isAvailable() // TODO KF6: make it non-static (mostly useful for unittests)
 {
     return self()->d->checkDatabase(KSycocaPrivate::IfNotFoundDoNothing/* don't open dummy db if not found */);
 }
@@ -489,7 +488,7 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
             if (qAppName() != KBUILDSYCOCA_EXENAME && ifNotFound != IfNotFoundDoNothing) {
 
                 // Ensure it's uptodate, rebuild if needed
-                checkDirectories(ifNotFound);
+                checkDirectories();
 
                 // Don't check again for some time
                 m_lastCheck.start();
@@ -500,7 +499,7 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
     }
 
     if (ifNotFound & IfNotFoundRecreate) {
-        return buildSycoca(ifNotFound);
+        return buildSycoca();
     }
 
     return false;
@@ -641,10 +640,10 @@ static bool checkTimestamps(qint64 timestamp, const QStringList &dirs)
     return true;
 }
 
-void KSycocaPrivate::checkDirectories(BehaviorsIfNotFound ifNotFound)
+void KSycocaPrivate::checkDirectories()
 {
     if (needsRebuild()) {
-        buildSycoca(ifNotFound);
+        buildSycoca();
     }
 }
 
@@ -656,7 +655,7 @@ bool KSycocaPrivate::needsRebuild()
     return timeStamp != 0 && !checkTimestamps(timeStamp, allResourceDirs);
 }
 
-bool KSycocaPrivate::buildSycoca(BehaviorsIfNotFound ifNotFound)
+bool KSycocaPrivate::buildSycoca()
 {
     KBuildSycoca builder;
     if (!builder.recreate()) {
@@ -666,7 +665,7 @@ bool KSycocaPrivate::buildSycoca(BehaviorsIfNotFound ifNotFound)
     closeDatabase(); // close the dummy one
 
     // Ok, the new database should be here now, open it.
-    if (!openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
+    if (!openDatabase()) {
         qCDebug(SYCOCA) << "Still no database...";
         return false; // Still no database - uh oh
     }
@@ -795,8 +794,10 @@ void KSycoca::ensureCacheValid()
         return;
     }
 
-    if (d->databaseStatus == KSycocaPrivate::DatabaseNotOpen) {
-        return;
+    if (d->databaseStatus != KSycocaPrivate::DatabaseOK) {
+        if (!d->checkDatabase(KSycocaPrivate::IfNotFoundRecreate)) {
+            return;
+        }
     }
 
     if (d->m_lastCheck.isValid() && d->m_lastCheck.elapsed() <= ksycoca_ms_between_checks) {
@@ -808,7 +809,7 @@ void KSycoca::ensureCacheValid()
     QFileInfo info(d->m_databasePath);
     if (info.lastModified() == d->m_dbLastModified) {
         // Check if the watched directories were modified, then the cache needs a rebuild.
-        d->checkDirectories(KSycocaPrivate::IfNotFoundOpenDummy);
+        d->checkDirectories();
         return;
     }
 

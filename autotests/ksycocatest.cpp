@@ -30,6 +30,11 @@
 #include <kservice.h>
 #include <kservicefactory_p.h>
 
+// taken from tst_qstandardpaths
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC) && !defined(Q_OS_BLACKBERRY) && !defined(Q_OS_ANDROID)
+#define Q_XDG_PLATFORM
+#endif
+
 class KSycocaTest : public QObject
 {
     Q_OBJECT
@@ -43,13 +48,9 @@ private Q_SLOTS:
 
         // we don't need the services dir -> ensure there isn't one, so we can check allResourceDirs below.
         QDir(servicesDir()).removeRecursively();
-
-        QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
-        runKBuildSycoca(QProcessEnvironment::systemEnvironment());
-        qDebug() << "waiting for signal";
-        QVERIFY(spy.wait(10000));
-        qDebug() << "got signal";
     }
+    void ensureCacheValidShouldCreateDB();
+    void kBuildSycocaShouldEmitDatabaseChanged();
     void testAllResourceDirs();
     void testOtherAppDir();
 
@@ -64,6 +65,35 @@ private:
 
 QTEST_MAIN(KSycocaTest)
 
+void KSycocaTest::ensureCacheValidShouldCreateDB()
+{
+#ifdef Q_XDG_PLATFORM
+    // Set XDG_DATA_DIRS to avoid a global database breaking the test
+    const QByteArray oldDataDirs = qgetenv("XDG_DATA_DIRS");
+    const QString dataDir = m_tempDir.path();
+    qputenv("XDG_DATA_DIRS", QFile::encodeName(dataDir));
+#endif
+    // Don't use KSycoca::self() here in order to not mess it up with a different XDG_DATA_DIRS for other tests
+    KSycoca mySycoca;
+    QFile::remove(KSycoca::absoluteFilePath());
+    mySycoca.ensureCacheValid();
+    QVERIFY(QFile::exists(KSycoca::absoluteFilePath()));
+#ifdef Q_XDG_PLATFORM
+    qputenv("XDG_DATA_DIRS", oldDataDirs);
+#endif
+}
+
+void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
+{
+    // It used to be a DBus signal, now it's file watching
+    QTest::qWait(1000); // ensure the file watching notices it's a new second
+    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
+    runKBuildSycoca(QProcessEnvironment::systemEnvironment());
+    qDebug() << "waiting for signal";
+    QVERIFY(spy.wait(10000));
+    qDebug() << "got signal";
+}
+
 void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment)
 {
     QProcess proc;
@@ -71,7 +101,7 @@ void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment)
     QVERIFY(!kbuildsycoca.isEmpty());
     QStringList args;
     args << "--testmode";
-    proc.setProcessChannelMode(QProcess::MergedChannels); // silence kbuildsycoca output
+    proc.setProcessChannelMode(QProcess::ForwardedChannels);
     proc.start(kbuildsycoca, args);
     proc.setProcessEnvironment(environment);
 
@@ -86,11 +116,6 @@ void KSycocaTest::testAllResourceDirs()
     QVERIFY2(dirs.contains(servicesDir()), qPrintable(dirs.join(',')));
     QVERIFY2(dirs.contains(serviceTypesDir()), qPrintable(dirs.join(',')));
 }
-
-// taken from tst_qstandardpaths
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC) && !defined(Q_OS_BLACKBERRY) && !defined(Q_OS_ANDROID)
-#define Q_XDG_PLATFORM
-#endif
 
 void KSycocaTest::testOtherAppDir()
 {

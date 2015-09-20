@@ -62,7 +62,7 @@ public:
     /**
      * Check if the on-disk cache needs to be rebuilt, and do it then.
      */
-    void checkDirectories(BehaviorsIfNotFound ifNotFound);
+    void checkDirectories();
 
     /**
      * Check if the on-disk cache needs to be rebuilt, and return true
@@ -72,7 +72,7 @@ public:
     /**
      * Recreate the cache and reopen the database
      */
-    bool buildSycoca(BehaviorsIfNotFound ifNotFound);
+    bool buildSycoca();
 
     KSycoca::KSycocaHeader readSycocaHeader();
 
@@ -89,7 +89,6 @@ public:
 
     enum {
         DatabaseNotOpen, // openDatabase must be called
-        NoDatabase, // not found, so we opened a dummy one instead
         BadVersion, // it's opened, but it's not useable
         DatabaseOK
     } databaseStatus;
