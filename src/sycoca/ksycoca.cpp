@@ -694,21 +694,26 @@ quint32 KSycoca::updateSignature()
 
 QString KSycoca::absoluteFilePath(DatabaseType type)
 {
-    const QString paths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
+    const QStringList paths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     QString suffix = QLatin1Char('_') + QLocale().bcp47Name();
 
     if (type == GlobalDatabase) {
         const QString fileName = QStringLiteral("ksycoca5") + suffix;
         QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("ksycoca/") + fileName);
         if (path.isEmpty()) {
-            return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/ksycoca/") + fileName;
+            // No existing global DB found, maybe we are going to make a new one.
+            // We don't want it in $HOME, so skip the first entry in <paths> and pick the second one.
+            if (paths.count() == 1) { // unlikely
+                return QString();
+            }
+            return paths.at(1) + QStringLiteral("/ksycoca/") + fileName;
         }
         return path;
     }
 
     const QByteArray ksycoca_env = qgetenv("KDESYCOCA");
     if (ksycoca_env.isEmpty()) {
-        const QByteArray pathHash = QCryptographicHash::hash(paths.toUtf8(), QCryptographicHash::Sha1);
+        const QByteArray pathHash = QCryptographicHash::hash(paths.join(QString(QLatin1Char(':'))).toUtf8(), QCryptographicHash::Sha1);
         suffix += QLatin1Char('_') + QString::fromLatin1(pathHash.toBase64());
         suffix.replace('/', '_');
 #ifdef Q_OS_WIN

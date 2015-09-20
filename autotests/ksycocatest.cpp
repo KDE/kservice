@@ -29,6 +29,7 @@
 #include <QProcess>
 #include <kservice.h>
 #include <kservicefactory_p.h>
+#include <kservicetypefactory_p.h>
 
 // taken from tst_qstandardpaths
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC) && !defined(Q_OS_BLACKBERRY) && !defined(Q_OS_ANDROID)
@@ -49,39 +50,27 @@ private Q_SLOTS:
         // we don't need the services dir -> ensure there isn't one, so we can check allResourceDirs below.
         QDir(servicesDir()).removeRecursively();
     }
-    void ensureCacheValidShouldCreateDB();
+    void cleanupTestCase()
+    {
+        QFile::remove(serviceTypesDir() + "/fakeLocalServiceType.desktop");
+        QFile::remove(KSycoca::absoluteFilePath());
+    }
     void kBuildSycocaShouldEmitDatabaseChanged();
     void testAllResourceDirs();
+    void ensureCacheValidShouldCreateDB();
     void testOtherAppDir();
+    void testGlobalSycoca();
 
 private:
     QString servicesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservices5"; }
     QString serviceTypesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservicetypes5"; }
 
-    static void runKBuildSycoca(const QProcessEnvironment &environment);
+    static void runKBuildSycoca(const QProcessEnvironment &environment, bool global = false);
 
     QTemporaryDir m_tempDir;
 };
 
 QTEST_MAIN(KSycocaTest)
-
-void KSycocaTest::ensureCacheValidShouldCreateDB()
-{
-#ifdef Q_XDG_PLATFORM
-    // Set XDG_DATA_DIRS to avoid a global database breaking the test
-    const QByteArray oldDataDirs = qgetenv("XDG_DATA_DIRS");
-    const QString dataDir = m_tempDir.path();
-    qputenv("XDG_DATA_DIRS", QFile::encodeName(dataDir));
-#endif
-    // Don't use KSycoca::self() here in order to not mess it up with a different XDG_DATA_DIRS for other tests
-    KSycoca mySycoca;
-    QFile::remove(KSycoca::absoluteFilePath());
-    mySycoca.ensureCacheValid();
-    QVERIFY(QFile::exists(KSycoca::absoluteFilePath()));
-#ifdef Q_XDG_PLATFORM
-    qputenv("XDG_DATA_DIRS", oldDataDirs);
-#endif
-}
 
 void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
 {
@@ -94,13 +83,16 @@ void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
     qDebug() << "got signal";
 }
 
-void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment)
+void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment, bool global)
 {
     QProcess proc;
     const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
     QVERIFY(!kbuildsycoca.isEmpty());
     QStringList args;
     args << "--testmode";
+    if (global) {
+        args << "--global";
+    }
     proc.setProcessChannelMode(QProcess::ForwardedChannels);
     proc.start(kbuildsycoca, args);
     proc.setProcessEnvironment(environment);
@@ -115,6 +107,24 @@ void KSycocaTest::testAllResourceDirs()
     const QStringList dirs = KSycoca::self()->allResourceDirs();
     QVERIFY2(dirs.contains(servicesDir()), qPrintable(dirs.join(',')));
     QVERIFY2(dirs.contains(serviceTypesDir()), qPrintable(dirs.join(',')));
+}
+
+void KSycocaTest::ensureCacheValidShouldCreateDB()
+{
+#ifdef Q_XDG_PLATFORM
+    // Set XDG_DATA_DIRS to avoid a global database breaking the test
+    const QByteArray oldDataDirs = qgetenv("XDG_DATA_DIRS");
+    const QString dataDir = m_tempDir.path();
+    qputenv("XDG_DATA_DIRS", QFile::encodeName(dataDir));
+#endif
+    // Don't use KSycoca::self() here, it doesn't use that XDG_DATA_DIRS value
+    KSycoca mySycoca;
+    QFile::remove(KSycoca::absoluteFilePath());
+    mySycoca.ensureCacheValid();
+    QVERIFY(QFile::exists(KSycoca::absoluteFilePath()));
+#ifdef Q_XDG_PLATFORM
+    qputenv("XDG_DATA_DIRS", oldDataDirs);
+#endif
 }
 
 void KSycocaTest::testOtherAppDir()
@@ -165,6 +175,48 @@ void KSycocaTest::testOtherAppDir()
     QVERIFY(otherAppSycoca.d->m_databasePath != KSycoca::self()->d->m_databasePath); // check that they use a different filename
     // check that the timestamp code works
     QVERIFY(!otherAppSycoca.d->needsRebuild());
+}
+
+extern KSERVICE_EXPORT int ksycoca_ms_between_checks;
+
+void KSycocaTest::testGlobalSycoca()
+{
+#ifndef Q_XDG_PLATFORM
+    QSKIP("This test requires XDG_DATA_DIRS");
+#endif
+    // No local DB
+    QFile::remove(KSycoca::absoluteFilePath());
+
+    const QString dataDir = m_tempDir.path();
+    qputenv("XDG_DATA_DIRS", QFile::encodeName(dataDir));
+
+    // Build global DB
+    // We could do it in-process, but let's check what a sysadmin would do: run kbuildsycoca5 --global
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("XDG_DATA_DIRS", dataDir);
+    runKBuildSycoca(env, true /*global*/);
+    QVERIFY(QFile::exists(KSycoca::absoluteFilePath(KSycoca::GlobalDatabase)));
+
+    KSycoca otherAppSycoca;
+    otherAppSycoca.ensureCacheValid();
+    QVERIFY(!QFile::exists(KSycoca::absoluteFilePath()));
+
+    // Now create a local file, after a 1s delay, until QDateTime includes ms...
+    QTest::qWait(1000);
+    KDesktopFile file(serviceTypesDir() + "/fakeLocalServiceType.desktop");
+    KConfigGroup group = file.desktopGroup();
+    group.writeEntry("Comment", "Fake Text Plugin");
+    group.writeEntry("Type", "ServiceType");
+    group.writeEntry("X-KDE-ServiceType", "LocalServiceType");
+    file.sync();
+    qDebug() << "created" << serviceTypesDir() + "/fakeLocalServiceType.desktop";
+
+    // Using ksycoca should now build a local one
+    ksycoca_ms_between_checks = 0;
+    // equivalent of QVERIFY(KServiceType::serviceType("LocalServiceType")) but on another ksycoca instance
+    otherAppSycoca.ensureCacheValid();
+    otherAppSycoca.d->serviceTypeFactory()->findServiceTypeByName("LocalServiceType");
+    QVERIFY(QFile::exists(KSycoca::absoluteFilePath()));
 }
 
 #include "ksycocatest.moc"
