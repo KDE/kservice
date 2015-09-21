@@ -288,6 +288,7 @@ void KServiceTest::testProperty()
     ksycoca_ms_between_checks = 0;
 
     // Let's try creating a desktop file and ensuring it's noticed by the timestamp check
+    QTest::qWait(1000);
     const QString fakeCookie = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/kded/") + "fakekcookiejar.desktop";
     if (!QFile::exists(fakeCookie)) {
         KDesktopFile file(fakeCookie);
@@ -299,6 +300,7 @@ void KServiceTest::testProperty()
         group.writeEntry("X-KDE-DBus-ModuleName", "kcookiejar");
         group.writeEntry("X-KDE-Kded-autoload", "false");
         group.writeEntry("X-KDE-Kded-load-on-demand", "true");
+        qDebug() << "created" << fakeCookie;
     }
 
     KService::Ptr kdedkcookiejar = KService::serviceByDesktopPath("kded/fakekcookiejar.desktop");
