@@ -103,7 +103,7 @@ void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
     // It used to be a DBus signal, now it's file watching
     QTest::qWait(1000); // ensure the file watching notices it's a new second
     // Ensure kbuildsycoca has something to do
-    QFile file(serviceTypesDir() + "/just_to_touch_the_dir.desktop");
+    QFile file(serviceTypesDir() + "/fake_just_to_touch_the_dir.desktop");
     QVERIFY(file.open(QIODevice::WriteOnly));
     file.close();
     QVERIFY(file.remove());
