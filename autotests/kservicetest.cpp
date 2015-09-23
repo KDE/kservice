@@ -514,6 +514,21 @@ void KServiceTest::testTraderConstraints()
     QCOMPARE(offers.count(), 1);
     QVERIFY(offerListHasService(offers, "faketextplugin.desktop"));
 
+    // Match case insensitive
+    offers = KServiceTypeTrader::self()->query("FakePluginType", "Library =~ 'fAkEteXtpLuGin'");
+    QCOMPARE(offers.count(), 1);
+    QVERIFY(offerListHasService(offers, "faketextplugin.desktop"));
+
+    // "contains"
+    offers = KServiceTypeTrader::self()->query("FakePluginType", "'textplugin' ~ Library"); // note: "is contained in", not "contains"...
+    QCOMPARE(offers.count(), 1);
+    QVERIFY(offerListHasService(offers, "faketextplugin.desktop"));
+
+    // "contains" case insensitive
+    offers = KServiceTypeTrader::self()->query("FakePluginType", "'teXtPluGin' ~~ Library"); // note: "is contained in", not "contains"...
+    QCOMPARE(offers.count(), 1);
+    QVERIFY(offerListHasService(offers, "faketextplugin.desktop"));
+
     if (m_hasNonCLocale) {
 
         // Test float parsing, must use dot as decimal separator independent of locale.
