@@ -59,14 +59,9 @@ private Q_SLOTS:
         // We need to make changes to a global dir without messing up the system
         QSKIP("This test requires XDG_DATA_DIRS");
 #endif
-        KDesktopFile file(serviceTypesDir() + "/fakeGlobalServiceType.desktop");
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Comment", "Fake Global ServiceType");
-        group.writeEntry("Type", "ServiceType");
-        group.writeEntry("X-KDE-ServiceType", "FakeGlobalServiceType");
-        file.sync();
-        qDebug() << "created" << serviceTypesDir() + "/fakeGlobalServiceType.desktop";
+        createGlobalServiceType();
     }
+
     void cleanupTestCase()
     {
         QFile::remove(serviceTypesDir() + "/fakeLocalServiceType.desktop");
@@ -80,6 +75,16 @@ private Q_SLOTS:
     void testNonReadableSycoca();
 
 private:
+    void createGlobalServiceType()
+    {
+        KDesktopFile file(serviceTypesDir() + "/fakeGlobalServiceType.desktop");
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Comment", "Fake Global ServiceType");
+        group.writeEntry("Type", "ServiceType");
+        group.writeEntry("X-KDE-ServiceType", "FakeGlobalServiceType");
+        file.sync();
+        qDebug() << "created" << serviceTypesDir() + "/fakeGlobalServiceType.desktop";
+    }
     QString servicesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservices5"; }
     QString serviceTypesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservicetypes5"; }
 
@@ -103,16 +108,15 @@ void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
     // It used to be a DBus signal, now it's file watching
     QTest::qWait(1000); // ensure the file watching notices it's a new second
     // Ensure kbuildsycoca has something to do
-    QFile file(serviceTypesDir() + "/fake_just_to_touch_the_dir.desktop");
-    QVERIFY(file.open(QIODevice::WriteOnly));
-    file.close();
-    QVERIFY(file.remove());
+    QVERIFY(QFile::remove(serviceTypesDir() + "/fakeGlobalServiceType.desktop"));
     // Run kbuildsycoca
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
     runKBuildSycoca(QProcessEnvironment::systemEnvironment());
     qDebug() << "waiting for signal";
     QVERIFY(spy.wait(20000));
     qDebug() << "got signal";
+    // Put it back for other tests
+    createGlobalServiceType();
 }
 
 void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment, bool global)
