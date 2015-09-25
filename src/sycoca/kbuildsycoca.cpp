@@ -23,6 +23,7 @@
 #include "vfolder_menu_p.h"
 #include "sycocadebug.h"
 
+#include <config-ksycoca.h>
 #include <kservicegroup.h>
 #include <kservice.h>
 #include "kbuildservicetypefactory_p.h"
@@ -273,7 +274,7 @@ bool KBuildSycoca::build()
             m_vfolder->setTrackId(m_trackId);
         }
 
-        VFolderMenu::SubMenu *kdeMenu = m_vfolder->parseMenu(QStringLiteral("applications.menu"));
+        VFolderMenu::SubMenu *kdeMenu = m_vfolder->parseMenu(QStringLiteral(APPLICATIONS_MENU_NAME));
 
         KServiceGroup::Ptr entry = m_buildServiceGroupFactory->addNew(QStringLiteral("/"), kdeMenu->directoryFile, KServiceGroup::Ptr(), false);
         entry->setLayoutInfo(kdeMenu->layoutList);

@@ -28,6 +28,9 @@ ecm_setup_version(${KF5_VERSION}
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfigVersion.cmake"
                   SOVERSION 5)
 
+set(APPLICATIONS_MENU_NAME applications.menu
+    CACHE STRING "Name to install the applications.menu file as.")
+
 # TODO: Remove these
 remove_definitions(-DQT_NO_CAST_FROM_ASCII)
 

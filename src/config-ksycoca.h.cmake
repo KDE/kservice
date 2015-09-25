@@ -1,2 +1,3 @@
 #cmakedefine01 HAVE_MMAP
 #cmakedefine01 HAVE_MADVISE
+#cmakedefine APPLICATIONS_MENU_NAME "@APPLICATIONS_MENU_NAME@"
