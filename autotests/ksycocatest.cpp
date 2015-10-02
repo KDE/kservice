@@ -32,6 +32,13 @@
 #include <kservicefactory_p.h>
 #include <kservicetypefactory_p.h>
 
+// ## use QFile::setFileTime when it lands in Qt
+#include <time.h>
+#ifdef Q_OS_UNIX
+#include <utime.h>
+#include <sys/time.h>
+#endif
+
 // taken from tst_qstandardpaths
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC) && !defined(Q_OS_BLACKBERRY) && !defined(Q_OS_ANDROID)
 #define Q_XDG_PLATFORM
@@ -69,6 +76,7 @@ private Q_SLOTS:
     }
     void ensureCacheValidShouldCreateDB();
     void kBuildSycocaShouldEmitDatabaseChanged();
+    void dirInFutureShouldRebuildSycocaOnce();
     void testAllResourceDirs();
     void testDeletingSycoca();
     void testGlobalSycoca();
@@ -117,6 +125,47 @@ void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
     qDebug() << "got signal";
     // Put it back for other tests
     createGlobalServiceType();
+}
+
+void KSycocaTest::dirInFutureShouldRebuildSycocaOnce()
+{
+    const QDateTime oldTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+
+    // ### use QFile::setFileTime when it lands in Qt...
+#ifdef Q_OS_UNIX
+    const QString path = serviceTypesDir();
+    struct timeval tp;
+    gettimeofday(&tp, 0);
+    struct utimbuf utbuf;
+    utbuf.actime = tp.tv_sec;
+    utbuf.modtime = tp.tv_sec + 60; // 60 second in the future
+    QCOMPARE(utime(QFile::encodeName(path).constData(), &utbuf), 0);
+    qDebug("Time changed for %s", qPrintable(path));
+    qDebug() << QDateTime::currentDateTime() << QFileInfo(path).lastModified();
+#else
+    QSKIP("This test requires utime");
+#endif
+    ksycoca_ms_between_checks = 0;
+
+    QTest::qWait(1000); // remove this once lastModified includes ms
+
+    KSycoca::self()->ensureCacheValid();
+    const QDateTime newTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+    QVERIFY(newTimestamp > oldTimestamp);
+
+    QTest::qWait(1000); // remove this once lastModified includes ms
+
+    KSycoca::self()->ensureCacheValid();
+    const QDateTime againTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+    QCOMPARE(againTimestamp, newTimestamp); // same mtime, it didn't get rebuilt
+
+    // Ensure we don't pollute the other tests, with our dir in the future.
+#ifdef Q_OS_UNIX
+    utbuf.modtime = tp.tv_sec;
+    QCOMPARE(utime(QFile::encodeName(path).constData(), &utbuf), 0);
+    qDebug("Time changed back for %s", qPrintable(path));
+    qDebug() << QDateTime::currentDateTime() << QFileInfo(path).lastModified();
+#endif
 }
 
 void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment, bool global)
@@ -178,7 +227,7 @@ void KSycocaTest::testGlobalSycoca()
     group.writeEntry("Type", "ServiceType");
     group.writeEntry("X-KDE-ServiceType", "FakeLocalServiceType");
     file.sync();
-    qDebug() << "created" << serviceTypesDir() + "/fakeLocalServiceType.desktop";
+    //qDebug() << "created" << serviceTypesDir() + "/fakeLocalServiceType.desktop at" << QDateTime::currentMSecsSinceEpoch();
 
     // Using ksycoca should now build a local one
     ksycoca_ms_between_checks = 0;

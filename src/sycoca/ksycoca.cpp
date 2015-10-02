@@ -48,12 +48,19 @@
 #include "kbuildsycoca_p.h"
 #include "ksycocadevices_p.h"
 
+#ifdef Q_OS_UNIX
+#include <utime.h>
+#include <sys/time.h>
+#endif
+
 /**
  * Sycoca file version number.
  * If the existing file is outdated, it will not get read
- * but instead we'll ask kded to regenerate a new one...
+ * but instead we'll regenerate a new one.
+ * However running apps should still be able to read it, so
+ * only add to the data, never remove/modify.
  */
-#define KSYCOCA_VERSION 302
+#define KSYCOCA_VERSION 303
 
 #if HAVE_MADVISE || HAVE_MMAP
 #include <sys/mman.h> // This #include was checked when looking for posix_madvise
@@ -358,6 +365,13 @@ KServiceGroupFactory *KSycocaPrivate::serviceGroupFactory()
     return m_serviceGroupFactory;
 }
 
+// Add local paths to the list of dirs we got from the global database
+void KSycocaPrivate::addLocalResourceDir(const QString &path)
+{
+    // If any local path is more recent than the time the global sycoca was created, build a local sycoca.
+    allResourceDirs.insert(path, timeStamp);
+}
+
 // Read-write constructor - only for KBuildSycoca
 KSycoca::KSycoca(bool /* dummy */)
     : d(new KSycocaPrivate(this))
@@ -566,7 +580,14 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
     *str >> header.timeStamp;
     KSycocaUtilsPrivate::read(*str, header.language);
     *str >> header.updateSignature;
-    KSycocaUtilsPrivate::read(*str, allResourceDirs);
+    QStringList directoryList;
+    KSycocaUtilsPrivate::read(*str, directoryList);
+    allResourceDirs.clear();
+    for (int i = 0; i < directoryList.count(); ++i) {
+        qint64 mtime;
+        *str >> mtime;
+        allResourceDirs.insert(directoryList.at(i), mtime);
+    }
 
     str->device()->seek(oldPos);
 
@@ -580,61 +601,81 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
         // The global database doesn't point to the user's local dirs, but we need to check them too
         // to react on something being created there
         const QString dataHome = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-        allResourceDirs << dataHome + QLatin1String("/kservices5");
-        allResourceDirs << dataHome + QLatin1String("/kservicetypes5");
-        allResourceDirs << dataHome + QLatin1String("/mime");
-        allResourceDirs << dataHome + QLatin1String("/applications");
+        addLocalResourceDir(dataHome + QLatin1String("/kservices5"));
+        addLocalResourceDir(dataHome + QLatin1String("/kservicetypes5"));
+        addLocalResourceDir(dataHome + QLatin1String("/mime"));
+        addLocalResourceDir(dataHome + QLatin1String("/applications"));
     }
 
     return header;
 }
 
-static bool checkDirTimestamps(const QString &dirname, const QDateTime &stamp)
+
+class TimestampChecker
 {
-    QDir dir(dirname);
-    const QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs, QDir::Unsorted);
-    if (list.isEmpty()) {
+public:
+    TimestampChecker()
+        : m_now(QDateTime::currentDateTime())
+    {}
+
+    // Check times of last modification of all directories on which ksycoca depends,
+    // If none of them is newer than the mtime we stored for that directory at the
+    // last rebuild, this means that there's no need to rebuild ksycoca.
+    bool checkTimestamps(const QMap<QString, qint64> &dirs)
+    {
+        Q_ASSERT(!dirs.isEmpty());
+        qCDebug(SYCOCA) << "checking file timestamps";
+        for (auto it = dirs.begin(); it != dirs.end(); ++it) {
+            const QString dir = it.key();
+            const QFileInfo info(dir);
+            const qint64 lastStamp = it.value();
+            const qint64 newStamp = info.lastModified().toMSecsSinceEpoch();
+            //qCDebug(SYCOCA) << dir << "comparing" << newStamp << "with" << lastStamp;
+            if (newStamp > lastStamp) { // or !=, for people going back in time?
+                if (info.lastModified() > m_now) {
+                    qCDebug(SYCOCA) << info.filePath() << "has a modification time in the future" << info.lastModified();
+                }
+                qCDebug(SYCOCA) << "timestamp changed:" << dir;
+                return false;
+            }
+            // Recurse only for services and menus.
+            // Apps and servicetypes don't need recursion, so save the directory listing.
+            if (dir.contains("/applications") || dir.contains("/kservicetypes5")) {
+                continue;
+            }
+            if (!checkDirTimestamps(dir, lastStamp)) {
+                return false;
+            }
+        }
         return true;
     }
-    foreach (const QFileInfo &fi, list) {
-        if (fi.lastModified() > stamp) {
-            qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << fi.lastModified() << ">" << stamp;
-            return false;
-        }
-        if (fi.isDir() && !checkDirTimestamps(fi.filePath(), stamp)) {
-            return false;
-        }
-    }
-    return true;
-}
 
-// Check times of last modification of all directories on which ksycoca depends,
-// If all of them are older than the timestamp in file ksycocastamp, this
-// means that there's no need to rebuild ksycoca.
-// kbuildsycoca has a similar check (when launched with --checkstamps, which nobody does),
-// but it even looks at every file. We can't afford doing that here.
-static bool checkTimestamps(qint64 timestamp, const QStringList &dirs)
-{
-    qCDebug(SYCOCA) << "checking file timestamps";
-    const QDateTime stamp = QDateTime::fromMSecsSinceEpoch(timestamp);
-    for (QStringList::ConstIterator it = dirs.begin(); it != dirs.end(); ++it) {
-        const QString dir = *it;
-        QFileInfo inf(dir);
-        if (inf.lastModified() > stamp) {
-            qCDebug(SYCOCA) << "timestamp changed:" << dir;
-            return false;
+private:
+    bool checkDirTimestamps(const QString &dirname, qint64 stamp)
+    {
+        QDir dir(dirname);
+        const QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs, QDir::Unsorted);
+        if (list.isEmpty()) {
+            return true;
         }
-        // Recurse only for services and menus.
-        // Apps and servicetypes don't need recursion, so save the directory listing.
-        if (dir.contains("/applications") || dir.contains("/kservicetypes5")) {
-            continue;
+        foreach (const QFileInfo &fi, list) {
+            const QDateTime mtime = fi.lastModified();
+            if (mtime.toMSecsSinceEpoch() > stamp) {
+                if (mtime > m_now) {
+                    qCDebug(SYCOCA) << fi.filePath() << "has a modification time in the future" << mtime;
+                }
+                qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << fi.lastModified() << ">" << stamp;
+                return false;
+            }
+            if (fi.isDir() && !checkDirTimestamps(fi.filePath(), stamp)) {
+                return false;
+            }
         }
-        if (!checkDirTimestamps(dir, stamp)) {
-            return false;
-        }
+        return true;
     }
-    return true;
-}
+
+    QDateTime m_now;
+};
 
 void KSycocaPrivate::checkDirectories()
 {
@@ -648,7 +689,9 @@ bool KSycocaPrivate::needsRebuild()
     if (!timeStamp && databaseStatus == DatabaseOK) {
         (void) readSycocaHeader();
     }
-    return timeStamp != 0 && !checkTimestamps(timeStamp, allResourceDirs);
+    // these days timeStamp is really a "bool headerFound", the value itself doesn't matter...
+    // KF6: replace it with bool.
+    return timeStamp != 0 && !TimestampChecker().checkTimestamps(allResourceDirs);
 }
 
 bool KSycocaPrivate::buildSycoca()
@@ -735,7 +778,7 @@ QStringList KSycoca::allResourceDirs()
     if (!d->timeStamp) {
         (void) d->readSycocaHeader();
     }
-    return d->allResourceDirs;
+    return d->allResourceDirs.keys();
 }
 
 void KSycoca::flagError()

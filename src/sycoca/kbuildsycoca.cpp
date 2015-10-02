@@ -150,7 +150,7 @@ bool KBuildSycoca::build()
             factory != factories()->end();
             ++factory) {
         KBSEntryDict *entryDict = new KBSEntryDict;
-        if (m_allEntries) {
+        if (m_allEntries) { // incremental build
             const KSycocaEntry::List list = (*m_allEntries)[i++];
             Q_FOREACH (const KSycocaEntry::Ptr &entry, list) {
                 //if (entry->entryPath().contains("fake"))
@@ -164,6 +164,12 @@ bool KBuildSycoca::build()
             m_serviceGroupEntryDict = entryDict;
         }
         entryDictList.append(entryDict);
+    }
+
+    // Save the mtime of each dir, just before we list them
+    // ## should we convert to UTC to avoid surprises when summer time kicks in?
+    Q_FOREACH (const QString &dir, factoryResourceDirs()) {
+        m_allResourceDirs.insert(dir, QFileInfo(dir).lastModified().toMSecsSinceEpoch());
     }
 
     QMap<QString, QByteArray> allResourcesSubDirs; // dirs, kstandarddirs-resource-name
@@ -280,8 +286,16 @@ bool KBuildSycoca::build()
         entry->setLayoutInfo(kdeMenu->layoutList);
         createMenu(QString(), QString(), kdeMenu);
 
-        m_allResourceDirs = factoryResourceDirs();
-        m_allResourceDirs += m_vfolder->allDirectories();
+        // Storing the mtime *after* looking at these dirs is a tiny race condition,
+        // but I'm not sure how to get the vfolder dirs upfront...
+        Q_FOREACH (QString dir, m_vfolder->allDirectories()) {
+            if (dir.endsWith('/')) {
+                dir.chop(1); // remove trailing slash, to avoid having ~/.local/share/applications twice
+            }
+            if (!m_allResourceDirs.contains(dir)) {
+                m_allResourceDirs.insert(dir, QFileInfo(dir).lastModified().toMSecsSinceEpoch());
+            }
+        }
 
         if (m_changed || !m_allEntries) {
             uptodate = false;
@@ -525,7 +539,10 @@ void KBuildSycoca::save(QDataStream *str)
     (*str) << QLocale().bcp47Name();
     // This makes it possible to trigger a ksycoca update for all users (KIOSK feature)
     (*str) << calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
-    (*str) << m_allResourceDirs;
+    (*str) << m_allResourceDirs.keys();
+    for (auto it = m_allResourceDirs.constBegin(); it != m_allResourceDirs.constEnd(); ++it) {
+        (*str) << it.value();
+    }
 
     // Calculate per-servicetype/mimetype data
     if (serviceFactory) serviceFactory->postProcessServices();

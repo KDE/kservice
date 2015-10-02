@@ -34,11 +34,13 @@ class KServiceTypeFactory;
 class KServiceFactory;
 class KServiceGroupFactory;
 
+// This is for the part of the global header that we don't need to store,
+// i.e. it's just a struct for returning temp data from readSycocaHeader().
 struct KSycocaHeader {
     KSycocaHeader() : timeStamp(0), updateSignature(0) {}
     QString prefixes;
     QString language;
-    qint64 timeStamp;
+    qint64 timeStamp; // in ms
     quint32 updateSignature;
 };
 
@@ -95,6 +97,8 @@ public:
     KServiceFactory *serviceFactory();
     KServiceGroupFactory *serviceGroupFactory();
 
+    void addLocalResourceDir(const QString &path);
+
     enum {
         DatabaseNotOpen, // openDatabase must be called
         BadVersion, // it's opened, but it's not useable
@@ -102,13 +106,13 @@ public:
     } databaseStatus;
     bool readError;
 
-    qint64 timeStamp;
+    qint64 timeStamp; // in ms since epoch
     enum { StrategyMmap, StrategyMemFile, StrategyFile, StrategyDummyBuffer } m_sycocaStrategy;
     QString m_databasePath;
     QStringList changeList;
     QString language;
     quint32 updateSig;
-    QStringList allResourceDirs;
+    QMap<QString, qint64> allResourceDirs; // path, modification time in "ms since epoch"
 
     void addFactory(KSycocaFactory *factory)
     {
