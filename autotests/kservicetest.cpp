@@ -86,7 +86,7 @@ void KServiceTest::initTestCase()
 
     bool mustUpdateKSycoca = false;
 
-    // fakeservice: deleted and recreated by testKSycocaUpdate, don't use in other tests
+    // fakeservice: deleted and recreated by testDeletingService, don't use in other tests
     const QString fakeServiceDeleteMe = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice_deleteme.desktop");
     if (!QFile::exists(fakeServiceDeleteMe)) {
         mustUpdateKSycoca = true;
@@ -101,9 +101,6 @@ void KServiceTest::initTestCase()
     }
 
     // fakepart: a readwrite part, like katepart
-    if (!KService::serviceByDesktopPath("fakepart.desktop")) {
-        mustUpdateKSycoca = true;
-    }
     const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart.desktop";
     if (!QFile::exists(fakePart)) {
         mustUpdateKSycoca = true;
@@ -157,9 +154,6 @@ void KServiceTest::initTestCase()
     }
 
     // faketextplugin: a ktexteditor plugin
-    if (!KService::serviceByDesktopPath("faketextplugin.desktop")) {
-        mustUpdateKSycoca = true;
-    }
     const QString fakeTextplugin = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "faketextplugin.desktop";
     if (!QFile::exists(fakeTextplugin)) {
         mustUpdateKSycoca = true;
@@ -173,9 +167,6 @@ void KServiceTest::initTestCase()
     }
 
     // fakeplugintype: a servicetype
-    if (!KServiceType::serviceType("FakePluginType")) {
-        mustUpdateKSycoca = true;
-    }
     const QString fakePluginType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + "fakeplugintype.desktop";
     if (!QFile::exists(fakePluginType)) {
         mustUpdateKSycoca = true;
@@ -189,9 +180,6 @@ void KServiceTest::initTestCase()
     }
 
     // fakebasepart: a servicetype (like ReadOnlyPart)
-    if (!KServiceType::serviceType("FakeBasePart")) {
-        mustUpdateKSycoca = true;
-    }
     const QString fakeBasePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + "fakebasepart.desktop";
     if (!QFile::exists(fakeBasePart)) {
         mustUpdateKSycoca = true;
@@ -206,9 +194,6 @@ void KServiceTest::initTestCase()
     }
 
     // fakederivedpart: a servicetype deriving from FakeBasePart (like ReadWritePart derives from ReadOnlyPart)
-    if (!KServiceType::serviceType("FakeDerivedPart")) {
-        mustUpdateKSycoca = true;
-    }
     const QString fakeDerivedPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + "fakederivedpart.desktop";
     if (!QFile::exists(fakeDerivedPart)) {
         mustUpdateKSycoca = true;
@@ -239,14 +224,8 @@ void KServiceTest::initTestCase()
 
 void KServiceTest::runKBuildSycoca(bool noincremental)
 {
-    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
     KBuildSycoca builder;
     QVERIFY(builder.recreate(!noincremental));
-    if (spy.isEmpty()) {
-        qDebug() << "waiting for signal";
-        QVERIFY(spy.wait(10000));
-        qDebug() << "got signal";
-    }
 }
 
 void KServiceTest::cleanupTestCase()
