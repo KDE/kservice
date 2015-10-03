@@ -226,8 +226,14 @@ void KServiceTest::initTestCase()
 
 void KServiceTest::runKBuildSycoca(bool noincremental)
 {
+    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
     KBuildSycoca builder;
     QVERIFY(builder.recreate(!noincremental));
+    if (spy.isEmpty()) {
+        qDebug() << "waiting for signal";
+        QVERIFY(spy.wait(10000));
+        qDebug() << "got signal";
+    }
 }
 
 void KServiceTest::cleanupTestCase()
