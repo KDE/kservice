@@ -52,6 +52,7 @@ private Q_SLOTS:
     void testKPluginInfoQuery();
     void testCompleteBaseName();
     void testEntryPathToName();
+    void testTraderQueryMustRebuildSycoca();
 
 private:
     void createFakeService(const QString &filenameSuffix, const QString &serviceType);

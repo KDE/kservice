@@ -240,7 +240,7 @@ void KServiceTest::cleanupTestCase()
 {
     // If I want the konqueror unit tests to work, then I better not have a non-working part
     // as the preferred part for text/plain...
-    QStringList services; services << "fakeservice.desktop" << "fakepart.desktop" << "faketextplugin.desktop";
+    QStringList services; services << "fakeservice.desktop" << "fakepart.desktop" << "faketextplugin.desktop" << "fakeservice_querymustrebuild.desktop";
     Q_FOREACH (const QString &service, services) {
         const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + service;
         QFile::remove(fakeService);
@@ -826,4 +826,13 @@ void KServiceTest::testKPluginMetaData()
     KPluginInfo info(service);
     auto info_md = info.toMetaData();
     QCOMPARE(info_md.formFactors(), md.formFactors());
+}
+
+void KServiceTest::testTraderQueryMustRebuildSycoca()
+{
+    QVERIFY(!KServiceTypeProfile::hasProfile(QString("FakeBasePart")));
+    QTest::qWait(1000);
+    createFakeService("fakeservice_querymustrebuild.desktop", QString()); // just to touch the dir
+    KService::List offers = KServiceTypeTrader::self()->query("FakeBasePart");
+    QVERIFY(offers.count() > 0);
 }

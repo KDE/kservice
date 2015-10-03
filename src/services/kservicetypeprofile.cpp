@@ -20,9 +20,8 @@
 #include "kservicetypeprofile.h"
 #include "kservicetypeprofile_p.h"
 #include "kservice.h"
+#include "kserviceoffer.h"
 #include "kservicetype.h"
-#include "kservicetypefactory_p.h"
-#include "kservicefactory_p.h"
 #include "ksycoca_p.h"
 
 #include <kconfig.h>
@@ -71,9 +70,6 @@ void KServiceTypeProfiles::ensureParsed()
         return;
     }
     m_parsed = true;
-
-    // Make sure that a KServiceTypeFactory gets created.
-    (void) KSycocaPrivate::self()->serviceTypeFactory();
 
     // Read the service type profiles from servicetype_profilerc
     // See writeServiceTypeProfile for a description of the file format.
