@@ -46,6 +46,8 @@
 
 QTEST_MAIN(KServiceTest)
 
+extern KSERVICE_EXPORT int ksycoca_ms_between_checks;
+
 static void eraseProfiles()
 {
     QString profilerc = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/profilerc";
@@ -263,7 +265,6 @@ void KServiceTest::testByName()
 
 void KServiceTest::testProperty()
 {
-    extern KSERVICE_EXPORT int ksycoca_ms_between_checks;
     ksycoca_ms_between_checks = 0;
 
     // Let's try creating a desktop file and ensuring it's noticed by the timestamp check
@@ -686,7 +687,11 @@ void KServiceTest::testDeletingService()
     QVERIFY(QFile::exists(servPath));
     QFile::remove(servPath);
     runKBuildSycoca();
+    ksycoca_ms_between_checks = 0; // need it to check the ksycoca mtime
     QVERIFY(!KService::serviceByDesktopPath(serviceName)); // not in ksycoca anymore
+
+    // Restore value
+    ksycoca_ms_between_checks = 1500;
 
     QVERIFY(fakeService); // the whole point of refcounting is that this KService instance is still valid.
     QVERIFY(!QFile::exists(servPath));
@@ -696,6 +701,7 @@ void KServiceTest::testDeletingService()
     QVERIFY(QFile::exists(servPath));
     qDebug() << "executing kbuildsycoca (2)";
     runKBuildSycoca();
+
     if (QThread::currentThread() != QCoreApplication::instance()->thread()) {
         m_sycocaUpdateDone.ref();
     }
