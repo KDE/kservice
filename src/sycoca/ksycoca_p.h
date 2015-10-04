@@ -34,6 +34,14 @@ class KServiceTypeFactory;
 class KServiceFactory;
 class KServiceGroupFactory;
 
+struct KSycocaHeader {
+    KSycocaHeader() : timeStamp(0), updateSignature(0) {}
+    QString prefixes;
+    QString language;
+    qint64 timeStamp;
+    quint32 updateSignature;
+};
+
 /**
  * \internal
  * Exported for unittests
@@ -74,7 +82,7 @@ public:
      */
     bool buildSycoca();
 
-    KSycoca::KSycocaHeader readSycocaHeader();
+    KSycocaHeader readSycocaHeader();
 
     KSycocaAbstractDevice *device();
     QDataStream *&stream();

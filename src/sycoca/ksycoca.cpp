@@ -534,19 +534,14 @@ QDataStream *KSycoca::findFactory(KSycocaFactoryId id)
     return 0;
 }
 
-KSycoca::KSycocaHeader KSycoca::readSycocaHeader()
-{
-    return d->readSycocaHeader();
-}
-
 bool KSycoca::needsRebuild()
 {
     return d->needsRebuild();
 }
 
-KSycoca::KSycocaHeader KSycocaPrivate::readSycocaHeader()
+KSycocaHeader KSycocaPrivate::readSycocaHeader()
 {
-    KSycoca::KSycocaHeader header;
+    KSycocaHeader header;
     // do not try to launch kbuildsycoca from here; this code is also called by kbuildsycoca.
     if (!checkDatabase(KSycocaPrivate::IfNotFoundDoNothing)) {
         return header;
@@ -680,7 +675,7 @@ bool KSycocaPrivate::buildSycoca()
 quint32 KSycoca::timeStamp()
 {
     if (!d->timeStamp) {
-        (void) readSycocaHeader();
+        (void) d->readSycocaHeader();
     }
     return d->timeStamp / 1000; // from ms to s
 }
@@ -688,7 +683,7 @@ quint32 KSycoca::timeStamp()
 quint32 KSycoca::updateSignature()
 {
     if (!d->timeStamp) {
-        (void) readSycocaHeader();
+        (void) d->readSycocaHeader();
     }
     return d->updateSig;
 }
@@ -730,7 +725,7 @@ QString KSycoca::absoluteFilePath(DatabaseType type)
 QString KSycoca::language()
 {
     if (d->language.isEmpty()) {
-        (void) readSycocaHeader();
+        (void) d->readSycocaHeader();
     }
     return d->language;
 }
@@ -738,7 +733,7 @@ QString KSycoca::language()
 QStringList KSycoca::allResourceDirs()
 {
     if (!d->timeStamp) {
-        (void) readSycocaHeader();
+        (void) d->readSycocaHeader();
     }
     return d->allResourceDirs;
 }

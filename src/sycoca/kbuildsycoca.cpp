@@ -636,7 +636,7 @@ bool KBuildSycoca::checkGlobalHeader()
     const quint32 current_update_sig = KBuildSycoca::calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
     const QString current_prefixes = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
 
-    const KSycocaHeader header = KSycoca::self()->readSycocaHeader();
+    const KSycocaHeader header = KSycocaPrivate::self()->readSycocaHeader();
     Q_ASSERT(!header.prefixes.split(':').contains(QDir::homePath()));
 
     return (current_update_sig == header.updateSignature) &&

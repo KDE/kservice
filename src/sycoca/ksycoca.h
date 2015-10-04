@@ -239,15 +239,6 @@ private:
      */
     static void clearCaches();
 
-    struct KSycocaHeader {
-        KSycocaHeader() : timeStamp(0), updateSignature(0) {}
-        QString prefixes;
-        QString language;
-        qint64 timeStamp;
-        quint32 updateSignature;
-    };
-
-    KSycocaHeader readSycocaHeader();
     bool needsRebuild();
 
     friend class KBuildSycoca;
