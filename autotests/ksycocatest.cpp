@@ -60,6 +60,9 @@ private Q_SLOTS:
         // we don't need the services dir -> ensure there isn't one, so we can check allResourceDirs below.
         QDir(servicesDir()).removeRecursively();
 
+        QDir(menusDir()).removeRecursively();
+        QDir().mkpath(menusDir());
+
 #ifdef Q_XDG_PLATFORM
         qputenv("XDG_DATA_DIRS", QFile::encodeName(m_tempDir.path()));
 #else
@@ -77,6 +80,7 @@ private Q_SLOTS:
     void ensureCacheValidShouldCreateDB();
     void kBuildSycocaShouldEmitDatabaseChanged();
     void dirInFutureShouldRebuildSycocaOnce();
+    void dirTimestampShouldBeCheckedRecursively();
     void testAllResourceDirs();
     void testDeletingSycoca();
     void testGlobalSycoca();
@@ -95,6 +99,7 @@ private:
     }
     QString servicesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservices5"; }
     QString serviceTypesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservicetypes5"; }
+    QString menusDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/menus"; }
 
     static void runKBuildSycoca(const QProcessEnvironment &environment, bool global = false);
 
@@ -167,6 +172,47 @@ void KSycocaTest::dirInFutureShouldRebuildSycocaOnce()
     qDebug() << QDateTime::currentDateTime() << QFileInfo(path).lastModified();
 #endif
 }
+
+void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
+{
+#ifndef Q_OS_UNIX
+    QSKIP("This test requires utime");
+#endif
+    const QDateTime oldTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+
+    QDir dir(menusDir());
+    dir.mkdir("fakeSubserviceDirectory");
+    const QString path = dir.absoluteFilePath("fakeSubserviceDirectory");
+
+    // ### use QFile::setFileTime when it lands in Qt...
+#ifdef Q_OS_UNIX
+    struct timeval tp;
+    gettimeofday(&tp, 0);
+    struct utimbuf utbuf;
+    utbuf.actime = tp.tv_sec;
+    utbuf.modtime = tp.tv_sec + 60; // 60 second in the future
+    QCOMPARE(utime(QFile::encodeName(path).constData(), &utbuf), 0);
+    qDebug("Time changed for %s", qPrintable(path));
+    qDebug() << QDateTime::currentDateTime() << QFileInfo(path).lastModified();
+#endif
+
+    ksycoca_ms_between_checks = 0;
+    QTest::qWait(1000); // remove this once lastModified includes ms
+
+    KSycoca::self()->ensureCacheValid();
+    const QDateTime newTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+    QVERIFY(newTimestamp > oldTimestamp);
+
+    QTest::qWait(1000); // remove this once lastModified includes ms
+
+    KSycoca::self()->ensureCacheValid();
+    const QDateTime againTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+    QCOMPARE(againTimestamp, newTimestamp); // same mtime, it didn't get rebuilt
+
+    // Ensure we don't pollute the other tests
+    QDir(path).removeRecursively();
+}
+
 
 void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment, bool global)
 {

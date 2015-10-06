@@ -21,6 +21,7 @@
 #include "ksycoca_p.h"
 #include "ksycocaresourcelist_p.h"
 #include "vfolder_menu_p.h"
+#include "ksycocautils_p.h"
 #include "sycocadebug.h"
 
 #include <config-ksycoca.h>
@@ -169,7 +170,12 @@ bool KBuildSycoca::build()
     // Save the mtime of each dir, just before we list them
     // ## should we convert to UTC to avoid surprises when summer time kicks in?
     Q_FOREACH (const QString &dir, factoryResourceDirs()) {
-        m_allResourceDirs.insert(dir, QFileInfo(dir).lastModified().toMSecsSinceEpoch());
+        qint64 stamp = 0;
+        KSycocaUtilsPrivate::visitResourceDirectory(dir, [&stamp] (const QFileInfo &info) {
+            stamp = qMax(stamp, info.lastModified().toMSecsSinceEpoch());
+            return true;
+        });
+        m_allResourceDirs.insert(dir, stamp);
     }
 
     QMap<QString, QByteArray> allResourcesSubDirs; // dirs, kstandarddirs-resource-name
@@ -293,7 +299,12 @@ bool KBuildSycoca::build()
                 dir.chop(1); // remove trailing slash, to avoid having ~/.local/share/applications twice
             }
             if (!m_allResourceDirs.contains(dir)) {
-                m_allResourceDirs.insert(dir, QFileInfo(dir).lastModified().toMSecsSinceEpoch());
+                qint64 stamp = 0;
+                KSycocaUtilsPrivate::visitResourceDirectory(dir, [&stamp] (const QFileInfo &info) {
+                    stamp = qMax(stamp, info.lastModified().toMSecsSinceEpoch());
+                    return true;
+                });
+                m_allResourceDirs.insert(dir, stamp);
             }
         }
 

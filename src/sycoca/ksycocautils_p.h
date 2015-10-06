@@ -20,7 +20,11 @@
 #ifndef KSYCOCAUTILS_P_H
 #define KSYCOCAUTILS_P_H
 
-class QString;
+#include <QFileInfo>
+#include <QString>
+#include <QDir>
+#include <QDateTime>
+
 class QStringList;
 class QDataStream;
 
@@ -31,6 +35,48 @@ namespace KSycocaUtilsPrivate
  */
 void read(QDataStream &s, QString &str);
 void read(QDataStream &s, QStringList &list);
+
+// helper function for visitResourceDirectory
+template<typename Visitor>
+bool visitResourceDirectoryHelper(const QString &dirname, Visitor visitor)
+{
+    QDir dir(dirname);
+    const QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs, QDir::Unsorted);
+    foreach (const QFileInfo &fi, list) {
+        if (!fi.isDir()) {
+            continue;
+        }
+        if (!visitor(fi)) {
+            return false;
+        }
+        if (!visitResourceDirectoryHelper(fi.filePath(), visitor)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// visitor is a function/functor accepts QFileInfo as argument and returns bool
+// visitResourceDirectory will visit the resource directory in a depth-first way.
+// visitor can terimnate the visit by returning false, and visitResourceDirectory
+// will also return false in this case, otherwise it will return true.
+template<typename Visitor>
+bool visitResourceDirectory(const QString &dirname, Visitor visitor)
+{
+    QFileInfo info(dirname);
+    if (!visitor(info)) {
+        return false;
+    }
+
+    // Recurse only for services and menus.
+    // Apps and servicetypes don't need recursion, so save the directory listing.
+    if (!dirname.contains("/applications") && !dirname.contains("/kservicetypes5")) {
+        return visitResourceDirectoryHelper(dirname, visitor);
+    }
+
+    return true;
+}
+
 }
 
 #endif /* KSYCOCAUTILS_P_H */
