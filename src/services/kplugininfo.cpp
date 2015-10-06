@@ -24,6 +24,7 @@
 #include <QDebug>
 #include <QDirIterator>
 #include <QJsonArray>
+#include <QMimeDatabase>
 #include <QStandardPaths>
 
 #include "ksycoca.h"
@@ -324,6 +325,29 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
             json[key] = QJsonValue::fromVariant(v);
         }
     }
+    // reintroduce the separation between MimeType= and X-KDE-ServiceTypes=
+    // we could do this by modifying KService and KSyCoCa, but as this is only compatibility
+    // code we just query QMimeDatabase whether a ServiceType is a valid MIME type.
+    // TODO: should we also make sure invalid MimeType= entries end up in KPluginMetaData::mimeTypes()?
+    const QStringList services = service->serviceTypes();
+    if (!services.isEmpty()) {
+        QMimeDatabase db;
+        QStringList mimeTypes;
+        mimeTypes.reserve(services.size());
+        QStringList newServiceTypes;
+        newServiceTypes.reserve(services.size());
+        foreach (const QString& s, services) {
+            if (db.mimeTypeForName(s).isValid()) {
+                mimeTypes << s;
+            } else {
+                newServiceTypes << s;
+            }
+        }
+        json[s_mimeTypeKey()] = QJsonArray::fromStringList(mimeTypes);
+        json[s_xKDEServiceTypes()] = QJsonArray::fromStringList(newServiceTypes);
+        json[s_serviceTypesKey()] = QJsonValue();
+    }
+
     d->setMetaData(KPluginMetaData(json, service->library(), service->entryPath()), false);
     if (!d->metaData.isValid()) {
         d.reset();

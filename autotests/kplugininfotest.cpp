@@ -164,6 +164,11 @@ private Q_SLOTS:
             // KService does not include X-My-Custom-Property since there is no service type installed that defines it
             QCOMPARE(info.property("X-My-Custom-Property"), QVariant("foo"));
         }
+        // Now check that converting to KPluginMetaData has the separation
+        KPluginMetaData asMetaData = info.toMetaData();
+        QCOMPARE(asMetaData.serviceTypes(), QStringList() << "KService/NSA");
+        QCOMPARE(asMetaData.mimeTypes(), QStringList() << "text/plain" << "image/png");
+
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
 
