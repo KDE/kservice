@@ -627,23 +627,23 @@ public:
         qCDebug(SYCOCA) << "checking file timestamps";
         for (auto it = dirs.begin(); it != dirs.end(); ++it) {
             const QString dir = it.key();
-            const QFileInfo info(dir);
             const qint64 lastStamp = it.value();
-            const qint64 newStamp = info.lastModified().toMSecsSinceEpoch();
-            //qCDebug(SYCOCA) << dir << "comparing" << newStamp << "with" << lastStamp;
-            if (newStamp > lastStamp) { // or !=, for people going back in time?
-                if (info.lastModified() > m_now) {
-                    qCDebug(SYCOCA) << info.filePath() << "has a modification time in the future" << info.lastModified();
+
+            auto visitor = [&] (const QFileInfo &fi) {
+                const QDateTime mtime = fi.lastModified();
+                if (mtime.toMSecsSinceEpoch() > lastStamp) {
+                    if (mtime > m_now) {
+                        qCDebug(SYCOCA) << fi.filePath() << "has a modification time in the future" << mtime;
+                    }
+                    qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << mtime << ">" << lastStamp;
+                    // no need to continue search
+                    return false;
                 }
-                qCDebug(SYCOCA) << "timestamp changed:" << dir;
-                return false;
-            }
-            // Recurse only for services and menus.
-            // Apps and servicetypes don't need recursion, so save the directory listing.
-            if (dir.contains("/applications") || dir.contains("/kservicetypes5")) {
-                continue;
-            }
-            if (!checkDirTimestamps(dir, lastStamp)) {
+
+                return true;
+            };
+
+            if (!KSycocaUtilsPrivate::visitResourceDirectory(dir, visitor)) {
                 return false;
             }
         }
@@ -651,29 +651,6 @@ public:
     }
 
 private:
-    bool checkDirTimestamps(const QString &dirname, qint64 stamp)
-    {
-        QDir dir(dirname);
-        const QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs, QDir::Unsorted);
-        if (list.isEmpty()) {
-            return true;
-        }
-        foreach (const QFileInfo &fi, list) {
-            const QDateTime mtime = fi.lastModified();
-            if (mtime.toMSecsSinceEpoch() > stamp) {
-                if (mtime > m_now) {
-                    qCDebug(SYCOCA) << fi.filePath() << "has a modification time in the future" << mtime;
-                }
-                qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << fi.lastModified() << ">" << stamp;
-                return false;
-            }
-            if (fi.isDir() && !checkDirTimestamps(fi.filePath(), stamp)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     QDateTime m_now;
 };
 
