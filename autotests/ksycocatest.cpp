@@ -199,12 +199,17 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
     ksycoca_ms_between_checks = 0;
     QTest::qWait(1000); // remove this once lastModified includes ms
 
+    qDebug() << "Waited 1s, calling ensureCacheValid (should rebuild)";
     KSycoca::self()->ensureCacheValid();
     const QDateTime newTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+    if (newTimestamp <= oldTimestamp) {
+        qWarning() << "oldTimestamp=" << oldTimestamp << "newTimestamp=" << newTimestamp;
+    }
     QVERIFY(newTimestamp > oldTimestamp);
 
     QTest::qWait(1000); // remove this once lastModified includes ms
 
+    qDebug() << "Waited 1s, calling ensureCacheValid (should not rebuild)";
     KSycoca::self()->ensureCacheValid();
     const QDateTime againTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
     QCOMPARE(againTimestamp, newTimestamp); // same mtime, it didn't get rebuilt
