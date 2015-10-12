@@ -43,7 +43,7 @@ find_package(KF5CoreAddons ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5Crash ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5DBusAddons ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5I18n ${KF5_DEP_VERSION} REQUIRED)
-find_package(KF5DocTools REQUIRED)
+find_package(KF5DocTools ${KF5_DEP_VERSION})
 
 # create a Config.cmake and a ConfigVersion.cmake file and install them
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Service")
@@ -72,7 +72,11 @@ if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
     ki18n_install(po)
     kdoctools_install(po)
 endif()
-add_subdirectory(docs)
+
+if (KF5DocTools_FOUND)
+    add_subdirectory(docs)
+endif()
+
 add_subdirectory(src)
 if (BUILD_TESTING)
     add_subdirectory(autotests)
