@@ -70,7 +70,10 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kservice_version.h
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
 if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
     ki18n_install(po)
-    kdoctools_install(po)
+
+    if (KF5DocTools_FOUND)
+        kdoctools_install(po)
+    endif()
 endif()
 
 if (KF5DocTools_FOUND)
