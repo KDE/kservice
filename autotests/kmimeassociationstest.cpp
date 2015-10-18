@@ -220,8 +220,11 @@ private Q_SLOTS:
         KOfferHash offerHash;
         KMimeAssociations parser(offerHash, KSycocaPrivate::self()->serviceFactory());
 
-        QTemporaryFile tempFile;
-        QVERIFY(tempFile.open());
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        QFile tempFile(tempDir.path() + "/mimeapps.list");
+        QVERIFY(tempFile.open(QIODevice::WriteOnly));
         tempFile.write(m_mimeAppsFileContents);
         const QString fileName = tempFile.fileName();
         tempFile.close();
@@ -269,8 +272,11 @@ private Q_SLOTS:
         KMimeAssociations parser(offerHash, KSycocaPrivate::self()->serviceFactory());
 
         // Write global file
-        QTemporaryFile tempFileGlobal;
-        QVERIFY(tempFileGlobal.open());
+        QTemporaryDir tempDirGlobal;
+        QVERIFY(tempDirGlobal.isValid());
+
+        QFile tempFileGlobal(tempDirGlobal.path() + "/mimeapps.list");
+        QVERIFY(tempFileGlobal.open(QIODevice::WriteOnly));
         QByteArray globalAppsFileContents = "[Added Associations]\n"
                                             "image/jpeg=firefox.desktop;\n" // removed by local config
                                             "text/html=firefox.desktop;\n" // mdv
@@ -280,8 +286,11 @@ private Q_SLOTS:
         tempFileGlobal.close();
 
         // We didn't keep it, so we need to write the local file again
-        QTemporaryFile tempFile;
-        QVERIFY(tempFile.open());
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        QFile tempFile(tempDir.path() + "/mimeapps.list");
+        QVERIFY(tempFile.open(QIODevice::WriteOnly));
         tempFile.write(m_mimeAppsFileContents);
         const QString fileName = tempFile.fileName();
         tempFile.close();
