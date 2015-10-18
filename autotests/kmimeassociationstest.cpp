@@ -24,6 +24,7 @@
 #include <kdesktopfile.h>
 #include <kmimetypetrader.h>
 #include <kservicefactory_p.h>
+#include <qtemporarydir.h>
 #include <qtemporaryfile.h>
 #include <qtest.h>
 #include "kmimeassociations_p.h"
