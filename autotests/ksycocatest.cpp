@@ -61,7 +61,7 @@ private Q_SLOTS:
         QDir(servicesDir()).removeRecursively();
 
         QDir(menusDir()).removeRecursively();
-        QDir().mkpath(menusDir());
+        QDir().mkpath(menusDir() + "/fakeSubserviceDirectory");
 
 #ifdef Q_XDG_PLATFORM
         qputenv("XDG_DATA_DIRS", QFile::encodeName(m_tempDir.path()));
@@ -180,9 +180,7 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
 #endif
     const QDateTime oldTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
 
-    QDir dir(menusDir());
-    dir.mkdir("fakeSubserviceDirectory");
-    const QString path = dir.absoluteFilePath("fakeSubserviceDirectory");
+    const QString path = menusDir() + QString("/fakeSubserviceDirectory");
 
     // ### use QFile::setFileTime when it lands in Qt...
 #ifdef Q_OS_UNIX
