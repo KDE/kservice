@@ -197,7 +197,6 @@ bool KBuildSycoca::build()
     }
 
     m_ctimeFactory = new KCTimeFactory(this); // This is a build factory too, don't delete!!
-    bool uptodate = true;
     for (QMap<QString, QByteArray>::ConstIterator it1 = allResourcesSubDirs.constBegin();
             it1 != allResourcesSubDirs.constEnd();
             ++it1) {
@@ -255,18 +254,16 @@ bool KBuildSycoca::build()
             }
         }
         if (m_changed || !m_allEntries) {
-            uptodate = false;
-            //qDebug() << "CHANGED:" << resource;
+            //qDebug() << "CHANGED:" << m_resource;
             m_changedResources.append(m_resource);
         }
     }
 
-    bool result = !uptodate || (m_ctimeDict && !m_ctimeDict->isEmpty());
     if (m_ctimeDict && !m_ctimeDict->isEmpty()) {
         //qDebug() << "Still in time dict:";
         //m_ctimeDict->dump();
         // ## It seems entries filtered out by vfolder are still in there,
-        // so we end up always saving ksycoca, i.e. this method never returns false
+        // so on a real system we end up always adding "apps" to m_changedResources
 
         // Get the list of resources from which some files were deleted
         const QStringList resources = m_ctimeDict->remainingResourceList();
@@ -274,7 +271,9 @@ bool KBuildSycoca::build()
         m_changedResources += resources;
     }
 
-    if (result || m_menuTest) {
+    bool result = true;
+    const bool createVFolder = !m_changedResources.isEmpty() || (m_ctimeDict && !m_ctimeDict->isEmpty());
+    if (createVFolder || m_menuTest) {
         m_resource = "apps";
         m_resourceSubdir = QStringLiteral("applications");
         m_currentFactory = d->m_serviceFactory;
@@ -309,7 +308,6 @@ bool KBuildSycoca::build()
         }
 
         if (m_changed || !m_allEntries) {
-            uptodate = false;
             //qDebug() << "CHANGED:" << m_resource;
             m_changedResources.append(m_resource);
         }

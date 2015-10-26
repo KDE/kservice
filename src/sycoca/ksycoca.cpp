@@ -635,7 +635,7 @@ public:
                     if (mtime > m_now) {
                         qCDebug(SYCOCA) << fi.filePath() << "has a modification time in the future" << mtime;
                     }
-                    qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << mtime << ">" << lastStamp;
+                    qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << mtime << ">" << QDateTime::fromMSecsSinceEpoch(lastStamp);
                     // no need to continue search
                     return false;
                 }

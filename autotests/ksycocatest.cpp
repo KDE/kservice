@@ -65,6 +65,9 @@ private Q_SLOTS:
 
 #ifdef Q_XDG_PLATFORM
         qputenv("XDG_DATA_DIRS", QFile::encodeName(m_tempDir.path()));
+
+        // so that vfolder_menu doesn't go look into /etc and /usr
+        qputenv("XDG_CONFIG_DIRS", QFile::encodeName(m_tempDir.path()));
 #else
         // We need to make changes to a global dir without messing up the system
         QSKIP("This test requires XDG_DATA_DIRS");
