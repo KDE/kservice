@@ -31,6 +31,8 @@
 #include <kbuildsycoca_p.h>
 #include <ksycoca.h>
 #include "ksycoca_p.h"
+#include <QMimeDatabase>
+#include <QMimeType>
 
 // We need a factory that returns the same KService::Ptr every time it's asked for a given service.
 // Otherwise the changes to the service's serviceTypes by KMimeAssociationsTest have no effect
@@ -382,6 +384,12 @@ private Q_SLOTS:
     {
         // #164584: Removing ark from opendocument.text didn't work
         const QString opendocument = "application/vnd.oasis.opendocument.text";
+
+        // [sanity checking of s-m-i installation]
+        QMimeType mime = QMimeDatabase().mimeTypeForName(opendocument);
+        QVERIFY(mime.isValid());
+        QVERIFY(mime.inherits("application/zip"));
+
         KService::List offers = KMimeTypeTrader::self()->query(opendocument);
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
 
