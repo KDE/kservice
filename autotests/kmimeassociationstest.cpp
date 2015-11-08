@@ -388,7 +388,10 @@ private Q_SLOTS:
         // [sanity checking of s-m-i installation]
         QMimeType mime = QMimeDatabase().mimeTypeForName(opendocument);
         QVERIFY(mime.isValid());
-        QVERIFY(mime.inherits("application/zip"));
+        if (!mime.inherits("application/zip")) {
+            // CentOS patches out the application/zip inheritance from application/vnd.oasis.opendocument.text!! Grmbl.
+            QSKIP("Broken distro where application/vnd.oasis.opendocument.text doesn't inherit from application/zip");
+        }
 
         KService::List offers = KMimeTypeTrader::self()->query(opendocument);
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
