@@ -142,7 +142,7 @@ Keywords[zh_CN]=word1;word2
 Keywords[zh_TW]=單字1:單字2
 #this one is comma separated
 X-KDE-Keywords=word3,word4
-X-KDE-Keywords[ast]=pallabra1;pallabra2
+X-KDE-Keywords[ast]=pallabra1,pallabra2
 X-KDE-Keywords[ca]=paraula3,paraula4
 X-KDE-Keywords[ca@valencia]=paraula3,paraula4
 X-KDE-Keywords[da]=ord3,ord4
