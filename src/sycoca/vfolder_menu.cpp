@@ -806,7 +806,7 @@ VFolderMenu::loadMenu(const QString &fileName)
     }
 
     pushDocInfo(fileName);
-    m_defaultMergeDirs << m_docInfo.baseName + QStringLiteral("-merged/");
+    m_defaultMergeDirs << QStringLiteral("applications-merged/");
     m_doc = loadDoc();
     popDocInfo();
 
