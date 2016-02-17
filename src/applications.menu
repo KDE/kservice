@@ -57,16 +57,6 @@
 		<Name>Development</Name>
 		<Directory>kf5-development.directory</Directory>
 		<Menu>
-			<Name>X-KDE-KDevelopIDE</Name>
-			<Directory>kf5-development-kdevelop.directory</Directory>
-			<Include>
-				<And>
-					<Category>Development</Category>
-					<Category>X-KDE-KDevelopIDE</Category>
-				</And>
-			</Include>
-		</Menu>
-		<Menu>
 			<Name>Translation</Name>
 			<Directory>kf5-development-translation.directory</Directory>
 			<Include>
@@ -89,7 +79,6 @@
                 <Include>
 					<And>
                         <Category>Development</Category>
-                        <Not><Category>X-KDE-KDevelopIDE</Category></Not>
                         <Not><Category>Translation</Category></Not>
                         <Not><Category>WebDevelopment</Category></Not>
 					</And>
@@ -123,10 +112,7 @@
 			<Include>
 				<And>
 					<Category>Education</Category>
-					<Or>
-						<Category>Languages</Category>
-						<Category>X-KDE-Edu-Language</Category>
-					</Or>
+					<Category>Languages</Category>
 				</And>
 			</Include>
 		</Menu>
@@ -148,7 +134,6 @@
 					<Category>Education</Category>
 					<Not>
 						<Category>Languages</Category>
-						<Category>X-KDE-Edu-Language</Category>
 						<Category>Math</Category>
 						<Category>Science</Category>
 						<Category>Teaching</Category>
@@ -220,10 +205,7 @@
 			<Include>
 				<And>
 					<Category>Game</Category>
-					<Or>
-						<Category>X-KDE-KidsGame</Category>
-						<Category>KidsGame</Category>
-					</Or>
+					<Category>KidsGame</Category>
 				</And>
 			</Include>
 		</Menu>
@@ -254,7 +236,6 @@
 					<Category>ArcadeGame</Category>
 					<Category>BoardGame</Category>
 					<Category>CardGame</Category>
-					<Category>X-KDE-KidsGame</Category>
 					<Category>KidsGame</Category>
 					<Category>StrategyGame</Category>
 					<Category>LogicGame</Category>
