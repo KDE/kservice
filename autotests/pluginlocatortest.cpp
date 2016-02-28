@@ -41,20 +41,20 @@ void PluginTest::findPlugin_data()
     QTest::addColumn<QString>("constraint");
     QTest::addColumn<int>("expectedResult");
 
-    const QString _st = "KService/NSA";
+    const QString _st = QStringLiteral("KService/NSA");
     QString _c = "";
     QTest::newRow("no constraints") << _st << _c << 1;
 
-    _c = QString("[X-KDE-PluginInfo-Name] == '%1'").arg("fakeplugin");
+    _c = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(QStringLiteral("fakeplugin"));
     QTest::newRow("by pluginname") << _st << _c << 1;
 
-    _c = QString("[X-KDE-PluginInfo-Category] == '%1'").arg("Examples");
+    _c = QStringLiteral("[X-KDE-PluginInfo-Category] == '%1'").arg(QStringLiteral("Examples"));
     QTest::newRow("by category") << _st << _c << 1;
 
-    _c = QString("([X-KDE-PluginInfo-Category] == 'Examples') AND ([X-KDE-PluginInfo-Email] == 'sebas@kde.org')");
+    _c = QStringLiteral("([X-KDE-PluginInfo-Category] == 'Examples') AND ([X-KDE-PluginInfo-Email] == 'sebas@kde.org')");
     QTest::newRow("complex query") << _st << _c << 1;
 
-    _c = QString("([X-KDE-PluginInfo-Category] == 'Examples') AND ([X-KDE-PluginInfo-Email] == 'prrrrt')");
+    _c = QStringLiteral("([X-KDE-PluginInfo-Category] == 'Examples') AND ([X-KDE-PluginInfo-Email] == 'prrrrt')");
     QTest::newRow("empty query") << _st << _c << 0;
 }
 
@@ -77,7 +77,7 @@ void PluginTest::loadPlugin()
 {
     const QString pluginName("fakeplugin");
     const QString serviceType("KService/NSA");
-    const QString constraint = QString("[X-KDE-PluginInfo-Name] == '%1'").arg(pluginName);
+    const QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(pluginName);
 
     QObject *plugin = KPluginTrader::createInstanceFromQuery<QObject>(QString(), serviceType, constraint, this);
     QVERIFY(plugin != 0);

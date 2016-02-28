@@ -74,7 +74,7 @@ void KServiceGroupPrivate::load(const QString &cfg)
         }
     }
     if (m_strIcon.isEmpty()) {
-        m_strIcon = QString::fromLatin1("folder");
+        m_strIcon = QStringLiteral("folder");
     }
 }
 
@@ -428,9 +428,9 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
     }
 
     if (sortOrder.isEmpty()) {
-        sortOrder << QString::fromLatin1(":M");
-        sortOrder << QString::fromLatin1(":F");
-        sortOrder << QString::fromLatin1(":OIH IL[4]"); //just inline header
+        sortOrder << QStringLiteral(":M");
+        sortOrder << QStringLiteral(":F");
+        sortOrder << QStringLiteral(":OIH IL[4]"); //just inline header
     }
 
     QString rp = path;
@@ -487,7 +487,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
             } else if (item.contains(QLatin1String(":O"))) {
                 //todo parse attribute:
                 QString tmp(item);
-                tmp = tmp.remove(QLatin1String(":O"));
+                tmp = tmp.remove(QStringLiteral(":O"));
                 QStringList optionAttribute = tmp.split(QLatin1Char(' '), QString::SkipEmptyParts);
                 if (optionAttribute.isEmpty()) {
                     optionAttribute.append(tmp);
@@ -566,7 +566,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
 
                         if (nextItem.startsWith(QLatin1String(":O"))) {
                             QString tmp(nextItem);
-                            tmp = tmp.remove(QLatin1String(":O"));
+                            tmp = tmp.remove(QStringLiteral(":O"));
                             QStringList optionAttribute = tmp.split(QLatin1Char(' '), QString::SkipEmptyParts);
                             if (optionAttribute.isEmpty()) {
                                 optionAttribute.append(tmp);
@@ -633,7 +633,7 @@ void KServiceGroupPrivate::parseAttribute(const QString &item,  bool &showEmptyM
         showInlineAlias = false;
     } else if ((item).contains(QLatin1String("IL"))) { //inline limite!
         QString tmp(item);
-        tmp = tmp.remove(QLatin1String("IL["));
+        tmp = tmp.remove(QStringLiteral("IL["));
         tmp = tmp.remove(QLatin1Char(']'));
         bool ok;
         int _inlineValue = tmp.toInt(&ok);
@@ -662,7 +662,7 @@ KServiceGroup::Ptr
 KServiceGroup::root()
 {
     KSycoca::self()->ensureCacheValid();
-    return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(QString::fromLatin1("/"), true);
+    return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(QStringLiteral("/"), true);
 }
 
 KServiceGroup::Ptr

@@ -88,7 +88,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
     if (m_allEntries) {
         Q_ASSERT(m_ctimeDict);
         quint32 oldTimestamp = m_ctimeDict->ctime(file, m_resource);
-        if (file.contains("fake")) {
+        if (file.contains(QStringLiteral("fake"))) {
             qDebug() << "m_ctimeDict->ctime(" << file << ") = " << oldTimestamp << "compared with" << timeStamp;
         }
 
@@ -102,7 +102,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
             // remove from m_ctimeDict; if m_ctimeDict is not empty
             // after all files have been processed, it means
             // some files were removed since last time
-            if (file.contains("fake")) {
+            if (file.contains(QStringLiteral("fake"))) {
                 qDebug() << "reusing (and removing) old entry for:" << file << "entry=" << entry;
             }
             m_ctimeDict->remove(file, m_resource);

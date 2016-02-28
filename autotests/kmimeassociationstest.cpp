@@ -128,15 +128,15 @@ private Q_SLOTS:
 
         // Create fake application (associated with text/plain in mimeapps.list)
         fakeTextApplication = m_localApps + "faketextapplication.desktop";
-        writeAppDesktopFile(fakeTextApplication, QStringList() << "text/plain");
+        writeAppDesktopFile(fakeTextApplication, QStringList() << QStringLiteral("text/plain"));
 
         // Create fake application (associated with text/plain in mimeapps.list)
         fakeTextApplicationPrefixed = m_localApps + "fakepfx/faketextapplicationpfx.desktop";
-        writeAppDesktopFile(fakeTextApplicationPrefixed, QStringList() << "text/plain");
+        writeAppDesktopFile(fakeTextApplicationPrefixed, QStringList() << QStringLiteral("text/plain"));
 
         // A fake "default" application for text/plain (high initial preference, but not in mimeapps.list)
         fakeDefaultTextApplication = m_localApps + "fakedefaulttextapplication.desktop";
-        writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << "text/plain", 9);
+        writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << QStringLiteral("text/plain"), 9);
 
         // An app (like emacs) listing explicitly the derived mimetype (c-src); not in mimeapps.list
         // This interacted badly with mimeapps.list listing another app for text/plain, but the
@@ -145,19 +145,19 @@ private Q_SLOTS:
         //
         // Also include aliases (msword), to check they don't cancel each other out.
         fakeCSrcApplication = m_localApps + "fakecsrcmswordapplication.desktop";
-        writeAppDesktopFile(fakeCSrcApplication, QStringList() << "text/plain" << "text/c-src" << "application/vnd.ms-word" << "application/msword", 8);
+        writeAppDesktopFile(fakeCSrcApplication, QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/c-src") << QStringLiteral("application/vnd.ms-word") << QStringLiteral("application/msword"), 8);
 
         fakeJpegApplication = m_localApps + "fakejpegapplication.desktop";
-        writeAppDesktopFile(fakeJpegApplication, QStringList() << "image/jpeg");
+        writeAppDesktopFile(fakeJpegApplication, QStringList() << QStringLiteral("image/jpeg"));
 
         fakeArkApplication = m_localApps + "fakearkapplication.desktop";
-        writeAppDesktopFile(fakeArkApplication, QStringList() << "application/zip");
+        writeAppDesktopFile(fakeArkApplication, QStringList() << QStringLiteral("application/zip"));
 
         fakeHtmlApplication = m_localApps + "fakehtmlapplication.desktop";
-        writeAppDesktopFile(fakeHtmlApplication, QStringList() << "text/html");
+        writeAppDesktopFile(fakeHtmlApplication, QStringList() << QStringLiteral("text/html"));
 
         fakeHtmlApplicationPrefixed = m_localApps + "fakepfx/fakehtmlapplicationpfx.desktop";
-        writeAppDesktopFile(fakeHtmlApplicationPrefixed, QStringList() << "text/html");
+        writeAppDesktopFile(fakeHtmlApplicationPrefixed, QStringList() << QStringLiteral("text/html"));
 
         // Update ksycoca in ~/.qttest after creating the above
         runKBuildSycoca();
@@ -178,7 +178,7 @@ private Q_SLOTS:
         }
 #endif
 
-        KService::Ptr fakeApplicationService = KService::serviceByStorageId("faketextapplication.desktop");
+        KService::Ptr fakeApplicationService = KService::serviceByStorageId(QStringLiteral("faketextapplication.desktop"));
         QVERIFY(fakeApplicationService);
 
         m_mimeAppsFileContents = "[Added Associations]\n"
@@ -193,19 +193,19 @@ private Q_SLOTS:
                                  "image/jpeg=firefox.desktop;\n"
                                  "text/html=gvim.desktop;abiword.desktop;\n";
         // Expected results
-        preferredApps["image/jpeg"] << "fakejpegapplication.desktop";
-        preferredApps["application/pdf"] << "fakejpegapplication.desktop";
-        preferredApps["text/plain"] << "faketextapplication.desktop"
-                                    << "fakepfx-faketextapplicationpfx.desktop"
-                                    << "gvim.desktop";
-        preferredApps["text/x-csrc"] << "faketextapplication.desktop"
-                                     << "fakepfx-faketextapplicationpfx.desktop"
-                                     << "gvim.desktop";
-        preferredApps["text/html"] << "fakehtmlapplication.desktop"
-                                   << "fakepfx-fakehtmlapplicationpfx.desktop";
-        preferredApps["application/msword"] << "fakecsrcmswordapplication.desktop";
-        removedApps["image/jpeg"] << "firefox.desktop";
-        removedApps["text/html"] << "gvim.desktop" << "abiword.desktop";
+        preferredApps[QStringLiteral("image/jpeg")] << QStringLiteral("fakejpegapplication.desktop");
+        preferredApps[QStringLiteral("application/pdf")] << QStringLiteral("fakejpegapplication.desktop");
+        preferredApps[QStringLiteral("text/plain")] << QStringLiteral("faketextapplication.desktop")
+                                    << QStringLiteral("fakepfx-faketextapplicationpfx.desktop")
+                                    << QStringLiteral("gvim.desktop");
+        preferredApps[QStringLiteral("text/x-csrc")] << QStringLiteral("faketextapplication.desktop")
+                                     << QStringLiteral("fakepfx-faketextapplicationpfx.desktop")
+                                     << QStringLiteral("gvim.desktop");
+        preferredApps[QStringLiteral("text/html")] << QStringLiteral("fakehtmlapplication.desktop")
+                                   << QStringLiteral("fakepfx-fakehtmlapplicationpfx.desktop");
+        preferredApps[QStringLiteral("application/msword")] << QStringLiteral("fakecsrcmswordapplication.desktop");
+        removedApps[QStringLiteral("image/jpeg")] << QStringLiteral("firefox.desktop");
+        removedApps[QStringLiteral("text/html")] << QStringLiteral("gvim.desktop") << QStringLiteral("abiword.desktop");
 
         // Clean-up non-existing apps
         removeNonExisting(preferredApps);
@@ -301,23 +301,23 @@ private Q_SLOTS:
         parser.parseMimeAppsList(globalFileName, 1000);
         parser.parseMimeAppsList(fileName, 1050); // += 50 is correct.
 
-        QList<KServiceOffer> offers = offerHash.offersFor("image/jpeg");
+        QList<KServiceOffer> offers = offerHash.offersFor(QStringLiteral("image/jpeg"));
         qStableSort(offers); // like kbuildservicefactory.cpp does
-        const QStringList expectedJpegApps = preferredApps["image/jpeg"];
+        const QStringList expectedJpegApps = preferredApps[QStringLiteral("image/jpeg")];
         QCOMPARE(assembleOffers(offers), expectedJpegApps);
 
-        offers = offerHash.offersFor("text/html");
+        offers = offerHash.offersFor(QStringLiteral("text/html"));
         qStableSort(offers);
-        QStringList textHtmlApps = preferredApps["text/html"];
-        if (KService::serviceByStorageId("firefox.desktop")) {
-            textHtmlApps.append("firefox.desktop");
+        QStringList textHtmlApps = preferredApps[QStringLiteral("text/html")];
+        if (KService::serviceByStorageId(QStringLiteral("firefox.desktop"))) {
+            textHtmlApps.append(QStringLiteral("firefox.desktop"));
         }
         qDebug() << assembleOffers(offers);
         QCOMPARE(assembleOffers(offers), textHtmlApps);
 
-        offers = offerHash.offersFor("image/png");
+        offers = offerHash.offersFor(QStringLiteral("image/png"));
         qStableSort(offers);
-        QCOMPARE(assembleOffers(offers), QStringList() << "fakejpegapplication.desktop");
+        QCOMPARE(assembleOffers(offers), QStringList() << QStringLiteral("fakejpegapplication.desktop"));
     }
 
     void testSetupRealFile()
@@ -325,13 +325,13 @@ private Q_SLOTS:
         writeToMimeApps(m_mimeAppsFileContents);
 
         // Test a trader query
-        KService::List offers = KMimeTypeTrader::self()->query("image/jpeg");
+        KService::List offers = KMimeTypeTrader::self()->query(QStringLiteral("image/jpeg"));
         //qDebug() << m_mimeAppsFileContents;
         //qDebug() << "preferred apps for jpeg: " << preferredApps.value("image/jpeg");
         //for (int i = 0; i < offers.count(); ++i) {
         //    qDebug() << "offers for" << "image/jpeg" << ":" << i << offers[i]->storageId();
         //}
-        QCOMPARE(offers.first()->storageId(), QString("fakejpegapplication.desktop"));
+        QCOMPARE(offers.first()->storageId(), QStringLiteral("fakejpegapplication.desktop"));
 
         // Now the generic variant of the above test:
         // for each mimetype, check that the preferred apps are as specified
@@ -358,7 +358,7 @@ private Q_SLOTS:
     void testMultipleInheritance()
     {
         // application/x-shellscript inherits from both text/plain and application/x-executable
-        KService::List offers = KMimeTypeTrader::self()->query("application/x-shellscript");
+        KService::List offers = KMimeTypeTrader::self()->query(QStringLiteral("application/x-shellscript"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));
     }
 
@@ -367,28 +367,28 @@ private Q_SLOTS:
         // I removed kate from text/plain, and it would still appear in text/x-java.
 
         // First, let's check our fake app is associated with text/plain
-        KService::List offers = KMimeTypeTrader::self()->query("text/plain");
+        KService::List offers = KMimeTypeTrader::self()->query(QStringLiteral("text/plain"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));
 
         writeToMimeApps(QByteArray("[Removed Associations]\n"
                                    "text/plain=faketextapplication.desktop;\n"));
 
-        offers = KMimeTypeTrader::self()->query("text/plain");
+        offers = KMimeTypeTrader::self()->query(QStringLiteral("text/plain"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
 
-        offers = KMimeTypeTrader::self()->query("text/x-java");
+        offers = KMimeTypeTrader::self()->query(QStringLiteral("text/x-java"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
     }
 
     void testRemovedImplicitAssociation() // remove (implicit) assoc from derived mimetype
     {
         // #164584: Removing ark from opendocument.text didn't work
-        const QString opendocument = "application/vnd.oasis.opendocument.text";
+        const QString opendocument = QStringLiteral("application/vnd.oasis.opendocument.text");
 
         // [sanity checking of s-m-i installation]
         QMimeType mime = QMimeDatabase().mimeTypeForName(opendocument);
         QVERIFY(mime.isValid());
-        if (!mime.inherits("application/zip")) {
+        if (!mime.inherits(QStringLiteral("application/zip"))) {
             // CentOS patches out the application/zip inheritance from application/vnd.oasis.opendocument.text!! Grmbl.
             QSKIP("Broken distro where application/vnd.oasis.opendocument.text doesn't inherit from application/zip");
         }
@@ -402,7 +402,7 @@ private Q_SLOTS:
         offers = KMimeTypeTrader::self()->query(opendocument);
         QVERIFY(!offerListHasService(offers, fakeArkApplication, false));
 
-        offers = KMimeTypeTrader::self()->query("application/zip");
+        offers = KMimeTypeTrader::self()->query(QStringLiteral("application/zip"));
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
     }
 
@@ -410,7 +410,7 @@ private Q_SLOTS:
     {
         // #178560: Removing ark from interface/x-winamp-skin didn't work
         // Using application/x-kns (another zip-derived mimetype) nowadays.
-        const QString mime = "application/x-kns";
+        const QString mime = QStringLiteral("application/x-kns");
         KService::List offers = KMimeTypeTrader::self()->query(mime);
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
 
@@ -420,7 +420,7 @@ private Q_SLOTS:
         offers = KMimeTypeTrader::self()->query(mime);
         QVERIFY(!offerListHasService(offers, fakeArkApplication, false));
 
-        offers = KMimeTypeTrader::self()->query("application/zip");
+        offers = KMimeTypeTrader::self()->query(QStringLiteral("application/zip"));
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
     }
 
@@ -435,13 +435,13 @@ private Q_SLOTS:
         writeToMimeApps(QByteArray("[Removed Associations]\n"
                                    "application/x-desktop=faketextapplication.desktop;\n"));
 
-        offers = KMimeTypeTrader::self()->query("text/plain");
+        offers = KMimeTypeTrader::self()->query(QStringLiteral("text/plain"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));
 
-        offers = KMimeTypeTrader::self()->query("application/x-desktop");
+        offers = KMimeTypeTrader::self()->query(QStringLiteral("application/x-desktop"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
 
-        offers = KMimeTypeTrader::self()->query("application/x-theme");
+        offers = KMimeTypeTrader::self()->query(QStringLiteral("application/x-theme"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
     }
 

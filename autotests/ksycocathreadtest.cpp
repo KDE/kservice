@@ -136,17 +136,17 @@ public Q_SLOTS:
             }
         }
 
-        KService::List offers = KServiceTypeTrader::self()->query("KPluginInfo");
-        Q_ASSERT(offerListHasService(offers, "threadtextplugin.desktop"));
+        KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("KPluginInfo"));
+        Q_ASSERT(offerListHasService(offers, QStringLiteral("threadtextplugin.desktop")));
 
-        offers = KServiceTypeTrader::self()->query("KPluginInfo", "Library == 'threadtextplugin'");
+        offers = KServiceTypeTrader::self()->query(QStringLiteral("KPluginInfo"), QStringLiteral("Library == 'threadtextplugin'"));
         Q_ASSERT(offers.count() == 1);
-        QVERIFY(offerListHasService(offers, "threadtextplugin.desktop"));
+        QVERIFY(offerListHasService(offers, QStringLiteral("threadtextplugin.desktop")));
 
         KServiceGroup::Ptr root = KServiceGroup::root();
         Q_ASSERT(root);
 
-        if (KService::serviceByDesktopPath("threadfakeservice.desktop")) {
+        if (KService::serviceByDesktopPath(QStringLiteral("threadfakeservice.desktop"))) {
             QMutexLocker locker(&s_setMutex);
             s_threadsWhoSawFakeService.insert(QThread::currentThread());
         }
@@ -267,7 +267,7 @@ void KSycocaThreadTest::initTestCase()
         runKBuildSycoca();
         // Process the event
         int count = 0;
-        while (!KService::serviceByDesktopPath("threadtextplugin.desktop")) {
+        while (!KService::serviceByDesktopPath(QStringLiteral("threadtextplugin.desktop"))) {
             qApp->processEvents();
             if (++count == 20) {
                 qFatal("sycoca doesn't have threadtextplugin.desktop");
@@ -280,7 +280,7 @@ void KSycocaThreadTest::initTestCase()
     if (QFile::exists(servPath)) {
         QFile::remove(servPath);
     }
-    if (KService::serviceByDesktopPath("threadfakeservice.desktop")) {
+    if (KService::serviceByDesktopPath(QStringLiteral("threadfakeservice.desktop"))) {
         deleteFakeService();
     }
     threads.resize(5);
@@ -327,7 +327,7 @@ void KSycocaThreadTest::testCreateService()
     qDebug() << "executing kbuildsycoca (1)";
     runKBuildSycoca();
 
-    QTRY_VERIFY(KService::serviceByDesktopPath("threadfakeservice.desktop"));
+    QTRY_VERIFY(KService::serviceByDesktopPath(QStringLiteral("threadfakeservice.desktop")));
 
     // Now wait to check that all threads saw that new service
     QTRY_COMPARE_WITH_TIMEOUT(threadsWhoSawFakeService(), threads.size(), 20000);
@@ -338,7 +338,7 @@ void KSycocaThreadTest::deleteFakeService()
     s_fakeServiceDeleted = 1;
 
     qDebug() << "now deleting the fake service";
-    KService::Ptr fakeService = KService::serviceByDesktopPath("threadfakeservice.desktop");
+    KService::Ptr fakeService = KService::serviceByDesktopPath(QStringLiteral("threadfakeservice.desktop"));
     QVERIFY(fakeService);
     const QString servPath = fakeServiceDesktopFile();
     QFile::remove(servPath);
@@ -349,7 +349,7 @@ void KSycocaThreadTest::deleteFakeService()
     qDebug() << "executing kbuildsycoca (2)";
     runKBuildSycoca();
     QVERIFY(!spy.isEmpty());
-    QVERIFY(spy[0][0].toStringList().contains("services"));
+    QVERIFY(spy[0][0].toStringList().contains(QStringLiteral("services")));
 
     QVERIFY(fakeService); // the whole point of refcounting is that this KService instance is still valid.
     QVERIFY(!QFile::exists(servPath));

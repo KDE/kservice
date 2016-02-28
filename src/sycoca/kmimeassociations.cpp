@@ -53,7 +53,7 @@ void KMimeAssociations::parseAllMimeAppsList()
     QStringList mimeappsFileNames;
     // make the list of possible filenames from the spec ($desktop-mimeapps.list, then mimeapps.list)
     const QString desktops = QString::fromLocal8Bit(qgetenv("XDG_CURRENT_DESKTOP"));
-    foreach (const QString &desktop, desktops.split(":", QString::SkipEmptyParts)) {
+    foreach (const QString &desktop, desktops.split(QLatin1Char(':'), QString::SkipEmptyParts)) {
         mimeappsFileNames.append(desktop.toLower() + QLatin1String("-mimeapps.list"));
     }
     mimeappsFileNames.append(QStringLiteral("mimeapps.list"));
@@ -86,7 +86,7 @@ void KMimeAssociations::parseAllMimeAppsList()
 void KMimeAssociations::parseMimeAppsList(const QString &file, int basePreference)
 {
     KConfig profile(file, KConfig::SimpleConfig);
-    if (file.endsWith("/mimeapps.list")) { // not for $desktop-mimeapps.list
+    if (file.endsWith(QStringLiteral("/mimeapps.list"))) { // not for $desktop-mimeapps.list
         parseAddedAssociations(KConfigGroup(&profile, "Added Associations"), file, basePreference);
         parseRemovedAssociations(KConfigGroup(&profile, "Removed Associations"), file);
 

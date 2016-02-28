@@ -32,7 +32,7 @@ KBuildMimeTypeFactory::KBuildMimeTypeFactory(KSycoca *db)
 {
     m_resourceList = new KSycocaResourceList;
     // We want all xml files under xdgdata/mime - but not mime/packages/*.xml
-    m_resourceList->add("xdgdata-mime", "mime", "*.xml");
+    m_resourceList->add("xdgdata-mime", QStringLiteral("mime"), QStringLiteral("*.xml"));
 }
 
 KBuildMimeTypeFactory::~KBuildMimeTypeFactory()
@@ -55,7 +55,7 @@ KSycocaEntry::List KBuildMimeTypeFactory::allEntries() const
 KSycocaEntry *KBuildMimeTypeFactory::createEntry(const QString &file) const
 {
     // file=text/plain.xml  ->  name=plain.xml dirName=text
-    Q_ASSERT(!file.startsWith("mime/"));
+    Q_ASSERT(!file.startsWith(QStringLiteral("mime/")));
 
     const int pos = file.lastIndexOf('/');
     if (pos == -1) { // huh?

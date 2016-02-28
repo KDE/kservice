@@ -26,7 +26,7 @@ main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    QString serviceId = "kwrite.desktop";
+    QString serviceId = QStringLiteral("kwrite.desktop");
     if (argc > 1) {
         serviceId = QString::fromLocal8Bit(argv[1]);
     }

@@ -64,10 +64,10 @@ QTEST_MAIN(KSycocaXdgDirsTest)
 void KSycocaXdgDirsTest::runKBuildSycoca(const QProcessEnvironment &environment)
 {
     QProcess proc;
-    const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
+    const QString kbuildsycoca = QStandardPaths::findExecutable(QStringLiteral(KBUILDSYCOCA_EXENAME));
     QVERIFY(!kbuildsycoca.isEmpty());
     QStringList args;
-    args << "--testmode";
+    args << QStringLiteral("--testmode");
     //proc.setProcessChannelMode(QProcess::ForwardedChannels);
     proc.start(kbuildsycoca, args);
     proc.setProcessEnvironment(environment);
@@ -90,7 +90,7 @@ void KSycocaXdgDirsTest::testOtherAppDir()
     const QString dataDir = m_tempDir.path();
     qputenv("XDG_DATA_DIRS", QFile::encodeName(dataDir));
     QCOMPARE(dataDir, QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).last());
-    QVERIFY(!KService::serviceByDesktopPath("test_app_other.desktop"));
+    QVERIFY(!KService::serviceByDesktopPath(QStringLiteral("test_app_other.desktop")));
 
     const QString appDir = dataDir + "/applications";
 
@@ -105,7 +105,7 @@ void KSycocaXdgDirsTest::testOtherAppDir()
     file.sync();
 
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("XDG_DATA_DIRS", dataDir);
+    env.insert(QStringLiteral("XDG_DATA_DIRS"), dataDir);
     runKBuildSycoca(env);
 
 #if 0 // for debugging
@@ -120,13 +120,13 @@ void KSycocaXdgDirsTest::testOtherAppDir()
     // kbuildsycoca created a different DB file, the one we read from hasn't changed.
     // Changing XDG_DATA_DIRS at runtime isn't supported, so this test isn't doing what apps would do.
     // The point however is that another app using different dirs cannot mess up our DB.
-    QVERIFY(!KService::serviceByStorageId("test_app_other.desktop"));
+    QVERIFY(!KService::serviceByStorageId(QStringLiteral("test_app_other.desktop")));
 
     // Check here what the application 2 would see, by creating another sycoca instance.
     KSycoca otherAppSycoca;
     // do what serviceByStorageId does:
     otherAppSycoca.ensureCacheValid();
-    QVERIFY(otherAppSycoca.d->serviceFactory()->findServiceByStorageId("test_app_other.desktop"));
+    QVERIFY(otherAppSycoca.d->serviceFactory()->findServiceByStorageId(QStringLiteral("test_app_other.desktop")));
     QVERIFY(otherAppSycoca.d->m_databasePath != KSycoca::self()->d->m_databasePath); // check that they use a different filename
     // check that the timestamp code works
     QVERIFY(!otherAppSycoca.d->needsRebuild());

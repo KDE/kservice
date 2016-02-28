@@ -40,7 +40,7 @@ private:
     {
         KPluginMetaData metaData = info.toMetaData();
         QJsonObject json = metaData.rawData();
-        json["X-Foo-Bar"] = QStringLiteral("Baz");
+        json[QStringLiteral("X-Foo-Bar")] = QStringLiteral("Baz");
         return KPluginInfo(KPluginMetaData(json, info.libraryPath()));
     }
 
@@ -72,7 +72,7 @@ private Q_SLOTS:
         QVERIFY(!metaData.name().isEmpty());
         QVERIFY(!metaData.authors().isEmpty());
         QVERIFY(!metaData.formFactors().isEmpty());
-        QCOMPARE(metaData.formFactors(), QStringList() << "tablet" << "handset");
+        QCOMPARE(metaData.formFactors(), QStringList() << QStringLiteral("tablet") << QStringLiteral("handset"));
         KPluginInfo jsonInfo(KPluginMetaData(json, pluginName));
 
         QFile compatJsonFile(fakePluginCompatJsonPath);
@@ -95,7 +95,7 @@ private Q_SLOTS:
         QLocale::setDefault(QLocale::c());
 
         QTest::ignoreMessage(QtWarningMsg, "\"/this/path/does/not/exist.desktop\" has no desktop group, cannot construct a KPluginInfo object from it.");
-        QVERIFY(!KPluginInfo("/this/path/does/not/exist.desktop").isValid());
+        QVERIFY(!KPluginInfo(QStringLiteral("/this/path/does/not/exist.desktop")).isValid());
 
         QTest::newRow("from .desktop") << fakepluginDesktop << info << infoGerman << QVariant() << false;
         QTest::newRow("with custom property") << info.libraryPath() << withCustomProperty(info)
@@ -159,20 +159,20 @@ private Q_SLOTS:
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
         QCOMPARE(info.pluginName(), pluginName);
         // KService/KPluginInfo merges X-KDE-ServiceTypes and MimeTypes
-        QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA" << "text/plain" << "image/png");
+        QCOMPARE(info.serviceTypes(), QStringList() << QStringLiteral("KService/NSA") << QStringLiteral("text/plain") << QStringLiteral("image/png"));
         if (!info.service()) {
             // KService does not include X-My-Custom-Property since there is no service type installed that defines it
-            QCOMPARE(info.property("X-My-Custom-Property"), QVariant("foo"));
+            QCOMPARE(info.property(QStringLiteral("X-My-Custom-Property")), QVariant("foo"));
         }
         // Now check that converting to KPluginMetaData has the separation
         KPluginMetaData asMetaData = info.toMetaData();
-        QCOMPARE(asMetaData.serviceTypes(), QStringList() << "KService/NSA");
-        QCOMPARE(asMetaData.mimeTypes(), QStringList() << "text/plain" << "image/png");
+        QCOMPARE(asMetaData.serviceTypes(), QStringList() << QStringLiteral("KService/NSA"));
+        QCOMPARE(asMetaData.mimeTypes(), QStringList() << QStringLiteral("text/plain") << QStringLiteral("image/png"));
 
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
 
-        QCOMPARE(info.property("X-Foo-Bar"), customValue);
+        QCOMPARE(info.property(QStringLiteral("X-Foo-Bar")), customValue);
 
     }
 
@@ -197,8 +197,8 @@ private Q_SLOTS:
 
 
         QCOMPARE(meta.authors().size(), 1);
-        QCOMPARE(meta.authors()[0].name(), QStringLiteral("Sebastian Kügler"));
-        QCOMPARE(meta.authors()[0].emailAddress(), QStringLiteral("sebas@kde.org"));
+        QCOMPARE(meta.authors().at(0).name(), QStringLiteral("Sebastian Kügler"));
+        QCOMPARE(meta.authors().at(0).emailAddress(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(meta.category(), QStringLiteral("Examples"));
         QCOMPARE(meta.dependencies(), QStringList());
         QCOMPARE(meta.fileName(), pluginName);
@@ -206,8 +206,8 @@ private Q_SLOTS:
         QCOMPARE(meta.iconName(), QStringLiteral("preferences-system-time"));
         QCOMPARE(meta.isEnabledByDefault(), true);
         QCOMPARE(meta.license(), QStringLiteral("LGPL"));
-        QCOMPARE(meta.serviceTypes(), QStringList() << "KService/NSA");
-        QCOMPARE(meta.formFactors(), QStringList() << "tablet" << "handset");
+        QCOMPARE(meta.serviceTypes(), QStringList() << QStringLiteral("KService/NSA"));
+        QCOMPARE(meta.formFactors(), QStringList() << QStringLiteral("tablet") << QStringLiteral("handset"));
         QCOMPARE(meta.version(), QStringLiteral("1.0"));
         QCOMPARE(meta.website(), QStringLiteral("http://kde.org/"));
 
@@ -215,8 +215,8 @@ private Q_SLOTS:
         QCOMPARE(meta, KPluginInfo::toMetaData(info));
 
         // make sure custom values are also retained
-        QCOMPARE(info.property("X-Foo-Bar"), QVariant("Baz"));
-        QCOMPARE(meta.rawData().value("X-Foo-Bar").toString(), QStringLiteral("Baz"));
+        QCOMPARE(info.property(QStringLiteral("X-Foo-Bar")), QVariant("Baz"));
+        QCOMPARE(meta.rawData().value(QStringLiteral("X-Foo-Bar")).toString(), QStringLiteral("Baz"));
 
 
         KPluginInfo::List srcList = KPluginInfo::List() << info << info;
@@ -282,15 +282,15 @@ private Q_SLOTS:
         QCOMPARE(info.libraryPath(), pluginName);
         QCOMPARE(info.license(), QStringLiteral("LGPL"));
         QCOMPARE(info.pluginName(), pluginName);
-        QCOMPARE(info.serviceTypes(), QStringList() << "KService/NSA");
+        QCOMPARE(info.serviceTypes(), QStringList() << QStringLiteral("KService/NSA"));
         QCOMPARE(info.version(), QStringLiteral("1.0"));
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
-        QCOMPARE(info.toMetaData().formFactors(), QStringList() << "tablet" << "handset");
-        QCOMPARE(info.formFactors(), QStringList() << "tablet" << "handset");
+        QCOMPARE(info.toMetaData().formFactors(), QStringList() << QStringLiteral("tablet") << QStringLiteral("handset"));
+        QCOMPARE(info.formFactors(), QStringList() << QStringLiteral("tablet") << QStringLiteral("handset"));
 
         // make sure custom values are also retained
-        QCOMPARE(meta.rawData().value("X-Foo-Bar").toString(), QStringLiteral("Baz"));
-        QCOMPARE(info.property("X-Foo-Bar"), QVariant("Baz"));
+        QCOMPARE(meta.rawData().value(QStringLiteral("X-Foo-Bar")).toString(), QStringLiteral("Baz"));
+        QCOMPARE(info.property(QStringLiteral("X-Foo-Bar")), QVariant("Baz"));
 
         QVector<KPluginMetaData> srcList = QVector<KPluginMetaData>() << meta;
         KPluginInfo::List convertedList = KPluginInfo::fromMetaData(srcList);

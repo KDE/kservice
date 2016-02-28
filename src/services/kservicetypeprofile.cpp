@@ -75,7 +75,7 @@ void KServiceTypeProfiles::ensureParsed()
     // See writeServiceTypeProfile for a description of the file format.
     // ### Since this new format names groups after servicetypes maybe we can even
     // avoid doing any init upfront, and just look up the group when asked...
-    KConfig configFile(QString::fromLatin1("servicetype_profilerc"), KConfig::NoGlobals);
+    KConfig configFile(QStringLiteral("servicetype_profilerc"), KConfig::NoGlobals);
     const QStringList tmpList = configFile.groupList();
     for (QStringList::const_iterator aIt = tmpList.begin();
             aIt != tmpList.end(); ++aIt) {
@@ -186,7 +186,7 @@ void KServiceTypeProfile::writeServiceTypeProfile(const QString &serviceType,
      * Entry2_Preference=0
      */
 
-    KConfig configFile(QString::fromLatin1("servicetype_profilerc"), KConfig::SimpleConfig);
+    KConfig configFile(QStringLiteral("servicetype_profilerc"), KConfig::SimpleConfig);
     configFile.deleteGroup(serviceType);
 
     KConfigGroup config(&configFile, serviceType);
@@ -217,7 +217,7 @@ void KServiceTypeProfile::writeServiceTypeProfile(const QString &serviceType,
 
 void KServiceTypeProfile::deleteServiceTypeProfile(const QString &serviceType)
 {
-    KConfig config(QString::fromLatin1("servicetype_profilerc"), KConfig::SimpleConfig);
+    KConfig config(QStringLiteral("servicetype_profilerc"), KConfig::SimpleConfig);
     config.deleteGroup(serviceType);
     config.sync();
 

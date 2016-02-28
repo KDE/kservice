@@ -61,7 +61,7 @@ void KAutostartPrivate::copyIfNeeded()
             KDesktopFile *newDf = df->copyTo(local);
             delete df;
             delete newDf; //Force sync-to-disk
-            df = new KDesktopFile(QStandardPaths::GenericConfigLocation, QString::fromLatin1("autostart/") + name); //Recreate from disk
+            df = new KDesktopFile(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + name); //Recreate from disk
         }
     }
 
@@ -79,13 +79,13 @@ KAutostart::KAutostart(const QString &entryName, QObject *parent)
     }
 
     if (!d->name.endsWith(QLatin1String(".desktop"))) {
-        d->name.append(QString::fromLatin1(".desktop"));
+        d->name.append(QStringLiteral(".desktop"));
     }
 
     const QString path = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + d->name);
     if (path.isEmpty()) {
         // just a new KDesktopFile, since we have nothing to use
-        d->df = new KDesktopFile(QStandardPaths::GenericConfigLocation, QString::fromLatin1("autostart/") + d->name);
+        d->df = new KDesktopFile(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + d->name);
         d->copyIfNeededChecked = true;
     } else {
         d->df = new KDesktopFile(path);
@@ -202,7 +202,7 @@ void KAutostart::setVisibleName(const QString &name)
 bool KAutostart::isServiceRegistered(const QString &entryName)
 {
     const QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String("/autostart/");
-    return QFile::exists(localDir + entryName + QString::fromLatin1(".desktop"));
+    return QFile::exists(localDir + entryName + QStringLiteral(".desktop"));
 }
 
 QString KAutostart::commandToCheck() const
@@ -248,14 +248,14 @@ KAutostart::StartPhase KAutostart::startPhase() const
 
 void KAutostart::setStartPhase(KAutostart::StartPhase phase)
 {
-    QString data = QString::fromLatin1("Applications");
+    QString data = QStringLiteral("Applications");
 
     switch (phase) {
     case BaseDesktop:
-        data = QString::fromLatin1("BaseDesktop");
+        data = QStringLiteral("BaseDesktop");
         break;
     case DesktopServices:
-        data = QString::fromLatin1("DesktopServices");
+        data = QStringLiteral("DesktopServices");
         break;
     case Applications: // This is the default
         break;

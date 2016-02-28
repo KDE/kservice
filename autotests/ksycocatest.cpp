@@ -116,7 +116,7 @@ void KSycocaTest::ensureCacheValidShouldCreateDB() // this is what kded does on 
     QFile::remove(KSycoca::absoluteFilePath());
     KSycoca::self()->ensureCacheValid();
     QVERIFY(QFile::exists(KSycoca::absoluteFilePath()));
-    QVERIFY(KServiceType::serviceType("FakeGlobalServiceType"));
+    QVERIFY(KServiceType::serviceType(QStringLiteral("FakeGlobalServiceType")));
 }
 
 void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
@@ -183,7 +183,7 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
 #endif
     const QDateTime oldTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
 
-    const QString path = menusDir() + QString("/fakeSubserviceDirectory");
+    const QString path = menusDir() + QLatin1String("/fakeSubserviceDirectory");
 
     // ### use QFile::setFileTime when it lands in Qt...
 #ifdef Q_OS_UNIX
@@ -223,12 +223,12 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
 void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment, bool global)
 {
     QProcess proc;
-    const QString kbuildsycoca = QStandardPaths::findExecutable(KBUILDSYCOCA_EXENAME);
+    const QString kbuildsycoca = QStandardPaths::findExecutable(QStringLiteral(KBUILDSYCOCA_EXENAME));
     QVERIFY(!kbuildsycoca.isEmpty());
     QStringList args;
-    args << "--testmode";
+    args << QStringLiteral("--testmode");
     if (global) {
-        args << "--global";
+        args << QStringLiteral("--global");
     }
     proc.setProcessChannelMode(QProcess::ForwardedChannels);
     proc.start(kbuildsycoca, args);
@@ -252,7 +252,7 @@ void KSycocaTest::testDeletingSycoca()
     // So this is a check that deleting sycoca doesn't make apps crash (bug 343618).
     QFile::remove(KSycoca::absoluteFilePath());
     ksycoca_ms_between_checks = 0;
-    QVERIFY(KServiceType::serviceType("FakeGlobalServiceType"));
+    QVERIFY(KServiceType::serviceType(QStringLiteral("FakeGlobalServiceType")));
     QVERIFY(QFile::exists(KSycoca::absoluteFilePath()));
 }
 
@@ -264,7 +264,7 @@ void KSycocaTest::testGlobalSycoca()
     // Build global DB
     // We could do it in-process, but let's check what a sysadmin would do: run kbuildsycoca5 --global
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("XDG_DATA_DIRS", m_tempDir.path());
+    env.insert(QStringLiteral("XDG_DATA_DIRS"), m_tempDir.path());
     runKBuildSycoca(env, true /*global*/);
     QVERIFY(QFile::exists(KSycoca::absoluteFilePath(KSycoca::GlobalDatabase)));
 
@@ -283,7 +283,7 @@ void KSycocaTest::testGlobalSycoca()
 
     // Using ksycoca should now build a local one
     ksycoca_ms_between_checks = 0;
-    QVERIFY(KServiceType::serviceType("FakeLocalServiceType"));
+    QVERIFY(KServiceType::serviceType(QStringLiteral("FakeLocalServiceType")));
     QVERIFY(QFile::exists(KSycoca::absoluteFilePath()));
 }
 
@@ -294,7 +294,7 @@ void KSycocaTest::testNonReadableSycoca()
     ksycoca_ms_between_checks = 0;
     KBuildSycoca builder;
     QVERIFY(builder.recreate());
-    QVERIFY(KServiceType::serviceType("FakeGlobalServiceType"));
+    QVERIFY(KServiceType::serviceType(QStringLiteral("FakeGlobalServiceType")));
 
     // cleanup
     QFile::remove(KSycoca::absoluteFilePath());

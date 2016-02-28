@@ -52,7 +52,7 @@ int main(int argc, char **argv)
 
     KLocalizedString::setApplicationDomain("kservice5");
 
-    KAboutData about(KBUILDSYCOCA_EXENAME,
+    KAboutData about(QStringLiteral(KBUILDSYCOCA_EXENAME),
                      i18nc("application name", "KBuildSycoca"),
                      QStringLiteral(KSERVICE_VERSION_STRING),
                      i18nc("application description", "Rebuilds the system configuration cache."),

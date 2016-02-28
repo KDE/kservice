@@ -198,7 +198,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     lstServiceTypes += desktopGroup.readXdgListEntry("MimeType");
     entryMap.remove(QStringLiteral("MimeType"));
 
-    if (m_strType == QLatin1String("Application") && !lstServiceTypes.contains(QLatin1String("Application")))
+    if (m_strType == QLatin1String("Application") && !lstServiceTypes.contains(QStringLiteral("Application")))
         // Applications implement the service type "Application" ;-)
     {
         lstServiceTypes += QStringLiteral("Application");
@@ -250,7 +250,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     entryMap.remove(QStringLiteral("AllowDefault"));
 
     // allow plugin users to translate categories without needing a separate key
-    QMap<QString, QString>::Iterator entry = entryMap.find(QString::fromLatin1("X-KDE-PluginInfo-Category"));
+    QMap<QString, QString>::Iterator entry = entryMap.find(QStringLiteral("X-KDE-PluginInfo-Category"));
     if (entry != entryMap.end()) {
         const QString &key = entry.key();
         m_mapProps.insert(key, QVariant(desktopGroup.readEntryUntranslated(key)));
@@ -573,24 +573,24 @@ QStringList KServicePrivate::propertyNames() const
         res.append(it.key());
     }
 
-    res.append(QString::fromLatin1("Type"));
-    res.append(QString::fromLatin1("Name"));
-    res.append(QString::fromLatin1("Comment"));
-    res.append(QString::fromLatin1("GenericName"));
-    res.append(QString::fromLatin1("Icon"));
-    res.append(QString::fromLatin1("Exec"));
-    res.append(QString::fromLatin1("Terminal"));
-    res.append(QString::fromLatin1("TerminalOptions"));
-    res.append(QString::fromLatin1("Path"));
-    res.append(QString::fromLatin1("ServiceTypes"));
-    res.append(QString::fromLatin1("AllowAsDefault"));
-    res.append(QString::fromLatin1("InitialPreference"));
-    res.append(QString::fromLatin1("Library"));
-    res.append(QString::fromLatin1("DesktopEntryPath"));
-    res.append(QString::fromLatin1("DesktopEntryName"));
-    res.append(QString::fromLatin1("Keywords"));
-    res.append(QString::fromLatin1("FormFactors"));
-    res.append(QString::fromLatin1("Categories"));
+    res.append(QStringLiteral("Type"));
+    res.append(QStringLiteral("Name"));
+    res.append(QStringLiteral("Comment"));
+    res.append(QStringLiteral("GenericName"));
+    res.append(QStringLiteral("Icon"));
+    res.append(QStringLiteral("Exec"));
+    res.append(QStringLiteral("Terminal"));
+    res.append(QStringLiteral("TerminalOptions"));
+    res.append(QStringLiteral("Path"));
+    res.append(QStringLiteral("ServiceTypes"));
+    res.append(QStringLiteral("AllowAsDefault"));
+    res.append(QStringLiteral("InitialPreference"));
+    res.append(QStringLiteral("Library"));
+    res.append(QStringLiteral("DesktopEntryPath"));
+    res.append(QStringLiteral("DesktopEntryName"));
+    res.append(QStringLiteral("Keywords"));
+    res.append(QStringLiteral("FormFactors"));
+    res.append(QStringLiteral("Categories"));
 
     return res;
 }

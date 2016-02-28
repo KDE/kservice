@@ -70,12 +70,12 @@ int PluginTest::runMain()
 
     for (int _i = 0; _i < runs; _i++) {
         timer.restart();
-        if (!loadFromKService("time")) {
+        if (!loadFromKService(QStringLiteral("time"))) {
             ok = false;
         }
         timings << timer.nsecsElapsed();
     }
-    report(timings, "KServiceTypeTrader");
+    report(timings, QStringLiteral("KServiceTypeTrader"));
     timings.clear();
 
     // -- Metadata querying
@@ -87,7 +87,7 @@ int PluginTest::runMain()
         //if (!loadFromMetaData2("Plasma/ContainmentActions")) ok = false;
         timings << timer.nsecsElapsed();
     }
-    report(timings, "Metadata");
+    report(timings, QStringLiteral("Metadata"));
     timings.clear();
 
     findPlugins();
@@ -104,7 +104,7 @@ void PluginTest::report(const QList<qint64> timings, const QString &msg)
     qulonglong totalTime = 0;
 
     int unitDiv = 1000;
-    QString unit = "microsec";
+    QString unit = QStringLiteral("microsec");
     int i = 0;
     foreach (qint64 t, timings) {
         int msec = t / 1000000;
@@ -119,8 +119,8 @@ void PluginTest::report(const QList<qint64> timings, const QString &msg)
 bool PluginTest::loadFromKService(const QString &name)
 {
     bool ok = false;
-    QString constraint = QString("[X-KDE-PluginInfo-Name] == '%1'").arg(name);
-    KService::List offers = KServiceTypeTrader::self()->query("Plasma/DataEngine",
+    QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(name);
+    KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("Plasma/DataEngine"),
                             constraint);
     QString error;
 
@@ -129,7 +129,7 @@ bool PluginTest::loadFromKService(const QString &name)
     } else {
         QVariantList allArgs;
         allArgs << offers.first()->storageId();
-        const QString _n = offers.first()->property("Name").toString();
+        const QString _n = offers.first()->property(QStringLiteral("Name")).toString();
         if (!_n.isEmpty()) {
             qDebug() << "Found Dataengine: " << _n << endl;
             ok = true;
@@ -145,8 +145,8 @@ bool PluginTest::loadFromMetaData(const QString &serviceType)
 {
     bool ok = false;
     QString pluginName("time");
-    QString constraint = QString("[X-KDE-PluginInfo-Name] == '%1'").arg(pluginName);
-    KPluginInfo::List res = KPluginTrader::self()->query("kf5", serviceType, QString());
+    QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(pluginName);
+    KPluginInfo::List res = KPluginTrader::self()->query(QStringLiteral("kf5"), serviceType, QString());
     qDebug() << "----------- Found " << res.count() << " Plugins" << constraint;
     ok = res.count() > 0;
     foreach (const KPluginInfo &info, res) {
@@ -163,21 +163,21 @@ bool PluginTest::findPlugins()
     QElapsedTimer timer;
     QList<qint64> timings;
     const QString pluginDir("/media/storage/testdata/");
-    const QStringList sizes = QStringList() << "50"
-                              << "100"
-                              << "150"
-                              << "200"
-                              << "250"
-                              << "300"
-                              << "400"
-                              << "500"
-                              << "600"
-                              << "700"
-                              << "800"
-                              << "1000"
-                              << "1500"
-                              << "2000"
-                              << "5000";
+    const QStringList sizes = QStringList() << QStringLiteral("50")
+                              << QStringLiteral("100")
+                              << QStringLiteral("150")
+                              << QStringLiteral("200")
+                              << QStringLiteral("250")
+                              << QStringLiteral("300")
+                              << QStringLiteral("400")
+                              << QStringLiteral("500")
+                              << QStringLiteral("600")
+                              << QStringLiteral("700")
+                              << QStringLiteral("800")
+                              << QStringLiteral("1000")
+                              << QStringLiteral("1500")
+                              << QStringLiteral("2000")
+                              << QStringLiteral("5000");
     QStringList datadirs;
 
     foreach (const QString &_s, sizes) {
@@ -193,7 +193,7 @@ bool PluginTest::findPlugins()
         timings << timer.nsecsElapsed();
         qDebug() << "Found " << res.count() << " Plugins in " << subdir;
     }
-    report(timings, "reading monsterdirs");
+    report(timings, QStringLiteral("reading monsterdirs"));
     return true;
 }
 

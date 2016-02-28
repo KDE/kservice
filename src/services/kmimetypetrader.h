@@ -82,7 +82,7 @@ public:
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
      */
     KService::List query(const QString &mimeType,
-                         const QString &genericServiceType = QString::fromLatin1("Application"),
+                         const QString &genericServiceType = QStringLiteral("Application"),
                          const QString &constraint = QString()) const;
 
     /**
@@ -95,7 +95,7 @@ public:
      * @param genericServiceType the service type (see query())
      * @return the preferred service, or 0 if no service is available
      */
-    KService::Ptr preferredService(const QString &mimeType, const QString &genericServiceType = QString::fromLatin1("Application"));
+    KService::Ptr preferredService(const QString &mimeType, const QString &genericServiceType = QStringLiteral("Application"));
 
     /**
      * This method creates and returns a part object from the trader query for a given \p mimeType.
@@ -124,7 +124,7 @@ public:
                                           const QVariantList &args = QVariantList(),
                                           QString *error = 0)
     {
-        const KService::List offers = self()->query(mimeType, QString::fromLatin1("KParts/ReadOnlyPart"), constraint);
+        const KService::List offers = self()->query(mimeType, QStringLiteral("KParts/ReadOnlyPart"), constraint);
         Q_FOREACH (const KService::Ptr &ptr, offers) {
             T *component = ptr->template createInstance<T>(parentWidget, parent, args, error);
             if (component) {

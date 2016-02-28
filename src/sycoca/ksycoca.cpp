@@ -318,7 +318,7 @@ QDataStream *&KSycocaPrivate::stream()
 void KSycocaPrivate::slotDatabaseChanged()
 {
     // We don't have information anymore on what resources changed, so emit them all
-    changeList = QStringList() << "services" << "servicetypes" << "xdgdata-mime" << "apps";
+    changeList = QStringList() << QStringLiteral("services") << QStringLiteral("servicetypes") << QStringLiteral("xdgdata-mime") << QStringLiteral("apps");
 
     qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal";
     // kbuildsycoca tells us the database file changed

@@ -34,10 +34,10 @@ public:
 
 public Q_SLOTS:
     int runMain();
-    bool loadFromKService(const QString &name = "time");
-    bool loadFromMetaData(const QString &serviceType = "Plasma/DataEngine");
+    bool loadFromKService(const QString &name = QStringLiteral("time"));
+    bool loadFromMetaData(const QString &serviceType = QStringLiteral("Plasma/DataEngine"));
     bool findPlugins();
-    void report(const QList<qint64> timings, const QString &msg = "Test took ");
+    void report(const QList<qint64> timings, const QString &msg = QStringLiteral("Test took "));
 
 private:
     PluginTestPrivate *d;

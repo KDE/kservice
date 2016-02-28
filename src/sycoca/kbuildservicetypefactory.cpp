@@ -33,7 +33,7 @@ KBuildServiceTypeFactory::KBuildServiceTypeFactory(KSycoca *db)
     : KServiceTypeFactory(db)
 {
     m_resourceList = new KSycocaResourceList;
-    m_resourceList->add("servicetypes", "kservicetypes5", "*.desktop");
+    m_resourceList->add("servicetypes", QStringLiteral("kservicetypes5"), QStringLiteral("*.desktop"));
 }
 
 KBuildServiceTypeFactory::~KBuildServiceTypeFactory()

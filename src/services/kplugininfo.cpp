@@ -181,7 +181,7 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
     QJsonValue enabledByDefault = accessor(data, s_enabledbyDefaultKey());
     // make sure that enabledByDefault is bool and not string
     if (!enabledByDefault.isBool()) {
-        enabledByDefault = enabledByDefault.toString().compare("true", Qt::CaseInsensitive) == 0;
+        enabledByDefault = enabledByDefault.toString().compare(QLatin1String("true"), Qt::CaseInsensitive) == 0;
     }
     kplugin[s_jsonEnabledByDefaultKey()] = enabledByDefault;
     kplugin[s_jsonLicenseKey()] = accessor(data, s_licenseKey());

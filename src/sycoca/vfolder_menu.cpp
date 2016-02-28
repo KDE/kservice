@@ -165,8 +165,8 @@ void
 VFolderMenu::mergeMenu(SubMenu *menu1, SubMenu *menu2, bool reversePriority)
 {
     if (m_track) {
-        track(m_trackId, menu1->name, menu1->items, menu1->excludeItems, menu2->items, QString("Before MenuMerge w. %1 (incl)").arg(menu2->name));
-        track(m_trackId, menu1->name, menu1->items, menu1->excludeItems, menu2->excludeItems, QString("Before MenuMerge w. %1 (excl)").arg(menu2->name));
+        track(m_trackId, menu1->name, menu1->items, menu1->excludeItems, menu2->items, QStringLiteral("Before MenuMerge w. %1 (incl)").arg(menu2->name));
+        track(m_trackId, menu1->name, menu1->items, menu1->excludeItems, menu2->excludeItems, QStringLiteral("Before MenuMerge w. %1 (excl)").arg(menu2->name));
     }
     if (reversePriority) {
         // Merge menu1 with menu2, menu1 takes precedent
@@ -211,8 +211,8 @@ VFolderMenu::mergeMenu(SubMenu *menu1, SubMenu *menu2, bool reversePriority)
     }
 
     if (m_track) {
-        track(m_trackId, menu1->name, menu1->items, menu1->excludeItems, menu2->items, QString("After MenuMerge w. %1 (incl)").arg(menu2->name));
-        track(m_trackId, menu1->name, menu1->items, menu1->excludeItems, menu2->excludeItems, QString("After MenuMerge w. %1 (excl)").arg(menu2->name));
+        track(m_trackId, menu1->name, menu1->items, menu1->excludeItems, menu2->items, QStringLiteral("After MenuMerge w. %1 (incl)").arg(menu2->name));
+        track(m_trackId, menu1->name, menu1->items, menu1->excludeItems, menu2->excludeItems, QStringLiteral("After MenuMerge w. %1 (excl)").arg(menu2->name));
     }
 
     delete menu2;
@@ -377,7 +377,7 @@ VFolderMenu::loadAppsInfo()
         return;    // No appsInfo for this menu
     }
 
-    if (m_appsInfoStack.count() && m_appsInfoStack.first() == m_appsInfo) {
+    if (!m_appsInfoStack.isEmpty() && m_appsInfoStack.first() == m_appsInfo) {
         return;    // Already added (By createAppsInfo?)
     }
 
@@ -525,15 +525,15 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
 // qDebug() << "Empty node";
         } else if (e.tagName() == QLatin1String("DefaultAppDirs")) {
             // Replace with m_defaultAppDirs
-            replaceNode(docElem, n, m_defaultAppDirs, "AppDir");
+            replaceNode(docElem, n, m_defaultAppDirs, QStringLiteral("AppDir"));
             continue;
         } else if (e.tagName() == QLatin1String("DefaultDirectoryDirs")) {
             // Replace with m_defaultDirectoryDirs
-            replaceNode(docElem, n, m_defaultDirectoryDirs, "DirectoryDir");
+            replaceNode(docElem, n, m_defaultDirectoryDirs, QStringLiteral("DirectoryDir"));
             continue;
         } else if (e.tagName() == QLatin1String("DefaultMergeDirs")) {
             // Replace with m_defaultMergeDirs
-            replaceNode(docElem, n, m_defaultMergeDirs, "MergeDir");
+            replaceNode(docElem, n, m_defaultMergeDirs, QStringLiteral("MergeDir"));
             continue;
         } else if (e.tagName() == QLatin1String("AppDir")) {
             // Filter out dupes
@@ -651,7 +651,7 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
 static QString makeRelative(const QString &dir)
 {
     const QString canonical = QDir(dir).canonicalPath();
-    Q_FOREACH (const QString &base, QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, "menus", QStandardPaths::LocateDirectory)) {
+    Q_FOREACH (const QString &base, QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QLatin1String("menus"), QStandardPaths::LocateDirectory)) {
         if (canonical.startsWith(base)) {
             return canonical.mid(base.length() + 1);
         }
@@ -793,7 +793,7 @@ void
 VFolderMenu::initDirs()
 {
     m_defaultAppDirs = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
-    m_defaultDirectoryDirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "desktop-directories", QStandardPaths::LocateDirectory);
+    m_defaultDirectoryDirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("desktop-directories"), QStandardPaths::LocateDirectory);
 }
 
 void
@@ -1020,7 +1020,7 @@ VFolderMenu::processMenu(QDomElement &docElem, int pass)
         } else if (e.tagName() == QLatin1String("Directory")) {
             directoryFile = e.text();
         } else if (e.tagName() == QLatin1String("DirectoryDir")) {
-            QString dir = absoluteDir(e.text(), e.attribute("__BaseDir"));
+            QString dir = absoluteDir(e.text(), e.attribute(QStringLiteral("__BaseDir")));
 
             m_directoryDirs.prepend(dir);
         } else if (e.tagName() == QLatin1String("OnlyUnallocated")) {
@@ -1139,14 +1139,14 @@ VFolderMenu::processMenu(QDomElement &docElem, int pass)
                     items.clear();
                     processCondition(e2, items);
                     if (m_track) {
-                        track(m_trackId, m_currentMenu->name, m_currentMenu->items, m_currentMenu->excludeItems, items, "Before <Include>");
+                        track(m_trackId, m_currentMenu->name, m_currentMenu->items, m_currentMenu->excludeItems, items, QStringLiteral("Before <Include>"));
                     }
                     includeItems(m_currentMenu->items, items);
                     excludeItems(m_currentMenu->excludeItems, items);
                     markUsedApplications(items);
 
                     if (m_track) {
-                        track(m_trackId, m_currentMenu->name, m_currentMenu->items, m_currentMenu->excludeItems, items, "After <Include>");
+                        track(m_trackId, m_currentMenu->name, m_currentMenu->items, m_currentMenu->excludeItems, items, QStringLiteral("After <Include>"));
                     }
 
                     n2 = n2.nextSibling();
@@ -1162,12 +1162,12 @@ VFolderMenu::processMenu(QDomElement &docElem, int pass)
                     items.clear();
                     processCondition(e2, items);
                     if (m_track) {
-                        track(m_trackId, m_currentMenu->name, m_currentMenu->items, m_currentMenu->excludeItems, items, "Before <Exclude>");
+                        track(m_trackId, m_currentMenu->name, m_currentMenu->items, m_currentMenu->excludeItems, items, QStringLiteral("Before <Exclude>"));
                     }
                     excludeItems(m_currentMenu->items, items);
                     includeItems(m_currentMenu->excludeItems, items);
                     if (m_track) {
-                        track(m_trackId, m_currentMenu->name, m_currentMenu->items, m_currentMenu->excludeItems, items, "After <Exclude>");
+                        track(m_trackId, m_currentMenu->name, m_currentMenu->items, m_currentMenu->excludeItems, items, QStringLiteral("After <Exclude>"));
                     }
                     n2 = n2.nextSibling();
                 }
@@ -1190,7 +1190,7 @@ VFolderMenu::processMenu(QDomElement &docElem, int pass)
         else if (pass == 0) {
             if (e.tagName() == QLatin1String("LegacyDir")) {
                 // Add legacy nodes to Menu structure
-                QString dir = absoluteDir(e.text(), e.attribute("__BaseDir"));
+                QString dir = absoluteDir(e.text(), e.attribute(QStringLiteral("__BaseDir")));
                 SubMenu *legacyMenu = m_legacyNodes[dir];
                 if (legacyMenu) {
                     mergeMenu(m_currentMenu, legacyMenu);
@@ -1284,8 +1284,8 @@ static QString parseAttribute(const QDomElement &e)
         }
 
     }
-    if (e.hasAttribute("inline_alias") && e.attribute("inline_alias") == QLatin1String("true")) {
-        QString str = e.attribute("inline_alias");
+    if (e.hasAttribute(QStringLiteral("inline_alias")) && e.attribute(QStringLiteral("inline_alias")) == QLatin1String("true")) {
+        QString str = e.attribute(QStringLiteral("inline_alias"));
         if (str == QLatin1String("true")) {
             option += "IA";
         } else if (str == QLatin1String("false")) {
@@ -1318,7 +1318,7 @@ static QStringList parseLayoutNode(const QDomElement &docElem)
     while (!n.isNull()) {
         QDomElement e = n.toElement(); // try to convert the node to an element.
         if (e.tagName() == QLatin1String("Separator")) {
-            layout.append(":S");
+            layout.append(QStringLiteral(":S"));
         } else if (e.tagName() == QLatin1String("Filename")) {
             layout.append(e.text());
         } else if (e.tagName() == QLatin1String("Menuname")) {
@@ -1383,7 +1383,7 @@ VFolderMenu::SubMenu *VFolderMenu::parseMenu(const QString &file)
 {
     m_appsInfo = 0;
 
-    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QLatin1String("menus"), QStandardPaths::LocateDirectory);
+    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus"), QStandardPaths::LocateDirectory);
     for (QStringList::ConstIterator it = dirs.begin();
             it != dirs.end(); ++it) {
         registerDirectory(*it);

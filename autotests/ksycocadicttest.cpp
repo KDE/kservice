@@ -85,14 +85,14 @@ void KSycocaDictTest::testStandardDict()
     QVERIFY(KSycoca::isAvailable());
 
     QStringList serviceTypes;
-    serviceTypes << "DictTestPluginType"
-                 << "KUriFilter/Plugin"
-                 << "KDataTool"
-                 << "KCModule"
-                 << "KScan/KScanDialog"
-                 << "Browser/View"
-                 << "Plasma/Applet"
-                 << "Plasma/Runner";
+    serviceTypes << QStringLiteral("DictTestPluginType")
+                 << QStringLiteral("KUriFilter/Plugin")
+                 << QStringLiteral("KDataTool")
+                 << QStringLiteral("KCModule")
+                 << QStringLiteral("KScan/KScanDialog")
+                 << QStringLiteral("Browser/View")
+                 << QStringLiteral("Plasma/Applet")
+                 << QStringLiteral("Plasma/Runner");
 
     // Skip servicetypes that are not installed
     QMutableListIterator<QString> it(serviceTypes);
@@ -111,8 +111,8 @@ void KSycocaDictTest::testStandardDict()
             {
                 add(dict, str, str);
             }
-            dict.remove("DictTestPluginType"); // just to test remove
-            add(dict, "DictTestPluginType", "DictTestPluginType");
+            dict.remove(QStringLiteral("DictTestPluginType")); // just to test remove
+            add(dict, QStringLiteral("DictTestPluginType"), QStringLiteral("DictTestPluginType"));
             QCOMPARE(int(dict.count()), serviceTypes.count());
             QDataStream saveStream(&buffer, QIODevice::WriteOnly);
             dict.save(saveStream);
@@ -120,16 +120,16 @@ void KSycocaDictTest::testStandardDict()
 
         QDataStream stream(buffer);
         KSycocaDict loadingDict(&stream, 0);
-        int offset = loadingDict.find_string("DictTestPluginType");
+        int offset = loadingDict.find_string(QStringLiteral("DictTestPluginType"));
         QVERIFY(offset > 0);
-        QCOMPARE(offset, KServiceType::serviceType("DictTestPluginType")->offset());
+        QCOMPARE(offset, KServiceType::serviceType(QStringLiteral("DictTestPluginType"))->offset());
         foreach (const QString &str, serviceTypes)
         {
             int offset = loadingDict.find_string(str);
             QVERIFY(offset > 0);
             QCOMPARE(offset, KServiceType::serviceType(str)->offset());
         }
-        offset = loadingDict.find_string("doesnotexist");
+        offset = loadingDict.find_string(QStringLiteral("doesnotexist"));
         // TODO QCOMPARE(offset, 0); // could be non 0 according to the docs, too; if non 0, we should check that the pointed mimetype doesn't have this name.
     }
 }
