@@ -41,6 +41,15 @@ int main(int argc, char *argv[])
 
     const QString mime = parser.positionalArguments().at(0);
 
+    // To see which files are being parsed, run this command:
+    //    strace -e file ./kmimeassociations_dumper inode/directory |& grep mimeapps
+
+    // It should be the same as the output of these commands (assuming $XDG_CURRENT_DESKTOP=KDE)
+    // qtpaths --locate-files GenericConfigLocation kde-mimeapps.list
+    // qtpaths --locate-files GenericConfigLocation mimeapps.list
+    // qtpaths --locate-files ApplicationsLocation kde-mimeapps.list
+    // qtpaths --locate-files ApplicationsLocation mimeapps.list
+
     KOfferHash offers;
     KMimeAssociations mimeAppsParser(offers, KSycocaPrivate::self()->serviceFactory());
     mimeAppsParser.parseAllMimeAppsList();
