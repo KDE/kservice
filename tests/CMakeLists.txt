@@ -21,3 +21,7 @@ kservice_executable_tests(
   kservicegroup_dumper
   findservice
 )
+
+add_executable(kmimeassociations_dumper kmimeassociations_dumper.cpp ../src/sycoca/kmimeassociations.cpp)
+target_link_libraries(kmimeassociations_dumper KF5::Service)
+ecm_mark_as_test(kmimeassociations_dumper)
