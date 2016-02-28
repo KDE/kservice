@@ -47,5 +47,4 @@ set(kmimeassociationstest_SRCS kmimeassociationstest.cpp ../src/sycoca/kmimeasso
 
 ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
              LINK_LIBRARIES KF5::Service Qt5::Test)
-target_include_directories(kmimeassociationstest PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../src/kbuildsycoca/")
 
