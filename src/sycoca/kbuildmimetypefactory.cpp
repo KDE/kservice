@@ -43,26 +43,20 @@ KBuildMimeTypeFactory::~KBuildMimeTypeFactory()
 KSycocaEntry::List KBuildMimeTypeFactory::allEntries() const
 {
     assert(sycoca()->isBuilding());
-    KSycocaEntry::List lst;
-    KSycocaEntryDict::Iterator itmime = m_entryDict->begin();
-    const KSycocaEntryDict::Iterator endmime = m_entryDict->end();
-    for (; itmime != endmime; ++itmime) {
-        lst.append(*itmime);
-    }
-    return lst;
+    return m_entryDict->values();
 }
 
 KSycocaEntry *KBuildMimeTypeFactory::createEntry(const QString &file) const
 {
     // file=text/plain.xml  ->  name=plain.xml dirName=text
-    Q_ASSERT(!file.startsWith(QStringLiteral("mime/")));
+    Q_ASSERT(!file.startsWith(QLatin1String("mime/")));
 
     const int pos = file.lastIndexOf('/');
     if (pos == -1) { // huh?
         return 0;
     }
-    const QString dirName = file.left(pos);
-    if (dirName == "packages") { // special subdir
+    const QStringRef dirName = file.leftRef(pos);
+    if (dirName == QLatin1String("packages")) { // special subdir
         return 0;
     }
 

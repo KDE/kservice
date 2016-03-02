@@ -198,7 +198,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     lstServiceTypes += desktopGroup.readXdgListEntry("MimeType");
     entryMap.remove(QStringLiteral("MimeType"));
 
-    if (m_strType == QLatin1String("Application") && !lstServiceTypes.contains(QStringLiteral("Application")))
+    if (m_strType == QLatin1String("Application") && !lstServiceTypes.contains(QLatin1String("Application")))
         // Applications implement the service type "Application" ;-)
     {
         lstServiceTypes += QStringLiteral("Application");
@@ -230,7 +230,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
     }
 
-    if (entryMap.contains(QStringLiteral("Actions"))) {
+    if (entryMap.contains(QLatin1String("Actions"))) {
         parseActions(config, q);
     }
 

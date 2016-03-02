@@ -86,7 +86,7 @@ void KMimeAssociations::parseAllMimeAppsList()
 void KMimeAssociations::parseMimeAppsList(const QString &file, int basePreference)
 {
     KConfig profile(file, KConfig::SimpleConfig);
-    if (file.endsWith(QStringLiteral("/mimeapps.list"))) { // not for $desktop-mimeapps.list
+    if (file.endsWith(QLatin1String("/mimeapps.list"))) { // not for $desktop-mimeapps.list
         parseAddedAssociations(KConfigGroup(&profile, "Added Associations"), file, basePreference);
         parseRemovedAssociations(KConfigGroup(&profile, "Removed Associations"), file);
 

@@ -99,7 +99,7 @@ KServiceTypePrivate::load(QDataStream &_str)
     QString dummy;
     _str >> m_strName >> dummy >> m_strComment >> m_mapProps >> m_mapPropDefs
                       >> b >> m_serviceOffersOffset;
-    m_bDerived = m_mapProps.contains(QStringLiteral("X-KDE-Derived"));
+    m_bDerived = m_mapProps.contains(QLatin1String("X-KDE-Derived"));
 }
 
 void

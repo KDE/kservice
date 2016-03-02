@@ -53,8 +53,7 @@ class KSycocaDictPrivate
 {
 public:
     KSycocaDictPrivate()
-        : stringlist(0)
-        , stream(0)
+        : stream(0)
         , offset(0)
         , hashTableSize(0)
     {
@@ -62,7 +61,6 @@ public:
 
     ~KSycocaDictPrivate()
     {
-        delete stringlist;
     }
 
     // Helper for find_string and findMultiString
@@ -71,7 +69,7 @@ public:
     // Calculate hash - can be used during loading and during saving.
     quint32 hashKey(const QString &key) const;
 
-    KSycocaDictStringList *stringlist;
+    KSycocaDictStringList stringlist;
     QDataStream *stream;
     qint64 offset;
     quint32 hashTableSize;
@@ -119,26 +117,22 @@ KSycocaDict::add(const QString &key, const KSycocaEntry::Ptr &payload)
     if (!payload) {
         return;    // Not allowed!
     }
-    if (!d->stringlist) {
-        d->stringlist = new KSycocaDictStringList;
-    }
 
-    string_entry *entry = new string_entry(key, payload);
-    d->stringlist->append(entry);
+    d->stringlist.append(new string_entry(key, payload));
 }
 
 void
 KSycocaDict::remove(const QString &key)
 {
-    if (!d || !d->stringlist) {
+    if (!d) {
         return;
     }
 
     bool found = false;
-    for (KSycocaDictStringList::Iterator it = d->stringlist->begin(); it != d->stringlist->end(); ++it) {
+    for (KSycocaDictStringList::Iterator it = d->stringlist.begin(); it != d->stringlist.end(); ++it) {
         string_entry *entry = *it;
         if (entry->keyStr == key) {
-            d->stringlist->erase(it);
+            d->stringlist.erase(it);
             delete entry;
             found = true;
             break;
@@ -224,11 +218,11 @@ QList<int> KSycocaDict::findMultiString(const QString &key) const
 
 uint KSycocaDict::count() const
 {
-    if (!d || !d->stringlist) {
+    if (!d) {
         return 0;
     }
 
-    return d->stringlist->count();
+    return d->stringlist.count();
 }
 
 void
@@ -278,11 +272,12 @@ uint KSycocaDictPrivate::hashKey(const QString &key) const
 // Calculate the diversity of the strings at position 'pos'
 // NOTE: this code is slow, it takes 12% of the _overall_ `kbuildsycoca5 --noincremental` running time
 static int
-calcDiversity(KSycocaDictStringList *stringlist, int inPos, uint sz)
+calcDiversity(KSycocaDictStringList* stringlistp, int inPos, uint sz)
 {
     if (inPos == 0) {
         return 0;
     }
+    KSycocaDictStringList& stringlist = *stringlistp;
     QBitArray matrix(sz);
     int pos;
 
@@ -291,11 +286,11 @@ calcDiversity(KSycocaDictStringList *stringlist, int inPos, uint sz)
 
     if (inPos < 0) {
         pos = -inPos;
-        for (KSycocaDictStringList::const_iterator it = stringlist->constBegin(), end = stringlist->constEnd(); it != end; ++it) {
+        for (auto it = stringlist.constBegin(), end = stringlist.constEnd(); it != end; ++it) {
             string_entry *entry = *it;
-            int len = entry->length;
-            if (pos < len) {
-                uint hash = ((entry->hash * 13) + (entry->key[len - pos].cell() % 29)) & 0x3ffffff;
+            int rpos = entry->length - pos;
+            if (rpos > 0) {
+                uint hash = ((entry->hash * 13) + (entry->key[rpos].cell() % 29)) & 0x3ffffff;
                 matrix.setBit(hash % sz, true);
             }
             //if (++numItem == s_maxItems)
@@ -303,7 +298,7 @@ calcDiversity(KSycocaDictStringList *stringlist, int inPos, uint sz)
         }
     } else {
         pos = inPos - 1;
-        for (KSycocaDictStringList::const_iterator it = stringlist->constBegin(), end = stringlist->constEnd(); it != end; ++it) {
+        for (auto it = stringlist.constBegin(), end = stringlist.constEnd(); it != end; ++it) {
             string_entry *entry = *it;
             if (pos < entry->length) {
                 uint hash = ((entry->hash * 13) + (entry->key[pos].cell() % 29)) & 0x3ffffff;
@@ -319,23 +314,24 @@ calcDiversity(KSycocaDictStringList *stringlist, int inPos, uint sz)
 //
 // Add the diversity of the strings at position 'pos'
 static void
-addDiversity(KSycocaDictStringList *stringlist, int pos)
+addDiversity(KSycocaDictStringList* stringlistp, int pos)
 {
     if (pos == 0) {
         return;
     }
+    KSycocaDictStringList& stringlist = *stringlistp;
     if (pos < 0) {
         pos = -pos;
-        for (KSycocaDictStringList::const_iterator it = stringlist->constBegin(), end = stringlist->constEnd(); it != end; ++it) {
+        for (auto it = stringlist.constBegin(), end = stringlist.constEnd(); it != end; ++it) {
             string_entry *entry = *it;
-            int len = entry->length;
-            if (pos < len) {
-                entry->hash = ((entry->hash * 13) + (entry->key[len - pos].cell() % 29)) & 0x3fffffff;
+            int rpos = entry->length - pos;
+            if (rpos > 0) {
+                entry->hash = ((entry->hash * 13) + (entry->key[rpos].cell() % 29)) & 0x3fffffff;
             }
         }
     } else {
         pos = pos - 1;
-        for (KSycocaDictStringList::const_iterator it = stringlist->constBegin(), end = stringlist->constEnd(); it != end; ++it) {
+        for (auto it = stringlist.constBegin(), end = stringlist.constEnd(); it != end; ++it) {
             string_entry *entry = *it;
             if (pos < entry->length) {
                 entry->hash = ((entry->hash * 13) + (entry->key[pos].cell() % 29)) & 0x3fffffff;
@@ -363,7 +359,7 @@ KSycocaDict::save(QDataStream &str)
 
     int maxLength = 0;
     //qDebug() << "Finding maximum string length";
-    for (KSycocaDictStringList::const_iterator it = d->stringlist->constBegin(); it != d->stringlist->constEnd(); ++it) {
+    for (KSycocaDictStringList::const_iterator it = d->stringlist.constBegin(); it != d->stringlist.constEnd(); ++it) {
         string_entry *entry = *it;
         entry->hash = 0;
         if (entry->length > maxLength) {
@@ -375,7 +371,7 @@ KSycocaDict::save(QDataStream &str)
 
     // use "almost prime" number for sz (to calculate diversity) and later
     // for the table size of big tables
-    // int sz = d->stringlist->count()*5-1;
+    // int sz = d->stringlist.count()*5-1;
     unsigned int sz = count() * 4 + 1;
     while (!(((sz % 3) && (sz % 5) && (sz % 7) && (sz % 11) && (sz % 13)))) {
         sz += 2;
@@ -416,7 +412,7 @@ KSycocaDict::save(QDataStream &str)
                 continue;
             }
 
-            const int diversity = calcDiversity(d->stringlist, pos, sz);
+            const int diversity = calcDiversity(&(d->stringlist), pos, sz);
             if (diversity > maxDiv) {
                 maxDiv = diversity;
                 maxPos = pos;
@@ -435,11 +431,11 @@ KSycocaDict::save(QDataStream &str)
         }
         //qDebug() << "Max Div=" << maxDiv << "at pos" << maxPos;
         lastDiv = maxDiv;
-        addDiversity(d->stringlist, maxPos);
+        addDiversity(&(d->stringlist), maxPos);
         d->hashList.append(maxPos);
     }
 
-    for (KSycocaDictStringList::Iterator it = d->stringlist->begin(); it != d->stringlist->end(); ++it) {
+    for (auto it = d->stringlist.constBegin(); it != d->stringlist.constEnd(); ++it) {
         (*it)->hash = d->hashKey((*it)->keyStr);
     }
 // fprintf(stderr, "Calculating minimum table size..\n");
@@ -463,7 +459,7 @@ KSycocaDict::save(QDataStream &str)
     }
 
     //qDebug() << "Filling hashtable...";
-    for (KSycocaDictStringList::const_iterator it = d->stringlist->constBegin(); it != d->stringlist->constEnd(); ++it) {
+    for (auto it = d->stringlist.constBegin(); it != d->stringlist.constEnd(); ++it) {
         string_entry *entry = *it;
         //qDebug() << "entry keyStr=" << entry->keyStr << entry->payload.data() << entry->payload->entryPath();
         int hash = entry->hash % sz;
@@ -515,25 +511,25 @@ KSycocaDict::save(QDataStream &str)
 
                 /*qDebug() << QString("Duplicate lists: Offset = %1 list_size = %2")                           .arg(hashTable[i].duplicate_offset,8,16).arg(dups->count());
                 */
-                for (QList<string_entry *>::ConstIterator dup = dups->begin(); dup != dups->end(); ++dup) {
-                    const qint32 offset = (*dup)->payload->offset();
+                Q_FOREACH (string_entry* dup, *dups) {
+                    const qint32 offset = dup->payload->offset();
                     if (!offset) {
-                        const QString storageId = (*dup)->payload->storageId();
-                        qDebug() << "about to assert! dict=" << this << "storageId=" << storageId << (*dup)->payload.data();
-                        if ((*dup)->payload->isType(KST_KService)) {
-                            KService::Ptr service(static_cast<KService*>((*dup)->payload.data()));
+                        const QString storageId = dup->payload->storageId();
+                        qDebug() << "about to assert! dict=" << this << "storageId=" << storageId << dup->payload.data();
+                        if (dup->payload->isType(KST_KService)) {
+                            KService::Ptr service(static_cast<KService*>(dup->payload.data()));
                             qDebug() << service->storageId() << service->entryPath();
                         }
                         // save() must have been called on the entry
                         Q_ASSERT_X(offset, "KSycocaDict::save",
                                    QByteArray("entry offset is 0, save() was not called on "
-                                              + (*dup)->payload->storageId().toLatin1()
+                                              + dup->payload->storageId().toLatin1()
                                               + " entryPath="
-                                              + (*dup)->payload->entryPath().toLatin1()).constData()
+                                              + dup->payload->entryPath().toLatin1()).constData()
                                   );
                     }
                     str << offset;                       // Positive ID
-                    str << (*dup)->keyStr;                // Key (QString)
+                    str << dup->keyStr;                // Key (QString)
                 }
                 str << qint32(0);               // End of list marker (0)
             }

@@ -80,13 +80,10 @@ KService::Ptr KBuildServiceFactory::findServiceByMenuId(const QString &menuId)
 
 KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
 {
-    Q_ASSERT(!file.startsWith(QStringLiteral("kservices5/"))); // we add this ourselves, below
+    Q_ASSERT(!file.startsWith(QLatin1String("kservices5/"))); // we add this ourselves, below
 
-    QString name = file;
-    int pos = name.lastIndexOf('/');
-    if (pos != -1) {
-        name = name.mid(pos + 1);
-    }
+    const QStringRef name = file.midRef(file.lastIndexOf('/') + 1);
+
     // Is it a .desktop file?
     if (name.endsWith(QLatin1String(".desktop"))) {
 
@@ -96,7 +93,7 @@ KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
         if (QDir::isAbsolutePath(file)) { // vfolder sends us full paths for applications
             serv = new KService(file);
         } else { // we get relative paths for services
-            KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, "kservices5/" + file);
+            KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, QStringLiteral("kservices5/") + file);
             // Note that the second arg below MUST be 'file', unchanged.
             // If the entry path doesn't match the 'file' parameter to createEntry, reusing old entries
             // (via time dict, which uses the entry path as key) cannot work.
@@ -162,8 +159,7 @@ void KBuildServiceFactory::collectInheritedServices()
     // We need to process parents before children, hence the recursive call in
     // collectInheritedServices(mime) and the QSet to process a given parent only once.
     QSet<QString> visitedMimes;
-    const QStringList allMimeTypes = m_mimeTypeFactory->allMimeTypes();
-    Q_FOREACH (const QString &mimeType, allMimeTypes) {
+    Q_FOREACH (const QString &mimeType, m_mimeTypeFactory->allMimeTypes()) {
         collectInheritedServices(mimeType, visitedMimes);
     }
 }
@@ -210,8 +206,8 @@ void KBuildServiceFactory::postProcessServices()
     // storage ID) have been removed.
 
     // For every service...
-    KSycocaEntryDict::Iterator itserv = m_entryDict->begin();
-    const KSycocaEntryDict::Iterator endserv = m_entryDict->end();
+    KSycocaEntryDict::const_iterator itserv = m_entryDict->constBegin();
+    const KSycocaEntryDict::const_iterator endserv = m_entryDict->constEnd();
     for (; itserv != endserv; ++itserv) {
 
         KSycocaEntry::Ptr entry = *itserv;
@@ -261,8 +257,8 @@ void KBuildServiceFactory::populateServiceTypes()
 {
     QMimeDatabase db;
     // For every service...
-    KSycocaEntryDict::Iterator itserv = m_entryDict->begin();
-    const KSycocaEntryDict::Iterator endserv = m_entryDict->end();
+    KSycocaEntryDict::const_iterator itserv = m_entryDict->constBegin();
+    const KSycocaEntryDict::const_iterator endserv = m_entryDict->constEnd();
     for (; itserv != endserv; ++itserv) {
 
         KService::Ptr service(static_cast<KService*>((*itserv).data()));

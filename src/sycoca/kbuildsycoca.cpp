@@ -88,7 +88,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
     if (m_allEntries) {
         Q_ASSERT(m_ctimeDict);
         quint32 oldTimestamp = m_ctimeDict->ctime(file, m_resource);
-        if (file.contains(QStringLiteral("fake"))) {
+        if (file.contains(QLatin1String("fake"))) {
             qDebug() << "m_ctimeDict->ctime(" << file << ") = " << oldTimestamp << "compared with" << timeStamp;
         }
 
@@ -102,7 +102,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
             // remove from m_ctimeDict; if m_ctimeDict is not empty
             // after all files have been processed, it means
             // some files were removed since last time
-            if (file.contains(QStringLiteral("fake"))) {
+            if (file.contains(QLatin1String("fake"))) {
                 qDebug() << "reusing (and removing) old entry for:" << file << "entry=" << entry;
             }
             m_ctimeDict->remove(file, m_resource);
@@ -140,28 +140,26 @@ KService::Ptr KBuildSycoca::createService(const QString &path)
 // returns false if the database is up to date, true if it needs to be saved
 bool KBuildSycoca::build()
 {
-    typedef QLinkedList<KBSEntryDict *> KBSEntryDictList;
+    typedef QList<KBSEntryDict *> KBSEntryDictList;
     KBSEntryDictList entryDictList;
     KBSEntryDict *serviceEntryDict = 0;
 
     // Convert for each factory the entryList to a Dict.
+    entryDictList.reserve(factories()->size());
     int i = 0;
     // For each factory
-    for (KSycocaFactoryList::Iterator factory = factories()->begin();
-            factory != factories()->end();
-            ++factory) {
+    Q_FOREACH (KSycocaFactory* factory, *factories()) {
         KBSEntryDict *entryDict = new KBSEntryDict;
         if (m_allEntries) { // incremental build
-            const KSycocaEntry::List list = (*m_allEntries)[i++];
-            Q_FOREACH (const KSycocaEntry::Ptr &entry, list) {
+            Q_FOREACH (const KSycocaEntry::Ptr &entry, (*m_allEntries)[i++]) {
                 //if (entry->entryPath().contains("fake"))
                 //    qDebug() << "inserting into entryDict:" << entry->entryPath() << entry;
                 entryDict->insert(entry->entryPath(), entry);
             }
         }
-        if ((*factory) == d->m_serviceFactory) {
+        if (factory == d->m_serviceFactory) {
             serviceEntryDict = entryDict;
-        } else if ((*factory) == m_buildServiceGroupFactory) {
+        } else if (factory == m_buildServiceGroupFactory) {
             m_serviceGroupEntryDict = entryDict;
         }
         entryDictList.append(entryDict);
@@ -180,11 +178,9 @@ bool KBuildSycoca::build()
 
     QMap<QString, QByteArray> allResourcesSubDirs; // dirs, kstandarddirs-resource-name
     // For each factory
-    for (KSycocaFactoryList::Iterator factory = factories()->begin();
-            factory != factories()->end();
-            ++factory) {
+    Q_FOREACH (KSycocaFactory* factory, *factories()) {
         // For each resource the factory deals with
-        const KSycocaResourceList *list = (*factory)->resourceList();
+        const KSycocaResourceList *list = factory->resourceList();
         if (!list) {
             continue;
         }
@@ -204,7 +200,7 @@ bool KBuildSycoca::build()
         m_resourceSubdir = it1.key();
         m_resource = it1.value();
 
-        QStringList relFiles;
+        QSet<QString> relFiles;
         const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_resourceSubdir, QStandardPaths::LocateDirectory);
         Q_FOREACH (const QString &dir, dirs) {
             QDirIterator it(dir, QDirIterator::Subdirectories);
@@ -212,15 +208,13 @@ bool KBuildSycoca::build()
                 const QString filePath = it.next();
                 Q_ASSERT(filePath.startsWith(dir)); // due to the line below...
                 const QString relPath = filePath.mid(dir.length() + 1);
-                if (!relFiles.contains(relPath)) {
-                    relFiles.append(relPath);
-                }
+                relFiles.insert(relPath);
             }
         }
         // Now find all factories that use this resource....
         // For each factory
-        KBSEntryDictList::const_iterator ed_it = entryDictList.begin();
-        const KBSEntryDictList::const_iterator ed_end = entryDictList.end();
+        KBSEntryDictList::const_iterator ed_it = entryDictList.constBegin();
+        const KBSEntryDictList::const_iterator ed_end = entryDictList.constEnd();
         KSycocaFactoryList::const_iterator it = factories()->constBegin();
         const KSycocaFactoryList::const_iterator end = factories()->constEnd();
         for (; it != end; ++it, ++ed_it) {
@@ -233,22 +227,18 @@ bool KBuildSycoca::build()
                 continue;
             }
 
-            for (KSycocaResourceList::ConstIterator it2 = list->constBegin();
-                    it2 != list->constEnd();
-                    ++it2) {
-                KSycocaResource res = (*it2);
+            Q_FOREACH (const KSycocaResource &res, *list) {
                 if (res.resource != (*it1)) {
                     continue;
                 }
 
                 // For each file in the resource
-                for (QStringList::ConstIterator it3 = relFiles.constBegin();
-                        it3 != relFiles.constEnd();
-                        ++it3) {
+                for (auto entryPath = relFiles.constBegin();
+                         entryPath != relFiles.constEnd();
+                        ++entryPath) {
                     // Check if file matches filter
-                    if ((*it3).endsWith(res.extension)) {
-                        QString entryPath = (*it3);
-                        createEntry(entryPath, true);
+                    if ((*entryPath).endsWith(res.extension)) {
+                        createEntry(*entryPath, true);
                     }
                 }
             }
@@ -386,7 +376,7 @@ bool KBuildSycoca::recreate(bool incremental)
     }
     QString path(fi.absoluteFilePath());
 
-    QLockFile lockFile(path + ".lock");
+    QLockFile lockFile(path + QLatin1String(".lock"));
     if (!lockFile.tryLock()) {
         qDebug() <<  "Waiting for already running" << KBUILDSYCOCA_EXENAME << "to finish.";
         if (!lockFile.lock()) {
@@ -524,20 +514,18 @@ void KBuildSycoca::save(QDataStream *str)
     //KSycocaFactory * servicetypeFactory = 0;
     //KBuildMimeTypeFactory * mimeTypeFactory = 0;
     KBuildServiceFactory *serviceFactory = 0;
-    for (KSycocaFactoryList::Iterator factory = factories()->begin();
-            factory != factories()->end();
-            ++factory) {
+    Q_FOREACH (KSycocaFactory* factory, *factories()) {
         qint32 aId;
         qint32 aOffset;
-        aId = (*factory)->factoryId();
+        aId = factory->factoryId();
         //if ( aId == KST_KServiceTypeFactory )
-        //   servicetypeFactory = *factory;
+        //   servicetypeFactory = factory;
         //else if ( aId == KST_KMimeTypeFactory )
-        //   mimeTypeFactory = static_cast<KBuildMimeTypeFactory *>( *factory );
+        //   mimeTypeFactory = static_cast<KBuildMimeTypeFactory *>( factory );
         if (aId == KST_KServiceFactory) {
-            serviceFactory = static_cast<KBuildServiceFactory *>(*factory);
+            serviceFactory = static_cast<KBuildServiceFactory *>(factory);
         }
-        aOffset = (*factory)->offset(); // not set yet, so always 0
+        aOffset = factory->offset(); // not set yet, so always 0
         (*str) << aId;
         (*str) << aOffset;
     }
@@ -560,10 +548,8 @@ void KBuildSycoca::save(QDataStream *str)
     qDebug() << "Saving";
 
     // Write factory data....
-    for (KSycocaFactoryList::Iterator factory = factories()->begin();
-            factory != factories()->end();
-            ++factory) {
-        (*factory)->save(*str);
+    Q_FOREACH (KSycocaFactory* factory, *factories()) {
+        factory->save(*str);
         if (str->status() != QDataStream::Ok) { // ######## TODO: does this detect write errors, e.g. disk full?
             return;    // error
         }
@@ -575,12 +561,11 @@ void KBuildSycoca::save(QDataStream *str)
     str->device()->seek(0);
 
     (*str) << qint32(KSycoca::version());
-    for (KSycocaFactoryList::Iterator factory = factories()->begin();
-            factory != factories()->end(); ++factory) {
+    Q_FOREACH (KSycocaFactory* factory, *factories()) {
         qint32 aId;
         qint32 aOffset;
-        aId = (*factory)->factoryId();
-        aOffset = (*factory)->offset();
+        aId = factory->factoryId();
+        aOffset = factory->offset();
         (*str) << aId;
         (*str) << aOffset;
     }

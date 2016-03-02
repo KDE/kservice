@@ -115,9 +115,7 @@ KSycocaFactory::save(QDataStream &str)
 
     // Write all entries.
     int entryCount = 0;
-    for (KSycocaEntryDict::Iterator it = m_entryDict->begin();
-            it != m_entryDict->end(); ++it) {
-        KSycocaEntry::Ptr entry = *it;
+    Q_FOREACH(KSycocaEntry::Ptr entry, *m_entryDict) {
         entry->d_ptr->save(str);
         entryCount++;
     }
@@ -127,9 +125,8 @@ KSycocaFactory::save(QDataStream &str)
     // Write indices...
     // Linear index
     str << qint32(entryCount);
-    for (KSycocaEntryDict::Iterator it = m_entryDict->begin();
-            it != m_entryDict->end(); ++it) {
-        str << qint32(it->data()->offset());
+    Q_FOREACH(KSycocaEntry::Ptr entry, *m_entryDict) {
+        str << qint32(entry.data()->offset());
     }
 
     // Dictionary index
