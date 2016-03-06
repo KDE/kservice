@@ -187,6 +187,8 @@ private Q_SLOTS:
                                  "text/plain=faketextapplication.desktop;fakepfx-faketextapplicationpfx.desktop;gvim.desktop;wine.desktop;idontexist.desktop;\n"
                                  // test alias resolution
                                  "application/x-pdf=fakejpegapplication.desktop;\n"
+                                 // test x-scheme-handler (#358159) (missing trailing ';' as per xdg-mime bug...)
+                                 "x-scheme-handler/mailto=faketextapplication.desktop\n"
                                  "[Added KParts/ReadOnlyPart Associations]\n"
                                  "text/plain=katepart.desktop;\n"
                                  "[Removed Associations]\n"
@@ -204,6 +206,7 @@ private Q_SLOTS:
         preferredApps[QStringLiteral("text/html")] << QStringLiteral("fakehtmlapplication.desktop")
                                    << QStringLiteral("fakepfx-fakehtmlapplicationpfx.desktop");
         preferredApps[QStringLiteral("application/msword")] << QStringLiteral("fakecsrcmswordapplication.desktop");
+        preferredApps[QStringLiteral("x-scheme-handler/mailto")] << QStringLiteral("faketextapplication.desktop");
         removedApps[QStringLiteral("image/jpeg")] << QStringLiteral("firefox.desktop");
         removedApps[QStringLiteral("text/html")] << QStringLiteral("gvim.desktop") << QStringLiteral("abiword.desktop");
 

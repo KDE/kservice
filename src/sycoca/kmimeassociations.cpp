@@ -27,6 +27,7 @@
 #include <QFile>
 #include <qstandardpaths.h>
 #include <qmimedatabase.h>
+#include "sycocadebug.h"
 
 KMimeAssociations::KMimeAssociations(KOfferHash &offerHash, KServiceFactory *serviceFactory)
     : m_offerHash(offerHash), m_serviceFactory(serviceFactory)
@@ -106,15 +107,15 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
     QMimeDatabase db;
     Q_FOREACH (const QString &mimeName, group.keyList()) {
         const QStringList services = group.readXdgListEntry(mimeName);
-        const QString resolvedMimeName = db.mimeTypeForName(mimeName).name();
+        const QString resolvedMimeName = mimeName.startsWith("x-scheme-handler/") ? mimeName : db.mimeTypeForName(mimeName).name();
         if (resolvedMimeName.isEmpty()) {
-            //qDebug() << file << "specifies unknown mimeType" << mimeName << "in" << group.name();
+            qCDebug(SYCOCA) << file << "specifies unknown mimeType" << mimeName << "in" << group.name();
         } else {
             int pref = basePreference;
             Q_FOREACH (const QString &service, services) {
                 KService::Ptr pService = m_serviceFactory->findServiceByStorageId(service);
                 if (!pService) {
-                    //qDebug() << file << "specifies unknown service" << service << "in" << group.name();
+                    qDebug(SYCOCA) << file << "specifies unknown service" << service << "in" << group.name();
                 } else {
                     //qDebug() << "adding mime" << resolvedMimeName << "to service" << pService->entryPath() << "pref=" << pref;
                     m_offerHash.addServiceOffer(resolvedMimeName, KServiceOffer(pService, pref, 0, pService->allowAsDefault()));
