@@ -33,6 +33,7 @@
 #include "ksycoca_p.h"
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QSignalSpy>
 
 // We need a factory that returns the same KService::Ptr every time it's asked for a given service.
 // Otherwise the changes to the service's serviceTypes by KMimeAssociationsTest have no effect
@@ -455,11 +456,12 @@ private:
     {
         // Wait for notifyDatabaseChanged DBus signal
         // (The real KCM code simply does the refresh in a slot, asynchronously)
-        QEventLoop loop;
-        QObject::connect(KSycoca::self(), SIGNAL(databaseChanged(QStringList)), &loop, SLOT(quit()));
+        QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
         KBuildSycoca builder;
         QVERIFY(builder.recreate());
-        loop.exec();
+        if (spy.isEmpty()) {
+            spy.wait();
+        }
     }
 
     void writeToMimeApps(const QByteArray &contents)
