@@ -50,7 +50,7 @@ public:
         return 0L;
     }
 
-    void createFakeMimeType(const QString &name);
+    KMimeTypeFactory::MimeTypeEntry::Ptr createFakeMimeType(const QString &name);
 
     /**
      * Write out mime type specific index files.

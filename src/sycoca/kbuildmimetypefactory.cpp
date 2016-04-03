@@ -92,7 +92,7 @@ void KBuildMimeTypeFactory::save(QDataStream &str)
     str.device()->seek(endOfFactoryData);
 }
 
-void KBuildMimeTypeFactory::createFakeMimeType(const QString &name)
+KMimeTypeFactory::MimeTypeEntry::Ptr KBuildMimeTypeFactory::createFakeMimeType(const QString &name)
 {
     const QString file = name; // hack
     KSycocaEntry::Ptr entry = m_entryDict->value(file);
@@ -103,4 +103,5 @@ void KBuildMimeTypeFactory::createFakeMimeType(const QString &name)
 
     Q_ASSERT(entry && entry->isValid());
     addEntry(entry);
+    return KMimeTypeFactory::MimeTypeEntry::Ptr(static_cast<MimeTypeEntry *>(entry.data()));
 }

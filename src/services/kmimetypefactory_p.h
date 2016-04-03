@@ -100,6 +100,8 @@ public: // public for KBuildServiceFactory
         void setServiceOffersOffset(int off);
     };
 
+    MimeTypeEntry::Ptr findMimeTypeEntryByName(const QString &name);
+
 protected:
     virtual MimeTypeEntry *createEntry(int offset) const;
 private:

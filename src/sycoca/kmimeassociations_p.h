@@ -50,6 +50,8 @@ public:
     void removeServiceOffer(const QString &serviceType, KService::Ptr service);
     bool hasRemovedOffer(const QString &serviceType, KService::Ptr service) const;
 
+    const QHash<QString, ServiceTypeOffersData> &serviceTypeData() const { return m_serviceTypeData; }
+
 private:
     KOfferHash(const KOfferHash &); // forbidden
     QHash<QString, ServiceTypeOffersData> m_serviceTypeData;
