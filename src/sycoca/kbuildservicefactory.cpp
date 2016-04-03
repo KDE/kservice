@@ -178,7 +178,10 @@ void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName,
 
     QMimeDatabase db;
     QMimeType qmime = db.mimeTypeForName(mimeTypeName);
-    Q_FOREACH (const QString &parentMimeType, qmime.parentMimeTypes()) {
+    Q_FOREACH (QString parentMimeType, qmime.parentMimeTypes()) {
+
+        // Workaround issue in shared-mime-info and/or Qt, which sometimes return an alias as parent
+        parentMimeType = db.mimeTypeForName(parentMimeType).name();
 
         collectInheritedServices(parentMimeType, visitedMimes);
 
