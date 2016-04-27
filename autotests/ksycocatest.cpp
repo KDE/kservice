@@ -223,7 +223,7 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
 void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment, bool global)
 {
     QProcess proc;
-    const QString kbuildsycoca = QStandardPaths::findExecutable(QStringLiteral(KBUILDSYCOCA_EXENAME));
+    const QString kbuildsycoca = QStringLiteral(KBUILDSYCOCAEXE);
     QVERIFY(!kbuildsycoca.isEmpty());
     QStringList args;
     args << QStringLiteral("--testmode");

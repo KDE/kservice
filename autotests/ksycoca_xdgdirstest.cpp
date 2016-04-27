@@ -64,7 +64,7 @@ QTEST_MAIN(KSycocaXdgDirsTest)
 void KSycocaXdgDirsTest::runKBuildSycoca(const QProcessEnvironment &environment)
 {
     QProcess proc;
-    const QString kbuildsycoca = QStandardPaths::findExecutable(QStringLiteral(KBUILDSYCOCA_EXENAME));
+    const QString kbuildsycoca = QStringLiteral(KBUILDSYCOCAEXE);
     QVERIFY(!kbuildsycoca.isEmpty());
     QStringList args;
     args << QStringLiteral("--testmode");

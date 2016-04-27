@@ -9,7 +9,8 @@ find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Concurrent Test)
 macro(KSERVICE_UNIT_TESTS)
   foreach(_testname ${ARGN})
     ecm_add_test(${_testname}.cpp TEST_NAME ${_testname}
-    LINK_LIBRARIES KF5::Service Qt5::Test Qt5::Concurrent)
+        LINK_LIBRARIES KF5::Service Qt5::Test Qt5::Concurrent)
+    target_compile_definitions(${_testname} PRIVATE -DKBUILDSYCOCAEXE=\"$<TARGET_FILE:kbuildsycoca5>\")
   endforeach()
 endmacro(KSERVICE_UNIT_TESTS)
 
