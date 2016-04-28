@@ -26,7 +26,7 @@ void KSycocaUtilsPrivate::read(QDataStream &s, QString &str)
 {
     quint32 bytes;
     s >> bytes;                          // read size of string
-    if (bytes > 8192) {                  // null string or too big
+    if (bytes > 65528) {                 // null string or too big
         if (bytes != 0xffffffff) {
             KSycoca::flagError();
         }
@@ -35,7 +35,7 @@ void KSycocaUtilsPrivate::read(QDataStream &s, QString &str)
         int bt = bytes / 2;
         str.resize(bt);
         QChar *ch = str.data();
-        char t[8192];
+        char t[65528];
         char *b = t;
         s.readRawData(b, bytes);
         while (bt--) {
