@@ -20,7 +20,6 @@
 #define KSERVICEGROUP_H
 
 #include <kservice_export.h>
-#include <ksycocaentry.h>
 #include <kservice.h>
 
 class KBuildServiceGroupFactory;
