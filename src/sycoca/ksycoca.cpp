@@ -70,6 +70,11 @@
 #define MAP_FAILED ((void *) -1)
 #endif
 
+QDataStream &operator>>(QDataStream &in, KSycocaHeader &h) {
+    in >> h.prefixes >> h.timeStamp >> h.language >> h.updateSignature;
+    return in;
+}
+
 // The following limitations are in place:
 // Maximum length of a single string: 8192 bytes
 // Maximum length of a string list: 1024 strings
@@ -576,10 +581,7 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
         }
     }
     // We now point to the header
-    KSycocaUtilsPrivate::read(*str, header.prefixes);
-    *str >> header.timeStamp;
-    KSycocaUtilsPrivate::read(*str, header.language);
-    *str >> header.updateSignature;
+    *str >> header;
     QStringList directoryList;
     KSycocaUtilsPrivate::read(*str, directoryList);
     allResourceDirs.clear();

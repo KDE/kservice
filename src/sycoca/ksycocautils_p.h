@@ -31,9 +31,8 @@ class QDataStream;
 namespace KSycocaUtilsPrivate
 {
 /**
- * Safe demarshalling functions.
+ * Safe demarshalling function.
  */
-void read(QDataStream &s, QString &str);
 void read(QDataStream &s, QStringList &list);
 
 // helper function for visitResourceDirectory

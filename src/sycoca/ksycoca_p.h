@@ -44,6 +44,8 @@ struct KSycocaHeader {
     quint32 updateSignature;
 };
 
+QDataStream &operator>>(QDataStream &in, KSycocaHeader &h);
+
 /**
  * \internal
  * Exported for unittests

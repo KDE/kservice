@@ -74,8 +74,7 @@ void KCTimeDict::load(QDataStream &str)
     QString key;
     quint32 ctime;
     while (true) {
-        KSycocaUtilsPrivate::read(str, key);
-        str >> ctime;
+        str >> key >> ctime;
         if (key.isEmpty()) {
             break;
         }

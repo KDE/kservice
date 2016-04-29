@@ -43,8 +43,7 @@ KServiceTypeFactory::KServiceTypeFactory(KSycoca *db)
                 QString string;
                 qint32 i;
                 for (; n; --n) {
-                    KSycocaUtilsPrivate::read(*str, string);
-                    (*str) >> i;
+                    *str >> string >> i;
                     m_propertyTypeDict.insert(string, i);
                 }
             }

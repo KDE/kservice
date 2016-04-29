@@ -25,7 +25,7 @@
 KSycocaEntryPrivate::KSycocaEntryPrivate(QDataStream &_str, int iOffset)
     : offset(iOffset), deleted(false)
 {
-    KSycocaUtilsPrivate::read(_str, path);
+    _str >> path;
 }
 
 KSycocaEntry::KSycocaEntry()
