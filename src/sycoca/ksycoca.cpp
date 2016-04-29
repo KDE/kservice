@@ -581,9 +581,8 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
         }
     }
     // We now point to the header
-    *str >> header;
     QStringList directoryList;
-    KSycocaUtilsPrivate::read(*str, directoryList);
+    *str >> header >> directoryList;
     allResourceDirs.clear();
     for (int i = 0; i < directoryList.count(); ++i) {
         qint64 mtime;

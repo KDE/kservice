@@ -29,7 +29,6 @@ set(kservice_SRCS
    sycoca/ksycocadict.cpp
    sycoca/ksycocaentry.cpp
    sycoca/ksycocafactory.cpp
-   sycoca/ksycocautils.cpp
    sycoca/kmemfile.cpp
    sycoca/sycocadebug.cpp
    sycoca/kbuildmimetypefactory.cpp
