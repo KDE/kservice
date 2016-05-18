@@ -43,6 +43,7 @@
 
 #include <QTimer>
 #include <QDebug>
+#include <QLoggingCategory>
 
 QTEST_MAIN(KServiceTest)
 
@@ -66,6 +67,7 @@ void KServiceTest::initTestCase()
 {
     QStandardPaths::enableTestMode(true);
 
+    QLoggingCategory::setFilterRules(QStringLiteral("kf5.kcoreaddons.kdirwatch.debug=true"));
 
     // A non-C locale is necessary for some tests.
     // This locale must have the following properties:
