@@ -21,8 +21,6 @@ set(kservice_SRCS
    services/kservicetypetrader.cpp
    services/ktraderparse.cpp
    services/ktraderparsetree.cpp
-   services/yacc.c
-   services/lex.c
    services/kplugininfo.cpp
    sycoca/ksycoca.cpp
    sycoca/ksycocadevices.cpp
@@ -52,6 +50,19 @@ if (UNIX)
       kdeinit/ktoolinvocation_x11.cpp
    )
 endif()
+
+bison_target(TraderParser
+             services/yacc.y
+             ${CMAKE_CURRENT_BINARY_DIR}/yacc.c
+             COMPILE_FLAGS "-p kiotrader -d"
+)
+flex_target(TraderLexer
+            services/lex.l
+            ${CMAKE_CURRENT_BINARY_DIR}/lex.c
+            COMPILE_FLAGS "-Pkiotrader -B -i"
+)
+add_flex_bison_dependency(TraderLexer TraderParser)
+list(APPEND kservice_SRCS ${BISON_TraderParser_OUTPUTS} ${FLEX_TraderLexer_OUTPUTS})
 
 # kservice cannot depend on kinit (because kinit->kio->kservice), so we need a copy of org.kde.KLauncher.xml here.
 # And I don't want to have it here as a source file (who wants to edit dbus xml by hand), so it can be

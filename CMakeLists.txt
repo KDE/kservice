@@ -45,6 +45,22 @@ find_package(KF5DBusAddons ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5I18n ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5DocTools ${KF5_DEP_VERSION})
 
+find_package(FLEX REQUIRED)
+set_package_properties(FLEX PROPERTIES
+    URL "http://flex.sourceforge.net"
+    DESCRIPTION "Fast Lexical Analyzer"
+    TYPE REQUIRED
+    PURPOSE "Required for the Trader parser"
+)
+
+find_package(BISON REQUIRED)
+set_package_properties(BISON PROPERTIES
+    URL "http://www.gnu.org/software/bison"
+    DESCRIPTION "general-purpose parser generator"
+    TYPE REQUIRED
+    PURPOSE "Required for the Trader parser"
+)
+
 # create a Config.cmake and a ConfigVersion.cmake file and install them
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Service")
 
