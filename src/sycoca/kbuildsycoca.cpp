@@ -374,7 +374,6 @@ bool KBuildSycoca::recreate(bool incremental)
         qCWarning(SYCOCA) << "Couldn't create" << fi.absolutePath();
         return false;
     }
-    const bool hadDatabase = fi.exists();
     QString path(fi.absoluteFilePath());
 
     QLockFile lockFile(path + QLatin1String(".lock"));
@@ -502,11 +501,6 @@ bool KBuildSycoca::recreate(bool incremental)
     delete m_ctimeDict;
     delete m_allEntries;
     delete m_vfolder;
-
-    if (!hadDatabase) {
-        // The DB didn't exist yet so there was no KDirWatch'ing on it -> emit signal directly
-        KSycocaPrivate::self()->slotDatabaseChanged();
-    }
 
     return true;
 }

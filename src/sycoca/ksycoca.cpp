@@ -204,12 +204,13 @@ QString KSycocaPrivate::findDatabase()
     QFileInfo info(path);
     bool canRead = info.isReadable();
     if (!canRead) {
-        path = KSycoca::absoluteFilePath(KSycoca::GlobalDatabase);
-        if (!path.isEmpty()) {
-            info.setFile(path);
+        const QString globalPath = KSycoca::absoluteFilePath(KSycoca::GlobalDatabase);
+        if (!globalPath.isEmpty()) {
+            info.setFile(globalPath);
             canRead = info.isReadable();
             if (canRead) {
                 m_globalDatabase = true;
+                path = globalPath;
             }
         }
     }
@@ -219,6 +220,8 @@ QString KSycocaPrivate::findDatabase()
         }
         return path;
     }
+    // Let's be notified when it gets created - by another process or by ourselves
+    m_fileWatcher.addFile(path);
     return QString();
 }
 
