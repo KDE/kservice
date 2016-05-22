@@ -11,3 +11,7 @@ libraries:
  - qmake: KService
    cmake: "KF5::Service"
 cmakename: KF5Service
+
+public_lib: true
+group: Frameworks
+subgroup: Tier 3
