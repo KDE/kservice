@@ -230,7 +230,10 @@ QString KSycocaPrivate::findDatabase()
 KSycoca::KSycoca()
     : d(new KSycocaPrivate(this))
 {
+    // We always delete and recreate the DB, so KDirWatch normally emits created
     connect(&d->m_fileWatcher, &KDirWatch::created, this, [this](){ d->slotDatabaseChanged(); });
+    // In some cases, KDirWatch only thinks the file was modified though
+    connect(&d->m_fileWatcher, &KDirWatch::dirty, this, [this](){ d->slotDatabaseChanged(); });
 }
 
 bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
