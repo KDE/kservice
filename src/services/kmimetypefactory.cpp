@@ -39,13 +39,13 @@ int KMimeTypeFactory::entryOffset(const QString &mimeTypeName)
         return -1;    // Error!
     }
     assert(!sycoca()->isBuilding());
-    const int offset = sycocaDict()->find_string(mimeTypeName);
+    const int offset = sycocaDict()->find_string(mimeTypeName.toLower());
     return offset;
 }
 
 int KMimeTypeFactory::serviceOffersOffset(const QString &mimeTypeName)
 {
-    const int offset = entryOffset(mimeTypeName);
+    const int offset = entryOffset(mimeTypeName.toLower());
     if (!offset) {
         return -1;    // Not found
     }
@@ -103,7 +103,7 @@ KMimeTypeFactory::MimeTypeEntry::Ptr KMimeTypeFactory::findMimeTypeEntryByName(c
 {
     Q_ASSERT(sycoca()->isBuilding());
     // We're building a database - the mimetype entry must be in memory
-    KSycocaEntry::Ptr servType = m_entryDict->value(name);
+    KSycocaEntry::Ptr servType = m_entryDict->value(name.toLower());
     return MimeTypeEntry::Ptr(static_cast<MimeTypeEntry*>(servType.data()));
 }
 
@@ -146,7 +146,7 @@ void KMimeTypeFactory::MimeTypeEntryPrivate::save(QDataStream &s)
 ////
 
 KMimeTypeFactory::MimeTypeEntry::MimeTypeEntry(const QString &file, const QString &name)
-    : KSycocaEntry(*new MimeTypeEntryPrivate(file, name))
+    : KSycocaEntry(*new MimeTypeEntryPrivate(file, name.toLower()))
 {
 }
 
