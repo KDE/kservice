@@ -55,7 +55,7 @@ int KMimeTypeFactory::serviceOffersOffset(const QString &mimeTypeName)
         return -1;
     }
     // Check whether the dictionary was right.
-    if (newMimeType->name() != mimeTypeName) {
+    if (newMimeType->name() != mimeTypeName.toLower()) {
         // No it wasn't...
         return -1;
     }
