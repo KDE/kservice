@@ -631,7 +631,7 @@ public:
     bool checkTimestamps(const QMap<QString, qint64> &dirs)
     {
         Q_ASSERT(!dirs.isEmpty());
-        qCDebug(SYCOCA) << "checking file timestamps";
+        //qCDebug(SYCOCA) << "checking file timestamps";
         for (auto it = dirs.begin(); it != dirs.end(); ++it) {
             const QString dir = it.key();
             const qint64 lastStamp = it.value();
