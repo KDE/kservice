@@ -704,6 +704,9 @@ void KServiceTest::testDeletingService()
     QVERIFY(fakeService); // the whole point of refcounting is that this KService instance is still valid.
     QVERIFY(!QFile::exists(servPath));
 
+    // workaround inotify issue (in CI only...)
+    QTest::qWait(100);
+
     // Recreate it, for future tests
     createFakeService(serviceName, QString());
     QVERIFY(QFile::exists(servPath));
