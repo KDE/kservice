@@ -892,6 +892,12 @@ bool KService::terminal() const
     return d->m_bTerminal;
 }
 
+bool KService::runOnDiscreteGpu() const
+{
+    QVariant v = property(QStringLiteral("X-KDE-RunOnDiscreteGpu"), QVariant::Bool);
+    return v.isValid() && v.toBool();
+}
+
 QString KService::desktopEntryName() const
 {
     Q_D(const KService);

@@ -125,6 +125,12 @@ public:
      */
     QString terminalOptions() const;
     /**
+     * Checks whether the service runs on a discrete graphics card
+     * @return true if the service has to run under a discrete graphics card
+     * @since 5.30
+     */
+    bool runOnDiscreteGpu() const;
+    /**
      * Checks whether the service runs with a different user id.
      * @return true if the service has to be run under a different uid.
      * @see username()
