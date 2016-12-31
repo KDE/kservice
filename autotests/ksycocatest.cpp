@@ -44,6 +44,14 @@
 #define Q_XDG_PLATFORM
 #endif
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
+// On Unix, lastModified() finally returns milliseconds as well, since Qt 5.8.0
+// Not sure about the situation on Windows though.
+static const int s_waitDelay = 10;
+#else
+static const int s_waitDelay = 1000;
+#endif
+
 extern KSERVICE_EXPORT int ksycoca_ms_between_checks;
 
 class KSycocaTest : public QObject
@@ -124,7 +132,7 @@ void KSycocaTest::ensureCacheValidShouldCreateDB() // this is what kded does on 
 void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
 {
     // It used to be a DBus signal, now it's file watching
-    QTest::qWait(1000); // ensure the file watching notices it's a new second
+    QTest::qWait(s_waitDelay);
     // Ensure kbuildsycoca has something to do
     QVERIFY(QFile::remove(serviceTypesDir() + "/fakeGlobalServiceType.desktop"));
     // Run kbuildsycoca
@@ -157,13 +165,13 @@ void KSycocaTest::dirInFutureShouldRebuildSycocaOnce()
 #endif
     ksycoca_ms_between_checks = 0;
 
-    QTest::qWait(1000); // remove this once lastModified includes ms
+    QTest::qWait(s_waitDelay);
 
     KSycoca::self()->ensureCacheValid();
     const QDateTime newTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
     QVERIFY(newTimestamp > oldTimestamp);
 
-    QTest::qWait(1000); // remove this once lastModified includes ms
+    QTest::qWait(s_waitDelay);
 
     KSycoca::self()->ensureCacheValid();
     const QDateTime againTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
@@ -200,7 +208,7 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
 #endif
 
     ksycoca_ms_between_checks = 0;
-    QTest::qWait(1000); // remove this once lastModified includes ms
+    QTest::qWait(s_waitDelay);
 
     qDebug() << "Waited 1s, calling ensureCacheValid (should rebuild)";
     KSycoca::self()->ensureCacheValid();
@@ -210,7 +218,7 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
     }
     QVERIFY(newTimestamp > oldTimestamp);
 
-    QTest::qWait(1000); // remove this once lastModified includes ms
+    QTest::qWait(s_waitDelay);
 
     qDebug() << "Waited 1s, calling ensureCacheValid (should not rebuild)";
     KSycoca::self()->ensureCacheValid();
@@ -229,7 +237,7 @@ void KSycocaTest::recursiveCheckShouldIgnoreLinksGoingUp()
     ksycoca_ms_between_checks = 0;
     const QString link = menusDir() + QLatin1String("/linkGoingUp");
     QVERIFY(QFile::link("..", link));
-    QTest::qWait(1000); // remove this once lastModified includes ms
+    QTest::qWait(s_waitDelay);
     KSycoca::self()->ensureCacheValid();
     const QDateTime oldTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
 
@@ -248,7 +256,7 @@ void KSycocaTest::recursiveCheckShouldIgnoreLinksGoingUp()
 #endif
 
     ksycoca_ms_between_checks = 0;
-    QTest::qWait(1000); // remove this once lastModified includes ms
+    QTest::qWait(s_waitDelay);
 
     qDebug() << "Waited 1s, calling ensureCacheValid (should not rebuild)";
     KSycoca::self()->ensureCacheValid();
@@ -312,7 +320,7 @@ void KSycocaTest::testGlobalSycoca()
     QVERIFY(!QFile::exists(KSycoca::absoluteFilePath()));
 
     // Now create a local file, after a 1s delay, until QDateTime includes ms...
-    QTest::qWait(1000);
+    QTest::qWait(s_waitDelay);
     KDesktopFile file(serviceTypesDir() + "/fakeLocalServiceType.desktop");
     KConfigGroup group = file.desktopGroup();
     group.writeEntry("Comment", "Fake Local ServiceType");
