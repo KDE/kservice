@@ -332,7 +332,7 @@ void KSycocaPrivate::slotDatabaseChanged()
     changeList = QStringList() << QStringLiteral("services") << QStringLiteral("servicetypes") << QStringLiteral("xdgdata-mime") << QStringLiteral("apps");
 
     qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal";
-    // kbuildsycoca tells us the database file changed
+    // KDirWatch tells us the database file changed
     // We would have found out in the next call to ensureCacheValid(), but for
     // now keep the call to closeDatabase, to help refcounting to 0 the old mmaped file earlier.
     closeDatabase();
@@ -508,20 +508,18 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
 
     // Check if new database already available
     if (openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
-        if (checkVersion()) {
-            // Database exists, and version is ok, we can read it.
+        // Database exists, and version is ok, we can read it.
 
-            if (qAppName() != KBUILDSYCOCA_EXENAME && ifNotFound != IfNotFoundDoNothing) {
+        if (qAppName() != KBUILDSYCOCA_EXENAME && ifNotFound != IfNotFoundDoNothing) {
 
-                // Ensure it's uptodate, rebuild if needed
-                checkDirectories();
+            // Ensure it's uptodate, rebuild if needed
+            checkDirectories();
 
-                // Don't check again for some time
-                m_lastCheck.start();
-            }
-
-            return true;
+            // Don't check again for some time
+            m_lastCheck.start();
         }
+
+        return true;
     }
 
     if (ifNotFound & IfNotFoundRecreate) {

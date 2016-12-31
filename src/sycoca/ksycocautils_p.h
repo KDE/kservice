@@ -53,7 +53,7 @@ bool visitResourceDirectoryHelper(const QString &dirname, Visitor visitor)
 
 // visitor is a function/functor accepts QFileInfo as argument and returns bool
 // visitResourceDirectory will visit the resource directory in a depth-first way.
-// visitor can terimnate the visit by returning false, and visitResourceDirectory
+// visitor can terminate the visit by returning false, and visitResourceDirectory
 // will also return false in this case, otherwise it will return true.
 template<typename Visitor>
 bool visitResourceDirectory(const QString &dirname, Visitor visitor)
