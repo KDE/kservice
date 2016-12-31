@@ -364,7 +364,7 @@ void KServiceTest::testAllServices()
             const QString menuId = service->menuId();
             if (menuId.isEmpty()) {
                 qWarning("%s has an empty menuId!", qPrintable(entryPath));
-            } else if (menuId == "kde5-konsole.desktop") {
+            } else if (menuId == "org.kde.konsole.desktop") {
                 m_hasKde5Konsole = true;
             }
             QVERIFY(!menuId.isEmpty());
@@ -399,12 +399,12 @@ void KServiceTest::testDBUSStartupType()
         QSKIP("ksycoca not available");
     }
     if (!m_hasKde5Konsole) {
-        QSKIP("kde5-konsole.desktop not available");
+        QSKIP("org.kde.konsole.desktop not available");
     }
-    //KService::Ptr konsole = KService::serviceByMenuId( "kde5-konsole.desktop" );
-    KService::Ptr konsole = KService::serviceByDesktopName(QStringLiteral("konsole"));
+    //KService::Ptr konsole = KService::serviceByMenuId( "org.kde.konsole.desktop" );
+    KService::Ptr konsole = KService::serviceByDesktopName(QStringLiteral("org.kde.konsole"));
     QVERIFY(konsole);
-    QCOMPARE(konsole->menuId(), QStringLiteral("kde5-konsole.desktop"));
+    QCOMPARE(konsole->menuId(), QStringLiteral("org.kde.konsole.desktop"));
     //qDebug() << konsole->entryPath();
     QCOMPARE(int(konsole->dbusStartupType()), int(KService::DBusUnique));
 }
@@ -414,23 +414,24 @@ void KServiceTest::testByStorageId()
     if (!KSycoca::isAvailable()) {
         QSKIP("ksycoca not available");
     }
-    if (QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("kde5/kmailservice5.desktop")).isEmpty()) {
-        QSKIP("kde5/kmailservice5.desktop not available");
+    if (QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.konsole.desktop")).isEmpty()) {
+        QSKIP("org.kde.konsole.desktop not available");
     }
-    QVERIFY(KService::serviceByMenuId(QStringLiteral("kde5-kmailservice5.desktop")));
-    QVERIFY(!KService::serviceByMenuId(QStringLiteral("kde5-kmailservice5"))); // doesn't work, extension mandatory
-    QVERIFY(KService::serviceByStorageId(QStringLiteral("kde5-kmailservice5.desktop")));
-    //QVERIFY(!KService::serviceByStorageId("kde5-kmailservice5")); // doesn't work, extension mandatory; also shows a debug
+    QVERIFY(KService::serviceByMenuId(QStringLiteral("org.kde.konsole.desktop")));
+    QVERIFY(!KService::serviceByMenuId(QStringLiteral("org.kde.konsole"))); // doesn't work, extension mandatory
+    QVERIFY(!KService::serviceByMenuId(QStringLiteral("konsole.desktop"))); // doesn't work, full filename mandatory
+    QVERIFY(KService::serviceByStorageId(QStringLiteral("org.kde.konsole.desktop")));
+    QVERIFY(KService::serviceByStorageId("org.kde.konsole"));
 
     // This one fails here; probably because there are two such files, so this would be too
     // ambiguous... According to the testAllServices output, the entryPaths are
-    // entryPath="/d/kde/inst/kde5/share/applications/kde5/kmailservice5.desktop"
-    // entryPath= "/usr/share/applications/kde5/kmailservice5.desktop"
+    // entryPath="/d/kde/inst/kde5/share/applications/org.kde.konsole.desktop"
+    // entryPath= "/usr/share/applications/org.kde.konsole.desktop"
     //
-    //QVERIFY(KService::serviceByDesktopPath("kmailservice5.desktop"));
+    //QVERIFY(KService::serviceByDesktopPath("org.kde.konsole.desktop"));
 
-    QVERIFY(KService::serviceByDesktopName(QStringLiteral("kmailservice5")));
-    //QCOMPARE(KService::serviceByDesktopName("kmailservice5")->menuId(), QString("kde5-kmailservice5.desktop"));
+    QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.konsole")));
+    QCOMPARE(KService::serviceByDesktopName(QStringLiteral("org.kde.konsole"))->menuId(), QString("org.kde.konsole.desktop"));
 }
 
 void KServiceTest::testServiceTypeTraderForReadOnlyPart()
@@ -626,41 +627,20 @@ void KServiceTest::testDeleteServiceTypeProfile()
 
 void KServiceTest::testActionsAndDataStream()
 {
-    const QString servicePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QLatin1String("kservices5/") + "ScreenSavers/krandom.desktop");
-    if (servicePath.isEmpty()) {
-        QSKIP("kdebase not installed, krandom.desktop not found");
+    if (QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.konsole.desktop")).isEmpty()) {
+        QSKIP("org.kde.konsole.desktop not available");
     }
-    KService service(servicePath);
-    QVERIFY(!service.property(QStringLiteral("Name[fr]"), QVariant::String).isValid());
-    const QList<KServiceAction> actions = service.actions();
-    QCOMPARE(actions.count(), 3);
-    const KServiceAction setupAction = actions[0];
-    QCOMPARE(setupAction.name(), QStringLiteral("Setup"));
-    QCOMPARE(setupAction.exec(), QStringLiteral("krandom.kss -setup"));
-    QVERIFY(!setupAction.icon().isEmpty());
-    QCOMPARE(setupAction.noDisplay(), false);
-    QVERIFY(!setupAction.isSeparator());
-    const KServiceAction rootAction = actions[2];
-    QCOMPARE(rootAction.name(), QStringLiteral("Root"));
-
-#if 0 // disabled due to making KService::save internal. This will all go away when moving to the xdg cache.
-    QByteArray data;
-    QDataStream stream(&data, QIODevice::WriteOnly);
-    service.save(stream);
-    QVERIFY(!data.isEmpty());
-    // The binary size of that KService in ksycoca was 3700 when storing all Name[...] translations!
-    // Now down to 755. This is on x86, so make the assert for 1500 in case x86_64 needs more.
-    QVERIFY(data.size() < 1500);
-    QDataStream loadingStream(data);
-    // loading must first get type, see KSycocaEntryPrivate::save
-    // (the path that save writes out, is read by the KSycocaEntryPrivate ctor)
-    qint32 type;
-    loadingStream >> type;
-    KService loadedService(loadingStream, 0);
-    QCOMPARE(loadedService.name(), service.name());
-    QCOMPARE(loadedService.exec(), service.exec());
-    QCOMPARE(loadedService.actions().count(), 3);
-#endif
+    KService::Ptr service = KService::serviceByStorageId(QStringLiteral("org.kde.konsole.desktop"));
+    QVERIFY(service);
+    QVERIFY(!service->property(QStringLiteral("Name[fr]"), QVariant::String).isValid());
+    const QList<KServiceAction> actions = service->actions();
+    QCOMPARE(actions.count(), 2); // NewWindow, NewTab
+    const KServiceAction newTabAction = actions.at(1);
+    QCOMPARE(newTabAction.name(), QStringLiteral("NewTab"));
+    QCOMPARE(newTabAction.exec(), QStringLiteral("konsole --new-tab"));
+    QVERIFY(newTabAction.icon().isEmpty());
+    QCOMPARE(newTabAction.noDisplay(), false);
+    QVERIFY(!newTabAction.isSeparator());
 }
 
 void KServiceTest::testServiceGroups()
