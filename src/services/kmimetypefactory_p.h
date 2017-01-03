@@ -50,7 +50,7 @@ public:
     /**
      * Not meant to be called at this level
      */
-    virtual KSycocaEntry *createEntry(const QString &) const
+    KSycocaEntry *createEntry(const QString &) const Q_DECL_OVERRIDE
     {
         assert(0);
         return 0;
@@ -103,7 +103,7 @@ public: // public for KBuildServiceFactory
     MimeTypeEntry::Ptr findMimeTypeEntryByName(const QString &name);
 
 protected:
-    virtual MimeTypeEntry *createEntry(int offset) const;
+    MimeTypeEntry *createEntry(int offset) const Q_DECL_OVERRIDE;
 private:
     // d pointer: useless since this header is not installed
     //class KMimeTypeFactoryPrivate* d;

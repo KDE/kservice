@@ -704,7 +704,7 @@ public:
     {
     }
 
-    virtual QString name() const;
+    QString name() const Q_DECL_OVERRIDE;
 };
 
 QString KServiceSeparatorPrivate::name() const

@@ -24,7 +24,7 @@
 
 #include <config-ksycoca.h>
 #include <stdlib.h>
-
+#include <QObject>
 // TODO: remove mmap() from kdewin32 and use QFile::mmap() when needed
 #ifdef Q_OS_WIN
 #undef HAVE_MMAP
@@ -61,7 +61,7 @@ class KSycocaMmapDevice : public KSycocaAbstractDevice
 public:
     KSycocaMmapDevice(const char *sycoca_mmap, size_t sycoca_size);
     ~KSycocaMmapDevice();
-    virtual QIODevice *device();
+    QIODevice *device() Q_DECL_OVERRIDE;
 private:
     QBuffer *m_buffer;
 };
@@ -73,7 +73,7 @@ class KSycocaFileDevice : public KSycocaAbstractDevice
 public:
     KSycocaFileDevice(const QString &path);
     ~KSycocaFileDevice();
-    virtual QIODevice *device();
+    QIODevice *device() Q_DECL_OVERRIDE;
 private:
     QFile *m_database;
 };
@@ -85,7 +85,7 @@ class KSycocaMemFileDevice : public KSycocaAbstractDevice
 public:
     KSycocaMemFileDevice(const QString &path);
     ~KSycocaMemFileDevice();
-    virtual QIODevice *device();
+    QIODevice *device() Q_DECL_OVERRIDE;
 private:
     KMemFile *m_database;
 };
@@ -97,7 +97,7 @@ class KSycocaBufferDevice : public KSycocaAbstractDevice
 public:
     KSycocaBufferDevice();
     ~KSycocaBufferDevice();
-    virtual QIODevice *device();
+    QIODevice *device() Q_DECL_OVERRIDE;
 private:
     QBuffer *m_buffer;
 };

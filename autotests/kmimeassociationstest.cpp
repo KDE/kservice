@@ -43,7 +43,7 @@ public:
     FakeServiceFactory(KSycoca *db) : KServiceFactory(db) {}
     ~FakeServiceFactory();
 
-    virtual KService::Ptr findServiceByMenuId(const QString &name)
+    KService::Ptr findServiceByMenuId(const QString &name) Q_DECL_OVERRIDE
     {
         //qDebug() << name;
         KService::Ptr result = m_cache.value(name);
@@ -54,7 +54,7 @@ public:
         //qDebug() << name << result.data();
         return result;
     }
-    virtual KService::Ptr findServiceByDesktopPath(const QString &name)
+    KService::Ptr findServiceByDesktopPath(const QString &name) Q_DECL_OVERRIDE
     {
         KService::Ptr result = m_cache.value(name); // yeah, same cache, I don't care :)
         if (!result) {

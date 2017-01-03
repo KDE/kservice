@@ -52,7 +52,7 @@ public:
     /**
      * Not meant to be called at this level
      */
-    virtual KSycocaEntry *createEntry(const QString &) const
+    KSycocaEntry *createEntry(const QString &) const Q_DECL_OVERRIDE
     {
         assert(0);
         return 0;
@@ -86,13 +86,13 @@ public:
     static KServiceTypeFactory *self();
 
 protected:
-    virtual KServiceType *createEntry(int offset) const;
+    KServiceType *createEntry(int offset) const Q_DECL_OVERRIDE;
 
     // protected for KBuildServiceTypeFactory
     QMap<QString, int> m_propertyTypeDict;
 
 protected:
-    virtual void virtual_hook(int id, void *data);
+    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
 private:
     class KServiceTypeFactoryPrivate *d;
 };

@@ -48,7 +48,7 @@ public:
     /**
      * Construct a KServiceGroup from a config file.
      */
-    virtual KSycocaEntry *createEntry(const QString &) const
+    KSycocaEntry *createEntry(const QString &) const Q_DECL_OVERRIDE
     {
         assert(0);
         return 0;
@@ -70,12 +70,12 @@ public:
     static KServiceGroupFactory *self();
 protected:
     KServiceGroup *createGroup(int offset, bool deep) const;
-    KServiceGroup *createEntry(int offset) const;
+    KServiceGroup *createEntry(int offset) const Q_DECL_OVERRIDE;
     KSycocaDict *m_baseGroupDict;
     int m_baseGroupDictOffset;
 
 protected:
-    virtual void virtual_hook(int id, void *data);
+    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
 private:
     class KServiceGroupFactoryPrivate *d;
 };

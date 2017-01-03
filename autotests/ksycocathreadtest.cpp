@@ -161,7 +161,7 @@ public:
     {
         m_stop = false;
     }
-    virtual void run()
+    void run() Q_DECL_OVERRIDE
     {
         WorkerObject wo;
         while (!m_stop) {
@@ -185,7 +185,7 @@ class EventLoopThread : public WorkerThread
 {
     Q_OBJECT
 public:
-    virtual void run()
+    void run() Q_DECL_OVERRIDE
     {
         // WorkerObject must belong to this thread, this is why we don't
         // have the slot work() in WorkerThread itself. Typical QThread trap!
@@ -195,7 +195,7 @@ public:
         timer.start(100);
         exec();
     }
-    virtual void stop()
+    void stop() Q_DECL_OVERRIDE
     {
         quit();
     }

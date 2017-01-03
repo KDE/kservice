@@ -22,8 +22,8 @@
 #include "ksycocaentry.h"
 
 #define K_SYCOCATYPE( type, baseclass ) \
-    virtual bool isType(KSycocaType t) const { if (t == type) return true; return baseclass::isType(t);} \
-    virtual KSycocaType sycocaType() const { return type; }
+    bool isType(KSycocaType t) const Q_DECL_OVERRIDE { if (t == type) return true; return baseclass::isType(t);} \
+    KSycocaType sycocaType() const Q_DECL_OVERRIDE { return type; }
 
 class KSycocaEntryPrivate
 {
