@@ -1,7 +1,9 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-project(KService)
+set(KF5_VERSION "5.30.0") # handled by release scripts
+set(KF5_DEP_VERSION "5.29.0") # handled by release scripts
+project(KService VERSION ${KF5_VERSION})
 
 # ECM setup
 include(FeatureSummary)
@@ -19,10 +21,7 @@ include(ECMGenerateHeaders)
 
 include(GenerateExportHeader)
 
-set(KF5_VERSION "5.30.0") # handled by release scripts
-set(KF5_DEP_VERSION "5.29.0") # handled by release scripts
-
-ecm_setup_version(${KF5_VERSION}
+ecm_setup_version(PROJECT
                   VARIABLE_PREFIX KSERVICE
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kservice_version.h"
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfigVersion.cmake"
