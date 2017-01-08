@@ -239,7 +239,9 @@ void KSycocaTest::recursiveCheckShouldIgnoreLinksGoingUp()
     QVERIFY(QFile::link("..", link));
     QTest::qWait(s_waitDelay);
     KSycoca::self()->ensureCacheValid();
+    QVERIFY2(QFile::exists(KSycoca::absoluteFilePath()), qPrintable(KSycoca::absoluteFilePath()));
     const QDateTime oldTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+    QVERIFY(oldTimestamp.isValid());
 
     const QString path = QFileInfo(menusDir()).absolutePath(); // the parent of the menus dir
 
