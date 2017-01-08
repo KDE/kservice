@@ -92,11 +92,11 @@ private Q_SLOTS:
     void kBuildSycocaShouldEmitDatabaseChanged();
     void dirInFutureShouldRebuildSycocaOnce();
     void dirTimestampShouldBeCheckedRecursively();
+    void recursiveCheckShouldIgnoreLinksGoingUp();
     void testAllResourceDirs();
     void testDeletingSycoca();
     void testGlobalSycoca();
     void testNonReadableSycoca();
-    void recursiveCheckShouldIgnoreLinksGoingUp();
 
 private:
     void createGlobalServiceType()
