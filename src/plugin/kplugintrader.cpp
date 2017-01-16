@@ -46,7 +46,7 @@ KPluginTrader *KPluginTrader::self()
 }
 
 KPluginTrader::KPluginTrader()
-    : d(0)
+    : d(nullptr)
 {
 }
 

@@ -49,7 +49,7 @@ public:
 };
 
 KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id, KSycoca *sycoca)
-    : m_resourceList(0), m_entryDict(0), m_str(0), m_sycoca(sycoca), d(new KSycocaFactoryPrivate)
+    : m_resourceList(nullptr), m_entryDict(nullptr), m_str(nullptr), m_sycoca(sycoca), d(new KSycocaFactoryPrivate)
 {
     if (!m_sycoca->isBuilding() && (m_str = m_sycoca->findFactory(factory_id))) {
         // Read position of index tables....

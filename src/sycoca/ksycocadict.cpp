@@ -53,7 +53,7 @@ class KSycocaDictPrivate
 {
 public:
     KSycocaDictPrivate()
-        : stream(0)
+        : stream(nullptr)
         , offset(0)
         , hashTableSize(0)
     {
@@ -229,7 +229,7 @@ void
 KSycocaDict::clear()
 {
     delete d;
-    d = 0;
+    d = nullptr;
 }
 
 uint KSycocaDictPrivate::hashKey(const QString &key) const
@@ -454,8 +454,8 @@ KSycocaDict::save(QDataStream &str)
 
     //qDebug() << "Clearing hashtable...";
     for (unsigned int i = 0; i < sz; i++) {
-        hashTable[i].entry = 0;
-        hashTable[i].duplicates = 0;
+        hashTable[i].entry = nullptr;
+        hashTable[i].duplicates = nullptr;
     }
 
     //qDebug() << "Filling hashtable...";

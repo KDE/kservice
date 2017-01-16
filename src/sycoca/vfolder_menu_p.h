@@ -40,7 +40,7 @@ public:
     class SubMenu
     {
     public:
-        SubMenu() : isDeleted(false), apps_info(0)
+        SubMenu() : isDeleted(false), apps_info(nullptr)
         {
             items.reserve(43);
         }

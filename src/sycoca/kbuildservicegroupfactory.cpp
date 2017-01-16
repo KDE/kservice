@@ -45,7 +45,7 @@ KServiceGroup *KBuildServiceGroupFactory::createEntry(const QString &) const
 {
     // Unused
     qCWarning(SYCOCA) << "called!";
-    return 0;
+    return nullptr;
 }
 
 void KBuildServiceGroupFactory::addNewEntryTo(const QString &menuName, const KService::Ptr &newEntry)

@@ -28,7 +28,7 @@
 class KDBusServiceStarterPrivate
 {
 public:
-    KDBusServiceStarterPrivate() : q(0) {}
+    KDBusServiceStarterPrivate() : q(nullptr) {}
     ~KDBusServiceStarterPrivate()
     {
         delete q;

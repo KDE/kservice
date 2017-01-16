@@ -51,19 +51,19 @@
 #include <qstandardpaths.h>
 #include <QLockFile>
 
-static const char *s_cSycocaPath = 0;
+static const char *s_cSycocaPath = nullptr;
 
 KBuildSycocaInterface::~KBuildSycocaInterface() {}
 
 KBuildSycoca::KBuildSycoca(bool globalDatabase)
     : KSycoca(true),
-      m_allEntries(0),
-      m_currentFactory(0),
-      m_ctimeFactory(0),
-      m_ctimeDict(0),
-      m_currentEntryDict(0),
-      m_serviceGroupEntryDict(0),
-      m_vfolder(0),
+      m_allEntries(nullptr),
+      m_currentFactory(nullptr),
+      m_ctimeFactory(nullptr),
+      m_ctimeDict(nullptr),
+      m_currentEntryDict(nullptr),
+      m_serviceGroupEntryDict(nullptr),
+      m_vfolder(nullptr),
       m_newTimestamp(0),
       m_globalDatabase(globalDatabase),
       m_menuTest(false),
@@ -142,7 +142,7 @@ bool KBuildSycoca::build()
 {
     typedef QList<KBSEntryDict *> KBSEntryDictList;
     KBSEntryDictList entryDictList;
-    KBSEntryDict *serviceEntryDict = 0;
+    KBSEntryDict *serviceEntryDict = nullptr;
 
     // Convert for each factory the entryList to a Dict.
     entryDictList.reserve(factories()->size());
@@ -220,7 +220,7 @@ bool KBuildSycoca::build()
         for (; it != end; ++it, ++ed_it) {
             m_currentFactory = (*it);
             // m_ctimeInfo gets created after the initial loop, so it has no entryDict.
-            m_currentEntryDict = ed_it == ed_end ? 0 : *ed_it;
+            m_currentEntryDict = ed_it == ed_end ? nullptr : *ed_it;
             // For each resource the factory deals with
             const KSycocaResourceList *list = m_currentFactory->resourceList();
             if (!list) {
@@ -335,7 +335,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
                 if (group) {
                     entry = KServiceGroup::Ptr(static_cast<KServiceGroup*>(group.data()));
                     if (entry->directoryEntryPath() != directoryFile) {
-                        entry = 0;    // Can't reuse this one!
+                        entry = nullptr;    // Can't reuse this one!
                     }
                 }
             }
@@ -392,8 +392,8 @@ bool KBuildSycoca::recreate(bool incremental)
     QByteArray qSycocaPath = QFile::encodeName(path);
     s_cSycocaPath = qSycocaPath.data();
 
-    m_allEntries = 0;
-    m_ctimeDict = 0;
+    m_allEntries = nullptr;
+    m_ctimeDict = nullptr;
     if (incremental && checkGlobalHeader()) {
         qDebug() << "Reusing existing ksycoca";
         KSycoca *oldSycoca = KSycoca::self();
@@ -409,7 +409,7 @@ bool KBuildSycoca::recreate(bool incremental)
         KCTimeFactory *ctimeInfo = new KCTimeFactory(oldSycoca);
         *m_ctimeDict = ctimeInfo->loadDict();
     }
-    s_cSycocaPath = 0;
+    s_cSycocaPath = nullptr;
 
     QSaveFile database(path);
     bool openedOK = database.open(QIODevice::WriteOnly);
@@ -444,7 +444,7 @@ bool KBuildSycoca::recreate(bool incremental)
             database.cancelWriting();    // Error
         }
         delete str;
-        str = 0;
+        str = nullptr;
 
         //if we are currently via sudo, preserve the original owner
         //as $HOME may also be that of another user rather than /root
@@ -479,7 +479,7 @@ bool KBuildSycoca::recreate(bool incremental)
         }
     } else {
         delete str;
-        str = 0;
+        str = nullptr;
         database.cancelWriting();
         if (m_menuTest) {
             return true;
@@ -513,7 +513,7 @@ void KBuildSycoca::save(QDataStream *str)
     (*str) << qint32(KSycoca::version());
     //KSycocaFactory * servicetypeFactory = 0;
     //KBuildMimeTypeFactory * mimeTypeFactory = 0;
-    KBuildServiceFactory *serviceFactory = 0;
+    KBuildServiceFactory *serviceFactory = nullptr;
     Q_FOREACH (KSycocaFactory* factory, *factories()) {
         qint32 aId;
         qint32 aOffset;
@@ -577,8 +577,8 @@ void KBuildSycoca::save(QDataStream *str)
 
 QStringList KBuildSycoca::factoryResourceDirs()
 {
-    static QStringList *dirs = NULL;
-    if (dirs != NULL) {
+    static QStringList *dirs = nullptr;
+    if (dirs != nullptr) {
         return *dirs;
     }
     dirs = new QStringList;
@@ -592,8 +592,8 @@ QStringList KBuildSycoca::factoryResourceDirs()
 
 QStringList KBuildSycoca::existingResourceDirs()
 {
-    static QStringList *dirs = NULL;
-    if (dirs != NULL) {
+    static QStringList *dirs = nullptr;
+    if (dirs != nullptr) {
         return *dirs;
     }
     dirs = new QStringList(factoryResourceDirs());

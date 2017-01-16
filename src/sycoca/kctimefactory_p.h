@@ -72,11 +72,11 @@ public:
 
     KSycocaEntry *createEntry(const QString &) const Q_DECL_OVERRIDE
     {
-        return 0;
+        return nullptr;
     }
     KSycocaEntry *createEntry(int) const Q_DECL_OVERRIDE
     {
-        return 0;
+        return nullptr;
     }
 
     // Loads the dict and returns it; does not set m_ctimeDict;

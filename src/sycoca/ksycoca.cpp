@@ -95,13 +95,13 @@ KSycocaPrivate::KSycocaPrivate(KSycoca *q)
       m_globalDatabase(false),
       q(q),
       sycoca_size(0),
-      sycoca_mmap(0),
-      m_mmapFile(0),
-      m_device(0),
-      m_mimeTypeFactory(0),
-      m_serviceTypeFactory(0),
-      m_serviceFactory(0),
-      m_serviceGroupFactory(0)
+      sycoca_mmap(nullptr),
+      m_mmapFile(nullptr),
+      m_device(nullptr),
+      m_mimeTypeFactory(nullptr),
+      m_serviceTypeFactory(nullptr),
+      m_serviceFactory(nullptr),
+      m_serviceGroupFactory(nullptr)
 {
 #ifdef Q_OS_WIN
     /*
@@ -141,14 +141,14 @@ bool KSycocaPrivate::tryMmap()
     }
     fcntl(m_mmapFile->handle(), F_SETFD, FD_CLOEXEC);
     sycoca_size = m_mmapFile->size();
-    void *mmapRet = mmap(0, sycoca_size,
+    void *mmapRet = mmap(nullptr, sycoca_size,
                        PROT_READ, MAP_SHARED,
                        m_mmapFile->handle(), 0);
     /* POSIX mandates only MAP_FAILED, but we are paranoid so check for
        null pointer too.  */
-    if (mmapRet == MAP_FAILED || mmapRet == 0) {
+    if (mmapRet == MAP_FAILED || mmapRet == nullptr) {
         qCDebug(SYCOCA).nospace() << "mmap failed. (length = " << sycoca_size << ")";
-        sycoca_mmap = 0;
+        sycoca_mmap = nullptr;
         return false;
     } else {
         sycoca_mmap = static_cast<const char *>(mmapRet);
@@ -240,7 +240,7 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
 {
     Q_ASSERT(databaseStatus == DatabaseNotOpen);
 
-    delete m_device; m_device = 0;
+    delete m_device; m_device = nullptr;
 
     if (m_databasePath.isEmpty()) {
         m_databasePath = findDatabase();
@@ -287,7 +287,7 @@ KSycocaAbstractDevice *KSycocaPrivate::device()
             device = new KSycocaMmapDevice(sycoca_mmap,
                                            sycoca_size);
             if (!device->device()->open(QIODevice::ReadOnly)) {
-                delete device; device = 0;
+                delete device; device = nullptr;
             }
         }
 #endif
@@ -295,7 +295,7 @@ KSycocaAbstractDevice *KSycocaPrivate::device()
         if (!device && m_sycocaStrategy == StrategyMemFile) {
             device = new KSycocaMemFileDevice(m_databasePath);
             if (!device->device()->open(QIODevice::ReadOnly)) {
-                delete device; device = 0;
+                delete device; device = nullptr;
             }
         }
 #endif
@@ -413,7 +413,7 @@ bool KSycoca::isAvailable() // TODO KF6: make it non-static (mostly useful for u
 void KSycocaPrivate::closeDatabase()
 {
     delete m_device;
-    m_device = 0;
+    m_device = nullptr;
 
     // It is very important to delete all factories here
     // since they cache information about the database file
@@ -422,19 +422,19 @@ void KSycocaPrivate::closeDatabase()
     qDeleteAll(m_factories);
     m_factories.clear();
 
-    m_mimeTypeFactory = 0;
-    m_serviceFactory = 0;
-    m_serviceTypeFactory = 0;
-    m_serviceGroupFactory = 0;
+    m_mimeTypeFactory = nullptr;
+    m_serviceFactory = nullptr;
+    m_serviceTypeFactory = nullptr;
+    m_serviceGroupFactory = nullptr;
 
 #if HAVE_MMAP
     if (sycoca_mmap) {
         // Solaris has munmap(char*, size_t) and everything else should
         // be happy with a char* for munmap(void*, size_t)
         munmap(const_cast<char *>(sycoca_mmap), sycoca_size);
-        sycoca_mmap = 0;
+        sycoca_mmap = nullptr;
     }
-    delete m_mmapFile; m_mmapFile = 0;
+    delete m_mmapFile; m_mmapFile = nullptr;
 #endif
 
     databaseStatus = DatabaseNotOpen;
@@ -533,7 +533,7 @@ QDataStream *KSycoca::findFactory(KSycocaFactoryId id)
 {
     // Ensure we have a valid database (right version, and rewinded to beginning)
     if (!d->checkDatabase(KSycocaPrivate::IfNotFoundRecreate)) {
-        return 0;
+        return nullptr;
     }
 
     QDataStream *str = stream();
@@ -554,7 +554,7 @@ QDataStream *KSycoca::findFactory(KSycocaFactoryId id)
             return str;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 bool KSycoca::needsRebuild()

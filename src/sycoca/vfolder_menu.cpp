@@ -158,7 +158,7 @@ VFolderMenu::takeSubMenu(SubMenu *parentMenu, const QString &menuName)
             }
         }
     }
-    return 0; // Not found
+    return nullptr; // Not found
 }
 
 void
@@ -278,9 +278,9 @@ VFolderMenu::insertService(SubMenu *parentMenu, const QString &name, KService::P
 }
 
 VFolderMenu::VFolderMenu(KServiceFactory *serviceFactory, KBuildSycocaInterface *kbuildsycocaInterface)
-    : m_appsInfo(0)
-    , m_rootMenu(0)
-    , m_currentMenu(0)
+    : m_appsInfo(nullptr)
+    , m_rootMenu(nullptr)
+    , m_currentMenu(nullptr)
     , m_track(false)
     , m_serviceFactory(serviceFactory)
     , m_kbuildsycocaInterface(kbuildsycocaInterface)
@@ -397,7 +397,7 @@ VFolderMenu::unloadAppsInfo()
     }
 
     m_appsInfoStack.removeAll(m_appsInfo); // Remove
-    m_appsInfo = 0;
+    m_appsInfo = nullptr;
 }
 
 QString
@@ -1041,7 +1041,7 @@ VFolderMenu::processMenu(QDomElement &docElem, int pass)
 
     // Setup current menu entry
     if (pass == 0) {
-        m_currentMenu = 0;
+        m_currentMenu = nullptr;
         // Look up menu
         if (parentMenu) {
             foreach (SubMenu *menu, parentMenu->subMenus) {
@@ -1381,7 +1381,7 @@ VFolderMenu::markUsedApplications(const QHash<QString, KService::Ptr> &items)
 
 VFolderMenu::SubMenu *VFolderMenu::parseMenu(const QString &file)
 {
-    m_appsInfo = 0;
+    m_appsInfo = nullptr;
 
     const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus"), QStandardPaths::LocateDirectory);
     for (QStringList::ConstIterator it = dirs.begin();
@@ -1392,7 +1392,7 @@ VFolderMenu::SubMenu *VFolderMenu::parseMenu(const QString &file)
     loadMenu(file);
 
     delete m_rootMenu;
-    m_rootMenu = m_currentMenu = 0;
+    m_rootMenu = m_currentMenu = nullptr;
 
     QDomElement docElem = m_doc.documentElement();
 

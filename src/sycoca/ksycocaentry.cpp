@@ -29,7 +29,7 @@ KSycocaEntryPrivate::KSycocaEntryPrivate(QDataStream &_str, int iOffset)
 }
 
 KSycocaEntry::KSycocaEntry()
-    : d_ptr(0)
+    : d_ptr(nullptr)
 {
 }
 
@@ -79,7 +79,7 @@ void KSycocaEntry::setDeleted(bool deleted)
 
 bool KSycocaEntry::isSeparator() const
 {
-    return d_ptr == 0 || isType(KST_KServiceSeparator);
+    return d_ptr == nullptr || isType(KST_KServiceSeparator);
 }
 
 int KSycocaEntry::offset() const

@@ -189,11 +189,11 @@ public:
     static T *createInstanceFromQuery(const QString &subDirectory,
                                       const QString &serviceType = QString(),
                                       const QString &constraint = QString(),
-                                      QObject *parent = 0,
+                                      QObject *parent = nullptr,
                                       const QVariantList &args = QVariantList(),
-                                      QString *error = 0)
+                                      QString *error = nullptr)
     {
-        return createInstanceFromQuery<T>(subDirectory, serviceType, constraint, parent, 0, args, error);
+        return createInstanceFromQuery<T>(subDirectory, serviceType, constraint, parent, nullptr, args, error);
     }
 
     /**
@@ -221,7 +221,7 @@ public:
                                       QObject *parent,
                                       QWidget *parentWidget,
                                       const QVariantList &args = QVariantList(),
-                                      QString *error = 0)
+                                      QString *error = nullptr)
     {
         Q_UNUSED(parentWidget)
         Q_UNUSED(args)
@@ -244,7 +244,7 @@ public:
         if (error && error->isEmpty()) {
             *error = QCoreApplication::translate("", "No service matching the requirements was found");
         }
-        return 0;
+        return nullptr;
     }
 
     static void applyConstraints(KPluginInfo::List &lst,

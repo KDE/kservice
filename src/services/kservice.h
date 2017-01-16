@@ -485,8 +485,8 @@ public:
      * @return The path to use for the new KService.
      */
     static QString newServicePath(bool showInMenu, const QString &suggestedName,
-                                  QString *menuId = 0,
-                                  const QStringList *reservedMenuIds = 0);
+                                  QString *menuId = nullptr,
+                                  const QStringList *reservedMenuIds = nullptr);
 
     /**
      * This template allows to load the library for the specified service and ask the
@@ -501,8 +501,8 @@ public:
      *         factory was unable to create an object of the given type.
      */
     template <class T>
-    T *createInstance(QObject *parent = 0,
-                      const QVariantList &args = QVariantList(), QString *error = 0) const
+    T *createInstance(QObject *parent = nullptr,
+                      const QVariantList &args = QVariantList(), QString *error = nullptr) const
     {
         return createInstance<T>(0, parent, args, error);
     }
@@ -522,7 +522,7 @@ public:
      */
     template <class T>
     T *createInstance(QWidget *parentWidget, QObject *parent,
-                      const QVariantList &args = QVariantList(), QString *error = 0) const
+                      const QVariantList &args = QVariantList(), QString *error = nullptr) const
     {
         KPluginLoader pluginLoader(*this);
         KPluginFactory *factory = pluginLoader.factory();

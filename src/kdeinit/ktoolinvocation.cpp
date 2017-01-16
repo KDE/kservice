@@ -43,7 +43,7 @@ KToolInvocation *KToolInvocation::self()
     return &s_self()->instance;
 }
 
-KToolInvocation::KToolInvocation() : QObject(0), d(0)
+KToolInvocation::KToolInvocation() : QObject(nullptr), d(nullptr)
 {
 }
 
@@ -229,7 +229,7 @@ KToolInvocation::kdeinitExec(const QString &name, const QStringList &args,
     }
 
     return self()->startServiceInternal("kdeinit_exec",
-                                        name, args, error, 0, pid, startup_id, false);
+                                        name, args, error, nullptr, pid, startup_id, false);
 }
 
 int
@@ -241,7 +241,7 @@ KToolInvocation::kdeinitExecWait(const QString &name, const QStringList &args,
     }
 
     return self()->startServiceInternal("kdeinit_exec_wait",
-                                        name, args, error, 0, pid, startup_id, false);
+                                        name, args, error, nullptr, pid, startup_id, false);
 }
 
 void KToolInvocation::invokeMailer(const QString &address, const QString &subject, const QByteArray &startup_id)

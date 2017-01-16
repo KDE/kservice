@@ -185,7 +185,7 @@ public:
      */
 #ifndef KSERVICE_NO_DEPRECATED
     KSERVICE_DEPRECATED static int startServiceByName(const QString &_name, const QString &URL,
-            QString *error = 0, QString *serviceName = 0, int *pid = 0,
+            QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
             const QByteArray &startup_id = QByteArray(), bool noWait = false);
 #endif
 
@@ -212,7 +212,7 @@ public:
      */
 #ifndef KSERVICE_NO_DEPRECATED
     KSERVICE_DEPRECATED static int startServiceByName(const QString &_name, const QStringList &URLs = QStringList(),
-            QString *error = 0, QString *serviceName = 0, int *pid = 0,
+            QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
             const QByteArray &startup_id = QByteArray(), bool noWait = false);
 #endif
 
@@ -241,7 +241,7 @@ public:
      *   it installs a dbus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
     static int startServiceByDesktopPath(const QString &_name, const QString &URL,
-                                         QString *error = 0, QString *serviceName = 0, int *pid = 0,
+                                         QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
                                          const QByteArray &startup_id = QByteArray(), bool noWait = false);
 
     /**
@@ -267,7 +267,7 @@ public:
      *   it installs a dbus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
     static int startServiceByDesktopPath(const QString &_name, const QStringList &URLs = QStringList(),
-                                         QString *error = 0, QString *serviceName = 0, int *pid = 0,
+                                         QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
                                          const QByteArray &startup_id = QByteArray(), bool noWait = false);
 
     /**
@@ -294,7 +294,7 @@ public:
      *   it installs a dbus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
     static int startServiceByDesktopName(const QString &_name, const QString &URL,
-                                         QString *error = 0, QString *serviceName = 0, int *pid = 0,
+                                         QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
                                          const QByteArray &startup_id = QByteArray(), bool noWait = false);
 
     /**
@@ -321,7 +321,7 @@ public:
      *   it installs a dbus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
     static int startServiceByDesktopName(const QString &_name, const QStringList &URLs = QStringList(),
-                                         QString *error = 0, QString *serviceName = 0, int *pid = 0,
+                                         QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
                                          const QByteArray &startup_id = QByteArray(), bool noWait = false);
 
     /**
@@ -342,7 +342,7 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      */
     static int kdeinitExec(const QString &name, const QStringList &args = QStringList(),
-                           QString *error = 0, int *pid = 0, const QByteArray &startup_id = QByteArray());
+                           QString *error = nullptr, int *pid = nullptr, const QByteArray &startup_id = QByteArray());
 
     /**
      * Starts a program via kdeinit and wait for it to finish.
@@ -362,7 +362,7 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      */
     static int kdeinitExecWait(const QString &name, const QStringList &args = QStringList(),
-                               QString *error = 0, int *pid = 0, const QByteArray &startup_id = QByteArray());
+                               QString *error = nullptr, int *pid = nullptr, const QByteArray &startup_id = QByteArray());
 
     /**
      * Ensures that kdeinit5 and klauncher are running.
@@ -382,7 +382,7 @@ private:
                              QString *error, QString *serviceName, int *pid,
                              const QByteArray &startup_id, bool noWait,
                              const QString &workdir = QString());
-    static bool isMainThreadActive(QString *error = 0);
+    static bool isMainThreadActive(QString *error = nullptr);
 
     KToolInvocationPrivate *const d;
     friend class KToolInvocationSingleton;

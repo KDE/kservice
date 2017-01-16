@@ -58,40 +58,40 @@ KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
     }
 
     if (name.isEmpty()) {
-        return 0;
+        return nullptr;
     }
 
     KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, "kservicetypes5/" + file);
     const KConfigGroup desktopGroup = desktopFile.desktopGroup();
 
     if (desktopGroup.readEntry("Hidden", false) == true) {
-        return 0;
+        return nullptr;
     }
 
     const QString type = desktopGroup.readEntry("Type");
     if (type != QLatin1String("ServiceType")) {
         qCWarning(SYCOCA) << "The service type config file " << desktopFile.fileName() << " has Type=" << type << " instead of Type=ServiceType";
-        return 0;
+        return nullptr;
     }
 
     const QString serviceType = desktopGroup.readEntry("X-KDE-ServiceType");
 
     if (serviceType.isEmpty()) {
         qCWarning(SYCOCA) << "The service type config file " << desktopFile.fileName() << " does not contain a ServiceType=... entry";
-        return 0;
+        return nullptr;
     }
 
     KServiceType *e = new KServiceType(&desktopFile);
 
     if (e->isDeleted()) {
         delete e;
-        return 0;
+        return nullptr;
     }
 
     if (!(e->isValid())) {
         qCWarning(SYCOCA) << "Invalid ServiceType : " << file;
         delete e;
-        return 0;
+        return nullptr;
     }
 
     return e;

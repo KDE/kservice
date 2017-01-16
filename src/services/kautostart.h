@@ -71,7 +71,7 @@ public:
      * @param parent QObject
      */
     explicit KAutostart(const QString &entryName = QString(),
-                        QObject *parent = 0);
+                        QObject *parent = nullptr);
     ~KAutostart();
 
     /**

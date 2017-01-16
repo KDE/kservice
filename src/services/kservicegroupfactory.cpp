@@ -26,7 +26,7 @@
 
 KServiceGroupFactory::KServiceGroupFactory(KSycoca *db)
     : KSycocaFactory(KST_KServiceGroupFactory, db)
-    , m_baseGroupDict(0)
+    , m_baseGroupDict(nullptr)
     , m_baseGroupDictOffset(0)
 {
     if (!sycoca()->isBuilding()) {
@@ -66,7 +66,7 @@ KServiceGroup::Ptr KServiceGroupFactory::findGroupByDesktopPath(const QString &_
     // Check whether the dictionary was right.
     if (newGroup && (newGroup->relPath() != _name)) {
         // No it wasn't...
-        newGroup = 0; // Not found
+        newGroup = nullptr; // Not found
     }
     return newGroup;
 }
@@ -91,7 +91,7 @@ KServiceGroup::Ptr KServiceGroupFactory::findBaseGroup(const QString &_baseGroup
     // Check whether the dictionary was right.
     if (newGroup && (newGroup->baseGroupName() != _baseGroupName)) {
         // No it wasn't...
-        newGroup = 0; // Not found
+        newGroup = nullptr; // Not found
     }
     return newGroup;
 }
@@ -102,14 +102,14 @@ KServiceGroup *KServiceGroupFactory::createGroup(int offset, bool deep) const
     QDataStream *str = sycoca()->findEntry(offset, type);
     if (type != KST_KServiceGroup) {
         qWarning() << "KServiceGroupFactory: unexpected object entry in KSycoca database (type = " << int(type) << ")";
-        return 0;
+        return nullptr;
     }
 
     KServiceGroup *newEntry = new KServiceGroup(*str, offset, deep);
     if (!newEntry->isValid()) {
         qWarning() << "KServiceGroupFactory: corrupt object in KSycoca database!";
         delete newEntry;
-        newEntry = 0;
+        newEntry = nullptr;
     }
     return newEntry;
 }

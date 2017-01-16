@@ -26,7 +26,7 @@ public:
         : preference(-1),
           mimeTypeInheritanceLevel(0),
           bAllowAsDefault(false),
-          pService(0)
+          pService(nullptr)
     {
     }
 

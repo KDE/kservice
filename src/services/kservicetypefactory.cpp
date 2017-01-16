@@ -73,7 +73,7 @@ KServiceType::Ptr KServiceTypeFactory::findServiceTypeByName(const QString &_nam
     // Check whether the dictionary was right.
     if (newServiceType && (newServiceType->name() != _name)) {
         // No it wasn't...
-        newServiceType = 0; // Not found
+        newServiceType = nullptr; // Not found
     }
     return newServiceType;
 }
@@ -114,19 +114,19 @@ KServiceType *KServiceTypeFactory::createEntry(int offset) const
     KSycocaType type;
     QDataStream *str = sycoca()->findEntry(offset, type);
     if (!str) {
-        return 0;
+        return nullptr;
     }
 
     if (type != KST_KServiceType) {
         qWarning() << "KServiceTypeFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
-        return 0;
+        return nullptr;
     }
 
     KServiceType *newEntry = new KServiceType(*str, offset);
     if (newEntry && !newEntry->isValid()) {
         qWarning() << "KServiceTypeFactory: corrupt object in KSycoca database!";
         delete newEntry;
-        newEntry = 0;
+        newEntry = nullptr;
     }
     return newEntry;
 }

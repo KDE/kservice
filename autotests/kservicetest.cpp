@@ -74,7 +74,7 @@ void KServiceTest::initTestCase()
     //   - some character other than dot as decimal separator
     // If it cannot be set, locale-dependent tests are skipped.
     setlocale(LC_ALL, "fr_FR.utf8");
-    m_hasNonCLocale = (setlocale(LC_ALL, NULL) == QByteArray("fr_FR.utf8"));
+    m_hasNonCLocale = (setlocale(LC_ALL, nullptr) == QByteArray("fr_FR.utf8"));
     if (!m_hasNonCLocale) {
         qDebug() << "Setting locale to fr_FR.utf8 failed";
     }

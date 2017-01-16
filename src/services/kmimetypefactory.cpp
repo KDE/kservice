@@ -67,18 +67,18 @@ KMimeTypeFactory::MimeTypeEntry *KMimeTypeFactory::createEntry(int offset) const
     KSycocaType type;
     QDataStream *str = sycoca()->findEntry(offset, type);
     if (!str) {
-        return 0;
+        return nullptr;
     }
 
     if (type != KST_KMimeTypeEntry) {
         qWarning() << "KMimeTypeFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
-        return 0;
+        return nullptr;
     }
     MimeTypeEntry *newEntry = new MimeTypeEntry(*str, offset);
     if (newEntry && !newEntry->isValid()) {
         qWarning() << "KMimeTypeFactory: corrupt object in KSycoca database!\n";
         delete newEntry;
-        newEntry = 0;
+        newEntry = nullptr;
     }
     return newEntry;
 }

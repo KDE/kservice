@@ -112,10 +112,10 @@ KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
                 qCWarning(SYCOCA) << "Invalid Service : " << file;
             }
             delete serv;
-            return 0;
+            return nullptr;
         }
     } // TODO else if a Windows application,  new KService(name, exec, icon)
-    return 0;
+    return nullptr;
 }
 
 void KBuildServiceFactory::saveHeader(QDataStream &str)
@@ -234,7 +234,7 @@ void KBuildServiceFactory::postProcessServices()
             if (dup->storageId().endsWith(service->storageId())) {
                 // allow dup to be overridden
                 m_nameDict->remove(name);
-                dup = 0;
+                dup = nullptr;
             }
         }
         if (!dup) {

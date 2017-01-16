@@ -61,7 +61,7 @@ public:
     KService *createEntry(int) const Q_DECL_OVERRIDE
     {
         assert(0);
-        return 0;
+        return nullptr;
     }
 
     /**

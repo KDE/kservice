@@ -45,7 +45,7 @@ public:
 };
 
 PluginTest::PluginTest() :
-    QObject(0)
+    QObject(nullptr)
 {
     d = new PluginTestPrivate;
 }

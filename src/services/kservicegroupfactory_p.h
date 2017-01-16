@@ -51,7 +51,7 @@ public:
     KSycocaEntry *createEntry(const QString &) const Q_DECL_OVERRIDE
     {
         assert(0);
-        return 0;
+        return nullptr;
     }
 
     /**

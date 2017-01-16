@@ -55,7 +55,7 @@ ParseTreeBase::Ptr KTraderParse::parseConstraints(const QString &_constr)
     data->buffer = _constr.toUtf8();
     KTraderParse_mainParse(data->buffer.constData());
     ParseTreeBase::Ptr ret = data->ptr;
-    s_parsingData()->setLocalData(0);
+    s_parsingData()->setLocalData(nullptr);
     return ret;
 }
 

@@ -153,7 +153,7 @@ void KSycocaTest::dirInFutureShouldRebuildSycocaOnce()
 #ifdef Q_OS_UNIX
     const QString path = serviceTypesDir();
     struct timeval tp;
-    gettimeofday(&tp, 0);
+    gettimeofday(&tp, nullptr);
     struct utimbuf utbuf;
     utbuf.actime = tp.tv_sec;
     utbuf.modtime = tp.tv_sec + 60; // 60 second in the future
@@ -198,7 +198,7 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
     // ### use QFile::setFileTime when it lands in Qt...
 #ifdef Q_OS_UNIX
     struct timeval tp;
-    gettimeofday(&tp, 0);
+    gettimeofday(&tp, nullptr);
     struct utimbuf utbuf;
     utbuf.actime = tp.tv_sec;
     utbuf.modtime = tp.tv_sec + 60; // 60 second in the future
@@ -248,7 +248,7 @@ void KSycocaTest::recursiveCheckShouldIgnoreLinksGoingUp()
     // ### use QFile::setFileTime when it lands in Qt...
 #ifdef Q_OS_UNIX
     struct timeval tp;
-    gettimeofday(&tp, 0);
+    gettimeofday(&tp, nullptr);
     struct utimbuf utbuf;
     utbuf.actime = tp.tv_sec;
     utbuf.modtime = tp.tv_sec + 60; // 60 second in the future

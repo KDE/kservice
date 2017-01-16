@@ -119,10 +119,10 @@ public:
      *         factory was unable to create an object of the given type.
      */
     template <class T>
-    static T *createPartInstanceFromQuery(const QString &mimeType, QWidget *parentWidget = 0, QObject *parent = 0,
+    static T *createPartInstanceFromQuery(const QString &mimeType, QWidget *parentWidget = nullptr, QObject *parent = nullptr,
                                           const QString &constraint = QString(),
                                           const QVariantList &args = QVariantList(),
-                                          QString *error = 0)
+                                          QString *error = nullptr)
     {
         const KService::List offers = self()->query(mimeType, QStringLiteral("KParts/ReadOnlyPart"), constraint);
         Q_FOREACH (const KService::Ptr &ptr, offers) {
@@ -154,10 +154,10 @@ public:
      *         factory was unable to create an object of the given type.
      */
     template <class T>
-    static T *createInstanceFromQuery(const QString &mimeType, const QString &serviceType, QObject *parent = 0,
+    static T *createInstanceFromQuery(const QString &mimeType, const QString &serviceType, QObject *parent = nullptr,
                                       const QString &constraint = QString(),
                                       const QVariantList &args = QVariantList(),
-                                      QString *error = 0)
+                                      QString *error = nullptr)
     {
         const KService::List offers = self()->query(mimeType, serviceType, constraint);
         Q_FOREACH (const KService::Ptr &ptr, offers) {

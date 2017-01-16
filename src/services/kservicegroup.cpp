@@ -368,7 +368,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
         grp = KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(path, true);
 
         group = grp.data();
-        if (0 == group) { // No guarantee that we still exist!
+        if (nullptr == group) { // No guarantee that we still exist!
             return KServiceGroup::List();
         }
     }

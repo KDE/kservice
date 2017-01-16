@@ -45,7 +45,7 @@ public:
      * @param filename the file to load into memory
      * @param parent our parent
      */
-    explicit KMemFile(const QString &filename, QObject *parent = 0);
+    explicit KMemFile(const QString &filename, QObject *parent = nullptr);
     /**
      * dtor
      */

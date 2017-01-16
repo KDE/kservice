@@ -303,7 +303,7 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
     : d(new KPluginInfoPrivate)
 {
     if (!service) {
-        d = 0; // isValid() == false
+        d = nullptr; // isValid() == false
         return;
     }
     d->service = service;
@@ -356,13 +356,13 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
 #endif
 
 KPluginInfo::KPluginInfo()
-    : d(0) // isValid() == false
+    : d(nullptr) // isValid() == false
 {
 }
 
 bool KPluginInfo::isValid() const
 {
-    return d.data() != 0;
+    return d.data() != nullptr;
 }
 
 KPluginInfo::KPluginInfo(const KPluginInfo &rhs)

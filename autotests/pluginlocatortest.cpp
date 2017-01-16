@@ -80,7 +80,7 @@ void PluginTest::loadPlugin()
     const QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(pluginName);
 
     QObject *plugin = KPluginTrader::createInstanceFromQuery<QObject>(QString(), serviceType, constraint, this);
-    QVERIFY(plugin != 0);
+    QVERIFY(plugin != nullptr);
     QCOMPARE(plugin->objectName(), QStringLiteral("Test Plugin Spy"));
 }
 

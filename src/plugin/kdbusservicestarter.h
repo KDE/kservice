@@ -62,7 +62,7 @@ public:
      */
     int findServiceFor(const QString &serviceType,
                        const QString &constraint = QString(),
-                       QString *error = 0, QString *dbusService = 0,
+                       QString *error = nullptr, QString *dbusService = nullptr,
                        int flags = 0);
 
     /**
@@ -88,7 +88,7 @@ public:
      */
     virtual int startServiceFor(const QString &serviceType,
                                 const QString &constraint = QString(),
-                                QString *error = 0, QString *dbusService = 0,
+                                QString *error = nullptr, QString *dbusService = nullptr,
                                 int flags = 0);
 protected:
     friend class KDBusServiceStarterPrivate;

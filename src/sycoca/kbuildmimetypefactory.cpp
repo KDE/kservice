@@ -53,16 +53,16 @@ KSycocaEntry *KBuildMimeTypeFactory::createEntry(const QString &file) const
 
     const int pos = file.lastIndexOf('/');
     if (pos == -1) { // huh?
-        return 0;
+        return nullptr;
     }
     const QStringRef dirName = file.leftRef(pos);
     if (dirName == QLatin1String("packages")) { // special subdir
-        return 0;
+        return nullptr;
     }
 
     const int dot = file.lastIndexOf('.');
     if (dot == -1) { // huh?
-        return 0;
+        return nullptr;
     }
     const QString name = file.left(dot);
 

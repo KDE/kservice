@@ -77,7 +77,7 @@ public:
         : service(_service), info(KPluginInfo()), maxima(_m), offers(_offers), pluginOffers(KPluginInfo::List()) {}
     ParseContext(KPluginInfo _info, const KPluginInfo::List &_offers,
                  QMap<QString, PreferencesMaxima> &_m)
-        : service(0), info(_info), maxima(_m), offers(KService::List()), pluginOffers(_offers) {}
+        : service(nullptr), info(_info), maxima(_m), offers(KService::List()), pluginOffers(_offers) {}
 
     bool initMaxima(const QString &_prop);
 

@@ -40,7 +40,7 @@ class KMemFile;
 class KSycocaAbstractDevice
 {
 public:
-    KSycocaAbstractDevice() : m_stream(0)
+    KSycocaAbstractDevice() : m_stream(nullptr)
     {
     }
 

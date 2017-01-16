@@ -29,9 +29,9 @@ extern int servicesDebugArea();
 
 KServiceFactory::KServiceFactory(KSycoca *db)
     : KSycocaFactory(KST_KServiceFactory, db),
-      m_nameDict(0),
-      m_relNameDict(0),
-      m_menuIdDict(0)
+      m_nameDict(nullptr),
+      m_relNameDict(nullptr),
+      m_menuIdDict(nullptr)
 {
     m_offerListOffset = 0;
     m_nameDictOffset = 0;
@@ -212,13 +212,13 @@ KService *KServiceFactory::createEntry(int offset) const
     QDataStream *str = sycoca()->findEntry(offset, type);
     if (type != KST_KService) {
         qWarning() << "KServiceFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
-        return 0;
+        return nullptr;
     }
     KService *newEntry = new KService(*str, offset);
     if (!newEntry->isValid()) {
         qWarning() << "KServiceFactory: corrupt object in KSycoca database!";
         delete newEntry;
-        newEntry = 0;
+        newEntry = nullptr;
     }
     return newEntry;
 }

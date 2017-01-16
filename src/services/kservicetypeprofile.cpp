@@ -82,7 +82,7 @@ void KServiceTypeProfiles::ensureParsed()
         const QString type = *aIt;
         KConfigGroup config(&configFile, type);
         const int count = config.readEntry("NumberOfEntries", 0);
-        KServiceTypeProfileEntry *p = this->value(type, 0);
+        KServiceTypeProfileEntry *p = this->value(type, nullptr);
         if (!p) {
             p = new KServiceTypeProfileEntry();
             this->insert(type, p);
@@ -123,7 +123,7 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
 {
     QMutexLocker lock(&s_serviceTypeProfiles()->m_mutex);
     s_serviceTypeProfiles()->ensureParsed();
-    KServiceTypeProfileEntry *profile = s_serviceTypeProfiles()->value(serviceType, 0);
+    KServiceTypeProfileEntry *profile = s_serviceTypeProfiles()->value(serviceType, nullptr);
 
     KServiceOfferList offers;
 

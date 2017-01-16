@@ -153,8 +153,8 @@ public:
      */
     template <class T>
     static T *createInstanceFromQuery(const QString &serviceType,
-                                      const QString &constraint = QString(), QObject *parent = 0,
-                                      const QVariantList &args = QVariantList(), QString *error = 0)
+                                      const QString &constraint = QString(), QObject *parent = nullptr,
+                                      const QVariantList &args = QVariantList(), QString *error = nullptr)
     {
         return createInstanceFromQuery<T>(serviceType, 0, parent, constraint, args, error);
     }
@@ -179,7 +179,7 @@ public:
     template <class T>
     static T *createInstanceFromQuery(const QString &serviceType,
                                       QWidget *parentWidget, QObject *parent, const QString &constraint = QString(),
-                                      const QVariantList &args = QVariantList(), QString *error = 0)
+                                      const QVariantList &args = QVariantList(), QString *error = nullptr)
     {
         const KService::List offers = self()->query(serviceType, constraint);
         if (error) {

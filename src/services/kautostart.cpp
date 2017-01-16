@@ -30,7 +30,7 @@ class KAutostartPrivate
 {
 public:
     KAutostartPrivate()
-        : df(0),
+        : df(nullptr),
           copyIfNeededChecked(false)
     {
     }
