@@ -22,6 +22,7 @@
 #include "kservicegroupfactory_p.h"
 #include "kservice.h"
 #include "ksycoca_p.h"
+#include "servicesdebug.h"
 #include <ksycoca.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
@@ -642,7 +643,7 @@ void KServiceGroupPrivate::parseAttribute(const QString &item,  bool &showEmptyM
         }
         inlineValue =  _inlineValue;
     } else {
-        qDebug() << "This attribute is not supported:" << item;
+        qCDebug(SERVICES) << "This attribute is not supported:" << item;
     }
 }
 

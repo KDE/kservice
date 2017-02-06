@@ -17,6 +17,7 @@
  **/
 
 #include "kctimefactory_p.h"
+#include "sycocadebug.h"
 #include <ksycoca.h>
 #include <ksycocautils_p.h>
 #include <ksycocatype.h>
@@ -53,7 +54,7 @@ void KCTimeDict::remove(const QString &path, const QByteArray &resource)
 
 void KCTimeDict::dump() const
 {
-    qDebug() << m_hash.keys();
+    qCDebug(SYCOCA) << m_hash.keys();
 }
 
 QStringList KCTimeDict::remainingResourceList() const

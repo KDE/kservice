@@ -43,6 +43,7 @@
 #include "kservicefactory_p.h"
 #include "kservicetypefactory_p.h"
 #include "kserviceutil_p.h"
+#include "servicesdebug.h"
 
 QDataStream &operator<<(QDataStream &s, const KService::ServiceTypeAndPreference &st)
 {
@@ -267,7 +268,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         const QString key = it.key();
         // do not store other translations like Name[fr]; kbuildsycoca will rerun if we change languages anyway
         if (!key.contains(QLatin1Char('['))) {
-            //qDebug() << "  Key =" << key << " Data =" << *it;
+            //qCDebug(SERVICES) << "  Key =" << key << " Data =" << *it;
             m_mapProps.insert(key, QVariant(*it));
         }
     }
@@ -424,7 +425,7 @@ bool KService::hasServiceType(const QString &serviceType) const
     QVector<ServiceTypeAndPreference>::ConstIterator it = d->m_serviceTypes.begin();
     for (; it != d->m_serviceTypes.end(); ++it) {
         const QString &st = (*it).serviceType;
-        //qDebug() << "    has " << (*it);
+        //qCDebug(SERVICES) << "    has " << (*it);
         if (st == ptr->name()) {
             return true;
         }
@@ -461,7 +462,7 @@ bool KService::hasMimeType(const QString &mimeType) const
     QVector<ServiceTypeAndPreference>::ConstIterator it = d->m_serviceTypes.begin();
     for (; it != d->m_serviceTypes.end(); ++it) {
         const QString &st = (*it).serviceType;
-        //qDebug() << "    has " << (*it);
+        //qCDebug(SERVICES) << "    has " << (*it);
         if (st == mime) {
             return true;
         }
@@ -543,14 +544,14 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
         KSycoca::self()->ensureCacheValid();
         t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(_name);
         if (t == QVariant::Invalid) {
-            qDebug() << "Request for unknown property" << _name;
+            qCDebug(SERVICES) << "Request for unknown property" << _name;
             return QVariant(); // Unknown property: Invalid variant.
         }
     }
 
     QMap<QString, QVariant>::ConstIterator it = m_mapProps.find(_name);
     if ((it == m_mapProps.end()) || (!it->isValid())) {
-        //qDebug() << "Property not found " << _name;
+        //qCDebug(SERVICES) << "Property not found " << _name;
         return QVariant(); // No property set.
     }
 

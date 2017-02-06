@@ -22,6 +22,7 @@ set(kservice_SRCS
    services/ktraderparse.cpp
    services/ktraderparsetree.cpp
    services/kplugininfo.cpp
+   services/servicesdebug.cpp
    sycoca/ksycoca.cpp
    sycoca/ksycocadevices.cpp
    sycoca/ksycocadict.cpp

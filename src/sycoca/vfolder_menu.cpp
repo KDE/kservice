@@ -38,7 +38,7 @@ static void foldNode(QDomElement &docElem, QDomElement &e, QMap<QString, QDomEle
     }
     QMap<QString, QDomElement>::iterator it = dupeList.find(s);
     if (it != dupeList.end()) {
-        //qDebug() << e.tagName() << "and" << s << "requires combining!";
+        //qCDebug(SYCOCA) << e.tagName() << "and" << s << "requires combining!";
 
         docElem.removeChild(*it);
         dupeList.erase(it);
@@ -59,7 +59,7 @@ static void replaceNode(QDomElement &docElem, QDomNode &n, const QStringList &li
     QDomNode next = n.nextSibling();
     docElem.removeChild(n);
     n = next;
-//   qDebug() << "Next tag = " << n.toElement().tagName();
+//   qCDebug(SYCOCA) << "Next tag = " << n.toElement().tagName();
 }
 
 void VFolderMenu::registerFile(const QString &file)
@@ -483,7 +483,7 @@ VFolderMenu::loadDoc()
 void
 VFolderMenu::mergeFile(QDomElement &parent, const QDomNode &mergeHere)
 {
-    //qDebug() << m_docInfo.path;
+    //qCDebug(SYCOCA) << m_docInfo.path;
     QDomDocument doc = loadDoc();
 
     QDomElement docElem = doc.documentElement();
@@ -522,7 +522,7 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
     while (!n.isNull()) {
         QDomElement e = n.toElement(); // try to convert the node to an element.
         if (e.isNull()) {
-// qDebug() << "Empty node";
+// qCDebug(SYCOCA) << "Empty node";
         } else if (e.tagName() == QLatin1String("DefaultAppDirs")) {
             // Replace with m_defaultAppDirs
             replaceNode(docElem, n, m_defaultAppDirs, QStringLiteral("AppDir"));
@@ -682,7 +682,7 @@ VFolderMenu::pushDocInfo(const QString &fileName, const QString &baseDir)
     if (m_docInfo.path.isEmpty()) {
         m_docInfo.baseDir.clear();
         m_docInfo.baseName.clear();
-        qDebug() << "Menu" << fileName << "not found.";
+        qCDebug(SYCOCA) << "Menu" << fileName << "not found.";
         return;
     }
     int i;
@@ -913,7 +913,7 @@ VFolderMenu::processCondition(QDomElement &domElem, QHash<QString, KService::Ptr
         FOR_ALL_APPLICATIONS_END
     } else if (domElem.tagName() == QLatin1String("Filename")) {
         const QString filename = domElem.text();
-        //qDebug() << "Adding file" << filename;
+        //qCDebug(SYCOCA) << "Adding file" << filename;
         KService::Ptr s = findApplication(filename);
         if (s) {
             items.insert(filename, s);
@@ -924,7 +924,7 @@ VFolderMenu::processCondition(QDomElement &domElem, QHash<QString, KService::Ptr
 void
 VFolderMenu::loadApplications(const QString &dir, const QString &prefix)
 {
-    //qDebug() << "Looking up applications under" << dir;
+    //qCDebug(SYCOCA) << "Looking up applications under" << dir;
 
     QDirIterator it(dir);
     while (it.hasNext()) {
@@ -953,7 +953,7 @@ VFolderMenu::loadApplications(const QString &dir, const QString &prefix)
 void
 VFolderMenu::processLegacyDir(const QString &dir, const QString &relDir, const QString &prefix)
 {
-    //qDebug().nospace() << "processLegacyDir(" << dir << ", " << relDir << ", " << prefix << ")";
+    //qCDebug(SYCOCA).nospace() << "processLegacyDir(" << dir << ", " << relDir << ", " << prefix << ")";
 
     QHash<QString, KService::Ptr> items;
     QDirIterator it(dir);
@@ -1064,7 +1064,7 @@ VFolderMenu::processMenu(QDomElement &docElem, int pass)
             }
         }
         if (directoryFile.isEmpty()) {
-            //qDebug() << "Menu" << name << "does not specify a directory file.";
+            //qCDebug(SYCOCA) << "Menu" << name << "does not specify a directory file.";
         }
 
         // Override previous directoryFile iff available
@@ -1218,7 +1218,7 @@ VFolderMenu::processMenu(QDomElement &docElem, int pass)
                     }
                     n2 = n2.nextSibling();
                 }
-                //qDebug() << "Moving" << orig << "to" << dest;
+                //qCDebug(SYCOCA) << "Moving" << orig << "to" << dest;
                 if (!orig.isEmpty() && !dest.isEmpty()) {
                     SubMenu *menu = takeSubMenu(m_currentMenu, orig);
                     if (menu) {
@@ -1252,7 +1252,7 @@ static QString parseAttribute(const QDomElement &e)
         } else if (str == QLatin1String("false")) {
             option = "NME ";
         } else {
-            //qDebug()<<" Error in parsing show_empty attribute :"<<str;
+            //qCDebug(SYCOCA)<<" Error in parsing show_empty attribute :"<<str;
         }
     }
     const QString INLINE=QStringLiteral("inline");
@@ -1263,7 +1263,7 @@ static QString parseAttribute(const QDomElement &e)
         } else if (str == QLatin1String("false")) {
             option += "NI ";
         } else {
-            qDebug() << " Error in parsing inline attribute :" << str;
+            qCDebug(SYCOCA) << " Error in parsing inline attribute :" << str;
         }
     }
     if (e.hasAttribute(QStringLiteral("inline_limit"))) {
@@ -1280,7 +1280,7 @@ static QString parseAttribute(const QDomElement &e)
         } else if (str == QLatin1String("false")) {
             option += QStringLiteral("NIH ");
         } else {
-            qDebug() << " Error in parsing of inline_header attribute :" << str;
+            qCDebug(SYCOCA) << " Error in parsing of inline_header attribute :" << str;
         }
 
     }
@@ -1291,7 +1291,7 @@ static QString parseAttribute(const QDomElement &e)
         } else if (str == QLatin1String("false")) {
             option += "NIA";
         } else {
-            qDebug() << " Error in parsing inline_alias attribute :" << str;
+            qCDebug(SYCOCA) << " Error in parsing inline_alias attribute :" << str;
         }
     }
     if (!option.isEmpty()) {

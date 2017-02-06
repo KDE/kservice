@@ -115,7 +115,7 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
             Q_FOREACH (const QString &service, services) {
                 KService::Ptr pService = m_serviceFactory->findServiceByStorageId(service);
                 if (!pService) {
-                    qDebug(SYCOCA) << file << "specifies unknown service" << service << "in" << group.name();
+                    qCDebug(SYCOCA) << file << "specifies unknown service" << service << "in" << group.name();
                 } else {
                     //qDebug() << "adding mime" << resolvedMimeName << "to service" << pService->entryPath() << "pref=" << pref;
                     m_offerHash.addServiceOffer(resolvedMimeName, KServiceOffer(pService, pref, 0, pService->allowAsDefault()));

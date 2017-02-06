@@ -26,6 +26,7 @@
 #include "kservicetypetrader.h"
 #include "kservicefactory_p.h"
 #include "kmimetypefactory_p.h"
+#include "servicesdebug.h"
 #include <qmimedatabase.h>
 #include <QDebug>
 
@@ -76,7 +77,7 @@ static KServiceOfferList mimeTypeSycocaOffers(const QString &mimeType)
     const int offset = factory->entryOffset(mime);
     if (!offset) { // shouldn't happen, now that we know the mimetype exists
         if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler mimetypes
-            qDebug() << "KMimeTypeTrader: no entry offset for" << mimeType;
+            qCDebug(SERVICES) << "KMimeTypeTrader: no entry offset for" << mimeType;
         }
         return lst; // empty
     }
@@ -179,7 +180,7 @@ KService::List KMimeTypeTrader::query(const QString &mimeType,
 
     KServiceTypeTrader::applyConstraints(lst, constraint);
 
-    //qDebug() << "query for mimeType " << mimeType << ", " << genericServiceType
+    //qCDebug(SERVICES) << "query for mimeType " << mimeType << ", " << genericServiceType
     //         << " : returning " << lst.count() << " offers";
     return lst;
 }
@@ -201,6 +202,6 @@ KService::Ptr KMimeTypeTrader::preferredService(const QString &mimeType, const Q
         return (*itOff).service();
     }
 
-    //qDebug() << "No offers, or none allowed as default";
+    //qCDebug(SERVICES) << "No offers, or none allowed as default";
     return KService::Ptr();
 }

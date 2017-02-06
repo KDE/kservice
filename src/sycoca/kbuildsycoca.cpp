@@ -89,7 +89,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
         Q_ASSERT(m_ctimeDict);
         quint32 oldTimestamp = m_ctimeDict->ctime(file, m_resource);
         if (file.contains(QLatin1String("fake"))) {
-            qDebug() << "m_ctimeDict->ctime(" << file << ") = " << oldTimestamp << "compared with" << timeStamp;
+            qCDebug(SYCOCA) << "m_ctimeDict->ctime(" << file << ") = " << oldTimestamp << "compared with" << timeStamp;
         }
 
         if (timeStamp && (timeStamp == oldTimestamp)) {
@@ -103,16 +103,16 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
             // after all files have been processed, it means
             // some files were removed since last time
             if (file.contains(QLatin1String("fake"))) {
-                qDebug() << "reusing (and removing) old entry for:" << file << "entry=" << entry;
+                qCDebug(SYCOCA) << "reusing (and removing) old entry for:" << file << "entry=" << entry;
             }
             m_ctimeDict->remove(file, m_resource);
         } else if (oldTimestamp) {
             m_changed = true;
             m_ctimeDict->remove(file, m_resource);
-            qDebug() << "modified:" << file;
+            qCDebug(SYCOCA) << "modified:" << file;
         } else {
             m_changed = true;
-            qDebug() << "new:" << file;
+            qCDebug(SYCOCA) << "new:" << file;
         }
     }
     m_ctimeFactory->dict()->addCTime(file, m_resource, timeStamp);
@@ -153,7 +153,7 @@ bool KBuildSycoca::build()
         if (m_allEntries) { // incremental build
             Q_FOREACH (const KSycocaEntry::Ptr &entry, (*m_allEntries)[i++]) {
                 //if (entry->entryPath().contains("fake"))
-                //    qDebug() << "inserting into entryDict:" << entry->entryPath() << entry;
+                //    qCDebug(SYCOCA) << "inserting into entryDict:" << entry->entryPath() << entry;
                 entryDict->insert(entry->entryPath(), entry);
             }
         }
@@ -244,20 +244,20 @@ bool KBuildSycoca::build()
             }
         }
         if (m_changed || !m_allEntries) {
-            //qDebug() << "CHANGED:" << m_resource;
+            //qCDebug(SYCOCA) << "CHANGED:" << m_resource;
             m_changedResources.append(m_resource);
         }
     }
 
     if (m_ctimeDict && !m_ctimeDict->isEmpty()) {
-        //qDebug() << "Still in time dict:";
+        //qCDebug(SYCOCA) << "Still in time dict:";
         //m_ctimeDict->dump();
         // ## It seems entries filtered out by vfolder are still in there,
         // so on a real system we end up always adding "apps" to m_changedResources
 
         // Get the list of resources from which some files were deleted
         const QStringList resources = m_ctimeDict->remainingResourceList();
-        qDebug() << "Still in the time dict (i.e. deleted files)" << resources;
+        qCDebug(SYCOCA) << "Still in the time dict (i.e. deleted files)" << resources;
         m_changedResources += resources;
     }
 
@@ -298,7 +298,7 @@ bool KBuildSycoca::build()
         }
 
         if (m_changed || !m_allEntries) {
-            //qDebug() << "CHANGED:" << m_resource;
+            //qCDebug(SYCOCA) << "CHANGED:" << m_resource;
             m_changedResources.append(m_resource);
         }
         if (m_menuTest) {
@@ -378,13 +378,13 @@ bool KBuildSycoca::recreate(bool incremental)
 
     QLockFile lockFile(path + QLatin1String(".lock"));
     if (!lockFile.tryLock()) {
-        qDebug() <<  "Waiting for already running" << KBUILDSYCOCA_EXENAME << "to finish.";
+        qCDebug(SYCOCA) <<  "Waiting for already running" << KBUILDSYCOCA_EXENAME << "to finish.";
         if (!lockFile.lock()) {
             qCWarning(SYCOCA) << "Couldn't lock" << path + ".lock";
             return false;
         }
         if (!needsRebuild()) {
-            //qDebug() << "Up-to-date, skipping.";
+            //qCDebug(SYCOCA) << "Up-to-date, skipping.";
             return true;
         }
     }
@@ -395,7 +395,7 @@ bool KBuildSycoca::recreate(bool incremental)
     m_allEntries = nullptr;
     m_ctimeDict = nullptr;
     if (incremental && checkGlobalHeader()) {
-        qDebug() << "Reusing existing ksycoca";
+        qCDebug(SYCOCA) << "Reusing existing ksycoca";
         KSycoca *oldSycoca = KSycoca::self();
         m_allEntries = new KSycocaEntryListList;
         m_ctimeDict = new KCTimeDict;
@@ -427,7 +427,7 @@ bool KBuildSycoca::recreate(bool incremental)
     str->setVersion(QDataStream::Qt_5_3);
 
     m_newTimestamp = QDateTime::currentMSecsSinceEpoch();
-    qDebug().nospace() << "Recreating ksycoca file (" << path << ", version " << KSycoca::version() << ")";
+    qCDebug(SYCOCA).nospace() << "Recreating ksycoca file (" << path << ", version " << KSycoca::version() << ")";
 
     // It is very important to build the servicetype one first
     KBuildServiceTypeFactory *buildServiceTypeFactory = new KBuildServiceTypeFactory(this);
@@ -484,7 +484,7 @@ bool KBuildSycoca::recreate(bool incremental)
         if (m_menuTest) {
             return true;
         }
-        qDebug() << "Database is up to date";
+        qCDebug(SYCOCA) << "Database is up to date";
     }
 
     if (m_globalDatabase) {
@@ -545,7 +545,7 @@ void KBuildSycoca::save(QDataStream *str)
     if (serviceFactory) serviceFactory->postProcessServices();
 
     // Here so that it's the last debug message
-    qDebug() << "Saving";
+    qCDebug(SYCOCA) << "Saving";
 
     // Write factory data....
     Q_FOREACH (KSycocaFactory* factory, *factories()) {

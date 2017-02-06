@@ -21,6 +21,7 @@
 #include "ksycocatype.h"
 #include "ksycocadict_p.h"
 #include "kservice.h"
+#include "servicesdebug.h"
 #include <QDebug>
 #include <QDir>
 #include <QFile>
@@ -132,13 +133,13 @@ KService::Ptr KServiceFactory::findServiceByDesktopPath(const QString &_name)
 
     int offset = m_relNameDict->find_string(_name);
     if (!offset) {
-        //qDebug() << "findServiceByDesktopPath:" << _name << "not found";
+        //qCDebug(SERVICES) << "findServiceByDesktopPath:" << _name << "not found";
         return KService::Ptr(); // Not found
     }
 
     KService::Ptr newService(createEntry(offset));
     if (!newService) {
-        qDebug() << "createEntry failed!";
+        qCDebug(SERVICES) << "createEntry failed!";
     }
     // Check whether the dictionary was right
     // It's ok that it's wrong, for the case where we're looking up an unknown service,

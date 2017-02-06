@@ -139,7 +139,7 @@ KSycocaDict::remove(const QString &key)
         }
     }
     if (!found) {
-        qDebug() << "key not found:" << key;
+        qCDebug(SYCOCA) << "key not found:" << key;
     }
 }
 
@@ -147,10 +147,10 @@ int KSycocaDict::find_string(const QString &key) const
 {
     Q_ASSERT(d);
 
-    //qDebug() << QString("KSycocaDict::find_string(%1)").arg(key);
+    //qCDebug(SYCOCA) << QString("KSycocaDict::find_string(%1)").arg(key);
     qint32 offset = d->offsetForKey(key);
 
-    //qDebug() << QString("offset is %1").arg(offset,8,16);
+    //qCDebug(SYCOCA) << QString("offset is %1").arg(offset,8,16);
     if (offset == 0) {
         return 0;
     }
@@ -163,7 +163,7 @@ int KSycocaDict::find_string(const QString &key) const
     offset = -offset;
 
     d->stream->device()->seek(offset);
-    //qDebug() << QString("Looking up duplicate list at %1").arg(offset,8,16);
+    //qCDebug(SYCOCA) << QString("Looking up duplicate list at %1").arg(offset,8,16);
 
     while (true) {
         (*d->stream) >> offset;
@@ -172,12 +172,12 @@ int KSycocaDict::find_string(const QString &key) const
         }
         QString dupkey;
         (*d->stream) >> dupkey;
-        //qDebug() << QString(">> %1 %2").arg(offset,8,16).arg(dupkey);
+        //qCDebug(SYCOCA) << QString(">> %1 %2").arg(offset,8,16).arg(dupkey);
         if (dupkey == key) {
             return offset;
         }
     }
-    //qDebug() << "Not found!";
+    //qCDebug(SYCOCA) << "Not found!";
 
     return 0;
 }
@@ -199,7 +199,7 @@ QList<int> KSycocaDict::findMultiString(const QString &key) const
     offset = -offset;
 
     d->stream->device()->seek(offset);
-    //qDebug() << QString("Looking up duplicate list at %1").arg(offset,8,16);
+    //qCDebug(SYCOCA) << QString("Looking up duplicate list at %1").arg(offset,8,16);
 
     while (true) {
         (*d->stream) >> offset;
@@ -208,7 +208,7 @@ QList<int> KSycocaDict::findMultiString(const QString &key) const
         }
         QString dupkey;
         (*d->stream) >> dupkey;
-        //qDebug() << QString(">> %1 %2").arg(offset,8,16).arg(dupkey);
+        //qCDebug(SYCOCA) << QString(">> %1 %2").arg(offset,8,16).arg(dupkey);
         if (dupkey == key) {
             offsetList.append(offset);
         }
@@ -353,12 +353,12 @@ KSycocaDict::save(QDataStream &str)
 
     d->offset = str.device()->pos();
 
-    //qDebug() << "KSycocaDict:" << count() << "entries.";
+    //qCDebug(SYCOCA) << "KSycocaDict:" << count() << "entries.";
 
-    //qDebug() << "Calculating hash keys..";
+    //qCDebug(SYCOCA) << "Calculating hash keys..";
 
     int maxLength = 0;
-    //qDebug() << "Finding maximum string length";
+    //qCDebug(SYCOCA) << "Finding maximum string length";
     for (KSycocaDictStringList::const_iterator it = d->stringlist.constBegin(); it != d->stringlist.constEnd(); ++it) {
         string_entry *entry = *it;
         entry->hash = 0;
@@ -367,7 +367,7 @@ KSycocaDict::save(QDataStream &str)
         }
     }
 
-    //qDebug() << "Max string length=" << maxLength << "existing hashList=" << d->hashList;
+    //qCDebug(SYCOCA) << "Max string length=" << maxLength << "existing hashList=" << d->hashList;
 
     // use "almost prime" number for sz (to calculate diversity) and later
     // for the table size of big tables
@@ -429,7 +429,7 @@ KSycocaDict::save(QDataStream &str)
         if (maxDiv <= lastDiv) {
             break;
         }
-        //qDebug() << "Max Div=" << maxDiv << "at pos" << maxPos;
+        //qCDebug(SYCOCA) << "Max Div=" << maxDiv << "at pos" << maxPos;
         lastDiv = maxDiv;
         addDiversity(&(d->stringlist), maxPos);
         d->hashList.append(maxPos);
@@ -442,7 +442,7 @@ KSycocaDict::save(QDataStream &str)
 
     d->hashTableSize = sz;
 
-    //qDebug() << "hashTableSize=" << sz << "hashList=" << d->hashList << "oldvec=" << oldvec;
+    //qCDebug(SYCOCA) << "hashTableSize=" << sz << "hashList=" << d->hashList << "oldvec=" << oldvec;
 
     struct hashtable_entry {
         string_entry *entry;
@@ -452,16 +452,16 @@ KSycocaDict::save(QDataStream &str)
 
     hashtable_entry *hashTable = new hashtable_entry[ sz ];
 
-    //qDebug() << "Clearing hashtable...";
+    //qCDebug(SYCOCA) << "Clearing hashtable...";
     for (unsigned int i = 0; i < sz; i++) {
         hashTable[i].entry = nullptr;
         hashTable[i].duplicates = nullptr;
     }
 
-    //qDebug() << "Filling hashtable...";
+    //qCDebug(SYCOCA) << "Filling hashtable...";
     for (auto it = d->stringlist.constBegin(); it != d->stringlist.constEnd(); ++it) {
         string_entry *entry = *it;
-        //qDebug() << "entry keyStr=" << entry->keyStr << entry->payload.data() << entry->payload->entryPath();
+        //qCDebug(SYCOCA) << "entry keyStr=" << entry->keyStr << entry->payload.data() << entry->payload->entryPath();
         int hash = entry->hash % sz;
         if (!hashTable[hash].entry) {
             // First entry
@@ -481,14 +481,14 @@ KSycocaDict::save(QDataStream &str)
     str << d->hashList;
 
     d->offset = str.device()->pos(); // d->offset points to start of hashTable
-    //qDebug() << QString("Start of Hash Table, offset = %1").arg(d->offset,8,16);
+    //qCDebug(SYCOCA) << QString("Start of Hash Table, offset = %1").arg(d->offset,8,16);
 
     // Write the hashtable + the duplicates twice.
     // The duplicates are after the normal hashtable, but the offset of each
     // duplicate entry is written into the normal hashtable.
     for (int pass = 1; pass <= 2; pass++) {
         str.device()->seek(d->offset);
-        //qDebug() << QString("Writing hash table (pass #%1)").arg(pass);
+        //qCDebug(SYCOCA) << QString("Writing hash table (pass #%1)").arg(pass);
         for (uint i = 0; i < d->hashTableSize; i++) {
             qint32 tmpid;
             if (!hashTable[i].entry) {
@@ -499,26 +499,26 @@ KSycocaDict::save(QDataStream &str)
                 tmpid = - hashTable[i].duplicate_offset;    // Negative ID
             }
             str << tmpid;
-            //qDebug() << QString("Hash table : %1").arg(tmpid,8,16);
+            //qCDebug(SYCOCA) << QString("Hash table : %1").arg(tmpid,8,16);
         }
-        //qDebug() << QString("End of Hash Table, offset = %1").arg(str.device()->at(),8,16);
+        //qCDebug(SYCOCA) << QString("End of Hash Table, offset = %1").arg(str.device()->at(),8,16);
 
-        //qDebug() << QString("Writing duplicate lists (pass #%1)").arg(pass);
+        //qCDebug(SYCOCA) << QString("Writing duplicate lists (pass #%1)").arg(pass);
         for (uint i = 0; i < d->hashTableSize; i++) {
             const QList<string_entry *> *dups = hashTable[i].duplicates;
             if (dups) {
                 hashTable[i].duplicate_offset = str.device()->pos();
 
-                /*qDebug() << QString("Duplicate lists: Offset = %1 list_size = %2")                           .arg(hashTable[i].duplicate_offset,8,16).arg(dups->count());
+                /*qCDebug(SYCOCA) << QString("Duplicate lists: Offset = %1 list_size = %2")                           .arg(hashTable[i].duplicate_offset,8,16).arg(dups->count());
                 */
                 Q_FOREACH (string_entry* dup, *dups) {
                     const qint32 offset = dup->payload->offset();
                     if (!offset) {
                         const QString storageId = dup->payload->storageId();
-                        qDebug() << "about to assert! dict=" << this << "storageId=" << storageId << dup->payload.data();
+                        qCDebug(SYCOCA) << "about to assert! dict=" << this << "storageId=" << storageId << dup->payload.data();
                         if (dup->payload->isType(KST_KService)) {
                             KService::Ptr service(static_cast<KService*>(dup->payload.data()));
-                            qDebug() << service->storageId() << service->entryPath();
+                            qCDebug(SYCOCA) << service->storageId() << service->entryPath();
                         }
                         // save() must have been called on the entry
                         Q_ASSERT_X(offset, "KSycocaDict::save",
@@ -534,10 +534,10 @@ KSycocaDict::save(QDataStream &str)
                 str << qint32(0);               // End of list marker (0)
             }
         }
-        //qDebug() << QString("End of Dict, offset = %1").arg(str.device()->at(),8,16);
+        //qCDebug(SYCOCA) << QString("End of Dict, offset = %1").arg(str.device()->at(),8,16);
     }
 
-    //qDebug() << "Cleaning up hash table.";
+    //qCDebug(SYCOCA) << "Cleaning up hash table.";
     for (uint i = 0; i < d->hashTableSize; i++) {
         delete hashTable[i].duplicates;
     }
@@ -557,10 +557,10 @@ qint32 KSycocaDictPrivate::offsetForKey(const QString &key) const
 
     // Read hash-table data
     const uint hash = hashKey(key) % hashTableSize;
-    //qDebug() << "hash is" << hash;
+    //qCDebug(SYCOCA) << "hash is" << hash;
 
     const qint32 off = offset + sizeof(qint32) * hash;
-    //qDebug() << QString("off is %1").arg(off,8,16);
+    //qCDebug(SYCOCA) << QString("off is %1").arg(off,8,16);
     stream->device()->seek(off);
 
     qint32 retOffset;
