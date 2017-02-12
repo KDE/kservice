@@ -685,12 +685,18 @@ void KServiceTest::testDeletingService()
     QVERIFY(!QFile::exists(servPath));
 
     // workaround inotify issue (in CI only...)
-    QTest::qWait(100);
+    QTest::qWait(1000);
 
     // Recreate it, for future tests
     createFakeService(serviceName, QString());
     QVERIFY(QFile::exists(servPath));
     qDebug() << "executing kbuildsycoca (2)";
+
+#ifdef Q_OS_UNIX
+    // Find out filesystem type
+    system(QByteArray(QByteArray("df -T ") + QFile::encodeName(KSycoca::absoluteFilePath())).constData());
+#endif
+
     runKBuildSycoca();
 
     if (QThread::currentThread() != QCoreApplication::instance()->thread()) {
