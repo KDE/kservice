@@ -88,6 +88,7 @@ private Q_SLOTS:
     void testDeletingSycoca();
     void testGlobalSycoca();
     void testNonReadableSycoca();
+    void recursiveCheckShouldIgnoreLinksGoingUp();
 
 private:
     void createGlobalServiceType()
@@ -100,9 +101,10 @@ private:
         file.sync();
         qDebug() << "created" << serviceTypesDir() + "/fakeGlobalServiceType.desktop";
     }
-    QString servicesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservices5"; }
-    QString serviceTypesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservicetypes5"; }
-    QString menusDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/menus"; }
+    QString servicesDir() const { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservices5"; }
+    QString serviceTypesDir() const { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservicetypes5"; }
+    QString menusDir() const { return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/menus"; }
+    QString appsDir() const { return QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1Char('/'); }
 
     static void runKBuildSycoca(const QProcessEnvironment &environment, bool global = false);
 
@@ -217,6 +219,44 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
 
     // Ensure we don't pollute the other tests
     QDir(path).removeRecursively();
+}
+
+void KSycocaTest::recursiveCheckShouldIgnoreLinksGoingUp()
+{
+#ifndef Q_OS_UNIX
+    QSKIP("This test requires symlinks and utime");
+#endif
+    ksycoca_ms_between_checks = 0;
+    const QString link = menusDir() + QLatin1String("/linkGoingUp");
+    QVERIFY(QFile::link("..", link));
+    QTest::qWait(1000); // remove this once lastModified includes ms
+    KSycoca::self()->ensureCacheValid();
+    const QDateTime oldTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+
+    const QString path = QFileInfo(menusDir()).absolutePath(); // the parent of the menus dir
+
+    // ### use QFile::setFileTime when it lands in Qt...
+#ifdef Q_OS_UNIX
+    struct timeval tp;
+    gettimeofday(&tp, 0);
+    struct utimbuf utbuf;
+    utbuf.actime = tp.tv_sec;
+    utbuf.modtime = tp.tv_sec + 60; // 60 second in the future
+    QCOMPARE(utime(QFile::encodeName(path).constData(), &utbuf), 0);
+    qDebug("Time changed for %s", qPrintable(path));
+    qDebug() << QDateTime::currentDateTime() << QFileInfo(path).lastModified();
+#endif
+
+    ksycoca_ms_between_checks = 0;
+    QTest::qWait(1000); // remove this once lastModified includes ms
+
+    qDebug() << "Waited 1s, calling ensureCacheValid (should not rebuild)";
+    KSycoca::self()->ensureCacheValid();
+    const QDateTime againTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+    QCOMPARE(againTimestamp, oldTimestamp); // same mtime, it didn't get rebuilt
+
+    // Ensure we don't pollute the other tests
+    QFile(link).remove();
 }
 
 

@@ -931,7 +931,7 @@ VFolderMenu::loadApplications(const QString &dir, const QString &prefix)
         it.next();
         const QFileInfo fi = it.fileInfo();
         const QString fn = fi.fileName();
-        if (fi.isDir() && !fi.isBundle()) {
+        if (fi.isDir() && !fi.isSymLink() && !fi.isBundle()) { // same check as in ksycocautils_p.h
             if (fn == QLatin1String(".") || fn == QLatin1String("..")) {
                 continue;
             }

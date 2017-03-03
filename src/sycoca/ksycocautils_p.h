@@ -38,14 +38,13 @@ bool visitResourceDirectoryHelper(const QString &dirname, Visitor visitor)
     QDir dir(dirname);
     const QFileInfoList list = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::Dirs, QDir::Unsorted);
     foreach (const QFileInfo &fi, list) {
-        if (!fi.isDir()) {
-            continue;
-        }
-        if (!visitor(fi)) {
-            return false;
-        }
-        if (!visitResourceDirectoryHelper(fi.filePath(), visitor)) {
-            return false;
+        if (fi.isDir() && !fi.isSymLink() && !fi.isBundle()) { // same check as in vfolder_menu.cpp
+            if (!visitor(fi)) {
+                return false;
+            }
+            if (!visitResourceDirectoryHelper(fi.filePath(), visitor)) {
+                return false;
+            }
         }
     }
     return true;
