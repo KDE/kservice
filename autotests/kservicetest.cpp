@@ -694,6 +694,9 @@ void KServiceTest::testServiceGroups()
 
 void KServiceTest::testDeletingService()
 {
+    // workaround unexplained inotify issue (in CI only...)
+    QTest::qWait(1000);
+
     const QString serviceName = QStringLiteral("fakeservice_deleteme.desktop");
     KService::Ptr fakeService = KService::serviceByDesktopPath(serviceName);
     QVERIFY(fakeService); // see initTestCase; it should be found.
@@ -712,18 +715,10 @@ void KServiceTest::testDeletingService()
     QVERIFY(fakeService); // the whole point of refcounting is that this KService instance is still valid.
     QVERIFY(!QFile::exists(servPath));
 
-    // workaround inotify issue (in CI only...)
-    QTest::qWait(1000);
-
     // Recreate it, for future tests
     createFakeService(serviceName, QString());
     QVERIFY(QFile::exists(servPath));
     qDebug() << "executing kbuildsycoca (2)";
-
-#ifdef Q_OS_UNIX
-    // Find out filesystem type
-    system(QByteArray(QByteArray("df -T ") + QFile::encodeName(KSycoca::absoluteFilePath())).constData());
-#endif
 
     runKBuildSycoca();
 
