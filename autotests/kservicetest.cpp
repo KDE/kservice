@@ -271,6 +271,31 @@ void KServiceTest::testByName()
     QCOMPARE(myService->name(), QStringLiteral("FakePart"));
 }
 
+void KServiceTest::testConstructorFullPath()
+{
+    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart.desktop";
+    QVERIFY(QFile::exists(fakePart));
+    KService service(fakePart);
+    QVERIFY(service.isValid());
+    QCOMPARE(service.mimeTypes(), QStringList() << "text/plain" << "text/html");
+}
+
+void KServiceTest::testConstructorKDesktopFileFullPath()
+{
+    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart.desktop";
+    QVERIFY(QFile::exists(fakePart));
+    KDesktopFile desktopFile(fakePart);
+    KService service(&desktopFile);
+    QVERIFY(service.isValid());
+    QCOMPARE(service.mimeTypes(), QStringList() << "text/plain" << "text/html");
+}
+
+void KServiceTest::testConstructorKDesktopFile() // as happens inside kbuildsycoca.cpp
+{
+    KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, "kservices5/fakepart.desktop");
+    QCOMPARE(KService(&desktopFile, "kservices5/fakepart.desktop").mimeTypes(), QStringList() << "text/plain" << "text/html");
+}
+
 void KServiceTest::testProperty()
 {
     ksycoca_ms_between_checks = 0;

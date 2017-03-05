@@ -31,6 +31,9 @@ private Q_SLOTS:
     void testKPluginMetaData();
     void cleanupTestCase();
     void testByName();
+    void testConstructorFullPath();
+    void testConstructorKDesktopFileFullPath();
+    void testConstructorKDesktopFile();
     void testProperty();
     void testAllServiceTypes();
     void testAllServices();
