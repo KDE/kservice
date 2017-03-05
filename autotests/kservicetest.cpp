@@ -44,6 +44,7 @@
 #include <QTimer>
 #include <QDebug>
 #include <QLoggingCategory>
+#include <QMimeDatabase>
 
 QTEST_MAIN(KServiceTest)
 
@@ -273,6 +274,8 @@ void KServiceTest::testByName()
 
 void KServiceTest::testConstructorFullPath()
 {
+    // Requirement: text/html must be a known mimetype
+    QVERIFY(QMimeDatabase().mimeTypeForName("text/html").isValid());
     const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart.desktop";
     QVERIFY(QFile::exists(fakePart));
     KService service(fakePart);
