@@ -352,7 +352,11 @@ void KBuildServiceFactory::populateServiceTypes()
                 entry->setServiceOffersOffset(offersOffset);
                 offersOffset += offerEntrySize * numOffers;
             } else {
-                qWarning() << "Not found:" << stName;
+                if (stName.isEmpty()) {
+                    qCDebug(SYCOCA) << "Empty service type";
+                } else {
+                    qCWarning(SYCOCA) << "Service type not found:" << stName;
+                }
             }
         }
     }
