@@ -159,6 +159,29 @@ install(FILES
    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KService COMPONENT Devel
 )
 
+if(BUILD_QCH)
+    ecm_add_qch(
+        KF5Service_QCH
+        NAME KService
+        BASE_NAME KF5Service
+        VERSION ${KF5_VERSION}
+        ORG_DOMAIN org.kde
+        SOURCES # using only public headers, to cover only public API
+            ${KService_HEADERS}
+        MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
+        LINK_QCHS
+            KF5Config_QCH
+            KF5CoreAddons_QCH
+        BLANK_MACROS
+            KSERVICE_EXPORT
+            KSERVICE_DEPRECATED
+            KSERVICE_DEPRECATED_EXPORT
+        TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
+        QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
+        COMPONENT Devel
+    )
+endif()
+
 add_subdirectory(kbuildsycoca)
 
 include(ECMGeneratePriFile)

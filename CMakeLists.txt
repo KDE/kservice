@@ -18,8 +18,12 @@ include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
+include(ECMAddQch)
 
 include(GenerateExportHeader)
+
+option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
+add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)")
 
 ecm_setup_version(PROJECT
                   VARIABLE_PREFIX KSERVICE
@@ -60,8 +64,37 @@ set_package_properties(BISON PROPERTIES
     PURPOSE "Required for the Trader parser"
 )
 
+add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
+if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
+    ki18n_install(po)
+
+    if (KF5DocTools_FOUND)
+        kdoctools_install(po)
+    endif()
+endif()
+
+if (KF5DocTools_FOUND)
+    add_subdirectory(docs)
+endif()
+
+add_subdirectory(src)
+if (BUILD_TESTING)
+    add_subdirectory(autotests)
+    add_subdirectory(tests)
+endif()
+
 # create a Config.cmake and a ConfigVersion.cmake file and install them
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Service")
+
+if (BUILD_QCH)
+    ecm_install_qch_export(
+        TARGETS KF5Service_QCH
+        FILE KF5ServiceQchTargets.cmake
+        DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
+        COMPONENT Devel
+    )
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF5ServiceQchTargets.cmake\")")
+endif()
 
 include(CMakePackageConfigHelpers)
 
@@ -81,24 +114,5 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfig.cmake"
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/kservice_version.h
         DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5} COMPONENT Devel )
-
-add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
-if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
-    ki18n_install(po)
-
-    if (KF5DocTools_FOUND)
-        kdoctools_install(po)
-    endif()
-endif()
-
-if (KF5DocTools_FOUND)
-    add_subdirectory(docs)
-endif()
-
-add_subdirectory(src)
-if (BUILD_TESTING)
-    add_subdirectory(autotests)
-    add_subdirectory(tests)
-endif()
 
 feature_summary(WHAT ALL   FATAL_ON_MISSING_REQUIRED_PACKAGES)
