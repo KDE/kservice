@@ -198,10 +198,10 @@ public:
      */
     enum EntriesOption {
         NoOptions = 0x0,
-        SortEntries = 0x1,    /*< sort items */
-        ExcludeNoDisplay = 0x2, /*< exclude items marked "NoDisplay" */
-        AllowSeparators = 0x4, /*< allow separator items to be included */
-        SortByGenericName = 0x8 /*< sort by GenericName+Name instead of Name+GenericName */
+        SortEntries = 0x1,    /**< sort items */
+        ExcludeNoDisplay = 0x2, /**< exclude items marked "NoDisplay" */
+        AllowSeparators = 0x4, /**< allow separator items to be included */
+        SortByGenericName = 0x8 /**< sort by GenericName+Name instead of Name+GenericName */
     };
     Q_DECLARE_FLAGS(EntriesOptions, EntriesOption)
 

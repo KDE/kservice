@@ -112,7 +112,7 @@ public:
      */
     void setDeleted(bool deleted);
 
-    /*
+    /**
      * @returns true, if this is a separator
      */
     bool isSeparator() const;
