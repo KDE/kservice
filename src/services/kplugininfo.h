@@ -33,6 +33,8 @@ class KPluginMetaData;
 class KPluginInfoPrivate;
 
 /**
+ * @class KPluginInfo kplugininfo.h <KPluginInfo>
+ *
  * Information about a plugin.
  *
  * This holds all the information about a plugin there is. It's used for the

@@ -35,6 +35,8 @@ class QUrl;
 class KToolInvocationPrivate;
 
 /**
+ * @class KToolInvocation ktoolinvocation.h <KToolInvocation>
+ *
  * KToolInvocation: for starting other programs
  *
  * @section desktopfiles Desktop files for startServiceBy

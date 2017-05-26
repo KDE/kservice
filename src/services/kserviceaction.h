@@ -26,6 +26,8 @@ class QVariant;
 class KServiceActionPrivate;
 
 /**
+ * @class KServiceAction kserviceaction.h <KServiceAction>
+ *
  * Represents an action in a .desktop file
  * Actions are defined with the config key Actions in the [Desktop Entry]
  * group, followed by one group per action, as per the desktop entry standard.

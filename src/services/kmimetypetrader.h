@@ -26,6 +26,8 @@ class KServiceOffer;
 typedef QList<KServiceOffer> KServiceOfferList;
 
 /**
+ * @class KMimeTypeTrader kmimetypetrader.h <KMimeTypeTrader>
+ *
  * KDE's trader for services associated to a given mimetype.
  *
  * Example: say that you want to the list of all KParts components that can handle HTML.

@@ -38,6 +38,8 @@ class QWidget;
 class KServicePrivate;
 
 /**
+ * @class KService kservice.h <KService>
+ *
  * Represent a service, like an application or plugin
  * bound to one or several mimetypes (or servicetypes) as written
  * in its desktop entry file.

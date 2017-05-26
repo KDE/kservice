@@ -34,6 +34,8 @@ class KDesktopFile;
 class KServiceTypePrivate;
 
 /**
+ * @class KServiceType kservicetype.h <KServiceType>
+ *
  * A service type is, well, a type of service, where a service is an application or plugin.
  * For instance, "KOfficeFilter", which is the type of all koffice filters, is a service type.
  * In order to discover services of a given type, using KServiceTypeTrader.

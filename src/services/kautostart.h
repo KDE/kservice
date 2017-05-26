@@ -28,6 +28,8 @@ class KAutostartPrivate;
 class QStringList;
 
 /**
+ * @class KAutostart kautostart.h <KAutostart>
+ *
  * KAutostart provides a programmatic means to control the state of
  * autostart services on a per-user basis. This is useful for applications
  * that wish to offer a configurable means to allow the application to be

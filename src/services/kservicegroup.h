@@ -27,6 +27,8 @@ class KBuildServiceGroupFactory;
 class KServiceGroupPrivate;
 
 /**
+ * @class KServiceGroup kservicegroup.h <KServiceGroup>
+ *
  * KServiceGroup represents a group of service, for example
  * screensavers.
  * This class is typically used like this:

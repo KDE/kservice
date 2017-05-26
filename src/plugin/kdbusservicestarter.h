@@ -26,6 +26,8 @@
 class KDBusServiceStarterPrivate;
 
 /**
+ * @class KDBusServiceStarter kdbusservicestarter.h <KDBusServiceStarter>
+ *
  * A generic DBUS service starter, using KServiceTypeTrader.
  * The default implementation starts new processes, but this interface can
  * also be reimplemented by specific applications to provide dlopened in-process DBus objects.

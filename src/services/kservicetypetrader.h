@@ -24,6 +24,8 @@ class KServiceOffer;
 typedef QList<KServiceOffer> KServiceOfferList;
 class KServiceTypeTraderPrivate;
 /**
+ * @class KServiceTypeTrader kservicetypetrader.h <KServiceTypeTrader>
+ *
  * KDE's trader interface (similar to the CORBA Trader), which provides a way
  * to query the KDE infrastructure for specific applications or components.
  *
