@@ -159,7 +159,11 @@ void KAutostartTest::testRegisteringAndManipulatingANewService()
         QCOMPARE(autostart.autostarts(QStringLiteral("XFCE")), true);
         QCOMPARE(autostart.autostarts(QStringLiteral("XFCE"), KAutostart::CheckCommand), true);
         QCOMPARE(autostart.visibleName(), QStringLiteral("doesnotexisttest"));
+#ifdef Q_OS_WIN
+        QCOMPARE(autostart.commandToCheck(), QStringLiteral("cmd"));
+#else
         QCOMPARE(autostart.commandToCheck(), QStringLiteral("/bin/ls"));
+#endif
         QCOMPARE(int(autostart.startPhase()), int(KAutostart::BaseDesktop));
         QCOMPARE(autostart.allowedEnvironments(), allowedEnvs);
         QCOMPARE(autostart.excludedEnvironments(), excludedEnvs);
