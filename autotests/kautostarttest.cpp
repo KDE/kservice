@@ -125,7 +125,11 @@ void KAutostartTest::testRegisteringAndManipulatingANewService()
         KAutostart autostart(QStringLiteral("doesnotexist"));
         QCOMPARE(autostart.autostarts(), false);
         autostart.setCommand(QStringLiteral("aseigo"));
+#ifdef Q_OS_WIN
+        autostart.setCommandToCheck(QStringLiteral("cmd"));
+#else
         autostart.setCommandToCheck(QStringLiteral("/bin/ls"));
+#endif
         autostart.setVisibleName(QStringLiteral("doesnotexisttest"));
         autostart.setStartPhase(KAutostart::BaseDesktop);
         autostart.setAllowedEnvironments(QStringList(QStringLiteral("KDE")));
