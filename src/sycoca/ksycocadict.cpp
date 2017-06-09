@@ -559,7 +559,7 @@ qint32 KSycocaDictPrivate::offsetForKey(const QString &key) const
     const uint hash = hashKey(key) % hashTableSize;
     //qCDebug(SYCOCA) << "hash is" << hash;
 
-    const qint32 off = offset + sizeof(qint32) * hash;
+    const qint64 off = offset + sizeof(qint32) * hash;
     //qCDebug(SYCOCA) << QString("off is %1").arg(off,8,16);
     stream->device()->seek(off);
 
