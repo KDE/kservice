@@ -239,8 +239,8 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      *
      * @deprecated since 5.0 use QDBusConnectionInterface::startService("org.kde.serviceName"),
-     *   to start a unique application in order to make dbus calls to it (after ensuring that
-     *   it installs a dbus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
+     *   to start a unique application in order to make D-Bus calls to it (after ensuring that
+     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
     static int startServiceByDesktopPath(const QString &_name, const QString &URL,
                                          QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
@@ -265,8 +265,8 @@ public:
      * @param noWait if set, the function does not wait till the service is running.
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated since 5.0 use QDBusConnectionInterface::startService("org.kde.serviceName"),
-     *   to start a unique application in order to make dbus calls to it (after ensuring that
-     *   it installs a dbus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
+     *   to start a unique application in order to make D-Bus calls to it (after ensuring that
+     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
     static int startServiceByDesktopPath(const QString &_name, const QStringList &URLs = QStringList(),
                                          QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
@@ -292,8 +292,8 @@ public:
      * @param noWait if set, the function does not wait till the service is running.
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated since 5.0 use QDBusConnectionInterface::startService("org.kde.serviceName"),
-     *   to start a unique application in order to make dbus calls to it (after ensuring that
-     *   it installs a dbus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
+     *   to start a unique application in order to make D-Bus calls to it (after ensuring that
+     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
     static int startServiceByDesktopName(const QString &_name, const QString &URL,
                                          QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
@@ -319,8 +319,8 @@ public:
      * @param noWait if set, the function does not wait till the service is running.
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated since 5.0 use QDBusConnectionInterface::startService("org.kde.serviceName"),
-     *   to start a unique application in order to make dbus calls to it (after ensuring that
-     *   it installs a dbus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
+     *   to start a unique application in order to make D-Bus calls to it (after ensuring that
+     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
     static int startServiceByDesktopName(const QString &_name, const QStringList &URLs = QStringList(),
                                          QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,

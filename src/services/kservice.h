@@ -171,11 +171,11 @@ public:
     QString storageId() const;
 
     /**
-     * Describes the DBUS Startup type of the service.
-     * @li None - This service has no DBUS support
-     * @li Unique - This service provides a unique DBUS service.
+     * Describes the D-Bus Startup type of the service.
+     * @li None - This service has no D-Bus support
+     * @li Unique - This service provides a unique D-Bus service.
      *              The service name is equal to the desktopEntryName.
-     * @li Multi - This service provides a DBUS service which can be run
+     * @li Multi - This service provides a D-Bus service which can be run
      *             with multiple instances in parallel. The service name of
      *             an instance is equal to the desktopEntryName + "-" +
      *             the PID of the process.

@@ -28,9 +28,9 @@ class KDBusServiceStarterPrivate;
 /**
  * @class KDBusServiceStarter kdbusservicestarter.h <KDBusServiceStarter>
  *
- * A generic DBUS service starter, using KServiceTypeTrader.
+ * A generic D-Bus service starter, using KServiceTypeTrader.
  * The default implementation starts new processes, but this interface can
- * also be reimplemented by specific applications to provide dlopened in-process DBus objects.
+ * also be reimplemented by specific applications to provide dlopened in-process D-Bus objects.
  * This interface is similar to the startServiceByName() function found in QDBusBusService, but
  * with the added benefit of using KTrader (and, therefore, additional constraints and the
  * ability to search the standard KDE dirs).
@@ -43,11 +43,11 @@ public:
     static KDBusServiceStarter *self();
 
     /**
-     * Check if a given DBus service is available - from the serviceType it's supposed to implement.
+     * Check if a given D-Bus service is available - from the serviceType it's supposed to implement.
      *
      * The trader is queried to find the preferred application for this serviceType,
      * with the constraint that its X-DBus-ServiceName property must be defined.
-     * Then the DBus server is checked. If the service is not available,
+     * Then the D-Bus server is checked. If the service is not available,
      * this method will call startServiceFor to start it.
      *
      * @param serviceType the type of service we're looking for
@@ -55,7 +55,7 @@ public:
      * @param error On failure, @p error contains a description of the error
      *         that occurred. If the pointer is 0, the argument will be
      *         ignored
-     * @param dbusService On success, @p dbusService contains the DBus service name
+     * @param dbusService On success, @p dbusService contains the D-Bus service name
      *         under which this service is available. If the pointer is 0 the argument
      *         will be ignored
      * @param flags for future extensions (currently unused)
@@ -69,7 +69,7 @@ public:
 
     /**
      * Find an implementation of the given @p serviceType,
-     * and start it, to use its DBus interface.
+     * and start it, to use its D-Bus interface.
      * The default implementation uses KServiceTypeTrader to find the preferred Application,
      * and then starts it using KToolInvocation::startService...
      *
@@ -81,7 +81,7 @@ public:
      * @param error On failure, @p error contains a description of the error
      *         that occurred. If the pointer is 0, the argument will be
      *         ignored
-     * @param dbusService On success, @p dbusService contains the DBus service name
+     * @param dbusService On success, @p dbusService contains the D-Bus service name
      *         under which this service is available. If the pointer is 0 the argument
      *         will be ignored
      * @param flags for future extensions (currently unused)
