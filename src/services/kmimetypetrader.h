@@ -34,12 +34,15 @@ typedef QList<KServiceOffer> KServiceOfferList;
  * Our code would look like:
  * \code
  * KService::List lst = KMimeTypeTrader::self()->query("text/html",
- *                                                        "KParts/ReadOnlyPart");
+ *                                                     "KParts/ReadOnlyPart");
  * \endcode
  *
- * If you want to get the preferred KParts component for text/html you could use
- * preferredService("text/html", "KParts/ReadOnlyPart"), although if this is about
- * loading that component you would use createPartInstanceFromQuery directly.
+ * If you want to get the preferred KParts component for text/html you would use:
+ * @code
+ * KService::Ptr service = KMimeTypeTrader::self()->preferredService("text/html",
+ *                                                                   "KParts/ReadOnlyPart");
+ * @endcode
+ * Although if this is about loading that component you would use createPartInstanceFromQuery() directly.
  *
  * @see KServiceTypeTrader, KService
  */
