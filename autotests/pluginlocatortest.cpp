@@ -32,7 +32,7 @@ QTEST_MAIN(PluginTest)
 
 void PluginTest::initTestCase()
 {
-    QCoreApplication::setLibraryPaths(QStringList() << QDir::currentPath());
+    QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath());
 }
 
 void PluginTest::findPlugin_data()
