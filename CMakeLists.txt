@@ -38,7 +38,7 @@ set(APPLICATIONS_MENU_NAME applications.menu
 remove_definitions(-DQT_NO_CAST_FROM_ASCII)
 
 # Dependencies
-set(REQUIRED_QT_VERSION 5.6.0)
+set(REQUIRED_QT_VERSION 5.7.0)
 find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED DBus Xml)
 
 find_package(KF5Config ${KF5_DEP_VERSION} REQUIRED)
