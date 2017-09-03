@@ -1,0 +1,229 @@
+# translation of kdelibs4.po to Tajik Language
+# 2004, 2005, 2006, 2007 infoDev, a World Bank organization.
+# 2004, 2005, 2006, 2007 Khujand Computer Technologies, Inc.
+# 2004, 2005, 2006, 2007 Youth Opportunities, NGO, 2005.
+# Roger Kovacs <rkovacs@khujand.org>, 2003.
+# Thomas Diehl <thd@kde.org>, 2003.
+# Akmal Vatanshoev <akmalvatanshoev@yahoo.com>, 2004.
+# Victor Ibragimov <youth_opportunities@tajikngo.org>, 2003, 2004, 2005, 2006, 2007, 2008.
+# Copyright (C) 2004, 2002, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2017-02-07 08:40+0100\n"
+"PO-Revision-Date: 2013-06-04 17:36+0500\n"
+"Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
+"Language-Team: Tajik Language\n"
+"Language: tg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Victor Ibragimov"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "victor.ibragimov@gmail.com"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:56
+#, fuzzy, kde-format
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:58
+#, fuzzy, kde-format
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Навсозии танзимоти хотираи системавӣ."
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:60
+#, fuzzy, kde-format
+#| msgid "(c) 1999-2002 KDE Developers"
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "(c) 1999-2002 KDE Developers"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:61
+#, fuzzy, kde-format
+#| msgid "David Faure"
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:62 kbuildsycoca/kbuildsycoca_main.cpp:65
+#, fuzzy, kde-format
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Муаллиф"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:64
+#, fuzzy, kde-format
+#| msgid "Waldo Bastian"
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:75
+#, fuzzy, kde-format
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr "Қатъкунии санҷиши файлҳо (хатарнок аст)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:78
+#, fuzzy, kde-format
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Қатъкунии навсозии инкрементӣ, ҳамаашро аз нав хонед"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:81
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:84
+#, fuzzy, kde-format
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr "Қатъкунии санҷиши файлҳо (хатарнок аст)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:87
+#, fuzzy, kde-format
+#| msgid "Create global database"
+msgctxt "@info:shell command-line option"
+msgid "Create global database"
+msgstr "Эҷоди додаҳои маълумоти умумӣ"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:90
+#, fuzzy, kde-format
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Танҳо санҷиши эҷодкори менюро иҷро кунед"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:93
+#, fuzzy, kde-format
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Пайгарди идентификатори меню барои ислоҳкунӣ"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:97
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:66
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "Ин функсия бояд аз ҷараёни умумиро иҷро шавад."
+
+#: kdeinit/ktoolinvocation.cpp:103
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Хатои шурӯъи %1. Мумкин аст, ки KLauncher боз иҷро нашудааст ё аз барои "
+"оғози ин барнома қатъ карда шуд."
+
+#: kdeinit/ktoolinvocation.cpp:106
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher недоступен через D-Bus, ошибка вызова %1:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:251
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Мизбони почтавӣ кушода намешавад:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:252
+#, fuzzy, kde-format
+#| msgid "Could not Launch Mail Client"
+msgid "Could not launch Mail Client"
+msgstr "Мизбони почтавӣ кушода намешавад"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:301 kdeinit/ktoolinvocation_x11.cpp:326
+#: kdeinit/ktoolinvocation_x11.cpp:345
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Браузер кушода намешавад:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:302 kdeinit/ktoolinvocation_x11.cpp:327
+#: kdeinit/ktoolinvocation_x11.cpp:346
+#, fuzzy, kde-format
+#| msgid "Could not Launch Browser"
+msgid "Could not launch Browser"
+msgstr "Браузер кушода намешавад"
+
+#: kdeinit/ktoolinvocation_x11.cpp:385
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Не удалось запустить эмулятор терминала:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:386
+#, fuzzy, kde-format
+#| msgid "Could not Launch Terminal Client"
+msgid "Could not launch Terminal Client"
+msgstr "Мизбони терминал оғоз карда натавонист"
+
+#: plugin/kdbusservicestarter.cpp:77
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1019
+#, kde-format
+msgid "The provided service is not valid"
+msgstr "Хидмати додашуда нодуруст аст"
+
+#: services/kservice.cpp:1023
+#, fuzzy, kde-format
+#| msgid ""
+#| "The service '%1' provides no library or the Library key is missing in "
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"Служба «%1» не предоставляет библиотеку, нет записи «Library» в файле ."
+"desktop."
