@@ -136,14 +136,14 @@ private:
     KSycocaEntry::List m_tempStorage;
     typedef QList<KSycocaEntry::List> KSycocaEntryListList;
     KSycocaEntryListList *m_allEntries; // entries from existing ksycoca
-    KBuildServiceGroupFactory *m_buildServiceGroupFactory;
-    KSycocaFactory *m_currentFactory;
-    KCTimeFactory *m_ctimeFactory;
+    KBuildServiceGroupFactory *m_buildServiceGroupFactory = nullptr;
+    KSycocaFactory *m_currentFactory = nullptr;
+    KCTimeFactory *m_ctimeFactory = nullptr;
     KCTimeDict *m_ctimeDict; // old timestamps
     typedef QHash<QString, KSycocaEntry::Ptr> KBSEntryDict;
-    KBSEntryDict *m_currentEntryDict;
-    KBSEntryDict *m_serviceGroupEntryDict;
-    VFolderMenu *m_vfolder;
+    KBSEntryDict *m_currentEntryDict = nullptr;
+    KBSEntryDict *m_serviceGroupEntryDict = nullptr;
+    VFolderMenu *m_vfolder = nullptr;
     qint64 m_newTimestamp;
 
     bool m_globalDatabase;

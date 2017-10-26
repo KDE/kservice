@@ -136,8 +136,8 @@ public:
 protected:
     QDataStream *stream() const;
 
-    KSycocaResourceList *m_resourceList;
-    KSycocaEntryDict *m_entryDict;
+    KSycocaResourceList *m_resourceList = nullptr;
+    KSycocaEntryDict *m_entryDict = nullptr;
 
     /**
      * Returns all directories for the given @p subdir of GenericDataLocation.
@@ -146,8 +146,8 @@ protected:
     static QStringList allDirectories(const QString &subdir);
 
 private:
-    QDataStream *m_str;
-    KSycoca *m_sycoca;
+    QDataStream *m_str = nullptr;
+    KSycoca *m_sycoca = nullptr;
     KSycocaFactoryPrivate *const d;
 
 protected:

@@ -94,7 +94,7 @@ protected:
 protected:
     void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
 private:
-    class KServiceTypeFactoryPrivate *d;
+    class KServiceTypeFactoryPrivate *d = nullptr;
 };
 
 #endif
