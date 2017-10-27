@@ -32,20 +32,17 @@
 class KSycocaFactoryPrivate
 {
 public:
-    KSycocaFactoryPrivate() : mOffset(0),
-        m_sycocaDictOffset(0),
-        m_beginEntryOffset(0),
-        m_endEntryOffset(0) {}
+    KSycocaFactoryPrivate() {}
     ~KSycocaFactoryPrivate()
     {
         delete m_sycocaDict;
     }
 
-    int mOffset;
-    int m_sycocaDictOffset;
-    int m_beginEntryOffset;
-    int m_endEntryOffset;
-    KSycocaDict *m_sycocaDict;
+    int mOffset = 0;
+    int m_sycocaDictOffset = 0;
+    int m_beginEntryOffset = 0;
+    int m_endEntryOffset = 0;
+    KSycocaDict *m_sycocaDict = nullptr;
 };
 
 KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id, KSycoca *sycoca)
