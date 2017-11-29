@@ -64,7 +64,7 @@ QStringList KCTimeDict::remainingResourceList() const
     const Hash::const_iterator end = m_hash.constEnd();
     for (; it != end; ++it) {
         const QString key = it.key();
-        const QString res = key.left(key.indexOf('|'));
+        const QString res = key.left(key.indexOf(QLatin1Char('|')));
         resources.insert(res);
     }
     return resources.toList();

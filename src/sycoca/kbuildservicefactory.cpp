@@ -82,7 +82,7 @@ KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
 {
     Q_ASSERT(!file.startsWith(QLatin1String("kservices5/"))); // we add this ourselves, below
 
-    const QStringRef name = file.midRef(file.lastIndexOf('/') + 1);
+    const QStringRef name = file.midRef(file.lastIndexOf(QLatin1Char('/')) + 1);
 
     // Is it a .desktop file?
     if (name.endsWith(QLatin1String(".desktop"))) {

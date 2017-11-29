@@ -51,7 +51,7 @@ KSycocaEntry *KBuildMimeTypeFactory::createEntry(const QString &file) const
     // file=text/plain.xml  ->  name=plain.xml dirName=text
     Q_ASSERT(!file.startsWith(QLatin1String("mime/")));
 
-    const int pos = file.lastIndexOf('/');
+    const int pos = file.lastIndexOf(QLatin1Char('/'));
     if (pos == -1) { // huh?
         return nullptr;
     }
@@ -60,7 +60,7 @@ KSycocaEntry *KBuildMimeTypeFactory::createEntry(const QString &file) const
         return nullptr;
     }
 
-    const int dot = file.lastIndexOf('.');
+    const int dot = file.lastIndexOf(QLatin1Char('.'));
     if (dot == -1) { // huh?
         return nullptr;
     }

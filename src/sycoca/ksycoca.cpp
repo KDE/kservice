@@ -510,7 +510,7 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
     if (openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
         // Database exists, and version is ok, we can read it.
 
-        if (qAppName() != KBUILDSYCOCA_EXENAME && ifNotFound != IfNotFoundDoNothing) {
+        if (qAppName() != QString::fromLatin1(KBUILDSYCOCA_EXENAME) && ifNotFound != IfNotFoundDoNothing) {
 
             // Ensure it's uptodate, rebuild if needed
             checkDirectories();
@@ -734,11 +734,11 @@ QString KSycoca::absoluteFilePath(DatabaseType type)
 
     const QByteArray ksycoca_env = qgetenv("KDESYCOCA");
     if (ksycoca_env.isEmpty()) {
-        const QByteArray pathHash = QCryptographicHash::hash(paths.join(QString(QLatin1Char(':'))).toUtf8(), QCryptographicHash::Sha1);
+        const QByteArray pathHash = QCryptographicHash::hash(paths.join(QLatin1Char(':')).toUtf8(), QCryptographicHash::Sha1);
         suffix += QLatin1Char('_') + QString::fromLatin1(pathHash.toBase64());
-        suffix.replace('/', '_');
+        suffix.replace(QLatin1Char('/'), QLatin1Char('_'));
 #ifdef Q_OS_WIN
-        suffix.replace(':', '_');
+        suffix.replace(QLatin1Char(':'), QLatin1Char('_'));
 #endif
         const QString fileName = QStringLiteral("ksycoca5") + suffix;
         return QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1Char('/') + fileName;
@@ -771,7 +771,7 @@ void KSycoca::flagError()
         return;
     }
     sycoca->d->readError = true;
-    if (qAppName() != KBUILDSYCOCA_EXENAME && !sycoca->isBuilding()) {
+    if (qAppName() != QString::fromLatin1(KBUILDSYCOCA_EXENAME) && !sycoca->isBuilding()) {
         // Rebuild the damned thing.
         KBuildSycoca builder;
         (void)builder.recreate();
@@ -816,7 +816,7 @@ KSERVICE_EXPORT int ksycoca_ms_between_checks = 1500;
 
 void KSycoca::ensureCacheValid()
 {
-    if (qAppName() == KBUILDSYCOCA_EXENAME) {
+    if (qAppName() == QString::fromLatin1(KBUILDSYCOCA_EXENAME)) {
         return;
     }
 

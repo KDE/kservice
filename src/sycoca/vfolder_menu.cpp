@@ -64,7 +64,7 @@ static void replaceNode(QDomElement &docElem, QDomNode &n, const QStringList &li
 
 void VFolderMenu::registerFile(const QString &file)
 {
-    int i = file.lastIndexOf('/');
+    int i = file.lastIndexOf(QLatin1Char('/'));
     if (i < 0) {
         return;
     }
@@ -141,7 +141,7 @@ VFolderMenu::excludeItems(QHash<QString, KService::Ptr> &items1, const QHash<QSt
 VFolderMenu::SubMenu *
 VFolderMenu::takeSubMenu(SubMenu *parentMenu, const QString &menuName)
 {
-    const int i = menuName.indexOf('/');
+    const int i = menuName.indexOf(QLatin1Char('/'));
     const QString s1 = i > 0 ? menuName.left(i) : menuName;
     const QString s2 = menuName.mid(i + 1);
 
@@ -221,7 +221,7 @@ VFolderMenu::mergeMenu(SubMenu *menu1, SubMenu *menu2, bool reversePriority)
 void
 VFolderMenu::insertSubMenu(SubMenu *parentMenu, const QString &menuName, SubMenu *newMenu, bool reversePriority)
 {
-    const int i = menuName.indexOf('/');
+    const int i = menuName.indexOf(QLatin1Char('/'));
     const QString s1 = menuName.left(i);
     const QString s2 = menuName.mid(i + 1);
 
@@ -252,7 +252,7 @@ VFolderMenu::insertSubMenu(SubMenu *parentMenu, const QString &menuName, SubMenu
 void
 VFolderMenu::insertService(SubMenu *parentMenu, const QString &name, KService::Ptr newService)
 {
-    const int i = name.indexOf('/');
+    const int i = name.indexOf(QLatin1Char('/'));
 
     if (i == -1) {
         // Add it here
@@ -421,8 +421,8 @@ VFolderMenu::absoluteDir(const QString &_dir, const QString &baseDir, bool keepR
         }
     }
 
-    if (!dir.endsWith('/')) {
-        dir += '/';
+    if (!dir.endsWith(QLatin1Char('/'))) {
+        dir += QLatin1Char('/');
     }
 
     return dir;
@@ -497,7 +497,7 @@ VFolderMenu::mergeFile(QDomElement &parent, const QDomNode &mergeHere)
             // Skip
         }
         // The spec says we must ignore any Name nodes
-        else if (e.tagName() != "Name") {
+        else if (e.tagName() != QLatin1String("Name")) {
             parent.insertAfter(n, last);
             last = n;
         }
@@ -601,7 +601,7 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
             continue;
         } else if (e.tagName() == QLatin1String("MergeDir")) {
             QString dir = absoluteDir(e.text(), e.attribute(QStringLiteral("__BaseDir")), true);
-            Q_ASSERT(dir.endsWith('/'));
+            Q_ASSERT(dir.endsWith(QLatin1Char('/')));
 
             const bool relative = QDir::isRelativePath(dir);
             const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + dir, QStandardPaths::LocateDirectory);
@@ -686,7 +686,7 @@ VFolderMenu::pushDocInfo(const QString &fileName, const QString &baseDir)
         return;
     }
     int i;
-    i = baseName.lastIndexOf('/');
+    i = baseName.lastIndexOf(QLatin1Char('/'));
     if (i > 0) {
         m_docInfo.baseDir = baseName.left(i + 1);
         m_docInfo.baseName = baseName.mid(i + 1, baseName.length() - i - 6);
@@ -703,7 +703,7 @@ VFolderMenu::pushDocInfoParent(const QString &basePath, const QString &baseDir)
 
     m_docInfo.baseDir = baseDir;
 
-    QString fileName = basePath.mid(basePath.lastIndexOf('/') + 1);
+    QString fileName = basePath.mid(basePath.lastIndexOf(QLatin1Char('/')) + 1);
     m_docInfo.baseName = fileName.left(fileName.length() - 5);   // without ".menu"
     QString baseName = QDir::cleanPath(m_docInfo.baseDir + fileName);
 
@@ -750,7 +750,7 @@ VFolderMenu::locateMenuFile(const QString &fileName)
         }
 
         QString baseName = QDir::cleanPath(m_docInfo.baseDir +
-                                           fileInfo.path() + '/' + fileNameOnly);
+                                           fileInfo.path() + QLatin1Char('/') + fileNameOnly);
         result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + baseName);
     }
 
@@ -935,7 +935,7 @@ VFolderMenu::loadApplications(const QString &dir, const QString &prefix)
             if (fn == QLatin1String(".") || fn == QLatin1String("..")) {
                 continue;
             }
-            loadApplications(fi.filePath(), prefix + fn + '-');
+            loadApplications(fi.filePath(), prefix + fn + QLatin1Char('-'));
             continue;
         }
         if (fi.isFile()) {
@@ -973,7 +973,7 @@ VFolderMenu::processLegacyDir(const QString &dir, const QString &relDir, const Q
 
             parentMenu->subMenus.append(m_currentMenu);
 
-            processLegacyDir(fi.filePath(), relDir + fn + '/', prefix);
+            processLegacyDir(fi.filePath(), relDir + fn + QLatin1Char('/'), prefix);
             m_currentMenu = parentMenu;
             continue;
         }
@@ -1248,9 +1248,9 @@ static QString parseAttribute(const QDomElement &e)
     if (e.hasAttribute(SHOW_EMPTY)) {
         QString str = e.attribute(SHOW_EMPTY);
         if (str == QLatin1String("true")) {
-            option = "ME ";
+            option = QStringLiteral("ME ");
         } else if (str == QLatin1String("false")) {
-            option = "NME ";
+            option = QStringLiteral("NME ");
         } else {
             //qCDebug(SYCOCA)<<" Error in parsing show_empty attribute :"<<str;
         }
@@ -1259,9 +1259,9 @@ static QString parseAttribute(const QDomElement &e)
     if (e.hasAttribute(INLINE)) {
         QString str = e.attribute(INLINE);
         if (str == QLatin1String("true")) {
-            option += "I ";
+            option += QStringLiteral("I ");
         } else if (str == QLatin1String("false")) {
-            option += "NI ";
+            option += QStringLiteral("NI ");
         } else {
             qCDebug(SYCOCA) << " Error in parsing inline attribute :" << str;
         }
@@ -1287,9 +1287,9 @@ static QString parseAttribute(const QDomElement &e)
     if (e.hasAttribute(QStringLiteral("inline_alias")) && e.attribute(QStringLiteral("inline_alias")) == QLatin1String("true")) {
         QString str = e.attribute(QStringLiteral("inline_alias"));
         if (str == QLatin1String("true")) {
-            option += "IA";
+            option += QStringLiteral("IA");
         } else if (str == QLatin1String("false")) {
-            option += "NIA";
+            option += QStringLiteral("NIA");
         } else {
             qCDebug(SYCOCA) << " Error in parsing inline_alias attribute :" << str;
         }
@@ -1322,7 +1322,7 @@ static QStringList parseLayoutNode(const QDomElement &docElem)
         } else if (e.tagName() == QLatin1String("Filename")) {
             layout.append(e.text());
         } else if (e.tagName() == QLatin1String("Menuname")) {
-            layout.append('/' + e.text());
+            layout.append(QLatin1Char('/') + e.text());
             QString option = parseAttribute(e);
             if (!option.isEmpty()) {
                 layout.append(option);

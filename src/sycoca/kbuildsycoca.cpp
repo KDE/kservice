@@ -245,7 +245,7 @@ bool KBuildSycoca::build()
         }
         if (m_changed || !m_allEntries) {
             //qCDebug(SYCOCA) << "CHANGED:" << m_resource;
-            m_changedResources.append(m_resource);
+            m_changedResources.append(QString::fromLatin1(m_resource));
         }
     }
 
@@ -284,7 +284,7 @@ bool KBuildSycoca::build()
         // Storing the mtime *after* looking at these dirs is a tiny race condition,
         // but I'm not sure how to get the vfolder dirs upfront...
         Q_FOREACH (QString dir, m_vfolder->allDirectories()) {
-            if (dir.endsWith('/')) {
+            if (dir.endsWith(QLatin1Char('/'))) {
                 dir.chop(1); // remove trailing slash, to avoid having ~/.local/share/applications twice
             }
             if (!m_allResourceDirs.contains(dir)) {
@@ -299,7 +299,7 @@ bool KBuildSycoca::build()
 
         if (m_changed || !m_allEntries) {
             //qCDebug(SYCOCA) << "CHANGED:" << m_resource;
-            m_changedResources.append(m_resource);
+            m_changedResources.append(QString::fromLatin1(m_resource));
         }
         if (m_menuTest) {
             result = false;
@@ -315,7 +315,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
     QString caption = caption_;
     QString name = name_;
     foreach (VFolderMenu::SubMenu *subMenu, menu->subMenus) {
-        QString subName = name + subMenu->name + '/';
+        QString subName = name + subMenu->name + QLatin1Char('/');
 
         QString directoryFile = subMenu->directoryFile;
         if (directoryFile.isEmpty()) {
@@ -347,14 +347,14 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
         entry = m_buildServiceGroupFactory->addNew(subName, subMenu->directoryFile, entry, subMenu->isDeleted);
         entry->setLayoutInfo(subMenu->layoutList);
         if (!(m_menuTest && entry->noDisplay())) {
-            createMenu(caption + entry->caption() + '/', subName, subMenu);
+            createMenu(caption + entry->caption() + QLatin1Char('/'), subName, subMenu);
         }
     }
     if (caption.isEmpty()) {
-        caption += '/';
+        caption += QLatin1Char('/');
     }
     if (name.isEmpty()) {
-        name += '/';
+        name += QLatin1Char('/');
     }
     foreach (const KService::Ptr &p, menu->items) {
         if (m_menuTest) {
@@ -380,7 +380,7 @@ bool KBuildSycoca::recreate(bool incremental)
     if (!lockFile.tryLock()) {
         qCDebug(SYCOCA) <<  "Waiting for already running" << KBUILDSYCOCA_EXENAME << "to finish.";
         if (!lockFile.lock()) {
-            qCWarning(SYCOCA) << "Couldn't lock" << path + ".lock";
+            qCWarning(SYCOCA) << "Couldn't lock" << path + QStringLiteral(".lock");
             return false;
         }
         if (!needsRebuild()) {
@@ -450,8 +450,8 @@ bool KBuildSycoca::recreate(bool incremental)
         //as $HOME may also be that of another user rather than /root
 #ifdef Q_OS_UNIX
         if (qEnvironmentVariableIsSet("SUDO_UID")) {
-            const int uid = QString(qgetenv("SUDO_UID")).toInt();
-            const int gid = QString(qgetenv("SUDO_GID")).toInt();
+            const int uid = qgetenv("SUDO_UID").toInt();
+            const int gid = qgetenv("SUDO_GID").toInt();
             if (uid && gid) {
                 fchown(database.handle(), uid, gid);
             }
@@ -648,7 +648,7 @@ bool KBuildSycoca::checkGlobalHeader()
     const QString current_prefixes = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
 
     const KSycocaHeader header = KSycocaPrivate::self()->readSycocaHeader();
-    Q_ASSERT(!header.prefixes.split(':').contains(QDir::homePath()));
+    Q_ASSERT(!header.prefixes.split(QLatin1Char(':')).contains(QDir::homePath()));
 
     return (current_update_sig == header.updateSignature) &&
             (current_language == header.language) &&

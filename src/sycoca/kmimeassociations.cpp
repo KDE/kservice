@@ -65,7 +65,7 @@ void KMimeAssociations::parseAllMimeAppsList()
     // collect existing files
     foreach (const QString &dir, mimeappsDirs) {
         foreach (const QString &file, mimeappsFileNames) {
-            const QString filePath = dir + '/' + file;
+            const QString filePath = dir + QLatin1Char('/') + file;
             if (QFile::exists(filePath)) {
                 mimeappsFiles.append(filePath);
             }
@@ -107,7 +107,7 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
     QMimeDatabase db;
     Q_FOREACH (const QString &mimeName, group.keyList()) {
         const QStringList services = group.readXdgListEntry(mimeName);
-        const QString resolvedMimeName = mimeName.startsWith("x-scheme-handler/") ? mimeName : db.mimeTypeForName(mimeName).name();
+        const QString resolvedMimeName = mimeName.startsWith(QLatin1String("x-scheme-handler/")) ? mimeName : db.mimeTypeForName(mimeName).name();
         if (resolvedMimeName.isEmpty()) {
             qCDebug(SYCOCA) << file << "specifies unknown mimeType" << mimeName << "in" << group.name();
         } else {

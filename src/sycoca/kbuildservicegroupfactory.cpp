@@ -81,14 +81,14 @@ KBuildServiceGroupFactory::addNew(const QString &menuName, const QString &file, 
 
     addEntry(KSycocaEntry::Ptr(entry));
 
-    if (menuName != "/") {
+    if (menuName != QLatin1String("/")) {
         // Make sure parent dir exists.
         QString parent = menuName.left(menuName.length() - 1);
-        int i = parent.lastIndexOf('/');
+        int i = parent.lastIndexOf(QLatin1Char('/'));
         if (i > 0) {
             parent = parent.left(i + 1);
         } else {
-            parent = '/';
+            parent = QLatin1Char('/');
         }
 
         KServiceGroup::Ptr parentEntry;
@@ -110,7 +110,7 @@ KBuildServiceGroupFactory::addNew(const QString &menuName, const QString &file, 
 void
 KBuildServiceGroupFactory::addNewChild(const QString &parent, const KSycocaEntry::Ptr &newEntry)
 {
-    QString name = "#parent#" + parent;
+    QString name = QStringLiteral("#parent#") + parent;
 
     KServiceGroup::Ptr entry;
     KSycocaEntry::Ptr ptr = m_entryDict->value(name);

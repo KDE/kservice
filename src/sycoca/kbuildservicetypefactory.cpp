@@ -52,7 +52,7 @@ KServiceType::Ptr KBuildServiceTypeFactory::findServiceTypeByName(const QString 
 KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
 {
     QString name = file;
-    int pos = name.lastIndexOf('/');
+    int pos = name.lastIndexOf(QLatin1Char('/'));
     if (pos != -1) {
         name = name.mid(pos + 1);
     }
@@ -61,7 +61,7 @@ KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
         return nullptr;
     }
 
-    KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, "kservicetypes5/" + file);
+    KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, QStringLiteral("kservicetypes5/") + file);
     const KConfigGroup desktopGroup = desktopFile.desktopGroup();
 
     if (desktopGroup.readEntry("Hidden", false) == true) {
