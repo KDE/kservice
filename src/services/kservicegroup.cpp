@@ -61,7 +61,6 @@ void KServiceGroupPrivate::load(const QString &cfg)
     m_bNoDisplay = desktopFile.noDisplay();
     m_strBaseGroupName = config.readEntry("X-KDE-BaseGroup");
     suppressGenericNames = config.readEntry("X-KDE-SuppressGenericNames", QStringList());
-//  d->sortOrder = config.readEntry("SortOrder", QStringList());
 
     // Fill in defaults.
     if (m_strCaption.isEmpty()) {
