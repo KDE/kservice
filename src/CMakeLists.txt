@@ -22,14 +22,12 @@ set(kservice_SRCS
    services/ktraderparse.cpp
    services/ktraderparsetree.cpp
    services/kplugininfo.cpp
-   services/servicesdebug.cpp
    sycoca/ksycoca.cpp
    sycoca/ksycocadevices.cpp
    sycoca/ksycocadict.cpp
    sycoca/ksycocaentry.cpp
    sycoca/ksycocafactory.cpp
    sycoca/kmemfile.cpp
-   sycoca/sycocadebug.cpp
    sycoca/kbuildmimetypefactory.cpp
    sycoca/kbuildservicetypefactory.cpp
    sycoca/kbuildservicefactory.cpp
@@ -41,6 +39,9 @@ set(kservice_SRCS
    plugin/kplugintrader.cpp
    plugin/kdbusservicestarter.cpp
 )
+ecm_qt_declare_logging_category(kservice_SRCS HEADER servicesdebug.h IDENTIFIER SERVICES CATEGORY_NAME kf5.kservice.services)
+ecm_qt_declare_logging_category(kservice_SRCS HEADER sycocadebug.h IDENTIFIER SYCOCA CATEGORY_NAME kf5.kservice.sycoca)
+
 if (WIN32)
    LIST(APPEND kservice_SRCS
       kdeinit/ktoolinvocation_win.cpp

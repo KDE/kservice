@@ -21,7 +21,11 @@ kservice_executable_tests(
   kservicegroup_dumper
   findservice
 )
+set(kmimeassociations_dumper_debug_SRCS)
+ecm_qt_declare_logging_category(kmimeassociations_dumper_debug_SRCS HEADER sycocadebug.h IDENTIFIER SYCOCA CATEGORY_NAME kf5.kservice.sycoca)
+set(kmimeassociations_dumper_SRCS kmimeassociations_dumper.cpp ../src/sycoca/kmimeassociations.cpp ${kmimeassociations_dumper_debug_SRCS})
 
-add_executable(kmimeassociations_dumper kmimeassociations_dumper.cpp ../src/sycoca/kmimeassociations.cpp ../src/sycoca/sycocadebug.cpp)
+add_executable(kmimeassociations_dumper ${kmimeassociations_dumper_SRCS})
+
 target_link_libraries(kmimeassociations_dumper KF5::Service)
 ecm_mark_as_test(kmimeassociations_dumper)

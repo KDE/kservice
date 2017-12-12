@@ -19,7 +19,7 @@ include(KDECMakeSettings)
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMAddQch)
-
+include(ECMQtDeclareLoggingCategory)
 include(GenerateExportHeader)
 
 option(BUILD_QCH "Build API documentation in QCH format (for e.g. Qt Assistant, Qt Creator & KDevelop)" OFF)
