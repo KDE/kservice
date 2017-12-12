@@ -65,6 +65,7 @@ flex_target(TraderLexer
 )
 add_flex_bison_dependency(TraderLexer TraderParser)
 list(APPEND kservice_SRCS ${BISON_TraderParser_OUTPUTS} ${FLEX_TraderLexer_OUTPUTS})
+set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/yacc.h PROPERTY SKIP_AUTOMOC TRUE) # don't run automoc on this file
 
 # kservice cannot depend on kinit (because kinit->kio->kservice), so we need a copy of org.kde.KLauncher.xml here.
 # And I don't want to have it here as a source file (who wants to edit dbus xml by hand), so it can be
