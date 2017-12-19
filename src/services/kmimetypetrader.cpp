@@ -28,7 +28,7 @@
 #include "kmimetypefactory_p.h"
 #include "servicesdebug.h"
 #include <qmimedatabase.h>
-#include <QDebug>
+#include "servicesdebug.h"
 
 class KMimeTypeTraderPrivate
 {
@@ -67,7 +67,7 @@ static KServiceOfferList mimeTypeSycocaOffers(const QString &mimeType)
     QString mime = db.mimeTypeForName(mimeType).name();
     if (mime.isEmpty()) {
         if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler mimetypes
-            qWarning() << "KMimeTypeTrader: mimeType" << mimeType << "not found";
+            qCWarning(SERVICES) << "KMimeTypeTrader: mimeType" << mimeType << "not found";
             return lst; // empty
         }
         mime = mimeType;
@@ -96,7 +96,7 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     QString mime = db.mimeTypeForName(mimeType).name();
     if (mime.isEmpty()) {
         if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler mimetypes
-            qWarning() << "KMimeTypeTrader: mimeType" << mimeType << "not found";
+            qCWarning(SERVICES) << "KMimeTypeTrader: mimeType" << mimeType << "not found";
             return lst; // empty
         }
         mime = mimeType;
@@ -105,7 +105,7 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     KMimeTypeFactory *factory = KSycocaPrivate::self()->mimeTypeFactory();
     const int offset = factory->entryOffset(mime);
     if (!offset) {
-        qWarning() << "KMimeTypeTrader: mimeType" << mimeType << "not found";
+        qCWarning(SERVICES) << "KMimeTypeTrader: mimeType" << mimeType << "not found";
         return lst; // empty
     }
     const int serviceOffersOffset = factory->serviceOffersOffset(mime);
@@ -117,7 +117,7 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
 
 #define CHECK_SERVICETYPE(genericServiceTypePtr) \
     if (!genericServiceTypePtr) { \
-        qWarning() << "KMimeTypeTrader: couldn't find service type" << genericServiceType << \
+        qCWarning(SERVICES) << "KMimeTypeTrader: couldn't find service type" << genericServiceType << \
                    "\nPlease ensure that the .desktop file for it is installed; then run kbuildsycoca5."; \
         return; \
     }

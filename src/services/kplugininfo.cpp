@@ -21,7 +21,7 @@
 #include "kplugininfo.h"
 
 #include <QList>
-#include <QDebug>
+#include "servicesdebug.h"
 #include <QDirIterator>
 #include <QJsonArray>
 #include <QMimeDatabase>
@@ -258,7 +258,7 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
 
     KConfigGroup cg = file.desktopGroup();
     if (!cg.exists()) {
-        qWarning() << filename << "has no desktop group, cannot construct a KPluginInfo object from it.";
+        qCWarning(SERVICES) << filename << "has no desktop group, cannot construct a KPluginInfo object from it.";
         d.reset();
         return;
     }
@@ -269,7 +269,7 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
 
     d->setMetaData(KPluginMetaData(file.fileName()), true);
     if (!d->metaData.isValid()) {
-        qWarning() << "Failed to read metadata from .desktop file" << file.fileName();
+        qCWarning(SERVICES) << "Failed to read metadata from .desktop file" << file.fileName();
         d.reset();
     }
 }
@@ -635,7 +635,7 @@ QVariant KPluginInfo::property(const QString &key) const
                 }
                 result = newResult;
             } else
-                qWarning() << "Cannot interpret" << result << "into a string list";
+                qCWarning(SERVICES) << "Cannot interpret" << result << "into a string list";
         }
         return result;
     }
@@ -696,7 +696,7 @@ void KPluginInfo::save(KConfigGroup config)
         config.writeEntry(pluginName() + s_enabledKey(), isPluginEnabled());
     } else {
         if (!d->config.isValid()) {
-            qWarning() << "no KConfigGroup, cannot save";
+            qCWarning(SERVICES) << "no KConfigGroup, cannot save";
             return;
         }
         d->config.writeEntry(pluginName() + s_enabledKey(), isPluginEnabled());
@@ -711,7 +711,7 @@ void KPluginInfo::load(const KConfigGroup &config)
         setPluginEnabled(config.readEntry(pluginName() + s_enabledKey(), isPluginEnabledByDefault()));
     } else {
         if (!d->config.isValid()) {
-            qWarning() << "no KConfigGroup, cannot load";
+            qCWarning(SERVICES) << "no KConfigGroup, cannot load";
             return;
         }
         setPluginEnabled(d->config.readEntry(pluginName() + s_enabledKey(), isPluginEnabledByDefault()));

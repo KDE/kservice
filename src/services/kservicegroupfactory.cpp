@@ -22,7 +22,7 @@
 #include "ksycocadict_p.h"
 #include "kservice.h"
 
-#include <QDebug>
+#include "servicesdebug.h"
 
 KServiceGroupFactory::KServiceGroupFactory(KSycoca *db)
     : KSycocaFactory(KST_KServiceGroupFactory, db)
@@ -101,13 +101,13 @@ KServiceGroup *KServiceGroupFactory::createGroup(int offset, bool deep) const
     KSycocaType type;
     QDataStream *str = sycoca()->findEntry(offset, type);
     if (type != KST_KServiceGroup) {
-        qWarning() << "KServiceGroupFactory: unexpected object entry in KSycoca database (type = " << int(type) << ")";
+        qCWarning(SERVICES) << "KServiceGroupFactory: unexpected object entry in KSycoca database (type = " << int(type) << ")";
         return nullptr;
     }
 
     KServiceGroup *newEntry = new KServiceGroup(*str, offset, deep);
     if (!newEntry->isValid()) {
-        qWarning() << "KServiceGroupFactory: corrupt object in KSycoca database!";
+        qCWarning(SERVICES) << "KServiceGroupFactory: corrupt object in KSycoca database!";
         delete newEntry;
         newEntry = nullptr;
     }

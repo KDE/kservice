@@ -22,7 +22,7 @@
 #include "ksycocatype.h"
 #include "ksycocadict_p.h"
 #include "kservicetypeprofile.h"
-#include <QDebug>
+#include "servicesdebug.h"
 
 #include <assert.h>
 
@@ -118,13 +118,13 @@ KServiceType *KServiceTypeFactory::createEntry(int offset) const
     }
 
     if (type != KST_KServiceType) {
-        qWarning() << "KServiceTypeFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
+        qCWarning(SERVICES) << "KServiceTypeFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
         return nullptr;
     }
 
     KServiceType *newEntry = new KServiceType(*str, offset);
     if (newEntry && !newEntry->isValid()) {
-        qWarning() << "KServiceTypeFactory: corrupt object in KSycoca database!";
+        qCWarning(SERVICES) << "KServiceTypeFactory: corrupt object in KSycoca database!";
         delete newEntry;
         newEntry = nullptr;
     }

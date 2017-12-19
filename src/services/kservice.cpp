@@ -98,7 +98,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
           return;*/
         m_strType = QStringLiteral("Application");
     } else if (m_strType != QLatin1String("Application") && m_strType != QLatin1String("Service")) {
-        qWarning() << "The desktop entry file " << entryPath
+        qCWarning(SERVICES) << "The desktop entry file " << entryPath
                    << " has Type=" << m_strType
                    << " instead of \"Application\" or \"Service\"";
         m_bValid = false;
@@ -115,7 +115,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     if (m_strType == QLatin1String("Application")) {
         // It's an application? Should have an Exec line then, otherwise we can't run it
         if (m_strExec.isEmpty()) {
-            qWarning() << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but no Exec line";
+            qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but no Exec line";
             m_bValid = false;
             return;
         }
@@ -133,7 +133,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     if ((m_strType == QLatin1String("Application")) &&
             (resource != QStandardPaths::ApplicationsLocation) &&
             !absPath) {
-        qWarning() << "The desktop entry file" << entryPath
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath
                    << "has Type=" << m_strType << "but is located under \"" << QStandardPaths::displayName(resource)
                    << "\" instead of \"Applications\"";
         m_bValid = false;
@@ -143,7 +143,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     if ((m_strType == QLatin1String("Service")) &&
             (resource != QStandardPaths::GenericDataLocation) &&
             !absPath) {
-        qWarning() << "The desktop entry file" << entryPath
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath
                    << "has Type=" << m_strType << "but is located under \"" << QStandardPaths::displayName(resource)
                    << "\" instead of \"Shared Data\"/kservices5";
         m_bValid = false;
@@ -186,7 +186,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     m_strLibrary = desktopGroup.readEntry("X-KDE-Library");
     entryMap.remove(QStringLiteral("X-KDE-Library"));
     if (!m_strLibrary.isEmpty() && m_strType == QLatin1String("Application")) {
-        qWarning() << "The desktop entry file" << entryPath << "has Type=" << m_strType
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType
                    << "but also has a X-KDE-Library key. This works for now,"
                    " but makes user-preference handling difficult, so support for this might"
                    " be removed at some point. Consider splitting it into two desktop files.";
@@ -215,7 +215,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     while (st_it.hasNext()) {
         const QString st = st_it.next();
         if (st.isEmpty()) {
-            qWarning() << "The desktop entry file" << entryPath << "has an empty mimetype!";
+            qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has an empty mimetype!";
             continue;
         }
         int initialPreference = m_initialPreference;
@@ -293,7 +293,7 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
         if (config->hasActionGroup(group)) {
             const KConfigGroup cg = config->actionGroup(group);
             if (!cg.hasKey("Name") || !cg.hasKey("Exec")) {
-                qWarning() << "The action" << group << "in the desktop file" << q->entryPath() << "has no Name or no Exec key";
+                qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Name or no Exec key";
             } else {
                 m_actions.append(KServiceAction(group,
                                                 cg.readEntry("Name"),
@@ -302,7 +302,7 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
                                                 cg.readEntry("NoDisplay", false)));
             }
         } else {
-            qWarning() << "The desktop file" << q->entryPath() << "references the action" << group << "but doesn't define it";
+            qCWarning(SERVICES) << "The desktop file" << q->entryPath() << "references the action" << group << "but doesn't define it";
         }
     }
 }
@@ -863,7 +863,7 @@ QString KService::exec() const
 {
     Q_D(const KService);
     if (d->m_strType == QLatin1String("Application") && d->m_strExec.isEmpty()) {
-        qWarning() << "The desktop entry file " << entryPath()
+        qCWarning(SERVICES) << "The desktop entry file " << entryPath()
                    << " has Type=" << d->m_strType << " but has no Exec field.";
     }
     return d->m_strExec;

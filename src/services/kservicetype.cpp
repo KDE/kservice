@@ -28,7 +28,7 @@
 #include <assert.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
-#include <QDebug>
+#include "servicesdebug.h"
 
 extern int servicesDebugArea();
 
@@ -210,7 +210,7 @@ KServiceType::Ptr KServiceType::parentType()
     KSycoca::self()->ensureCacheValid();
     d->parentType = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(parentSt);
     if (!d->parentType) {
-        qWarning() << entryPath() << "specifies undefined mimetype/servicetype" << parentSt;
+        qCWarning(SERVICES) << entryPath() << "specifies undefined mimetype/servicetype" << parentSt;
     }
     return d->parentType;
 }

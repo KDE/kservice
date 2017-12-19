@@ -18,9 +18,9 @@
  */
 
 #include "kmimetypefactory_p.h"
+#include "servicesdebug.h"
 #include <ksycoca.h>
 #include <ksycocadict_p.h>
-#include <QDebug>
 
 extern int servicesDebugArea();
 
@@ -71,12 +71,12 @@ KMimeTypeFactory::MimeTypeEntry *KMimeTypeFactory::createEntry(int offset) const
     }
 
     if (type != KST_KMimeTypeEntry) {
-        qWarning() << "KMimeTypeFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
+        qCWarning(SERVICES) << "KMimeTypeFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
         return nullptr;
     }
     MimeTypeEntry *newEntry = new MimeTypeEntry(*str, offset);
     if (newEntry && !newEntry->isValid()) {
-        qWarning() << "KMimeTypeFactory: corrupt object in KSycoca database!\n";
+        qCWarning(SERVICES) << "KMimeTypeFactory: corrupt object in KSycoca database!\n";
         delete newEntry;
         newEntry = nullptr;
     }

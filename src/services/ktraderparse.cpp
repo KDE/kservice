@@ -32,7 +32,7 @@ extern "C"
 #include <stdlib.h>
 
 #include <QThreadStorage>
-#include <QDebug>
+#include "servicesdebug.h"
 
 namespace KTraderParse
 {
@@ -67,7 +67,7 @@ void KTraderParse_setParseTree(void *_ptr1)
 
 void KTraderParse_error(const char *err)
 {
-    qWarning() << "Parsing" << s_parsingData()->localData()->buffer << "gave:" << err;
+    qCWarning(SERVICES) << "Parsing" << s_parsingData()->localData()->buffer << "gave:" << err;
 }
 
 void *KTraderParse_newOR(void *_ptr1, void *_ptr2)

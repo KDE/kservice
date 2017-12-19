@@ -22,7 +22,7 @@
 #include "ksycocadict_p.h"
 #include "kservice.h"
 #include "servicesdebug.h"
-#include <QDebug>
+#include "servicesdebug.h"
 #include <QDir>
 #include <QFile>
 
@@ -212,12 +212,12 @@ KService *KServiceFactory::createEntry(int offset) const
     KSycocaType type;
     QDataStream *str = sycoca()->findEntry(offset, type);
     if (type != KST_KService) {
-        qWarning() << "KServiceFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
+        qCWarning(SERVICES) << "KServiceFactory: unexpected object entry in KSycoca database (type=" << int(type) << ")";
         return nullptr;
     }
     KService *newEntry = new KService(*str, offset);
     if (!newEntry->isValid()) {
-        qWarning() << "KServiceFactory: corrupt object in KSycoca database!";
+        qCWarning(SERVICES) << "KServiceFactory: corrupt object in KSycoca database!";
         delete newEntry;
         newEntry = nullptr;
     }

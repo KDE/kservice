@@ -27,7 +27,7 @@
 #include "kservicetypefactory_p.h"
 #include "kservicefactory_p.h"
 
-#include <QDebug>
+#include "servicesdebug.h"
 
 using namespace KTraderParse;
 
@@ -104,7 +104,7 @@ KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType)
     KSycoca::self()->ensureCacheValid();
     KServiceType::Ptr servTypePtr = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(serviceType);
     if (!servTypePtr) {
-        qWarning() << "KServiceTypeTrader: serviceType" << serviceType << "not found";
+        qCWarning(SERVICES) << "KServiceTypeTrader: serviceType" << serviceType << "not found";
         return KServiceOfferList();
     }
     if (servTypePtr->serviceOffersOffset() == -1) {  // no offers in ksycoca
@@ -130,7 +130,7 @@ KService::List KServiceTypeTrader::defaultOffers(const QString &serviceType,
     KSycoca::self()->ensureCacheValid();
     KServiceType::Ptr servTypePtr = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(serviceType);
     if (!servTypePtr) {
-        qWarning() << "KServiceTypeTrader: serviceType" << serviceType << "not found";
+        qCWarning(SERVICES) << "KServiceTypeTrader: serviceType" << serviceType << "not found";
         return KService::List();
     }
     if (servTypePtr->serviceOffersOffset() == -1) {
