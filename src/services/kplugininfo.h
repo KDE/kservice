@@ -53,7 +53,6 @@ public:
      * The file should be of the following form:
      * \verbatim
        [Desktop Entry]
-       Encoding=UTF-8
        Icon=mypluginicon
        Type=Service
        ServiceTypes=KPluginInfo
@@ -91,7 +90,6 @@ public:
      * The .desktop file should look like this:
      * \verbatim
        [Desktop Entry]
-       Encoding=UTF-8
        Icon=mypluginicon
        Type=Service
        ServiceTypes=KPluginInfo
