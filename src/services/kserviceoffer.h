@@ -20,7 +20,7 @@
 #ifndef KSERVICEOFFER_H
 #define KSERVICEOFFER_H
 
-#include <QtCore/QString>
+#include <QString>
 #include <kservice.h>
 class KServiceOfferPrivate;
 

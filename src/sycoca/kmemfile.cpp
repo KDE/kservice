@@ -22,10 +22,10 @@
 
 #ifndef QT_NO_SHAREDMEMORY
 
-#include <QtCore/QSharedMemory>
-#include <QtCore/QCryptographicHash>
-#include <QtCore/QFile>
-#include <QtCore/QDir>
+#include <QSharedMemory>
+#include <QCryptographicHash>
+#include <QFile>
+#include <QDir>
 #include <QCoreApplication>
 
 class KMemFile::Private

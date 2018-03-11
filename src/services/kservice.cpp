@@ -25,10 +25,10 @@
 
 #include <qplatformdefs.h>
 
-#include <QtCore/QCharRef>
-#include <QtCore/QFile>
-#include <QtCore/QDir>
-#include <QtCore/QMap>
+#include <QCharRef>
+#include <QFile>
+#include <QDir>
+#include <QMap>
 #include <QCoreApplication>
 #include <qmimedatabase.h>
 

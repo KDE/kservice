@@ -20,14 +20,14 @@
 #ifndef KPLUGININFO_H
 #define KPLUGININFO_H
 
-#include <QtCore/QExplicitlySharedDataPointer>
-#include <QtCore/QString>
-#include <QtCore/QMap>
-#include <QtCore/QStringList>
+#include <QExplicitlySharedDataPointer>
+#include <QString>
+#include <QMap>
+#include <QStringList>
 
 #include <kconfiggroup.h>
 #include <kservice.h>
-#include <QtCore/QList>
+#include <QList>
 
 class KPluginMetaData;
 class KPluginInfoPrivate;

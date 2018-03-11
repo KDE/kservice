@@ -26,8 +26,8 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <QProcess>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QHash>
+#include <QCoreApplication>
+#include <QHash>
 #include <QDBusConnection>
 
 #include "windows.h"

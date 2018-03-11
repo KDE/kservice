@@ -21,7 +21,7 @@
 #define KSERVICEACTION_H
 
 #include <kservice_export.h>
-#include <QtCore/QSharedDataPointer>
+#include <QSharedDataPointer>
 class QVariant;
 class KServiceActionPrivate;
 

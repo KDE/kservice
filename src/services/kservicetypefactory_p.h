@@ -22,7 +22,7 @@
 
 #include <assert.h>
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 #include "ksycocafactory_p.h"
 #include "kservicetype.h"

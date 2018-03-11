@@ -18,8 +18,8 @@
 #ifndef KSYCOCARESOURCELIST_H
 #define KSYCOCARESOURCELIST_H
 
-#include <QtCore/QLinkedList>
-#include <QtCore/QString>
+#include <QLinkedList>
+#include <QString>
 
 struct KSycocaResource {
     QByteArray resource;

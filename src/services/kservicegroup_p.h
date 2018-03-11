@@ -22,7 +22,7 @@
 #include "kservicegroup.h"
 #include <ksycocaentry_p.h>
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 class KServiceGroupPrivate : public KSycocaEntryPrivate
 {

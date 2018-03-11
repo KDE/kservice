@@ -21,7 +21,7 @@
 #ifndef KSERVICEFACTORY_P_H
 #define KSERVICEFACTORY_P_H
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 #include "kserviceoffer.h"
 #include "ksycocafactory_p.h"

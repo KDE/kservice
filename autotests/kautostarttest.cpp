@@ -21,7 +21,7 @@
 #include <qstandardpaths.h>
 #include <QTest>
 
-#include <QtCore/QFile>
+#include <QFile>
 
 QTEST_MAIN(KAutostartTest)   // Qt5 TODO: QTEST_GUILESS_MAIN
 

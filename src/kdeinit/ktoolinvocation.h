@@ -27,9 +27,9 @@
 
 #include <kservice_export.h>
 
-#include <QtCore/QObject>
-#include <QtCore/QByteArray>
-#include <QtCore/QStringList>
+#include <QObject>
+#include <QByteArray>
+#include <QStringList>
 
 class QUrl;
 class KToolInvocationPrivate;

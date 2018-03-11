@@ -20,7 +20,7 @@
 #define KCTIME_FACTORY_H
 
 #include <ksycocafactory_p.h>
-#include <QtCore/QHash>
+#include <QHash>
 
 /**
  * Simple dict for assocating a timestamp with each file in ksycoca

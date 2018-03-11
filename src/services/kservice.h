@@ -22,12 +22,12 @@
 #define KSERVICE_H
 
 #include "kserviceaction.h"
-#include <QtCore/QStringList>
-#include <QtCore/QVariant>
+#include <QStringList>
+#include <QVariant>
 #include <kpluginfactory.h>
 #include <kpluginloader.h>
 #include <ksycocaentry.h>
-#include <QtCore/QCoreApplication>
+#include <QCoreApplication>
 #include <QJsonObject>
 
 class KServiceType;

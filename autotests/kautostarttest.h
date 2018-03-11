@@ -19,7 +19,7 @@
 #ifndef KAUTOSTARTTEST_H
 #define KAUTOSTARTTEST_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class KAutostartTest : public QObject
 {

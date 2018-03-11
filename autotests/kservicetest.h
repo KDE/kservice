@@ -19,7 +19,7 @@
 #define KSERVICETEST_H
 
 #include <QAtomicInt>
-#include <QtCore/QObject>
+#include <QObject>
 
 class KServiceTest : public QObject
 {

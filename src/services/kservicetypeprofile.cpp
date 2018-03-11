@@ -28,7 +28,7 @@
 #include <kconfiggroup.h>
 
 #include <QMutex>
-#include <QtCore/QHash>
+#include <QHash>
 #include <QtAlgorithms>
 
 // servicetype -> profile

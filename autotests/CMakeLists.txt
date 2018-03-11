@@ -9,7 +9,7 @@ find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Concurrent Test)
 macro(KSERVICE_UNIT_TESTS)
   foreach(_testname ${ARGN})
     ecm_add_test(${_testname}.cpp TEST_NAME ${_testname}
-        LINK_LIBRARIES KF5::Service Qt5::Test Qt5::Concurrent)
+        LINK_LIBRARIES KF5::Service Qt5::Test Qt5::Concurrent Qt5::Xml)
     target_compile_definitions(${_testname} PRIVATE -DKBUILDSYCOCAEXE=\"$<TARGET_FILE:kbuildsycoca5>\")
   endforeach()
 endmacro(KSERVICE_UNIT_TESTS)
@@ -54,5 +54,5 @@ set(kmimeassociationstest_SRCS kmimeassociationstest.cpp ../src/sycoca/kmimeasso
 ecm_qt_declare_logging_category(kmimeassociationstest_SRCS HEADER sycocadebug.h IDENTIFIER SYCOCA CATEGORY_NAME kf5.kservice.sycoca)
 
 ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
-             LINK_LIBRARIES KF5::Service Qt5::Test)
+             LINK_LIBRARIES KF5::Service Qt5::Test Qt5::Xml)
 

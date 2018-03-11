@@ -23,8 +23,8 @@
 #include <kservice_export.h>
 #include <ksycocatype.h>
 
-#include <QtCore/QObject>
-#include <QtCore/QStringList>
+#include <QObject>
+#include <QStringList>
 
 class QDataStream;
 class KSycocaFactory;

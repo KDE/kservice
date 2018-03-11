@@ -23,7 +23,7 @@
 #include "kconfiggroup.h"
 
 #include <QCoreApplication>
-#include <QtCore/QFile>
+#include <QFile>
 #include <QStringList>
 
 class KAutostartPrivate

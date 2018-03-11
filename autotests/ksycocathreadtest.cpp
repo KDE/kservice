@@ -19,8 +19,8 @@
    Boston, MA 02110-1301, USA.
 */
 
-#include <QtTest/QTest>
-#include <QtTest/QSignalSpy>
+#include <QTest>
+#include <QSignalSpy>
 
 #include <QMimeDatabase>
 #include <QThread>

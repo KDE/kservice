@@ -23,7 +23,7 @@
 
 #ifndef QT_NO_SHAREDMEMORY
 
-#include <QtCore/QIODevice>
+#include <QIODevice>
 #include <kservice_export.h>
 
 /**

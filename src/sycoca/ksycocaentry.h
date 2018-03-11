@@ -22,9 +22,9 @@
 #include <ksycocatype.h>
 #include <kservice_export.h>
 
-#include <QtCore/QDataStream>
-#include <QtCore/QStringList>
-#include <QtCore/QVariant>
+#include <QDataStream>
+#include <QStringList>
+#include <QVariant>
 #include <QExplicitlySharedDataPointer>
 
 class KSycocaEntryPrivate;

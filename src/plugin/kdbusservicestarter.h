@@ -21,7 +21,7 @@
 
 #include <kservice_export.h>
 
-#include <QtCore/QString>
+#include <QString>
 
 class KDBusServiceStarterPrivate;
 

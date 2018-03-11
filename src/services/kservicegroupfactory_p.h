@@ -19,7 +19,7 @@
 #ifndef KSERVICEGROUPFACTORY_P_H
 #define KSERVICEGROUPFACTORY_P_H
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 #include "kservicegroup.h"
 #include "ksycocafactory_p.h"

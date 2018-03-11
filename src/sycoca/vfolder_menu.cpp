@@ -24,11 +24,11 @@
 #include <kservice.h>
 
 #include <QDebug>
-#include <QtCore/QMap>
-#include <QtCore/QFile>
-#include <QtCore/QDir>
-#include <QtCore/QRegExp>
-#include <QtCore/QDirIterator>
+#include <QMap>
+#include <QFile>
+#include <QDir>
+#include <QRegExp>
+#include <QDirIterator>
 #include <QStandardPaths>
 
 static void foldNode(QDomElement &docElem, QDomElement &e, QMap<QString, QDomElement> &dupeList, QString s = QString()) //krazy:exclude=passbyvalue

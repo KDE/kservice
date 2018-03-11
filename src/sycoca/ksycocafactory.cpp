@@ -27,7 +27,7 @@
 #include <QDebug>
 
 #include <QThread>
-#include <QtCore/QHash>
+#include <QHash>
 
 class KSycocaFactoryPrivate
 {

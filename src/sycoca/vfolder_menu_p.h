@@ -20,12 +20,12 @@
 #ifndef VFOLDER_MENU_H
 #define VFOLDER_MENU_H
 
-#include <QtCore/QObject>
-#include <QtXml/QDomDocument>
-#include <QtCore/QStringList>
-#include <QtCore/QHash>
-#include <QtCore/QSet>
-#include <QtCore/QStack>
+#include <QObject>
+#include <QDomDocument>
+#include <QStringList>
+#include <QHash>
+#include <QSet>
+#include <QStack>
 
 #include <kservice.h>
 

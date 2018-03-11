@@ -23,10 +23,10 @@
 
 #include <ksycocaentry.h>
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
-#include <QtCore/QMap>
-#include <QtCore/QVariant>
+#include <QString>
+#include <QStringList>
+#include <QMap>
+#include <QVariant>
 
 #include <kconfig.h>
 

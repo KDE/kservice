@@ -28,10 +28,10 @@
 #include "sycocadebug.h"
 
 #include <qstandardpaths.h>
-#include <QtCore/QDataStream>
-#include <QtCore/QCoreApplication>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
+#include <QDataStream>
+#include <QCoreApplication>
+#include <QFile>
+#include <QFileInfo>
 #include <QThread>
 #include <QThreadStorage>
 #include <QMetaMethod>

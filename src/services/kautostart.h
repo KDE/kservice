@@ -22,7 +22,7 @@
 
 #include <kservice_export.h>
 
-#include <QtCore/QObject>
+#include <QObject>
 class KAutostartPrivate;
 
 class QStringList;
