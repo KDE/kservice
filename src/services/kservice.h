@@ -46,7 +46,7 @@ class KServicePrivate;
  *
  * The starting point you need is often the static methods, like createInstance().
  * The types of service a plugin provides is taken from the accompanying desktop file
- * where the 'ServiceTypes=' field is used.
+ * where the 'X-KDE-ServiceTypes=' field is used.
  *
  * For a tutorial on how to build a plugin-loading mechanism and how to write plugins
  * in general, see http://techbase.kde.org/Development/Tutorials#Services:_Applications_and_Plugins

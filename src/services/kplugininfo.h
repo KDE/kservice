@@ -55,7 +55,7 @@ public:
        [Desktop Entry]
        Icon=mypluginicon
        Type=Service
-       ServiceTypes=KPluginInfo
+       X-KDE-ServiceTypes=KPluginInfo
 
        Name=User Visible Name
        Comment=Description of what the plugin does
@@ -92,7 +92,7 @@ public:
        [Desktop Entry]
        Icon=mypluginicon
        Type=Service
-       ServiceTypes=KPluginInfo
+       X-KDE-ServiceTypes=KPluginInfo
 
        X-KDE-PluginInfo-Author=Author's Name
        X-KDE-PluginInfo-Email=author@foo.bar
