@@ -44,13 +44,9 @@
 #define Q_XDG_PLATFORM
 #endif
 
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
 // On Unix, lastModified() finally returns milliseconds as well, since Qt 5.8.0
 // Not sure about the situation on Windows though.
 static const int s_waitDelay = 10;
-#else
-static const int s_waitDelay = 1000;
-#endif
 
 extern KSERVICE_EXPORT int ksycoca_ms_between_checks;
 
