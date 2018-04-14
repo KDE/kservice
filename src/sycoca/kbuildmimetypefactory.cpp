@@ -83,7 +83,7 @@ void KBuildMimeTypeFactory::save(QDataStream &str)
 
     str << qint32(0);
 
-    const int endOfFactoryData = str.device()->pos();
+    const qint64 endOfFactoryData = str.device()->pos();
 
     // Update header (pass #3)
     saveHeader(str);

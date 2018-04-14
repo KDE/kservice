@@ -55,7 +55,7 @@ KServiceFactory::KServiceFactory(KSycoca *db)
         (*str) >> i;
         m_menuIdDictOffset = i;
 
-        const int saveOffset = str->device()->pos();
+        const qint64 saveOffset = str->device()->pos();
         // Init index tables
         m_nameDict = new KSycocaDict(str, m_nameDictOffset);
         // Init index tables
@@ -263,7 +263,7 @@ QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceO
             (*str) >> mimeTypeInheritanceLevel;
             if (aServiceTypeOffset == serviceTypeOffset) {
                 // Save stream position !
-                const int savedPos = str->device()->pos();
+                const qint64 savedPos = str->device()->pos();
                 // Create Service
                 KService *serv = createEntry(aServiceOffset);
                 if (serv) {
@@ -299,7 +299,7 @@ KService::List KServiceFactory::serviceOffers(int serviceTypeOffset, int service
             (*str) >> mimeTypeInheritanceLevel;
             if (aServiceTypeOffset == serviceTypeOffset) {
                 // Save stream position !
-                const int savedPos = str->device()->pos();
+                const qint64 savedPos = str->device()->pos();
                 // Create service
                 KService *serv = createEntry(aServiceOffset);
                 if (serv) {
@@ -321,7 +321,7 @@ bool KServiceFactory::hasOffer(int serviceTypeOffset, int serviceOffersOffset, i
 {
     // Save stream position
     QDataStream *str = stream();
-    const int savedPos = str->device()->pos();
+    const qint64 savedPos = str->device()->pos();
 
     // Jump to the offer list
     str->device()->seek(m_offerListOffset + serviceOffersOffset);

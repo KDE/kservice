@@ -156,7 +156,7 @@ KBuildServiceGroupFactory::save(QDataStream &str)
     m_baseGroupDictOffset = str.device()->pos();
     m_baseGroupDict->save(str);
 
-    int endOfFactoryData = str.device()->pos();
+    qint64 endOfFactoryData = str.device()->pos();
 
     // Update header (pass #3)
     saveHeader(str);

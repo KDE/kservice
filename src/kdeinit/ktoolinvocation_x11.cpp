@@ -63,7 +63,7 @@ static QStringList splitEmailAddressList(const QString &aStr)
     }
 
     QString addr;
-    uint addrstart = 0;
+    int addrstart = 0;
     int commentlevel = 0;
     bool insidequote = false;
 

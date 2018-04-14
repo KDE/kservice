@@ -65,7 +65,7 @@ class KServiceTypeTraderPrivate;
  * \endcode
  * otherwise it could also be interpreted as
  * Subtract the numeric value of the property "KMyApp" and "InterfaceVersion" from the
- * property "X" and make sure it is greater than 4.\n
+ * property "X" and make sure it is greater than 4.
  * Instead of the other meaning, make sure that the numeric value of "X-KMyApp-InterfaceVersion" is
  * greater than 4.
  *

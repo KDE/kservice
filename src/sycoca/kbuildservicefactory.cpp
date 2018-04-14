@@ -143,7 +143,7 @@ void KBuildServiceFactory::save(QDataStream &str)
     m_menuIdDictOffset = str.device()->pos();
     m_menuIdDict->save(str);
 
-    int endOfFactoryData = str.device()->pos();
+    qint64 endOfFactoryData = str.device()->pos();
 
     // Update header (pass #3)
     saveHeader(str);

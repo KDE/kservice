@@ -47,7 +47,7 @@ public:
      */
     KServiceTypeFactory(KSycoca *db);
 
-    virtual ~KServiceTypeFactory();
+    ~KServiceTypeFactory() Q_DECL_OVERRIDE;
 
     /**
      * Not meant to be called at this level

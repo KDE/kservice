@@ -45,7 +45,7 @@ public:
      */
     KMimeTypeFactory(KSycoca *db);
 
-    virtual ~KMimeTypeFactory();
+    ~KMimeTypeFactory() Q_DECL_OVERRIDE;
 
     /**
      * Not meant to be called at this level

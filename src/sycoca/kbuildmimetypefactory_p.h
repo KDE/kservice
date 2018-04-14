@@ -35,7 +35,7 @@ public:
      */
     KBuildMimeTypeFactory(KSycoca *db);
 
-    virtual ~KBuildMimeTypeFactory();
+    ~KBuildMimeTypeFactory() Q_DECL_OVERRIDE;
 
     KSycocaEntry::List allEntries() const Q_DECL_OVERRIDE;
 

@@ -39,7 +39,7 @@ KServiceGroupFactory::KServiceGroupFactory(KSycoca *db)
         (*str) >> i;
         m_baseGroupDictOffset = i;
 
-        const int saveOffset = str->device()->pos();
+        const qint64 saveOffset = str->device()->pos();
         // Init index tables
         m_baseGroupDict = new KSycocaDict(str, m_baseGroupDictOffset);
         str->device()->seek(saveOffset);
