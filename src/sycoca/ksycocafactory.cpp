@@ -59,7 +59,7 @@ KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id, KSycoca *sycoca)
         d->m_endEntryOffset = i;
 
         QDataStream *str = stream();
-        int saveOffset = str->device()->pos();
+        qint64 saveOffset = str->device()->pos();
         // Init index tables
         d->m_sycocaDict = new KSycocaDict(str, d->m_sycocaDictOffset);
         saveOffset = str->device()->seek(saveOffset);
@@ -130,7 +130,7 @@ KSycocaFactory::save(QDataStream &str)
     d->m_sycocaDictOffset = str.device()->pos();
     d->m_sycocaDict->save(str);
 
-    int endOfFactoryData = str.device()->pos();
+    qint64 endOfFactoryData = str.device()->pos();
 
     // Update header (pass #2)
     saveHeader(str);
