@@ -43,16 +43,16 @@ public:
 
     virtual ~KServiceTypePrivate() {}
 
-    void save(QDataStream &) Q_DECL_OVERRIDE;
+    void save(QDataStream &) override;
 
-    QString name() const Q_DECL_OVERRIDE
+    QString name() const override
     {
         return m_strName;
     }
 
-    QVariant property(const QString &name) const Q_DECL_OVERRIDE;
+    QVariant property(const QString &name) const override;
 
-    QStringList propertyNames() const Q_DECL_OVERRIDE;
+    QStringList propertyNames() const override;
 
     virtual QString comment() const
     {

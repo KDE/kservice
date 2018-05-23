@@ -44,9 +44,9 @@ public:
     {
     }
 
-    void save(QDataStream &s) Q_DECL_OVERRIDE;
+    void save(QDataStream &s) override;
 
-    QString name() const Q_DECL_OVERRIDE
+    QString name() const override
     {
         return path;
     }

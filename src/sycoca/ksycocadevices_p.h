@@ -60,8 +60,8 @@ class KSycocaMmapDevice : public KSycocaAbstractDevice
 {
 public:
     KSycocaMmapDevice(const char *sycoca_mmap, size_t sycoca_size);
-    ~KSycocaMmapDevice() Q_DECL_OVERRIDE;
-    QIODevice *device() Q_DECL_OVERRIDE;
+    ~KSycocaMmapDevice() override;
+    QIODevice *device() override;
 private:
     QBuffer *m_buffer;
 };
@@ -72,8 +72,8 @@ class KSycocaFileDevice : public KSycocaAbstractDevice
 {
 public:
     KSycocaFileDevice(const QString &path);
-    ~KSycocaFileDevice() Q_DECL_OVERRIDE;
-    QIODevice *device() Q_DECL_OVERRIDE;
+    ~KSycocaFileDevice() override;
+    QIODevice *device() override;
 private:
     QFile *m_database;
 };
@@ -84,8 +84,8 @@ class KSycocaMemFileDevice : public KSycocaAbstractDevice
 {
 public:
     KSycocaMemFileDevice(const QString &path);
-    ~KSycocaMemFileDevice() Q_DECL_OVERRIDE;
-    QIODevice *device() Q_DECL_OVERRIDE;
+    ~KSycocaMemFileDevice() override;
+    QIODevice *device() override;
 private:
     KMemFile *m_database;
 };
@@ -96,8 +96,8 @@ class KSycocaBufferDevice : public KSycocaAbstractDevice
 {
 public:
     KSycocaBufferDevice();
-    ~KSycocaBufferDevice() Q_DECL_OVERRIDE;
-    QIODevice *device() Q_DECL_OVERRIDE;
+    ~KSycocaBufferDevice() override;
+    QIODevice *device() override;
 private:
     QBuffer *m_buffer;
 };

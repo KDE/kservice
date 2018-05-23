@@ -51,7 +51,7 @@ public:
     /**
      * Construct a KService from a config file.
      */
-    KSycocaEntry *createEntry(const QString &) const Q_DECL_OVERRIDE
+    KSycocaEntry *createEntry(const QString &) const override
     {
         assert(0);
         return nullptr;
@@ -116,7 +116,7 @@ public:
     static KServiceFactory *self();
 
 protected:
-    KService *createEntry(int offset) const Q_DECL_OVERRIDE;
+    KService *createEntry(int offset) const override;
 
     // All those variables are used by KBuildServiceFactory too
     int m_offerListOffset;
@@ -128,7 +128,7 @@ protected:
     int m_menuIdDictOffset;
 
 protected:
-    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
+    void virtual_hook(int id, void *data) override;
 private:
     class KServiceFactoryPrivate *d;
 };

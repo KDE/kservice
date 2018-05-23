@@ -55,7 +55,7 @@ enum KSycocaFactoryId { KST_KServiceFactory = 1,
 
 #define K_SYCOCAFACTORY( factory_id ) \
     public: \
-    KSycocaFactoryId factoryId() const Q_DECL_OVERRIDE { return factory_id; } \
+    KSycocaFactoryId factoryId() const override { return factory_id; } \
     private:
 
 #endif

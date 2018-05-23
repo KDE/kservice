@@ -45,14 +45,14 @@ public:
 
     void parseActions(const KDesktopFile *config, KService *q);
     void load(QDataStream &);
-    void save(QDataStream &) Q_DECL_OVERRIDE;
+    void save(QDataStream &) override;
 
-    QString name() const Q_DECL_OVERRIDE
+    QString name() const override
     {
         return m_strName;
     }
 
-    QString storageId() const Q_DECL_OVERRIDE
+    QString storageId() const override
     {
         if (!menuId.isEmpty()) {
             return menuId;
@@ -60,14 +60,14 @@ public:
         return path;
     }
 
-    bool isValid() const Q_DECL_OVERRIDE
+    bool isValid() const override
     {
         return m_bValid;
     }
 
-    QVariant property(const QString &name) const Q_DECL_OVERRIDE;
+    QVariant property(const QString &name) const override;
 
-    QStringList propertyNames() const Q_DECL_OVERRIDE;
+    QStringList propertyNames() const override;
 
     QVariant property(const QString &_name, QVariant::Type t) const;
 

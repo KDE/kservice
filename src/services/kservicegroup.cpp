@@ -704,7 +704,7 @@ public:
     {
     }
 
-    QString name() const Q_DECL_OVERRIDE;
+    QString name() const override;
 };
 
 QString KServiceSeparatorPrivate::name() const

@@ -45,12 +45,12 @@ public:
      */
     KMimeTypeFactory(KSycoca *db);
 
-    ~KMimeTypeFactory() Q_DECL_OVERRIDE;
+    ~KMimeTypeFactory() override;
 
     /**
      * Not meant to be called at this level
      */
-    KSycocaEntry *createEntry(const QString &) const Q_DECL_OVERRIDE
+    KSycocaEntry *createEntry(const QString &) const override
     {
         assert(0);
         return nullptr;
@@ -103,7 +103,7 @@ public: // public for KBuildServiceFactory
     MimeTypeEntry::Ptr findMimeTypeEntryByName(const QString &name);
 
 protected:
-    MimeTypeEntry *createEntry(int offset) const Q_DECL_OVERRIDE;
+    MimeTypeEntry *createEntry(int offset) const override;
 private:
     // d pointer: useless since this header is not installed
     //class KMimeTypeFactoryPrivate* d;

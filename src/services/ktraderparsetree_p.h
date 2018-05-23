@@ -130,7 +130,7 @@ public:
         m_pRight = _ptr2;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     ParseTreeBase::Ptr m_pLeft;
@@ -149,7 +149,7 @@ public:
         m_pRight = _ptr2;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     ParseTreeBase::Ptr m_pLeft;
@@ -169,7 +169,7 @@ public:
         m_cmd = _i;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     ParseTreeBase::Ptr m_pLeft;
@@ -191,7 +191,7 @@ public:
     {
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     ParseTreeBase::Ptr m_pLeft;
@@ -213,7 +213,7 @@ public:
         m_cs = cs;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     ParseTreeBase::Ptr m_pLeft;
@@ -234,7 +234,7 @@ public:
         m_cmd = _i;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     ParseTreeBase::Ptr m_pLeft;
@@ -253,7 +253,7 @@ public:
         m_pLeft = _ptr;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     ParseTreeBase::Ptr m_pLeft;
@@ -270,7 +270,7 @@ public:
         m_pLeft = _ptr;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     ParseTreeBase::Ptr m_pLeft;
@@ -287,7 +287,7 @@ public:
         m_id = QString::fromUtf8(_id);
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     QString m_id;
@@ -304,7 +304,7 @@ public:
         m_str = QString::fromUtf8(arg);
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     QString m_str;
@@ -321,7 +321,7 @@ public:
         m_str = QString::fromUtf8(arg);
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     QString m_str;
@@ -338,7 +338,7 @@ public:
         m_int = arg;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     int m_int;
@@ -355,7 +355,7 @@ public:
         m_double = arg;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     double m_double;
@@ -372,7 +372,7 @@ public:
         m_bool = arg;
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     bool m_bool;
@@ -389,7 +389,7 @@ public:
         m_strId = QString::fromUtf8(_id);
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     QString m_strId;
@@ -406,7 +406,7 @@ public:
         m_strId = QString::fromUtf8(_id);
     }
 
-    bool eval(ParseContext *_context) const Q_DECL_OVERRIDE;
+    bool eval(ParseContext *_context) const override;
 
 protected:
     QString m_strId;

@@ -55,29 +55,29 @@ public:
      *
      * @reimp
      */
-    void close() Q_DECL_OVERRIDE;
+    void close() override;
     /**
      * As KMemFile is a random access device, it returns false
      *
      * @reimp
      */
-    bool isSequential() const Q_DECL_OVERRIDE;
+    bool isSequential() const override;
     /**
      * @reimp
      * @param mode only QIODevice::ReadOnly is accepted
      */
-    bool open(OpenMode mode) Q_DECL_OVERRIDE;
+    bool open(OpenMode mode) override;
     /**
      * Sets the current read/write position to pos
      * @reimp
      * @param pos the new read/write position
      */
-    bool seek(qint64 pos) Q_DECL_OVERRIDE;
+    bool seek(qint64 pos) override;
     /**
      * Returns the size of the file
      * @reimp
      */
-    qint64 size() const Q_DECL_OVERRIDE;
+    qint64 size() const override;
     /**
      * This static function updates the internal information about the file
      * loaded into shared memory. The next time the file is opened, the file is
@@ -86,9 +86,9 @@ public:
     static void fileContentsChanged(const QString &filename);
 protected:
     /** @reimp */
-    qint64 readData(char *data, qint64 maxSize) Q_DECL_OVERRIDE;
+    qint64 readData(char *data, qint64 maxSize) override;
     /** @reimp */
-    qint64 writeData(const char *data, qint64 maxSize) Q_DECL_OVERRIDE;
+    qint64 writeData(const char *data, qint64 maxSize) override;
 private:
     class Private;
     friend class Private;

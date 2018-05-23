@@ -230,7 +230,7 @@ protected:
     friend class KSycocaFactory;
     friend class KSycocaDict;
 
-    void connectNotify(const QMetaMethod &signal) Q_DECL_OVERRIDE;
+    void connectNotify(const QMetaMethod &signal) override;
 
 private:
     /**

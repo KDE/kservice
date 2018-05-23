@@ -63,18 +63,18 @@ public:
     /**
      * Write out header information
      */
-    void saveHeader(QDataStream &str) Q_DECL_OVERRIDE;
+    void saveHeader(QDataStream &str) override;
 
     /**
      * Write out data
      */
-    void save(QDataStream &str) Q_DECL_OVERRIDE;
+    void save(QDataStream &str) override;
 
-    KSycocaEntry *createEntry(const QString &) const Q_DECL_OVERRIDE
+    KSycocaEntry *createEntry(const QString &) const override
     {
         return nullptr;
     }
-    KSycocaEntry *createEntry(int) const Q_DECL_OVERRIDE
+    KSycocaEntry *createEntry(int) const override
     {
         return nullptr;
     }

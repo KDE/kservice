@@ -127,11 +127,11 @@ public:
     {
         s >> m_name >> m_serviceOffersOffset;
     }
-    QString name() const Q_DECL_OVERRIDE
+    QString name() const override
     {
         return m_name;
     }
-    void save(QDataStream &s) Q_DECL_OVERRIDE;
+    void save(QDataStream &s) override;
 
     QString m_name;
     int m_serviceOffersOffset;

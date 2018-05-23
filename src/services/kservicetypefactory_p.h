@@ -47,12 +47,12 @@ public:
      */
     KServiceTypeFactory(KSycoca *db);
 
-    ~KServiceTypeFactory() Q_DECL_OVERRIDE;
+    ~KServiceTypeFactory() override;
 
     /**
      * Not meant to be called at this level
      */
-    KSycocaEntry *createEntry(const QString &) const Q_DECL_OVERRIDE
+    KSycocaEntry *createEntry(const QString &) const override
     {
         assert(0);
         return nullptr;
@@ -86,13 +86,13 @@ public:
     static KServiceTypeFactory *self();
 
 protected:
-    KServiceType *createEntry(int offset) const Q_DECL_OVERRIDE;
+    KServiceType *createEntry(int offset) const override;
 
     // protected for KBuildServiceTypeFactory
     QMap<QString, int> m_propertyTypeDict;
 
 protected:
-    void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
+    void virtual_hook(int id, void *data) override;
 private:
     class KServiceTypeFactoryPrivate *d = nullptr;
 };
