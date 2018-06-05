@@ -35,16 +35,16 @@ public:
      */
     KBuildMimeTypeFactory(KSycoca *db);
 
-    ~KBuildMimeTypeFactory() Q_DECL_OVERRIDE;
+    ~KBuildMimeTypeFactory() override;
 
-    KSycocaEntry::List allEntries() const Q_DECL_OVERRIDE;
+    KSycocaEntry::List allEntries() const override;
 
     /**
      * Construct a KMimeType from a config file.
      */
-    KSycocaEntry *createEntry(const QString &file) const Q_DECL_OVERRIDE;
+    KSycocaEntry *createEntry(const QString &file) const override;
 
-    MimeTypeEntry *createEntry(int) const Q_DECL_OVERRIDE
+    MimeTypeEntry *createEntry(int) const override
     {
         assert(0);
         return nullptr;
@@ -55,7 +55,7 @@ public:
     /**
      * Write out mime type specific index files.
      */
-    void save(QDataStream &str) Q_DECL_OVERRIDE;
+    void save(QDataStream &str) override;
 
     /**
      * Write out header information
@@ -63,7 +63,7 @@ public:
      * Don't forget to call the parent first when you override
      * this function.
      */
-    void saveHeader(QDataStream &str) Q_DECL_OVERRIDE;
+    void saveHeader(QDataStream &str) override;
 };
 
 #endif

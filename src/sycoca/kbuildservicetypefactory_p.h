@@ -41,14 +41,14 @@ public:
      * Find a service type in the database file
      * @return a pointer to the servicetype in the memory dict (don't free!)
      */
-    KServiceType::Ptr findServiceTypeByName(const QString &_name) Q_DECL_OVERRIDE;
+    KServiceType::Ptr findServiceTypeByName(const QString &_name) override;
 
     /**
      * Construct a KServiceType from a config file.
      */
-    KSycocaEntry *createEntry(const QString &file) const Q_DECL_OVERRIDE;
+    KSycocaEntry *createEntry(const QString &file) const override;
 
-    KServiceType *createEntry(int) const Q_DECL_OVERRIDE
+    KServiceType *createEntry(int) const override
     {
         assert(0);
         return nullptr;
@@ -57,12 +57,12 @@ public:
     /**
      * Add entry
      */
-    void addEntry(const KSycocaEntry::Ptr &newEntry) Q_DECL_OVERRIDE;
+    void addEntry(const KSycocaEntry::Ptr &newEntry) override;
 
     /**
      * Write out service type specific index files.
      */
-    void save(QDataStream &str) Q_DECL_OVERRIDE;
+    void save(QDataStream &str) override;
 
     /**
      * Write out header information
@@ -70,7 +70,7 @@ public:
      * Don't forget to call the parent first when you override
      * this function.
      */
-    void saveHeader(QDataStream &str) Q_DECL_OVERRIDE;
+    void saveHeader(QDataStream &str) override;
 };
 
 #endif

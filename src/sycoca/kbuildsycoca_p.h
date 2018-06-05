@@ -95,7 +95,7 @@ private:
      * Implementation of KBuildSycocaInterface
      * Create service and return it. The caller must add it to the servicefactory.
      */
-    KService::Ptr createService(const QString &path) Q_DECL_OVERRIDE;
+    KService::Ptr createService(const QString &path) override;
 
     /**
      * Convert a VFolderMenu::SubMenu to KServiceGroups.
@@ -121,7 +121,7 @@ private:
      * @internal
      * @return true if building (i.e. if a KBuildSycoca);
      */
-    bool isBuilding() Q_DECL_OVERRIDE
+    bool isBuilding() override
     {
         return true;
     }
