@@ -49,7 +49,7 @@ public:
     /**
      * dtor
      */
-    virtual ~KMemFile();
+    ~KMemFile() override;
     /**
      * closes the KMemFile
      *

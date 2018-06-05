@@ -43,7 +43,7 @@ public:
      * Create factory
      */
     KServiceGroupFactory(KSycoca *db);
-    virtual ~KServiceGroupFactory();
+    ~KServiceGroupFactory() override;
 
     /**
      * Construct a KServiceGroup from a config file.

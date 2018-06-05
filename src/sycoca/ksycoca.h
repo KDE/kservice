@@ -69,7 +69,7 @@ public:
      */
     static KSycoca *self();
 
-    virtual ~KSycoca();
+    ~KSycoca() override;
 
     /**
      * @return the compiled-in version, i.e. the one used when writing a new ksycoca

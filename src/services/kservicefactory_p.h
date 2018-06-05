@@ -46,7 +46,7 @@ public:
      * Create factory
      */
     KServiceFactory(KSycoca *sycoca);
-    virtual ~KServiceFactory();
+    ~KServiceFactory() override;
 
     /**
      * Construct a KService from a config file.

@@ -39,7 +39,7 @@ class KSERVICE_EXPORT KBuildSycoca : public KSycoca, public KBuildSycocaInterfac
     Q_OBJECT
 public:
     KBuildSycoca(bool globalDatabase = false);
-    virtual ~KBuildSycoca();
+    ~KBuildSycoca() override;
 
     /**
      * Recreate the database file.

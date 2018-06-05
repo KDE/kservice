@@ -555,7 +555,7 @@ void KBuildSycoca::save(QDataStream *str)
         }
     }
 
-    int endOfData = str->device()->pos();
+    qint64 endOfData = str->device()->pos();
 
     // Write header (#pass 2)
     str->device()->seek(0);

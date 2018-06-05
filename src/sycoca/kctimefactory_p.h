@@ -58,7 +58,7 @@ public:
      */
     KCTimeFactory(KSycoca *db);
 
-    virtual ~KCTimeFactory();
+    ~KCTimeFactory() override;
 
     /**
      * Write out header information

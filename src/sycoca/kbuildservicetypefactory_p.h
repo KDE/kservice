@@ -35,7 +35,7 @@ public:
      */
     KBuildServiceTypeFactory(KSycoca *db);
 
-    virtual ~KBuildServiceTypeFactory();
+    ~KBuildServiceTypeFactory() override;
 
     /**
      * Find a service type in the database file

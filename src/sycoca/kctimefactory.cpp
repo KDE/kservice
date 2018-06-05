@@ -124,7 +124,7 @@ void KCTimeFactory::save(QDataStream &str)
 
     m_dictOffset = str.device()->pos();
     m_ctimeDict.save(str);
-    const int endOfFactoryData = str.device()->pos();
+    const qint64 endOfFactoryData = str.device()->pos();
     saveHeader(str);
     str.device()->seek(endOfFactoryData);
 }

@@ -35,7 +35,7 @@ public:
      */
     KBuildServiceGroupFactory(KSycoca *db);
 
-    virtual ~KBuildServiceGroupFactory();
+    ~KBuildServiceGroupFactory() override;
 
     /**
      * Create new entry.

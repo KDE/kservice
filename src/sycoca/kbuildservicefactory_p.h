@@ -44,7 +44,7 @@ public:
                          KBuildMimeTypeFactory *mimeTypeFactory,
                          KBuildServiceGroupFactory *serviceGroupFactory);
 
-    virtual ~KBuildServiceFactory();
+    ~KBuildServiceFactory() override;
 
     /// Reimplemented from KServiceFactory
     KService::Ptr findServiceByDesktopName(const QString &name) override;
