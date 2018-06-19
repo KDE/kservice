@@ -313,7 +313,6 @@ void KServiceTest::testProperty()
         group.writeEntry("Type", "Service");
         group.writeEntry("X-KDE-ServiceTypes", "FakeKDEDModule");
         group.writeEntry("X-KDE-Library", "kcookiejar");
-        group.writeEntry("X-KDE-DBus-ModuleName", "kcookiejar");
         group.writeEntry("X-KDE-Kded-autoload", "false");
         group.writeEntry("X-KDE-Kded-load-on-demand", "true");
         qDebug() << "created" << fakeCookie;
