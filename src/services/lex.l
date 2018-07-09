@@ -35,6 +35,8 @@ DIGIT    [0-9]
 "<=" { return LEQ; }
 ">=" { return GEQ; }
 "~~" { return MATCH_INSENSITIVE; }
+"subseq" { return MATCH_SUBSEQUENCE; }
+"~subseq" { return MATCH_SUBSEQUENCE_INSENSITIVE; }
 "not" { return NOT; }
 "and" { return AND; }
 "or" { return OR; }

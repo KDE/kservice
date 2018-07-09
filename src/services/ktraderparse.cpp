@@ -101,6 +101,11 @@ void *KTraderParse_newMATCH(void *_ptr1, void *_ptr2, int _cs)
     return new ParseTreeMATCH(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2), _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive);
 }
 
+void *KTraderParse_newSubsequenceMATCH(void *_ptr1, void *_ptr2, int _cs)
+{
+  return new ParseTreeSubsequenceMATCH(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2), _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive);
+}
+
 void *KTraderParse_newCALC(void *_ptr1, void *_ptr2, int _i)
 {
     return new ParseTreeCALC(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2), _i);

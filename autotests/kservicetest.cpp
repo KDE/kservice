@@ -28,6 +28,7 @@
 #include <ksycoca.h>
 #include <kbuildsycoca_p.h>
 #include <../src/services/kserviceutil_p.h>
+#include <../src/services/ktraderparsetree_p.h>
 
 #include <kservicegroup.h>
 #include <kservicetypetrader.h>
@@ -545,6 +546,16 @@ void KServiceTest::testTraderConstraints()
     QCOMPARE(offers.count(), 1);
     QVERIFY(offerListHasService(offers, QStringLiteral("faketextplugin.desktop")));
 
+    // sub-sequence case sensitive
+    offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"), QStringLiteral("'txtlug' subseq Library"));
+    QCOMPARE(offers.count(), 1);
+    QVERIFY(offerListHasService(offers, QStringLiteral("faketextplugin.desktop")));
+
+    // sub-sequence case insensitive
+    offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"), QStringLiteral("'tXtLuG' ~subseq Library"));
+    QCOMPARE(offers.count(), 1);
+    QVERIFY(offerListHasService(offers, QStringLiteral("faketextplugin.desktop")));
+
     if (m_hasNonCLocale) {
 
         // Test float parsing, must use dot as decimal separator independent of locale.
@@ -556,6 +567,34 @@ void KServiceTest::testTraderConstraints()
     // A test with an invalid query, to test for memleaks
     offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"), QStringLiteral("A == B OR C == D AND OR Foo == 'Parse Error'"));
     QVERIFY(offers.isEmpty());
+}
+
+void KServiceTest::testSubseqConstraints()
+{
+  auto test = [](const char* pattern, const char* text, bool sensitive) {
+    return KTraderParse::ParseTreeSubsequenceMATCH::isSubseq(
+        QString(pattern),
+        QString(text),
+        sensitive? Qt::CaseSensitive : Qt::CaseInsensitive
+    );
+  };
+
+  // Case Sensitive
+  QVERIFY2(!test("", "", 1), "both empty");
+  QVERIFY2(!test("", "something", 1), "empty pattern");
+  QVERIFY2(!test("something", "", 1), "empty text");
+  QVERIFY2(test("lngfile", "somereallylongfile", 1), "match ending");
+  QVERIFY2(test("somelong", "somereallylongfile", 1), "match beginning");
+  QVERIFY2(test("reallylong", "somereallylongfile", 1), "match middle");
+  QVERIFY2(test("across", "a 23 c @#! r o01 o 5 s_s", 1), "match across");
+  QVERIFY2(!test("nocigar", "soclosebutnociga", 1), "close but no match");
+  QVERIFY2(!test("god", "dog", 1), "incorrect letter order");
+  QVERIFY2(!test("mismatch", "mIsMaTcH", 1), "case sensitive mismatch");
+
+  // Case insensitive
+  QVERIFY2(test("mismatch", "mIsMaTcH", 0), "case insensitive match");
+  QVERIFY2(test("tryhards", "Try Your Hardest", 0), "uppercase text");
+  QVERIFY2(test("TRYHARDS", "try your hardest", 0), "uppercase pattern");
 }
 
 void KServiceTest::testHasServiceType1() // with services constructed with a full path (rare)

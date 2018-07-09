@@ -222,6 +222,41 @@ protected:
 };
 
 /**
+  * @internal
+  *
+  * A sub-sequence match is like a sub-string match except the characters
+  * do not have to be contiguous. For example 'ct' is a sub-sequence of 'cat'
+  * but not a sub-string. 'at' is both a sub-string and sub-sequence of 'cat'.
+  * All sub-strings are sub-sequences.
+  *
+  * This is useful if you want to support a fuzzier search, say for instance
+  * you are searching for `LibreOffice 6.0 Writer`, after typing `libre` you
+  * see a list of all the LibreOffice apps, to narrow down that list you only
+  * need to add `write` (so the search term is `librewrite`) instead of typing
+  * out the entire app name until a distinguishing letter is reached.
+  * It's also useful to allow the user to forget to type some characters.
+  */
+class ParseTreeSubsequenceMATCH : public ParseTreeBase
+{
+public:
+  ParseTreeSubsequenceMATCH(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, Qt::CaseSensitivity cs)
+  {
+    m_pLeft = _ptr1;
+    m_pRight = _ptr2;
+    m_cs = cs;
+  }
+
+  bool eval(ParseContext *_context) const override;
+
+  static bool isSubseq(const QString& pattern, const QString& text, Qt::CaseSensitivity cs);
+
+protected:
+  ParseTreeBase::Ptr m_pLeft;
+  ParseTreeBase::Ptr m_pRight;
+  Qt::CaseSensitivity m_cs;
+};
+
+/**
  * @internal
  */
 class ParseTreeCALC : public ParseTreeBase

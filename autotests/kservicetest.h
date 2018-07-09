@@ -39,6 +39,7 @@ private Q_SLOTS:
     void testAllServices();
     void testServiceTypeTraderForReadOnlyPart();
     void testTraderConstraints();
+    void testSubseqConstraints();
     void testHasServiceType1();
     void testHasServiceType2();
     void testWriteServiceTypeProfile();

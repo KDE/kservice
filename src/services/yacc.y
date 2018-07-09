@@ -45,6 +45,8 @@ typedef void *yyscan_t;
 %token TOKEN_IN
 %token TOKEN_IN_SUBSTRING
 %token MATCH_INSENSITIVE
+%token MATCH_SUBSEQUENCE
+%token MATCH_SUBSEQUENCE_INSENSITIVE
 %token TOKEN_IN_INSENSITIVE
 %token TOKEN_IN_SUBSTRING_INSENSITIVE
 %token EXIST
@@ -122,6 +124,8 @@ expr_in: expr_twiddle TOKEN_IN VAL_ID { $$ = KTraderParse_newIN( $<ptr>1, KTrade
 
 expr_twiddle: expr '~' expr { $$ = KTraderParse_newMATCH( $<ptr>1, $<ptr>3, 1 ); }
             | expr_twiddle MATCH_INSENSITIVE expr { $$ = KTraderParse_newMATCH( $<ptr>1, $<ptr>3, 0 ); }
+            | expr_twiddle MATCH_SUBSEQUENCE expr { $$ = KTraderParse_newSubsequenceMATCH( $<ptr>1, $<ptr>3, 1 ); }
+            | expr_twiddle MATCH_SUBSEQUENCE_INSENSITIVE expr { $$ = KTraderParse_newSubsequenceMATCH( $<ptr>1, $<ptr>3, 0 ); }
             | expr { $$ = $<ptr>1; }
 ;
 
@@ -156,6 +160,7 @@ factor: '(' bool_or ')' { $$ = KTraderParse_newBRACKETS( $<ptr>2 ); }
 
 void yyerror ( yyscan_t scanner, const char *s )  /* Called by yyparse on error */
 {
+    (void) scanner;
     KTraderParse_error( s );
 }
 
