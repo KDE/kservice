@@ -5,6 +5,11 @@ set(KF5_VERSION "5.48.0") # handled by release scripts
 set(KF5_DEP_VERSION "5.48.0") # handled by release scripts
 project(KService VERSION ${KF5_VERSION})
 
+# Disallow in-source build
+if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+   message(FATAL_ERROR "KService requires an out of source build. Please create a separate build directory and run 'cmake path_to_kservice [options]' there.")
+endif()
+
 # ECM setup
 include(FeatureSummary)
 find_package(ECM 5.48.0  NO_MODULE)
