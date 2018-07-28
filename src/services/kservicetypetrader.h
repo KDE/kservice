@@ -120,7 +120,7 @@ public:
      * Returns the preferred service for @p serviceType.
      *
      * @param serviceType the service type (e.g. "KMyApp/Plugin")
-     * @return the preferred service, or 0 if no service is available
+     * @return the preferred service, or @c nullptr if no service is available
      */
     KService::Ptr preferredService(const QString &serviceType) const;
 

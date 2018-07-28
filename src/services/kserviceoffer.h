@@ -100,7 +100,7 @@ public:
 
     /**
      * The service which this offer is about.
-     * @return the service this offer is about, can be 0
+     * @return the service this offer is about, can be @c nullptr
      *         in valid offers or when not set
      */
     KService::Ptr service() const;

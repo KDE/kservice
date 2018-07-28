@@ -210,7 +210,7 @@ private:
      * out.
      *
      * This function returns a pointer to the menu if it was found
-     * or 0 if it was not found.
+     * or @c nullptr if it was not found.
      */
     SubMenu *takeSubMenu(SubMenu *parentMenu, const QString &menuName);
 

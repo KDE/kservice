@@ -417,7 +417,7 @@ public:
      * It's usually better to use serviceByStorageId() instead.
      *
      * @param _path the path of the configuration file
-     * @return a pointer to the requested service or 0 if the service is
+     * @return a pointer to the requested service or @c nullptr if the service is
      *         unknown.
      * @em Very @em important: Don't store the result in a KService* !
      */
@@ -433,7 +433,7 @@ public:
      * but note that it assumes that no two entries have the same filename.
      *
      * @param _name the name of the configuration file
-     * @return a pointer to the requested service or 0 if the service is
+     * @return a pointer to the requested service or @c nullptr if the service is
      *         unknown.
      * @em Very @em important: Don't store the result in a KService* !
      */
@@ -443,7 +443,7 @@ public:
      * Find a service by its menu-id
      *
      * @param _menuId the menu id of the service
-     * @return a pointer to the requested service or 0 if the service is
+     * @return a pointer to the requested service or @c nullptr if the service is
      *         unknown.
      * @em Very @em important: Don't store the result in a KService* !
      */
@@ -454,7 +454,7 @@ public:
      * function will try very hard to find a matching service.
      *
      * @param _storageId the storage id or desktop-file path of the service
-     * @return a pointer to the requested service or 0 if the service is
+     * @return a pointer to the requested service or @c nullptr if the service is
      *         unknown.
      * @em Very @em important: Don't store the result in a KService* !
      */
@@ -497,7 +497,7 @@ public:
      * @param parent The parent object (see QObject constructor)
      * @param args A list of arguments, passed to the factory and possibly
      *             to the component (see KPluginFactory)
-     * @param error A pointer to QString which should receive the error description or 0
+     * @param error A pointer to QString which should receive the error description or @c nullptr
      *
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
@@ -517,7 +517,7 @@ public:
      * @param parent The parent object (see QObject constructor)
      * @param args A list of arguments, passed to the factory and possibly
      *             to the component (see KPluginFactory)
-     * @param error A pointer to QString which should receive the error description or 0
+     * @param error A pointer to QString which should receive the error description or @c nullptr
      *
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.

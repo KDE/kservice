@@ -126,11 +126,11 @@ public:
     int serviceOffersOffset() const;
 
     /**
-     * Returns a pointer to the servicetype '_name' or 0L if the
+     * Returns a pointer to the servicetype '_name' or @c nullptr if the
      *         service type is unknown.
      * VERY IMPORTANT : don't store the result in a KServiceType * !
      * @param _name the name of the service type to search
-     * @return the pointer to the service type, or 0
+     * @return the pointer to the service type, or @c nullptr
      */
     static Ptr serviceType(const QString &_name);
 
