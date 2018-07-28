@@ -142,7 +142,7 @@ public:
         if (error) {
             *error = QCoreApplication::translate("", "No service matching the requirements was found");
         }
-        return 0;
+        return nullptr;
     }
 
     /**
@@ -177,7 +177,7 @@ public:
         if (error) {
             *error = QCoreApplication::translate("", "No service matching the requirements was found");
         }
-        return 0;
+        return nullptr;
     }
 
     /**

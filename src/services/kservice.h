@@ -506,7 +506,7 @@ public:
     T *createInstance(QObject *parent = nullptr,
                       const QVariantList &args = QVariantList(), QString *error = nullptr) const
     {
-        return createInstance<T>(0, parent, args, error);
+        return createInstance<T>(nullptr, parent, args, error);
     }
 
     /**
@@ -540,7 +540,7 @@ public:
             *error = pluginLoader.errorString();
             pluginLoader.unload();
         }
-        return 0;
+        return nullptr;
     }
 
     /**

@@ -158,7 +158,7 @@ public:
                                       const QString &constraint = QString(), QObject *parent = nullptr,
                                       const QVariantList &args = QVariantList(), QString *error = nullptr)
     {
-        return createInstanceFromQuery<T>(serviceType, 0, parent, constraint, args, error);
+        return createInstanceFromQuery<T>(serviceType, nullptr, parent, constraint, args, error);
     }
 
     /**
@@ -196,7 +196,7 @@ public:
         if (error && error->isEmpty()) {
             *error = QCoreApplication::translate("", "No service matching the requirements was found");
         }
-        return 0;
+        return nullptr;
     }
 
     /**
