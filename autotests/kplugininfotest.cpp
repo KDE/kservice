@@ -21,6 +21,7 @@
 #include <QJsonDocument>
 #include <QFileInfo>
 #include <QJsonArray>
+#include <QDebug>
 
 #include <KAboutData>
 #include <KPluginMetaData>
@@ -148,6 +149,9 @@ private Q_SLOTS:
 
         QCOMPARE(info.author(), QStringLiteral("Sebastian Kügler"));
         QCOMPARE(info.category(), QStringLiteral("Examples"));
+        if (!info.dependencies().isEmpty()) {
+            qWarning() << "Got dependencies" << info.dependencies();
+        }
         QCOMPARE(info.dependencies(), QStringList());
         QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(info.entryPath(), desktopFilePath);
