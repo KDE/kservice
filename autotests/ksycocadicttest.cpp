@@ -73,10 +73,11 @@ void KSycocaDictTest::runKBuildSycoca()
     QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
     KBuildSycoca builder;
     QVERIFY(builder.recreate());
-    qDebug() << "waiting for signal";
-    QVERIFY(spy.wait(10000));
-    qDebug() << "got signal";
-
+    if (spy.isEmpty()) {
+        qDebug() << "waiting for signal";
+        QVERIFY(spy.wait(10000));
+        qDebug() << "got signal";
+    }
 }
 
 // Standard use of KSycocaDict: mapping entry name to entry
