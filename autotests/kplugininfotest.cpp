@@ -147,7 +147,7 @@ private Q_SLOTS:
             QCOMPARE(infoGerman.name(), QStringLiteral("NSA-Modul"));
         }
 
-        QCOMPARE(info.author(), QStringLiteral("Sebastian Kügler"));
+        QCOMPARE(info.author(), QString::fromUtf8("Sebastian Kügler"));
         QCOMPARE(info.category(), QStringLiteral("Examples"));
         if (!info.dependencies().isEmpty()) {
             qWarning() << "Got dependencies" << info.dependencies();
@@ -201,7 +201,7 @@ private Q_SLOTS:
 
 
         QCOMPARE(meta.authors().size(), 1);
-        QCOMPARE(meta.authors().at(0).name(), QStringLiteral("Sebastian Kügler"));
+        QCOMPARE(meta.authors().at(0).name(), QString::fromUtf8("Sebastian Kügler"));
         QCOMPARE(meta.authors().at(0).emailAddress(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(meta.category(), QStringLiteral("Examples"));
         QCOMPARE(meta.dependencies(), QStringList());
@@ -274,7 +274,7 @@ private Q_SLOTS:
         QCOMPARE(infoGerman.name(), QStringLiteral("NSA-Modul"));
         QLocale::setDefault(QLocale::c());
 
-        QCOMPARE(info.author(), QStringLiteral("Sebastian Kügler"));
+        QCOMPARE(info.author(), QString::fromUtf8("Sebastian Kügler"));
         QCOMPARE(info.category(), QStringLiteral("Examples"));
         QCOMPARE(info.dependencies(), QStringList());
         QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
