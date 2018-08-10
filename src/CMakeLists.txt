@@ -147,6 +147,15 @@ install(FILES
    DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR}
 )
 
+# Local copy for the unittests
+add_custom_target(copy_servicetypes)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${KDE_INSTALL_KSERVICETYPES5DIR})
+add_custom_command(TARGET copy_servicetypes PRE_BUILD COMMAND
+    ${CMAKE_COMMAND} -E copy
+    ${CMAKE_CURRENT_SOURCE_DIR}/services/kplugininfo.desktop ${CMAKE_CURRENT_SOURCE_DIR}/services/application.desktop
+    ${CMAKE_BINARY_DIR}/bin/${KDE_INSTALL_KSERVICETYPES5DIR})
+add_dependencies(KF5Service copy_servicetypes)
+
 if (WIN32)
 install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_DATAROOTDIR}/xdg/menus  RENAME ${APPLICATIONS_MENU_NAME} )
 else ()

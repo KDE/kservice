@@ -208,8 +208,6 @@ class KSycocaThreadTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
-    // Note that this isn't a QTest based test.
-    // All these methods are called manually.
     void initTestCase();
     void cleanupTestCase();
     void testCreateService();
@@ -249,6 +247,10 @@ static void runKBuildSycoca()
 
 void KSycocaThreadTest::initTestCase()
 {
+    // Set up a layer in the bin dir so ksycoca finds the KPluginInfo and Application servicetypes
+    const QByteArray defaultDataDirs = qEnvironmentVariableIsSet("XDG_DATA_DIRS") ? qgetenv("XDG_DATA_DIRS") : QByteArray("/usr/local:/usr");
+    const QByteArray modifiedDataDirs = QFile::encodeName(QCoreApplication::applicationDirPath()) + "/share:" + defaultDataDirs;
+    qputenv("XDG_DATA_DIRS", modifiedDataDirs);
     QStandardPaths::enableTestMode(true);
 
     // This service is always there. Used in the trader queries from the thread.
