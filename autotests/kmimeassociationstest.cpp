@@ -27,6 +27,7 @@
 #include <qtemporarydir.h>
 #include <qtemporaryfile.h>
 #include <qtest.h>
+#include "setupdatadirs.h"
 #include "kmimeassociations_p.h"
 #include <kbuildsycoca_p.h>
 #include <ksycoca.h>
@@ -114,9 +115,9 @@ class KMimeAssociationsTest : public QObject
 private Q_SLOTS:
     void initTestCase()
     {
+        setupDataDirs();
         QStandardPaths::enableTestMode(true);
         qputenv("XDG_CURRENT_DESKTOP", "KDE");
-
 
         m_localConfig = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1Char('/');
         QDir(m_localConfig).removeRecursively();
@@ -330,6 +331,7 @@ private Q_SLOTS:
 
         // Test a trader query
         KService::List offers = KMimeTypeTrader::self()->query(QStringLiteral("image/jpeg"));
+        QVERIFY(!offers.isEmpty());
         //qDebug() << m_mimeAppsFileContents;
         //qDebug() << "preferred apps for jpeg: " << preferredApps.value("image/jpeg");
         //for (int i = 0; i < offers.count(); ++i) {

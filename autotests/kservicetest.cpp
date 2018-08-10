@@ -18,6 +18,8 @@
 
 #include "kservicetest.h"
 
+#include "setupdatadirs.h"
+
 #include <locale.h>
 
 #include <qtest.h>
@@ -68,10 +70,7 @@ static void eraseProfiles()
 void KServiceTest::initTestCase()
 {
     // Set up a layer in the bin dir so ksycoca finds the KPluginInfo and Application servicetypes
-    const QByteArray defaultDataDirs = qEnvironmentVariableIsSet("XDG_DATA_DIRS") ? qgetenv("XDG_DATA_DIRS") : QByteArray("/usr/local:/usr");
-    const QByteArray modifiedDataDirs = QFile::encodeName(QCoreApplication::applicationDirPath()) + "/data:" + defaultDataDirs;
-    qputenv("XDG_DATA_DIRS", modifiedDataDirs);
-
+    setupDataDirs();
     QStandardPaths::enableTestMode(true);
 
     QLoggingCategory::setFilterRules(QStringLiteral("kf5.kcoreaddons.kdirwatch.debug=true"));
