@@ -149,11 +149,11 @@ install(FILES
 
 # Local copy for the unittests
 add_custom_target(copy_servicetypes)
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/${KDE_INSTALL_KSERVICETYPES5DIR})
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5)
 add_custom_command(TARGET copy_servicetypes PRE_BUILD COMMAND
     ${CMAKE_COMMAND} -E copy
     ${CMAKE_CURRENT_SOURCE_DIR}/services/kplugininfo.desktop ${CMAKE_CURRENT_SOURCE_DIR}/services/application.desktop
-    ${CMAKE_BINARY_DIR}/bin/${KDE_INSTALL_KSERVICETYPES5DIR})
+    ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5) # not using KDE_INSTALL_KSERVICETYPES5DIR because QStandardPaths wants "data" on Windows
 add_dependencies(KF5Service copy_servicetypes)
 
 if (WIN32)
