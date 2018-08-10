@@ -249,20 +249,8 @@ bool KBuildSycoca::build()
         }
     }
 
-    if (m_ctimeDict && !m_ctimeDict->isEmpty()) {
-        //qCDebug(SYCOCA) << "Still in time dict:";
-        //m_ctimeDict->dump();
-        // ## It seems entries filtered out by vfolder are still in there,
-        // so on a real system we end up always adding "apps" to m_changedResources
-
-        // Get the list of resources from which some files were deleted
-        const QStringList resources = m_ctimeDict->remainingResourceList();
-        qCDebug(SYCOCA) << "Still in the time dict (i.e. deleted files)" << resources;
-        m_changedResources += resources;
-    }
-
     bool result = true;
-    const bool createVFolder = !m_changedResources.isEmpty() || (m_ctimeDict && !m_ctimeDict->isEmpty());
+    const bool createVFolder = true; // we need to always run the VFolderMenu code
     if (createVFolder || m_menuTest) {
         m_resource = "apps";
         m_resourceSubdir = QStringLiteral("applications");
@@ -304,6 +292,16 @@ bool KBuildSycoca::build()
         if (m_menuTest) {
             result = false;
         }
+    }
+
+    if (m_ctimeDict && !m_ctimeDict->isEmpty()) {
+        qCDebug(SYCOCA) << "Still in time dict:";
+        m_ctimeDict->dump();
+
+        // Get the list of resources from which some files were deleted
+        QStringList resources = m_ctimeDict->remainingResourceList();
+        qCDebug(SYCOCA) << "Still in the time dict (i.e. deleted files)" << resources;
+        m_changedResources += resources;
     }
 
     qDeleteAll(entryDictList);
