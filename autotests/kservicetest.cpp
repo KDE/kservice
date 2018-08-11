@@ -18,7 +18,7 @@
 
 #include "kservicetest.h"
 
-#include "setupdatadirs.h"
+#include "setupxdgdirs.h"
 
 #include <locale.h>
 
@@ -70,7 +70,7 @@ static void eraseProfiles()
 void KServiceTest::initTestCase()
 {
     // Set up a layer in the bin dir so ksycoca finds the KPluginInfo and Application servicetypes
-    setupDataDirs();
+    setupXdgDirs();
     QStandardPaths::enableTestMode(true);
 
     QLoggingCategory::setFilterRules(QStringLiteral("kf5.kcoreaddons.kdirwatch.debug=true"));

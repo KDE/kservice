@@ -39,7 +39,7 @@
 #include <kservicetypeprofile.h>
 #include <QMutex>
 
-#include "setupdatadirs.h"
+#include "setupxdgdirs.h"
 
 static QString fakeTextPluginDesktopFile()
 {
@@ -249,7 +249,7 @@ static void runKBuildSycoca()
 void KSycocaThreadTest::initTestCase()
 {
     // Set up a layer in the bin dir so ksycoca finds the KPluginInfo and Application servicetypes
-    setupDataDirs();
+    setupXdgDirs();
     QStandardPaths::enableTestMode(true);
 
     // This service is always there. Used in the trader queries from the thread.

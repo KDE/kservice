@@ -19,15 +19,15 @@
    Boston, MA 02110-1301, USA.
 */
 
-#ifndef SETUP_DATA_DIRS_H
-#define SETUP_DATA_DIRS_H
+#ifndef SETUP_XDG_DIRS_H
+#define SETUP_XDG_DIRS_H
 
 #include <QStandardPaths>
 #include <QFile>
 #include <QCoreApplication>
 #include <QDebug>
 
-static void setupDataDirs()
+static void setupXdgDirs()
 {
     const QByteArray defaultDataDirs = qEnvironmentVariableIsSet("XDG_DATA_DIRS") ? qgetenv("XDG_DATA_DIRS") : QByteArray("/usr/local/share:/usr/share");
     const QByteArray modifiedDataDirs = QFile::encodeName(QCoreApplication::applicationDirPath()) + "/data:" + defaultDataDirs;

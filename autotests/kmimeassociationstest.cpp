@@ -27,7 +27,7 @@
 #include <qtemporarydir.h>
 #include <qtemporaryfile.h>
 #include <qtest.h>
-#include "setupdatadirs.h"
+#include "setupxdgdirs.h"
 #include "kmimeassociations_p.h"
 #include <kbuildsycoca_p.h>
 #include <ksycoca.h>
@@ -115,7 +115,7 @@ class KMimeAssociationsTest : public QObject
 private Q_SLOTS:
     void initTestCase()
     {
-        setupDataDirs();
+        setupXdgDirs();
         QStandardPaths::enableTestMode(true);
         qputenv("XDG_CURRENT_DESKTOP", "KDE");
 
