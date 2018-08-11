@@ -202,6 +202,7 @@ bool KBuildSycoca::build()
 
         QSet<QString> relFiles;
         const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_resourceSubdir, QStandardPaths::LocateDirectory);
+        qCDebug(SYCOCA) << "Looking for subdir" << m_resourceSubdir << "=>" << dirs;
         Q_FOREACH (const QString &dir, dirs) {
             QDirIterator it(dir, QDirIterator::Subdirectories);
             while (it.hasNext()) {
