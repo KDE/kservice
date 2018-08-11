@@ -162,6 +162,15 @@ else ()
 install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_SYSCONFDIR}/xdg/menus  RENAME ${APPLICATIONS_MENU_NAME} )
 endif ()
 
+# Local copy for the unittests
+add_custom_target(copy_menu)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/menus)
+add_custom_command(TARGET copy_menu PRE_BUILD COMMAND
+    ${CMAKE_COMMAND} -E copy
+    ${CMAKE_CURRENT_SOURCE_DIR}/applications.menu
+    ${CMAKE_BINARY_DIR}/bin/data/menus/${APPLICATIONS_MENU_NAME})
+add_dependencies(KF5Service copy_menu)
+
 install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES

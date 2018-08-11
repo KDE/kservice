@@ -32,6 +32,10 @@ static void setupDataDirs()
     const QByteArray defaultDataDirs = qEnvironmentVariableIsSet("XDG_DATA_DIRS") ? qgetenv("XDG_DATA_DIRS") : QByteArray("/usr/local/share:/usr/share");
     const QByteArray modifiedDataDirs = QFile::encodeName(QCoreApplication::applicationDirPath()) + "/data:" + defaultDataDirs;
     qputenv("XDG_DATA_DIRS", modifiedDataDirs);
+
+    const QByteArray defaultConfigDirs = qEnvironmentVariableIsSet("XDG_CONFIG_DIRS") ? qgetenv("XDG_CONFIG_DIRS") : QByteArray("/etc/xdg");
+    const QByteArray modifiedConfigDirs = QFile::encodeName(QCoreApplication::applicationDirPath()) + "/data:" + defaultConfigDirs;
+    qputenv("XDG_CONFIG_DIRS", modifiedConfigDirs);
 }
 
 #endif
