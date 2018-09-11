@@ -28,7 +28,6 @@
 #include "kmimetypefactory_p.h"
 #include "servicesdebug.h"
 #include <qmimedatabase.h>
-#include "servicesdebug.h"
 
 class KMimeTypeTraderPrivate
 {

@@ -21,7 +21,7 @@
 
 #include <kservice.h>
 #include <kservicegroupfactory_p.h>
-#include <QtCore/QStringList>
+#include <QStringList>
 
 /**
  * Service group factory for building ksycoca

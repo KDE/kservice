@@ -40,7 +40,6 @@
 #include <QCoreApplication>
 #include <QProcess>
 #include <QHash>
-#include <QDebug>
 #include <QFile>
 #include <QUrl>
 #include <QUrlQuery>

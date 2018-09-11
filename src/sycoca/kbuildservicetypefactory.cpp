@@ -26,7 +26,7 @@
 #include <assert.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
-#include <QtCore/QHash>
+#include <QHash>
 #include <qstandardpaths.h>
 
 KBuildServiceTypeFactory::KBuildServiceTypeFactory(KSycoca *db)

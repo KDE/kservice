@@ -24,7 +24,7 @@
 
 #include <assert.h>
 #include <QDebug>
-#include <QtCore/QHash>
+#include <QHash>
 #include <qstandardpaths.h>
 
 KBuildMimeTypeFactory::KBuildMimeTypeFactory(KSycoca *db)

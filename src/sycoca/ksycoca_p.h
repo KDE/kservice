@@ -128,7 +128,7 @@ public:
     QElapsedTimer m_lastCheck;
     QDateTime m_dbLastModified;
 
-    // Using KDirWatch because it will reliably tell us everytime ksycoca is recreated.
+    // Using KDirWatch because it will reliably tell us every time ksycoca is recreated.
     // QFileSystemWatcher's inotify implementation easily gets confused between "removed" and "changed",
     // and fails to re-add an inotify watch after the file was replaced at some point (KServiceTest::testThreads),
     // thinking it only got changed and not removed+recreated.

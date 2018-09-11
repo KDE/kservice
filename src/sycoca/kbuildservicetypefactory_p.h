@@ -21,7 +21,7 @@
 #define KBUILD_SERVICE_TYPE_FACTORY_H
 
 #include <kservicetypefactory_p.h>
-#include <QtCore/QStringList>
+#include <QStringList>
 
 /**
  * Service-type factory for building ksycoca

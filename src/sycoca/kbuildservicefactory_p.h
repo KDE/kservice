@@ -21,7 +21,7 @@
 #ifndef KBUILD_SERVICE_FACTORY_H
 #define KBUILD_SERVICE_FACTORY_H
 
-#include <QtCore/QStringList>
+#include <QStringList>
 
 #include "kmimeassociations_p.h"
 #include <kservicefactory_p.h>

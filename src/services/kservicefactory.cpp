@@ -22,7 +22,6 @@
 #include "ksycocadict_p.h"
 #include "kservice.h"
 #include "servicesdebug.h"
-#include "servicesdebug.h"
 #include <QDir>
 #include <QFile>
 
