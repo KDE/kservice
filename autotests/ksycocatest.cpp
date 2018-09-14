@@ -57,7 +57,7 @@ class KSycocaTest : public QObject
 private Q_SLOTS:
     void initTestCase()
     {
-        QStandardPaths::enableTestMode(true);
+        QStandardPaths::setTestModeEnabled(true);
 
         QVERIFY(m_tempDir.isValid());
 

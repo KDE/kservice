@@ -116,7 +116,7 @@ private Q_SLOTS:
     void initTestCase()
     {
         setupXdgDirs();
-        QStandardPaths::enableTestMode(true);
+        QStandardPaths::setTestModeEnabled(true);
         qputenv("XDG_CURRENT_DESKTOP", "KDE");
 
         m_localConfig = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1Char('/');

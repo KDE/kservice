@@ -71,7 +71,7 @@ void KServiceTest::initTestCase()
 {
     // Set up a layer in the bin dir so ksycoca finds the KPluginInfo and Application servicetypes
     setupXdgDirs();
-    QStandardPaths::enableTestMode(true);
+    QStandardPaths::setTestModeEnabled(true);
 
     QLoggingCategory::setFilterRules(QStringLiteral("kf5.kcoreaddons.kdirwatch.debug=true"));
 

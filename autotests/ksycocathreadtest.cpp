@@ -250,7 +250,7 @@ void KSycocaThreadTest::initTestCase()
 {
     // Set up a layer in the bin dir so ksycoca finds the KPluginInfo and Application servicetypes
     setupXdgDirs();
-    QStandardPaths::enableTestMode(true);
+    QStandardPaths::setTestModeEnabled(true);
 
     // This service is always there. Used in the trader queries from the thread.
     const QString fakeTextPlugin = fakeTextPluginDesktopFile();

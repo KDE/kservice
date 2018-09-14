@@ -35,7 +35,7 @@ class KSycocaDictTest : public QObject
 private Q_SLOTS:
     void initTestCase()
     {
-        QStandardPaths::enableTestMode(true);
+        QStandardPaths::setTestModeEnabled(true);
 
         // dicttestplugintype: a servicetype
         const QString dictTestPluginType = serviceTypesDir() + "/dicttestplugintype.desktop";

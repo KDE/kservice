@@ -102,7 +102,7 @@ int main(int argc, char **argv)
     const bool bMenuTest = parser.isSet(QStringLiteral("menutest"));
 
     if (parser.isSet(QStringLiteral("testmode"))) {
-        QStandardPaths::enableTestMode(true);
+        QStandardPaths::setTestModeEnabled(true);
     }
 
     if (bGlobalDatabase) {
