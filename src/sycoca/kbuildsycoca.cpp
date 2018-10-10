@@ -449,8 +449,8 @@ bool KBuildSycoca::recreate(bool incremental)
         //as $HOME may also be that of another user rather than /root
 #ifdef Q_OS_UNIX
         if (qEnvironmentVariableIsSet("SUDO_UID")) {
-            const int uid = qgetenv("SUDO_UID").toInt();
-            const int gid = qgetenv("SUDO_GID").toInt();
+            const int uid = qEnvironmentVariableIntValue("SUDO_UID");
+            const int gid = qEnvironmentVariableIntValue("SUDO_GID");
             if (uid && gid) {
                 fchown(database.handle(), uid, gid);
             }
