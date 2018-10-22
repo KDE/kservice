@@ -510,7 +510,7 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
     if (openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
         // Database exists, and version is ok, we can read it.
 
-        if (qAppName() != QString::fromLatin1(KBUILDSYCOCA_EXENAME) && ifNotFound != IfNotFoundDoNothing) {
+        if (qAppName() != QLatin1String(KBUILDSYCOCA_EXENAME) && ifNotFound != IfNotFoundDoNothing) {
 
             // Ensure it's uptodate, rebuild if needed
             checkDirectories();
@@ -771,7 +771,7 @@ void KSycoca::flagError()
         return;
     }
     sycoca->d->readError = true;
-    if (qAppName() != QString::fromLatin1(KBUILDSYCOCA_EXENAME) && !sycoca->isBuilding()) {
+    if (qAppName() != QLatin1String(KBUILDSYCOCA_EXENAME) && !sycoca->isBuilding()) {
         // Rebuild the damned thing.
         KBuildSycoca builder;
         (void)builder.recreate();
@@ -816,7 +816,7 @@ KSERVICE_EXPORT int ksycoca_ms_between_checks = 1500;
 
 void KSycoca::ensureCacheValid()
 {
-    if (qAppName() == QString::fromLatin1(KBUILDSYCOCA_EXENAME)) {
+    if (qAppName() == QLatin1String(KBUILDSYCOCA_EXENAME)) {
         return;
     }
 
