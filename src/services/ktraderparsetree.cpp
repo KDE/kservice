@@ -661,7 +661,7 @@ int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &_service,
     return (c.b ? 1 : 0);
 }
 
-int matchConstraintPlugin(const ParseTreeBase *_tree, KPluginInfo _info,
+int matchConstraintPlugin(const ParseTreeBase *_tree, const KPluginInfo &_info,
                           const KPluginInfo::List &_list)
 {
     // Empty tree matches always

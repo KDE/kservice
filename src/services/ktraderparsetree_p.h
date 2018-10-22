@@ -40,7 +40,7 @@ class ParseTreeBase;
  */
 int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &,
                     const KService::List &);
-int matchConstraintPlugin(const ParseTreeBase *_tree, KPluginInfo _info,
+int matchConstraintPlugin(const ParseTreeBase *_tree, const KPluginInfo &_info,
                           const KPluginInfo::List &_list);
 
 /**
@@ -75,7 +75,7 @@ public:
     ParseContext(const KService::Ptr &_service, const KService::List &_offers,
                  QMap<QString, PreferencesMaxima> &_m)
         : service(_service), info(KPluginInfo()), maxima(_m), offers(_offers), pluginOffers(KPluginInfo::List()) {}
-    ParseContext(KPluginInfo _info, const KPluginInfo::List &_offers,
+    ParseContext(const KPluginInfo &_info, const KPluginInfo::List &_offers,
                  QMap<QString, PreferencesMaxima> &_m)
         : service(nullptr), info(_info), maxima(_m), offers(KService::List()), pluginOffers(_offers) {}
 

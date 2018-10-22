@@ -166,7 +166,7 @@ void KOfferHash::addServiceOffer(const QString &serviceType, const KServiceOffer
     }
 }
 
-void KOfferHash::removeServiceOffer(const QString &serviceType, KService::Ptr service)
+void KOfferHash::removeServiceOffer(const QString &serviceType, const KService::Ptr &service)
 {
     ServiceTypeOffersData &data = m_serviceTypeData[serviceType]; // find or create
     data.removedOffers.insert(service);
@@ -179,7 +179,7 @@ void KOfferHash::removeServiceOffer(const QString &serviceType, KService::Ptr se
     }
 }
 
-bool KOfferHash::hasRemovedOffer(const QString &serviceType, KService::Ptr service) const
+bool KOfferHash::hasRemovedOffer(const QString &serviceType, const KService::Ptr &service) const
 {
     QHash<QString, ServiceTypeOffersData>::const_iterator it = m_serviceTypeData.find(serviceType);
     if (it != m_serviceTypeData.end()) {
