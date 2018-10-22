@@ -38,6 +38,7 @@
 
 class KMemFile : public QIODevice
 {
+    Q_OBJECT
 public:
     /**
      * ctor
