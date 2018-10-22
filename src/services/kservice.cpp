@@ -231,7 +231,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
     }
 
-    if (entryMap.contains(QLatin1String("Actions"))) {
+    if (entryMap.contains(QStringLiteral("Actions"))) {
         parseActions(config, q);
     }
 

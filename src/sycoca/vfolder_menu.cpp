@@ -651,7 +651,7 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
 static QString makeRelative(const QString &dir)
 {
     const QString canonical = QDir(dir).canonicalPath();
-    Q_FOREACH (const QString &base, QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QLatin1String("menus"), QStandardPaths::LocateDirectory)) {
+    Q_FOREACH (const QString &base, QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus"), QStandardPaths::LocateDirectory)) {
         if (canonical.startsWith(base)) {
             return canonical.mid(base.length() + 1);
         }
