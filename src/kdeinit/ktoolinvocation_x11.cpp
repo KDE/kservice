@@ -171,7 +171,7 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
     if (profileGrp.readEntry("TerminalClient", false)) {
         KConfigGroup confGroup(KSharedConfig::openConfig(), "General");
         QString preferredTerminal = confGroup.readPathEntry("TerminalApplication", QStringLiteral("konsole"));
-        command = preferredTerminal + QString::fromLatin1(" -e ") + command;
+        command = preferredTerminal + QLatin1String(" -e ") + command;
     }
 
     QStringList cmdTokens = KShell::splitArgs(command);
@@ -359,12 +359,12 @@ void KToolInvocation::invokeTerminal(const QString &command,
 
     if (!command.isEmpty()) {
         if (exec == QLatin1String("konsole")) {
-            exec += QString::fromLatin1(" --noclose");
+            exec += QLatin1String(" --noclose");
         } else if (exec == QLatin1String("xterm")) {
-            exec += QString::fromLatin1(" -hold");
+            exec += QLatin1String(" -hold");
         }
 
-        exec += QString::fromLatin1(" -e ") + command;
+        exec += QLatin1String(" -e ") + command;
     }
 
     QStringList cmdTokens = KShell::splitArgs(exec);

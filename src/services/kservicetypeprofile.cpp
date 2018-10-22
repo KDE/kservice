@@ -89,7 +89,7 @@ void KServiceTypeProfiles::ensureParsed()
         }
 
         for (int i = 0; i < count; ++i) {
-            const QString num = QString::fromLatin1("Entry") + QString::number(i);
+            const QString num = QLatin1String("Entry") + QString::number(i);
             const QString serviceId = config.readEntry(num + QLatin1String("_Service"), QString());
             if (!serviceId.isEmpty()) {
                 const int pref = config.readEntry(num + QLatin1String("_Preference"), 0);
@@ -196,7 +196,7 @@ void KServiceTypeProfile::writeServiceTypeProfile(const QString &serviceType,
     int i = 0;
     for (; servit != services.end(); ++servit, ++i) {
         if (*servit) {
-            const QString num = QString::fromLatin1("Entry") + QString::number(i);
+            const QString num = QLatin1String("Entry") + QString::number(i);
             config.writeEntry(num + QLatin1String("_Service"), (*servit)->storageId());
             config.writeEntry(num + QLatin1String("_Preference"), count - i);
         }
@@ -204,7 +204,7 @@ void KServiceTypeProfile::writeServiceTypeProfile(const QString &serviceType,
     servit = disabledServices.begin();
     for (; servit != disabledServices.end(); ++servit, ++i) {
         if (*servit) {
-            const QString num = QString::fromLatin1("Entry") + QString::number(i);
+            const QString num = QLatin1String("Entry") + QString::number(i);
             config.writeEntry(num + QLatin1String("_Service"), (*servit)->storageId());
             config.writeEntry(num + QLatin1String("_Preference"), 0);
         }

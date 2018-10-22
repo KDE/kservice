@@ -678,7 +678,7 @@ KServiceGroup::Ptr
 KServiceGroup::childGroup(const QString &parent)
 {
     KSycoca::self()->ensureCacheValid();
-    return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(QString::fromLatin1("#parent#") + parent, true);
+    return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(QLatin1String("#parent#") + parent, true);
 }
 
 QString KServiceGroup::baseGroupName() const
