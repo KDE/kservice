@@ -31,7 +31,7 @@ class KServicePrivate : public KSycocaEntryPrivate
 public:
     K_SYCOCATYPE(KST_KService, KSycocaEntryPrivate)
 
-    KServicePrivate(const QString &path)
+    explicit KServicePrivate(const QString &path)
         : KSycocaEntryPrivate(path),  m_bValid(true)
     {
     }

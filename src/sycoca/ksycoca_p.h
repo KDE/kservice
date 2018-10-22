@@ -53,7 +53,7 @@ QDataStream &operator>>(QDataStream &in, KSycocaHeader &h);
 class KSERVICE_EXPORT KSycocaPrivate
 {
 public:
-    KSycocaPrivate(KSycoca *q);
+    explicit KSycocaPrivate(KSycoca *q);
 
     // per-thread "singleton"
     static KSycocaPrivate *self() { return KSycoca::self()->d; }

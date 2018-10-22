@@ -28,7 +28,7 @@
 class KSycocaEntryPrivate
 {
 public:
-    KSycocaEntryPrivate(const QString &path_)
+    explicit KSycocaEntryPrivate(const QString &path_)
         : offset(0),
           deleted(false), path(path_)
     {}

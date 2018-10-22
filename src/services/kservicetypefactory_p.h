@@ -45,7 +45,7 @@ public:
     /**
      * Create factory
      */
-    KServiceTypeFactory(KSycoca *db);
+    explicit KServiceTypeFactory(KSycoca *db);
 
     ~KServiceTypeFactory() override;
 

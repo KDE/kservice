@@ -38,7 +38,7 @@ class KSERVICE_EXPORT KBuildSycoca : public KSycoca, public KBuildSycocaInterfac
 {
     Q_OBJECT
 public:
-    KBuildSycoca(bool globalDatabase = false);
+    explicit KBuildSycoca(bool globalDatabase = false);
     ~KBuildSycoca() override;
 
     /**

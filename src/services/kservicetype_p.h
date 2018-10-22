@@ -29,7 +29,7 @@ class KServiceTypePrivate : public KSycocaEntryPrivate
 public:
     K_SYCOCATYPE(KST_KServiceType, KSycocaEntryPrivate)
 
-    KServiceTypePrivate(const QString &path)
+    explicit KServiceTypePrivate(const QString &path)
         : KSycocaEntryPrivate(path),
           m_serviceOffersOffset(-1), m_bDerived(false), m_parentTypeLoaded(false)
     {

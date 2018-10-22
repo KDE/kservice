@@ -56,7 +56,7 @@ public:
     /**
      * Create factory
      */
-    KCTimeFactory(KSycoca *db);
+    explicit KCTimeFactory(KSycoca *db);
 
     ~KCTimeFactory() override;
 

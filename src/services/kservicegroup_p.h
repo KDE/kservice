@@ -29,7 +29,7 @@ class KServiceGroupPrivate : public KSycocaEntryPrivate
 public:
     K_SYCOCATYPE(KST_KServiceGroup, KSycocaEntryPrivate)
 
-    KServiceGroupPrivate(const QString &path)
+    explicit KServiceGroupPrivate(const QString &path)
         : KSycocaEntryPrivate(path),
           m_bNoDisplay(false), m_bShowEmptyMenu(false), m_bShowInlineHeader(false), m_bInlineAlias(false),
           m_bAllowInline(false), m_inlineValue(4), m_bDeep(false), m_childCount(-1)

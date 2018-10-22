@@ -43,7 +43,7 @@ public:
     /**
      * Create factory
      */
-    KMimeTypeFactory(KSycoca *db);
+    explicit KMimeTypeFactory(KSycoca *db);
 
     ~KMimeTypeFactory() override;
 

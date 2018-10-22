@@ -33,7 +33,7 @@ public:
     /**
      * Create factory
      */
-    KBuildServiceTypeFactory(KSycoca *db);
+    explicit KBuildServiceTypeFactory(KSycoca *db);
 
     ~KBuildServiceTypeFactory() override;
 

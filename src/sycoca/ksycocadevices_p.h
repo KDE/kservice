@@ -71,7 +71,7 @@ private:
 class KSycocaFileDevice : public KSycocaAbstractDevice
 {
 public:
-    KSycocaFileDevice(const QString &path);
+    explicit KSycocaFileDevice(const QString &path);
     ~KSycocaFileDevice() override;
     QIODevice *device() override;
 private:
@@ -83,7 +83,7 @@ private:
 class KSycocaMemFileDevice : public KSycocaAbstractDevice
 {
 public:
-    KSycocaMemFileDevice(const QString &path);
+    explicit KSycocaMemFileDevice(const QString &path);
     ~KSycocaMemFileDevice() override;
     QIODevice *device() override;
 private:
