@@ -136,7 +136,6 @@
 						<Category>Math</Category>
 						<Category>Science</Category>
 						<Category>Teaching</Category>
-						<Category>X-KDE-Edu-Teaching</Category>
 					</Not>
 				</And>
 			</Include>
@@ -157,10 +156,7 @@
 			<Include>
 				<And>
 					<Category>Education</Category>
-					<Or>
-						<Category>Teaching</Category>
-						<Category>X-KDE-Edu-Teaching</Category>
-					</Or>
+					<Category>Teaching</Category>
 				</And>
 			</Include>
 		</Menu>
