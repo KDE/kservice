@@ -109,7 +109,7 @@ public:
        \endverbatim
      * In the first three entries the Icon entry is optional.
      * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
-     * metadata into the plugin using K_PLUGIN_FACTORY_WITH_JSON( ..., "mypluginmetadata.json", ...)
+     * metadata into the plugin using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
      */
 #ifndef KSERVICE_NO_DEPRECATED
     explicit KSERVICE_DEPRECATED KPluginInfo(const KService::Ptr service);
@@ -122,7 +122,7 @@ public:
      * field called "MetaData".
      *
      * Use (Q|K)PluginLoader and build the metadata into the plugin using
-     * K_PLUGIN_FACTORY_WITH_JSON( ..., "mypluginmetadata.json", ...)
+     * K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
      *
      * You can use the "desktoptojson tool to generate a .json file from your .desktop file.
      * The .json file should look like this:
@@ -157,7 +157,7 @@ public:
      * as provided by QPluginLoader::metaData()
      * @param libraryPath The path to the plugin file on disk
      *
-     * \see K_PLUGIN_FACTORY_WITH_JSON()
+     * \see K_PLUGIN_CLASS_WITH_JSON()
      * \see KPluginFactory::factory()
      * @since 5.0
      */
@@ -168,7 +168,7 @@ public:
      * Read plugin info from a KPluginMetaData object.
      *
      * @param md The KPluginMetaData to read the information from
-     * @see K_PLUGIN_FACTORY_WITH_JSON()
+     * @see K_PLUGIN_CLASS_WITH_JSON()
      * @see KPluginLoader
      * @since 5.5
      */
@@ -191,7 +191,7 @@ public:
      * @param services The list of services to construct the list of KPluginInfo objects from
      * @param config The config group where to save/load whether the plugin is enabled/disabled
      * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
-     * metadata into the plugins using K_PLUGIN_FACTORY_WITH_JSON( ..., "mypluginmetadata.json", ...)
+     * metadata into the plugins using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
      */
 #ifndef KSERVICE_NO_DEPRECATED
     static KSERVICE_DEPRECATED KPluginInfo::List fromServices(const KService::List &services, const KConfigGroup &config = KConfigGroup());
