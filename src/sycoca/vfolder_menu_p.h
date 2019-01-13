@@ -48,6 +48,8 @@ public:
         {
             qDeleteAll(subMenus);
         }
+        SubMenu(const SubMenu &) = delete;
+        SubMenu& operator=(const SubMenu &) = delete;
 
     public:
         QString name;

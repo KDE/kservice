@@ -38,6 +38,8 @@ class KOfferHash
 {
 public:
     KOfferHash() {}
+    KOfferHash(const KOfferHash &) = delete;
+    KOfferHash& operator=(const KOfferHash &) = delete;
     QList<KServiceOffer> offersFor(const QString &serviceType) const
     {
         QHash<QString, ServiceTypeOffersData>::const_iterator it = m_serviceTypeData.find(serviceType);
@@ -53,7 +55,6 @@ public:
     const QHash<QString, ServiceTypeOffersData> &serviceTypeData() const { return m_serviceTypeData; }
 
 private:
-    KOfferHash(const KOfferHash &); // forbidden
     QHash<QString, ServiceTypeOffersData> m_serviceTypeData;
 };
 

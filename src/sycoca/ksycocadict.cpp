@@ -43,10 +43,13 @@ struct string_entry {
 class KSycocaDictStringList : public QList<string_entry *>
 {
 public:
+    KSycocaDictStringList() { }
     ~KSycocaDictStringList()
     {
         qDeleteAll(*this);
     }
+    KSycocaDictStringList(const KSycocaDictStringList &) = delete;
+    KSycocaDictStringList& operator=(const KSycocaDictStringList &) = delete;
 };
 
 class KSycocaDictPrivate
