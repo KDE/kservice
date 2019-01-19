@@ -41,12 +41,17 @@ set(APPLICATIONS_MENU_NAME applications.menu
 
 # Dependencies
 set(REQUIRED_QT_VERSION 5.10.0)
-find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED DBus Xml)
+find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Xml)
+if (NOT ANDROID)
+  find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED DBus)
+endif()
 
 find_package(KF5Config ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5CoreAddons ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5Crash ${KF5_DEP_VERSION} REQUIRED)
-find_package(KF5DBusAddons ${KF5_DEP_VERSION} REQUIRED)
+if (NOT ANDROID)
+  find_package(KF5DBusAddons ${KF5_DEP_VERSION} REQUIRED)
+endif()
 find_package(KF5I18n ${KF5_DEP_VERSION} REQUIRED)
 find_package(KF5DocTools ${KF5_DEP_VERSION})
 

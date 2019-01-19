@@ -37,8 +37,10 @@ set(kservice_SRCS
    sycoca/kmimeassociations.cpp
    sycoca/vfolder_menu.cpp
    plugin/kplugintrader.cpp
-   plugin/kdbusservicestarter.cpp
 )
+if (TARGET Qt5::DBus)
+  list(APPEND kservice_SRCS plugin/kdbusservicestarter.cpp)
+endif()
 ecm_qt_declare_logging_category(kservice_SRCS HEADER servicesdebug.h IDENTIFIER SERVICES CATEGORY_NAME kf5.kservice.services)
 ecm_qt_declare_logging_category(kservice_SRCS HEADER sycocadebug.h IDENTIFIER SYCOCA CATEGORY_NAME kf5.kservice.sycoca)
 
@@ -70,7 +72,9 @@ set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/yacc.h PROPERTY SKIP_AUTOMOC TRU
 # kservice cannot depend on kinit (because kinit->kio->kservice), so we need a copy of org.kde.KLauncher.xml here.
 # And I don't want to have it here as a source file (who wants to edit dbus xml by hand), so it can be
 # generated from klauncher's implementation header.
-qt5_add_dbus_interface(kservice_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
+if (TARGET Qt5::DBus)
+  qt5_add_dbus_interface(kservice_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
+endif()
 
 add_library(KF5Service ${kservice_SRCS})
 if(WIN32)
@@ -96,9 +100,11 @@ target_link_libraries(KF5Service
     KF5::CoreAddons   # KShell KPluginLoader
   PRIVATE
     KF5::I18n
-    KF5::DBusAddons   # KDEInitInterface
     Qt5::Xml          # (for vfolder menu) QDomDocument
 )
+if (TARGET KF5::DBusAddons)
+  target_link_libraries(KF5Service PRIVATE KF5::DBusAddons)  # KDEInitInterface
+endif()
 
 set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION_STRING}
                                             SOVERSION ${KSERVICE_SOVERSION}

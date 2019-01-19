@@ -19,11 +19,15 @@
 */
 
 #include "ktoolinvocation.h"
+#ifdef QT_DBUS_LIB
 #include "klauncher_iface.h"
-#include <klocalizedstring.h>
 #include <kdeinitinterface.h>
+#endif
+#include <klocalizedstring.h>
 
+#include <QDebug>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QCoreApplication>
 #include <QThread>
 #include <qstandardpaths.h>
@@ -76,6 +80,7 @@ int KToolInvocation::startServiceInternal(const char *_function,
         const QByteArray &startup_id, bool noWait,
         const QString &workdir)
 {
+#ifdef QT_DBUS_LIB
     QString function = QLatin1String(_function);
     KToolInvocation::ensureKdeinitRunning();
     QDBusMessage msg = QDBusMessage::createMethodCall(QStringLiteral("org.kde.klauncher5"),
@@ -124,6 +129,9 @@ int KToolInvocation::startServiceInternal(const char *_function,
         *pid = reply.arguments().at(3).toInt();
     }
     return reply.arguments().at(0).toInt();
+#else
+    return ENOTSUP;
+#endif
 }
 
 #ifndef KSERVICE_NO_DEPRECATED
@@ -294,6 +302,8 @@ void KToolInvocation::invokeMailer(const QUrl &mailtoURL, const QByteArray &star
 
 void KToolInvocation::ensureKdeinitRunning()
 {
+#ifdef QT_DBUS_LIB
     KDEInitInterface::ensureKdeinitRunning();
+#endif
 }
 
