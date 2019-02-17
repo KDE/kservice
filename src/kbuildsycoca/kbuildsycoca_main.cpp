@@ -68,8 +68,6 @@ int main(int argc, char **argv)
 
     QCommandLineParser parser;
     about.setupCommandLine(&parser);
-    parser.addVersionOption();
-    parser.addHelpOption();
     parser.addOption(QCommandLineOption(QStringLiteral("nosignal"),
                 i18nc("@info:shell command-line option",
                       "Do not signal applications to update (deprecated, no longer having any effect)")));
