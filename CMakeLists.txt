@@ -63,7 +63,7 @@ set_package_properties(FLEX PROPERTIES
     PURPOSE "Required for the Trader parser"
 )
 
-find_package(BISON REQUIRED)
+find_package(BISON 2.4.1 REQUIRED)
 set_package_properties(BISON PROPERTIES
     URL "http://www.gnu.org/software/bison"
     DESCRIPTION "general-purpose parser generator"
