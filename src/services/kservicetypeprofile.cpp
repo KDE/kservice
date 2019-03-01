@@ -160,7 +160,7 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
         }
     }
 
-    qStableSort(offers);
+    std::stable_sort(offers.begin(), offers.end());
 
     //qDebug() << "KServiceTypeProfile::offers returning " << offers.count() << " offers";
     return offers;

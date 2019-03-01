@@ -374,7 +374,7 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
         const QString stName = it.key();
         const ServiceTypeOffersData offersData = it.value();
         QList<KServiceOffer> offers = offersData.offers;
-        qStableSort(offers);   // by initial preference
+        std::stable_sort(offers.begin(), offers.end());   // by initial preference
 
         int offset = -1;
         KServiceType::Ptr serviceType = m_serviceTypeFactory->findServiceTypeByName(stName);

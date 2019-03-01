@@ -307,12 +307,12 @@ private Q_SLOTS:
         parser.parseMimeAppsList(fileName, 1050); // += 50 is correct.
 
         QList<KServiceOffer> offers = offerHash.offersFor(QStringLiteral("image/jpeg"));
-        qStableSort(offers); // like kbuildservicefactory.cpp does
+        std::stable_sort(offers.begin(), offers.end()); // like kbuildservicefactory.cpp does
         const QStringList expectedJpegApps = preferredApps[QStringLiteral("image/jpeg")];
         QCOMPARE(assembleOffers(offers), expectedJpegApps);
 
         offers = offerHash.offersFor(QStringLiteral("text/html"));
-        qStableSort(offers);
+        std::stable_sort(offers.begin(), offers.end());
         QStringList textHtmlApps = preferredApps[QStringLiteral("text/html")];
         if (KService::serviceByStorageId(QStringLiteral("firefox.desktop"))) {
             textHtmlApps.append(QStringLiteral("firefox.desktop"));
@@ -321,7 +321,7 @@ private Q_SLOTS:
         QCOMPARE(assembleOffers(offers), textHtmlApps);
 
         offers = offerHash.offersFor(QStringLiteral("image/png"));
-        qStableSort(offers);
+        std::stable_sort(offers.begin(), offers.end());
         QCOMPARE(assembleOffers(offers), QStringList() << QStringLiteral("fakejpegapplication.desktop"));
     }
 

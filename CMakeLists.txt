@@ -72,6 +72,7 @@ set_package_properties(BISON PROPERTIES
 )
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050c00)
 
 if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
     ki18n_install(po)

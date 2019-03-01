@@ -303,7 +303,7 @@ static void waitUntilAfter(const QDateTime &ctime)
     QDateTime now;
     Q_FOREVER {
         now = QDateTime::currentDateTime();
-        if (now.toTime_t() == ctime.toTime_t())   // truncate milliseconds
+        if (now.toSecsSinceEpoch() == ctime.toSecsSinceEpoch())   // truncate milliseconds
         {
             totalWait += 50;
             QTest::qWait(50);
