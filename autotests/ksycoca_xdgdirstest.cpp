@@ -111,7 +111,7 @@ void KSycocaXdgDirsTest::testOtherAppDir()
 #if 0 // for debugging
     const KService::List lst = KService::allServices();
     QVERIFY(!lst.isEmpty());
-    Q_FOREACH (const KService::Ptr &serv, lst) {
+    for (const KService::Ptr &serv : lst) {
         qDebug() << serv->entryPath() << serv->storageId() /*<< serv->desktopEntryName()*/;
     }
 #endif

@@ -278,7 +278,7 @@ KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
     : d(new KPluginInfoPrivate)
 {
     const QString metaData = QStringLiteral("MetaData");
-    foreach (const QVariant &v, args) {
+    for (const QVariant &v : args) {
         if (v.canConvert<QVariantMap>()) {
             const QVariantMap &m = v.toMap();
             const QVariant &_metadata = m.value(metaData);
@@ -315,7 +315,8 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
     KSycoca::self()->ensureCacheValid();
 
     QJsonObject json;
-    foreach (const QString &key, service->propertyNames()) {
+    const auto propertyList = service->propertyNames();
+    for (const QString &key : propertyList) {
         QVariant::Type t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(key);
         if (t == QVariant::Invalid) {
             t = QVariant::String; // default to string if the type is not known
@@ -336,7 +337,7 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
         mimeTypes.reserve(services.size());
         QStringList newServiceTypes;
         newServiceTypes.reserve(services.size());
-        foreach (const QString& s, services) {
+        for (const QString& s : services) {
             if (db.mimeTypeForName(s).isValid()) {
                 mimeTypes << s;
             } else {
@@ -443,7 +444,7 @@ QList<KPluginInfo> KPluginInfo::fromKPartsInstanceName(const QString &name, cons
 {
     QStringList files;
     const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, name + QStringLiteral("/kpartplugins"), QStandardPaths::LocateDirectory);
-    Q_FOREACH (const QString &dir, dirs) {
+    for (const QString &dir : dirs) {
         QDirIterator it(dir, QStringList() << QStringLiteral("*.desktop"));
         while (it.hasNext()) {
             files.append(it.next());
@@ -628,9 +629,9 @@ QVariant KPluginInfo::property(const QString &key) const
             if (result.canConvert<QString>()) {
                 result = KPluginInfoPrivate::deserializeList(result.toString());
             } else if (result.canConvert<QVariantList>()) {
-                QVariantList list = result.toList();
+                const QVariantList list = result.toList();
                 QStringList newResult;
-                foreach (const QVariant &value, list) {
+                for (const QVariant &value : list) {
                     newResult += value.toString();
                 }
                 result = newResult;
@@ -749,7 +750,7 @@ KPluginInfo::List KPluginInfo::fromMetaData(const QVector<KPluginMetaData> &list
 {
     KPluginInfo::List ret;
     ret.reserve(list.size());
-    foreach(const KPluginMetaData &md, list) {
+    for(const KPluginMetaData &md : list) {
         ret.append(KPluginInfo::fromMetaData(md));
     }
     return ret;
@@ -759,7 +760,7 @@ QVector<KPluginMetaData> KPluginInfo::toMetaData(const KPluginInfo::List &list)
 {
     QVector<KPluginMetaData> ret;
     ret.reserve(list.size());
-    foreach(const KPluginInfo &info, list) {
+    for(const KPluginInfo &info : list) {
         ret.append(info.toMetaData());
     }
     return ret;

@@ -61,7 +61,7 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
     query.addQueryItem(QStringLiteral("cc"), _cc);
     query.addQueryItem(QStringLiteral("bcc"), _bcc);
     query.addQueryItem(QStringLiteral("body"), body);
-    foreach (const QString &attachURL, attachURLs) {
+    for (const QString &attachURL : attachURLs) {
         query.addQueryItem(QStringLiteral("attach"), attachURL);
     }
     url.setQuery(query);

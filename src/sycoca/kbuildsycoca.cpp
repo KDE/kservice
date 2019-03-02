@@ -148,10 +148,11 @@ bool KBuildSycoca::build()
     entryDictList.reserve(factories()->size());
     int i = 0;
     // For each factory
-    Q_FOREACH (KSycocaFactory* factory, *factories()) {
+    auto list = *factories();
+    for (KSycocaFactory* factory : qAsConst(list)) {
         KBSEntryDict *entryDict = new KBSEntryDict;
         if (m_allEntries) { // incremental build
-            Q_FOREACH (const KSycocaEntry::Ptr &entry, (*m_allEntries)[i++]) {
+            for (const KSycocaEntry::Ptr &entry : qAsConst((*m_allEntries)[i++])) {
                 //if (entry->entryPath().contains("fake"))
                 //    qCDebug(SYCOCA) << "inserting into entryDict:" << entry->entryPath() << entry;
                 entryDict->insert(entry->entryPath(), entry);
@@ -167,7 +168,8 @@ bool KBuildSycoca::build()
 
     // Save the mtime of each dir, just before we list them
     // ## should we convert to UTC to avoid surprises when summer time kicks in?
-    Q_FOREACH (const QString &dir, factoryResourceDirs()) {
+    const auto lstDirs = factoryResourceDirs();
+    for (const QString &dir : lstDirs) {
         qint64 stamp = 0;
         KSycocaUtilsPrivate::visitResourceDirectory(dir, [&stamp] (const QFileInfo &info) {
             stamp = qMax(stamp, info.lastModified().toMSecsSinceEpoch());
@@ -178,13 +180,14 @@ bool KBuildSycoca::build()
 
     QMap<QString, QByteArray> allResourcesSubDirs; // dirs, kstandarddirs-resource-name
     // For each factory
-    Q_FOREACH (KSycocaFactory* factory, *factories()) {
+    list = *factories();
+    for (KSycocaFactory* factory : qAsConst(list)) {
         // For each resource the factory deals with
         const KSycocaResourceList *list = factory->resourceList();
         if (!list) {
             continue;
         }
-        Q_FOREACH (const KSycocaResource &res, *list) {
+        for (const KSycocaResource &res : qAsConst(*list)) {
             // With this we would get dirs, but not a unique list of relative files (for global+local merging to work)
             //const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, res.subdir, QStandardPaths::LocateDirectory);
             //allResourcesSubDirs[res.resource] += dirs;
@@ -203,7 +206,7 @@ bool KBuildSycoca::build()
         QSet<QString> relFiles;
         const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_resourceSubdir, QStandardPaths::LocateDirectory);
         qCDebug(SYCOCA) << "Looking for subdir" << m_resourceSubdir << "=>" << dirs;
-        Q_FOREACH (const QString &dir, dirs) {
+        for (const QString &dir : dirs) {
             QDirIterator it(dir, QDirIterator::Subdirectories);
             while (it.hasNext()) {
                 const QString filePath = it.next();
@@ -228,7 +231,7 @@ bool KBuildSycoca::build()
                 continue;
             }
 
-            Q_FOREACH (const KSycocaResource &res, *list) {
+            for (const KSycocaResource &res : qAsConst(*list)) {
                 if (res.resource != (*it1)) {
                     continue;
                 }
@@ -272,7 +275,8 @@ bool KBuildSycoca::build()
 
         // Storing the mtime *after* looking at these dirs is a tiny race condition,
         // but I'm not sure how to get the vfolder dirs upfront...
-        Q_FOREACH (QString dir, m_vfolder->allDirectories()) {
+        const auto allDirectories = m_vfolder->allDirectories();
+        for (QString dir : allDirectories) {
             if (dir.endsWith(QLatin1Char('/'))) {
                 dir.chop(1); // remove trailing slash, to avoid having ~/.local/share/applications twice
             }
@@ -313,7 +317,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
 {
     QString caption = caption_;
     QString name = name_;
-    foreach (VFolderMenu::SubMenu *subMenu, menu->subMenus) {
+    for (VFolderMenu::SubMenu *subMenu : qAsConst(menu->subMenus)) {
         QString subName = name + subMenu->name + QLatin1Char('/');
 
         QString directoryFile = subMenu->directoryFile;
@@ -355,7 +359,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
     if (name.isEmpty()) {
         name += QLatin1Char('/');
     }
-    foreach (const KService::Ptr &p, menu->items) {
+    for (const KService::Ptr &p : qAsConst(menu->items)) {
         if (m_menuTest) {
             if (!menu->isDeleted && !p->noDisplay())
                 printf("%s\t%s\t%s\n", qPrintable(caption), qPrintable(p->menuId()),
@@ -513,7 +517,8 @@ void KBuildSycoca::save(QDataStream *str)
     //KSycocaFactory * servicetypeFactory = 0;
     //KBuildMimeTypeFactory * mimeTypeFactory = 0;
     KBuildServiceFactory *serviceFactory = nullptr;
-    Q_FOREACH (KSycocaFactory* factory, *factories()) {
+    auto lst = *factories();
+    for (KSycocaFactory* factory : qAsConst(lst)) {
         qint32 aId;
         qint32 aOffset;
         aId = factory->factoryId();
@@ -547,7 +552,8 @@ void KBuildSycoca::save(QDataStream *str)
     qCDebug(SYCOCA) << "Saving";
 
     // Write factory data....
-    Q_FOREACH (KSycocaFactory* factory, *factories()) {
+    lst = *factories();
+    for (KSycocaFactory* factory : qAsConst(lst)) {
         factory->save(*str);
         if (str->status() != QDataStream::Ok) { // ######## TODO: does this detect write errors, e.g. disk full?
             return;    // error
@@ -560,7 +566,8 @@ void KBuildSycoca::save(QDataStream *str)
     str->device()->seek(0);
 
     (*str) << qint32(KSycoca::version());
-    Q_FOREACH (KSycocaFactory* factory, *factories()) {
+    lst = *factories();
+    for (KSycocaFactory* factory : qAsConst(lst)) {
         qint32 aId;
         qint32 aOffset;
         aId = factory->factoryId();
@@ -627,7 +634,7 @@ quint32 KBuildSycoca::calcResourceHash(const QString &resourceSubDir, const QStr
         return updateHash(filename, hash);
     }
     const QStringList files = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, resourceSubDir + QLatin1Char('/') + filename);
-    Q_FOREACH (const QString &file, files) {
+    for (const QString &file : files) {
         hash = updateHash(file, hash);
     }
     if (hash == 0 && !filename.endsWith(QLatin1String("update_ksycoca"))

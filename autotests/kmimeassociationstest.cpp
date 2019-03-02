@@ -74,7 +74,7 @@ static bool offerListHasService(const KService::List &offers,
                                 bool expected /* if set, show error if not found */)
 {
     bool found = false;
-    Q_FOREACH (const KService::Ptr &serv, offers) {
+    for (const KService::Ptr &serv : offers) {
         if (serv->entryPath() == entryPath) {
             if (found) {  // should be there only once
                 qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
@@ -85,7 +85,7 @@ static bool offerListHasService(const KService::List &offers,
     }
     if (!found && expected) {
         qWarning() << "ERROR:" << entryPath << "not found in offer list. Here's the full list:";
-        Q_FOREACH (const KService::Ptr &serv, offers) {
+        for (const KService::Ptr &serv : offers) {
             qDebug() << serv->entryPath();
         }
     }
@@ -175,7 +175,7 @@ private Q_SLOTS:
 #if 0
         const KService::List lst = KService::allServices();
         QVERIFY(!lst.isEmpty());
-        Q_FOREACH (const KService::Ptr &serv, lst) {
+        for (const KService::Ptr &serv : lst) {
             qDebug() << serv->entryPath() << serv->storageId() /*<< serv->desktopEntryName()*/;
         }
 #endif
@@ -248,11 +248,11 @@ private Q_SLOTS:
                 continue;
             }
             const QList<KServiceOffer> offers = offerHash.offersFor(mime);
-            Q_FOREACH (const QString &service, it.value()) {
+            for (const QString &service : it.value()) {
                 KService::Ptr serv = KService::serviceByStorageId(service);
                 if (serv && !offersContains(offers, serv)) {
                     qDebug() << "expected offer" << serv->entryPath() << "not in offers for" << mime << ":";
-                    Q_FOREACH (const KServiceOffer &offer, offers) {
+                    for (const KServiceOffer &offer : offers) {
                         qDebug() << offer.service()->storageId();
                     }
                     QFAIL("offer does not have servicetype");
@@ -264,7 +264,7 @@ private Q_SLOTS:
                 end = removedApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
             const QList<KServiceOffer> offers = offerHash.offersFor(mime);
-            Q_FOREACH (const QString &service, it.value()) {
+            for (const QString &service : it.value()) {
                 KService::Ptr serv = KService::serviceByStorageId(service);
                 if (serv && offersContains(offers, serv)) {
                     //qDebug() << serv.data() << serv->entryPath() << "does not have" << mime;
@@ -479,7 +479,7 @@ private:
 
     static bool offersContains(const QList<KServiceOffer> &offers, KService::Ptr serv)
     {
-        Q_FOREACH (const KServiceOffer &offer, offers) {
+        for (const KServiceOffer &offer : offers) {
             if (offer.service()->storageId() == serv->storageId()) {
                 return true;
             }
@@ -489,7 +489,7 @@ private:
     static QStringList assembleOffers(const QList<KServiceOffer> &offers)
     {
         QStringList lst;
-        Q_FOREACH (const KServiceOffer &offer, offers) {
+        for (const KServiceOffer &offer : offers) {
             lst.append(offer.service()->storageId());
         }
         return lst;
@@ -497,7 +497,7 @@ private:
     static QStringList assembleServices(const QList<KService::Ptr> &services, int maxCount = -1)
     {
         QStringList lst;
-        Q_FOREACH (const KService::Ptr &service, services) {
+        for (const KService::Ptr &service : services) {
             lst.append(service->storageId());
             if (maxCount > -1 && lst.count() == maxCount) {
                 break;

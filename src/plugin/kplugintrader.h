@@ -230,7 +230,7 @@ public:
         }
         const KPluginInfo::List offers = self()->query(subDirectory, serviceType, constraint);
 
-        Q_FOREACH (const KPluginInfo &info, offers) {
+        for (const KPluginInfo &info : offers) {
             KPluginLoader loader(info.libraryPath());
             const QVariantList argsWithMetaData = QVariantList() << loader.metaData().toVariantMap();
             KPluginFactory *factory = loader.factory();

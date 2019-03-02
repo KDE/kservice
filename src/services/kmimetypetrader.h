@@ -130,7 +130,7 @@ public:
                                           QString *error = nullptr)
     {
         const KService::List offers = self()->query(mimeType, QStringLiteral("KParts/ReadOnlyPart"), constraint);
-        Q_FOREACH (const KService::Ptr &ptr, offers) {
+        for (const KService::Ptr &ptr : offers) {
             T *component = ptr->template createInstance<T>(parentWidget, parent, args, error);
             if (component) {
                 if (error) {
@@ -165,7 +165,7 @@ public:
                                       QString *error = nullptr)
     {
         const KService::List offers = self()->query(mimeType, serviceType, constraint);
-        Q_FOREACH (const KService::Ptr &ptr, offers) {
+        for (const KService::Ptr &ptr : offers) {
             T *component = ptr->template createInstance<T>(parent, args, error);
             if (component) {
                 if (error) {

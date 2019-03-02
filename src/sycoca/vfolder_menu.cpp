@@ -114,7 +114,7 @@ track(const QString &menuId, const QString &menuName, const QHash<QString, KServ
 void
 VFolderMenu::includeItems(QHash<QString, KService::Ptr> &items1, const QHash<QString, KService::Ptr> &items2)
 {
-    foreach (const KService::Ptr &p, items2) {
+    for (const KService::Ptr &p : items2) {
         items1.insert(p->menuId(), p);
     }
 }
@@ -122,7 +122,8 @@ VFolderMenu::includeItems(QHash<QString, KService::Ptr> &items1, const QHash<QSt
 void
 VFolderMenu::matchItems(QHash<QString, KService::Ptr> &items1, const QHash<QString, KService::Ptr> &items2)
 {
-    foreach (const KService::Ptr &p, items1) {
+    const QHash<QString, KService::Ptr> tmpItems1 = items1;
+    for (const KService::Ptr &p : tmpItems1) {
         QString id = p->menuId();
         if (!items2.contains(id)) {
             items1.remove(id);
@@ -133,7 +134,7 @@ VFolderMenu::matchItems(QHash<QString, KService::Ptr> &items1, const QHash<QStri
 void
 VFolderMenu::excludeItems(QHash<QString, KService::Ptr> &items1, const QHash<QString, KService::Ptr> &items2)
 {
-    foreach (const KService::Ptr &p, items2) {
+    for (const KService::Ptr &p : items2) {
         items1.remove(p->menuId());
     }
 }
@@ -226,7 +227,7 @@ VFolderMenu::insertSubMenu(SubMenu *parentMenu, const QString &menuName, SubMenu
     const QString s2 = menuName.mid(i + 1);
 
     // Look up menu
-    foreach (SubMenu *menu, parentMenu->subMenus) {
+    for (SubMenu *menu : qAsConst(parentMenu->subMenus)) {
         if (menu->name == s1) {
             if (i == -1) {
                 mergeMenu(menu, newMenu, reversePriority);
@@ -264,7 +265,7 @@ VFolderMenu::insertService(SubMenu *parentMenu, const QString &name, KService::P
     QString s2 = name.mid(i + 1);
 
     // Look up menu
-    foreach (SubMenu *menu, parentMenu->subMenus) {
+    for (SubMenu *menu : qAsConst(parentMenu->subMenus)) {
         if (menu->name == s1) {
             insertService(menu, s2, newService);
             return;
@@ -296,7 +297,7 @@ VFolderMenu::~VFolderMenu()
 }
 
 #define FOR_ALL_APPLICATIONS(it) \
-    foreach (AppsInfo *info, m_appsInfoStack) \
+    for (AppsInfo *info : qAsConst(m_appsInfoStack)) \
     { \
         QHashIterator<QString,KService::Ptr> it = info->applications; \
         while (it.hasNext()) \
@@ -305,7 +306,7 @@ VFolderMenu::~VFolderMenu()
 #define FOR_ALL_APPLICATIONS_END } }
 
 #define FOR_CATEGORY(category, it) \
-    foreach (AppsInfo *info, m_appsInfoStack) \
+    for (AppsInfo *info : qAsConst(m_appsInfoStack)) \
     { \
         const KService::List list = info->dictCategories.value(category); \
         for(KService::List::ConstIterator it = list.constBegin(); \
@@ -316,7 +317,7 @@ VFolderMenu::~VFolderMenu()
 KService::Ptr
 VFolderMenu::findApplication(const QString &relPath)
 {
-    foreach (AppsInfo *info, m_appsInfoStack) {
+    for (AppsInfo *info : qAsConst(m_appsInfoStack)) {
         if (info->applications.contains(relPath)) {
             KService::Ptr s = info->applications[relPath];
             if (s) {
@@ -338,7 +339,7 @@ VFolderMenu::addApplication(const QString &id, KService::Ptr service)
 void
 VFolderMenu::buildApplicationIndex(bool unusedOnly)
 {
-    foreach (AppsInfo *info, m_appsInfoList) {
+    for (AppsInfo *info : qAsConst(m_appsInfoList)) {
         info->dictCategories.clear();
         QMutableHashIterator<QString, KService::Ptr> it = info->applications;
         while (it.hasNext()) {
@@ -349,7 +350,8 @@ VFolderMenu::buildApplicationIndex(bool unusedOnly)
                 continue;
             }
 
-            Q_FOREACH (const QString &cat, s->categories()) {
+            const auto categories = s->categories();
+            for (const QString &cat : categories) {
                 info->dictCategories[cat].append(s); // find or insert entry in hash
             }
         }
@@ -605,14 +607,14 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
 
             const bool relative = QDir::isRelativePath(dir);
             const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + dir, QStandardPaths::LocateDirectory);
-            Q_FOREACH (const QString &menuDir, dirs) {
+            for (const QString &menuDir : dirs) {
                 registerDirectory(menuDir);
             }
 
             QStringList fileList;
-            Q_FOREACH (const QString &menuDir, dirs) {
+            for (const QString &menuDir : dirs) {
                 const QStringList fileNames = QDir(menuDir).entryList(QStringList() << QStringLiteral("*.menu"));
-                Q_FOREACH (const QString &file, fileNames) {
+                for (const QString &file : fileNames) {
                     const QString fileToAdd = relative ? dir + file : menuDir + file;
                     if (!fileList.contains(fileToAdd)) {
                         fileList.append(fileToAdd);
@@ -620,7 +622,7 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
                 }
             }
 
-            Q_FOREACH (const QString &file, fileList) {
+            for (const QString &file : qAsConst(fileList)) {
                 pushDocInfo(file);
                 mergeFile(docElem, n);
                 popDocInfo();
@@ -651,7 +653,8 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
 static QString makeRelative(const QString &dir)
 {
     const QString canonical = QDir(dir).canonicalPath();
-    Q_FOREACH (const QString &base, QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus"), QStandardPaths::LocateDirectory)) {
+    const auto list = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus"), QStandardPaths::LocateDirectory);
+    for (const QString &base : list) {
         if (canonical.startsWith(base)) {
             return canonical.mid(base.length() + 1);
         }
@@ -1044,7 +1047,7 @@ VFolderMenu::processMenu(QDomElement &docElem, int pass)
         m_currentMenu = nullptr;
         // Look up menu
         if (parentMenu) {
-            foreach (SubMenu *menu, parentMenu->subMenus) {
+            for (SubMenu *menu : qAsConst(parentMenu->subMenus)) {
                 if (menu->name == name) {
                     m_currentMenu = menu;
                     break;
@@ -1079,7 +1082,7 @@ VFolderMenu::processMenu(QDomElement &docElem, int pass)
     } else {
         // Look up menu
         if (parentMenu) {
-            foreach (SubMenu *menu, parentMenu->subMenus) {
+            for (SubMenu *menu : qAsConst(parentMenu->subMenus)) {
                 if (menu->name == name) {
                     m_currentMenu = menu;
                     break;
@@ -1366,7 +1369,7 @@ VFolderMenu::layoutMenu(VFolderMenu::SubMenu *menu, QStringList defaultLayout) /
         }
     }
 
-    foreach (VFolderMenu::SubMenu *subMenu, menu->subMenus) {
+    for (VFolderMenu::SubMenu *subMenu : qAsConst(menu->subMenus)) {
         layoutMenu(subMenu, defaultLayout);
     }
 }
@@ -1374,7 +1377,7 @@ VFolderMenu::layoutMenu(VFolderMenu::SubMenu *menu, QStringList defaultLayout) /
 void
 VFolderMenu::markUsedApplications(const QHash<QString, KService::Ptr> &items)
 {
-    foreach (const KService::Ptr &p, items) {
+    for (const KService::Ptr &p : items) {
         m_usedAppsDict.insert(p->menuId());
     }
 }

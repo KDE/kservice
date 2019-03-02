@@ -106,7 +106,7 @@ void PluginTest::report(const QList<qint64> timings, const QString &msg)
     int unitDiv = 1000;
     QString unit = QStringLiteral("microsec");
     int i = 0;
-    foreach (qint64 t, timings) {
+    for (qint64 t : timings) {
         int msec = t / 1000000;
         qDebug() << "  Run " << i << ": " << msec << " msec";
         totalTime += t;
@@ -146,10 +146,10 @@ bool PluginTest::loadFromMetaData(const QString &serviceType)
     bool ok = false;
     QString pluginName("time");
     QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(pluginName);
-    KPluginInfo::List res = KPluginTrader::self()->query(QStringLiteral("kf5"), serviceType, QString());
+    const KPluginInfo::List res = KPluginTrader::self()->query(QStringLiteral("kf5"), serviceType, QString());
     qDebug() << "----------- Found " << res.count() << " Plugins" << constraint;
     ok = res.count() > 0;
-    foreach (const KPluginInfo &info, res) {
+    for (const KPluginInfo &info : res) {
         qDebug() << "   file: " << info.libraryPath();
 
     }
@@ -180,10 +180,10 @@ bool PluginTest::findPlugins()
                               << QStringLiteral("5000");
     QStringList datadirs;
 
-    foreach (const QString &_s, sizes) {
+    for (const QString &_s : sizes) {
         datadirs << pluginDir + _s;
     }
-    foreach (const QString &subdir, datadirs) {
+    for (const QString &subdir : qAsConst(datadirs)) {
         const QString pluginName;
         const QString constraint;
         const QString serviceType;

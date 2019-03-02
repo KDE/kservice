@@ -507,7 +507,7 @@ bool ParseTreeIN::eval(ParseContext *_context) const
     if (c1.type == ParseContext::T_STRING && c2.type == ParseContext::T_STR_SEQ) {
         if (false && m_substring) {
             _context->b = false;
-            foreach (const QString &string, c2.strSeq) {
+            for (const QString &string : qAsConst(c2.strSeq)) {
                 if (string.contains(c1.str, m_cs)) {
                     _context->b = true;
                     break;
@@ -727,7 +727,7 @@ bool ParseContext::initMaxima(const QString &_prop)
         }
     }
 
-    foreach (const QVariant &p, offerValues) {
+    for (const QVariant &p : qAsConst(offerValues)) {
         if (p.isValid()) {
             // Determine new maximum/minimum
             if (extrema.type == PreferencesMaxima::PM_INVALID_INT) {

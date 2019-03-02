@@ -159,7 +159,8 @@ void KBuildServiceFactory::collectInheritedServices()
     // We need to process parents before children, hence the recursive call in
     // collectInheritedServices(mime) and the QSet to process a given parent only once.
     QSet<QString> visitedMimes;
-    Q_FOREACH (const QString &mimeType, m_mimeTypeFactory->allMimeTypes()) {
+    const auto lst = m_mimeTypeFactory->allMimeTypes();
+    for (const QString &mimeType : lst) {
         collectInheritedServices(mimeType, visitedMimes);
     }
 }
@@ -177,8 +178,9 @@ void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName,
     int mimeTypeInheritanceLevel = 0;
 
     QMimeDatabase db;
-    QMimeType qmime = db.mimeTypeForName(mimeTypeName);
-    Q_FOREACH (QString parentMimeType, qmime.parentMimeTypes()) {
+    const QMimeType qmime = db.mimeTypeForName(mimeTypeName);
+    const auto lst = qmime.parentMimeTypes();
+    for (QString parentMimeType : lst) {
 
         // Workaround issue in shared-mime-info and/or Qt, which sometimes return an alias as parent
         parentMimeType = db.mimeTypeForName(parentMimeType).name();
@@ -299,7 +301,8 @@ void KBuildServiceFactory::populateServiceTypes()
                     }
                 } else {
                     bool shouldAdd = true;
-                    foreach (const QString &otherType, service->serviceTypes()) {
+                    const auto lst = service->serviceTypes();
+                    for (const QString &otherType : lst) {
                         // Skip derived types if the base class is listed (#321706)
                         if (stName != otherType && mime.inherits(otherType)) {
                             // But don't skip aliases (they got resolved into mime->name() already, but don't let two aliases cancel out)

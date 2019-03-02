@@ -663,7 +663,7 @@ bool KService::showInCurrentDesktop() const
     QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("OnlyShowIn"));
     if ((it != d->m_mapProps.end()) && (it->isValid())) {
         const QStringList aList = it->toString().split(QLatin1Char(';'));
-        foreach (const QString &desktop, currentDesktops) {
+        for (const QString &desktop : qAsConst(currentDesktops)) {
             if (aList.contains(desktop)) {
                 return true;
             }
@@ -674,7 +674,7 @@ bool KService::showInCurrentDesktop() const
     it = d->m_mapProps.find(QStringLiteral("NotShowIn"));
     if ((it != d->m_mapProps.end()) && (it->isValid())) {
         const QStringList aList = it->toString().split(QLatin1Char(';'));
-        foreach (const QString &desktop, currentDesktops) {
+        for (const QString &desktop : qAsConst(currentDesktops)) {
             if (aList.contains(desktop)) {
                 return false;
             }

@@ -54,7 +54,8 @@ void KMimeAssociations::parseAllMimeAppsList()
     QStringList mimeappsFileNames;
     // make the list of possible filenames from the spec ($desktop-mimeapps.list, then mimeapps.list)
     const QString desktops = QString::fromLocal8Bit(qgetenv("XDG_CURRENT_DESKTOP"));
-    foreach (const QString &desktop, desktops.split(QLatin1Char(':'), QString::SkipEmptyParts)) {
+    const auto list = desktops.split(QLatin1Char(':'), QString::SkipEmptyParts);
+    for (const QString &desktop : list) {
         mimeappsFileNames.append(desktop.toLower() + QLatin1String("-mimeapps.list"));
     }
     mimeappsFileNames.append(QStringLiteral("mimeapps.list"));
@@ -63,8 +64,8 @@ void KMimeAssociations::parseAllMimeAppsList()
                                     + QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
     QStringList mimeappsFiles;
     // collect existing files
-    foreach (const QString &dir, mimeappsDirs) {
-        foreach (const QString &file, mimeappsFileNames) {
+    for (const QString &dir : mimeappsDirs) {
+        for (const QString &file : qAsConst(mimeappsFileNames)) {
             const QString filePath = dir + QLatin1Char('/') + file;
             if (QFile::exists(filePath)) {
                 mimeappsFiles.append(filePath);
@@ -105,14 +106,15 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
 {
     Q_UNUSED(file) // except in debug statements
     QMimeDatabase db;
-    Q_FOREACH (const QString &mimeName, group.keyList()) {
+    const auto keyList = group.keyList();
+    for (const QString &mimeName : keyList) {
         const QStringList services = group.readXdgListEntry(mimeName);
         const QString resolvedMimeName = mimeName.startsWith(QLatin1String("x-scheme-handler/")) ? mimeName : db.mimeTypeForName(mimeName).name();
         if (resolvedMimeName.isEmpty()) {
             qCDebug(SYCOCA) << file << "specifies unknown mimeType" << mimeName << "in" << group.name();
         } else {
             int pref = basePreference;
-            Q_FOREACH (const QString &service, services) {
+            for (const QString &service : services) {
                 KService::Ptr pService = m_serviceFactory->findServiceByStorageId(service);
                 if (!pService) {
                     qCDebug(SYCOCA) << file << "specifies unknown service" << service << "in" << group.name();
@@ -129,9 +131,10 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
 void KMimeAssociations::parseRemovedAssociations(const KConfigGroup &group, const QString &file)
 {
     Q_UNUSED(file) // except in debug statements
-    Q_FOREACH (const QString &mime, group.keyList()) {
+    const auto keyList = group.keyList();
+    for (const QString &mime : keyList) {
         const QStringList services = group.readXdgListEntry(mime);
-        Q_FOREACH (const QString &service, services) {
+        for (const QString &service : services) {
             KService::Ptr pService =  m_serviceFactory->findServiceByStorageId(service);
             if (!pService) {
                 //qDebug() << file << "specifies unknown service" << service << "in" << group.name();

@@ -232,7 +232,7 @@ void KServiceGroupPrivate::load(QDataStream &s)
     m_bAllowInline = (_allowInline != 0);
 
     if (m_bDeep) {
-        Q_FOREACH (const QString &path, groupList) {
+        for (const QString &path : qAsConst(groupList)) {
             if (path.endsWith(QLatin1Char('/'))) {
                 KServiceGroup::Ptr serviceGroup;
                 serviceGroup = KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(path, false);
@@ -261,7 +261,7 @@ void KServiceGroupPrivate::save(QDataStream &s)
     KSycocaEntryPrivate::save(s);
 
     QStringList groupList;
-    Q_FOREACH (KSycocaEntry::Ptr p, m_serviceList) {
+    for (const KSycocaEntry::Ptr &p : qAsConst(m_serviceList)) {
         if (p->isType(KST_KService)) {
             KService::Ptr service(static_cast<KService*>(p.data()));
             groupList.append(service->entryPath());
@@ -291,8 +291,8 @@ QList<KServiceGroup::Ptr> KServiceGroup::groupEntries(EntriesOptions options)
     Q_D(KServiceGroup);
     bool sort = options & SortEntries || options & AllowSeparators;
     QList<KServiceGroup::Ptr> list;
-    List tmp = d->entries(this, sort, options & ExcludeNoDisplay, options & AllowSeparators, options & SortByGenericName);
-    foreach (const SPtr &ptr, tmp) {
+    const List tmp = d->entries(this, sort, options & ExcludeNoDisplay, options & AllowSeparators, options & SortByGenericName);
+    for (const SPtr &ptr : tmp) {
         if (ptr->isType(KST_KServiceGroup)) {
             KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup*>(ptr.data()));
             list.append(serviceGroup);
@@ -310,9 +310,9 @@ KService::List KServiceGroup::serviceEntries(EntriesOptions options)
     Q_D(KServiceGroup);
     bool sort = options & SortEntries || options & AllowSeparators;
     QList<KService::Ptr> list;
-    List tmp = d->entries(this, sort, options & ExcludeNoDisplay, options & AllowSeparators, options & SortByGenericName);
+    const List tmp = d->entries(this, sort, options & ExcludeNoDisplay, options & AllowSeparators, options & SortByGenericName);
     bool foundService = false;
-    foreach (const SPtr &ptr, tmp) {
+    for (const SPtr &ptr : tmp) {
         if (ptr->isType(KST_KService)) {
             list.append(KService::Ptr(static_cast<KService*>(ptr.data())));
             foundService = true;
@@ -383,7 +383,8 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
     typedef QMap<QByteArray, KServiceGroup::SPtr> SortedContainer;
     SortedContainer slist;
     SortedContainer glist;
-    Q_FOREACH (KSycocaEntry::Ptr p, group->d_func()->m_serviceList) {
+    const auto listService = group->d_func()->m_serviceList;
+    for (const KSycocaEntry::Ptr &p : listService) {
         bool noDisplay = p->isType(KST_KServiceGroup) ?
                          static_cast<KServiceGroup *>(p.data())->noDisplay() :
                          static_cast<KService *>(p.data())->noDisplay();
@@ -439,7 +440,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
 
     // Iterate through the sort spec list.
     // If an entry gets mentioned explicitly, we remove it from the sorted list
-    Q_FOREACH (const QString &item, sortOrder) {
+    for (const QString &item : qAsConst(sortOrder)) {
         if (item.isEmpty()) {
             continue;
         }
@@ -575,7 +576,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
                             bool bShowInlineHeader = false;
                             bool bShowInlineAlias = false;
                             int inlineValue = -1;
-                            Q_FOREACH (const QString &opt_attr, optionAttribute) {
+                            for (const QString &opt_attr : qAsConst(optionAttribute)) {
                                 parseAttribute(opt_attr, bShowEmptyMenu, bShowInline, bShowInlineHeader, bShowInlineAlias, inlineValue);
                                 group->setShowEmptyMenu(bShowEmptyMenu);
                                 group->setAllowInline(bShowInline);

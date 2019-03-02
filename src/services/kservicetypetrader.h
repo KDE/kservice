@@ -187,7 +187,7 @@ public:
         if (error) {
             error->clear();
         }
-        Q_FOREACH (const KService::Ptr &ptr, offers) {
+        for (const KService::Ptr &ptr : offers) {
             T *component = ptr->template createInstance<T>(parentWidget, parent, args, error);
             if (component) {
                 return component;

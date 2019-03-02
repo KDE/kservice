@@ -248,13 +248,13 @@ void KServiceTest::cleanupTestCase()
 {
     // If I want the konqueror unit tests to work, then I better not have a non-working part
     // as the preferred part for text/plain...
-    QStringList services; services << QStringLiteral("fakeservice.desktop") << QStringLiteral("fakepart.desktop") << QStringLiteral("faketextplugin.desktop") << QStringLiteral("fakeservice_querymustrebuild.desktop");
-    Q_FOREACH (const QString &service, services) {
+    const QStringList services = QStringList() << QStringLiteral("fakeservice.desktop") << QStringLiteral("fakepart.desktop") << QStringLiteral("faketextplugin.desktop") << QStringLiteral("fakeservice_querymustrebuild.desktop");
+    for (const QString &service : services) {
         const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + service;
         QFile::remove(fakeService);
     }
-    QStringList serviceTypes; serviceTypes << QStringLiteral("fakeplugintype.desktop");
-    Q_FOREACH (const QString &serviceType, serviceTypes) {
+    const QStringList serviceTypes = QStringList() << QStringLiteral("fakeplugintype.desktop");
+    for (const QString &serviceType : serviceTypes) {
         const QString fakeServiceType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + serviceType;
         //QFile::remove(fakeServiceType);
     }
@@ -480,7 +480,7 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
         || !offerListHasService(offers, QStringLiteral("fakepart2.desktop"))
         || !offerListHasService(offers, QStringLiteral("otherpart.desktop"))
         || !offerListHasService(offers, QStringLiteral("preferredpart.desktop"))) {
-        foreach (KService::Ptr service, offers) {
+        for (KService::Ptr service : qAsConst(offers)) {
             qDebug("%s %s", qPrintable(service->name()), qPrintable(service->entryPath()));
         }
     }
@@ -495,7 +495,7 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
     // Check ordering according to InitialPreference
     int lastPreference = -1;
     bool lastAllowedAsDefault = true;
-    Q_FOREACH (KService::Ptr service, offers) {
+    for (KService::Ptr service : qAsConst(offers)) {
         const QString path = service->entryPath();
         const int preference = service->initialPreference(); // ## might be wrong if we use per-servicetype preferences...
         //qDebug( "%s has preference %d, allowAsDefault=%d", qPrintable( path ), preference, service->allowAsDefault() );
@@ -639,10 +639,10 @@ void KServiceTest::testWriteServiceTypeProfile()
     services.append(KService::serviceByDesktopPath(QStringLiteral("fakepart.desktop")));
     disabledServices.append(KService::serviceByDesktopPath(QStringLiteral("fakepart2.desktop")));
 
-    Q_FOREACH (const KService::Ptr &serv, services) {
+    for (const KService::Ptr &serv : qAsConst(services)) {
         QVERIFY(serv);
     }
-    Q_FOREACH (const KService::Ptr &serv, disabledServices) {
+    for (const KService::Ptr &serv : qAsConst(disabledServices)) {
         QVERIFY(serv);
     }
 
@@ -727,7 +727,7 @@ void KServiceTest::testServiceGroups()
                                      true /* sort by generic name */);
 
     qDebug() << list.count();
-    Q_FOREACH (KServiceGroup::SPtr s, list) {
+    for (KServiceGroup::SPtr s : list) {
         qDebug() << s->name() << s->entryPath();
     }
 

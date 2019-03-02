@@ -55,7 +55,8 @@ int main(int argc, char *argv[])
     mimeAppsParser.parseAllMimeAppsList();
 
     QTextStream output(stdout);
-    foreach (const KServiceOffer &offer, offers.offersFor(mime)) {
+    const auto list = offers.offersFor(mime);
+    for (const KServiceOffer &offer : list) {
         output << offer.service()->desktopEntryName() << " " << offer.service()->entryPath() << "\n";
     }
 
