@@ -142,3 +142,5 @@ Type=bool
 [PropertyDef::X-KDE-Protocols]
 Type=QStringList
 
+[PropertyDef::X-GNOME-UsesNotifications]
+Type=bool
