@@ -83,6 +83,9 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
     quint32 timeStamp = m_ctimeFactory->dict()->ctime(file, m_resource);
     if (!timeStamp) {
         timeStamp = calcResourceHash(m_resourceSubdir, file);
+        if (!timeStamp) { // file disappeared meanwhile
+            return {};
+        }
     }
     KSycocaEntry::Ptr entry;
     if (m_allEntries) {
