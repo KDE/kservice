@@ -640,8 +640,13 @@ quint32 KBuildSycoca::calcResourceHash(const QString &resourceSubDir, const QStr
     if (hash == 0 && !filename.endsWith(QLatin1String("update_ksycoca"))
             && !filename.endsWith(QLatin1String(".directory")) // bug? needs investigation from someone who understands the VFolder spec
        ) {
-        qCWarning(SYCOCA) << "File not found or not readable:" << filename << "found:" << files;
-        Q_ASSERT(hash != 0);
+        if (files.isEmpty()) {
+            // This can happen if the file was deleted between directory listing and the above locateAll
+            qCDebug(SYCOCA) << "File not found anymore:" << filename << " -- probably deleted meanwhile";
+        } else {
+            // This can happen if the file was deleted between locateAll and QFileInfo
+            qCDebug(SYCOCA) << "File(s) found but not readable (or disappeared meanwhile)" << files;
+        }
     }
     return hash;
 }
