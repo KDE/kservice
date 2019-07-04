@@ -40,7 +40,7 @@ set(APPLICATIONS_MENU_NAME applications.menu
     CACHE STRING "Name to install the applications.menu file as.")
 
 # Dependencies
-set(REQUIRED_QT_VERSION 5.10.0)
+set(REQUIRED_QT_VERSION 5.11.0)
 find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Xml)
 if (NOT ANDROID)
   find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED DBus)
