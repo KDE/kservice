@@ -71,6 +71,9 @@ public:
      * @param entryName the name used to identify the service. If none is
      *        provided then it uses the name registered with KAboutData.
      * @param parent QObject
+     *
+     * @since 5.61 we are allowed to specify an absolute path to the service
+     * description and it will still work.
      */
     explicit KAutostart(const QString &entryName = QString(),
                         QObject *parent = nullptr);

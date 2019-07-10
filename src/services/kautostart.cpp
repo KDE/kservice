@@ -23,6 +23,7 @@
 #include "kconfiggroup.h"
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QFile>
 #include <QStringList>
 
@@ -72,17 +73,22 @@ KAutostart::KAutostart(const QString &entryName, QObject *parent)
     : QObject(parent),
       d(new KAutostartPrivate)
 {
-    if (entryName.isEmpty()) {
-        d->name = QCoreApplication::applicationName();
+    const bool isAbsolute = QDir::isAbsolutePath(entryName);
+    if (isAbsolute) {
+        d->name = entryName.mid(entryName.lastIndexOf(QLatin1Char('/')) + 1);
     } else {
-        d->name = entryName;
+        if (entryName.isEmpty()) {
+            d->name = QCoreApplication::applicationName();
+        } else {
+            d->name = entryName;
+        }
+
+        if (!d->name.endsWith(QLatin1String(".desktop"))) {
+            d->name.append(QStringLiteral(".desktop"));
+        }
     }
 
-    if (!d->name.endsWith(QLatin1String(".desktop"))) {
-        d->name.append(QStringLiteral(".desktop"));
-    }
-
-    const QString path = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + d->name);
+    const QString path = isAbsolute ? entryName : QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + d->name);
     if (path.isEmpty()) {
         // just a new KDesktopFile, since we have nothing to use
         d->df = new KDesktopFile(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + d->name);
