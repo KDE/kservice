@@ -147,3 +147,6 @@ Type=bool
 
 [PropertyDef::X-Flatpak-RenamedFrom]
 Type=QStringList
+
+[PropertyDef::X-KDE-Wayland-Interfaces]
+Type=QStringList
