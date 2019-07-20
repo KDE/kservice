@@ -173,9 +173,9 @@ public:
      * @param error On failure, error contains a description of the error
      *         that occurred. If the pointer is 0, the argument will be
      *         ignored
-     * @param serviceName On success, serviceName contains the DCOP name
+     * @param serviceName On success, serviceName contains the D-Bus name
      *         under which this service is available. If empty, the service does
-     *         not provide DCOP services. If the pointer is 0 the argument
+     *         not provide D-Bus services. If the pointer is 0 the argument
      *         will be ignored
      * @param pid On success, the process id of the new service will be written
      *        here. If the pointer is 0, the argument will be ignored.
@@ -200,9 +200,9 @@ public:
      * @param error On failure, @p error contains a description of the error
      *         that occurred. If the pointer is 0, the argument will be
      *         ignored
-     * @param serviceName On success, @p serviceName contains the DCOP name
+     * @param serviceName On success, @p serviceName contains the D-Bus name
      *         under which this service is available. If empty, the service does
-     *         not provide DCOP services. If the pointer is 0 the argument
+     *         not provide D-Bus services. If the pointer is 0 the argument
      *         will be ignored
      * @param pid On success, the process id of the new service will be written
      *        here. If the pointer is 0, the argument will be ignored.
@@ -227,9 +227,9 @@ public:
      * @param error On failure, @p error contains a description of the error
      *         that occurred. If the pointer is 0, the argument will be
      *         ignored
-     * @param serviceName On success, @p serviceName contains the DCOP name
+     * @param serviceName On success, @p serviceName contains the D-Bus name
      *         under which this service is available. If empty, the service does
-     *         not provide DCOP services. If the pointer is 0 the argument
+     *         not provide D-Bus services. If the pointer is 0 the argument
      *         will be ignored
      * @param pid On success, the process id of the new service will be written
      *        here. If the pointer is 0, the argument will be ignored.
@@ -254,9 +254,9 @@ public:
      * @param URLs if not empty these URLs will be passed to the service
      * @param error On failure, @p error contains a description of the error
      *         that occurred. If the pointer is 0, the argument will be
-     *         ignored   * @param serviceName On success, @p serviceName contains the DCOP name
+     *         ignored   * @param serviceName On success, @p serviceName contains the D-Bus name
      *         under which this service is available. If empty, the service does
-     *         not provide DCOP services. If the pointer is 0 the argument
+     *         not provide D-Bus services. If the pointer is 0 the argument
      *         will be ignored
      * @param pid On success, the process id of the new service will be written
      *        here. If the pointer is 0, the argument will be ignored.
