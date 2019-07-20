@@ -31,12 +31,12 @@ class KDBusServiceStarterPrivate;
  * A generic D-Bus service starter, using KServiceTypeTrader.
  * The default implementation starts new processes, but this interface can
  * also be reimplemented by specific applications to provide dlopened in-process D-Bus objects.
- * This interface is similar to the startServiceByName() function found in QDBusBusService, but
- * with the added benefit of using KTrader (and, therefore, additional constraints and the
+ * This interface is similar to the startService() function found in QDBusConnectionInterface, but
+ * with the added benefit of using KServiceTypeTrader (and, therefore, additional constraints and the
  * ability to search the standard KDE dirs).
  * @author David Faure <faure@kde.org>
  */
-class KSERVICE_EXPORT KDBusServiceStarter   //krazy:exclude=dpointer (uses K_GLOBAL_STATIC)
+class KSERVICE_EXPORT KDBusServiceStarter   //krazy:exclude=dpointer (uses Q_GLOBAL_STATIC)
 {
 public:
 
