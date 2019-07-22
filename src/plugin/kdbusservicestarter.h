@@ -35,8 +35,10 @@ class KDBusServiceStarterPrivate;
  * with the added benefit of using KServiceTypeTrader (and, therefore, additional constraints and the
  * ability to search the standard KDE dirs).
  * @author David Faure <faure@kde.org>
+ *
+ * @deprecated since 5.61, use D-Bus activation instead
  */
-class KSERVICE_EXPORT KDBusServiceStarter   //krazy:exclude=dpointer (uses Q_GLOBAL_STATIC)
+class KSERVICE_DEPRECATED_EXPORT KDBusServiceStarter   //krazy:exclude=dpointer (uses Q_GLOBAL_STATIC)
 {
 public:
 
