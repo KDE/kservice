@@ -38,7 +38,7 @@ class KSERVICE_EXPORT KBuildSycoca : public KSycoca, public KBuildSycocaInterfac
 {
     Q_OBJECT
 public:
-    explicit KBuildSycoca(bool globalDatabase = false);
+    explicit KBuildSycoca();
     ~KBuildSycoca() override;
 
     /**
@@ -146,7 +146,6 @@ private:
     VFolderMenu *m_vfolder = nullptr;
     qint64 m_newTimestamp;
 
-    bool m_globalDatabase;
     bool m_menuTest;
     bool m_changed;
 };

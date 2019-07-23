@@ -57,7 +57,7 @@ public:
      * type of database
      * @see absoluteFilePath()
      */
-    typedef enum { LocalDatabase, GlobalDatabase } DatabaseType;
+    typedef enum { LocalDatabase, GlobalDatabase } DatabaseType; // TODO KF6: remove
 
     /**
      * Read-only database

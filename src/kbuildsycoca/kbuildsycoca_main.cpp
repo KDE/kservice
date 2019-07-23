@@ -80,9 +80,6 @@ int main(int argc, char **argv)
     parser.addOption(QCommandLineOption(QStringLiteral("nocheckfiles"),
                 i18nc("@info:shell command-line option",
                       "Disable checking files (deprecated, no longer having any effect)")));
-    parser.addOption(QCommandLineOption(QStringLiteral("global"),
-                i18nc("@info:shell command-line option",
-                      "Create global database")));
     parser.addOption(QCommandLineOption(QStringLiteral("menutest"),
                 i18nc("@info:shell command-line option",
                       "Perform menu generation test run only")));
@@ -96,28 +93,19 @@ int main(int argc, char **argv)
     parser.process(app);
     about.processCommandLine(&parser);
 
-    const bool bGlobalDatabase = parser.isSet(QStringLiteral("global"));
     const bool bMenuTest = parser.isSet(QStringLiteral("menutest"));
 
     if (parser.isSet(QStringLiteral("testmode"))) {
         QStandardPaths::setTestModeEnabled(true);
     }
 
-    if (bGlobalDatabase) {
-        // Qt uses XDG_DATA_HOME as first choice for GenericDataLocation so we set it to 2nd entry
-        QStringList paths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-        if (paths.size() >= 2) {
-            qputenv("XDG_DATA_HOME", paths.at(1).toLocal8Bit());
-        }
-    }
-
     KCrash::setEmergencySaveFunction(crashHandler);
 
     fprintf(stderr, "%s running...\n", KBUILDSYCOCA_EXENAME);
 
-    const bool incremental = !bGlobalDatabase && !parser.isSet(QStringLiteral("noincremental"));
+    const bool incremental = !parser.isSet(QStringLiteral("noincremental"));
 
-    KBuildSycoca sycoca(bGlobalDatabase); // Build data base
+    KBuildSycoca sycoca; // Build data base
     if (parser.isSet(QStringLiteral("track"))) {
         sycoca.setTrackId(parser.value(QStringLiteral("track")));
     }

@@ -91,7 +91,6 @@ private Q_SLOTS:
     void recursiveCheckShouldIgnoreLinksGoingUp();
     void testAllResourceDirs();
     void testDeletingSycoca();
-    void testGlobalSycoca();
     void testNonReadableSycoca();
 
 private:
@@ -299,37 +298,6 @@ void KSycocaTest::testDeletingSycoca()
     QFile::remove(KSycoca::absoluteFilePath());
     ksycoca_ms_between_checks = 0;
     QVERIFY(KServiceType::serviceType(QStringLiteral("FakeGlobalServiceType")));
-    QVERIFY(QFile::exists(KSycoca::absoluteFilePath()));
-}
-
-void KSycocaTest::testGlobalSycoca()
-{
-    // No local DB
-    QFile::remove(KSycoca::absoluteFilePath());
-
-    // Build global DB
-    // We could do it in-process, but let's check what a sysadmin would do: run kbuildsycoca5 --global
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert(QStringLiteral("XDG_DATA_DIRS"), m_tempDir.path());
-    runKBuildSycoca(env, true /*global*/);
-    QVERIFY(QFile::exists(KSycoca::absoluteFilePath(KSycoca::GlobalDatabase)));
-
-    KSycoca::self()->ensureCacheValid();
-    QVERIFY(!QFile::exists(KSycoca::absoluteFilePath()));
-
-    // Now create a local file, after a 1s delay, until QDateTime includes ms...
-    QTest::qWait(s_waitDelay);
-    KDesktopFile file(serviceTypesDir() + "/fakeLocalServiceType.desktop");
-    KConfigGroup group = file.desktopGroup();
-    group.writeEntry("Comment", "Fake Local ServiceType");
-    group.writeEntry("Type", "ServiceType");
-    group.writeEntry("X-KDE-ServiceType", "FakeLocalServiceType");
-    file.sync();
-    //qDebug() << "created" << serviceTypesDir() + "/fakeLocalServiceType.desktop at" << QDateTime::currentMSecsSinceEpoch();
-
-    // Using ksycoca should now build a local one
-    ksycoca_ms_between_checks = 0;
-    QVERIFY(KServiceType::serviceType(QStringLiteral("FakeLocalServiceType")));
     QVERIFY(QFile::exists(KSycoca::absoluteFilePath()));
 }
 

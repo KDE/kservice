@@ -92,7 +92,6 @@ KSycocaPrivate::KSycocaPrivate(KSycoca *q)
       m_databasePath(),
       updateSig(0),
       m_haveListeners(false),
-      m_globalDatabase(false),
       q(q),
       sycoca_size(0),
       sycoca_mmap(nullptr),
@@ -199,22 +198,9 @@ QString KSycocaPrivate::findDatabase()
 {
     Q_ASSERT(databaseStatus == DatabaseNotOpen);
 
-    m_globalDatabase = false;
-    QString path = KSycoca::absoluteFilePath();
-    QFileInfo info(path);
-    bool canRead = info.isReadable();
-    if (!canRead) {
-        const QString globalPath = KSycoca::absoluteFilePath(KSycoca::GlobalDatabase);
-        if (!globalPath.isEmpty()) {
-            info.setFile(globalPath);
-            canRead = info.isReadable();
-            if (canRead) {
-                m_globalDatabase = true;
-                path = globalPath;
-            }
-        }
-    }
-    if (canRead) {
+    const QString path = KSycoca::absoluteFilePath();
+    const QFileInfo info(path);
+    if (info.isReadable()) {
         if (m_haveListeners) {
             m_fileWatcher.addFile(path);
         }
@@ -601,16 +587,6 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
     language = header.language;
     updateSig = header.updateSignature;
 
-    if (m_globalDatabase) {
-        // The global database doesn't point to the user's local dirs, but we need to check them too
-        // to react on something being created there
-        const QString dataHome = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-        addLocalResourceDir(dataHome + QLatin1String("/kservices5"));
-        addLocalResourceDir(dataHome + QLatin1String("/kservicetypes5"));
-        addLocalResourceDir(dataHome + QLatin1String("/mime"));
-        addLocalResourceDir(dataHome + QLatin1String("/applications"));
-    }
-
     return header;
 }
 
@@ -714,22 +690,9 @@ quint32 KSycoca::updateSignature()
 
 QString KSycoca::absoluteFilePath(DatabaseType type)
 {
+    Q_UNUSED(type); // GlobalDatabase concept removed in 5.61
     const QStringList paths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     QString suffix = QLatin1Char('_') + QLocale().bcp47Name();
-
-    if (type == GlobalDatabase) {
-        const QString fileName = QStringLiteral("ksycoca5") + suffix;
-        QString path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("ksycoca/") + fileName);
-        if (path.isEmpty()) {
-            // No existing global DB found, maybe we are going to make a new one.
-            // We don't want it in $HOME, so skip the first entry in <paths> and pick the second one.
-            if (paths.count() == 1) { // unlikely
-                return QString();
-            }
-            return paths.at(1) + QStringLiteral("/ksycoca/") + fileName;
-        }
-        return path;
-    }
 
     const QByteArray ksycoca_env = qgetenv("KDESYCOCA");
     if (ksycoca_env.isEmpty()) {

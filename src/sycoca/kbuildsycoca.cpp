@@ -55,7 +55,7 @@ static const char *s_cSycocaPath = nullptr;
 
 KBuildSycocaInterface::~KBuildSycocaInterface() {}
 
-KBuildSycoca::KBuildSycoca(bool globalDatabase)
+KBuildSycoca::KBuildSycoca()
     : KSycoca(true),
       m_allEntries(nullptr),
       m_currentFactory(nullptr),
@@ -65,7 +65,6 @@ KBuildSycoca::KBuildSycoca(bool globalDatabase)
       m_serviceGroupEntryDict(nullptr),
       m_vfolder(nullptr),
       m_newTimestamp(0),
-      m_globalDatabase(globalDatabase),
       m_menuTest(false),
       m_changed(false)
 {
@@ -375,7 +374,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
 
 bool KBuildSycoca::recreate(bool incremental)
 {
-    QFileInfo fi(KSycoca::absoluteFilePath(m_globalDatabase ? KSycoca::GlobalDatabase : KSycoca::LocalDatabase));
+    QFileInfo fi(KSycoca::absoluteFilePath());
     if (!QDir().mkpath(fi.absolutePath())) {
         qCWarning(SYCOCA) << "Couldn't create" << fi.absolutePath();
         return false;
@@ -469,19 +468,17 @@ bool KBuildSycoca::recreate(bool incremental)
             return false;
         }
 
-        if (!m_globalDatabase) {
-            // Compatibility code for KF < 5.15: provide a ksycoca5 symlink after the filename change, for old apps to keep working during the upgrade
-            const QString oldSycoca = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1String("/ksycoca5");
-            if (QFile::exists(oldSycoca)) {
-                QFile::remove(oldSycoca);
+        // Compatibility code for KF < 5.15: provide a ksycoca5 symlink after the filename change, for old apps to keep working during the upgrade
+        const QString oldSycoca = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1String("/ksycoca5");
+        if (QFile::exists(oldSycoca)) {
+            QFile::remove(oldSycoca);
 #ifdef Q_OS_UNIX
-                if (::link(QFile::encodeName(path).constData(), QFile::encodeName(oldSycoca).constData()) != 0) {
-                    QFile::copy(path, oldSycoca);
-                }
-#else
+            if (::link(QFile::encodeName(path).constData(), QFile::encodeName(oldSycoca).constData()) != 0) {
                 QFile::copy(path, oldSycoca);
-#endif
             }
+#else
+            QFile::copy(path, oldSycoca);
+#endif
         }
     } else {
         delete str;
