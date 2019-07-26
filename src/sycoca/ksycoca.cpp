@@ -253,13 +253,12 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
         checkVersion();
     } else { // No database file
         //qCDebug(SYCOCA) << "Could not open ksycoca";
-        m_databasePath.clear();
         if (openDummyIfNotFound) {
             // We open a dummy database instead.
             //qCDebug(SYCOCA) << "No database, opening a dummy one.";
 
             m_sycocaStrategy = StrategyDummyBuffer;
-            QDataStream *str = stream();
+            QDataStream *str = device()->stream();
             *str << qint32(KSYCOCA_VERSION);
             *str << qint32(0);
         } else {
