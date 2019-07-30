@@ -23,7 +23,9 @@
 
 #include <klocalizedstring.h>
 #include <kaboutdata.h>
+#ifndef __ANDROID__
 #include <kcrash.h>
+#endif
 
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -99,7 +101,9 @@ int main(int argc, char **argv)
         QStandardPaths::setTestModeEnabled(true);
     }
 
+#ifndef __ANDROID__
     KCrash::setEmergencySaveFunction(crashHandler);
+#endif
 
     fprintf(stderr, "%s running...\n", KBUILDSYCOCA_EXENAME);
 
