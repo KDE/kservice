@@ -222,7 +222,7 @@ KSycoca::KSycoca()
     connect(&d->m_fileWatcher, &KDirWatch::dirty, this, [this](){ d->slotDatabaseChanged(); });
 }
 
-bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
+bool KSycocaPrivate::openDatabase()
 {
     Q_ASSERT(databaseStatus == DatabaseNotOpen);
 
@@ -251,34 +251,29 @@ KSycocaAbstractDevice *KSycocaPrivate::device()
     }
 
     KSycocaAbstractDevice *device = m_device;
-    if (m_sycocaStrategy == StrategyDummyBuffer) {
-        device = new KSycocaBufferDevice;
-        device->device()->open(QIODevice::ReadOnly); // can't fail
-    } else {
-        Q_ASSERT(!m_databasePath.isEmpty());
+    Q_ASSERT(!m_databasePath.isEmpty());
 #if HAVE_MMAP
-        if (m_sycocaStrategy == StrategyMmap && tryMmap()) {
-            device = new KSycocaMmapDevice(sycoca_mmap,
-                                           sycoca_size);
-            if (!device->device()->open(QIODevice::ReadOnly)) {
-                delete device; device = nullptr;
-            }
+    if (m_sycocaStrategy == StrategyMmap && tryMmap()) {
+        device = new KSycocaMmapDevice(sycoca_mmap,
+                sycoca_size);
+        if (!device->device()->open(QIODevice::ReadOnly)) {
+            delete device; device = nullptr;
         }
+    }
 #endif
 #ifndef QT_NO_SHAREDMEMORY
-        if (!device && m_sycocaStrategy == StrategyMemFile) {
-            device = new KSycocaMemFileDevice(m_databasePath);
-            if (!device->device()->open(QIODevice::ReadOnly)) {
-                delete device; device = nullptr;
-            }
+    if (!device && m_sycocaStrategy == StrategyMemFile) {
+        device = new KSycocaMemFileDevice(m_databasePath);
+        if (!device->device()->open(QIODevice::ReadOnly)) {
+            delete device; device = nullptr;
         }
+    }
 #endif
-        if (!device) {
-            device = new KSycocaFileDevice(m_databasePath);
-            if (!device->device()->open(QIODevice::ReadOnly)) {
-                qCWarning(SYCOCA) << "Couldn't open" << m_databasePath << "even though it is readable? Impossible.";
-                //delete device; device = 0; // this would crash in the return statement...
-            }
+    if (!device) {
+        device = new KSycocaFileDevice(m_databasePath);
+        if (!device->device()->open(QIODevice::ReadOnly)) {
+            qCWarning(SYCOCA) << "Couldn't open" << m_databasePath << "even though it is readable? Impossible.";
+            //delete device; device = 0; // this would crash in the return statement...
         }
     }
     if (device) {
@@ -291,7 +286,7 @@ QDataStream *&KSycocaPrivate::stream()
 {
     if (!m_device) {
         if (databaseStatus == DatabaseNotOpen) {
-            checkDatabase(KSycocaPrivate::IfNotFoundRecreate | KSycocaPrivate::IfNotFoundOpenDummy);
+            checkDatabase(KSycocaPrivate::IfNotFoundRecreate);
         }
 
         device(); // create m_device
@@ -381,7 +376,7 @@ KSycoca::~KSycoca()
 
 bool KSycoca::isAvailable() // TODO KF6: make it non-static (mostly useful for unittests)
 {
-    return self()->d->checkDatabase(KSycocaPrivate::IfNotFoundDoNothing/* don't open dummy db if not found */);
+    return self()->d->checkDatabase(KSycocaPrivate::IfNotFoundDoNothing);
 }
 
 void KSycocaPrivate::closeDatabase()
@@ -481,7 +476,7 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
     closeDatabase(); // close the dummy one
 
     // Check if new database already available
-    if (openDatabase(ifNotFound & IfNotFoundOpenDummy)) {
+    if (openDatabase()) {
         // Database exists, and version is ok, we can read it.
 
         if (qAppName() != QLatin1String(KBUILDSYCOCA_EXENAME) && ifNotFound != IfNotFoundDoNothing) {

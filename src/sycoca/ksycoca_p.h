@@ -59,11 +59,10 @@ public:
     static KSycocaPrivate *self() { return KSycoca::self()->d; }
 
     bool checkVersion();
-    bool openDatabase(bool openDummyIfNotFound = true);
+    bool openDatabase();
     enum BehaviorIfNotFound {
         IfNotFoundDoNothing = 0,
-        IfNotFoundOpenDummy = 1,
-        IfNotFoundRecreate = 2
+        IfNotFoundRecreate = 1
     };
     Q_DECLARE_FLAGS(BehaviorsIfNotFound, BehaviorIfNotFound)
     bool checkDatabase(BehaviorsIfNotFound ifNotFound);
@@ -109,7 +108,7 @@ public:
     bool readError;
 
     qint64 timeStamp; // in ms since epoch
-    enum { StrategyMmap, StrategyMemFile, StrategyFile, StrategyDummyBuffer } m_sycocaStrategy;
+    enum { StrategyMmap, StrategyMemFile, StrategyFile } m_sycocaStrategy;
     QString m_databasePath;
     QStringList changeList;
     QString language;
