@@ -308,7 +308,7 @@ void KSycocaTest::testNonReadableSycoca()
     ksycoca_ms_between_checks = 0;
     KBuildSycoca builder;
     QVERIFY(builder.recreate());
-    QVERIFY(KServiceType::serviceType(QStringLiteral("FakeGlobalServiceType")));
+    QVERIFY(!KServiceType::serviceType(QStringLiteral("FakeGlobalServiceType")));
 
     // cleanup
     QFile::remove(KSycoca::absoluteFilePath());

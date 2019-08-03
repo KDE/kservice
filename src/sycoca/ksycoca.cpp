@@ -239,17 +239,7 @@ bool KSycocaPrivate::openDatabase(bool openDummyIfNotFound)
         checkVersion();
     } else { // No database file
         //qCDebug(SYCOCA) << "Could not open ksycoca";
-        if (openDummyIfNotFound) {
-            // We open a dummy database instead.
-            //qCDebug(SYCOCA) << "No database, opening a dummy one.";
-
-            m_sycocaStrategy = StrategyDummyBuffer;
-            QDataStream *str = device()->stream();
-            *str << qint32(KSYCOCA_VERSION);
-            *str << qint32(0);
-        } else {
-            result = false;
-        }
+        result = false;
     }
     return result;
 }
@@ -260,13 +250,12 @@ KSycocaAbstractDevice *KSycocaPrivate::device()
         return m_device;
     }
 
-    Q_ASSERT(!m_databasePath.isEmpty());
-
     KSycocaAbstractDevice *device = m_device;
     if (m_sycocaStrategy == StrategyDummyBuffer) {
         device = new KSycocaBufferDevice;
         device->device()->open(QIODevice::ReadOnly); // can't fail
     } else {
+        Q_ASSERT(!m_databasePath.isEmpty());
 #if HAVE_MMAP
         if (m_sycocaStrategy == StrategyMmap && tryMmap()) {
             device = new KSycocaMmapDevice(sycoca_mmap,

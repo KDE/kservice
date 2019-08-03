@@ -31,8 +31,6 @@ KServiceTypeFactory::KServiceTypeFactory(KSycoca *db)
 {
     if (!sycoca()->isBuilding()) {
         QDataStream *str = stream();
-        Q_ASSERT_X(str, "KServiceTypeFactory::KServiceTypeFactory()",
-                   "Could not open sycoca database, you must run kbuildsycoca first!");
         if (str) {
             // Read Header
             qint32 n;
@@ -47,6 +45,8 @@ KServiceTypeFactory::KServiceTypeFactory(KSycoca *db)
                     m_propertyTypeDict.insert(string, i);
                 }
             }
+        }  else {
+            qWarning() << "Could not open sycoca database, you must run kbuildsycoca first!";
         }
     }
 }
