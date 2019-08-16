@@ -22,7 +22,6 @@
 
 #include <QExplicitlySharedDataPointer>
 #include <QString>
-#include <QMap>
 #include <QStringList>
 
 #include <kconfiggroup.h>

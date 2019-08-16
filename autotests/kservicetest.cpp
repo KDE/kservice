@@ -44,7 +44,6 @@
 #include <qthread.h>
 #include <qsignalspy.h>
 
-#include <QTimer>
 #include <QDebug>
 #include <QLoggingCategory>
 #include <QMimeDatabase>

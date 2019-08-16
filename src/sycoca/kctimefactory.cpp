@@ -21,7 +21,6 @@
 #include <ksycoca.h>
 #include <ksycocautils_p.h>
 #include <ksycocatype.h>
-#include <QDebug>
 
 #include <assert.h>
 

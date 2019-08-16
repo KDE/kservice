@@ -22,7 +22,6 @@
 #define KMIMEASSOCIATIONS_H
 
 #include <QSet>
-#include <QStringList>
 #include <QHash>
 #include <kserviceoffer.h>
 class KConfigGroup;

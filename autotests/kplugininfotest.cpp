@@ -19,12 +19,10 @@
 #include <QTest>
 #include <QLocale>
 #include <QJsonDocument>
-#include <QFileInfo>
-#include <QJsonArray>
 #include <QDebug>
 
-#include <KAboutData>
 #include <KPluginMetaData>
+#include <KAboutData>
 
 #include <kplugininfo.h>
 #include <kservice.h>

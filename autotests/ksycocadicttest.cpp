@@ -18,7 +18,6 @@
 */
 
 #include <ksycoca.h>
-#include <QBuffer>
 #include <QtTest>
 #include <QDebug>
 #include <kservicetype.h>

@@ -37,10 +37,7 @@
 
 #include <QDebug>
 #include <qstandardpaths.h>
-#include <QCoreApplication>
-#include <QProcess>
 #include <QHash>
-#include <QFile>
 #include <QUrl>
 #include <QUrlQuery>
 

@@ -21,11 +21,6 @@
 #include "kplugintrader.h"
 #include "ktraderparsetree_p.h"
 
-#include <QCoreApplication>
-#include <QDirIterator>
-#include <QJsonObject>
-#include <QDebug>
-#include <QJsonArray>
 
 #include <KPluginLoader>
 #include <KPluginMetaData>

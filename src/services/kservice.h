@@ -28,7 +28,6 @@
 #include <kpluginloader.h>
 #include <ksycocaentry.h>
 #include <QCoreApplication>
-#include <QJsonObject>
 
 class KServiceType;
 class QDataStream;

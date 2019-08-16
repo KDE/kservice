@@ -19,7 +19,7 @@
 #include <kservice.h>
 #include <QCoreApplication>
 #include <QCommandLineParser>
-#include <QDebug>
+#include <QTextStream>
 #include <kmimeassociations_p.h>
 #include <ksycoca_p.h>
 

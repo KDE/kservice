@@ -22,7 +22,6 @@
 #define __kservicetypeprofile_h__
 
 #include <QString>
-#include <QList>
 
 #include <kservicetypetrader.h>
 

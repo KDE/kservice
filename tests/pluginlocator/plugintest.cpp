@@ -27,14 +27,9 @@
 
 #include <qcommandlineparser.h>
 
-#include <QDir>
 #include <QElapsedTimer>
-#include <QFileInfo>
-#include <QMap>
 #include <QStandardPaths>
 #include <QStringList>
-#include <QTimer>
-#include <QJsonObject>
 
 static QTextStream cout(stdout);
 

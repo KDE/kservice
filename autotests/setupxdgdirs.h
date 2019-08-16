@@ -25,7 +25,6 @@
 #include <QStandardPaths>
 #include <QFile>
 #include <QCoreApplication>
-#include <QDebug>
 
 static void setupXdgDirs()
 {

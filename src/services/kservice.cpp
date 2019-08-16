@@ -26,7 +26,6 @@
 #include <qplatformdefs.h>
 
 #include <QCharRef>
-#include <QFile>
 #include <QDir>
 #include <QMap>
 #include <QCoreApplication>

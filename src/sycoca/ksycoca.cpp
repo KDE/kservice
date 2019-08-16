@@ -38,7 +38,6 @@
 
 #include <stdlib.h>
 #include <fcntl.h>
-#include <QDir>
 #include <kmimetypefactory_p.h>
 #include <kservicetypefactory_p.h>
 #include <kservicegroupfactory_p.h>

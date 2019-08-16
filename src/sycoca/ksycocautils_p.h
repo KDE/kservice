@@ -23,7 +23,6 @@
 #include <QFileInfo>
 #include <QString>
 #include <QDir>
-#include <QDateTime>
 
 class QStringList;
 class QDataStream;

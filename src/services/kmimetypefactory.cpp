@@ -21,6 +21,8 @@
 #include "servicesdebug.h"
 #include <ksycoca.h>
 #include <ksycocadict_p.h>
+#include <QVariant>
+#include <QDataStream>
 
 extern int servicesDebugArea();
 

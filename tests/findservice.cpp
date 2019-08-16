@@ -25,7 +25,6 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QCoreApplication>
-#include <QDebug>
 #include <QTextStream>
 
 #include <KService>

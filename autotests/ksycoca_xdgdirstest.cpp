@@ -25,7 +25,6 @@
 #include <kservicetype.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
-#include <QSignalSpy>
 #include <QProcess>
 #include <kservice.h>
 #include <kservicefactory_p.h>

@@ -27,7 +27,6 @@
 #include <QMap>
 #include <QFile>
 #include <QDir>
-#include <QRegExp>
 #include <QDirIterator>
 #include <QStandardPaths>
 

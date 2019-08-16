@@ -23,7 +23,6 @@
 #include "ksycoca.h"
 
 #include <QBitArray>
-#include <QDebug>
 #include <QVector>
 
 namespace

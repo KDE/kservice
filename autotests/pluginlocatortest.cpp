@@ -21,12 +21,10 @@
 #include "nsaplugin.h"
 
 #include <QtTest>
-#include <QDebug>
 
 #include <kplugininfo.h>
 #include <kplugintrader.h>
 
-#include <QJsonObject>
 
 QTEST_MAIN(PluginTest)
 
