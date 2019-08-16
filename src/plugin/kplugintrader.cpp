@@ -21,7 +21,7 @@
 #include "kplugintrader.h"
 #include "ktraderparsetree_p.h"
 
-
+#include <QVector>
 #include <KPluginLoader>
 #include <KPluginMetaData>
 
