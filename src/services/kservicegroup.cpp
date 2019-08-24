@@ -487,7 +487,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
             } else if (item.contains(QLatin1String(":O"))) {
                 //todo parse attribute:
                 QString tmp(item);
-                tmp = tmp.remove(QStringLiteral(":O"));
+                tmp.remove(QStringLiteral(":O"));
                 QStringList optionAttribute = tmp.split(QLatin1Char(' '), QString::SkipEmptyParts);
                 if (optionAttribute.isEmpty()) {
                     optionAttribute.append(tmp);
@@ -566,7 +566,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
 
                         if (nextItem.startsWith(QLatin1String(":O"))) {
                             QString tmp(nextItem);
-                            tmp = tmp.remove(QStringLiteral(":O"));
+                            tmp.remove(QStringLiteral(":O"));
                             QStringList optionAttribute = tmp.split(QLatin1Char(' '), QString::SkipEmptyParts);
                             if (optionAttribute.isEmpty()) {
                                 optionAttribute.append(tmp);
@@ -633,8 +633,8 @@ void KServiceGroupPrivate::parseAttribute(const QString &item,  bool &showEmptyM
         showInlineAlias = false;
     } else if ((item).contains(QLatin1String("IL"))) { //inline limite!
         QString tmp(item);
-        tmp = tmp.remove(QStringLiteral("IL["));
-        tmp = tmp.remove(QLatin1Char(']'));
+        tmp.remove(QStringLiteral("IL["));
+        tmp.remove(QLatin1Char(']'));
         bool ok;
         int _inlineValue = tmp.toInt(&ok);
         if (!ok) { //error
