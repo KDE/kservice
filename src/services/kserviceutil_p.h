@@ -37,7 +37,7 @@ public:
         QString name = filepath;
         int pos = name.lastIndexOf(QLatin1Char('/'));
         if (pos != -1) {
-            name = name.mid(pos + 1);
+            name.remove(0, pos + 1);
         }
         pos = name.lastIndexOf(QLatin1Char('.'));
         if (pos != -1) {

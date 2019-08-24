@@ -69,7 +69,7 @@ void KServiceGroupPrivate::load(const QString &cfg)
         }
         int i = m_strCaption.lastIndexOf(QLatin1Char('/'));
         if (i > 0) {
-            m_strCaption = m_strCaption.mid(i + 1);
+            m_strCaption.remove(0, i + 1);
         }
     }
     if (m_strIcon.isEmpty()) {

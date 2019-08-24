@@ -281,7 +281,7 @@ void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startu
         if (!browserApp.isEmpty()) {
             exe = browserApp;
             if (exe.startsWith(QLatin1Char('!'))) {
-                exe = exe.mid(1); // Literal command
+                exe.remove(0, 1); // Literal command
                 QStringList cmdTokens = KShell::splitArgs(exe);
                 exe = cmdTokens.takeFirst();
                 args = cmdTokens + args;
