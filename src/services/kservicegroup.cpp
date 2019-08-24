@@ -65,7 +65,7 @@ void KServiceGroupPrivate::load(const QString &cfg)
     if (m_strCaption.isEmpty()) {
         m_strCaption = path;
         if (m_strCaption.endsWith(QLatin1Char('/'))) {
-            m_strCaption = m_strCaption.left(m_strCaption.length() - 1);
+            m_strCaption.chop(1);
         }
         int i = m_strCaption.lastIndexOf(QLatin1Char('/'));
         if (i > 0) {
