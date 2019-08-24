@@ -254,7 +254,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     if (entry != entryMap.end()) {
         const QString &key = entry.key();
         m_mapProps.insert(key, QVariant(desktopGroup.readEntryUntranslated(key)));
-        m_mapProps.insert(key + QStringLiteral("-Translated"), QVariant(*entry));
+        m_mapProps.insert(key + QLatin1String("-Translated"), QVariant(*entry));
         entryMap.erase(entry);
     }
 

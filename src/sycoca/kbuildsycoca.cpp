@@ -324,7 +324,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
 
         QString directoryFile = subMenu->directoryFile;
         if (directoryFile.isEmpty()) {
-            directoryFile = subName + QStringLiteral(".directory");
+            directoryFile = subName + QLatin1String(".directory");
         }
         quint32 timeStamp = m_ctimeFactory->dict()->ctime(directoryFile, m_resource);
         if (!timeStamp) {
@@ -385,7 +385,7 @@ bool KBuildSycoca::recreate(bool incremental)
     if (!lockFile.tryLock()) {
         qCDebug(SYCOCA) <<  "Waiting for already running" << KBUILDSYCOCA_EXENAME << "to finish.";
         if (!lockFile.lock()) {
-            qCWarning(SYCOCA) << "Couldn't lock" << path + QStringLiteral(".lock");
+            qCWarning(SYCOCA) << "Couldn't lock" << path + QLatin1String(".lock");
             return false;
         }
         if (!needsRebuild()) {

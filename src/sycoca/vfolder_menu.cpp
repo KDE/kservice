@@ -412,7 +412,7 @@ VFolderMenu::absoluteDir(const QString &_dir, const QString &baseDir, bool keepR
     bool relative = QDir::isRelativePath(dir);
     if (relative && !keepRelativeToCfg) {
         relative = false;
-        dir = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + dir, QStandardPaths::LocateDirectory);
+        dir = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("menus/") + dir, QStandardPaths::LocateDirectory);
     }
 
     if (!relative) {
@@ -605,7 +605,7 @@ VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
             Q_ASSERT(dir.endsWith(QLatin1Char('/')));
 
             const bool relative = QDir::isRelativePath(dir);
-            const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + dir, QStandardPaths::LocateDirectory);
+            const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QLatin1String("menus/") + dir, QStandardPaths::LocateDirectory);
             for (const QString &menuDir : dirs) {
                 registerDirectory(menuDir);
             }
@@ -709,7 +709,7 @@ VFolderMenu::pushDocInfoParent(const QString &basePath, const QString &baseDir)
     m_docInfo.baseName = fileName.left(fileName.length() - 5);   // without ".menu"
     QString baseName = QDir::cleanPath(m_docInfo.baseDir + fileName);
 
-    QStringList result = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + baseName);
+    QStringList result = QStandardPaths::locateAll(QStandardPaths::GenericConfigLocation, QLatin1String("menus/") + baseName);
 
     // Remove anything "more local" than basePath.
     while (!result.isEmpty() && (result.at(0) != basePath)) {
@@ -753,12 +753,12 @@ VFolderMenu::locateMenuFile(const QString &fileName)
 
         QString baseName = QDir::cleanPath(m_docInfo.baseDir +
                                            fileInfo.path() + QLatin1Char('/') + fileNameOnly);
-        result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + baseName);
+        result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("menus/") + baseName);
     }
 
     if (result.isEmpty()) {
         QString baseName = QDir::cleanPath(m_docInfo.baseDir + fileName);
-        result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("menus/") + baseName);
+        result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("menus/") + baseName);
     }
 
     return result;
@@ -971,7 +971,7 @@ VFolderMenu::processLegacyDir(const QString &dir, const QString &relDir, const Q
 
             m_currentMenu = new SubMenu;
             m_currentMenu->name = fn;
-            m_currentMenu->directoryFile = fi.absoluteFilePath() + QStringLiteral("/.directory");
+            m_currentMenu->directoryFile = fi.absoluteFilePath() + QLatin1String("/.directory");
 
             parentMenu->subMenus.append(m_currentMenu);
 
@@ -1261,9 +1261,9 @@ static QString parseAttribute(const QDomElement &e)
     if (e.hasAttribute(INLINE)) {
         QString str = e.attribute(INLINE);
         if (str == QLatin1String("true")) {
-            option += QStringLiteral("I ");
+            option += QLatin1String("I ");
         } else if (str == QLatin1String("false")) {
-            option += QStringLiteral("NI ");
+            option += QLatin1String("NI ");
         } else {
             qCDebug(SYCOCA) << " Error in parsing inline attribute :" << str;
         }
@@ -1278,9 +1278,9 @@ static QString parseAttribute(const QDomElement &e)
     if (e.hasAttribute(QStringLiteral("inline_header"))) {
         QString str = e.attribute(QStringLiteral("inline_header"));
         if (str == QLatin1String("true")) {
-            option += QStringLiteral("IH ");
+            option += QLatin1String("IH ");
         } else if (str == QLatin1String("false")) {
-            option += QStringLiteral("NIH ");
+            option += QLatin1String("NIH ");
         } else {
             qCDebug(SYCOCA) << " Error in parsing of inline_header attribute :" << str;
         }
@@ -1289,9 +1289,9 @@ static QString parseAttribute(const QDomElement &e)
     if (e.hasAttribute(QStringLiteral("inline_alias")) && e.attribute(QStringLiteral("inline_alias")) == QLatin1String("true")) {
         QString str = e.attribute(QStringLiteral("inline_alias"));
         if (str == QLatin1String("true")) {
-            option += QStringLiteral("IA");
+            option += QLatin1String("IA");
         } else if (str == QLatin1String("false")) {
-            option += QStringLiteral("NIA");
+            option += QLatin1String("NIA");
         } else {
             qCDebug(SYCOCA) << " Error in parsing inline_alias attribute :" << str;
         }

@@ -110,7 +110,7 @@ KBuildServiceGroupFactory::addNew(const QString &menuName, const QString &file, 
 void
 KBuildServiceGroupFactory::addNewChild(const QString &parent, const KSycocaEntry::Ptr &newEntry)
 {
-    QString name = QStringLiteral("#parent#") + parent;
+    QString name = QLatin1String("#parent#") + parent;
 
     KServiceGroup::Ptr entry;
     KSycocaEntry::Ptr ptr = m_entryDict->value(name);

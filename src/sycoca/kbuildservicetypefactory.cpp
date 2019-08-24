@@ -61,7 +61,7 @@ KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
         return nullptr;
     }
 
-    KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, QStringLiteral("kservicetypes5/") + file);
+    KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, QLatin1String("kservicetypes5/") + file);
     const KConfigGroup desktopGroup = desktopFile.desktopGroup();
 
     if (desktopGroup.readEntry("Hidden", false) == true) {

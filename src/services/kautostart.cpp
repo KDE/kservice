@@ -84,14 +84,14 @@ KAutostart::KAutostart(const QString &entryName, QObject *parent)
         }
 
         if (!d->name.endsWith(QLatin1String(".desktop"))) {
-            d->name.append(QStringLiteral(".desktop"));
+            d->name.append(QLatin1String(".desktop"));
         }
     }
 
-    const QString path = isAbsolute ? entryName : QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + d->name);
+    const QString path = isAbsolute ? entryName : QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("autostart/") + d->name);
     if (path.isEmpty()) {
         // just a new KDesktopFile, since we have nothing to use
-        d->df = new KDesktopFile(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + d->name);
+        d->df = new KDesktopFile(QStandardPaths::GenericConfigLocation, QLatin1String("autostart/") + d->name);
         d->copyIfNeededChecked = true;
     } else {
         d->df = new KDesktopFile(path);
@@ -208,7 +208,7 @@ void KAutostart::setVisibleName(const QString &name)
 bool KAutostart::isServiceRegistered(const QString &entryName)
 {
     const QString localDir = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String("/autostart/");
-    return QFile::exists(localDir + entryName + QStringLiteral(".desktop"));
+    return QFile::exists(localDir + entryName + QLatin1String(".desktop"));
 }
 
 QString KAutostart::commandToCheck() const

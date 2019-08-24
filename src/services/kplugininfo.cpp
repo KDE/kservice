@@ -443,7 +443,7 @@ QList<KPluginInfo> KPluginInfo::fromFiles(const QStringList &files, const KConfi
 QList<KPluginInfo> KPluginInfo::fromKPartsInstanceName(const QString &name, const KConfigGroup &config)
 {
     QStringList files;
-    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, name + QStringLiteral("/kpartplugins"), QStandardPaths::LocateDirectory);
+    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, name + QLatin1String("/kpartplugins"), QStandardPaths::LocateDirectory);
     for (const QString &dir : dirs) {
         QDirIterator it(dir, QStringList() << QStringLiteral("*.desktop"));
         while (it.hasNext()) {
@@ -592,7 +592,7 @@ QList<KService::Ptr> KPluginInfo::kcmServices() const
     KPLUGININFO_ISVALID_ASSERTION;
     if (!d->kcmservicesCached) {
         d->kcmservices = KServiceTypeTrader::self()->query(QStringLiteral("KCModule"), QLatin1Char('\'') + pluginName() +
-                         QStringLiteral("' in [X-KDE-ParentComponents]"));
+                         QLatin1String("' in [X-KDE-ParentComponents]"));
         //qDebug() << "found" << d->kcmservices.count() << "offers for" << d->pluginName;
 
         d->kcmservicesCached = true;
