@@ -350,7 +350,7 @@ void KSycocaThreadTest::deleteFakeService()
     qDebug() << "executing kbuildsycoca (2)";
     runKBuildSycoca();
     QVERIFY(!spy.isEmpty());
-    QVERIFY(spy[0][0].toStringList().contains(QStringLiteral("services")));
+    QVERIFY(spy[0][0].toStringList().contains(QLatin1String("services")));
 
     QVERIFY(fakeService); // the whole point of refcounting is that this KService instance is still valid.
     QVERIFY(!QFile::exists(servPath));

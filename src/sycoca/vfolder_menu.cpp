@@ -1297,7 +1297,7 @@ static QString parseAttribute(const QDomElement &e)
         }
     }
     if (!option.isEmpty()) {
-        option = option.prepend(QStringLiteral(":O"));
+        option.prepend(QStringLiteral(":O"));
     }
     return option;
 

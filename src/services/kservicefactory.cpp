@@ -194,11 +194,11 @@ KService::Ptr KServiceFactory::findServiceByStorageId(const QString &_storageId)
     tmp = tmp.mid(tmp.lastIndexOf(QLatin1Char('/')) + 1); // Strip dir
 
     if (tmp.endsWith(QLatin1String(".desktop"))) {
-        tmp.truncate(tmp.length() - 8);
+        tmp.chop(8);
     }
 
     if (tmp.endsWith(QLatin1String(".kdelnk"))) {
-        tmp.truncate(tmp.length() - 7);
+        tmp.chop(7);
     }
 
     service = findServiceByDesktopName(tmp);

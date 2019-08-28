@@ -340,7 +340,7 @@ void KServiceTest::testProperty()
     // Test property("X-KDE-Protocols"), which triggers the KServiceReadProperty code.
     KService::Ptr fakePart = KService::serviceByDesktopPath(QStringLiteral("fakepart.desktop"));
     QVERIFY(fakePart); // see initTestCase; it should be found.
-    QVERIFY(fakePart->propertyNames().contains(QStringLiteral("X-KDE-Protocols")));
+    QVERIFY(fakePart->propertyNames().contains(QLatin1String("X-KDE-Protocols")));
     QCOMPARE(fakePart->mimeTypes(), QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/html")); // okular relies on subclasses being kept here
     const QStringList protocols = fakePart->property(QStringLiteral("X-KDE-Protocols")).toStringList();
     QCOMPARE(protocols, QStringList() << QStringLiteral("http") << QStringLiteral("ftp"));
