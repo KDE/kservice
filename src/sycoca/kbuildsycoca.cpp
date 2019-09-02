@@ -464,7 +464,7 @@ bool KBuildSycoca::recreate(bool incremental)
 #endif
 
         if (!database.commit()) {
-            qCWarning(SYCOCA) << "ERROR writing database" << database.fileName() << ". Disk full?";
+            qCWarning(SYCOCA) << "ERROR writing database" << database.fileName() << database.errorString();
             return false;
         }
 
