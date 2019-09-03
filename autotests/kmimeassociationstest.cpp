@@ -417,6 +417,16 @@ private Q_SLOTS:
         // #178560: Removing ark from interface/x-winamp-skin didn't work
         // Using application/x-kns (another zip-derived mimetype) nowadays.
         const QString mime = QStringLiteral("application/x-kns");
+
+        // That mimetype comes from kcoreaddons, let's make sure it's properly installed
+        {
+            QMimeDatabase db;
+            QMimeType mime = db.mimeTypeForName(QStringLiteral("application/x-kns"));
+            QVERIFY(mime.isValid());
+            QCOMPARE(mime.name(), QStringLiteral("application/x-kns"));
+            QVERIFY(mime.inherits(QStringLiteral("application/zip")));
+        }
+
         KService::List offers = KMimeTypeTrader::self()->query(mime);
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
 
