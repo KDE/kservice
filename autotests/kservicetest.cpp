@@ -899,6 +899,7 @@ void KServiceTest::testEntryPathToName()
     QCOMPARE(KService(QStringLiteral("/hallo/a.b.c.desktop")).name(), QStringLiteral("a.b.c"));
 }
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
 void KServiceTest::testKPluginMetaData()
 {
     const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart.desktop";
@@ -908,6 +909,7 @@ void KServiceTest::testKPluginMetaData()
     auto info_md = info.toMetaData();
     QCOMPARE(info_md.formFactors(), md.formFactors());
 }
+#endif
 
 void KServiceTest::testTraderQueryMustRebuildSycoca()
 {

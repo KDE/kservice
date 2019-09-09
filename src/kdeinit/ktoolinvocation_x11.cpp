@@ -249,6 +249,7 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
     }
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startup_id)
 {
     if (!isMainThreadActive()) {
@@ -342,6 +343,7 @@ void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startu
                           i18n("Could not launch Browser"));
     }
 }
+#endif
 
 void KToolInvocation::invokeTerminal(const QString &command,
                                      const QString &workdir,

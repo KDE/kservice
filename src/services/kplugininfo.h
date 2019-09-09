@@ -83,6 +83,7 @@ public:
      */
     explicit KPluginInfo(const QString &filename /*, QStandardPaths::StandardLocation resource = ...? GenericDataLocation + services ? Is this used? */);
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * Read plugin info from a KService object.
      *
@@ -110,8 +111,8 @@ public:
      * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
      * metadata into the plugin using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
      */
-#ifndef KSERVICE_NO_DEPRECATED
-    explicit KSERVICE_DEPRECATED KPluginInfo(const KService::Ptr service);
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use (Q|K)PluginLoader")
+    explicit KPluginInfo(const KService::Ptr service);
 #endif
 
     /**
@@ -182,6 +183,7 @@ public:
 
     ~KPluginInfo();
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * @return A list of KPluginInfo objects constructed from a list of
      * KService objects. If you get a trader offer of the plugins you want
@@ -192,8 +194,8 @@ public:
      * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
      * metadata into the plugins using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
      */
-#ifndef KSERVICE_NO_DEPRECATED
-    static KSERVICE_DEPRECATED KPluginInfo::List fromServices(const KService::List &services, const KConfigGroup &config = KConfigGroup());
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use (Q|K)PluginLoader")
+    static KPluginInfo::List fromServices(const KService::List &services, const KConfigGroup &config = KConfigGroup());
 #endif
 
     /**

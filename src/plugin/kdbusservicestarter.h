@@ -25,6 +25,7 @@
 
 class KDBusServiceStarterPrivate;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 61)
 /**
  * @class KDBusServiceStarter kdbusservicestarter.h <KDBusServiceStarter>
  *
@@ -38,10 +39,11 @@ class KDBusServiceStarterPrivate;
  *
  * @deprecated since 5.61, use D-Bus activation instead
  */
-class KSERVICE_DEPRECATED_EXPORT KDBusServiceStarter   //krazy:exclude=dpointer (uses Q_GLOBAL_STATIC)
+class KSERVICE_EXPORT KDBusServiceStarter   //krazy:exclude=dpointer (uses Q_GLOBAL_STATIC)
 {
 public:
 
+    KSERVICE_DEPRECATED_VERSION(5, 61, "Use D-Bus activation")
     static KDBusServiceStarter *self();
 
     /**
@@ -99,6 +101,7 @@ protected:
     KDBusServiceStarter();
     virtual ~KDBusServiceStarter();
 };
+#endif
 
 #endif
 

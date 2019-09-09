@@ -83,13 +83,17 @@ private Q_SLOTS:
         // for most constructors translations are performed when the object is constructed and not at runtime!
         QLocale::setDefault(QLocale::c());
         KPluginInfo info(fakepluginDesktop);
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
         KService::Ptr fakepluginService(new KService(fakepluginDesktop));
         KPluginInfo infoFromService(fakepluginService);
+#endif
         KPluginInfo compatJsonInfo(KPluginMetaData(compatJson, pluginName));
         QLocale::setDefault(QLocale(QLocale::German, QLocale::Germany));
         KPluginInfo infoGerman(fakepluginDesktop);
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
         KService::Ptr fakepluginServiceGerman(new KService(fakepluginDesktop));
         KPluginInfo infoFromServiceGerman(fakepluginServiceGerman);
+#endif
         KPluginInfo compatJsonInfoGerman(KPluginMetaData(compatJson, pluginName));
         QLocale::setDefault(QLocale::c());
 
@@ -99,11 +103,13 @@ private Q_SLOTS:
         QTest::newRow("from .desktop") << fakepluginDesktop << info << infoGerman << QVariant() << false;
         QTest::newRow("with custom property") << info.libraryPath() << withCustomProperty(info)
             << withCustomProperty(infoGerman) << QVariant("Baz") << false;
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
         QTest::newRow("from KService::Ptr") << fakepluginDesktop << infoFromService
                 << infoFromServiceGerman << QVariant() << true;
         QTest::newRow("from KService::Ptr + custom property") << pluginName
                 << withCustomProperty(infoFromService) << withCustomProperty(infoFromServiceGerman)
                 << QVariant("Baz") << true;
+#endif
         QTest::newRow("from JSON file") << pluginName << jsonInfo << jsonInfo << QVariant() << false;
         QTest::newRow("from JSON file + custom property") << pluginName
                 << withCustomProperty(jsonInfo) << withCustomProperty(jsonInfo) << QVariant("Baz") << false;

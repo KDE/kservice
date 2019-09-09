@@ -18,6 +18,8 @@
 #ifndef KSERVICETEST_H
 #define KSERVICETEST_H
 
+#include <kservice_export.h>
+
 #include <QAtomicInt>
 #include <QObject>
 
@@ -28,7 +30,9 @@ public:
     KServiceTest() : m_sycocaUpdateDone(0) {}
 private Q_SLOTS:
     void initTestCase();
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     void testKPluginMetaData();
+#endif
     void cleanupTestCase();
     void testByName();
     void testConstructorFullPath();

@@ -33,6 +33,7 @@
 #include "windows.h"
 #include "shellapi.h"
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startup_id)
 {
 #ifndef _WIN32_WCE
@@ -49,6 +50,7 @@ void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startu
     ShellExecuteEx(&cShellExecuteInfo);
 #endif
 }
+#endif
 
 void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const QString &_bcc,
                                    const QString &subject, const QString &body,

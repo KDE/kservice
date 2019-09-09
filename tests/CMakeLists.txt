@@ -17,10 +17,16 @@ endmacro()
 
 kservice_executable_tests(
   startserviceby
-  kdbusservicestartertest
   kservicegroup_dumper
   findservice
 )
+if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
+   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.61.0)
+  kservice_executable_tests(
+    kdbusservicestartertest
+  )
+endif()
+
 set(kmimeassociations_dumper_debug_SRCS)
 ecm_qt_declare_logging_category(kmimeassociations_dumper_debug_SRCS HEADER sycocadebug.h IDENTIFIER SYCOCA CATEGORY_NAME kf5.kservice.sycoca)
 set(kmimeassociations_dumper_SRCS kmimeassociations_dumper.cpp ../src/sycoca/kmimeassociations.cpp ${kmimeassociations_dumper_debug_SRCS})

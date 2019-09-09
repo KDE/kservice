@@ -134,7 +134,7 @@ int KToolInvocation::startServiceInternal(const char *_function,
 #endif
 }
 
-#ifndef KSERVICE_NO_DEPRECATED
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 int
 KToolInvocation::startServiceByName(const QString &_name, const QString &URL,
                                     QString *error, QString *serviceName, int *pid,
@@ -153,7 +153,7 @@ KToolInvocation::startServiceByName(const QString &_name, const QString &URL,
 }
 #endif
 
-#ifndef KSERVICE_NO_DEPRECATED
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 int
 KToolInvocation::startServiceByName(const QString &_name, const QStringList &URLs,
                                     QString *error, QString *serviceName, int *pid,
@@ -252,6 +252,7 @@ KToolInvocation::kdeinitExecWait(const QString &name, const QStringList &args,
                                         name, args, error, nullptr, pid, startup_id, false);
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 void KToolInvocation::invokeMailer(const QString &address, const QString &subject, const QByteArray &startup_id)
 {
     if (!isMainThreadActive()) {
@@ -299,6 +300,7 @@ void KToolInvocation::invokeMailer(const QUrl &mailtoURL, const QByteArray &star
 
     invokeMailer(address, cc, bcc, subject, body, QString(), attachURLs, startup_id);
 }
+#endif
 
 void KToolInvocation::ensureKdeinitRunning()
 {

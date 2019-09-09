@@ -298,7 +298,7 @@ KPluginInfo::KPluginInfo(const QVariantList &args, const QString &libraryPath)
     }
 }
 
-#ifndef KSERVICE_NO_DEPRECATED
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 KPluginInfo::KPluginInfo(const KService::Ptr service)
     : d(new KPluginInfoPrivate)
 {
@@ -413,7 +413,7 @@ KPluginInfo::~KPluginInfo()
 {
 }
 
-#ifndef KSERVICE_NO_DEPRECATED
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 QList<KPluginInfo> KPluginInfo::fromServices(const KService::List &services, const KConfigGroup &config)
 {
     QList<KPluginInfo> infolist;

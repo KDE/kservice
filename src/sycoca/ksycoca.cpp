@@ -415,7 +415,7 @@ void KSycoca::addFactory(KSycocaFactory *factory)
     d->addFactory(factory);
 }
 
-#ifndef KSERVICE_NO_DEPRECATED
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 bool KSycoca::isChanged(const char *type)
 {
     return self()->d->changeList.contains(QString::fromLatin1(type));
@@ -655,6 +655,7 @@ bool KSycocaPrivate::buildSycoca()
     return true;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 15)
 quint32 KSycoca::timeStamp()
 {
     if (!d->timeStamp) {
@@ -662,7 +663,9 @@ quint32 KSycoca::timeStamp()
     }
     return d->timeStamp / 1000; // from ms to s
 }
+#endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 15)
 quint32 KSycoca::updateSignature()
 {
     if (!d->timeStamp) {
@@ -670,6 +673,7 @@ quint32 KSycoca::updateSignature()
     }
     return d->updateSig;
 }
+#endif
 
 QString KSycoca::absoluteFilePath(DatabaseType type)
 {
@@ -692,6 +696,7 @@ QString KSycoca::absoluteFilePath(DatabaseType type)
     }
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 15)
 QString KSycoca::language()
 {
     if (d->language.isEmpty()) {
@@ -699,6 +704,7 @@ QString KSycoca::language()
     }
     return d->language;
 }
+#endif
 
 QStringList KSycoca::allResourceDirs()
 {
@@ -728,10 +734,12 @@ bool KSycoca::isBuilding()
     return false;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 15)
 void KSycoca::disableAutoRebuild()
 {
     qCWarning(SYCOCA) << "KSycoca::disableAutoRebuild() is internal, do not call it.";
 }
+#endif
 
 QDataStream *&KSycoca::stream()
 {

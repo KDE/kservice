@@ -110,10 +110,12 @@ public:
      */
     static QString absoluteFilePath(DatabaseType type = LocalDatabase);
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 15)
     /**
      * @internal - returns language stored inside database
      */
-    KSERVICE_DEPRECATED QString language(); // KF6: remove
+    KSERVICE_DEPRECATED_VERSION(5, 15, "No longer use.")
+    QString language(); // KF6: remove
 
     /**
      * @internal - returns timestamp of database
@@ -121,7 +123,8 @@ public:
      * The database contains all changes made _before_ this time and
      * _might_ contain changes made after that.
      */
-    KSERVICE_DEPRECATED quint32 timeStamp(); // KF6: remove
+    KSERVICE_DEPRECATED_VERSION(5, 15, "No longer use.")
+    quint32 timeStamp(); // KF6: remove
 
     /**
      * @internal - returns update signature of database
@@ -132,7 +135,9 @@ public:
      * Touching this file causes the database to be recreated
      * from scratch.
      */
-    KSERVICE_DEPRECATED quint32 updateSignature(); // KF6: remove
+    KSERVICE_DEPRECATED_VERSION(5, 15, "No longer use.")
+    quint32 updateSignature(); // KF6: remove
+#endif
 
     /**
      * @internal - returns all directories with information
@@ -151,12 +156,16 @@ public:
      */
     virtual bool isBuilding();
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 15)
     /**
      * @internal - disables launching of kbuildsycoca
      * @deprecated since 5.15, it only outputs a warning
      */
-    KSERVICE_DEPRECATED static void disableAutoRebuild(); // KF6: remove
+    KSERVICE_DEPRECATED_VERSION(5, 15, "Feature no longer exists.")
+    static void disableAutoRebuild(); // KF6: remove
+#endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * When you receive a "databaseChanged" signal, you can query here if
      * a change has occurred in a specific resource type.
@@ -165,8 +174,8 @@ public:
      * This method is meant to be called from the GUI thread only.
      * @deprecated use the signal databaseChanged(QStringList) instead.
      */
-#ifndef KSERVICE_NO_DEPRECATED
-    static KSERVICE_DEPRECATED bool isChanged(const char *type);
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use signal KSycoca::databaseChanged(QStringList)")
+    static bool isChanged(const char *type);
 #endif
 
     /**

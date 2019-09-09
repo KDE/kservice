@@ -25,6 +25,8 @@
 #include <QDBusConnectionInterface>
 #include <QDebug>
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 61)
+
 class KDBusServiceStarterPrivate
 {
 public:
@@ -111,3 +113,5 @@ int KDBusServiceStarter::startServiceFor(const QString &serviceType,
     //qDebug() << "starting" << ptr->entryPath();
     return KToolInvocation::startServiceByDesktopPath(ptr->entryPath(), QStringList(), error, dbusService);
 }
+
+#endif

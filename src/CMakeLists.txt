@@ -81,8 +81,15 @@ if(WIN32)
     #unistd.h does not exist on windows
     target_compile_definitions(KF5Service PRIVATE YY_NO_UNISTD_H=1)
 endif()
-generate_export_header(KF5Service BASE_NAME KService)
 add_library(KF5::Service ALIAS KF5Service)
+ecm_generate_export_header(KF5Service
+    BASE_NAME KService
+    # GROUP_BASE_NAME KF <- enable once all of KF modules use ecm_generate_export_header
+    VERSION ${KF5_VERSION}
+    DEPRECATED_BASE_VERSION 0
+    DEPRECATION_VERSIONS 5.0 5.15 5.61
+    EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
+)
 set(kservice_includes
    ${CMAKE_CURRENT_BINARY_DIR}/.. # Since we publicly include kservice_version.h
    ${CMAKE_CURRENT_SOURCE_DIR}/services

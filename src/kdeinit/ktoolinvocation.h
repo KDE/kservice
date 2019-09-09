@@ -82,6 +82,7 @@ public:
 
 public Q_SLOTS:
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * Convenience method; invokes the standard email application.
      *
@@ -93,7 +94,8 @@ public Q_SLOTS:
      * @deprecated since 5.0, use QDesktopServices::openUrl(mailtoURL),
      * using QUrl::setPath(address) and a query item of "subject" for the subject.
      */
-    KSERVICE_DEPRECATED static void invokeMailer(const QString &address, const QString &subject,
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use QDesktopServices::openUrl(mailtoURL), using QUrl::setPath(address) and a query item of \"subject\" for the subject")
+    static void invokeMailer(const QString &address, const QString &subject,
                              const QByteArray &startup_id = QByteArray());
 
     /**
@@ -106,8 +108,10 @@ public Q_SLOTS:
      *           The default is false; do not honor requests for attachments.
      * @deprecated since 5.0, use QDesktopServices::openUrl(mailtoURL)
      */
-    KSERVICE_DEPRECATED static void invokeMailer(const QUrl &mailtoURL, const QByteArray &startup_id = QByteArray(),
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use QDesktopServices::openUrl(const QUrl&)")
+    static void invokeMailer(const QUrl &mailtoURL, const QByteArray &startup_id = QByteArray(),
                              bool allowAttachments = false);
+#endif
 
     /**
      * Convenience method; invokes the standard email application.
@@ -130,6 +134,7 @@ public Q_SLOTS:
                              const QStringList &attachURLs = QStringList(),
                              const QByteArray &startup_id = QByteArray());
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * Invokes the user's preferred browser.
      * Note that you should only do this when you know for sure that the browser can
@@ -145,8 +150,10 @@ public Q_SLOTS:
      *           "" ( empty string ) is the default
      * @deprecated since 5.0, use QDesktopServices::openUrl(url)
      */
-    KSERVICE_DEPRECATED static void invokeBrowser(const QString &url,
-                                                  const QByteArray &startup_id = QByteArray());
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use QDesktopServices::openUrl(const QUrl&)")
+    static void invokeBrowser(const QString &url,
+                              const QByteArray &startup_id = QByteArray());
+#endif
 
     /**
      * Invokes the standard terminal application.
@@ -164,6 +171,7 @@ public Q_SLOTS:
 
 public:
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * Starts a service based on the (translated) name of the service.
      * E.g. "Web Browser"
@@ -185,11 +193,10 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated Use startServiceByDesktopName or startServiceByDesktopPath
      */
-#ifndef KSERVICE_NO_DEPRECATED
-    KSERVICE_DEPRECATED static int startServiceByName(const QString &_name, const QString &URL,
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use KToolInvocation::startServiceByDesktopName(...) or KToolInvocation::startServiceByDesktopPath(...)")
+    static int startServiceByName(const QString &_name, const QString &URL,
             QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
             const QByteArray &startup_id = QByteArray(), bool noWait = false);
-#endif
 
     /**
      * Starts a service based on the (translated) name of the service.
@@ -212,8 +219,8 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated Use startServiceByDesktopName or startServiceByDesktopPath
      */
-#ifndef KSERVICE_NO_DEPRECATED
-    KSERVICE_DEPRECATED static int startServiceByName(const QString &_name, const QStringList &URLs = QStringList(),
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use KToolInvocation::startServiceByDesktopName(...) or KToolInvocation::startServiceByDesktopPath(...)")
+    static int startServiceByName(const QString &_name, const QStringList &URLs = QStringList(),
             QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
             const QByteArray &startup_id = QByteArray(), bool noWait = false);
 #endif

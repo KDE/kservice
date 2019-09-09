@@ -316,6 +316,7 @@ public:
      */
     bool noDisplay() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * Whether the service should be shown in KDE at all
      * (including in context menus).
@@ -327,8 +328,8 @@ public:
      * @since 4.5
      * @deprecated since 5.0, use showInCurrentDesktop()
      */
-#ifndef KSERVICE_NO_DEPRECATED
-    KSERVICE_DEPRECATED bool showInKDE() const { return showInCurrentDesktop(); }
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use KService::showInCurrentDesktop()")
+    bool showInKDE() const { return showInCurrentDesktop(); }
 #endif
 
     /**
