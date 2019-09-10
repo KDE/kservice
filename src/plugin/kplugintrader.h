@@ -118,9 +118,9 @@ public:
      *
      * \code
      *
-     * KPluginInfo::List plugins = KPluginTrader::self()->query("plasma/engines");
+     * const KPluginInfo::List plugins = KPluginTrader::self()->query("plasma/engines");
      *
-     * foreach (const KPluginInfo &info, plugins) {
+     * for (const KPluginInfo &info : plugins) {
      *      KPluginLoader loader(info.libraryPath());
      *      const QVariantList argsWithMetaData = QVariantList() << loader.metaData().toVariantMap();
      *      // In many cases, plugins are actually based on KPluginFactory, this is how that works:
