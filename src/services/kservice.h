@@ -188,11 +188,20 @@ public:
     DBusStartupType dbusStartupType() const;
 
     /**
-     * Returns the working directory to run the program in.
      * @return the working directory to run the program in,
      *         or QString() if not set
+     * @deprecated since 5.63, use workingDirectory() instead
      */
-    QString path() const;
+#ifndef KSERVICE_NO_DEPRECATED
+    KSERVICE_DEPRECATED QString path() const; // TODO KF6: rename to workingDirectory(). Confusing otherwise.
+#endif
+
+    /**
+     * @return the working directory to run the program in,
+     *         or QString() if not set
+     * @since 5.63
+     */
+    QString workingDirectory() const;
 
     /**
      * Returns the descriptive comment for the service, if there is one.

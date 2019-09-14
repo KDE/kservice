@@ -80,7 +80,7 @@ public:
     QString m_strExec;
     QString m_strIcon;
     QString m_strTerminalOptions;
-    QString m_strPath;
+    QString m_strWorkingDirectory;
     QString m_strComment;
     QString m_strLibrary;
 

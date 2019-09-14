@@ -159,7 +159,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     entryMap.remove(QStringLiteral("Terminal"));
     m_strTerminalOptions = desktopGroup.readEntry("TerminalOptions");   // should be a property IMHO
     entryMap.remove(QStringLiteral("TerminalOptions"));
-    m_strPath = config->readPath();
+    m_strWorkingDirectory = config->readPath();
     entryMap.remove(QStringLiteral("Path"));
     m_strComment = config->readComment();
     entryMap.remove(QStringLiteral("Comment"));
@@ -317,7 +317,7 @@ void KServicePrivate::load(QDataStream &s)
     // number in ksycoca.cpp
     s >> m_strType >> m_strName >> m_strExec >> m_strIcon
       >> term >> m_strTerminalOptions
-      >> m_strPath >> m_strComment >> def >> m_mapProps
+      >> m_strWorkingDirectory >> m_strComment >> def >> m_mapProps
       >> m_strLibrary
       >> dst
       >> m_strDesktopEntryName
@@ -347,7 +347,7 @@ void KServicePrivate::save(QDataStream &s)
     // number in ksycoca.cpp
     s << m_strType << m_strName << m_strExec << m_strIcon
       << term << m_strTerminalOptions
-      << m_strPath << m_strComment << def << m_mapProps
+      << m_strWorkingDirectory << m_strComment << def << m_mapProps
       << m_strLibrary
       << dst
       << m_strDesktopEntryName
@@ -509,7 +509,7 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
     } else if (_name == QLatin1String("TerminalOptions")) {
         return makeStringVariant(m_strTerminalOptions);
     } else if (_name == QLatin1String("Path")) {
-        return makeStringVariant(m_strPath);
+        return makeStringVariant(m_strWorkingDirectory);
     } else if (_name == QLatin1String("Comment")) {
         return makeStringVariant(m_strComment);
     } else if (_name == QLatin1String("GenericName")) {
@@ -913,8 +913,16 @@ KService::DBusStartupType KService::dbusStartupType() const
 QString KService::path() const
 {
     Q_D(const KService);
-    return d->m_strPath;
+    return d->m_strWorkingDirectory;
 }
+
+#ifndef KSERVICE_NO_DEPRECATED
+QString KService::workingDirectory() const
+{
+    Q_D(const KService);
+    return d->m_strWorkingDirectory;
+}
+#endif
 
 QString KService::comment() const
 {
