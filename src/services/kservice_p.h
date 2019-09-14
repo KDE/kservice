@@ -40,6 +40,7 @@ public:
     {
         load(_str);
     }
+    KServicePrivate(const KServicePrivate& other) = default;
 
     void init(const KDesktopFile *config, KService *q);
 

@@ -394,6 +394,11 @@ KService::KService(QDataStream &_str, int _offset)
 {
 }
 
+KService::KService(const KService &other)
+   : KSycocaEntry(*new KServicePrivate(*static_cast<KServicePrivate *>(other.d_ptr)))
+{
+}
+
 KService::~KService()
 {
 }

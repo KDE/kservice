@@ -82,6 +82,8 @@ public:
      */
     explicit KService(const KDesktopFile *config, const QString &entryPath = QString());
 
+    KService(const KService &other);
+
     virtual ~KService();
 
     /**
@@ -581,8 +583,6 @@ private:
 
     friend QDataStream &operator>>(QDataStream &, ServiceTypeAndPreference &);
     friend QDataStream &operator<<(QDataStream &, const ServiceTypeAndPreference &);
-
-    Q_DISABLE_COPY(KService)
 
     Q_DECLARE_PRIVATE(KService)
 

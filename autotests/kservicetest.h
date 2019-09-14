@@ -34,6 +34,8 @@ private Q_SLOTS:
     void testConstructorFullPath();
     void testConstructorKDesktopFileFullPath();
     void testConstructorKDesktopFile();
+    void testCopyConstructor();
+    void testCopyInvalidService();
     void testProperty();
     void testAllServiceTypes();
     void testAllServices();

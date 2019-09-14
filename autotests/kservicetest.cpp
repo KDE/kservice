@@ -303,6 +303,32 @@ void KServiceTest::testConstructorKDesktopFile() // as happens inside kbuildsyco
     QCOMPARE(KService(&desktopFile, "kservices5/fakepart.desktop").mimeTypes(), QStringList() << "text/plain" << "text/html");
 }
 
+void KServiceTest::testCopyConstructor()
+{
+    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "fakepart.desktop";
+    QVERIFY(QFile::exists(fakePart));
+    KDesktopFile desktopFile(fakePart);
+    // KRun needs to make a copy of a KService that will go out of scope, let's test that here.
+    KService::Ptr service;
+    {
+        KService origService(&desktopFile);
+        service = new KService(origService);
+    }
+    QVERIFY(service->isValid());
+    QCOMPARE(service->mimeTypes(), QStringList() << "text/plain" << "text/html");
+}
+
+void KServiceTest::testCopyInvalidService()
+{
+    KService::Ptr service;
+    {
+        KService origService{QString()}; // this still sets a d_ptr, so no problem;
+        QVERIFY(!origService.isValid());
+        service = new KService(origService);
+    }
+    QVERIFY(!service->isValid());
+}
+
 void KServiceTest::testProperty()
 {
     ksycoca_ms_between_checks = 0;
