@@ -198,6 +198,9 @@ if(BUILD_QCH)
         LINK_QCHS
             KF5Config_QCH
             KF5CoreAddons_QCH
+        INCLUDE_DIRS
+            ${CMAKE_CURRENT_BINARY_DIR}
+            ${kservice_includes}
         BLANK_MACROS
             KSERVICE_EXPORT
             KSERVICE_DEPRECATED
