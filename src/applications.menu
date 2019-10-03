@@ -237,13 +237,6 @@
 				</Not>
 			</And>
 		</Include>
-		<Menu>
-			<Name>Toys</Name>
-			<Directory>kf5-toys.directory</Directory>
-			<Include>
-				<Category>Amusement</Category>
-			</Include>
-		</Menu>
 	</Menu>
 	<Menu>
 		<Name>Graphics</Name>
