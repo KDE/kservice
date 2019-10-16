@@ -915,19 +915,19 @@ KService::DBusStartupType KService::dbusStartupType() const
     return d->m_DBUSStartusType;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 63)
 QString KService::path() const
 {
     Q_D(const KService);
     return d->m_strWorkingDirectory;
 }
+#endif
 
-#ifndef KSERVICE_NO_DEPRECATED
 QString KService::workingDirectory() const
 {
     Q_D(const KService);
     return d->m_strWorkingDirectory;
 }
-#endif
 
 QString KService::comment() const
 {

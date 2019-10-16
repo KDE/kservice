@@ -189,13 +189,14 @@ public:
      */
     DBusStartupType dbusStartupType() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 63)
     /**
      * @return the working directory to run the program in,
      *         or QString() if not set
      * @deprecated since 5.63, use workingDirectory() instead
      */
-#ifndef KSERVICE_NO_DEPRECATED
-    KSERVICE_DEPRECATED QString path() const; // TODO KF6: rename to workingDirectory(). Confusing otherwise.
+    KSERVICE_DEPRECATED_VERSION(5, 63, "Use KService::workingDirectory()")
+    QString path() const;
 #endif
 
     /**
