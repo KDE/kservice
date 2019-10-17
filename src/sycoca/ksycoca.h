@@ -172,7 +172,7 @@ public:
      * @see KStandardDirs for the various resource types.
      *
      * This method is meant to be called from the GUI thread only.
-     * @deprecated use the signal databaseChanged(QStringList) instead.
+     * @deprecated Since 5.0, use the signal databaseChanged(QStringList) instead.
      */
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use signal KSycoca::databaseChanged(QStringList)")
     static bool isChanged(const char *type);

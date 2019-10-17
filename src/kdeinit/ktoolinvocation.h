@@ -191,7 +191,7 @@ public:
      *           "" ( empty string ) is the default
      * @param noWait if set, the function does not wait till the service is running.
      * @return an error code indicating success (== 0) or failure (> 0).
-     * @deprecated Use startServiceByDesktopName or startServiceByDesktopPath
+     * @deprecated Since 5.0, use startServiceByDesktopName or startServiceByDesktopPath
      */
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use KToolInvocation::startServiceByDesktopName(...) or KToolInvocation::startServiceByDesktopPath(...)")
     static int startServiceByName(const QString &_name, const QString &URL,
@@ -217,7 +217,7 @@ public:
      *           "" ( empty string ) is the default
      * @param noWait if set, the function does not wait till the service is running.
      * @return an error code indicating success (== 0) or failure (> 0).
-     * @deprecated Use startServiceByDesktopName or startServiceByDesktopPath
+     * @deprecated Since 5.0, use startServiceByDesktopName or startServiceByDesktopPath
      */
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use KToolInvocation::startServiceByDesktopName(...) or KToolInvocation::startServiceByDesktopPath(...)")
     static int startServiceByName(const QString &_name, const QStringList &URLs = QStringList(),
