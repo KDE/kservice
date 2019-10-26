@@ -83,7 +83,8 @@ public:
      */
     explicit KPluginInfo(const QString &filename /*, QStandardPaths::StandardLocation resource = ...? GenericDataLocation + services ? Is this used? */);
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
+// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kded still need this for compat reasons
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
     /**
      * Read plugin info from a KService object.
      *
@@ -183,7 +184,8 @@ public:
 
     ~KPluginInfo();
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
+// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kded still need this for compat reasons
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
     /**
      * @return A list of KPluginInfo objects constructed from a list of
      * KService objects. If you get a trader offer of the plugins you want
