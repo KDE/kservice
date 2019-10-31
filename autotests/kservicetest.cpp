@@ -839,7 +839,7 @@ void KServiceTest::testThreads()
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testDeletingService));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testTraderConstraints));
     // process events (DBus, inotify...), until we get all expected signals
-#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QTRY_COMPARE_WITH_TIMEOUT(m_sycocaUpdateDone.load(), 1, 15000); // not using a bool, just to silence helgrind
 #else
     QTRY_COMPARE_WITH_TIMEOUT(m_sycocaUpdateDone.loadRelaxed(), 1, 15000); // not using a bool, just to silence helgrind
