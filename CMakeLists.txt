@@ -74,7 +74,6 @@ set_package_properties(BISON PROPERTIES
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050d00)
-add_definitions(-DQT_DEPRECATED_WARNINGS_SINCE=0x060000)
 add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x053f00)
 add_definitions(-DQT_NO_FOREACH)
 if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
