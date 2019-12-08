@@ -27,17 +27,10 @@
 
 using namespace KTraderParse;
 
-class KPluginTraderSingleton
-{
-public:
-    KPluginTrader instance;
-};
-
-Q_GLOBAL_STATIC(KPluginTraderSingleton, s_globalPluginTrader)
-
 KPluginTrader *KPluginTrader::self()
 {
-    return &s_globalPluginTrader()->instance;
+    static KPluginTrader trader;
+    return &trader;
 }
 
 KPluginTrader::KPluginTrader()

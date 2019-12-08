@@ -261,8 +261,6 @@ private:
     KPluginTrader &operator=(const KPluginTrader &rhs);
 
     KPluginTraderPrivate *const d;
-
-    friend class KPluginTraderSingleton;
 };
 
 #endif
