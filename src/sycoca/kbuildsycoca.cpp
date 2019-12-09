@@ -249,10 +249,6 @@ bool KBuildSycoca::build()
                 }
             }
         }
-        if (m_changed || !m_allEntries) {
-            //qCDebug(SYCOCA) << "CHANGED:" << m_resource;
-            m_changedResources.append(QString::fromLatin1(m_resource));
-        }
     }
 
     bool result = true;
@@ -292,10 +288,6 @@ bool KBuildSycoca::build()
             }
         }
 
-        if (m_changed || !m_allEntries) {
-            //qCDebug(SYCOCA) << "CHANGED:" << m_resource;
-            m_changedResources.append(QString::fromLatin1(m_resource));
-        }
         if (m_menuTest) {
             result = false;
         }
@@ -304,11 +296,6 @@ bool KBuildSycoca::build()
     if (m_ctimeDict && !m_ctimeDict->isEmpty()) {
         qCDebug(SYCOCA) << "Still in time dict:";
         m_ctimeDict->dump();
-
-        // Get the list of resources from which some files were deleted
-        QStringList resources = m_ctimeDict->remainingResourceList();
-        qCDebug(SYCOCA) << "Still in the time dict (i.e. deleted files)" << resources;
-        m_changedResources += resources;
     }
 
     qDeleteAll(entryDictList);

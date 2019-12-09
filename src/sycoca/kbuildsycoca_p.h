@@ -57,11 +57,6 @@ public:
         m_menuTest = b;
     }
 
-    QStringList changedResources() const
-    {
-        return m_changedResources;
-    }
-
     static QStringList factoryResourceDirs();
     static QStringList existingResourceDirs();
 
@@ -126,7 +121,6 @@ private:
         return true;
     }
 
-    QStringList m_changedResources;
     QMap<QString, qint64> m_allResourceDirs; // dir, mtime in ms since epoch
     QString m_trackId;
 

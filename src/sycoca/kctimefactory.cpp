@@ -24,10 +24,7 @@
 
 #include <assert.h>
 
-// NOTE: the storing of "resource" here is now completely useless (since everything is under GenericDataLocation),
-// except for remainingResourceList() which is used for the compat signal databaseChanged(...)
-// We could possibly replace this with a subdir->old_resource mapping (applications -> apps, kservices5 -> services, etc.)
-// Alternatively, we could use an enum in the signal...
+// NOTE: the storing of "resource" here is now completely useless (since everything is under GenericDataLocation)
 
 static inline QString key(const QString &path, const QByteArray &resource)
 {
@@ -54,19 +51,6 @@ void KCTimeDict::remove(const QString &path, const QByteArray &resource)
 void KCTimeDict::dump() const
 {
     qCDebug(SYCOCA) << m_hash.keys();
-}
-
-QStringList KCTimeDict::remainingResourceList() const
-{
-    QSet<QString> resources;
-    Hash::const_iterator it = m_hash.constBegin();
-    const Hash::const_iterator end = m_hash.constEnd();
-    for (; it != end; ++it) {
-        const QString key = it.key();
-        const QString res = key.left(key.indexOf(QLatin1Char('|')));
-        resources.insert(res);
-    }
-    return resources.toList();
 }
 
 void KCTimeDict::load(QDataStream &str)

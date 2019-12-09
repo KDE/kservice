@@ -36,7 +36,6 @@ public:
     {
         return m_hash.isEmpty();
     }
-    QStringList remainingResourceList() const;
 
     void load(QDataStream &str);
     void save(QDataStream &str) const;
