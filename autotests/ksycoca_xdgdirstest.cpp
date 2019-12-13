@@ -93,6 +93,14 @@ void KSycocaXdgDirsTest::testOtherAppDir()
 
     const QString appDir = dataDir + "/applications";
 
+    // Copy applications.menus into GenericConfigLocation/menus, so we don't rely on /etc/xdg
+    qputenv("XDG_CONFIG_DIRS", "/doesnexist");
+    const QString menuFile = QFINDTESTDATA("../src/applications.menu");
+    QVERIFY(!menuFile.isEmpty());
+    const QString menuDir = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/menus";
+    QVERIFY(QDir().mkpath(menuDir));
+    QFile::copy(menuFile, menuDir + QLatin1String("/applications.menu"));
+
     // test_app_other: live in a different application directory
     const QString testAppOther = appDir + "/test_app_other.desktop";
     KDesktopFile file(testAppOther);
