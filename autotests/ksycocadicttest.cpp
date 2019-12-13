@@ -18,7 +18,8 @@
 */
 
 #include <ksycoca.h>
-#include <QtTest>
+#include <QTest>
+#include <QSignalSpy>
 #include <QDebug>
 #include <kservicetype.h>
 #include <kdesktopfile.h>
