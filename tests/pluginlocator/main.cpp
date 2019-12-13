@@ -27,7 +27,7 @@ int main(int argc, char **argv)
     QCoreApplication app(argc, argv);
     QCommandLineParser parser;
 
-    const QString description = QStringLiteral("PluginLocator test app");
+    const QString description = QStringLiteral("KPluginTrader test app");
     const char version[] = "1.0";
 
     app.setApplicationVersion(version);

@@ -17,16 +17,16 @@
 *   Boston, MA 02110-1301, USA.                                               *
 *******************************************************************************/
 
-#ifndef PLUGINLOCATORTEST_H
-#define PLUGINLOCATORTEST_H
+#ifndef PLUGINTRADERTEST_H
+#define PLUGINTRADERTEST_H
 
 #include <QCoreApplication>
 
-class PluginTest : public QObject
+class PluginTraderTest : public QObject
 {
     Q_OBJECT
 public:
-    PluginTest() {}
+    PluginTraderTest() {}
 
 private Q_SLOTS:
     void initTestCase();

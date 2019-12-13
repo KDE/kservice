@@ -17,23 +17,23 @@
 *   Boston, MA 02110-1301, USA.                                               *
 *******************************************************************************/
 
-#include "pluginlocatortest.h"
+#include "kplugintradertest.h"
 #include "nsaplugin.h"
 
-#include <QtTest>
+#include <QTest>
 
 #include <kplugininfo.h>
 #include <kplugintrader.h>
 
 
-QTEST_MAIN(PluginTest)
+QTEST_MAIN(PluginTraderTest)
 
-void PluginTest::initTestCase()
+void PluginTraderTest::initTestCase()
 {
     QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath());
 }
 
-void PluginTest::findPlugin_data()
+void PluginTraderTest::findPlugin_data()
 {
     QTest::addColumn<QString>("serviceType");
     QTest::addColumn<QString>("constraint");
@@ -56,7 +56,7 @@ void PluginTest::findPlugin_data()
     QTest::newRow("empty query") << _st << _c << 0;
 }
 
-void PluginTest::findPlugin()
+void PluginTraderTest::findPlugin()
 {
     QFETCH(QString, serviceType);
     QFETCH(QString, constraint);
@@ -65,13 +65,13 @@ void PluginTest::findPlugin()
     QCOMPARE(res.count(), expectedResult);
 }
 
-void PluginTest::findSomething()
+void PluginTraderTest::findSomething()
 {
     const KPluginInfo::List res = KPluginTrader::self()->query(QString());
     QVERIFY(res.count() > 0);
 }
 
-void PluginTest::loadPlugin()
+void PluginTraderTest::loadPlugin()
 {
     const QString pluginName("fakeplugin");
     const QString serviceType("KService/NSA");
@@ -82,4 +82,3 @@ void PluginTest::loadPlugin()
     QCOMPARE(plugin->objectName(), QStringLiteral("Test Plugin Spy"));
 }
 
-#include "moc_pluginlocatortest.cpp"

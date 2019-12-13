@@ -21,7 +21,7 @@ kservice_unit_tests(
  ksycocadicttest
  ksycocathreadtest
  kservicetest
- pluginlocatortest
+ kplugintradertest
  kplugininfotest
 )
 

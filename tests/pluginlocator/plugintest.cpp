@@ -57,7 +57,7 @@ int PluginTest::runMain()
     int runs = 1;
     QList<qint64> timings;
 
-    cout << "-- PluginLocator Test --" << endl;
+    cout << "-- KPluginTrader Test --" << endl;
     bool ok = true;
 
     // KSycoca querying
