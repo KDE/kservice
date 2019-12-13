@@ -73,18 +73,22 @@ static bool offerListHasService(const KService::List &offers,
                                 const QString &entryPath,
                                 bool expected /* if set, show error if not found */)
 {
+    // ksycoca resolves to canonical paths, so do it here as well
+    const QString realPath = QFileInfo(entryPath).canonicalFilePath();
+    Q_ASSERT(!realPath.isEmpty());
+
     bool found = false;
     for (const KService::Ptr &serv : offers) {
-        if (serv->entryPath() == entryPath) {
+        if (serv->entryPath() == realPath) {
             if (found) {  // should be there only once
-                qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
+                qWarning("ERROR: %s was found twice in the list", qPrintable(realPath));
                 return false; // make test fail
             }
             found = true;
         }
     }
     if (!found && expected) {
-        qWarning() << "ERROR:" << entryPath << "not found in offer list. Here's the full list:";
+        qWarning() << "ERROR:" << realPath << "not found in offer list. Here's the full list:";
         for (const KService::Ptr &serv : offers) {
             qDebug() << serv->entryPath();
         }
