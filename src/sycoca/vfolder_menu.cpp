@@ -814,7 +814,7 @@ VFolderMenu::loadMenu(const QString &fileName)
 
     if (m_doc.isNull()) {
         if (m_docInfo.path.isEmpty()) {
-            qCritical() << fileName << " not found in " << m_allDirectories << endl;
+            qCritical() << fileName << " not found in " << m_allDirectories;
         } else {
             qCWarning(SYCOCA) << "Load error (" << m_docInfo.path << ")";
         }

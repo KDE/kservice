@@ -57,7 +57,13 @@ int PluginTest::runMain()
     int runs = 1;
     QList<qint64> timings;
 
-    cout << "-- KPluginTrader Test --" << endl;
+    cout << "-- KPluginTrader Test --"
+        #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
+         << endl
+        #else
+         << Qt::endl
+        #endif
+            ;
     bool ok = true;
 
     // KSycoca querying
@@ -108,7 +114,7 @@ void PluginTest::report(const QList<qint64> timings, const QString &msg)
         i++;
     }
     QString av = QString::number((totalTime / timings.count() / unitDiv), 'f', 1);
-    qDebug() << " Average: " << av << " " << unit << " (" << msg << ")" << endl;
+    qDebug() << " Average: " << av << " " << unit << " (" << msg << ")";
 }
 
 bool PluginTest::loadFromKService(const QString &name)
@@ -126,10 +132,10 @@ bool PluginTest::loadFromKService(const QString &name)
         allArgs << offers.first()->storageId();
         const QString _n = offers.first()->property(QStringLiteral("Name")).toString();
         if (!_n.isEmpty()) {
-            qDebug() << "Found Dataengine: " << _n << endl;
+            qDebug() << "Found Dataengine: " << _n;
             ok = true;
         } else {
-            qDebug() << "Nothing found. " << endl;
+            qDebug() << "Nothing found. ";
         }
     }
 
