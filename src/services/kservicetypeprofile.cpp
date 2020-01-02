@@ -166,6 +166,7 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
     return offers;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
 bool KServiceTypeProfile::hasProfile(const QString &serviceType)
 {
     return s_serviceTypeProfiles()->hasProfile(serviceType);
@@ -227,3 +228,4 @@ void KServiceTypeProfile::deleteServiceTypeProfile(const QString &serviceType)
         delete s_serviceTypeProfiles()->take(serviceType);
     }
 }
+#endif

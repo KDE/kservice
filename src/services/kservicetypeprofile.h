@@ -38,6 +38,7 @@
  * @see KServiceTypeTrader
  * @short Represents the user's preferences for services of a service type
  */
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 66)
 namespace KServiceTypeProfile
 {
 /**
@@ -47,7 +48,9 @@ namespace KServiceTypeProfile
  * @param services Ordered list of services, from the preferred one to the least preferred one.
  * @param disabledServices List of services which are normally associated with this serviceType,
  * but which should be disabled, i.e. trader queries will not return them.
+ * @deprecated since 5.66, unused.
  */
+KSERVICE_DEPRECATED_VERSION(5, 66, "Unused")
 KSERVICE_EXPORT void writeServiceTypeProfile(const QString &serviceType,
         const KService::List &services,
         const KService::List &disabledServices = KService::List());
@@ -59,11 +62,13 @@ KSERVICE_EXPORT void writeServiceTypeProfile(const QString &serviceType,
  * Do not use this for mimetypes.
  * @param serviceType The name of the servicetype.
  */
+KSERVICE_DEPRECATED_VERSION(5, 66, "Unused")
 KSERVICE_EXPORT void deleteServiceTypeProfile(const QString &serviceType);
 
 /**
  * @internal, for KServiceTypeTrader
  */
+KSERVICE_DEPRECATED_VERSION(5, 66, "Unused")
 KSERVICE_EXPORT bool hasProfile(const QString &serviceType);
 
 /**
@@ -73,5 +78,6 @@ KSERVICE_EXPORT bool hasProfile(const QString &serviceType);
 void clearCache();
 
 }
+#endif
 
 #endif
