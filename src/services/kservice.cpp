@@ -979,11 +979,13 @@ QStringList KService::mimeTypes() const
     return ret;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
 bool KService::allowAsDefault() const
 {
     Q_D(const KService);
     return d->m_bAllowAsDefault;
 }
+#endif
 
 int KService::initialPreference() const
 {

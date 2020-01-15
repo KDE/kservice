@@ -77,12 +77,16 @@ public:
      */
     KServiceOffer &operator=(const KServiceOffer &other);
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 67)
     /**
      * Is it allowed to use this service for default actions
      * (e.g. Left Click in a file manager, or KRun in general).
      * @return true if the service is a allowed as default
+     * @deprecated since 5.67, no know use case.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 67, "No known use case")
     bool allowAsDefault() const;
+#endif
 
     /**
      * The bigger this number is, the better is this service.

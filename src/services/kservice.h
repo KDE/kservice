@@ -275,6 +275,7 @@ public:
      */
     bool hasMimeType(const QString &mimeType) const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 67)
     /**
      * Set to true if it is allowed to use this service as the default (main)
      * action for the files it supports (e.g. Left Click in a file manager, or KRun in general).
@@ -284,8 +285,11 @@ public:
      * Note that servicemenus supersede this functionality though, at least in konqueror.
      *
      * @return true if the service may be used as the default (main) handler
+     * @deprecated since 5.67 due to no known use case
      */
+    KSERVICE_DEPRECATED_VERSION(5, 67, "No known use case")
     bool allowAsDefault() const;
+#endif
 
     /**
      * Returns the actions defined in this desktop file

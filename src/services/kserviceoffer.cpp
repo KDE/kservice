@@ -95,10 +95,12 @@ bool KServiceOffer::operator< (const KServiceOffer &_o) const
     return _o.d->preference < d->preference;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
 bool KServiceOffer::allowAsDefault() const
 {
     return d->bAllowAsDefault;
 }
+#endif
 
 int KServiceOffer::preference() const
 {
