@@ -84,7 +84,6 @@ void KServiceTest::initTestCase()
         qDebug() << "Setting locale to fr_FR.utf8 failed";
     }
 
-    m_hasKde5Konsole = false;
     eraseProfiles();
 
     if (!KSycoca::isAvailable()) {
@@ -219,6 +218,15 @@ void KServiceTest::initTestCase()
     if (!QFile::exists(fakeKdedModule)) {
         const QString src = QFINDTESTDATA("fakekdedmodule.desktop");
         QVERIFY(QFile::copy(src, fakeKdedModule));
+        mustUpdateKSycoca = true;
+    }
+
+    // testapp.desktop
+    const QString testApp = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.testapp.desktop");
+    if (!QFile::exists(testApp)) {
+        const QString src = QFINDTESTDATA("org.kde.testapp.desktop");
+        QVERIFY(!src.isEmpty());
+        QVERIFY(QFile::copy(src, testApp));
         mustUpdateKSycoca = true;
     }
 
@@ -401,6 +409,7 @@ void KServiceTest::testAllServices()
     }
     const KService::List lst = KService::allServices();
     QVERIFY(!lst.isEmpty());
+    bool foundTestApp = false;
 
     for (KService::List::ConstIterator it = lst.begin();
             it != lst.end(); ++it) {
@@ -421,8 +430,8 @@ void KServiceTest::testAllServices()
             const QString menuId = service->menuId();
             if (menuId.isEmpty()) {
                 qWarning("%s has an empty menuId!", qPrintable(entryPath));
-            } else if (menuId == "org.kde.konsole.desktop") {
-                m_hasKde5Konsole = true;
+            } else if (menuId == "org.kde.testapp.desktop") {
+                foundTestApp = true;
             }
             QVERIFY(!menuId.isEmpty());
             lookedupService = KService::serviceByMenuId(menuId);
@@ -430,6 +439,7 @@ void KServiceTest::testAllServices()
             QCOMPARE(lookedupService->menuId(), menuId);
         }
     }
+    QVERIFY(foundTestApp);
 }
 
 // Helper method for all the trader tests
@@ -455,15 +465,11 @@ void KServiceTest::testDBUSStartupType()
     if (!KSycoca::isAvailable()) {
         QSKIP("ksycoca not available");
     }
-    if (!m_hasKde5Konsole) {
-        QSKIP("org.kde.konsole.desktop not available");
-    }
-    //KService::Ptr konsole = KService::serviceByMenuId( "org.kde.konsole.desktop" );
-    KService::Ptr konsole = KService::serviceByDesktopName(QStringLiteral("org.kde.konsole"));
-    QVERIFY(konsole);
-    QCOMPARE(konsole->menuId(), QStringLiteral("org.kde.konsole.desktop"));
-    //qDebug() << konsole->entryPath();
-    QCOMPARE(int(konsole->dbusStartupType()), int(KService::DBusUnique));
+    KService::Ptr testapp = KService::serviceByDesktopName(QStringLiteral("org.kde.testapp"));
+    QVERIFY(testapp);
+    QCOMPARE(testapp->menuId(), QStringLiteral("org.kde.testapp.desktop"));
+    //qDebug() << testapp->entryPath();
+    QCOMPARE(int(testapp->dbusStartupType()), int(KService::DBusUnique));
 }
 
 void KServiceTest::testByStorageId()
@@ -471,24 +477,15 @@ void KServiceTest::testByStorageId()
     if (!KSycoca::isAvailable()) {
         QSKIP("ksycoca not available");
     }
-    if (QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.konsole.desktop")).isEmpty()) {
-        QSKIP("org.kde.konsole.desktop not available");
-    }
-    QVERIFY(KService::serviceByMenuId(QStringLiteral("org.kde.konsole.desktop")));
-    QVERIFY(!KService::serviceByMenuId(QStringLiteral("org.kde.konsole"))); // doesn't work, extension mandatory
-    QVERIFY(!KService::serviceByMenuId(QStringLiteral("konsole.desktop"))); // doesn't work, full filename mandatory
-    QVERIFY(KService::serviceByStorageId(QStringLiteral("org.kde.konsole.desktop")));
-    QVERIFY(KService::serviceByStorageId("org.kde.konsole"));
+    QVERIFY(!QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.testapp.desktop")).isEmpty());
+    QVERIFY(KService::serviceByMenuId(QStringLiteral("org.kde.testapp.desktop")));
+    QVERIFY(!KService::serviceByMenuId(QStringLiteral("org.kde.testapp"))); // doesn't work, extension mandatory
+    QVERIFY(!KService::serviceByMenuId(QStringLiteral("testapp.desktop"))); // doesn't work, full filename mandatory
+    QVERIFY(KService::serviceByStorageId(QStringLiteral("org.kde.testapp.desktop")));
+    QVERIFY(KService::serviceByStorageId("org.kde.testapp"));
 
-    // This one fails here; probably because there are two such files, so this would be too
-    // ambiguous... According to the testAllServices output, the entryPaths are
-    // entryPath="/d/kde/inst/kde5/share/applications/org.kde.konsole.desktop"
-    // entryPath= "/usr/share/applications/org.kde.konsole.desktop"
-    //
-    //QVERIFY(KService::serviceByDesktopPath("org.kde.konsole.desktop"));
-
-    QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.konsole")));
-    QCOMPARE(KService::serviceByDesktopName(QStringLiteral("org.kde.konsole"))->menuId(), QString("org.kde.konsole.desktop"));
+    QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.testapp")));
+    QCOMPARE(KService::serviceByDesktopName(QStringLiteral("org.kde.testapp"))->menuId(), QString("org.kde.testapp.desktop"));
 }
 
 void KServiceTest::testServiceTypeTraderForReadOnlyPart()
@@ -722,10 +719,7 @@ void KServiceTest::testDeleteServiceTypeProfile()
 
 void KServiceTest::testActionsAndDataStream()
 {
-    if (QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.konsole.desktop")).isEmpty()) {
-        QSKIP("org.kde.konsole.desktop not available");
-    }
-    KService::Ptr service = KService::serviceByStorageId(QStringLiteral("org.kde.konsole.desktop"));
+    KService::Ptr service = KService::serviceByStorageId(QStringLiteral("org.kde.testapp.desktop"));
     QVERIFY(service);
     QVERIFY(!service->property(QStringLiteral("Name[fr]"), QVariant::String).isValid());
     const QList<KServiceAction> actions = service->actions();
@@ -733,7 +727,7 @@ void KServiceTest::testActionsAndDataStream()
     const KServiceAction newTabAction = actions.at(1);
     QCOMPARE(newTabAction.name(), QStringLiteral("NewTab"));
     QCOMPARE(newTabAction.exec(), QStringLiteral("konsole --new-tab"));
-    QVERIFY(newTabAction.icon().isEmpty());
+    QCOMPARE(newTabAction.icon(), QStringLiteral("tab-new"));
     QCOMPARE(newTabAction.noDisplay(), false);
     QVERIFY(!newTabAction.isSeparator());
 }
