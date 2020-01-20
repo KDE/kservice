@@ -42,11 +42,13 @@ let users configure the application-mimetype associations.
 Example file:
 
 [Added Associations]
-text/plain=kate.desktop;
+text/plain=gnome-gedit.desktop;gnu-emacs.desktop;
 
 [Removed Associations]
 text/plain=gnome-gedit.desktop;gnu-emacs.desktop;
 
+[Default Applications]
+text/plain=kate.desktop;
 */
 
 void KMimeAssociations::parseAllMimeAppsList()
@@ -97,9 +99,11 @@ void KMimeAssociations::parseMimeAppsList(const QString &file, int basePreferenc
         parseRemovedAssociations(KConfigGroup(&profile, "Removed KDE Service Associations"), file);
     }
 
-    // TODO "Default Applications" is a separate query and a separate algorithm, says the spec.
-    // For now this is better than nothing though.
-    parseAddedAssociations(KConfigGroup(&profile, "Default Applications"), file, basePreference);
+    // Default Applications is preferred over Added Associations.
+    // Other than that, they work the same...
+    // add 25 to the basePreference to make sure those service offers will have higher preferences
+    // 25 is arbitrary half of the allocated preference indices for the current parsed mimeapps.list file, defined line 86
+    parseAddedAssociations(KConfigGroup(&profile, "Default Applications"), file, basePreference + 25);
 }
 
 void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const QString &file, int basePreference)

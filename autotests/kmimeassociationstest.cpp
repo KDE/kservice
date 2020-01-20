@@ -190,7 +190,7 @@ private Q_SLOTS:
         m_mimeAppsFileContents = "[Added Associations]\n"
                                  "image/jpeg=fakejpegapplication.desktop;\n"
                                  "text/html=fakehtmlapplication.desktop;fakehtmlapplicationpfx.desktop;\n"
-                                 "text/plain=faketextapplication.desktop;fakepfx-faketextapplicationpfx.desktop;gvim.desktop;wine.desktop;idontexist.desktop;\n"
+                                 "text/plain=fakepfx-faketextapplicationpfx.desktop;gvim.desktop;wine.desktop;idontexist.desktop;\n"
                                  // test alias resolution
                                  "application/x-pdf=fakejpegapplication.desktop;\n"
                                  // test x-scheme-handler (#358159) (missing trailing ';' as per xdg-mime bug...)
@@ -199,11 +199,14 @@ private Q_SLOTS:
                                  "text/plain=katepart.desktop;\n"
                                  "[Removed Associations]\n"
                                  "image/jpeg=firefox.desktop;\n"
-                                 "text/html=gvim.desktop;abiword.desktop;\n";
+                                 "text/html=gvim.desktop;abiword.desktop;\n"
+                                 "[Default Applications]\n"
+                                 "text/plain=faketextapplication.desktop;second-faketextapplicationpfx.desktop\n";
         // Expected results
         preferredApps[QStringLiteral("image/jpeg")] << QStringLiteral("fakejpegapplication.desktop");
         preferredApps[QStringLiteral("application/pdf")] << QStringLiteral("fakejpegapplication.desktop");
         preferredApps[QStringLiteral("text/plain")] << QStringLiteral("faketextapplication.desktop")
+                                    << QStringLiteral("second-faketextapplicationpfx.desktop")
                                     << QStringLiteral("fakepfx-faketextapplicationpfx.desktop")
                                     << QStringLiteral("gvim.desktop");
         preferredApps[QStringLiteral("text/x-csrc")] << QStringLiteral("faketextapplication.desktop")

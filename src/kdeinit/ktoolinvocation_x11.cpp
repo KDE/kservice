@@ -125,18 +125,11 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
     if (!isMainThreadActive()) {
         return;
     }
-
-    KConfig config(QStringLiteral("emaildefaults"));
-    KConfigGroup defaultsGrp(&config, "Defaults");
-
-    QString group = defaultsGrp.readEntry("Profile", "Default");
-
-    KConfigGroup profileGrp(&config, QStringLiteral("PROFILE_%1").arg(group));
-    QString command = profileGrp.readPathEntry("EmailClient", QString());
+    KService::Ptr emailClient = KMimeTypeTrader::self()->preferredService(QStringLiteral("x-scheme-handler/mailto"));
+    auto command = emailClient->exec();
 
     QString to, cc, bcc;
-    if (command.isEmpty() || command == QLatin1String("kmail")
-            || command.endsWith(QLatin1String("/kmail"))) {
+    if (emailClient->storageId() == QStringLiteral("org.kde.kmail2.desktop")) {
         command = QStringLiteral("kmail --composer -s %s -c %c -b %b --body %B --attach %A -- %t");
         if (!_to.isEmpty()) {
             QUrl url;
@@ -165,7 +158,7 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
         }
     }
 
-    if (profileGrp.readEntry("TerminalClient", false)) {
+    if (emailClient->terminal()) {
         KConfigGroup confGroup(KSharedConfig::openConfig(), "General");
         QString preferredTerminal = confGroup.readPathEntry("TerminalApplication", QStringLiteral("konsole"));
         command = preferredTerminal + QLatin1String(" -e ") + command;
