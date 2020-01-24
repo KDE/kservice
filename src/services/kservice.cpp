@@ -655,11 +655,13 @@ bool KService::showInCurrentDesktop() const
 {
     Q_D(const KService);
 
-    QStringList currentDesktops(QString::fromLatin1(qgetenv("XDG_CURRENT_DESKTOP")));
+    const QString envVar = QString::fromLatin1(qgetenv("XDG_CURRENT_DESKTOP"));
+    QVector<QStringRef> currentDesktops(envVar.splitRef(QLatin1Char(':'), Qt::SkipEmptyParts));
+    const QString kde = QStringLiteral("KDE");
     if (currentDesktops.isEmpty()) {
         // This could be an old display manager, or e.g. a failsafe session with no desktop name
         // In doubt, let's say we show KDE stuff.
-        currentDesktops << QStringLiteral("KDE");
+        currentDesktops.append(&kde);
     }
 
     // This algorithm is described in the desktop entry spec
@@ -667,7 +669,7 @@ bool KService::showInCurrentDesktop() const
     QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("OnlyShowIn"));
     if ((it != d->m_mapProps.end()) && (it->isValid())) {
         const QStringList aList = it->toString().split(QLatin1Char(';'));
-        for (const QString &desktop : qAsConst(currentDesktops)) {
+        for (const QStringRef &desktop : qAsConst(currentDesktops)) {
             if (aList.contains(desktop)) {
                 return true;
             }
@@ -678,7 +680,7 @@ bool KService::showInCurrentDesktop() const
     it = d->m_mapProps.find(QStringLiteral("NotShowIn"));
     if ((it != d->m_mapProps.end()) && (it->isValid())) {
         const QStringList aList = it->toString().split(QLatin1Char(';'));
-        for (const QString &desktop : qAsConst(currentDesktops)) {
+        for (const QStringRef &desktop : qAsConst(currentDesktops)) {
             if (aList.contains(desktop)) {
                 return false;
             }
