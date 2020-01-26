@@ -224,9 +224,10 @@ void KServiceTest::initTestCase()
     // testapp.desktop
     const QString testApp = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.testapp.desktop");
     if (!QFile::exists(testApp)) {
+        QVERIFY(QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)));
         const QString src = QFINDTESTDATA("org.kde.testapp.desktop");
         QVERIFY(!src.isEmpty());
-        QVERIFY(QFile::copy(src, testApp));
+        QVERIFY2(QFile::copy(src, testApp), qPrintable(testApp));
         mustUpdateKSycoca = true;
     }
 
