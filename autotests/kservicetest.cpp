@@ -221,11 +221,11 @@ void KServiceTest::initTestCase()
         mustUpdateKSycoca = true;
     }
 
-    // testapp.desktop
-    const QString testApp = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.testapp.desktop");
+    // faketestapp.desktop
+    const QString testApp = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.faketestapp.desktop");
     if (!QFile::exists(testApp)) {
         QVERIFY(QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)));
-        const QString src = QFINDTESTDATA("org.kde.testapp.desktop");
+        const QString src = QFINDTESTDATA("org.kde.faketestapp.desktop");
         QVERIFY(!src.isEmpty());
         QVERIFY2(QFile::copy(src, testApp), qPrintable(testApp));
         mustUpdateKSycoca = true;
@@ -431,7 +431,7 @@ void KServiceTest::testAllServices()
             const QString menuId = service->menuId();
             if (menuId.isEmpty()) {
                 qWarning("%s has an empty menuId!", qPrintable(entryPath));
-            } else if (menuId == "org.kde.testapp.desktop") {
+            } else if (menuId == "org.kde.faketestapp.desktop") {
                 foundTestApp = true;
             }
             QVERIFY(!menuId.isEmpty());
@@ -466,9 +466,9 @@ void KServiceTest::testDBUSStartupType()
     if (!KSycoca::isAvailable()) {
         QSKIP("ksycoca not available");
     }
-    KService::Ptr testapp = KService::serviceByDesktopName(QStringLiteral("org.kde.testapp"));
+    KService::Ptr testapp = KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp"));
     QVERIFY(testapp);
-    QCOMPARE(testapp->menuId(), QStringLiteral("org.kde.testapp.desktop"));
+    QCOMPARE(testapp->menuId(), QStringLiteral("org.kde.faketestapp.desktop"));
     //qDebug() << testapp->entryPath();
     QCOMPARE(int(testapp->dbusStartupType()), int(KService::DBusUnique));
 }
@@ -478,15 +478,15 @@ void KServiceTest::testByStorageId()
     if (!KSycoca::isAvailable()) {
         QSKIP("ksycoca not available");
     }
-    QVERIFY(!QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.testapp.desktop")).isEmpty());
-    QVERIFY(KService::serviceByMenuId(QStringLiteral("org.kde.testapp.desktop")));
-    QVERIFY(!KService::serviceByMenuId(QStringLiteral("org.kde.testapp"))); // doesn't work, extension mandatory
-    QVERIFY(!KService::serviceByMenuId(QStringLiteral("testapp.desktop"))); // doesn't work, full filename mandatory
-    QVERIFY(KService::serviceByStorageId(QStringLiteral("org.kde.testapp.desktop")));
-    QVERIFY(KService::serviceByStorageId("org.kde.testapp"));
+    QVERIFY(!QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.faketestapp.desktop")).isEmpty());
+    QVERIFY(KService::serviceByMenuId(QStringLiteral("org.kde.faketestapp.desktop")));
+    QVERIFY(!KService::serviceByMenuId(QStringLiteral("org.kde.faketestapp"))); // doesn't work, extension mandatory
+    QVERIFY(!KService::serviceByMenuId(QStringLiteral("faketestapp.desktop"))); // doesn't work, full filename mandatory
+    QVERIFY(KService::serviceByStorageId(QStringLiteral("org.kde.faketestapp.desktop")));
+    QVERIFY(KService::serviceByStorageId("org.kde.faketestapp"));
 
-    QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.testapp")));
-    QCOMPARE(KService::serviceByDesktopName(QStringLiteral("org.kde.testapp"))->menuId(), QString("org.kde.testapp.desktop"));
+    QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp")));
+    QCOMPARE(KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp"))->menuId(), QString("org.kde.faketestapp.desktop"));
 }
 
 void KServiceTest::testServiceTypeTraderForReadOnlyPart()
@@ -720,7 +720,7 @@ void KServiceTest::testDeleteServiceTypeProfile()
 
 void KServiceTest::testActionsAndDataStream()
 {
-    KService::Ptr service = KService::serviceByStorageId(QStringLiteral("org.kde.testapp.desktop"));
+    KService::Ptr service = KService::serviceByStorageId(QStringLiteral("org.kde.faketestapp.desktop"));
     QVERIFY(service);
     QVERIFY(!service->property(QStringLiteral("Name[fr]"), QVariant::String).isValid());
     const QList<KServiceAction> actions = service->actions();
