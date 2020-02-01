@@ -419,7 +419,9 @@ void KServiceTest::testAllServices()
 
         const QString name = service->name();
         const QString entryPath = service->entryPath();
-        //qDebug() << name << "entryPath=" << entryPath << "menuId=" << service->menuId();
+        if (entryPath.contains("fake")) {
+            qDebug() << name << "entryPath=" << entryPath << "menuId=" << service->menuId();
+        }
         QVERIFY(!name.isEmpty());
         QVERIFY(!entryPath.isEmpty());
 
