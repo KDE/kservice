@@ -72,7 +72,7 @@ void KServiceTest::initTestCase()
     setupXdgDirs();
     QStandardPaths::setTestModeEnabled(true);
 
-    QLoggingCategory::setFilterRules(QStringLiteral("kf5.kcoreaddons.kdirwatch.debug=true"));
+    QLoggingCategory::setFilterRules(QStringLiteral("*.debug=true"));
 
     // A non-C locale is necessary for some tests.
     // This locale must have the following properties:

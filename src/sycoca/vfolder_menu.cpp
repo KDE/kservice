@@ -759,6 +759,7 @@ VFolderMenu::locateMenuFile(const QString &fileName)
     if (result.isEmpty()) {
         QString baseName = QDir::cleanPath(m_docInfo.baseDir + fileName);
         result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("menus/") + baseName);
+        qCDebug(SYCOCA) << result;
     }
 
     return result;

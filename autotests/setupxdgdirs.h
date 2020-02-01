@@ -28,12 +28,13 @@
 
 static void setupXdgDirs()
 {
+    // We need to keep the system XDG_DATA_DIRS to find mimetypes
     const QByteArray defaultDataDirs = qEnvironmentVariableIsSet("XDG_DATA_DIRS") ? qgetenv("XDG_DATA_DIRS") : QByteArray("/usr/local/share:/usr/share");
     const QByteArray modifiedDataDirs = QFile::encodeName(QCoreApplication::applicationDirPath()) + "/data:" + defaultDataDirs;
     qputenv("XDG_DATA_DIRS", modifiedDataDirs);
 
-    const QByteArray defaultConfigDirs = qEnvironmentVariableIsSet("XDG_CONFIG_DIRS") ? qgetenv("XDG_CONFIG_DIRS") : QByteArray("/etc/xdg");
-    const QByteArray modifiedConfigDirs = QFile::encodeName(QCoreApplication::applicationDirPath()) + "/data:" + defaultConfigDirs;
+    // We don't need the system config dirs, we provide our own applications.menu
+    const QByteArray modifiedConfigDirs = QFile::encodeName(QCoreApplication::applicationDirPath()) + "/data";
     qputenv("XDG_CONFIG_DIRS", modifiedConfigDirs);
 }
 
