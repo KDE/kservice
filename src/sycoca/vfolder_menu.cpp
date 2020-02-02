@@ -948,7 +948,7 @@ VFolderMenu::loadApplications(const QString &dir, const QString &prefix)
             KService::Ptr service = m_kbuildsycocaInterface->createService(fi.absoluteFilePath());
 #ifndef NDEBUG
             if (fn.contains(QLatin1String("fake"))) {
-                qCDebug(KSYCOCA) << "createService" << fi.absoluteFilePath() << "returned" << service << "will register as" << prefix+fn;
+                qCDebug(SYCOCA) << "createService" << fi.absoluteFilePath() << "returned" << service << "will register as" << prefix+fn;
             }
 #endif
             if (service) {
