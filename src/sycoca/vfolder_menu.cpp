@@ -687,6 +687,7 @@ VFolderMenu::pushDocInfo(const QString &fileName, const QString &baseDir)
         qCDebug(SYCOCA) << "Menu" << fileName << "not found.";
         return;
     }
+    qCDebug(SYCOCA) << "Found menu file" << m_docInfo.path;
     int i;
     i = baseName.lastIndexOf(QLatin1Char('/'));
     if (i > 0) {
@@ -759,7 +760,6 @@ VFolderMenu::locateMenuFile(const QString &fileName)
     if (result.isEmpty()) {
         QString baseName = QDir::cleanPath(m_docInfo.baseDir + fileName);
         result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("menus/") + baseName);
-        qCDebug(SYCOCA) << result;
     }
 
     return result;
@@ -927,7 +927,7 @@ VFolderMenu::processCondition(QDomElement &domElem, QHash<QString, KService::Ptr
 void
 VFolderMenu::loadApplications(const QString &dir, const QString &prefix)
 {
-    //qCDebug(SYCOCA) << "Looking up applications under" << dir;
+    qCDebug(SYCOCA) << "Looking up applications under" << dir;
 
     QDirIterator it(dir);
     while (it.hasNext()) {
@@ -946,6 +946,11 @@ VFolderMenu::loadApplications(const QString &dir, const QString &prefix)
                 continue;
             }
             KService::Ptr service = m_kbuildsycocaInterface->createService(fi.absoluteFilePath());
+#ifndef NDEBUG
+            if (fn.contains(QLatin1String("fake"))) {
+                qCDebug(KSYCOCA) << "createService" << fi.absoluteFilePath() << "returned" << service << "will register as" << prefix+fn;
+            }
+#endif
             if (service) {
                 addApplication(prefix + fn, service);
             }

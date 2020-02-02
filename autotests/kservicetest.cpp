@@ -228,6 +228,7 @@ void KServiceTest::initTestCase()
         const QString src = QFINDTESTDATA("org.kde.faketestapp.desktop");
         QVERIFY(!src.isEmpty());
         QVERIFY2(QFile::copy(src, testApp), qPrintable(testApp));
+        qDebug() << "Created" << testApp;
         mustUpdateKSycoca = true;
     }
 
@@ -238,6 +239,7 @@ void KServiceTest::initTestCase()
     QVERIFY(KServiceType::serviceType(QStringLiteral("FakePluginType")));
     QVERIFY(KServiceType::serviceType(QStringLiteral("FakeBasePart")));
     QVERIFY(KServiceType::serviceType(QStringLiteral("FakeDerivedPart")));
+    QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp")));
 }
 
 void KServiceTest::runKBuildSycoca(bool noincremental)
