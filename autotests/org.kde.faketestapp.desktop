@@ -1,6 +1,5 @@
 [Desktop Entry]
 Type=Application
-TryExec=konsole
 Exec=konsole
 Icon=utilities-terminal
 Terminal=false
