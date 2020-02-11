@@ -42,8 +42,20 @@ set(kservice_SRCS
 if (TARGET Qt5::DBus)
   list(APPEND kservice_SRCS plugin/kdbusservicestarter.cpp)
 endif()
-ecm_qt_declare_logging_category(kservice_SRCS HEADER servicesdebug.h IDENTIFIER SERVICES CATEGORY_NAME kf5.kservice.services)
-ecm_qt_declare_logging_category(kservice_SRCS HEADER sycocadebug.h IDENTIFIER SYCOCA CATEGORY_NAME kf5.kservice.sycoca)
+ecm_qt_declare_logging_category(kservice_SRCS
+    HEADER servicesdebug.h
+    IDENTIFIER SERVICES
+    CATEGORY_NAME kf5.kservice.services
+    EXPORT KSERVICE
+    DESCRIPTION "service (kservice lib)"
+)
+ecm_qt_declare_logging_category(kservice_SRCS
+    HEADER sycocadebug.h
+    IDENTIFIER SYCOCA
+    CATEGORY_NAME kf5.kservice.sycoca
+    EXPORT KSERVICE
+    DESCRIPTION "sycoca (kservice)"
+)
 
 if (WIN32)
    LIST(APPEND kservice_SRCS
@@ -192,6 +204,12 @@ install(FILES
    "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
    ${KService_HEADERS}
    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KService COMPONENT Devel
+)
+
+ecm_qt_install_logging_categories(
+    EXPORT KSERVICE
+    FILE kservice.categories
+    DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
 )
 
 if(BUILD_QCH)
