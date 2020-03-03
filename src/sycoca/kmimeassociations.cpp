@@ -56,7 +56,11 @@ void KMimeAssociations::parseAllMimeAppsList()
     QStringList mimeappsFileNames;
     // make the list of possible filenames from the spec ($desktop-mimeapps.list, then mimeapps.list)
     const QString desktops = QString::fromLocal8Bit(qgetenv("XDG_CURRENT_DESKTOP"));
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     const auto list = desktops.split(QLatin1Char(':'), QString::SkipEmptyParts);
+#else
+    const auto list = desktops.split(QLatin1Char(':'), Qt::SkipEmptyParts);
+#endif
     for (const QString &desktop : list) {
         mimeappsFileNames.append(desktop.toLower() + QLatin1String("-mimeapps.list"));
     }

@@ -656,7 +656,11 @@ bool KService::showInCurrentDesktop() const
     Q_D(const KService);
 
     const QString envVar = QString::fromLatin1(qgetenv("XDG_CURRENT_DESKTOP"));
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QVector<QStringRef> currentDesktops(envVar.splitRef(QLatin1Char(':'), QString::SkipEmptyParts));
+#else
+    QVector<QStringRef> currentDesktops(envVar.splitRef(QLatin1Char(':'), Qt::SkipEmptyParts));
+#endif
     const QString kde = QStringLiteral("KDE");
     if (currentDesktops.isEmpty()) {
         // This could be an old display manager, or e.g. a failsafe session with no desktop name
