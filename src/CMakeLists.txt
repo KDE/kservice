@@ -7,6 +7,7 @@ configure_file(config-ksycoca.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-ksycoca
 set(kservice_SRCS
    kdeinit/ktoolinvocation.cpp
    services/kautostart.cpp
+   services/kapplicationtrader.cpp
    services/kmimetypefactory.cpp
    services/kmimetypetrader.cpp
    services/kservice.cpp
@@ -141,6 +142,7 @@ ecm_generate_headers(KService_HEADERS
 )
 ecm_generate_headers(KService_HEADERS
   HEADER_NAMES
+  KApplicationTrader
   KAutostart
   KMimeTypeTrader
   KService

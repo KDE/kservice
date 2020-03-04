@@ -29,8 +29,8 @@
 #include <kdesktopfile.h>
 #include <ksycoca.h>
 #include <kbuildsycoca_p.h>
-#include <../src/services/kserviceutil_p.h>
-#include <../src/services/ktraderparsetree_p.h>
+#include <../src/services/kserviceutil_p.h> // for KServiceUtilPrivate
+#include <kapplicationtrader.h>
 
 #include <kservicegroup.h>
 #include <kservicetypetrader.h>
@@ -603,7 +603,7 @@ void KServiceTest::testTraderConstraints()
 void KServiceTest::testSubseqConstraints()
 {
   auto test = [](const char* pattern, const char* text, bool sensitive) {
-    return KTraderParse::ParseTreeSubsequenceMATCH::isSubseq(
+    return KApplicationTrader::isSubsequence(
         QString(pattern),
         QString(text),
         sensitive? Qt::CaseSensitive : Qt::CaseInsensitive

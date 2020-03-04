@@ -283,6 +283,11 @@ QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceO
     return list;
 }
 
+KService::List KServiceFactory::serviceOffers(const KServiceType::Ptr &serviceType)
+{
+    return serviceOffers(serviceType->offset(), serviceType->serviceOffersOffset());
+}
+
 KService::List KServiceFactory::serviceOffers(int serviceTypeOffset, int serviceOffersOffset)
 {
     KService::List list;
@@ -316,6 +321,11 @@ KService::List KServiceFactory::serviceOffers(int serviceTypeOffset, int service
         }
     }
     return list;
+}
+
+bool KServiceFactory::hasOffer(const KServiceType::Ptr &serviceType, const KService::Ptr &testedService)
+{
+    return hasOffer(serviceType->offset(), serviceType->serviceOffersOffset(), testedService->offset());
 }
 
 bool KServiceFactory::hasOffer(int serviceTypeOffset, int serviceOffersOffset, int testedServiceOffset)

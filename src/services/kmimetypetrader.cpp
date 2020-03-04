@@ -139,9 +139,7 @@ void KMimeTypeTrader::filterMimeTypeOffers(KServiceOfferList &list, const QStrin
     while (it.hasNext()) {
         const KService::Ptr servPtr = it.next().service();
         // Expand servPtr->hasServiceType( genericServiceTypePtr ) to avoid lookup each time:
-        if (!KSycocaPrivate::self()->serviceFactory()->hasOffer(genericServiceTypePtr->offset(),
-                                               genericServiceTypePtr->serviceOffersOffset(),
-                                               servPtr->offset())
+        if (!KSycocaPrivate::self()->serviceFactory()->hasOffer(genericServiceTypePtr, servPtr)
                 || !servPtr->showInCurrentDesktop()) {
             it.remove();
         }

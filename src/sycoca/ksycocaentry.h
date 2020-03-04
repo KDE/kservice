@@ -125,6 +125,7 @@ private:
     // All these need access to offset()
     friend class KSycocaFactory;
     friend class KBuildServiceFactory;
+    friend class KServiceFactory;
     friend class KMimeTypeTrader;
     friend class KServiceTypeTrader;
     friend class KService;

@@ -248,8 +248,6 @@ public:
 
   bool eval(ParseContext *_context) const override;
 
-  static bool isSubseq(const QString& pattern, const QString& text, Qt::CaseSensitivity cs);
-
 protected:
   ParseTreeBase::Ptr m_pLeft;
   ParseTreeBase::Ptr m_pRight;

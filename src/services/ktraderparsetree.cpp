@@ -18,6 +18,7 @@
 */
 
 #include "ktraderparsetree_p.h"
+#include "kapplicationtrader.h"
 
 namespace KTraderParse
 {
@@ -438,25 +439,8 @@ bool ParseTreeSubsequenceMATCH::eval(ParseContext *_context) const
   if (c1.type != ParseContext::T_STRING || c2.type != ParseContext::T_STRING) {
     return false;
   }
-  _context->b = ParseTreeSubsequenceMATCH::isSubseq(c1.str, c2.str, m_cs);
+  _context->b = KApplicationTrader::isSubsequence(c1.str, c2.str, m_cs);
   return true;
-}
-
-bool ParseTreeSubsequenceMATCH::
-isSubseq(const QString& pattern, const QString& text, Qt::CaseSensitivity cs)
-{
-  if (pattern.isEmpty()) {
-    return false;
-  }
-  bool chk_case = cs == Qt::CaseSensitive;
-
-  QString::const_iterator i = text.constBegin(), j = pattern.constBegin();
-  for (; i != text.constEnd() && j != pattern.constEnd(); ++i) {
-    if ((chk_case && *i == *j) || (!chk_case && i->toLower() == j->toLower())) {
-      ++j;
-    }
-  }
-  return j == pattern.constEnd();
 }
 
 bool ParseTreeIN::eval(ParseContext *_context) const

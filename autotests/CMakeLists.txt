@@ -23,6 +23,7 @@ kservice_unit_tests(
  kservicetest
  kplugintradertest
  kplugininfotest
+ kapplicationtradertest
 )
 
 # the test plays with the timestamp of ~/.qttest/share/kservicetypes5, and with the ksycoca file, other tests can collide
@@ -30,7 +31,7 @@ set_tests_properties(ksycocatest PROPERTIES RUN_SERIAL TRUE)
 # KServiceTest::testAllServices can fail if any service is deleted while the test runs
 set_tests_properties(kservicetest PROPERTIES RUN_SERIAL TRUE)
 
-target_sources(kservicetest PUBLIC
+target_sources(kapplicationtradertest PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/../src/services/ktraderparsetree.cpp
 )
 
