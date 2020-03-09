@@ -367,8 +367,8 @@ public:
 
     /**
      * The keyword to be used when constructing the plugin using KPluginFactory. The keyword is
-     * defined with X-KDE-PluginKeyword in the .desktop file and with K_REGISTER_PLUGIN_WITH_KEYWORD
-     * when implementing the plugin.
+     * defined with X-KDE-PluginKeyword in the .desktop file and with registerPlugin<T>(keyword)
+     * in the K_PLUGIN_FACTORY macro when implementing the plugin.
      */
     QString pluginKeyword() const;
 
