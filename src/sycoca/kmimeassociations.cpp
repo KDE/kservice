@@ -126,6 +126,8 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
                 KService::Ptr pService = m_serviceFactory->findServiceByStorageId(service);
                 if (!pService) {
                     qCDebug(SYCOCA) << file << "specifies unknown service" << service << "in" << group.name();
+                } else if (!pService->offset()) {
+                    qCWarning(SYCOCA) << file << "specifies external service (ex: absolute path), this isn't supported:" << service;
                 } else {
                     //qDebug() << "adding mime" << resolvedMimeName << "to service" << pService->entryPath() << "pref=" << pref;
                     m_offerHash.addServiceOffer(resolvedMimeName, KServiceOffer(pService, pref, 0, pService->allowAsDefault()));
