@@ -78,6 +78,7 @@ flex_target(TraderLexer
             ${CMAKE_CURRENT_BINARY_DIR}/lex.c
             COMPILE_FLAGS "-Pkiotrader -B -i"
 )
+set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/lex.c ${CMAKE_CURRENT_BINARY_DIR}/yacc.c PROPERTY SKIP_AUTOMOC ON)
 add_flex_bison_dependency(TraderLexer TraderParser)
 list(APPEND kservice_SRCS ${BISON_TraderParser_OUTPUTS} ${FLEX_TraderLexer_OUTPUTS})
 set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/yacc.h PROPERTY SKIP_AUTOMOC TRUE) # don't run automoc on this file
