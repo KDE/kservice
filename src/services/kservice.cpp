@@ -268,7 +268,11 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         // do not store other translations like Name[fr]; kbuildsycoca will rerun if we change languages anyway
         if (!key.contains(QLatin1Char('['))) {
             //qCDebug(SERVICES) << "  Key =" << key << " Data =" << *it;
-            m_mapProps.insert(key, QVariant(*it));
+            if (key == QLatin1String("X-Flatpak-RenamedFrom")) {
+                m_mapProps.insert(key, desktopGroup.readXdgListEntry(key));
+            } else {
+                m_mapProps.insert(key, QVariant(*it));
+            }
         }
     }
 }
