@@ -83,7 +83,7 @@ public:
      */
     explicit KPluginInfo(const QString &filename /*, QStandardPaths::StandardLocation resource = ...? GenericDataLocation + services ? Is this used? */);
 
-// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kded still need this for compat reasons
+// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kded and kparts still need this for compat reasons
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
     /**
      * Read plugin info from a KService object.
