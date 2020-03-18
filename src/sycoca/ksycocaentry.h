@@ -131,7 +131,6 @@ private:
     friend class KService;
     friend class KSycocaDict;
     friend class KSycocaDictTest;
-    friend class KMimeAssociations;
 
     /**
      * @internal
