@@ -24,6 +24,10 @@
 #include <QSharedDataPointer>
 class QVariant;
 class KServiceActionPrivate;
+class KService;
+
+// we can't include kservice.h, it includes this header...
+typedef QExplicitlySharedDataPointer<KService> KServicePtr;
 
 /**
  * @class KServiceAction kserviceaction.h <KServiceAction>
@@ -36,14 +40,26 @@ class KServiceActionPrivate;
 class KSERVICE_EXPORT KServiceAction
 {
 public:
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 69)
     /**
      * Creates a KServiceAction.
      * Normally you don't have to do this, KService creates the actions
      * when parsing the .desktop file.
+     * @deprecated use the 6-args constructor
      */
     KServiceAction(const QString &name, const QString &text,
                    const QString &icon, const QString &exec,
                    bool noDisplay = false);
+#endif
+    /**
+     * Creates a KServiceAction.
+     * Normally you don't have to do this, KService creates the actions
+     * when parsing the .desktop file.
+     * @since 5.69
+     */
+    KServiceAction(const QString &name, const QString &text,
+                   const QString &icon, const QString &exec,
+                   bool noDisplay, const KServicePtr &service);
     /**
      * @internal
      * Needed for operator>>
@@ -109,10 +125,18 @@ public:
      */
     bool isSeparator() const;
 
+    /**
+     * Returns the service that this action comes from
+     * @since 5.69
+     */
+    KServicePtr service() const;
+
 private:
     QSharedDataPointer<KServiceActionPrivate> d;
     friend KSERVICE_EXPORT QDataStream &operator>>(QDataStream &str, KServiceAction &act);
     friend KSERVICE_EXPORT QDataStream &operator<<(QDataStream &str, const KServiceAction &act);
+    friend class KService;
+    void setService(const KServicePtr &service);
 };
 
 KSERVICE_EXPORT QDataStream &operator>>(QDataStream &str, KServiceAction &act);

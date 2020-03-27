@@ -735,6 +735,7 @@ void KServiceTest::testActionsAndDataStream()
     QCOMPARE(newTabAction.icon(), QStringLiteral("tab-new"));
     QCOMPARE(newTabAction.noDisplay(), false);
     QVERIFY(!newTabAction.isSeparator());
+    QCOMPARE(newTabAction.service()->name(), service->name());
 }
 
 void KServiceTest::testServiceGroups()

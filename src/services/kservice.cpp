@@ -284,12 +284,14 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
         return;
     }
 
+    KService::Ptr serviceClone(new KService(*q));
+
     QStringList::ConstIterator it = keys.begin();
     const QStringList::ConstIterator end = keys.end();
     for (; it != end; ++it) {
         const QString group = *it;
         if (group == QLatin1String("_SEPARATOR_")) {
-            m_actions.append(KServiceAction(group, QString(), QString(), QString(), false));
+            m_actions.append(KServiceAction(group, QString(), QString(), QString(), false, serviceClone));
             continue;
         }
 
@@ -302,7 +304,7 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
                                                 cg.readEntry("Name"),
                                                 cg.readEntry("Icon"),
                                                 cg.readEntry("Exec"),
-                                                cg.readEntry("NoDisplay", false)));
+                                                cg.readEntry("NoDisplay", false), serviceClone));
             }
         } else {
             qCWarning(SERVICES) << "The desktop file" << q->entryPath() << "references the action" << group << "but doesn't define it";
@@ -396,6 +398,11 @@ KService::KService(const KDesktopFile *config, const QString &entryPath)
 KService::KService(QDataStream &_str, int _offset)
     : KSycocaEntry(*new KServicePrivate(_str, _offset))
 {
+    Q_D(KService);
+    KService::Ptr serviceClone(new KService(*this));
+    for (KServiceAction &action : d->m_actions) {
+        action.setService(serviceClone);
+    }
 }
 
 KService::KService(const KService &other)

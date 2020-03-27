@@ -17,6 +17,7 @@
    Boston, MA 02110-1301, USA.
 */
 #include "kserviceaction.h"
+#include "kservice.h"
 #include <QVariant>
 #include <QDataStream>
 
@@ -33,6 +34,7 @@ public:
     QString m_exec;
     QVariant m_data;
     bool m_noDisplay;
+    KServicePtr m_service;
     // warning keep QDataStream operators in sync if adding data here
 };
 
@@ -41,11 +43,21 @@ KServiceAction::KServiceAction()
 {
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
 KServiceAction::KServiceAction(const QString &name, const QString &text,
                                const QString &icon, const QString &exec,
                                bool noDisplay)
     : d(new KServiceActionPrivate(name, text, icon, exec, noDisplay))
 {
+}
+#endif
+
+KServiceAction::KServiceAction(const QString &name, const QString &text,
+                               const QString &icon, const QString &exec,
+                               bool noDisplay, const KServicePtr &service)
+    : d(new KServiceActionPrivate(name, text, icon, exec, noDisplay))
+{
+    d->m_service = service;
 }
 
 KServiceAction::~KServiceAction()
@@ -101,6 +113,16 @@ bool KServiceAction::noDisplay() const
 bool KServiceAction::isSeparator() const
 {
     return d->m_name == QLatin1String("_SEPARATOR_");
+}
+
+KServicePtr KServiceAction::service() const
+{
+    return d->m_service;
+}
+
+void KServiceAction::setService(const KServicePtr &service)
+{
+    d->m_service = service;
 }
 
 QDataStream &operator>>(QDataStream &str, KServiceAction &act)
