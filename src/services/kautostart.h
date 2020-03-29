@@ -282,6 +282,12 @@ public:
      */
     bool checkAllowedEnvironment(const QString &environment) const;
 
+    /**
+     * Checks that a given autostart configuration condition is met.
+     * @param condition: config in the format "rcfile:group:entry:default"
+     */
+    static bool isStartConditionMet(const QString &condition);
+
 private:
     bool checkStartCondition() const;
     KAutostartPrivate *const d;

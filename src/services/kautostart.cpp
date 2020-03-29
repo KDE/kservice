@@ -139,7 +139,12 @@ bool KAutostart::autostarts(const QString &environment, Conditions check) const
 
 bool KAutostart::checkStartCondition() const
 {
-    QString condition = d->df->desktopGroup().readEntry("X-KDE-autostart-condition");
+    return KAutostart::isStartConditionMet(d->df->desktopGroup().readEntry("X-KDE-autostart-condition"));
+}
+
+
+bool KAutostart::isStartConditionMet(const QString &condition)
+{
     if (condition.isEmpty()) {
         return true;
     }
