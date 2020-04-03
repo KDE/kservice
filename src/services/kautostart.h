@@ -171,6 +171,8 @@ public:
      * with the autostart system. Does not check whether or not it is
      * set to actually autostart or not.
      * @param entryName the name of the service to check for
+     *
+     * @since 5.69
      */
     static bool isServiceRegistered(const QString &entryName);
 
