@@ -493,8 +493,9 @@ public:
      * @param showInMenu true, if the service should be shown in the KDE menu
      *        false, if the service should be hidden from the menu
      *        This argument isn't used anymore, use NoDisplay=true to hide the service.
-     * @param suggestedName name to base the file on, if a service with such
-     *        name already exists, a prefix will be added to make it unique.
+     * @param suggestedName name to base the file on, if a service with such a
+     *        name already exists, a suffix will be added to make it unique
+     *        (e.g. foo.desktop, foo-1.desktop, foo-2.desktop).
      * @param menuId If provided, menuId will be set to the menu id to use for
      *        the KService
      * @param reservedMenuIds If provided, the path and menu id will be chosen
