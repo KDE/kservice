@@ -171,8 +171,6 @@ public:
      * with the autostart system. Does not check whether or not it is
      * set to actually autostart or not.
      * @param entryName the name of the service to check for
-     *
-     * @since 5.69
      */
     static bool isServiceRegistered(const QString &entryName);
 
@@ -287,6 +285,8 @@ public:
     /**
      * Checks that a given autostart configuration condition is met.
      * @param condition: config in the format "rcfile:group:entry:default"
+     *
+     * @since 5.69
      */
     static bool isStartConditionMet(const QString &condition);
 
