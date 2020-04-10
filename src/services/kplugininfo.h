@@ -363,7 +363,7 @@ public:
      */
     QString libraryPath() const;
 
-// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kded and kparts still need this for compat reasons
+// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kcmutils still needs this for compat reasons
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 70)
     /**
      * @return The KService object for this plugin. You might need it if you
