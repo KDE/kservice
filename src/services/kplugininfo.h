@@ -196,7 +196,7 @@ public:
      * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
      * metadata into the plugins using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
      */
-    KSERVICE_DEPRECATED_VERSION(5, 0, "Use fromMetaData and KPluginLoader")
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use fromMetaData and KPluginLoader(info.libraryPath())")
     static KPluginInfo::List fromServices(const KService::List &services, const KConfigGroup &config = KConfigGroup());
 #endif
 
@@ -363,6 +363,8 @@ public:
      */
     QString libraryPath() const;
 
+// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kded and kparts still need this for compat reasons
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 70)
     /**
      * @return The KService object for this plugin. You might need it if you
      *         want to read custom values. To do this you need to define
@@ -371,8 +373,12 @@ public:
      *         keys.
      *
      * @see property()
+     *
+     * @deprecated since 5.70, use KPluginMetaData and KPluginLoader(info.libraryPath())
      */
+    KSERVICE_DEPRECATED_VERSION(5, 70, "Use KPluginMetaData and KPluginLoader(info.libraryPath())")
     KService::Ptr service() const;
+#endif
 
     /**
      * @return A list of Service pointers if the plugin installs one or more

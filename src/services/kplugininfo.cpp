@@ -581,11 +581,13 @@ QStringList KPluginInfo::serviceTypes() const
     return d->metaData.serviceTypes() + d->metaData.mimeTypes();
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 70)
 KService::Ptr KPluginInfo::service() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
     return d->service;
 }
+#endif
 
 QList<KService::Ptr> KPluginInfo::kcmServices() const
 {
