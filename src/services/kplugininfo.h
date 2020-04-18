@@ -44,6 +44,9 @@ class KPluginInfoPrivate;
 class KSERVICE_EXPORT KPluginInfo
 {
 public:
+    /**
+     * A list of KPluginInfo objects.
+     */
     typedef QList<KPluginInfo> List;
 
     /**

@@ -57,7 +57,13 @@ class KServicePrivate;
 class KSERVICE_EXPORT KService : public KSycocaEntry
 {
 public:
+    /**
+     * A shared data pointer for KService.
+     */
     typedef QExplicitlySharedDataPointer<KService> Ptr;
+    /**
+     * A list of shared data pointers for KService.
+     */
     typedef QList<Ptr> List;
 
     /**

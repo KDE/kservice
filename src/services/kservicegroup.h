@@ -64,8 +64,17 @@ class KSERVICE_EXPORT KServiceGroup : public KSycocaEntry
 {
     friend class KBuildServiceGroupFactory;
 public:
+    /**
+     * A shared data pointer for KServiceGroup.
+     */
     typedef QExplicitlySharedDataPointer<KServiceGroup> Ptr;
+    /**
+     * A shared data pointer for KSycocaEntry.
+     */
     typedef QExplicitlySharedDataPointer<KSycocaEntry> SPtr;
+    /**
+     * A list of shared data pointers for KSycocaEntry.
+     */
     typedef QList<SPtr> List;
 public:
     /**

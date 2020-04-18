@@ -58,7 +58,13 @@ public:
      */
     KSycocaType sycocaType() const;
 
+    /**
+     * A shared data pointer for KSycocaEntry.
+     */
     typedef QExplicitlySharedDataPointer<KSycocaEntry> Ptr;
+    /**
+     * A list of shared data pointers for KSycocaEntry.
+     */
     typedef QList<Ptr> List;
 
     /**
