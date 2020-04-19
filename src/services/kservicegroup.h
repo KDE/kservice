@@ -204,14 +204,18 @@ public:
 
     /**
      * options for groupEntries and serviceEntries
+     * @see EntriesOptions
      */
     enum EntriesOption {
-        NoOptions = 0x0,
+        NoOptions = 0x0,        /**< no options set */
         SortEntries = 0x1,    /**< sort items */
         ExcludeNoDisplay = 0x2, /**< exclude items marked "NoDisplay" */
         AllowSeparators = 0x4, /**< allow separator items to be included */
         SortByGenericName = 0x8 /**< sort by GenericName+Name instead of Name+GenericName */
     };
+    /**
+     * Stores a combination of #EntriesOption values.
+     */
     Q_DECLARE_FLAGS(EntriesOptions, EntriesOption)
 
     /**

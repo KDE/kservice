@@ -82,8 +82,12 @@ public:
     /**
      * Flags for each of the conditions that may affect whether or not
      * a service actually autostarted on login
+     * @see Conditions
      */
     enum Condition {
+        /**
+         * no conditions set
+         */
         NoConditions = 0x0,
         /**
          * an executable that is checked for existence by name
@@ -100,6 +104,9 @@ public:
          */
         CheckAll = 0xff
     };
+    /**
+     * Stores a combination of #Condition values.
+     */
     Q_DECLARE_FLAGS(Conditions, Condition)
 
     /**
