@@ -97,9 +97,9 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
           return;*/
         m_strType = QStringLiteral("Application");
     } else if (m_strType != QLatin1String("Application") && m_strType != QLatin1String("Service")) {
-        qCWarning(SERVICES) << "The desktop entry file " << entryPath
-                   << " has Type=" << m_strType
-                   << " instead of \"Application\" or \"Service\"";
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath
+                   << "has Type=" << m_strType
+                   << "instead of \"Application\" or \"Service\"";
         m_bValid = false;
         return;
     }
@@ -884,8 +884,8 @@ QString KService::exec() const
 {
     Q_D(const KService);
     if (d->m_strType == QLatin1String("Application") && d->m_strExec.isEmpty()) {
-        qCWarning(SERVICES) << "The desktop entry file " << entryPath()
-                   << " has Type=" << d->m_strType << " but has no Exec field.";
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath()
+                   << "has Type=" << d->m_strType << "but has no Exec field.";
     }
     return d->m_strExec;
 }
