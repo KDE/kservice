@@ -305,16 +305,16 @@ void KBuildServiceFactory::populateServiceTypes()
                     for (const QString &otherType : lst) {
                         // Skip derived types if the base class is listed (#321706)
                         if (stName != otherType && mime.inherits(otherType)) {
-                            // But don't skip aliases (they got resolved into mime->name() already, but don't let two aliases cancel out)
+                            // But don't skip aliases (they got resolved into mime.name() already, but don't let two aliases cancel out)
                             if (db.mimeTypeForName(otherType).name() != mime.name()) {
-                                //qCDebug(SYCOCA) << "Skipping" << mime->name() << "because of" << otherType << "(canonical" << KMimeTypeRepository::self()->canonicalName(otherType) << ") while parsing" << service->entryPath();
+                                //qCDebug(SYCOCA) << "Skipping" << mime.name() << "because of" << otherType << "(canonical" << db.mimeTypeForName(otherType) << ") while parsing" << service->entryPath();
                                 shouldAdd = false;
                             }
                         }
                     }
                     if (shouldAdd) {
-                        //qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << mime->name();
-                        m_offerHash.addServiceOffer(mime.name(), offer); // mime->name so that we resolve aliases
+                        //qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << mime.name();
+                        m_offerHash.addServiceOffer(mime.name(), offer); // mime.name() so that we resolve aliases
                     }
                 }
             }
@@ -398,7 +398,7 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
         for (QList<KServiceOffer>::const_iterator it2 = offers.constBegin();
                 it2 != offers.constEnd(); ++it2) {
 
-            //qCDebug(SYCOCA) << stName << ":" << "writing offer" << (*it2).service()->desktopEntryName() << offset << (*it2).service()->offset() << "in sycoca at pos" << str.device()->pos();
+            //qCDebug(SYCOCA) << stName << ": writing offer" << (*it2).service()->desktopEntryName() << offset << (*it2).service()->offset() << "in sycoca at pos" << str.device()->pos();
             Q_ASSERT((*it2).service()->offset() != 0);
 
             str << qint32(offset);
