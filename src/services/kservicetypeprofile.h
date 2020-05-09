@@ -25,6 +25,7 @@
 
 #include <kservicetypetrader.h>
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 66)
 /**
  * KServiceTypeProfile represents the user's preferences for services
  * of a service type.
@@ -38,7 +39,6 @@
  * @see KServiceTypeTrader
  * @short Represents the user's preferences for services of a service type
  */
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 66)
 namespace KServiceTypeProfile
 {
 /**
@@ -65,10 +65,14 @@ KSERVICE_EXPORT void writeServiceTypeProfile(const QString &serviceType,
 KSERVICE_DEPRECATED_VERSION(5, 66, "Unused")
 KSERVICE_EXPORT void deleteServiceTypeProfile(const QString &serviceType);
 
+}
+#endif
+
+namespace KServiceTypeProfile
+{
 /**
- * @internal, for KServiceTypeTrader
+ * @internal, for KServiceTypeTrader & unit test
  */
-KSERVICE_DEPRECATED_VERSION(5, 66, "Unused")
 KSERVICE_EXPORT bool hasProfile(const QString &serviceType);
 
 /**
@@ -78,6 +82,5 @@ KSERVICE_EXPORT bool hasProfile(const QString &serviceType);
 void clearCache();
 
 }
-#endif
 
 #endif

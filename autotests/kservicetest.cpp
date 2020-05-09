@@ -521,16 +521,20 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
 
     // Check ordering according to InitialPreference
     int lastPreference = -1;
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
     bool lastAllowedAsDefault = true;
+#endif
     for (KService::Ptr service : qAsConst(offers)) {
         const QString path = service->entryPath();
         const int preference = service->initialPreference(); // ## might be wrong if we use per-servicetype preferences...
         //qDebug( "%s has preference %d, allowAsDefault=%d", qPrintable( path ), preference, service->allowAsDefault() );
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
         if (lastAllowedAsDefault && !service->allowAsDefault()) {
             // first "not allowed as default" offer
             lastAllowedAsDefault = false;
             lastPreference = -1; // restart
         }
+#endif
         if (lastPreference != -1) {
             QVERIFY(preference <= lastPreference);
         }
@@ -658,6 +662,7 @@ void KServiceTest::testHasServiceType2() // with services coming from ksycoca
     QVERIFY(!faketextPlugin->hasServiceType(QStringLiteral("FakeBasePart")));
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
 void KServiceTest::testWriteServiceTypeProfile()
 {
     const QString serviceType = QStringLiteral("FakeBasePart");
@@ -692,6 +697,7 @@ void KServiceTest::testWriteServiceTypeProfile()
     QVERIFY(offerListHasService(offers, QStringLiteral("otherpart.desktop")));     // should still be somewhere in there
     QVERIFY(!offerListHasService(offers, QStringLiteral("fakepart2.desktop")));     // it got disabled above
 }
+#endif
 
 void KServiceTest::testDefaultOffers()
 {
@@ -707,6 +713,7 @@ void KServiceTest::testDefaultOffers()
     QCOMPARE(offers[0]->entryPath(), m_firstOffer);
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
 void KServiceTest::testDeleteServiceTypeProfile()
 {
     const QString serviceType = QStringLiteral("FakeBasePart");
@@ -721,6 +728,7 @@ void KServiceTest::testDeleteServiceTypeProfile()
     }
     QCOMPARE(offers[0]->entryPath(), m_firstOffer);
 }
+#endif
 
 void KServiceTest::testActionsAndDataStream()
 {

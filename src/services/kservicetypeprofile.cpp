@@ -17,8 +17,10 @@
  *  Boston, MA 02110-1301, USA.
  */
 
+
 #include "kservicetypeprofile.h"
 #include "kservicetypeprofile_p.h"
+
 #include "kservice.h"
 #include "kserviceoffer.h"
 #include "kservicetype.h"
@@ -140,7 +142,11 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
                 const int pref = it2.value();
                 //qDebug() << "found in mapServices pref=" << pref;
                 if (pref > 0) {   // 0 disables the service
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
                     offers.append(KServiceOffer(servPtr, pref, 0, servPtr->allowAsDefault()));
+#else
+                    offers.append(KServiceOffer(servPtr, pref, 0));
+#endif
                 }
                 foundInProfile = true;
             }
@@ -155,8 +161,12 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
             // If there's a profile, we use 0 as the preference to ensure new apps don't take over existing apps (which default to 1)
             offers.append(KServiceOffer(servPtr,
                                         profile ? 0 : (*it).preference(),
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
                                         0,
                                         servPtr->allowAsDefault()));
+#else
+                                        0));
+#endif
         }
     }
 
@@ -166,12 +176,12 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
     return offers;
 }
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
 bool KServiceTypeProfile::hasProfile(const QString &serviceType)
 {
     return s_serviceTypeProfiles()->hasProfile(serviceType);
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
 void KServiceTypeProfile::writeServiceTypeProfile(const QString &serviceType,
         const KService::List &services,
         const KService::List &disabledServices)
@@ -215,7 +225,9 @@ void KServiceTypeProfile::writeServiceTypeProfile(const QString &serviceType,
     // Drop the whole cache...
     clearCache();
 }
+#endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
 void KServiceTypeProfile::deleteServiceTypeProfile(const QString &serviceType)
 {
     KConfig config(QStringLiteral("servicetype_profilerc"), KConfig::SimpleConfig);

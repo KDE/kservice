@@ -179,10 +179,14 @@ KService::Ptr KServiceTypeTrader::preferredService(const QString &serviceType) c
     const KServiceOfferList offers = weightedOffers(serviceType);
 
     KServiceOfferList::const_iterator itOff = offers.begin();
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
     // Look for the first one that is allowed as default.
     // Since the allowed-as-default are first anyway, we only have
     // to look at the first one to know.
     if (itOff != offers.end() && (*itOff).allowAsDefault()) {
+#else
+    if (itOff != offers.end()) {
+#endif
         return (*itOff).service();
     }
 

@@ -193,10 +193,14 @@ KService::Ptr KMimeTypeTrader::preferredService(const QString &mimeType, const Q
     filterMimeTypeOffers(offers, genericServiceType);
 
     KServiceOfferList::const_iterator itOff = offers.constBegin();
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
     // Look for the first one that is allowed as default.
     // Since the allowed-as-default are first anyway, we only have
     // to look at the first one to know.
     if (itOff != offers.constEnd() && (*itOff).allowAsDefault()) {
+#else
+    if (itOff != offers.constEnd()) {
+#endif
         return (*itOff).service();
     }
 

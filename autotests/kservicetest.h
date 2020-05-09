@@ -48,9 +48,13 @@ private Q_SLOTS:
     void testSubseqConstraints();
     void testHasServiceType1();
     void testHasServiceType2();
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
     void testWriteServiceTypeProfile();
+#endif
     void testDefaultOffers();
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
     void testDeleteServiceTypeProfile();
+#endif
     void testDBUSStartupType();
     void testByStorageId();
     void testActionsAndDataStream();

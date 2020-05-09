@@ -168,10 +168,14 @@ private Q_SLOTS:
         QCOMPARE(info.pluginName(), pluginName);
         // KService/KPluginInfo merges X-KDE-ServiceTypes and MimeTypes
         QCOMPARE(info.serviceTypes(), QStringList() << QStringLiteral("KService/NSA") << QStringLiteral("text/plain") << QStringLiteral("image/png"));
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 70)
         if (!info.service()) {
+#endif
             // KService does not include X-My-Custom-Property since there is no service type installed that defines it
             QCOMPARE(info.property(QStringLiteral("X-My-Custom-Property")), QVariant("foo"));
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 70)
         }
+#endif
         // Now check that converting to KPluginMetaData has the separation
         KPluginMetaData asMetaData = info.toMetaData();
         QCOMPARE(asMetaData.serviceTypes(), QStringList() << QStringLiteral("KService/NSA"));

@@ -284,9 +284,17 @@ void KBuildServiceFactory::populateServiceTypes()
                 }
 
                 //qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << serviceType->name() << "pref=" << preference;
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
                 m_offerHash.addServiceOffer(stName, KServiceOffer(service, preference, 0, service->allowAsDefault()));
+#else
+                m_offerHash.addServiceOffer(stName, KServiceOffer(service, preference, 0));
+#endif
             } else {
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
                 KServiceOffer offer(service, serviceTypeList[i].preference, 0, service->allowAsDefault());
+#else
+                KServiceOffer offer(service, serviceTypeList[i].preference, 0);
+#endif
                 QMimeType mime = db.mimeTypeForName(stName);
                 if (!mime.isValid()) {
                     if (stName.startsWith(QLatin1String("x-scheme-handler/"))) {

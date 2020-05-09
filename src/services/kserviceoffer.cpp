@@ -26,14 +26,15 @@ public:
     KServiceOfferPrivate()
         : preference(-1),
           mimeTypeInheritanceLevel(0),
-          bAllowAsDefault(false),
           pService(nullptr)
     {
     }
 
     int preference;
     int mimeTypeInheritanceLevel;
-    bool bAllowAsDefault;
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 71)
+    bool bAllowAsDefault = false;
+#endif
     KService::Ptr pService;
 };
 
@@ -48,6 +49,7 @@ KServiceOffer::KServiceOffer(const KServiceOffer &_o)
     *d = *_o.d;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 71)
 KServiceOffer::KServiceOffer(const KService::Ptr &_service, int _pref, int mimeTypeInheritanceLevel, bool _default)
     : d(new KServiceOfferPrivate)
 {
@@ -55,6 +57,18 @@ KServiceOffer::KServiceOffer(const KService::Ptr &_service, int _pref, int mimeT
     d->preference = _pref;
     d->mimeTypeInheritanceLevel = mimeTypeInheritanceLevel;
     d->bAllowAsDefault = _default;
+}
+#endif
+
+KServiceOffer::KServiceOffer(const KService::Ptr &_service, int _pref, int mimeTypeInheritanceLevel)
+    : d(new KServiceOfferPrivate)
+{
+    d->pService = _service;
+    d->preference = _pref;
+    d->mimeTypeInheritanceLevel = mimeTypeInheritanceLevel;
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 71)
+    d->bAllowAsDefault = true;
+#endif
 }
 
 KServiceOffer::~KServiceOffer()
@@ -81,6 +95,7 @@ bool KServiceOffer::operator< (const KServiceOffer &_o) const
         return d->mimeTypeInheritanceLevel < _o.d->mimeTypeInheritanceLevel;
     }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 71)
     // Put offers allowed as default FIRST.
     if (_o.d->bAllowAsDefault && !d->bAllowAsDefault) {
         return false;    // _o is default and not 'this'.
@@ -89,6 +104,7 @@ bool KServiceOffer::operator< (const KServiceOffer &_o) const
         return true;    // 'this' is default but not _o.
     }
     // Both offers are allowed or not allowed as default
+#endif
 
     // Finally, use preference to sort them
     // The bigger the better, but we want the better FIRST
