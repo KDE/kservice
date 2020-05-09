@@ -47,7 +47,7 @@ public:
      * when parsing the .desktop file.
      * @deprecated Since 5.69, use the 6-args constructor
      */
-    KSERVICE_DEPRECATED_VERSION(5, 71, "Use the 6-args constructor") // tag only added for 5.71, so has to be != API dox :/
+    KSERVICE_DEPRECATED_VERSION_BELATED(5, 71, 5, 69, "Use the 6-args constructor")
     KServiceAction(const QString &name, const QString &text,
                    const QString &icon, const QString &exec,
                    bool noDisplay = false);
