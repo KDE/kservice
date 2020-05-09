@@ -45,8 +45,9 @@ public:
      * Creates a KServiceAction.
      * Normally you don't have to do this, KService creates the actions
      * when parsing the .desktop file.
-     * @deprecated use the 6-args constructor
+     * @deprecated Since 5.69, use the 6-args constructor
      */
+    KSERVICE_DEPRECATED_VERSION(5, 71, "Use the 6-args constructor") // tag only added for 5.71, so has to be != API dox :/
     KServiceAction(const QString &name, const QString &text,
                    const QString &icon, const QString &exec,
                    bool noDisplay = false);
