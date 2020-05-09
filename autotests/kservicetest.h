@@ -30,7 +30,7 @@ public:
     KServiceTest() : m_sycocaUpdateDone(0) {}
 private Q_SLOTS:
     void initTestCase();
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
     void testKPluginMetaData();
 #endif
     void cleanupTestCase();
