@@ -30,6 +30,8 @@ kservice_unit_tests(
 set_tests_properties(ksycocatest PROPERTIES RUN_SERIAL TRUE)
 # KServiceTest::testAllServices can fail if any service is deleted while the test runs
 set_tests_properties(kservicetest PROPERTIES RUN_SERIAL TRUE)
+# This test deletes ~/.qttest/share/applications
+set_tests_properties(kapplicationtradertest PROPERTIES RUN_SERIAL TRUE)
 
 target_sources(kapplicationtradertest PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/../src/services/ktraderparsetree.cpp
