@@ -151,3 +151,6 @@ Type=QStringList
 
 [PropertyDef::X-KDE-Wayland-Interfaces]
 Type=QStringList
+
+[PropertyDef::X-KDE-DBUS-Restricted-Interfaces]
+Type=QStringList
