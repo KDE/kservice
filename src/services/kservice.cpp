@@ -114,7 +114,11 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     if (m_strType == QLatin1String("Application")) {
         // It's an application? Should have an Exec line then, otherwise we can't run it
         if (m_strExec.isEmpty()) {
-            qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but no Exec line";
+            // since ".directory" files aren't supposed to have an Exec line, no point
+            // displaying this warning for them
+            if (config->filename() != QLatin1String(".directory")) {
+                qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but no Exec line";
+            }
             m_bValid = false;
             return;
         }
