@@ -24,10 +24,10 @@
 
 #include <QDebug>
 #include <assert.h>
-#include <kdesktopfile.h>
-#include <kconfiggroup.h>
+#include <KDesktopFile>
+#include <KConfigGroup>
 #include <QHash>
-#include <qstandardpaths.h>
+#include <QStandardPaths>
 
 KBuildServiceTypeFactory::KBuildServiceTypeFactory(KSycoca *db)
     : KServiceTypeFactory(db)

@@ -21,10 +21,10 @@
 
 #include "../../kservice_version.h"
 
-#include <klocalizedstring.h>
-#include <kaboutdata.h>
+#include <KLocalizedString>
+#include <KAboutData>
 #ifndef __ANDROID__
-#include <kcrash.h>
+#include <KCrash>
 #endif
 
 #include <QCommandLineOption>

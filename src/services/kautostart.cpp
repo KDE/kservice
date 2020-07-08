@@ -19,8 +19,8 @@
 
 #include "kautostart.h"
 
-#include "kdesktopfile.h"
-#include "kconfiggroup.h"
+#include <KDesktopFile>
+#include <KConfigGroup>
 
 #include <QCoreApplication>
 #include <QDir>

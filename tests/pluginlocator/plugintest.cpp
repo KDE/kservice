@@ -25,7 +25,7 @@
 #include <kplugininfo.h>
 #include <kplugintrader.h>
 
-#include <qcommandlineparser.h>
+#include <QCommandLineParser>
 
 #include <QElapsedTimer>
 #include <QStandardPaths>

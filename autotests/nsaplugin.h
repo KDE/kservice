@@ -25,7 +25,7 @@
 #include <QObject>
 
 #include <kplugininfo.h>
-#include <kpluginfactory.h>
+#include <KPluginFactory>
 
 class NSAPlugin : public QObject
 {

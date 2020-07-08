@@ -26,8 +26,8 @@
 #include "kservicefactory_p.h"
 #include "kservicetypeprofile.h"
 #include <assert.h>
-#include <kdesktopfile.h>
-#include <kconfiggroup.h>
+#include <KDesktopFile>
+#include <KConfigGroup>
 #include "servicesdebug.h"
 
 extern int servicesDebugArea();

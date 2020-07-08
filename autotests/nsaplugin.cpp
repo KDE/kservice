@@ -20,7 +20,7 @@
  */
 
 #include "nsaplugin.h"
-#include <kexportplugin.h>
+#include <KExportPlugin>
 #include <QDebug>
 
 NSAPlugin::NSAPlugin(QObject *parent, const QVariantList &args)

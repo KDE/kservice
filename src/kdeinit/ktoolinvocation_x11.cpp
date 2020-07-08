@@ -24,19 +24,19 @@
 
 #include "ktoolinvocation.h"
 
-#include <kconfiggroup.h>
-#include <ksharedconfig.h>
+#include <KConfigGroup>
+#include <KSharedConfig>
 #include <kmimetypetrader.h>
 
-#include "kconfig.h"
-#include "kshell.h"
-#include "kmacroexpander.h"
-#include "klocalizedstring.h"
-#include "kmessage.h"
+#include <KConfig>
+#include <KShell>
+#include <KMacroExpander>
+#include <KLocalizedString>
+#include <KMessage>
 #include "kservice.h"
 
 #include <QDebug>
-#include <qstandardpaths.h>
+#include <QStandardPaths>
 #include <QHash>
 #include <QUrl>
 #include <QUrlQuery>

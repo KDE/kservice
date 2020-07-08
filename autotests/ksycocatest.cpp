@@ -24,8 +24,8 @@
 #include <QTest>
 #include <QDebug>
 #include <kservicetype.h>
-#include <kdesktopfile.h>
-#include <kconfiggroup.h>
+#include <KDesktopFile>
+#include <KConfigGroup>
 #include <QSignalSpy>
 #include <QProcess>
 #include <kservice.h>

@@ -26,8 +26,8 @@
 #include "kservicetype.h"
 #include "ksycoca_p.h"
 
-#include <kconfig.h>
-#include <kconfiggroup.h>
+#include <KConfig>
+#include <KConfigGroup>
 
 #include <QMutex>
 #include <QHash>

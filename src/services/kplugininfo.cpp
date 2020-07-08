@@ -29,10 +29,10 @@
 
 #include "ksycoca.h"
 #include "ksycoca_p.h"
-#include <kaboutdata.h>
-#include <kconfiggroup.h>
-#include <kdesktopfile.h>
-#include <kpluginmetadata.h>
+#include <KAboutData>
+#include <KConfigGroup>
+#include <KDesktopFile>
+#include <KPluginMetaData>
 #include <kservice.h>
 #include <kservicetypetrader.h>
 #include <kservicetypefactory_p.h>

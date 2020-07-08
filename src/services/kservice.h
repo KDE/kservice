@@ -24,8 +24,8 @@
 #include "kserviceaction.h"
 #include <QStringList>
 #include <QVariant>
-#include <kpluginfactory.h>
-#include <kpluginloader.h>
+#include <KPluginFactory>
+#include <KPluginLoader>
 #include <ksycocaentry.h>
 #include <QCoreApplication>
 

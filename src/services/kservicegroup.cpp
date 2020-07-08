@@ -24,8 +24,8 @@
 #include "ksycoca_p.h"
 #include "servicesdebug.h"
 #include <ksycoca.h>
-#include <kdesktopfile.h>
-#include <kconfiggroup.h>
+#include <KDesktopFile>
+#include <KConfigGroup>
 
 KServiceGroup::KServiceGroup(const QString &name)
     : KSycocaEntry(*new KServiceGroupPrivate(name))

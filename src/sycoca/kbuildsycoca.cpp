@@ -41,14 +41,14 @@
 #include <QDebug>
 #include <QDirIterator>
 #include <QDateTime>
-#include <qsavefile.h>
+#include <QSaveFile>
 
 #include <kmemfile_p.h>
 
 #include <qplatformdefs.h>
 #include <time.h>
 #include <memory> // auto_ptr
-#include <qstandardpaths.h>
+#include <QStandardPaths>
 #include <QLockFile>
 
 static const char *s_cSycocaPath = nullptr;

@@ -21,16 +21,16 @@
 #include "ktoolinvocation.h"
 #ifdef QT_DBUS_LIB
 #include "klauncher_iface.h"
-#include <kdeinitinterface.h>
+#include <KDEInitInterface>
 #endif
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 
 #include <QDebug>
 #include <QUrl>
 #include <QUrlQuery>
 #include <QCoreApplication>
 #include <QThread>
-#include <qstandardpaths.h>
+#include <QStandardPaths>
 
 #include <errno.h> // for EINVAL
 

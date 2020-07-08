@@ -20,7 +20,7 @@
 #define KSYCOCAFACTORY_H
 
 #include <ksycocaentry.h>
-#include <qstandardpaths.h>
+#include <QStandardPaths>
 
 #include <ksycoca.h> // for KSycoca::self()
 

@@ -25,7 +25,7 @@
 #include <QStringList>
 #include <QElapsedTimer>
 #include <QDateTime>
-#include <kdirwatch.h>
+#include <KDirWatch>
 class QFile;
 class QDataStream;
 class KSycocaAbstractDevice;

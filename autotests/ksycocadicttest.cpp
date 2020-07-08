@@ -22,8 +22,8 @@
 #include <QSignalSpy>
 #include <QDebug>
 #include <kservicetype.h>
-#include <kdesktopfile.h>
-#include <kconfiggroup.h>
+#include <KDesktopFile>
+#include <KConfigGroup>
 #include <ksycocadict_p.h>
 #include <kbuildsycoca_p.h>
 

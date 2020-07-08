@@ -20,8 +20,8 @@
 
 #include "ktoolinvocation.h"
 
-#include "kmessage.h"
-#include "klocalizedstring.h"
+#include <KMessage>
+#include <KLocalizedString>
 
 #include <QUrl>
 #include <QUrlQuery>

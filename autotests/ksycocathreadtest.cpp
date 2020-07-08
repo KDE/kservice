@@ -30,9 +30,9 @@
 #include <QFile>
 #include <kbuildsycoca_p.h>
 
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <kdesktopfile.h>
+#include <KConfig>
+#include <KConfigGroup>
+#include <KDesktopFile>
 #include <ksycoca.h>
 #include <kservicegroup.h>
 #include <kservicetype.h>

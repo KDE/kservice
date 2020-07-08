@@ -24,17 +24,17 @@
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
 #include "ksycocaresourcelist_p.h"
-#include "kdesktopfile.h"
+#include <KDesktopFile>
 #include "kservicetype.h"
 #include "sycocadebug.h"
 
 #include <QDebug>
 #include <QDir>
-#include <qmimedatabase.h>
+#include <QMimeDatabase>
 
 #include <assert.h>
 #include <kmimetypefactory_p.h>
-#include <qstandardpaths.h>
+#include <QStandardPaths>
 
 KBuildServiceFactory::KBuildServiceFactory(KServiceTypeFactory *serviceTypeFactory,
         KBuildMimeTypeFactory *mimeTypeFactory,

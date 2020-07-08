@@ -21,11 +21,11 @@
 
 #include <locale.h>
 
-#include <qtest.h>
+#include <QTest>
 
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <kdesktopfile.h>
+#include <KConfig>
+#include <KConfigGroup>
+#include <KDesktopFile>
 #include <ksycoca.h>
 #include <kbuildsycoca_p.h>
 #include <../src/services/ktraderparsetree_p.h>
@@ -35,10 +35,10 @@
 #include <kservicetype.h>
 #include <kservicetypeprofile.h>
 
-#include <qfile.h>
-#include <qstandardpaths.h>
-#include <qthread.h>
-#include <qsignalspy.h>
+#include <QFile>
+#include <QStandardPaths>
+#include <QThread>
+#include <QSignalSpy>
 
 #include <QDebug>
 #include <QLoggingCategory>
@@ -295,7 +295,7 @@ QString KApplicationTraderTest::createFakeApplication(const QString &filename, c
 
 #include <QThreadPool>
 #include <QFutureSynchronizer>
-#include <qtconcurrentrun.h>
+#include <QtConcurrentRun>
 
 // Testing for concurrent access to ksycoca from multiple threads
 // Use thread-sanitizer to see the data races

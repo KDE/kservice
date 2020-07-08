@@ -24,7 +24,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <kconfiggroup.h>
+#include <KConfigGroup>
 #include <kservice.h>
 #include <QList>
 

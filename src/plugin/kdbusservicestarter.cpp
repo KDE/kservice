@@ -19,7 +19,7 @@
 #include "kdbusservicestarter.h"
 #include "kservicetypetrader.h"
 #include "kservice.h"
-#include <klocalizedstring.h>
+#include <KLocalizedString>
 #include <ktoolinvocation.h>
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>

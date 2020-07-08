@@ -23,8 +23,8 @@
 #include <QTest>
 #include <QDebug>
 #include <kservicetype.h>
-#include <kdesktopfile.h>
-#include <kconfiggroup.h>
+#include <KDesktopFile>
+#include <KConfigGroup>
 #include <QProcess>
 #include <kservice.h>
 #include <kservicefactory_p.h>

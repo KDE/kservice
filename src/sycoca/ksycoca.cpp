@@ -23,11 +23,11 @@
 #include "ksycocautils_p.h"
 #include "ksycocatype.h"
 #include "ksycocafactory_p.h"
-#include "kconfiggroup.h"
-#include "ksharedconfig.h"
+#include <KConfigGroup>
+#include <KSharedConfig>
 #include "sycocadebug.h"
 
-#include <qstandardpaths.h>
+#include <QStandardPaths>
 #include <QDataStream>
 #include <QCoreApplication>
 #include <QFile>

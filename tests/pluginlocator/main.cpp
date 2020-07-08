@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-#include <qcommandlineparser.h>
-#include <qcommandlineoption.h>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 
 #include "plugintest.h"
 

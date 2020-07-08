@@ -28,7 +28,7 @@
 #include "kservicefactory_p.h"
 #include "kmimetypefactory_p.h"
 #include "servicesdebug.h"
-#include <qmimedatabase.h>
+#include <QMimeDatabase>
 
 class KMimeTypeTraderPrivate
 {

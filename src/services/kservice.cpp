@@ -29,15 +29,15 @@
 #include <QDir>
 #include <QMap>
 #include <QCoreApplication>
-#include <qmimedatabase.h>
+#include <QMimeDatabase>
 
-#include <kauthorized.h>
-#include <kdesktopfile.h>
-#include <kconfiggroup.h>
-#include <klocalizedstring.h>
+#include <KAuthorized>
+#include <KDesktopFile>
+#include <KConfigGroup>
+#include <KLocalizedString>
 
-#include <qstandardpaths.h>
-#include <qdebug.h>
+#include <QStandardPaths>
+#include <QDebug>
 
 #include "kservicefactory_p.h"
 #include "kservicetypefactory_p.h"

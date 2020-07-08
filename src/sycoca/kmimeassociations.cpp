@@ -21,12 +21,12 @@
 #include "kmimeassociations_p.h"
 #include <kservice.h>
 #include <kservicefactory_p.h>
-#include <kconfiggroup.h>
-#include <kconfig.h>
+#include <KConfigGroup>
+#include <KConfig>
 #include <QDebug>
 #include <QFile>
-#include <qstandardpaths.h>
-#include <qmimedatabase.h>
+#include <QStandardPaths>
+#include <QMimeDatabase>
 #include "sycocadebug.h"
 
 KMimeAssociations::KMimeAssociations(KOfferHash &offerHash, KServiceFactory *serviceFactory)

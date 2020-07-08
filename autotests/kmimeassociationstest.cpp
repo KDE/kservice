@@ -20,13 +20,13 @@
 
 #include <QDebug>
 #include <QDir>
-#include <kconfiggroup.h>
-#include <kdesktopfile.h>
+#include <KConfigGroup>
+#include <KDesktopFile>
 #include <kmimetypetrader.h>
 #include <kservicefactory_p.h>
-#include <qtemporarydir.h>
-#include <qtemporaryfile.h>
-#include <qtest.h>
+#include <QTemporaryDir>
+#include <QTemporaryFile>
+#include <QTest>
 #include "setupxdgdirs.h"
 #include "kmimeassociations_p.h"
 #include <kbuildsycoca_p.h>

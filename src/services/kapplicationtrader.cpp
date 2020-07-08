@@ -27,7 +27,7 @@
 #include "kmimetypefactory_p.h"
 #include "servicesdebug.h"
 
-#include <qmimedatabase.h>
+#include <QMimeDatabase>
 
 static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
 {
