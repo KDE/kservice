@@ -28,7 +28,11 @@ if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
 endif()
 
 set(kmimeassociations_dumper_debug_SRCS)
-ecm_qt_declare_logging_category(kmimeassociations_dumper_debug_SRCS HEADER sycocadebug.h IDENTIFIER SYCOCA CATEGORY_NAME kf5.kservice.sycoca)
+ecm_qt_declare_logging_category(kmimeassociations_dumper_debug_SRCS
+    HEADER sycocadebug.h
+    IDENTIFIER SYCOCA
+    CATEGORY_NAME kf.service.sycoca
+)
 set(kmimeassociations_dumper_SRCS kmimeassociations_dumper.cpp ../src/sycoca/kmimeassociations.cpp ${kmimeassociations_dumper_debug_SRCS})
 
 add_executable(kmimeassociations_dumper ${kmimeassociations_dumper_SRCS})

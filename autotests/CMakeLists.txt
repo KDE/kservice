@@ -54,7 +54,11 @@ kcoreaddons_desktop_to_json(fakeplugin ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_js
 ######### kmimeassociationstest ########
 
 set(kmimeassociationstest_SRCS kmimeassociationstest.cpp ../src/sycoca/kmimeassociations.cpp)
-ecm_qt_declare_logging_category(kmimeassociationstest_SRCS HEADER sycocadebug.h IDENTIFIER SYCOCA CATEGORY_NAME kf5.kservice.sycoca)
+ecm_qt_declare_logging_category(kmimeassociationstest_SRCS
+    HEADER sycocadebug.h
+    IDENTIFIER SYCOCA
+    CATEGORY_NAME kf.service.sycoca
+)
 
 ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
              LINK_LIBRARIES KF5::Service Qt5::Test Qt5::Xml)

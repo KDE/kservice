@@ -45,14 +45,16 @@ endif()
 ecm_qt_declare_logging_category(kservice_SRCS
     HEADER servicesdebug.h
     IDENTIFIER SERVICES
-    CATEGORY_NAME kf5.kservice.services
+    CATEGORY_NAME kf.service.services
+    OLD_CATEGORY_NAMES kf5.kservice.services
     EXPORT KSERVICE
     DESCRIPTION "service (kservice lib)"
 )
 ecm_qt_declare_logging_category(kservice_SRCS
     HEADER sycocadebug.h
     IDENTIFIER SYCOCA
-    CATEGORY_NAME kf5.kservice.sycoca
+    CATEGORY_NAME kf.service.sycoca
+    OLD_CATEGORY_NAMES kf5.kservice.sycoca
     EXPORT KSERVICE
     DESCRIPTION "sycoca (kservice)"
 )
