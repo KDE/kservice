@@ -159,6 +159,22 @@ public Q_SLOTS:
      * Invokes the standard terminal application.
      *
      * @param command the command to execute, can be empty.
+     * @param envs ENV variables for the invoked terminal command
+     * @param workdir the initial working directory, can be empty.
+     * @param startup_id for app startup notification, "0" for none,
+     *           "" ( empty string ) is the default
+     * @since 5.73
+     */
+    static void invokeTerminal(const QString &command,
+                               const QStringList &envs,
+                               const QString &workdir = QString(),
+                               const QByteArray &startup_id = "");
+
+    /**
+     *
+     * Invokes the standard terminal application.
+     *
+     * @param command the command to execute, can be empty.
      * @param workdir the initial working directory, can be empty.
      * @param startup_id for app startup notification, "0" for none,
      *           "" ( empty string ) is the default
@@ -389,6 +405,12 @@ private:
     int startServiceInternal(const char *_function,
                              const QString &_name, const QStringList &URLs,
                              QString *error, QString *serviceName, int *pid,
+                             const QByteArray &startup_id, bool noWait,
+                             const QString &workdir = QString());
+    int startServiceInternal(const char *_function,
+                             const QString &_name, const QStringList &URLs,
+                             const QStringList &envs, QString *error,
+                             QString *serviceName, int *pid,
                              const QByteArray &startup_id, bool noWait,
                              const QString &workdir = QString());
     static bool isMainThreadActive(QString *error = nullptr);

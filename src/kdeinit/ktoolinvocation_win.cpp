@@ -83,7 +83,15 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
 #endif
 }
 
-void KToolInvocation::invokeTerminal(const QString &command, const QString &workdir, const QByteArray &startup_id)
+void KToolInvocation::invokeTerminal(const QString &command,
+                                     const QStringList &envs,
+                                     const QString &workdir,
+                                     const QByteArray &startup_id)
 {
     //TODO
+}
+
+void KToolInvocation::invokeTerminal(const QString &command, const QString &workdir, const QByteArray &startup_id)
+{
+    invokeTerminal(command, QStringList(), workdir, startup_id);
 }

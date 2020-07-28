@@ -80,6 +80,21 @@ int KToolInvocation::startServiceInternal(const char *_function,
         const QByteArray &startup_id, bool noWait,
         const QString &workdir)
 {
+    return startServiceInternal(_function, _name, URLs, QStringList(), error,
+                                serviceName, pid, startup_id, noWait, workdir);
+}
+
+int KToolInvocation::startServiceInternal(const char *_function,
+                                          const QString &_name,
+                                          const QStringList &URLs,
+                                          const QStringList &envs,
+                                          QString *error,
+                                          QString *serviceName,
+                                          int *pid,
+                                          const QByteArray &startup_id,
+                                          bool noWait,
+                                          const QString &workdir)
+{
 #ifdef QT_DBUS_LIB
     QString function = QLatin1String(_function);
     KToolInvocation::ensureKdeinitRunning();
@@ -92,10 +107,10 @@ int KToolInvocation::startServiceInternal(const char *_function,
         msg << workdir;
     }
     // make sure there is id, so that user timestamp exists
-    QStringList envs;
     QByteArray s = startup_id;
-    emit kapplication_hook(envs, s);
-    msg << envs;
+    QStringList envCopy(envs);
+    emit kapplication_hook(envCopy, s);
+    msg << envCopy;
     msg << QString::fromLatin1(s);
     if (!function.startsWith(QLatin1String("kdeinit_exec"))) {
         msg << noWait;
