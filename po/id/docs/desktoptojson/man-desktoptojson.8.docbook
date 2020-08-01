@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Indonesian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<refentry lang="&language;">
+
+<refentryinfo>
+<title
+>&kde; Framework: KService</title>
+<author
+><firstname
+>Scarlett</firstname
+> <surname
+>Clark</surname
+> <contrib
+>Menulis dokumen asli.</contrib>
+<affiliation>
+<address
+><email
+>scarlett@scarlettgatelyclark.com</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alex</firstname
+> <surname
+>Merry</surname
+> <contrib
+>Mengedit dokumentasi.</contrib>
+<affiliation>
+<address
+><email
+>alexmerry@kde.org</email
+></address>
+</affiliation>
+</author>
+
+<date
+>02-04-2014</date>
+<releaseinfo
+>Frameworks 5.0</releaseinfo>
+<productname
+>KDE Frameworks</productname>
+
+</refentryinfo>
+
+
+<refmeta>
+<refentrytitle
+><command
+>desktoptojson</command
+></refentrytitle>
+<manvolnum
+>8</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>desktoptojson</command
+></refname>
+<refpurpose
+>Mengkonversi sebuah file <filename class="extension"
+>.desktop</filename
+> ke sebuah file <filename class="extension"
+>.json</filename
+>.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<title
+>Sinopsis</title>
+
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <arg choice="plain"
+>--input <replaceable
+>DESKTOP-FILE</replaceable
+></arg
+> <arg choice="plain"
+>--output <replaceable
+>JSON-FILE</replaceable
+></arg
+> </cmdsynopsis>
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <group choice="req"
+> <arg choice="plain"
+>--version</arg
+> <arg choice="plain"
+>--help</arg
+> </group
+> </cmdsynopsis>
+
+</refsynopsisdiv>
+
+
+
+
+<refsect1>
+<title
+>Deskripsi</title>
+
+<para
+>Kerangka-kerja KService menggunakan informasi yang terisi di dalam file <filename class="extension"
+>.desktop</filename
+> untuk menempatkan layanan, termasuk plugin untuk pustaka lib dan aplikasi berbasis-Qt5. Sistem plugin Qt5, namun, menggunakan data JSON yang tertanam dalam plugin itu sendiri. <command
+>desktoptojson</command
+> memungkinkan informasi yang terisi dalam file <filename class="extension"
+>.desktop</filename
+> yang juga digunakan sebagai data tertanam untuk plugin Qt5 dengan mengkonversi seluruh file <filename class="extension"
+>.desktop</filename
+> ke dalam data JSON.</para>
+
+<para
+>Data JSON yang dihasilkan adalah sebuah objek JSON yang memetakan keseluruhan dari grup <literal
+>[Desktop Entry]</literal
+> pada file  <filename class="extension"
+>.desktop</filename
+>. Grup lain apa pun diabaikan. Banyak entri-entri yang hanya dikonversi ke string JSON, tapi entri tertentu (sepertihalnya <literal
+>Hidden</literal
+> dan <literal
+>X-KDE-PluginInfo-EnabledByBaku</literal
+>) telah diketahui menjadi nilai-nilai boolean dan dikonversi seperti itu, dan beberapa yang mirip (sepertihalnya <literal
+>X-KDE-ServiceTypes</literal
+> dan <literal
+>X-KDE-PluginInfo-Depends</literal
+>) yang selalu dikonversi untuk susunan string.</para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Opsi</title>
+<variablelist>
+
+<varlistentry>
+  <term
+><option
+>--input <replaceable
+>DESKTOP-FILE</replaceable
+></option
+></term>
+<listitem>
+<para
+>File <filename class="extension"
+>.desktop</filename
+> untuk dikonversi.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--output <replaceable
+>JSON-FILE</replaceable
+></option
+></term>
+<listitem>
+<para
+>File untuk penulisan yang dihasilkan data JSON ke.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help</option
+></term>
+<listitem>
+<para
+>Tampilkan sebuah teks bantuan yang singkat.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--versi</option
+></term>
+<listitem>
+<para
+>Tampilkan informasi versi.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Penggunaan</title>
+<para
+>Beberapa penggunaan utilitas ini akan menggunakan macro CMake <function
+>kservice_desktop_to_json</function
+> sebagai bagian dari proses pembangunan sebuah plugin. <programlisting language="cmake">
+<![CDATA[
+add_library(myplugin MODULE ${myplugin_SRCS})
+kservice_desktop_to_json(myplugin myplugin.desktop)
+]]>
+</programlisting
+> Ini akan menghasilkan file JSON <filename
+>myplugin.json</filename
+>, yang bisa direferensikan dari macros  <function
+>K_PLUGIN_FACTORY_WITH_JSON</function
+> atau <function
+>Q_PLUGIN_METADATA</function
+>. </para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Bug</title>
+<para
+>Silakan gunakan <ulink url="http://bugs.kde.org"
+>KDE's bugtracker</ulink
+> untuk melaporkan bug.</para>
+</refsect1>
+
+</refentry>
+
+
+
