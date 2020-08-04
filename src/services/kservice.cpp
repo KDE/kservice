@@ -24,6 +24,7 @@
 #include <KDesktopFile>
 #include <KConfigGroup>
 #include <KLocalizedString>
+#include <KShell>
 
 #include <QStandardPaths>
 #include <QDebug>
@@ -148,7 +149,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     entryMap.remove(QStringLiteral("Terminal"));
     m_strTerminalOptions = desktopGroup.readEntry("TerminalOptions");   // should be a property IMHO
     entryMap.remove(QStringLiteral("TerminalOptions"));
-    m_strWorkingDirectory = config->readPath();
+    m_strWorkingDirectory = KShell::tildeExpand(config->readPath());
     entryMap.remove(QStringLiteral("Path"));
     m_strComment = config->readComment();
     entryMap.remove(QStringLiteral("Comment"));
