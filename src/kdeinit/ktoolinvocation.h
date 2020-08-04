@@ -183,7 +183,7 @@ public Q_SLOTS:
      */
     static void invokeTerminal(const QString &command,
                                const QString &workdir = QString(),
-                               const QByteArray &startup_id = "");
+                               const QByteArray &startup_id = ""); // TODO KF6 Merge with other overload
 
 public:
 
@@ -406,13 +406,8 @@ private:
                              const QString &_name, const QStringList &URLs,
                              QString *error, QString *serviceName, int *pid,
                              const QByteArray &startup_id, bool noWait,
-                             const QString &workdir = QString());
-    int startServiceInternal(const char *_function,
-                             const QString &_name, const QStringList &URLs,
-                             const QStringList &envs, QString *error,
-                             QString *serviceName, int *pid,
-                             const QByteArray &startup_id, bool noWait,
-                             const QString &workdir = QString());
+                             const QString &workdir = QString(),
+                             const QStringList &envs = QStringList());
     static bool isMainThreadActive(QString *error = nullptr);
 
     KToolInvocationPrivate *const d;

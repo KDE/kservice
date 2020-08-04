@@ -75,25 +75,15 @@ bool KToolInvocation::isMainThreadActive(QString *error)
 }
 
 int KToolInvocation::startServiceInternal(const char *_function,
-        const QString &_name, const QStringList &URLs,
-        QString *error, QString *serviceName, int *pid,
-        const QByteArray &startup_id, bool noWait,
-        const QString &workdir)
-{
-    return startServiceInternal(_function, _name, URLs, QStringList(), error,
-                                serviceName, pid, startup_id, noWait, workdir);
-}
-
-int KToolInvocation::startServiceInternal(const char *_function,
                                           const QString &_name,
                                           const QStringList &URLs,
-                                          const QStringList &envs,
                                           QString *error,
                                           QString *serviceName,
                                           int *pid,
                                           const QByteArray &startup_id,
                                           bool noWait,
-                                          const QString &workdir)
+                                          const QString &workdir,
+                                          const QStringList &envs)
 {
 #ifdef QT_DBUS_LIB
     QString function = QLatin1String(_function);
