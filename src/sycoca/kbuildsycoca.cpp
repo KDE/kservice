@@ -131,7 +131,7 @@ KService::Ptr KBuildSycoca::createService(const QString &path)
 // returns false if the database is up to date, true if it needs to be saved
 bool KBuildSycoca::build()
 {
-    typedef QList<KBSEntryDict *> KBSEntryDictList;
+    using KBSEntryDictList = QList<KBSEntryDict *>;
     KBSEntryDictList entryDictList;
     KBSEntryDict *serviceEntryDict = nullptr;
 
@@ -139,8 +139,8 @@ bool KBuildSycoca::build()
     entryDictList.reserve(factories()->size());
     int i = 0;
     // For each factory
-    auto list = *factories();
-    for (KSycocaFactory* factory : qAsConst(list)) {
+    const auto &factoryList = *factories();
+    for (KSycocaFactory* factory : factoryList) {
         KBSEntryDict *entryDict = new KBSEntryDict;
         if (m_allEntries) { // incremental build
             for (const KSycocaEntry::Ptr &entry : qAsConst((*m_allEntries)[i++])) {
@@ -171,8 +171,7 @@ bool KBuildSycoca::build()
 
     QMap<QString, QByteArray> allResourcesSubDirs; // dirs, kstandarddirs-resource-name
     // For each factory
-    list = *factories();
-    for (KSycocaFactory* factory : qAsConst(list)) {
+    for (KSycocaFactory* factory : factoryList) {
         // For each resource the factory deals with
         const KSycocaResourceList *list = factory->resourceList();
         if (!list) {
@@ -210,10 +209,8 @@ bool KBuildSycoca::build()
         // For each factory
         KBSEntryDictList::const_iterator ed_it = entryDictList.constBegin();
         const KBSEntryDictList::const_iterator ed_end = entryDictList.constEnd();
-        KSycocaFactoryList::const_iterator it = factories()->constBegin();
-        const KSycocaFactoryList::const_iterator end = factories()->constEnd();
-        for (; it != end; ++it, ++ed_it) {
-            m_currentFactory = (*it);
+        for (KSycocaFactory *curFactory : factoryList) {
+            m_currentFactory = curFactory;
             // m_ctimeInfo gets created after the initial loop, so it has no entryDict.
             m_currentEntryDict = ed_it == ed_end ? nullptr : *ed_it;
             // For each resource the factory deals with
@@ -228,12 +225,10 @@ bool KBuildSycoca::build()
                 }
 
                 // For each file in the resource
-                for (auto entryPath = relFiles.constBegin();
-                         entryPath != relFiles.constEnd();
-                        ++entryPath) {
+                for (const QString &entryPath : qAsConst(relFiles)) {
                     // Check if file matches filter
-                    if ((*entryPath).endsWith(res.extension)) {
-                        createEntry(*entryPath, true);
+                    if (entryPath.endsWith(res.extension)) {
+                        createEntry(entryPath, true);
                     }
                 }
             }
