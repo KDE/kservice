@@ -74,7 +74,7 @@ private:
      * Add single entry to the sycoca database.
      * Either from a previous database or regenerated from file.
      */
-    KSycocaEntry::Ptr createEntry(const QString &file);
+    KSycocaEntry::Ptr createEntry(KSycocaFactory *currentFactory, const QString &file);
 
     /**
      * Implementation of KBuildSycocaInterface
@@ -121,7 +121,6 @@ private:
     typedef QList<KSycocaEntry::List> KSycocaEntryListList;
     KSycocaEntryListList *m_allEntries; // entries from existing ksycoca
     KBuildServiceGroupFactory *m_buildServiceGroupFactory = nullptr;
-    KSycocaFactory *m_currentFactory = nullptr;
     KCTimeFactory *m_ctimeFactory = nullptr;
     KCTimeDict *m_ctimeDict; // old timestamps
     typedef QHash<QString, KSycocaEntry::Ptr> KBSEntryDict;

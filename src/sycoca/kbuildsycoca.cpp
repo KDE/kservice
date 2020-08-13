@@ -47,7 +47,6 @@ KBuildSycocaInterface::~KBuildSycocaInterface() {}
 KBuildSycoca::KBuildSycoca()
     : KSycoca(true),
       m_allEntries(nullptr),
-      m_currentFactory(nullptr),
       m_ctimeFactory(nullptr),
       m_ctimeDict(nullptr),
       m_currentEntryDict(nullptr),
@@ -66,7 +65,7 @@ KBuildSycoca::~KBuildSycoca()
     factories()->clear();
 }
 
-KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file)
+KSycocaEntry::Ptr KBuildSycoca::createEntry(KSycocaFactory *currentFactory, const QString &file)
 {
     quint32 timeStamp = m_ctimeFactory->dict()->ctime(file, m_resource);
     if (!timeStamp) {
@@ -85,7 +84,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file)
 
         if (timeStamp && (timeStamp == oldTimestamp)) {
             // Re-use old entry
-            if (m_currentFactory == d->m_serviceFactory) { // Strip .directory from service-group entries
+            if (currentFactory == d->m_serviceFactory) { // Strip .directory from service-group entries
                 entry = m_currentEntryDict->value(file.left(file.length() - 10));
             } else {
                 entry = m_currentEntryDict->value(file);
@@ -109,7 +108,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file)
     m_ctimeFactory->dict()->addCTime(file, m_resource, timeStamp);
     if (!entry) {
         // Create a new entry
-        entry = m_currentFactory->createEntry(file);
+        entry = currentFactory->createEntry(file);
     }
     if (entry && entry->isValid()) {
         return entry;
@@ -119,7 +118,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file)
 
 KService::Ptr KBuildSycoca::createService(const QString &path)
 {
-    KSycocaEntry::Ptr entry = createEntry(path);
+    KSycocaEntry::Ptr entry = createEntry(d->m_serviceFactory, path);
     if (entry) {
         m_tempStorage.append(entry);
     }
@@ -201,15 +200,13 @@ bool KBuildSycoca::build()
             }
         }
         // Now find all factories that use this resource....
-        // For each factory
-        KBSEntryDictList::const_iterator ed_it = entryDictList.constBegin();
-        const KBSEntryDictList::const_iterator ed_end = entryDictList.constEnd();
-        for (KSycocaFactory *curFactory : factoryList) {
-            m_currentFactory = curFactory;
+        // For each factory -- and its corresponding entryDict (iterate over both lists in parallel)
+        for (int f = 0; f < factoryList.count(); ++f) {
+            KSycocaFactory *currentFactory = factoryList.at(f);
             // m_ctimeInfo gets created after the initial loop, so it has no entryDict.
-            m_currentEntryDict = ed_it == ed_end ? nullptr : *ed_it++;
+            m_currentEntryDict = f == entryDictList.size() ? nullptr : entryDictList.at(f);
             // For each resource the factory deals with
-            const KSycocaResourceList &resourceList = m_currentFactory->resourceList();
+            const KSycocaResourceList &resourceList = currentFactory->resourceList();
             for (const KSycocaResource &res : resourceList) {
                 if (res.resource != m_resource) {
                     continue;
@@ -219,9 +216,9 @@ bool KBuildSycoca::build()
                 for (const QString &entryPath : qAsConst(relFiles)) {
                     // Check if file matches filter
                     if (entryPath.endsWith(res.extension)) {
-                        KSycocaEntry::Ptr entry = createEntry(entryPath);
+                        KSycocaEntry::Ptr entry = createEntry(currentFactory, entryPath);
                         if (entry) {
-                            m_currentFactory->addEntry(entry);
+                            currentFactory->addEntry(entry);
                         }
                     }
                 }
@@ -234,7 +231,6 @@ bool KBuildSycoca::build()
     if (createVFolder || m_menuTest) {
         m_resource = "apps";
         m_resourceSubdir = QStringLiteral("applications");
-        m_currentFactory = d->m_serviceFactory;
         m_currentEntryDict = serviceEntryDict;
         m_changed = false;
 
