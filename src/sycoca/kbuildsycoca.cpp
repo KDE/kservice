@@ -173,11 +173,8 @@ bool KBuildSycoca::build()
     // For each factory
     for (KSycocaFactory* factory : factoryList) {
         // For each resource the factory deals with
-        const KSycocaResourceList *list = factory->resourceList();
-        if (!list) {
-            continue;
-        }
-        for (const KSycocaResource &res : qAsConst(*list)) {
+        const KSycocaResourceList resourceList = factory->resourceList();
+        for (const KSycocaResource &res : resourceList) {
             // With this we would get dirs, but not a unique list of relative files (for global+local merging to work)
             //const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, res.subdir, QStandardPaths::LocateDirectory);
             //allResourcesSubDirs[res.resource] += dirs;
@@ -214,12 +211,8 @@ bool KBuildSycoca::build()
             // m_ctimeInfo gets created after the initial loop, so it has no entryDict.
             m_currentEntryDict = ed_it == ed_end ? nullptr : *ed_it;
             // For each resource the factory deals with
-            const KSycocaResourceList *list = m_currentFactory->resourceList();
-            if (!list) {
-                continue;
-            }
-
-            for (const KSycocaResource &res : qAsConst(*list)) {
+            const KSycocaResourceList &resourceList = m_currentFactory->resourceList();
+            for (const KSycocaResource &res : resourceList) {
                 if (res.resource != m_resource) {
                     continue;
                 }

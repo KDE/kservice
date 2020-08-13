@@ -35,7 +35,7 @@ public:
 };
 
 KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id, KSycoca *sycoca)
-    : m_resourceList(nullptr), m_entryDict(nullptr), m_str(nullptr), m_sycoca(sycoca), d(new KSycocaFactoryPrivate)
+    : m_sycoca(sycoca), d(new KSycocaFactoryPrivate)
 {
     if (!m_sycoca->isBuilding() && (m_str = m_sycoca->findFactory(factory_id))) {
         // Read position of index tables....
@@ -84,9 +84,8 @@ void
 KSycocaFactory::save(QDataStream &str)
 {
     if (!m_entryDict) {
-        return;    // Error! Function should only be called when
+        return; // Error! Function should only be called when building database
     }
-    // building database
     if (!d->m_sycocaDict) {
         return;    // Error!
     }
@@ -215,7 +214,7 @@ int KSycocaFactory::offset() const
     return d->mOffset;
 }
 
-const KSycocaResourceList *KSycocaFactory::resourceList() const
+const KSycocaResourceList &KSycocaFactory::resourceList() const
 {
     return m_resourceList;
 }

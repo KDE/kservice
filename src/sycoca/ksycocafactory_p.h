@@ -108,7 +108,7 @@ public:
      * @return the resources for which this factory is responsible.
      * @internal to kbuildsycoca
      */
-    const KSycocaResourceList *resourceList() const;
+    const KSycocaResourceList &resourceList() const;
 
     /**
      * @return the sycoca dict, for factories to find entries by name.
@@ -125,7 +125,7 @@ public:
 protected:
     QDataStream *stream() const;
 
-    KSycocaResourceList *m_resourceList = nullptr;
+    KSycocaResourceList m_resourceList;
     KSycocaEntryDict *m_entryDict = nullptr;
 
     /**

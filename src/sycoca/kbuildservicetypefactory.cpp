@@ -21,13 +21,11 @@
 KBuildServiceTypeFactory::KBuildServiceTypeFactory(KSycoca *db)
     : KServiceTypeFactory(db)
 {
-    m_resourceList = new KSycocaResourceList;
-    m_resourceList->emplace_back("servicetypes", QStringLiteral("kservicetypes5"), QStringLiteral("*.desktop"));
+    m_resourceList.emplace_back("servicetypes", QStringLiteral("kservicetypes5"), QStringLiteral("*.desktop"));
 }
 
 KBuildServiceTypeFactory::~KBuildServiceTypeFactory()
 {
-    delete m_resourceList;
 }
 
 KServiceType::Ptr KBuildServiceTypeFactory::findServiceTypeByName(const QString &_name)

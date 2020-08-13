@@ -19,15 +19,11 @@
 KBuildServiceGroupFactory::KBuildServiceGroupFactory(KSycoca *db)
     : KServiceGroupFactory(db)
 {
-    m_resourceList = new KSycocaResourceList;
-//   m_resourceList->add( "apps", "*.directory" );
-
     m_baseGroupDict = new KSycocaDict();
 }
 
 KBuildServiceGroupFactory::~KBuildServiceGroupFactory()
 {
-    delete m_resourceList;
 }
 
 KServiceGroup *KBuildServiceGroupFactory::createEntry(const QString &) const
