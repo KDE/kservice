@@ -66,7 +66,7 @@ KBuildSycoca::~KBuildSycoca()
     factories()->clear();
 }
 
-KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFactory)
+KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file)
 {
     quint32 timeStamp = m_ctimeFactory->dict()->ctime(file, m_resource);
     if (!timeStamp) {
@@ -112,11 +112,6 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
         entry = m_currentFactory->createEntry(file);
     }
     if (entry && entry->isValid()) {
-        if (addToFactory) {
-            m_currentFactory->addEntry(entry);
-        } else {
-            m_tempStorage.append(entry);
-        }
         return entry;
     }
     return KSycocaEntry::Ptr();
@@ -124,7 +119,10 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(const QString &file, bool addToFacto
 
 KService::Ptr KBuildSycoca::createService(const QString &path)
 {
-    KSycocaEntry::Ptr entry = createEntry(path, false);
+    KSycocaEntry::Ptr entry = createEntry(path);
+    if (entry) {
+        m_tempStorage.append(entry);
+    }
     return KService::Ptr(static_cast<KService*>(entry.data()));
 }
 
@@ -221,7 +219,10 @@ bool KBuildSycoca::build()
                 for (const QString &entryPath : qAsConst(relFiles)) {
                     // Check if file matches filter
                     if (entryPath.endsWith(res.extension)) {
-                        createEntry(entryPath, true);
+                        KSycocaEntry::Ptr entry = createEntry(entryPath);
+                        if (entry) {
+                            m_currentFactory->addEntry(entry);
+                        }
                     }
                 }
             }

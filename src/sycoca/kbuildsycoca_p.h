@@ -74,7 +74,7 @@ private:
      * Add single entry to the sycoca database.
      * Either from a previous database or regenerated from file.
      */
-    KSycocaEntry::Ptr createEntry(const QString &file, bool addToFactory);
+    KSycocaEntry::Ptr createEntry(const QString &file);
 
     /**
      * Implementation of KBuildSycocaInterface
