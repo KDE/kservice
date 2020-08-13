@@ -207,7 +207,7 @@ bool KBuildSycoca::build()
         for (KSycocaFactory *curFactory : factoryList) {
             m_currentFactory = curFactory;
             // m_ctimeInfo gets created after the initial loop, so it has no entryDict.
-            m_currentEntryDict = ed_it == ed_end ? nullptr : *ed_it;
+            m_currentEntryDict = ed_it == ed_end ? nullptr : *ed_it++;
             // For each resource the factory deals with
             const KSycocaResourceList &resourceList = m_currentFactory->resourceList();
             for (const KSycocaResource &res : resourceList) {
