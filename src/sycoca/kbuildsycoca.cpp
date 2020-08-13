@@ -220,7 +220,7 @@ bool KBuildSycoca::build()
             }
 
             for (const KSycocaResource &res : qAsConst(*list)) {
-                if (res.resource != (*it1)) {
+                if (res.resource != m_resource) {
                     continue;
                 }
 

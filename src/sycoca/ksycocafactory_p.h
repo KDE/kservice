@@ -9,6 +9,7 @@
 #define KSYCOCAFACTORY_H
 
 #include <ksycocaentry.h>
+#include "ksycocaresourcelist_p.h"
 #include <QStandardPaths>
 
 #include <ksycoca.h> // for KSycoca::self()
@@ -16,7 +17,6 @@
 class QString;
 class KSycoca;
 class KSycocaDict;
-class KSycocaResourceList;
 template <typename T> class QList;
 template <typename KT, typename VT> class QHash;
 

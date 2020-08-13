@@ -20,7 +20,7 @@ KBuildMimeTypeFactory::KBuildMimeTypeFactory(KSycoca *db)
 {
     m_resourceList = new KSycocaResourceList;
     // We want all xml files under xdgdata/mime - but not mime/packages/*.xml
-    m_resourceList->add("xdgdata-mime", QStringLiteral("mime"), QStringLiteral("*.xml"));
+    m_resourceList->emplace_back("xdgdata-mime", QStringLiteral("mime"), QStringLiteral("*.xml"));
 }
 
 KBuildMimeTypeFactory::~KBuildMimeTypeFactory()

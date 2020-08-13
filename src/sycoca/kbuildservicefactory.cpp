@@ -40,7 +40,7 @@ KBuildServiceFactory::KBuildServiceFactory(KServiceTypeFactory *serviceTypeFacto
     m_resourceList = new KSycocaResourceList();
     // We directly care about services desktop files.
     // All the application desktop files are parsed on demand from the vfolder menu code.
-    m_resourceList->add("services", QStringLiteral("kservices5"), QStringLiteral("*.desktop"));
+    m_resourceList->emplace_back("services", QStringLiteral("kservices5"), QStringLiteral("*.desktop"));
 
     m_nameDict = new KSycocaDict();
     m_relNameDict = new KSycocaDict();
