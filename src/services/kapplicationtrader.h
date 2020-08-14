@@ -13,7 +13,7 @@
 #include <functional>
 
 /**
- * @class KApplicationTrader kapplicationtrader.h <KApplicationTrader>
+ * @namespace KApplicationTrader kapplicationtrader.h <KApplicationTrader>
  *
  * The application trader is a convenient way to find installed applications
  * based on specific criteria (association with a mimetype, name contains Foo, etc.)
