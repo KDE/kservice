@@ -70,6 +70,8 @@ if (UNIX)
    )
 endif()
 
+qt5_add_resources(kservice_SRCS kservice.qrc)
+
 bison_target(TraderParser
              services/yacc.y
              ${CMAKE_CURRENT_BINARY_DIR}/yacc.c
@@ -171,9 +173,9 @@ ecm_generate_headers(KService_HEADERS
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
 
+# TODO move to qrc too, like application.desktop?
 install(FILES
    services/kplugininfo.desktop
-   services/application.desktop
    DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR}
 )
 
@@ -182,7 +184,7 @@ add_custom_target(copy_servicetypes)
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5)
 add_custom_command(TARGET copy_servicetypes PRE_BUILD COMMAND
     ${CMAKE_COMMAND} -E copy
-    ${CMAKE_CURRENT_SOURCE_DIR}/services/kplugininfo.desktop ${CMAKE_CURRENT_SOURCE_DIR}/services/application.desktop
+    ${CMAKE_CURRENT_SOURCE_DIR}/services/kplugininfo.desktop
     ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5) # not using KDE_INSTALL_KSERVICETYPES5DIR because QStandardPaths wants "data" on Windows
 add_dependencies(KF5Service copy_servicetypes)
 

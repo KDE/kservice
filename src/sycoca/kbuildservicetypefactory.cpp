@@ -15,6 +15,7 @@
 #include <assert.h>
 #include <KDesktopFile>
 #include <KConfigGroup>
+#include <QFileInfo>
 #include <QHash>
 #include <QStandardPaths>
 
@@ -48,7 +49,12 @@ KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
         return nullptr;
     }
 
-    KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, QLatin1String("kservicetypes5/") + file);
+    QString filePath = QLatin1String("kservicetypes5/") + file;
+    const QString qrcFilePath = QLatin1String(":/kf/") + filePath;
+    if (QFileInfo::exists(qrcFilePath)) {
+        filePath = qrcFilePath;
+    }
+    KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, filePath);
     const KConfigGroup desktopGroup = desktopFile.desktopGroup();
 
     if (desktopGroup.readEntry("Hidden", false) == true) {

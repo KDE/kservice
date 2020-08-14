@@ -125,6 +125,15 @@ KService::Ptr KBuildSycoca::createService(const QString &path)
     return KService::Ptr(static_cast<KService*>(entry.data()));
 }
 
+static QStringList locateDirInResource(const QString &resourceSubdir)
+{
+    const QString dir = QStringLiteral(":/kf/") + resourceSubdir;
+    if (QDir(dir).exists()) {
+        return {dir};
+    }
+    return {};
+}
+
 // returns false if the database is up to date, true if it needs to be saved
 bool KBuildSycoca::build()
 {
@@ -188,7 +197,8 @@ bool KBuildSycoca::build()
         m_resource = it1.value();
 
         QSet<QString> relFiles;
-        const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_resourceSubdir, QStandardPaths::LocateDirectory);
+        const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_resourceSubdir, QStandardPaths::LocateDirectory)
+                + locateDirInResource(m_resourceSubdir);
         qCDebug(SYCOCA) << "Looking for subdir" << m_resourceSubdir << "=>" << dirs;
         for (const QString &dir : dirs) {
             QDirIterator it(dir, QDirIterator::Subdirectories);
@@ -587,7 +597,9 @@ quint32 KBuildSycoca::calcResourceHash(const QString &resourceSubDir, const QStr
     if (!QDir::isRelativePath(filename)) {
         return updateHash(filename, hash);
     }
-    const QStringList files = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, resourceSubDir + QLatin1Char('/') + filename);
+    const QString filePath = resourceSubDir + QLatin1Char('/') + filename;
+    const QString qrcFilePath = QStringLiteral(":/kf/") + filePath;
+    const QStringList files = QFileInfo::exists(qrcFilePath) ? QStringList{ qrcFilePath } : QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, filePath);
     for (const QString &file : files) {
         hash = updateHash(file, hash);
     }
