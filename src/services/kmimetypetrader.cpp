@@ -54,8 +54,8 @@ static KServiceOfferList mimeTypeSycocaOffers(const QString &mimeType)
     QMimeDatabase db;
     QString mime = db.mimeTypeForName(mimeType).name();
     if (mime.isEmpty()) {
-        if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler mimetypes
-            qCWarning(SERVICES) << "KMimeTypeTrader: mimeType" << mimeType << "not found";
+        if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler MIME types
+            qCWarning(SERVICES) << "KMimeTypeTrader: MIME type" << mimeType << "not found";
             return lst; // empty
         }
         mime = mimeType;
@@ -63,8 +63,8 @@ static KServiceOfferList mimeTypeSycocaOffers(const QString &mimeType)
     KSycoca::self()->ensureCacheValid();
     KMimeTypeFactory *factory = KSycocaPrivate::self()->mimeTypeFactory();
     const int offset = factory->entryOffset(mime);
-    if (!offset) { // shouldn't happen, now that we know the mimetype exists
-        if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler mimetypes
+    if (!offset) { // shouldn't happen, now that we know the MIME type exists
+        if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler MIME types
             qCDebug(SERVICES) << "KMimeTypeTrader: no entry offset for" << mimeType;
         }
         return lst; // empty
@@ -83,8 +83,8 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     QMimeDatabase db;
     QString mime = db.mimeTypeForName(mimeType).name();
     if (mime.isEmpty()) {
-        if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler mimetypes
-            qCWarning(SERVICES) << "KMimeTypeTrader: mimeType" << mimeType << "not found";
+        if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler MIME types
+            qCWarning(SERVICES) << "KMimeTypeTrader: MIME type" << mimeType << "not found";
             return lst; // empty
         }
         mime = mimeType;
@@ -93,7 +93,7 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     KMimeTypeFactory *factory = KSycocaPrivate::self()->mimeTypeFactory();
     const int offset = factory->entryOffset(mime);
     if (!offset) {
-        qCWarning(SERVICES) << "KMimeTypeTrader: mimeType" << mimeType << "not found";
+        qCWarning(SERVICES) << "KMimeTypeTrader: MIME type" << mimeType << "not found";
         return lst; // empty
     }
     const int serviceOffersOffset = factory->serviceOffersOffset(mime);
@@ -111,7 +111,7 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     }
 
 /**
- * Filter the offers for the requested mime type for the genericServiceType.
+ * Filter the offers for the requested MIME type for the @p genericServiceType.
  *
  * @param list list of offers (key=service, value=initialPreference)
  * @param genericServiceType the generic service type (e.g. "Application" or "KParts/ReadOnlyPart")
@@ -166,7 +166,7 @@ KService::List KMimeTypeTrader::query(const QString &mimeType,
 
     KServiceTypeTrader::applyConstraints(lst, constraint);
 
-    //qCDebug(SERVICES) << "query for mimeType " << mimeType << ", " << genericServiceType
+    //qCDebug(SERVICES) << "query for MIME type " << mimeType << ", " << genericServiceType
     //         << " : returning " << lst.count() << " offers";
     return lst;
 }

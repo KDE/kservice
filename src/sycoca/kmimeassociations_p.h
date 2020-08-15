@@ -46,7 +46,7 @@ private:
 
 /**
  * Parse mimeapps.list files and:
- * - modify mimetype associations in the relevant services (using KServiceFactory)
+ * - modify MIME type associations in the relevant services (using KServiceFactory)
  * - remember preference order specified by user
  */
 class KMimeAssociations

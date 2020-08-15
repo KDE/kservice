@@ -93,7 +93,7 @@ QStringList KMimeTypeFactory::allMimeTypes()
 KMimeTypeFactory::MimeTypeEntry::Ptr KMimeTypeFactory::findMimeTypeEntryByName(const QString &name)
 {
     Q_ASSERT(sycoca()->isBuilding());
-    // We're building a database - the mimetype entry must be in memory
+    // We're building a database - the MIME type entry must be in memory
     KSycocaEntry::Ptr servType = m_entryDict->value(name.toLower());
     return MimeTypeEntry::Ptr(static_cast<MimeTypeEntry*>(servType.data()));
 }

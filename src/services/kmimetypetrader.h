@@ -17,7 +17,7 @@ typedef QList<KServiceOffer> KServiceOfferList;
 /**
  * @class KMimeTypeTrader kmimetypetrader.h <KMimeTypeTrader>
  *
- * KDE's trader for services associated to a given mimetype.
+ * KDE's trader for services associated to a given MIME type.
  *
  * Example: say that you want to the list of all KParts components that can handle HTML.
  * Our code would look like:
@@ -45,12 +45,12 @@ public:
     ~KMimeTypeTrader();
 
     /**
-     * This method returns a list of services which are associated with a given mimetype.
+     * This method returns a list of services which are associated with a given MIME type.
      *
      * Example usage:
-     * To get list of applications that can handle a given mimetype,
+     * To get list of applications that can handle a given MIME type,
      * set @p genericServiceType to "Application" (which is the default).
-     * To get list of embeddable components that can handle a given mimetype,
+     * To get list of embeddable components that can handle a given MIME type,
      * set @p genericServiceType to "KParts/ReadOnlyPart".
      *
      * The constraint parameter is used to limit the possible choices
@@ -66,7 +66,7 @@ public:
      * The keys used in the query (Type, ServiceTypes, Library) are all
      * fields found in the .desktop files.
      *
-     * @param mimeType A mime type like 'text/plain' or 'text/html'.
+     * @param mimeType a MIME type like 'text/plain' or 'text/html'
      * @param genericServiceType a basic service type, like 'KParts/ReadOnlyPart' or 'Application'
      * @param constraint  A constraint to limit the choices returned, QString() to
      *                    get all services that can handle the given @p mimetype
@@ -85,7 +85,7 @@ public:
      * This is almost like query().first(), except that it also checks
      * if the service is allowed as a preferred service (see KService::allowAsDefault).
      *
-     * @param mimeType the mime type (see query())
+     * @param mimeType the MIME type (see query())
      * @param genericServiceType the service type (see query())
      * @return the preferred service, or @c nullptr if no service is available
      */
@@ -103,7 +103,7 @@ public:
      * }
      * \endcode
      *
-     * @param mimeType the mimetype which this part is associated with
+     * @param mimeType the MIME type which this part is associated with
      * @param parentWidget the parent widget, will be set as the parent of the part's widget
      * @param parent the parent object for the part itself
      * @param constraint an optional constraint to pass to the trader
@@ -135,13 +135,13 @@ public:
     }
 
     /**
-     * This can be used to create a service instance from a mime type query
+     * This can be used to create a service instance from a MIME type query.
      *
-     * @param mimeType A mime type like 'text/plain' or 'text/html'.
+     * @param mimeType a MIME type like 'text/plain' or 'text/html'
      * @param serviceType a basic service type
      * @param parent the parent object for the plugin itself
      * @param constraint  A constraint to limit the choices returned, QString() to
-     *                    get all services that can handle the given @p mimetype
+     *                    get all services that can handle the given @p mimeType
      * @param args A list of arguments passed to the service component
      * @param error The string passed here will contain an error description.
      * @return A pointer to the newly created object or a null pointer if the

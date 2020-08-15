@@ -41,7 +41,7 @@ public:
     KMimeTypeFactory::MimeTypeEntry::Ptr createFakeMimeType(const QString &name);
 
     /**
-     * Write out mime type specific index files.
+     * Write out MIME type specific index files.
      */
     void save(QDataStream &str) override;
 

@@ -141,7 +141,7 @@ void KBuildServiceFactory::save(QDataStream &str)
 
 void KBuildServiceFactory::collectInheritedServices()
 {
-    // For each mimetype, go up the parent-mimetype chains and collect offers.
+    // For each MIME type, go up the parent MIME type chains and collect offers.
     // For "removed associations" to work, we can't just grab everything from all parents.
     // We need to process parents before children, hence the recursive call in
     // collectInheritedServices(mime) and the QSet to process a given parent only once.
@@ -258,10 +258,10 @@ void KBuildServiceFactory::populateServiceTypes()
         //bool hasAllAll = false;
         //bool hasAllFiles = false;
 
-        // Add this service to all its servicetypes (and their parents) and to all its mimetypes
+        // Add this service to all its servicetypes (and their parents) and to all its MIME types
         for (int i = 0; i < serviceTypeList.count() /*don't cache it, it can change during iteration!*/; ++i) {
             const QString stName = serviceTypeList[i].serviceType;
-            // It could be a servicetype or a mimetype.
+            // It could be a servicetype or a MIME type.
             KServiceType::Ptr serviceType = m_serviceTypeFactory->findServiceTypeByName(stName);
             if (serviceType) {
                 const int preference = serviceTypeList[i].preference;
@@ -289,9 +289,9 @@ void KBuildServiceFactory::populateServiceTypes()
                         m_mimeTypeFactory->createFakeMimeType(stName);
                         m_offerHash.addServiceOffer(stName, offer);
                     } else {
-                        //qCDebug(SYCOCA) << service->entryPath() << "specifies undefined mimetype/servicetype" << stName;
+                        //qCDebug(SYCOCA) << service->entryPath() << "specifies undefined MIME type/servicetype" << stName;
                         // technically we could call addServiceOffer here, 'mime' isn't used. But it
-                        // would be useless, since we have no mimetype entry where to write the offers offset.
+                        // would be useless, since we have no MIME type entry where to write the offers offset.
                         continue;
                     }
                 } else {
@@ -320,7 +320,7 @@ void KBuildServiceFactory::populateServiceTypes()
     KMimeAssociations mimeAssociations(m_offerHash, this);
     mimeAssociations.parseAllMimeAppsList();
 
-    // Now for each mimetype, collect services from parent mimetypes
+    // Now for each MIME type, collect services from parent MIME types
     collectInheritedServices();
 
     // Now collect the offsets into the (future) offer list
@@ -386,7 +386,7 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
             }
         }
         if (offset == -1) {
-            qCDebug(SYCOCA) << "Didn't find servicetype or mimetype" << stName;
+            qCDebug(SYCOCA) << "Didn't find servicetype or MIME type" << stName;
             continue;
         }
 

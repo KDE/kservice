@@ -44,9 +44,9 @@ public:
      * @param service a pointer to the KService
      * @param pref the user's preference value, must be positive,
      *              bigger is better
-     * @param mimeTypeInheritanceLevel level of mimetype inheritance
-     *       which allows this service to handling the mimetype.
-     *       0 if no inheritance involved, 1 for parent mimetype, etc.
+     * @param mimeTypeInheritanceLevel level of MIME type inheritance
+     *       which allows this service to handling the MIME type.
+     *       0 if no inheritance involved, 1 for parent MIME type, etc.
      * @param allowedAsDefault true if the service should be used as
      *                 default
      * @deprecated Since 5.71, use constructor without @p allowedAsDefault argument
@@ -61,9 +61,9 @@ public:
      * @param service a pointer to the KService
      * @param pref the user's preference value, must be positive,
      *              bigger is better
-     * @param mimeTypeInheritanceLevel level of mimetype inheritance
-     *       which allows this service to handling the mimetype.
-     *       0 if no inheritance involved, 1 for parent mimetype, etc.
+     * @param mimeTypeInheritanceLevel level of MIME type inheritance
+     *       which allows this service to handling the MIME type.
+     *       0 if no inheritance involved, 1 for parent MIME type, etc.
      * @since 5.71
      */
     KServiceOffer(const KService::Ptr &service, int pref, int mimeTypeInheritanceLevel);
@@ -121,7 +121,7 @@ public:
     bool isValid() const;
 
     /**
-     * When copying an offer from a parent mimetype, remember that it's an inherited capability
+     * When copying an offer from a parent MIME type, remember that it's an inherited capability
      * (for sorting purposes; we prefer a handler for postscript over any text/plain handler)
      */
     void setMimeTypeInheritanceLevel(int level);

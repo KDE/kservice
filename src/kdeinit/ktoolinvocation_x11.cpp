@@ -241,11 +241,11 @@ void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startu
     args << url;
     QString error;
 
-    // This method should launch a webbrowser, preferably without doing a mimetype
+    // This method should launch a webbrowser, preferably without doing a MIME type
     // check first, like KRun (i.e. kde-open) would do.
 
     // In a KDE session, honour BrowserApplication if set, otherwise use preferred app for text/html if any,
-    // otherwise xdg-open, otherwise kde-open (which does a mimetype check first though).
+    // otherwise xdg-open, otherwise kde-open (which does a MIME type check first though).
 
     // Outside KDE, call xdg-open if present, otherwise fallback to the above logic.
 

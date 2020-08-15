@@ -126,7 +126,7 @@ public Q_SLOTS:
     /**
      * Invokes the user's preferred browser.
      * Note that you should only do this when you know for sure that the browser can
-     * handle the URL (i.e. its mimetype). In doubt, if the URL can point to an image
+     * handle the URL (i.e. its MIME type). In doubt, if the URL can point to an image
      * or anything else than HTML, prefer to use new KRun( url ).
      *
      * See also <a

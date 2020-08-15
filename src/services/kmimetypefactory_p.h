@@ -21,8 +21,8 @@ class KSycoca;
 /**
  * @internal  - this header is not installed
  *
- * A sycoca factory for mimetype entries
- * This is only used to point to the "service offers" in ksycoca for each mimetype.
+ * A sycoca factory for MIME type entries
+ * This is only used to point to the "service offers" in ksycoca for each MIME type.
  * @see KMimeType
  */
 class KMimeTypeFactory : public KSycocaFactory
@@ -46,12 +46,12 @@ public:
     }
 
     /**
-     * Returns the possible offset for a given mimetype entry.
+     * Returns the possible offset for a given MIME type entry.
      */
     int entryOffset(const QString &mimeTypeName);
 
     /**
-     * Returns the offset into the service offers for a given mimetype.
+     * Returns the offset into the service offers for a given MIME type.
      */
     int serviceOffersOffset(const QString &mimeTypeName);
 
@@ -62,18 +62,18 @@ public:
 
 public:
     /**
-     * @return all mimetypes
+     * @return all MIME types
      * Slow and memory consuming, avoid using
      */
     QStringList allMimeTypes();
 
     /**
-     * @return the unique mimetype factory, creating it if necessary
+     * @return the unique MIME type factory, creating it if necessary
      */
     static KMimeTypeFactory *self();
 
 public: // public for KBuildServiceFactory
-    // A small entry for each mimetype with name and offset into the services-offer-list.
+    // A small entry for each MIME type with name and offset into the services-offer-list.
     class MimeTypeEntryPrivate;
     class KSERVICE_EXPORT MimeTypeEntry : public KSycocaEntry
     {

@@ -43,7 +43,7 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     return lst;
 }
 
-// Filter the offers for the requested mime type in order to keep only applications.
+// Filter the offers for the requested MIME type in order to keep only applications.
 static void filterMimeTypeOffers(KService::List &list) // static, internal
 {
     KServiceType::Ptr genericServiceTypePtr = KServiceType::serviceType(QStringLiteral("Application"));
@@ -94,7 +94,7 @@ KService::List KApplicationTrader::query(FilterFunc filterFunc)
 KService::List KApplicationTrader::queryByMimeType(const QString &mimeType,
                                                    FilterFunc filterFunc)
 {
-    // Get all services of this mime type.
+    // Get all services of this MIME type.
     KService::List lst = mimeTypeSycocaServiceOffers(mimeType);
     filterMimeTypeOffers(lst);
 

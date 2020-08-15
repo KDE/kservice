@@ -31,7 +31,7 @@ namespace KServiceTypeProfile
 {
 /**
  * Write the complete profile for a given servicetype.
- * Do not use this for mimetypes.
+ * Do not use this for MIME types.
  * @param serviceType The name of the servicetype.
  * @param services Ordered list of services, from the preferred one to the least preferred one.
  * @param disabledServices List of services which are normally associated with this serviceType,
@@ -47,7 +47,7 @@ KSERVICE_EXPORT void writeServiceTypeProfile(const QString &serviceType,
  * Delete the complete profile for a given servicetype, reverting to the default
  * preference order (the one specified by InitialPreference in the .desktop files).
  *
- * Do not use this for mimetypes.
+ * Do not use this for MIME types.
  * @param serviceType The name of the servicetype.
  */
 KSERVICE_DEPRECATED_VERSION(5, 66, "Unused")

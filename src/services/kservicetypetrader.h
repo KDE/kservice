@@ -24,7 +24,7 @@ class KServiceTypeTraderPrivate;
  * a specific set of requirements. This allows to find specific services
  * at run-time without having to hard-code their names and/or paths.
  *
- * For anything relating to mimetypes (type of files), ignore KServiceTypeTrader
+ * For anything relating to MIME types (type of files), ignore KServiceTypeTrader
  * and use KMimeTypeTrader instead.
  *
  * \par Example

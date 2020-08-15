@@ -199,7 +199,7 @@ KServiceType::Ptr KServiceType::parentType()
     KSycoca::self()->ensureCacheValid();
     d->parentType = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(parentSt);
     if (!d->parentType) {
-        qCWarning(SERVICES) << entryPath() << "specifies undefined mimetype/servicetype" << parentSt;
+        qCWarning(SERVICES) << entryPath() << "specifies undefined MIME type/servicetype" << parentSt;
     }
     return d->parentType;
 }

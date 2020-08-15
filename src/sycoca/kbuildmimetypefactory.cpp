@@ -52,7 +52,7 @@ KSycocaEntry *KBuildMimeTypeFactory::createEntry(const QString &file) const
     }
     const QString name = file.left(dot);
 
-    //qDebug() << "Creating mimetype" << name << "from file" << file;
+    //qDebug() << "Creating MIME type" << name << "from file" << file;
 
     MimeTypeEntry *e = new MimeTypeEntry(file, name);
     return e;

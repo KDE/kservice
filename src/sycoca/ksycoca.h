@@ -208,8 +208,8 @@ Q_SIGNALS:
 
     /**
      * Connect to this to get notified when the database changes
-     * Example: when mimetype definitions have changed, applications showing
-     * files as icons refresh icons to take into account the new mimetypes.
+     * Example: when MIME type definitions have changed, applications showing
+     * files as icons refresh icons to take into account the new MIME types.
      * Another example: after creating a .desktop file in KOpenWithDialog,
      * it must wait until kbuildsycoca5 finishes until the KService::Ptr is available.
      *

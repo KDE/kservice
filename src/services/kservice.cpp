@@ -204,7 +204,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     while (st_it.hasNext()) {
         const QString st = st_it.next();
         if (st.isEmpty()) {
-            qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has an empty mimetype!";
+            qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has an empty MimeType!";
             continue;
         }
         int initialPreference = m_initialPreference;
@@ -471,7 +471,7 @@ bool KService::hasMimeType(const QString &mimeType) const
         if (st == mime) {
             return true;
         }
-        // TODO: should we handle inherited mimetypes here?
+        // TODO: should we handle inherited MIME types here?
         // KMimeType was in kio when this code was written, this is the only reason it's not done.
         // But this should matter only in a very rare case, since most code gets KServices from ksycoca.
         // Warning, change hasServiceType if you implement this here (and check kbuildservicefactory).

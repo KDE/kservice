@@ -28,7 +28,7 @@ class KServicePrivate;
  * @class KService kservice.h <KService>
  *
  * Represent a service, like an application or plugin
- * bound to one or several mimetypes (or servicetypes) as written
+ * bound to one or several MIME types (or servicetypes) as written
  * in its desktop entry file.
  *
  * The starting point you need is often the static methods, like createInstance().
@@ -237,9 +237,9 @@ public:
     QStringList categories() const;
 
     /**
-     * Returns the list of mime types that this service supports.
-     * Note that this doesn't include inherited mimetypes,
-     * only the mimetypes types listed in the .desktop file.
+     * Returns the list of MIME types that this service supports.
+     * Note that this doesn't include inherited MIME types,
+     * only the MIME types types listed in the .desktop file.
      * @since 4.8.3
      */
     QStringList mimeTypes() const;
@@ -247,7 +247,7 @@ public:
     /**
      * Returns the service types that this service supports.
      * @return the list of service types that are supported
-     * Note that this doesn't include inherited servicetypes or mimetypes,
+     * Note that this doesn't include inherited servicetypes or MIME types,
      * only the service types listed in the .desktop file.
      */
     QStringList serviceTypes() const;
@@ -262,8 +262,8 @@ public:
     bool hasServiceType(const QString &serviceTypePtr) const;
 
     /**
-     * Checks whether the service supports this mime type
-     * @param mimeType The name of the mime type you are
+     * Checks whether the service supports this MIME type
+     * @param mimeType The name of the MIME type you are
      *        interested in determining whether this service supports.
      * @since 4.6
      */
@@ -577,7 +577,7 @@ private:
         ServiceTypeAndPreference(int pref, const QString &servType)
             : preference(pref), serviceType(servType) {}
         int preference;
-        QString serviceType; // or mimetype
+        QString serviceType; // or MIME type
     };
     /// @internal for KBuildSycoca only
     QVector<ServiceTypeAndPreference> &_k_accessServiceTypes();

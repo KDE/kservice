@@ -31,7 +31,7 @@ class KPluginTraderPrivate;
  *
  * KPluginTrader does not use KServiceTypeTrader or KSyCoCa. As such, it will
  * only find binary plugins. If you are looking for a generic way to query for
- * services, use KServiceTypeTrader. For anything relating to mimetypes (type
+ * services, use KServiceTypeTrader. For anything relating to MIME types (type
  * of files), use KMimeTypeTrader.
  *
  * \par Example

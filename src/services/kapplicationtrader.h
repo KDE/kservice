@@ -16,7 +16,7 @@
  * @namespace KApplicationTrader
  *
  * The application trader is a convenient way to find installed applications
- * based on specific criteria (association with a mimetype, name contains Foo, etc.)
+ * based on specific criteria (association with a MIME type, name contains Foo, etc.)
  *
  * Example: say that you want to get the list of all applications that can handle PNG images.
  * The code would look like:
@@ -39,7 +39,7 @@ namespace KApplicationTrader
     using FilterFunc = std::function<bool(const KService::Ptr &)>;
 
     /**
-     * This method returns a list of services (applications) which are associated with a given mimetype.
+     * This method returns a list of services (applications) which are associated with a given MIME type.
      *
      * @param filter a callback function that returns @c true if the application
      * should be selected and @c false if it should be skipped.
@@ -50,9 +50,9 @@ namespace KApplicationTrader
     KSERVICE_EXPORT KService::List query(FilterFunc filterFunc);
 
     /**
-     * This method returns a list of services (applications) which are associated with a given mimetype.
+     * This method returns a list of services (applications) which are associated with a given MIME type.
      *
-     * @param mimeType A mime type like 'text/plain' or 'text/html'.
+     * @param mimeType a MIME type like 'text/plain' or 'text/html'
      * @param filter a callback function that returns @c true if the application
      * should be selected and @c false if it should be skipped. Do not return
      * true for all services, this would return the complete list of all
@@ -70,7 +70,7 @@ namespace KApplicationTrader
      *
      * This a convenience method for queryByMimeType(mimeType).at(0), with a check for empty.
      *
-     * @param mimeType the mime type (see query())
+     * @param mimeType the MIME type (see query())
      * @return the preferred service, or @c nullptr if no service is available
      * @since 5.68
      */

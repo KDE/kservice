@@ -499,7 +499,7 @@ void KBuildSycoca::save(QDataStream *str)
         (*str) << it.value();
     }
 
-    // Calculate per-servicetype/mimetype data
+    // Calculate per-servicetype/MIME type data
     if (serviceFactory) serviceFactory->postProcessServices();
 
     // Here so that it's the last debug message

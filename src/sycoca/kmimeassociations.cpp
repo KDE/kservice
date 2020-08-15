@@ -24,7 +24,7 @@ KMimeAssociations::KMimeAssociations(KOfferHash &offerHash, KServiceFactory *ser
 /*
 
 The goal of this class is to parse mimeapps.list files, which are used to
-let users configure the application-mimetype associations.
+let users configure the application-MIME type associations.
 
 Example file:
 
@@ -106,7 +106,7 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
         const QStringList services = group.readXdgListEntry(mimeName);
         const QString resolvedMimeName = mimeName.startsWith(QLatin1String("x-scheme-handler/")) ? mimeName : db.mimeTypeForName(mimeName).name();
         if (resolvedMimeName.isEmpty()) {
-            qCDebug(SYCOCA) << file << "specifies unknown mimeType" << mimeName << "in" << group.name();
+            qCDebug(SYCOCA) << file << "specifies unknown MIME type" << mimeName << "in" << group.name();
         } else {
             int pref = basePreference;
             for (const QString &service : services) {
