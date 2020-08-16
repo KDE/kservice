@@ -153,6 +153,9 @@ private Q_SLOTS:
         fakeHtmlApplicationPrefixed = m_localApps + "fakepfx/fakehtmlapplicationpfx.desktop";
         writeAppDesktopFile(fakeHtmlApplicationPrefixed, QStringList() << QStringLiteral("text/html"));
 
+        fakeOktetaApplication = m_localApps + "fakeoktetaapplication.desktop";
+        writeAppDesktopFile(fakeOktetaApplication, QStringList() << QStringLiteral("application/octet-stream"));
+
         // Update ksycoca in ~/.qttest after creating the above
         runKBuildSycoca();
 
@@ -183,6 +186,8 @@ private Q_SLOTS:
                                  "application/x-pdf=fakejpegapplication.desktop;\n"
                                  // test x-scheme-handler (#358159) (missing trailing ';' as per xdg-mime bug...)
                                  "x-scheme-handler/mailto=faketextapplication.desktop\n"
+                                 // test association with octet-stream (#425154)
+                                 "application/octet-stream=fakeoktetaapplication.desktop\n"
                                  "[Added KParts/ReadOnlyPart Associations]\n"
                                  "text/plain=katepart.desktop;\n"
                                  "[Removed Associations]\n"
@@ -204,6 +209,7 @@ private Q_SLOTS:
                                    << QStringLiteral("fakepfx-fakehtmlapplicationpfx.desktop");
         preferredApps[QStringLiteral("application/msword")] << QStringLiteral("fakecsrcmswordapplication.desktop");
         preferredApps[QStringLiteral("x-scheme-handler/mailto")] << QStringLiteral("faketextapplication.desktop");
+        preferredApps[QStringLiteral("text/x-python")] << QStringLiteral("faketextapplication.desktop");
         removedApps[QStringLiteral("image/jpeg")] << QStringLiteral("firefox.desktop");
         removedApps[QStringLiteral("text/html")] << QStringLiteral("gvim.desktop") << QStringLiteral("abiword.desktop");
 
@@ -239,7 +245,9 @@ private Q_SLOTS:
                 end = preferredApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
             // The data for derived types and aliases isn't for this test (which only looks at mimeapps.list)
-            if (mime == QLatin1String("text/x-csrc") || mime == QLatin1String("application/msword")) {
+            if (mime == QLatin1String("text/x-csrc")
+                    || mime == QLatin1String("text/x-python")
+                    || mime == QLatin1String("application/msword")) {
                 continue;
             }
             const QList<KServiceOffer> offers = offerHash.offersFor(mime);
@@ -534,6 +542,7 @@ private:
     QString fakeHtmlApplication;
     QString fakeHtmlApplicationPrefixed;
     QString fakeArkApplication;
+    QString fakeOktetaApplication;
 
     ExpectedResultsMap preferredApps;
     ExpectedResultsMap removedApps;

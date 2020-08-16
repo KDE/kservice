@@ -148,21 +148,16 @@ void KBuildServiceFactory::collectInheritedServices()
     QSet<QString> visitedMimes;
     const auto lst = m_mimeTypeFactory->allMimeTypes();
     for (const QString &mimeType : lst) {
-        collectInheritedServices(mimeType, visitedMimes);
+        collectInheritedServices(mimeType, visitedMimes, 0);
     }
 }
 
-void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName, QSet<QString> &visitedMimes)
+void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName, QSet<QString> &visitedMimes, int mimeTypeInheritanceLevel)
 {
     if (visitedMimes.contains(mimeTypeName)) {
         return;
     }
     visitedMimes.insert(mimeTypeName);
-
-    // With multiple inheritance, the "mimeTypeInheritanceLevel" isn't exactly
-    // correct (it should only be increased when going up a level, not when iterating
-    // through the multiple parents at a given level). I don't think we care, though.
-    int mimeTypeInheritanceLevel = 0;
 
     QMimeDatabase db;
     const QMimeType qmime = db.mimeTypeForName(mimeTypeName);
@@ -172,16 +167,15 @@ void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName,
         // Workaround issue in shared-mime-info and/or Qt, which sometimes return an alias as parent
         parentMimeType = db.mimeTypeForName(parentMimeType).name();
 
-        collectInheritedServices(parentMimeType, visitedMimes);
+        collectInheritedServices(parentMimeType, visitedMimes, mimeTypeInheritanceLevel + 1);
 
-        ++mimeTypeInheritanceLevel;
         const QList<KServiceOffer> &offers = m_offerHash.offersFor(parentMimeType);
         QList<KServiceOffer>::const_iterator itserv = offers.begin();
         const QList<KServiceOffer>::const_iterator endserv = offers.end();
         for (; itserv != endserv; ++itserv) {
             if (!m_offerHash.hasRemovedOffer(mimeTypeName, (*itserv).service())) {
                 KServiceOffer offer(*itserv);
-                offer.setMimeTypeInheritanceLevel(mimeTypeInheritanceLevel);
+                offer.setMimeTypeInheritanceLevel(mimeTypeInheritanceLevel + 1);
                 //qCDebug(SYCOCA) << "INHERITANCE: Adding service" << (*itserv).service()->entryPath() << "to" << mimeTypeName << "mimeTypeInheritanceLevel=" << mimeTypeInheritanceLevel;
                 m_offerHash.addServiceOffer(mimeTypeName, offer);
             }
