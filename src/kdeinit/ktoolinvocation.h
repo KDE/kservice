@@ -445,7 +445,9 @@ public:
      * @param startup_id for app startup notification, "0" for none,
      *           "" ( empty string ) is the default
      * @return an error code indicating success (== 0) or failure (> 0).
+     * @deprecated since 5.88, kdeinit is deprecated, launch the executable manually
      */
+    KSERVICE_DEPRECATED_VERSION(5, 89, "kdeinit is deprecated, launch the executable manually")
     static int kdeinitExecWait(const QString &name,
                                const QStringList &args = QStringList(),
                                QString *error = nullptr,
@@ -454,7 +456,9 @@ public:
 
     /**
      * Ensures that kdeinit5 and klauncher are running.
+     * @deprecated Since 5.88, kdeinit is deprecated
      */
+    KSERVICE_DEPRECATED_VERSION(5, 89, "kdeinit is deprecated")
     static void ensureKdeinitRunning();
 
 Q_SIGNALS:
