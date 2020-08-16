@@ -13,7 +13,6 @@ macro(kservice_executable_tests)
 endmacro()
 
 kservice_executable_tests(
-  startserviceby
   kservicegroup_dumper
   findservice
 )
@@ -21,6 +20,13 @@ if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
    EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.61.0)
   kservice_executable_tests(
     kdbusservicestartertest
+  )
+endif()
+
+if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
+   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.82.0)
+  kservice_executable_tests(
+    startserviceby
   )
 endif()
 

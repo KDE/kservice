@@ -165,6 +165,7 @@ int KToolInvocation::startServiceByName(const QString &_name,
 }
 #endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 82)
 int KToolInvocation::startServiceByDesktopPath(const QString &_name,
                                                const QString &URL,
                                                QString *error,
@@ -183,7 +184,9 @@ int KToolInvocation::startServiceByDesktopPath(const QString &_name,
     }
     return self()->startServiceInternal("start_service_by_desktop_path", _name, URLs, error, serviceName, pid, startup_id, noWait);
 }
+#endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 82)
 int KToolInvocation::startServiceByDesktopPath(const QString &_name,
                                                const QStringList &URLs,
                                                QString *error,
@@ -198,7 +201,9 @@ int KToolInvocation::startServiceByDesktopPath(const QString &_name,
 
     return self()->startServiceInternal("start_service_by_desktop_path", _name, URLs, error, serviceName, pid, startup_id, noWait);
 }
+#endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 82)
 int KToolInvocation::startServiceByDesktopName(const QString &_name,
                                                const QString &URL,
                                                QString *error,
@@ -217,7 +222,9 @@ int KToolInvocation::startServiceByDesktopName(const QString &_name,
     }
     return self()->startServiceInternal("start_service_by_desktop_name", _name, URLs, error, serviceName, pid, startup_id, noWait);
 }
+#endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 82)
 int KToolInvocation::startServiceByDesktopName(const QString &_name,
                                                const QStringList &URLs,
                                                QString *error,
@@ -232,6 +239,7 @@ int KToolInvocation::startServiceByDesktopName(const QString &_name,
 
     return self()->startServiceInternal("start_service_by_desktop_name", _name, URLs, error, serviceName, pid, startup_id, noWait);
 }
+#endif
 
 int KToolInvocation::kdeinitExec(const QString &name, const QStringList &args, QString *error, int *pid, const QByteArray &startup_id)
 {
