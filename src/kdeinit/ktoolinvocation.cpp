@@ -242,6 +242,7 @@ int KToolInvocation::kdeinitExec(const QString &name, const QStringList &args, Q
     return self()->startServiceInternal("kdeinit_exec", name, args, error, nullptr, pid, startup_id, false);
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 82)
 int KToolInvocation::kdeinitExecWait(const QString &name, const QStringList &args, QString *error, int *pid, const QByteArray &startup_id)
 {
     if (!isMainThreadActive(error)) {
@@ -250,6 +251,7 @@ int KToolInvocation::kdeinitExecWait(const QString &name, const QStringList &arg
 
     return self()->startServiceInternal("kdeinit_exec_wait", name, args, error, nullptr, pid, startup_id, false);
 }
+#endif
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 void KToolInvocation::invokeMailer(const QString &address, const QString &subject, const QByteArray &startup_id)

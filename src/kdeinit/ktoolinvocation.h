@@ -402,6 +402,7 @@ public:
                            int *pid = nullptr,
                            const QByteArray &startup_id = QByteArray());
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 82)
     /**
      * Starts a program via kdeinit and wait for it to finish.
      *
@@ -418,12 +419,15 @@ public:
      * @param startup_id for app startup notification, "0" for none,
      *           "" ( empty string ) is the default
      * @return an error code indicating success (== 0) or failure (> 0).
+     * @deprecated since 5.82, kdeinit is deprecated
      */
+    KSERVICE_DEPRECATED_VERSION(5, 82, "kdeinit is deprecated")
     static int kdeinitExecWait(const QString &name,
                                const QStringList &args = QStringList(),
                                QString *error = nullptr,
                                int *pid = nullptr,
                                const QByteArray &startup_id = QByteArray());
+#endif
 
     /**
      * Ensures that kdeinit5 and klauncher are running.
