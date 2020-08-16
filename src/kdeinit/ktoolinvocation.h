@@ -250,6 +250,7 @@ public:
             const QByteArray &startup_id = QByteArray(), bool noWait = false);
 #endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 80)
     /**
      * Starts a service based on the desktop path of the service.
      * E.g. "Applications/konqueror.desktop" or "/home/user/bla/myfile.desktop"
@@ -272,12 +273,16 @@ public:
      *
      * @deprecated since 5.0 use QDBusConnectionInterface::startService("org.kde.serviceName"),
      *   to start a unique application in order to make D-Bus calls to it (after ensuring that
-     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
+     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess,
+     *   KIO::CommandLauncherJob or KIO::ApplicationLauncherJob.
      */
+    KSERVICE_DEPRECATED_VERSION_BELATED(5, 80, 5, 0, "See API documentation")
     static int startServiceByDesktopPath(const QString &_name, const QString &URL,
                                          QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
                                          const QByteArray &startup_id = QByteArray(), bool noWait = false);
+#endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 80)
     /**
      * Starts a service based on the desktop path of the service.
      * E.g. "Applications/konqueror.desktop" or "/home/user/bla/myfile.desktop"
@@ -298,12 +303,16 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated since 5.0 use QDBusConnectionInterface::startService("org.kde.serviceName"),
      *   to start a unique application in order to make D-Bus calls to it (after ensuring that
-     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
+     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess,
+     *   KIO::CommandLauncherJob or KIO::ApplicationLauncherJob.
      */
+    KSERVICE_DEPRECATED_VERSION_BELATED(5, 80, 5, 0, "See API documentation")
     static int startServiceByDesktopPath(const QString &_name, const QStringList &URLs = QStringList(),
                                          QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
                                          const QByteArray &startup_id = QByteArray(), bool noWait = false);
+#endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 80)
     /**
      * Starts a service based on the desktop name of the service.
      * E.g. "konqueror"
@@ -325,12 +334,16 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated since 5.0 use QDBusConnectionInterface::startService("org.kde.serviceName"),
      *   to start a unique application in order to make D-Bus calls to it (after ensuring that
-     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
+     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess,
+     *   KIO::CommandLauncherJob or KIO::ApplicationLauncherJob.
      */
+    KSERVICE_DEPRECATED_VERSION_BELATED(5, 80, 5, 0, "See API documentation")
     static int startServiceByDesktopName(const QString &_name, const QString &URL,
                                          QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
                                          const QByteArray &startup_id = QByteArray(), bool noWait = false);
+#endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 80)
     /**
      * Starts a service based on the desktop name of the service.
      * E.g. "konqueror"
@@ -352,11 +365,14 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated since 5.0 use QDBusConnectionInterface::startService("org.kde.serviceName"),
      *   to start a unique application in order to make D-Bus calls to it (after ensuring that
-     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
+     *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess,
+     *   KIO::CommandLauncherJob or KIO::ApplicationLauncherJob.
      */
+    KSERVICE_DEPRECATED_VERSION_BELATED(5, 80, 5, 0, "See API documentation")
     static int startServiceByDesktopName(const QString &_name, const QStringList &URLs = QStringList(),
                                          QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
                                          const QByteArray &startup_id = QByteArray(), bool noWait = false);
+#endif
 
     /**
      * Starts a program via kdeinit.
