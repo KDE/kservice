@@ -255,7 +255,9 @@ void KToolInvocation::invokeMailer(const QString &address, const QString &subjec
     invokeMailer(address, QString(), QString(), subject, QString(), QString(),
                  QStringList(), startup_id);
 }
+#endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 void KToolInvocation::invokeMailer(const QUrl &mailtoURL, const QByteArray &startup_id, bool allowAttachments)
 {
     if (!isMainThreadActive()) {

@@ -85,7 +85,9 @@ public Q_SLOTS:
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use QDesktopServices::openUrl(mailtoURL), using QUrl::setPath(address) and a query item of \"subject\" for the subject")
     static void invokeMailer(const QString &address, const QString &subject,
                              const QByteArray &startup_id = QByteArray());
+#endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * Invokes the standard email application.
      *
@@ -201,7 +203,9 @@ public:
     static int startServiceByName(const QString &_name, const QString &URL,
             QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
             const QByteArray &startup_id = QByteArray(), bool noWait = false);
+#endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * Starts a service based on the (translated) name of the service.
      * E.g. "Web Browser"
