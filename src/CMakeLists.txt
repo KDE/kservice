@@ -173,9 +173,9 @@ ecm_generate_headers(KService_HEADERS
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
 
-# TODO move to qrc too, like application.desktop?
 install(FILES
-   services/kplugininfo.desktop
+   services/kplugininfo.desktop # TODO move to qrc too, like application.desktop?
+   services/application.desktop # KF6: TODO: stop installing this file, it's now bundled into the qrc
    DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR}
 )
 
