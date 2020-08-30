@@ -13,8 +13,6 @@
 #include <QString>
 #include <QDir>
 
-class QStringList;
-class QDataStream;
 
 namespace KSycocaUtilsPrivate
 {
