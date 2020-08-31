@@ -16,6 +16,7 @@
 #include <QProcess>
 #include <QCoreApplication>
 #include <QHash>
+#include <QStandardPaths>
 #include <QDBusConnection>
 
 #include "windows.h"
@@ -76,7 +77,47 @@ void KToolInvocation::invokeTerminal(const QString &command,
                                      const QString &workdir,
                                      const QByteArray &startup_id)
 {
-    //TODO
+    const QString windowsTerminal = QStringLiteral("wt.exe");
+    const QString pwsh = QStringLiteral("pwsh.exe");
+    const QString powershell = QStringLiteral("powershell.exe"); // Powershell is used as fallback
+    const bool hasWindowsTerminal = !QStandardPaths::findExecutable(windowsTerminal).isEmpty();
+    const bool hasPwsh = !QStandardPaths::findExecutable(pwsh).isEmpty();
+
+    QProcess process;
+    QStringList args;
+    process.setWorkingDirectory(workdir);
+
+    if (hasWindowsTerminal) {
+        process.setProgram(windowsTerminal);
+        if (!workdir.isEmpty()) {
+            args << QStringLiteral("--startingDirectory") << workdir;
+        }
+        if (!command.isEmpty()) {
+            // Command and NoExit flag will be added later
+            args << (hasPwsh ? pwsh : powershell);
+        }
+    } else {
+        process.setProgram(hasPwsh ? pwsh : powershell);
+    }
+    if (!command.isEmpty()) {
+        args << QStringLiteral("-NoExit") << QStringLiteral("-Command") << command;
+    }
+    process.setArguments(args);
+
+    if (!envs.isEmpty()) {
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        for (const QString &envVar : envs) {
+            const int splitIndex = envVar.indexOf(QLatin1Char('='));
+            env.insert(envVar.left(splitIndex), envVar.mid(splitIndex + 1));
+        }
+        process.setProcessEnvironment(env);
+    }
+    process.setCreateProcessArgumentsModifier(
+                [](QProcess::CreateProcessArguments *args) {
+        args->flags |= CREATE_NEW_CONSOLE;
+        args->startupInfo->dwFlags &= ~STARTF_USESTDHANDLES;
+    });
+    process.startDetached();
 }
 
 void KToolInvocation::invokeTerminal(const QString &command, const QString &workdir, const QByteArray &startup_id)
