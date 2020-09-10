@@ -3,6 +3,7 @@
     SPDX-FileCopyrightText: 1999-2000 Waldo Bastian <bastian@kde.org>
     SPDX-FileCopyrightText: 2005-2009 David Faure <faure@kde.org>
     SPDX-FileCopyrightText: 2008 Hamish Rodda <rodda@kde.org>
+    SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-only
 */
@@ -15,6 +16,9 @@
 #include <QElapsedTimer>
 #include <QDateTime>
 #include <KDirWatch>
+
+#include <memory>
+
 class QFile;
 class QDataStream;
 class KSycocaAbstractDevice;
@@ -120,7 +124,8 @@ public:
     // QFileSystemWatcher's inotify implementation easily gets confused between "removed" and "changed",
     // and fails to re-add an inotify watch after the file was replaced at some point (KServiceTest::testThreads),
     // thinking it only got changed and not removed+recreated.
-    KDirWatch m_fileWatcher;
+    // NOTE: this may be nullptr when file watching is disabled on the current thread
+    std::unique_ptr<KDirWatch> m_fileWatcher;
     bool m_haveListeners;
 
     KSycoca *q;

@@ -3,6 +3,7 @@
     SPDX-FileCopyrightText: 1999-2000 Waldo Bastian <bastian@kde.org>
     SPDX-FileCopyrightText: 2005-2009 David Faure <faure@kde.org>
     SPDX-FileCopyrightText: 2008 Hamish Rodda <rodda@kde.org>
+    SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-only
 */
@@ -79,6 +80,7 @@ KSycocaPrivate::KSycocaPrivate(KSycoca *q)
       timeStamp(0),
       m_databasePath(),
       updateSig(0),
+      m_fileWatcher(new KDirWatch),
       m_haveListeners(false),
       q(q),
       sycoca_size(0),
@@ -189,13 +191,15 @@ QString KSycocaPrivate::findDatabase()
     const QString path = KSycoca::absoluteFilePath();
     const QFileInfo info(path);
     if (info.isReadable()) {
-        if (m_haveListeners) {
-            m_fileWatcher.addFile(path);
+        if (m_haveListeners && m_fileWatcher) {
+            m_fileWatcher->addFile(path);
         }
         return path;
     }
     // Let's be notified when it gets created - by another process or by ourselves
-    m_fileWatcher.addFile(path);
+    if (m_fileWatcher) {
+        m_fileWatcher->addFile(path);
+    }
     return QString();
 }
 
@@ -204,10 +208,12 @@ QString KSycocaPrivate::findDatabase()
 KSycoca::KSycoca()
     : d(new KSycocaPrivate(this))
 {
-    // We always delete and recreate the DB, so KDirWatch normally emits created
-    connect(&d->m_fileWatcher, &KDirWatch::created, this, [this](){ d->slotDatabaseChanged(); });
-    // In some cases, KDirWatch only thinks the file was modified though
-    connect(&d->m_fileWatcher, &KDirWatch::dirty, this, [this](){ d->slotDatabaseChanged(); });
+    if (d->m_fileWatcher) {
+        // We always delete and recreate the DB, so KDirWatch normally emits created
+        connect(d->m_fileWatcher.get(), &KDirWatch::created, this, [this](){ d->slotDatabaseChanged(); });
+        // In some cases, KDirWatch only thinks the file was modified though
+        connect(d->m_fileWatcher.get(), &KDirWatch::dirty, this, [this]() { d->slotDatabaseChanged(); });
+    }
 }
 
 bool KSycocaPrivate::openDatabase()
@@ -291,7 +297,7 @@ void KSycocaPrivate::slotDatabaseChanged()
     qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal";
     // KDirWatch tells us the database file changed
     // We would have found out in the next call to ensureCacheValid(), but for
-    // now keep the call to closeDatabase, to help refcounting to 0 the old mmaped file earlier.
+    // now keep the call to closeDatabase, to help refcounting to 0 the old mmapped file earlier.
     closeDatabase();
     // Start monitoring the new file right away
     m_databasePath = findDatabase();
@@ -723,12 +729,10 @@ bool KSycoca::isBuilding()
     return false;
 }
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 15)
 void KSycoca::disableAutoRebuild()
 {
-    qCWarning(SYCOCA) << "KSycoca::disableAutoRebuild() is internal, do not call it.";
+    ksycocaInstance->sycoca()->d->m_fileWatcher = nullptr;
 }
-#endif
 
 QDataStream *&KSycoca::stream()
 {
@@ -741,8 +745,8 @@ void KSycoca::connectNotify(const QMetaMethod &signal)
         d->m_haveListeners = true;
         if (d->m_databasePath.isEmpty()) {
             d->m_databasePath = d->findDatabase();
-        } else {
-            d->m_fileWatcher.addFile(d->m_databasePath);
+        } else if (d->m_fileWatcher) {
+            d->m_fileWatcher->addFile(d->m_databasePath);
         }
     }
 }

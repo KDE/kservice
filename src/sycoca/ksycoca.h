@@ -2,6 +2,7 @@
     This file is part of the KDE libraries
     SPDX-FileCopyrightText: 1999 Waldo Bastian <bastian@kde.org>
     SPDX-FileCopyrightText: 2005-2008 David Faure <faure@kde.org>
+    SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-only
 */
@@ -145,14 +146,14 @@ public:
      */
     virtual bool isBuilding();
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 15)
     /**
-     * @internal - disables launching of kbuildsycoca
-     * @deprecated since 5.15, it only outputs a warning
+     * Disables automatic rebuilding of the cache on service file changes.
+     * Be extremely careful when using this. Only threads that definitely have no use for
+     * automatic reloading should use this. Specifically shared runner threads (as seen in
+     * the threadweaver framework) can avoid claiming persistent resources this way
+     * (e.g. inotify instances on Linux).
      */
-    KSERVICE_DEPRECATED_VERSION(5, 15, "Feature no longer exists.")
-    static void disableAutoRebuild(); // KF6: remove
-#endif
+    static void disableAutoRebuild();
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
