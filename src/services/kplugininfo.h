@@ -31,6 +31,26 @@ class KPluginInfoPrivate;
  */
 class KSERVICE_EXPORT KPluginInfo
 {
+    Q_GADGET
+    
+    Q_PROPERTY(bool isHidden READ isHidden CONSTANT)
+    Q_PROPERTY(bool isPluginEnabled READ isPluginEnabled WRITE setPluginEnabled)
+    Q_PROPERTY(bool isPluginEnabledByDefault READ isPluginEnabledByDefault CONSTANT)
+    Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString comment READ comment CONSTANT)
+    Q_PROPERTY(QString icon READ icon CONSTANT)
+    Q_PROPERTY(QString entryPath READ entryPath CONSTANT)
+    Q_PROPERTY(QString author READ author CONSTANT)
+    Q_PROPERTY(QString email READ email CONSTANT)
+    Q_PROPERTY(QString pluginName READ pluginName CONSTANT)
+    Q_PROPERTY(QString version READ version CONSTANT)
+    Q_PROPERTY(QString website READ website CONSTANT)
+    Q_PROPERTY(QString license READ license CONSTANT)
+    Q_PROPERTY(QStringList dependencies READ dependencies CONSTANT)
+    Q_PROPERTY(QStringList serviceTypes READ serviceTypes CONSTANT)
+    Q_PROPERTY(QStringList formFactors READ formFactors CONSTANT)
+    Q_PROPERTY(QString libraryPath READ libraryPath CONSTANT)
+    
 public:
     /**
      * A list of KPluginInfo objects.
