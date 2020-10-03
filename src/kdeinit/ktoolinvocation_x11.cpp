@@ -209,9 +209,9 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
                 const QString previousStr = cmdTokens.at(i-1);
                 cmdTokens.removeAt(i);
                 const int currentPos = i;
-                for(const QString &url : attachURLs) {
+                for(const QString &attachUrl : attachURLs) {
                     cmdTokens.insert(currentPos, previousStr);
-                    cmdTokens.insert(currentPos, url);
+                    cmdTokens.insert(currentPos, attachUrl);
                     i += 2;
                 }
             }
