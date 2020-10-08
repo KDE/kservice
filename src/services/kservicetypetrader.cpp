@@ -76,16 +76,6 @@ void KServiceTypeTrader::applyConstraints(KService::List &lst,
     }
 }
 
-#if 0
-static void dumpOfferList(const KServiceOfferList &offers)
-{
-    // qDebug() << "Sorted list:";
-    OfferList::Iterator itOff = offers.begin();
-    for (; itOff != offers.end(); ++itOff)
-        // qDebug() << (*itOff).service()->name() << " allow-as-default=" << (*itOff).allowAsDefault() << " preference=" << (*itOff).preference();
-    }
-#endif
-
 KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType)   // static, internal
 {
     //qDebug() << "KServiceTypeTrader::weightedOffers( " << serviceType << " )";
@@ -104,11 +94,6 @@ KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType)
     const KServiceOfferList services = KSycocaPrivate::self()->serviceFactory()->offers(servTypePtr->offset(), servTypePtr->serviceOffersOffset());
 
     const KServiceOfferList offers = KServiceTypeProfile::sortServiceTypeOffers(services, serviceType);
-    //qDebug() << "Found profile: " << offers.count() << " offers";
-
-#if 0
-    dumpOfferList(offers);
-#endif
 
     return offers;
 }

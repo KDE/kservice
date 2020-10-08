@@ -104,15 +104,6 @@ void
 KBuildServiceTypeFactory::save(QDataStream &str)
 {
     KSycocaFactory::save(str);
-#if 0 // not needed since don't have any additional index anymore
-    int endOfFactoryData = str.device()->pos();
-
-    // Update header (pass #3)
-    saveHeader(str);
-
-    // Seek to end.
-    str.device()->seek(endOfFactoryData);
-#endif
 }
 
 void

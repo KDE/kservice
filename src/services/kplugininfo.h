@@ -309,22 +309,6 @@ public:
      */
     QString license() const;
 
-#if 0 // removed in KF5 to avoid dependency on KAboutData. Seems unused anyway.
-    /**
-     * @return The full license object, according to the license keyword.
-     *         It can be used to present friendlier and more detailed
-     *         license info to the user, when the license is one of the
-     *         widespread within KDE. For other licenses, the license
-     *         object will state not very useful, "custom license" info
-     *         (this can be identified by KAboutLicense::key() returning
-     *          KAboutData::License_Custom).
-     *
-     * @see KAboutLicense::byKeyword()
-     * @since 4.1
-     */
-    KAboutLicense fullLicense() const;
-#endif
-
     /**
      * @return A list of plugins required for this plugin to be enabled. Use
      *         the pluginName in this list.
