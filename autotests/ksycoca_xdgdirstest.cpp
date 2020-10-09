@@ -76,7 +76,7 @@ void KSycocaXdgDirsTest::testOtherAppDir()
     // Create another xdg data dir
     const QString dataDir = m_tempDir.path();
     qputenv("XDG_DATA_DIRS", QFile::encodeName(dataDir));
-    QCOMPARE(dataDir, QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).last());
+    QCOMPARE(dataDir, QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).constLast());
     QVERIFY(!KService::serviceByDesktopPath(QStringLiteral("test_app_other.desktop")));
 
     const QString appDir = dataDir + "/applications";

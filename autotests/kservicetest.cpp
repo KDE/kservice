@@ -513,7 +513,6 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
     bool lastAllowedAsDefault = true;
 #endif
     for (KService::Ptr service : qAsConst(offers)) {
-        const QString path = service->entryPath();
         const int preference = service->initialPreference(); // ## might be wrong if we use per-servicetype preferences...
         //qDebug( "%s has preference %d, allowAsDefault=%d", qPrintable( path ), preference, service->allowAsDefault() );
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)

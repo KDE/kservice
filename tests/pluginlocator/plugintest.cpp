@@ -110,8 +110,6 @@ bool PluginTest::loadFromKService(const QString &name)
     QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(name);
     KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("Plasma/DataEngine"),
                             constraint);
-    QString error;
-
     if (offers.isEmpty()) {
         qDebug() << "offers are empty for " << name << " with constraint " << constraint;
     } else {
@@ -172,7 +170,6 @@ bool PluginTest::findPlugins()
         datadirs << pluginDir + _s;
     }
     for (const QString &subdir : qAsConst(datadirs)) {
-        const QString pluginName;
         const QString constraint;
         const QString serviceType;
 
