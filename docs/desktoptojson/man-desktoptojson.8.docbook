@@ -6,7 +6,7 @@
 <refentry lang="&language;">
 
 <refentryinfo>
-<title>&kde; Frameworks: KService</title>
+<title>&kde-frameworks;: KService</title>
 <author>
 <firstname>Scarlett</firstname>
 <surname>Clark</surname>
@@ -65,9 +65,9 @@
 <refsect1>
 <title>Description</title>
 
-<para>The KService framework uses information contained in <filename class="extension">.desktop</filename> files to locate services, including plugins for Qt5-based applications and libraries.  The Qt5 plugin system, however, uses JSON data embedded in the plugin itself.  <command>desktoptojson</command> allows the information contained in a <filename class="extension">.desktop</filename> file to also be used as the embedded data for a Qt5 plugin by converting the <filename class="extension">.desktop</filename> file entries into JSON data.</para>
+<para>The KService framework uses information contained in <filename class="extension">.desktop</filename> files to locate services, including plugins for Qt5-based applications and libraries. The Qt5 plugin system, however, uses &JSON; data embedded in the plugin itself. <command>desktoptojson</command> allows the information contained in a <filename class="extension">.desktop</filename> file to also be used as the embedded data for a Qt5 plugin by converting the <filename class="extension">.desktop</filename> file entries into &JSON; data.</para>
 
-<para>The generated JSON data is a JSON object that maps the entries from the <literal>[Desktop Entry]</literal> group of the <filename class="extension">.desktop</filename> file.  Any other groups are ignored.  Most entries are just converted to JSON strings, but certain entries (such as <literal>Hidden</literal> and <literal>X-KDE-PluginInfo-EnabledByDefault</literal>) are known to be boolean values and converted as such, and similarly some (such as <literal>X-KDE-ServiceTypes</literal> and <literal>X-KDE-PluginInfo-Depends</literal>) are always converted to arrays of strings.</para>
+<para>The generated &JSON; data is a &JSON; object that maps the entries from the <literal>[Desktop Entry]</literal> group of the <filename class="extension">.desktop</filename> file. Any other groups are ignored. Most entries are just converted to &JSON; strings, but certain entries (such as <literal>Hidden</literal> and <literal>X-KDE-PluginInfo-EnabledByDefault</literal>) are known to be boolean values and converted as such, and similarly some (such as <literal>X-KDE-ServiceTypes</literal> and <literal>X-KDE-PluginInfo-Depends</literal>) are always converted to arrays of strings.</para>
 </refsect1>
 
 
@@ -86,7 +86,7 @@
 <varlistentry>
 <term><option>--output <replaceable>JSON-FILE</replaceable></option></term>
 <listitem>
-<para>The file to write the generated JSON data to.</para>
+<para>The file to write the generated &JSON; data to.</para>
 </listitem>
 </varlistentry>
 
@@ -112,7 +112,7 @@
 <refsect1>
 <title>Usage</title>
 <para>
-Most users of this utility will use the CMake macro
+Most users of this utility will use the &cmake; macro
 <function>kservice_desktop_to_json</function> as part of the process of building
 a plugin.
 <programlisting language="cmake">
@@ -121,7 +121,7 @@ add_library(myplugin MODULE ${myplugin_SRCS})
 kservice_desktop_to_json(myplugin myplugin.desktop)
 ]]>
 </programlisting>
-This will produce the JSON file <filename>myplugin.json</filename>, which can be
+This will produce the &JSON; file <filename>myplugin.json</filename>, which can be
 referenced from the <function>K_PLUGIN_FACTORY_WITH_JSON</function> or
 <function>Q_PLUGIN_METADATA</function> macros.
 </para>
@@ -131,7 +131,7 @@ referenced from the <function>K_PLUGIN_FACTORY_WITH_JSON</function> or
 
 <refsect1>
 <title>Bugs</title>
-<para>Please use <ulink url="http://bugs.kde.org">KDE's bugtracker</ulink> to report bugs.</para>
+<para>Please use <ulink url="https://bugs.kde.org">&kde;'s bugtracker</ulink> to report bugs.</para>
 </refsect1>
 
 </refentry>
