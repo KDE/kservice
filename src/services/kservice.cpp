@@ -236,6 +236,18 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
 
     m_strDesktopEntryName = _name.toLower();
 
+    // Exec lines from the KCMs always have the pattern "<program> m_strDesktopEntryName", see https://phabricator.kde.org/T13729
+    if (m_strExec.isEmpty() && serviceTypes().contains(QStringLiteral("KCModule"))) {
+        if (desktopGroup.readEntry("X-KDE-ParentApp") == QLatin1String("kinfocenter")) {
+            m_strExec = QStringLiteral("kinfocenter ") + m_strDesktopEntryName;
+        } else if (desktopGroup.readEntry("X-KDE-ParentApp") == QLatin1String("kcontrol")) {
+            if (!desktopGroup.readEntry("X-KDE-System-Settings-Parent-Category").isEmpty()) {
+                m_strExec = QStringLiteral("systemsettings5 ") + m_strDesktopEntryName;
+            } else {
+                m_strExec = QStringLiteral("kcmshell5 ") + m_strDesktopEntryName;
+            }
+        }
+    }
     m_bAllowAsDefault = desktopGroup.readEntry("AllowDefault", true);
     entryMap.remove(QStringLiteral("AllowDefault"));
 
