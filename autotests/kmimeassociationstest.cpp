@@ -9,7 +9,7 @@
 #include <QDir>
 #include <KConfigGroup>
 #include <KDesktopFile>
-#include <kmimetypetrader.h>
+#include <kapplicationtrader.h>
 #include <kservicefactory_p.h>
 #include <QTemporaryDir>
 #include <QTemporaryFile>
@@ -333,7 +333,7 @@ private Q_SLOTS:
         writeToMimeApps(m_mimeAppsFileContents);
 
         // Test a trader query
-        KService::List offers = KMimeTypeTrader::self()->query(QStringLiteral("image/jpeg"));
+        KService::List offers = KApplicationTrader::queryByMimeType(QStringLiteral("image/jpeg"));
         QVERIFY(!offers.isEmpty());
         QCOMPARE(offers.first()->storageId(), QStringLiteral("fakejpegapplication.desktop"));
 
@@ -341,7 +341,7 @@ private Q_SLOTS:
         // for each mimetype, check that the preferred apps are as specified
         for (ExpectedResultsMap::const_iterator it = preferredApps.constBegin(), end = preferredApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
-            const KService::List offers = KMimeTypeTrader::self()->query(mime);
+            const KService::List offers = KApplicationTrader::queryByMimeType(mime);
             const QStringList offerIds = assembleServices(offers, it.value().count());
             if (offerIds != it.value()) {
                 qDebug() << "offers for" << mime << ":";
@@ -362,7 +362,7 @@ private Q_SLOTS:
     void testMultipleInheritance()
     {
         // application/x-shellscript inherits from both text/plain and application/x-executable
-        KService::List offers = KMimeTypeTrader::self()->query(QStringLiteral("application/x-shellscript"));
+        KService::List offers = KApplicationTrader::queryByMimeType(QStringLiteral("application/x-shellscript"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));
     }
 
@@ -371,16 +371,16 @@ private Q_SLOTS:
         // I removed kate from text/plain, and it would still appear in text/x-java.
 
         // First, let's check our fake app is associated with text/plain
-        KService::List offers = KMimeTypeTrader::self()->query(QStringLiteral("text/plain"));
+        KService::List offers = KApplicationTrader::queryByMimeType(QStringLiteral("text/plain"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));
 
         writeToMimeApps(QByteArray("[Removed Associations]\n"
                                    "text/plain=faketextapplication.desktop;\n"));
 
-        offers = KMimeTypeTrader::self()->query(QStringLiteral("text/plain"));
+        offers = KApplicationTrader::queryByMimeType(QStringLiteral("text/plain"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
 
-        offers = KMimeTypeTrader::self()->query(QStringLiteral("text/x-java"));
+        offers = KApplicationTrader::queryByMimeType(QStringLiteral("text/x-java"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
     }
 
@@ -397,16 +397,16 @@ private Q_SLOTS:
             QSKIP("Broken distro where application/vnd.oasis.opendocument.text doesn't inherit from application/zip");
         }
 
-        KService::List offers = KMimeTypeTrader::self()->query(opendocument);
+        KService::List offers = KApplicationTrader::queryByMimeType(opendocument);
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
 
         writeToMimeApps(QByteArray("[Removed Associations]\n"
                                    "application/vnd.oasis.opendocument.text=fakearkapplication.desktop;\n"));
 
-        offers = KMimeTypeTrader::self()->query(opendocument);
+        offers = KApplicationTrader::queryByMimeType(opendocument);
         QVERIFY(!offerListHasService(offers, fakeArkApplication, false));
 
-        offers = KMimeTypeTrader::self()->query(QStringLiteral("application/zip"));
+        offers = KApplicationTrader::queryByMimeType(QStringLiteral("application/zip"));
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
     }
 
@@ -425,16 +425,16 @@ private Q_SLOTS:
             QVERIFY(mime.inherits(QStringLiteral("application/zip")));
         }
 
-        KService::List offers = KMimeTypeTrader::self()->query(mime);
+        KService::List offers = KApplicationTrader::queryByMimeType(mime);
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
 
         writeToMimeApps(QByteArray("[Removed Associations]\n"
                                    "application/x-kns=fakearkapplication.desktop;\n"));
 
-        offers = KMimeTypeTrader::self()->query(mime);
+        offers = KApplicationTrader::queryByMimeType(mime);
         QVERIFY(!offerListHasService(offers, fakeArkApplication, false));
 
-        offers = KMimeTypeTrader::self()->query(QStringLiteral("application/zip"));
+        offers = KApplicationTrader::queryByMimeType(QStringLiteral("application/zip"));
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
     }
 
@@ -449,13 +449,13 @@ private Q_SLOTS:
         writeToMimeApps(QByteArray("[Removed Associations]\n"
                                    "application/x-desktop=faketextapplication.desktop;\n"));
 
-        offers = KMimeTypeTrader::self()->query(QStringLiteral("text/plain"));
+        offers = KApplicationTrader::queryByMimeType(QStringLiteral("text/plain"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));
 
-        offers = KMimeTypeTrader::self()->query(QStringLiteral("application/x-desktop"));
+        offers = KApplicationTrader::queryByMimeType(QStringLiteral("application/x-desktop"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
 
-        offers = KMimeTypeTrader::self()->query(QStringLiteral("application/x-theme"));
+        offers = KApplicationTrader::queryByMimeType(QStringLiteral("application/x-theme"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
     }
 

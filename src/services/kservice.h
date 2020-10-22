@@ -336,7 +336,7 @@ public:
      * (including in context menus).
      * @return true if the service should be shown.
      *
-     * KMimeTypeTrader honors this and removes such services
+     * KApplicationTrader honors this and removes such services
      * from its results.
      *
      * @since 5.0
