@@ -17,7 +17,6 @@
 #include <QCharRef>
 #include <QDir>
 #include <QMap>
-#include <QCoreApplication>
 #include <QMimeDatabase>
 
 #include <KAuthorized>

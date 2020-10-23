@@ -8,7 +8,6 @@
 
 #include "kplugininfo.h"
 
-#include <QList>
 #include "servicesdebug.h"
 #include <QDirIterator>
 #include <QJsonArray>
@@ -18,10 +17,8 @@
 #include "ksycoca.h"
 #include "ksycoca_p.h"
 #include <KAboutData>
-#include <KConfigGroup>
 #include <KDesktopFile>
 #include <KPluginMetaData>
-#include <kservice.h>
 #include <kservicetypetrader.h>
 #include <kservicetypefactory_p.h>
 
