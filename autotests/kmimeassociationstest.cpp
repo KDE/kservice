@@ -96,6 +96,17 @@ static void writeAppDesktopFile(const QString &path, const QStringList &mimeType
     group.writeXdgListEntry("MimeType", mimeTypes);
 }
 
+static void writeNonKDEAppDesktopFile(const QString &path, const QStringList &mimeTypes) // bug 427469
+{
+    KDesktopFile file(path);
+    KConfigGroup group = file.desktopGroup();
+    group.writeEntry("Name", "FakeApplication");
+    group.writeEntry("Type", "Application");
+    group.writeEntry("Exec", "ls");
+    group.writeEntry("NotShowIn", "KDE");
+    group.writeXdgListEntry("MimeType", mimeTypes);
+}
+
 /**
  * This unit test verifies the parsing of mimeapps.list files, both directly
  * and via kbuildsycoca (and making trader queries).
@@ -156,6 +167,12 @@ private Q_SLOTS:
         fakeOktetaApplication = m_localApps + "fakeoktetaapplication.desktop";
         writeAppDesktopFile(fakeOktetaApplication, QStringList() << QStringLiteral("application/octet-stream"));
 
+        const QString fakeGnomeRoller = m_localApps + "fake.org.gnome.FileRoller.desktop";
+        writeNonKDEAppDesktopFile(fakeGnomeRoller, QStringList() << QStringLiteral("application/x-7z-compressed"));
+
+        const QString fakeNautilus = m_localApps + "fake.org.gnome.Nautilus.desktop";
+        writeNonKDEAppDesktopFile(fakeNautilus, QStringList() << QStringLiteral("application/x-7z-compressed"));
+
         // Update ksycoca in ~/.qttest after creating the above
         runKBuildSycoca();
 
@@ -188,6 +205,8 @@ private Q_SLOTS:
                                  "x-scheme-handler/mailto=faketextapplication.desktop\n"
                                  // test association with octet-stream (#425154)
                                  "application/octet-stream=fakeoktetaapplication.desktop\n"
+                                 // test a non-kde app (#427469)
+                                 "application/x-7z-compressed=fake.org.gnome.FileRoller.desktop;\n"
                                  "[Added KParts/ReadOnlyPart Associations]\n"
                                  "text/plain=katepart.desktop;\n"
                                  "[Removed Associations]\n"
@@ -210,6 +229,8 @@ private Q_SLOTS:
         preferredApps[QStringLiteral("application/msword")] << QStringLiteral("fakecsrcmswordapplication.desktop");
         preferredApps[QStringLiteral("x-scheme-handler/mailto")] << QStringLiteral("faketextapplication.desktop");
         preferredApps[QStringLiteral("text/x-python")] << QStringLiteral("faketextapplication.desktop");
+        preferredApps[QStringLiteral("application/x-7z-compressed")] << QStringLiteral("fake.org.gnome.FileRoller.desktop");
+        removedApps[QStringLiteral("application/x-7z-compressed")] << QStringLiteral("fake.org.gnome.Nautilus.desktop");
         removedApps[QStringLiteral("image/jpeg")] << QStringLiteral("firefox.desktop");
         removedApps[QStringLiteral("text/html")] << QStringLiteral("gvim.desktop") << QStringLiteral("abiword.desktop");
 
@@ -356,6 +377,16 @@ private Q_SLOTS:
                 }
             }
             QCOMPARE(offerIds, it.value());
+        }
+        for (auto it = removedApps.constBegin(),
+                end = removedApps.constEnd(); it != end; ++it) {
+            const QString mime = it.key();
+            const KService::List offers = KApplicationTrader::queryByMimeType(mime);
+            const QStringList offerIds = assembleServices(offers);
+            for (const QString &service : it.value()) {
+                const QString error = QStringLiteral("Offers for %1 should not contain %2").arg(mime, service);
+                QVERIFY2(!offerIds.contains(service), qPrintable(error));
+            }
         }
     }
 

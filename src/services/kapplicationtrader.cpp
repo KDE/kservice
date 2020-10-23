@@ -68,7 +68,7 @@ static void applyFilter(KService::List &list, KApplicationTrader::FilterFunc fil
     // Find all services matching the constraint
     // and remove the other ones
     auto removeFunc = [&](const KService::Ptr &serv) {
-        return !serv->showInCurrentDesktop() || (filterFunc && !filterFunc(serv));
+        return (filterFunc && !filterFunc(serv));
     };
     list.erase(std::remove_if(list.begin(), list.end(), removeFunc), list.end());
 }

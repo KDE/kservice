@@ -248,6 +248,7 @@ void KBuildServiceFactory::populateServiceTypes()
     for (; itserv != endserv; ++itserv) {
 
         KService::Ptr service(static_cast<KService*>((*itserv).data()));
+        const bool hidden = !service->showInCurrentDesktop();
         QVector<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
         //bool hasAllAll = false;
         //bool hasAllFiles = false;
@@ -255,6 +256,11 @@ void KBuildServiceFactory::populateServiceTypes()
         // Add this service to all its servicetypes (and their parents) and to all its MIME types
         for (int i = 0; i < serviceTypeList.count() /*don't cache it, it can change during iteration!*/; ++i) {
             const QString stName = serviceTypeList[i].serviceType;
+
+            if (hidden && stName != QLatin1String("Application")) {
+                continue;
+            }
+
             // It could be a servicetype or a MIME type.
             KServiceType::Ptr serviceType = m_serviceTypeFactory->findServiceTypeByName(stName);
             if (serviceType) {

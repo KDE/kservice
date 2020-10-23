@@ -141,5 +141,7 @@ private:
  */
 typedef QList<KServiceOffer> KServiceOfferList;
 
+QDebug operator<<(QDebug dbg, const KServiceOffer& offer);
+
 #endif /* KSERVICEOFFER_H */
 

@@ -136,3 +136,13 @@ int KServiceOffer::mimeTypeInheritanceLevel() const
     return d->mimeTypeInheritanceLevel;
 }
 
+
+QDebug operator<<(QDebug dbg, const KServiceOffer &offer)
+{
+    QDebugStateSaver saver(dbg);
+    dbg.nospace() << offer.service()->storageId() << " " << offer.preference();
+    if (offer.mimeTypeInheritanceLevel() > 0) {
+       dbg << " (inheritance level " << offer.mimeTypeInheritanceLevel() << ")";
+    }
+    return dbg;
+}

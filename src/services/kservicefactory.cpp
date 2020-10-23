@@ -292,8 +292,8 @@ KService::List KServiceFactory::serviceOffers(int serviceTypeOffset, int service
         (*str) >> aServiceTypeOffset;
         if (aServiceTypeOffset) {
             (*str) >> aServiceOffset;
-            (*str) >> initialPreference;
-            (*str) >> mimeTypeInheritanceLevel;
+            (*str) >> initialPreference; // unused (remove once KMimeTypeTrader/KServiceTypeTrader are gone)
+            (*str) >> mimeTypeInheritanceLevel; // unused (remove once KMimeTypeTrader/KServiceTypeTrader are gone)
             if (aServiceTypeOffset == serviceTypeOffset) {
                 // Save stream position !
                 const qint64 savedPos = str->device()->pos();
