@@ -8,6 +8,8 @@
 
 #include "kserviceoffer.h"
 
+#include <QDebug>
+
 class KServiceOfferPrivate
 {
 public:
