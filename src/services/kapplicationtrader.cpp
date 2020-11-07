@@ -59,7 +59,7 @@ static void filterMimeTypeOffers(KService::List &list) // static, internal
     list.erase(std::remove_if(list.begin(), list.end(), removeFunc), list.end());
 }
 
-static void applyFilter(KService::List &list, KApplicationTrader::FilterFunc filterFunc)
+static void applyFilter(KService::List &list, KApplicationTrader::FilterFunc filterFunc, bool mustShowInCurrentDesktop)
 {
     if (list.isEmpty()) {
         return;
@@ -68,7 +68,7 @@ static void applyFilter(KService::List &list, KApplicationTrader::FilterFunc fil
     // Find all services matching the constraint
     // and remove the other ones
     auto removeFunc = [&](const KService::Ptr &serv) {
-        return (filterFunc && !filterFunc(serv));
+        return (filterFunc && !filterFunc(serv)) || (mustShowInCurrentDesktop && !serv->showInCurrentDesktop());
     };
     list.erase(std::remove_if(list.begin(), list.end(), removeFunc), list.end());
 }
@@ -85,7 +85,7 @@ KService::List KApplicationTrader::query(FilterFunc filterFunc)
 
     KService::List lst = KSycocaPrivate::self()->serviceFactory()->serviceOffers(servTypePtr);
 
-    applyFilter(lst, filterFunc);
+    applyFilter(lst, filterFunc, true); // true = filter out service with NotShowIn=KDE or equivalent
 
     qCDebug(SERVICES) << "query returning" << lst.count() << "offers";
     return lst;
@@ -98,7 +98,7 @@ KService::List KApplicationTrader::queryByMimeType(const QString &mimeType,
     KService::List lst = mimeTypeSycocaServiceOffers(mimeType);
     filterMimeTypeOffers(lst);
 
-    applyFilter(lst, filterFunc);
+    applyFilter(lst, filterFunc, false); // false = allow NotShowIn=KDE services listed in mimeapps.list
 
     qCDebug(SERVICES) << "query for mimeType" << mimeType << "returning" << lst.count() << "offers";
     return lst;

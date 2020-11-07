@@ -221,7 +221,10 @@ void KApplicationTraderTest::testTraderConstraints_data()
     QTest::newRow("subseq_case_insensitive_fail") << subseq_case_insensitive_fail << ExpectedResult::NoResults;
 
     // Test another property, parsed as a double
-    FF testVersion = [](const KService::Ptr &serv) { double d = serv->property("X-KDE-Version").toDouble(); return d > 5.559 && d < 5.561; };
+    FF testVersion = [](const KService::Ptr &serv) {
+        double d = serv->property("X-KDE-Version", QVariant::Double).toDouble();
+        return d > 5.559 && d < 5.561;
+    };
     QTest::newRow("float_parsing") << testVersion << ExpectedResult::FakeApplicationAndOthers;
 }
 
