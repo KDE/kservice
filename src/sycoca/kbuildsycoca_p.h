@@ -48,6 +48,7 @@ public:
     }
 
     static QStringList factoryResourceDirs();
+    static QStringList factoryExtraFiles();
     static QStringList existingResourceDirs();
 
     /**
@@ -112,6 +113,7 @@ private:
     }
 
     QMap<QString, qint64> m_allResourceDirs; // dir, mtime in ms since epoch
+    QMap<QString, qint64> m_extraFiles; // file, mtime in ms since epoch
     QString m_trackId;
 
     QByteArray m_resource; // e.g. "services" (old resource name, now only used for the signal, see kctimefactory.cpp)

@@ -38,7 +38,7 @@ text/plain=gnome-gedit.desktop;gnu-emacs.desktop;
 text/plain=kate.desktop;
 */
 
-void KMimeAssociations::parseAllMimeAppsList()
+QStringList KMimeAssociations::mimeAppsFiles()
 {
     QStringList mimeappsFileNames;
     // make the list of possible filenames from the spec ($desktop-mimeapps.list, then mimeapps.list)
@@ -52,9 +52,7 @@ void KMimeAssociations::parseAllMimeAppsList()
         mimeappsFileNames.append(desktop.toLower() + QLatin1String("-mimeapps.list"));
     }
     mimeappsFileNames.append(QStringLiteral("mimeapps.list"));
-    // list the dirs in the order of the spec (XDG_CONFIG_HOME, XDG_CONFIG_DIRS, XDG_DATA_HOME, XDG_DATA_DIRS)
-    const QStringList mimeappsDirs = QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation)
-                                    + QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+    const QStringList mimeappsDirs = mimeAppsDirs();
     QStringList mimeappsFiles;
     // collect existing files
     for (const QString &dir : mimeappsDirs) {
@@ -65,9 +63,20 @@ void KMimeAssociations::parseAllMimeAppsList()
             }
         }
     }
-    //qDebug() << "FILE LIST:" << mimeappsFiles;
+    return mimeappsFiles;
+}
 
+QStringList KMimeAssociations::mimeAppsDirs()
+{
+    // list the dirs in the order of the spec (XDG_CONFIG_HOME, XDG_CONFIG_DIRS, XDG_DATA_HOME, XDG_DATA_DIRS)
+    return QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation)
+            + QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+}
+
+void KMimeAssociations::parseAllMimeAppsList()
+{
     int basePreference = 1000; // start high :)
+    const QStringList mimeappsFiles = KMimeAssociations::mimeAppsFiles();
     QListIterator<QString> mimeappsIter(mimeappsFiles);
     mimeappsIter.toBack();
     while (mimeappsIter.hasPrevious()) { // global first, then local.

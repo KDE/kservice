@@ -107,6 +107,7 @@ public:
     QString language;
     quint32 updateSig;
     QMap<QString, qint64> allResourceDirs; // path, modification time in "ms since epoch"
+    QMap<QString, qint64> extraFiles; // path, modification time in "ms since epoch"
 
     void addFactory(KSycocaFactory *factory)
     {

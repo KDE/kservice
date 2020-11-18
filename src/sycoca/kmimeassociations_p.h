@@ -54,12 +54,16 @@ class KMimeAssociations
 public:
     explicit KMimeAssociations(KOfferHash &offerHash, KServiceFactory *serviceFactory);
 
+    static QStringList mimeAppsFiles();
+
     // Read mimeapps.list files
     void parseAllMimeAppsList();
 
     void parseMimeAppsList(const QString &file, int basePreference);
 
 private:
+    static QStringList mimeAppsDirs();
+
     void parseAddedAssociations(const KConfigGroup &group, const QString &file, int basePreference);
     void parseRemovedAssociations(const KConfigGroup &group, const QString &file);
 

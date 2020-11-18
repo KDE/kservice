@@ -175,6 +175,11 @@ bool KBuildSycoca::build()
         m_allResourceDirs.insert(dir, stamp);
     }
 
+    const auto lstFiles = factoryExtraFiles();
+    for (const QString &file : lstFiles) {
+        m_extraFiles.insert(file, QFileInfo(file).lastModified().toMSecsSinceEpoch());
+    }
+
     QMap<QString, QByteArray> allResourcesSubDirs; // dirs, kstandarddirs-resource-name
     // For each factory
     for (KSycocaFactory* factory : factoryList) {
@@ -508,6 +513,10 @@ void KBuildSycoca::save(QDataStream *str)
     for (auto it = m_allResourceDirs.constBegin(); it != m_allResourceDirs.constEnd(); ++it) {
         (*str) << it.value();
     }
+    (*str) << m_extraFiles.keys();
+    for (auto it = m_extraFiles.constBegin(); it != m_extraFiles.constEnd(); ++it) {
+        (*str) << it.value();
+    }
 
     // Calculate per-servicetype/MIME type data
     if (serviceFactory) serviceFactory->postProcessServices();
@@ -558,6 +567,16 @@ QStringList KBuildSycoca::factoryResourceDirs()
     *dirs += KServiceFactory::resourceDirs();
 
     return *dirs;
+}
+
+QStringList KBuildSycoca::factoryExtraFiles()
+{
+    QStringList files;
+    // these are the extra files cached by ksycoca
+    // and whose timestamps are checked
+    files += KMimeAssociations::mimeAppsFiles();
+
+    return files;
 }
 
 QStringList KBuildSycoca::existingResourceDirs()

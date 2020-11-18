@@ -80,6 +80,7 @@ private Q_SLOTS:
     void testAllResourceDirs();
     void testDeletingSycoca();
     void testNonReadableSycoca();
+    void extraFileInFutureShouldRebuildSycocaOnce();
 
 private:
     void createGlobalServiceType()
@@ -94,6 +95,7 @@ private:
     }
     QString servicesDir() const { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservices5"; }
     QString serviceTypesDir() const { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservicetypes5"; }
+    QString extraFile() const { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mimeapps.list"; }
     QString menusDir() const { return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/menus"; }
     QString appsDir() const { return QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1Char('/'); }
 
@@ -300,6 +302,36 @@ void KSycocaTest::testNonReadableSycoca()
 
     // cleanup
     QFile::remove(KSycoca::absoluteFilePath());
+}
+
+void KSycocaTest::extraFileInFutureShouldRebuildSycocaOnce()
+{
+    const QDateTime oldTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+
+    auto path = extraFile();
+    QFile f(path);
+    QVERIFY(f.open(QIODevice::WriteOnly));
+    auto beginning = f.fileTime(QFileDevice::FileModificationTime);
+    auto newdate = beginning.addSecs(60);
+    qDebug() << "Time changed for " << newdate << path;
+    QVERIFY(f.setFileTime(newdate, QFileDevice::FileModificationTime));
+
+    ksycoca_ms_between_checks = 0;
+
+    QTest::qWait(s_waitDelay);
+
+    KSycoca::self()->ensureCacheValid();
+    const QDateTime newTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+    QVERIFY(newTimestamp > oldTimestamp);
+
+    QTest::qWait(s_waitDelay);
+
+    KSycoca::self()->ensureCacheValid();
+    const QDateTime againTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
+    QCOMPARE(againTimestamp, newTimestamp); // same mtime, it didn't get rebuilt
+
+    // Ensure we don't pollute the other tests, with our extra file in the future.
+    QVERIFY(QFile::remove(path));
 }
 
 #include "ksycocatest.moc"
