@@ -14,6 +14,8 @@
 #include <KPluginMetaData>
 #include <QVector>
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 82)
+
 using namespace KTraderParse;
 
 KPluginTrader *KPluginTrader::self()
@@ -75,3 +77,5 @@ KPluginInfo::List KPluginTrader::query(const QString &subDirectory, const QStrin
     applyConstraints(lst, constraint);
     return lst;
 }
+
+#endif
