@@ -21,10 +21,14 @@ kservice_unit_tests(
  ksycocadicttest
  ksycocathreadtest
  kservicetest
- kplugintradertest
  kplugininfotest
  kapplicationtradertest
 )
+
+if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
+   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.77.0)
+   kservice_unit_tests(kplugintradertest)
+endif()
 
 # the test plays with the timestamp of ~/.qttest/share/kservicetypes5, and with the ksycoca file, other tests can collide
 set_tests_properties(ksycocatest PROPERTIES RUN_SERIAL TRUE)

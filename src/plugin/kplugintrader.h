@@ -11,6 +11,9 @@
 #define __kplugintrader_h__
 
 #include "kplugininfo.h"
+
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 77)
+
 class KPluginTraderPrivate;
 /**
  * \class KPluginTrader kplugintrader.h <KPluginTrader>
@@ -141,7 +144,9 @@ public:
      *
      * @return A list of services that satisfy the query
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
+     * @deprecated since 5.77, use KPluginLoader::findPlugins.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 77, "Use KPluginLoader::findPlugins")
     KPluginInfo::List query(const QString &subDirectory, const QString &serviceType = QString(),
                             const QString &constraint = QString());
 
@@ -174,7 +179,9 @@ public:
      * @param error The string passed here will contain an error description.
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
+     * @deprecated since 5.77, use KPluginLoader API.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 77, "Use KPluginLoader API")
     template <class T>
     static T *createInstanceFromQuery(const QString &subDirectory,
                                       const QString &serviceType = QString(),
@@ -203,7 +210,9 @@ public:
      * @param error The string passed here will contain an error description.
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
+     * @deprecated since 5.77, use KPluginLoader API.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 77, "Use KPluginLoader API")
     template <class T>
     static T *createInstanceFromQuery(const QString &subDirectory,
                                       const QString &serviceType,
@@ -237,6 +246,7 @@ public:
         return nullptr;
     }
 
+    KSERVICE_DEPRECATED_VERSION(5, 77, "No users.")
     static void applyConstraints(KPluginInfo::List &lst,
                                  const QString &constraint);
 
@@ -252,5 +262,6 @@ private:
 
     KPluginTraderPrivate *const d;
 };
+#endif
 
 #endif

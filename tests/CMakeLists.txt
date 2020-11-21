@@ -1,7 +1,10 @@
 remove_definitions(-DQT_NO_CAST_FROM_ASCII)
 remove_definitions(-DQT_NO_CAST_TO_ASCII)
 
-add_subdirectory(pluginlocator)
+if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
+   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.77.0)
+    add_subdirectory(pluginlocator)
+endif()
 
 include(ECMMarkAsTest)
 
