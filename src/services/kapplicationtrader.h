@@ -39,7 +39,7 @@ namespace KApplicationTrader
     using FilterFunc = std::function<bool(const KService::Ptr &)>;
 
     /**
-     * This method returns a list of services (applications) which are associated with a given MIME type.
+     * This method returns a list of services (applications) that match a given filter.
      *
      * @param filter a callback function that returns @c true if the application
      * should be selected and @c false if it should be skipped.
