@@ -916,7 +916,11 @@ bool KService::terminal() const
 
 bool KService::runOnDiscreteGpu() const
 {
-    QVariant v = property(QStringLiteral("X-KDE-RunOnDiscreteGpu"), QVariant::Bool);
+    QVariant v = property(QStringLiteral("PrefersNonDefaultGPU"), QVariant::Bool);
+    if (v.isValid()) {
+        return v.toBool();
+    }
+    v = property(QStringLiteral("X-KDE-RunOnDiscreteGpu"), QVariant::Bool);
     return v.isValid() && v.toBool();
 }
 
