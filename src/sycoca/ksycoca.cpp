@@ -49,7 +49,7 @@
  * However running apps should still be able to read it, so
  * only add to the data, never remove/modify.
  */
-#define KSYCOCA_VERSION 304
+#define KSYCOCA_VERSION 303
 
 #if HAVE_MADVISE || HAVE_MMAP
 #include <sys/mman.h> // This #include was checked when looking for posix_madvise
@@ -557,15 +557,6 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
         allResourceDirs.insert(directoryList.at(i), mtime);
     }
 
-    QStringList fileList;
-    *str >> fileList;
-    extraFiles.clear();
-    for (auto fileName : fileList) {
-        qint64 mtime;
-        *str >> mtime;
-        extraFiles.insert(fileName, mtime);
-    }
-
     str->device()->seek(oldPos);
 
     timeStamp = header.timeStamp;
@@ -588,7 +579,7 @@ public:
     // Check times of last modification of all directories on which ksycoca depends,
     // If none of them is newer than the mtime we stored for that directory at the
     // last rebuild, this means that there's no need to rebuild ksycoca.
-    bool checkDirectoriesTimestamps(const QMap<QString, qint64> &dirs)
+    bool checkTimestamps(const QMap<QString, qint64> &dirs)
     {
         Q_ASSERT(!dirs.isEmpty());
         //qCDebug(SYCOCA) << "checking file timestamps";
@@ -602,7 +593,7 @@ public:
                     if (mtime > m_now) {
                         qCDebug(SYCOCA) << fi.filePath() << "has a modification time in the future" << mtime;
                     }
-                    qCDebug(SYCOCA) << "dir timestamp changed:" << fi.filePath() << mtime << ">" << QDateTime::fromMSecsSinceEpoch(lastStamp);
+                    qCDebug(SYCOCA) << "timestamp changed:" << fi.filePath() << mtime << ">" << QDateTime::fromMSecsSinceEpoch(lastStamp);
                     // no need to continue search
                     return false;
                 }
@@ -611,28 +602,6 @@ public:
             };
 
             if (!KSycocaUtilsPrivate::visitResourceDirectory(dir, visitor)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    bool checkFilesTimestamps(const QMap<QString, qint64> &files)
-    {
-        for (auto it = files.begin(); it != files.end(); ++it) {
-            const QString fileName = it.key();
-            const qint64 lastStamp = it.value();
-
-            QFileInfo fi(fileName);
-            if (!fi.exists()) {
-                return false;
-            }
-            const QDateTime mtime = fi.lastModified();
-            if (mtime.toMSecsSinceEpoch() > lastStamp) {
-                if (mtime > m_now) {
-                    qCDebug(SYCOCA) << fi.filePath() << "has a modification time in the future" << mtime;
-                }
-                qCDebug(SYCOCA) << "file timestamp changed:" << fi.filePath() << mtime << ">" << QDateTime::fromMSecsSinceEpoch(lastStamp);
                 return false;
             }
         }
@@ -657,15 +626,7 @@ bool KSycocaPrivate::needsRebuild()
     }
     // these days timeStamp is really a "bool headerFound", the value itself doesn't matter...
     // KF6: replace it with bool.
-    bool ret = timeStamp != 0 &&
-            (!TimestampChecker().checkDirectoriesTimestamps(allResourceDirs)
-            ||
-            !TimestampChecker().checkFilesTimestamps(extraFiles)
-            ||
-             // to cover cases when extra files were added
-             extraFiles.keys() != KBuildSycoca::factoryExtraFiles()
-             );
-    return ret;
+    return timeStamp != 0 && !TimestampChecker().checkTimestamps(allResourceDirs);
 }
 
 bool KSycocaPrivate::buildSycoca()
