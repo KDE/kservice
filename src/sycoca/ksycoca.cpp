@@ -660,12 +660,15 @@ bool KSycocaPrivate::needsRebuild()
     bool ret = timeStamp != 0 &&
             (!TimestampChecker().checkDirectoriesTimestamps(allResourceDirs)
             ||
-            !TimestampChecker().checkFilesTimestamps(extraFiles)
-            ||
-             // to cover cases when extra files were added
-             extraFiles.keys() != KBuildSycoca::factoryExtraFiles()
-             );
-    return ret;
+            !TimestampChecker().checkFilesTimestamps(extraFiles));
+    if (ret) {
+        return true;
+    }
+    auto files = KBuildSycoca::factoryExtraFiles();
+    // ensure files are ordered so next comparison works
+    files.sort();
+    // to cover cases when extra files were added
+    return extraFiles.keys() != files;
 }
 
 bool KSycocaPrivate::buildSycoca()
