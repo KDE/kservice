@@ -655,6 +655,12 @@ bool KSycocaPrivate::needsRebuild()
     if (!timeStamp && databaseStatus == DatabaseOK) {
         (void) readSycocaHeader();
     }
+
+    // extraFiles.keys() is sorted by being in a QMap
+    // sort factoryExtraFiles to match
+    QStringList factoryExtraFiles = KBuildSycoca::factoryExtraFiles();
+    factoryExtraFiles.sort();
+
     // these days timeStamp is really a "bool headerFound", the value itself doesn't matter...
     // KF6: replace it with bool.
     bool ret = timeStamp != 0 &&
