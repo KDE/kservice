@@ -230,7 +230,7 @@ bool KSycocaPrivate::openDatabase()
     if (!m_databasePath.isEmpty()) {
         qCDebug(SYCOCA) << "Opening ksycoca from" << m_databasePath;
         m_dbLastModified = QFileInfo(m_databasePath).lastModified();
-        result = checkVersion();
+        checkVersion();
     } else { // No database file
         //qCDebug(SYCOCA) << "Could not open ksycoca";
         result = false;
@@ -680,7 +680,11 @@ bool KSycocaPrivate::buildSycoca()
     // Ok, the new database should be here now, open it.
     if (!openDatabase()) {
         qCDebug(SYCOCA) << "Still no database...";
-        return false;
+        return false; // Still no database - uh oh
+    }
+    if (!checkVersion()) {
+        qCDebug(SYCOCA) << "Still outdated...";
+        return false; // Still outdated - uh oh
     }
     return true;
 }
