@@ -11,9 +11,8 @@
 #include <kservice_export.h>
 
 #include <QObject>
+#include <QStringList>
 class KAutostartPrivate;
-
-class QStringList;
 
 /**
  * @class KAutostart kautostart.h <KAutostart>
