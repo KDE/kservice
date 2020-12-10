@@ -12,6 +12,7 @@
 #include "ksycoca.h"
 
 #include <QBitArray>
+#include <QIODevice>
 #include <QVector>
 
 namespace

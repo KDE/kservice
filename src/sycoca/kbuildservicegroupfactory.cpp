@@ -15,6 +15,7 @@
 #include <QDebug>
 #include <assert.h>
 #include <QHash>
+#include <QIODevice>
 
 KBuildServiceGroupFactory::KBuildServiceGroupFactory(KSycoca *db)
     : KServiceGroupFactory(db)

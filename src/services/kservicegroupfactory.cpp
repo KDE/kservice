@@ -13,6 +13,8 @@
 
 #include "servicesdebug.h"
 
+#include <QIODevice>
+
 KServiceGroupFactory::KServiceGroupFactory(KSycoca *db)
     : KSycocaFactory(KST_KServiceGroupFactory, db)
     , m_baseGroupDict(nullptr)

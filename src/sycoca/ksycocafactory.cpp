@@ -17,6 +17,7 @@
 
 #include <QThread>
 #include <QHash>
+#include <QIODevice>
 
 class KSycocaFactoryPrivate
 {

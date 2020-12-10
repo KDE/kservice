@@ -13,6 +13,7 @@
 #include <assert.h>
 #include <QDebug>
 #include <QHash>
+#include <QIODevice>
 #include <QStandardPaths>
 
 KBuildMimeTypeFactory::KBuildMimeTypeFactory(KSycoca *db)
