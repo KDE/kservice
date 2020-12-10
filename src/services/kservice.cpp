@@ -14,7 +14,6 @@
 
 #include <qplatformdefs.h>
 
-#include <QCharRef>
 #include <QDir>
 #include <QMap>
 #include <QMimeDatabase>
