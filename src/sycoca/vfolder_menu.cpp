@@ -450,6 +450,9 @@ VFolderMenu::loadDoc()
         qCWarning(SYCOCA) << "Could not open " << m_docInfo.path;
         return doc;
     }
+    if (file.size() == 0) {
+        return doc;
+    }
     QString errorMsg;
     int errorRow;
     int errorCol;
