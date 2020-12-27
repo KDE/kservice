@@ -335,9 +335,7 @@ void KToolInvocation::invokeTerminal(const QString &command,
         return;
     }
 
-    KConfigGroup confGroup(KSharedConfig::openConfig(), "General");
-    QString exec = confGroup.readPathEntry("TerminalApplication", QStringLiteral("konsole"));
-
+    QString exec = terminalApplication()->exec();
     if (!command.isEmpty()) {
         if (exec == QLatin1String("konsole")) {
             exec += QLatin1String(" --noclose");
@@ -372,4 +370,21 @@ void KToolInvocation::invokeTerminal(const QString &command,
                                      const QByteArray &startup_id)
 {
     invokeTerminal(command, {}, workdir, startup_id);
+}
+
+KServicePtr KToolInvocation::terminalApplication()
+{
+    const KConfigGroup confGroup(KSharedConfig::openConfig(), "General");
+    const QString terminalService = confGroup.readEntry("TerminalService");
+    const QString terminalExec = confGroup.readEntry("TerminalApplication");
+    KServicePtr ptr;
+    if (!terminalService.isEmpty()) {
+        ptr = KService::serviceByStorageId(terminalService);
+    } else if (!terminalExec.isEmpty()) {
+        ptr = new KService(QStringLiteral("terminal"), terminalExec, QStringLiteral("utilities-terminal"));
+    }
+    if (!ptr) {
+        ptr = KService::serviceByStorageId(QStringLiteral("org.kde.konsole"));
+    }
+    return ptr;
 }

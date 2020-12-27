@@ -18,9 +18,12 @@
 #include <QObject>
 #include <QByteArray>
 #include <QStringList>
+#include <QExplicitlySharedDataPointer>
 
 class QUrl;
 class KToolInvocationPrivate;
+class KService;
+typedef QExplicitlySharedDataPointer<KService> KServicePtr;
 
 /**
  * @class KToolInvocation ktoolinvocation.h <KToolInvocation>
@@ -174,6 +177,14 @@ public Q_SLOTS:
     static void invokeTerminal(const QString &command,
                                const QString &workdir = QString(),
                                const QByteArray &startup_id = ""); // TODO KF6 Merge with other overload
+
+   /**
+    * Returns the configured default terminal application. This is compatible with
+    * the old config format from the KCM in Plasma < 5.21.
+    * @return KServicePtr of terminal application
+    * @since 5.78
+    */
+   static KServicePtr terminalApplication();
 
 public:
 
