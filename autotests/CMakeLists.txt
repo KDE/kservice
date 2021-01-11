@@ -26,6 +26,10 @@ kservice_unit_tests(
  kapplicationtradertest
 )
 
+if (UNIX)
+  kservice_unit_tests(ktoolinvocation_x11test)
+endif()
+
 # the test plays with the timestamp of ~/.qttest/share/kservicetypes5, and with the ksycoca file, other tests can collide
 set_tests_properties(ksycocatest PROPERTIES RUN_SERIAL TRUE)
 # KServiceTest::testAllServices can fail if any service is deleted while the test runs
