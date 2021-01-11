@@ -1028,6 +1028,16 @@ void KService::setExec(const QString &exec)
     }
 }
 
+void KService::setWorkingDirectory(const QString &workingDir)
+{
+    Q_D(KService);
+
+    if (!workingDir.isEmpty()) {
+        d->m_strWorkingDirectory = workingDir;
+        d->path.clear();
+    }
+}
+
 QVector<KService::ServiceTypeAndPreference> &KService::_k_accessServiceTypes()
 {
     Q_D(KService);
@@ -1039,7 +1049,6 @@ QList<KServiceAction> KService::actions() const
     Q_D(const KService);
     return d->m_actions;
 }
-
 KService::operator KPluginName() const
 {
     if (!isValid()) {

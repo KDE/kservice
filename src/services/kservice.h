@@ -423,6 +423,21 @@ public:
     void setExec(const QString &exec);
 
     /**
+     * Overrides the "Path=" line of the service.
+     *
+     * If @ref workingDir is not empty, its value will override the one
+     * the one set when this service was created.
+     *
+     * Please note that @ref entryPath is also cleared so the service
+     * will no longer be associated with a specific config file.
+     *
+     * @internal
+     * @param workingDir
+     * @since 5.79
+     */
+    void setWorkingDirectory(const QString &workingDir);
+
+    /**
      * Find a service based on its path as returned by entryPath().
      * It's usually better to use serviceByStorageId() instead.
      *
