@@ -181,10 +181,12 @@ public Q_SLOTS:
    /**
     * Returns the configured default terminal application. This is compatible with
     * the old config format from the KCM in Plasma < 5.21.
-    * @return KServicePtr of terminal application
+    * @param command Command that should be executed in the terminal app
+    * @param workingDir Working directory for the terminal app.
+    * @return KServicePtr of terminal application.
     * @since 5.78
     */
-   static KServicePtr terminalApplication();
+   static KServicePtr terminalApplication(const QString &command = QString(), const QString &workingDir = QString());
 
 public:
 

@@ -125,7 +125,7 @@ void KToolInvocation::invokeTerminal(const QString &command, const QString &work
     invokeTerminal(command, QStringList(), workdir, startup_id);
 }
 
-KServicePtr KToolInvocation::terminalApplication()
+KServicePtr KToolInvocation::terminalApplication(const QString &command, const QString &workingDir)
 {
     return KServicePtr();
 }

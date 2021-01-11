@@ -335,26 +335,9 @@ void KToolInvocation::invokeTerminal(const QString &command,
         return;
     }
 
-    QString exec = terminalApplication()->exec();
-    if (!command.isEmpty()) {
-        if (exec == QLatin1String("konsole")) {
-            exec += QLatin1String(" --noclose");
-        } else if (exec == QLatin1String("xterm")) {
-            exec += QLatin1String(" -hold");
-        }
-
-        exec += QLatin1String(" -e ") + command;
-    }
-
+    const QString exec = terminalApplication(command, workdir)->exec();
     QStringList cmdTokens = KShell::splitArgs(exec);
-    QString cmd = cmdTokens.takeFirst();
-
-    if (exec == QLatin1String("konsole") && !workdir.isEmpty()) {
-        cmdTokens << QStringLiteral("--workdir");
-        cmdTokens << workdir;
-        // For other terminals like xterm, we'll simply change the working
-        // directory before launching them, see below.
-    }
+    const QString cmd = cmdTokens.takeFirst();
 
     QString error;
     if (self()->startServiceInternal("kdeinit_exec_with_workdir",
@@ -372,7 +355,7 @@ void KToolInvocation::invokeTerminal(const QString &command,
     invokeTerminal(command, {}, workdir, startup_id);
 }
 
-KServicePtr KToolInvocation::terminalApplication()
+KServicePtr KToolInvocation::terminalApplication(const QString &command, const QString &workingDir)
 {
     const KConfigGroup confGroup(KSharedConfig::openConfig(), "General");
     const QString terminalService = confGroup.readEntry("TerminalService");
@@ -385,6 +368,22 @@ KServicePtr KToolInvocation::terminalApplication()
     }
     if (!ptr) {
         ptr = KService::serviceByStorageId(QStringLiteral("org.kde.konsole"));
+    }
+    QString exec = ptr->exec();
+    if (!command.isEmpty()) {
+        if (exec == QLatin1String("konsole")) {
+            exec += QLatin1String(" --noclose");
+        } else if (exec == QLatin1String("xterm")) {
+            exec += QLatin1String(" -hold");
+        }
+        exec += QLatin1String(" -e ") + command;
+    }
+    if (ptr->exec() == QLatin1String("konsole") && !workingDir.isEmpty()) {
+        exec += QStringLiteral(" --workdir %1").arg(KShell::quoteArg(workingDir));
+    }
+    ptr->setExec(exec);
+    if (!workingDir.isEmpty()) {
+        ptr->setWorkingDirectory(workingDir);
     }
     return ptr;
 }
