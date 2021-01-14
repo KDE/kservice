@@ -44,12 +44,7 @@ int PluginTest::runMain()
     int runs = 1;
     QList<qint64> timings;
 
-    cout << "-- KPluginTrader Test --"
-        #if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
-         << endl
-        #else
-         << Qt::endl
-        #endif
+    cout << "-- KPluginTrader Test --" << Qt::endl
             ;
     bool ok = true;
 
