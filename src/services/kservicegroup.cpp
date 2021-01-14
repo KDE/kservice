@@ -477,11 +477,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
                 //todo parse attribute:
                 QString tmp(item);
                 tmp.remove(QStringLiteral(":O"));
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                QStringList optionAttribute = tmp.split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
                 QStringList optionAttribute = tmp.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
                 if (optionAttribute.isEmpty()) {
                     optionAttribute.append(tmp);
                 }
@@ -560,11 +556,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
                         if (nextItem.startsWith(QLatin1String(":O"))) {
                             QString tmp(nextItem);
                             tmp.remove(QStringLiteral(":O"));
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-                            QStringList optionAttribute = tmp.split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
                             QStringList optionAttribute = tmp.split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
                             if (optionAttribute.isEmpty()) {
                                 optionAttribute.append(tmp);
                             }
