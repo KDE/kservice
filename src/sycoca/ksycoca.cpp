@@ -303,8 +303,8 @@ void KSycocaPrivate::slotDatabaseChanged()
     m_databasePath = findDatabase();
 
     // Now notify applications
-    emit q->databaseChanged();
-    emit q->databaseChanged(changeList);
+    Q_EMIT q->databaseChanged();
+    Q_EMIT q->databaseChanged(changeList);
 }
 
 KMimeTypeFactory *KSycocaPrivate::mimeTypeFactory()
