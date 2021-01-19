@@ -180,12 +180,14 @@ install(FILES
 )
 
 # Local copy for the unittests
-add_custom_target(copy_servicetypes)
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5)
-add_custom_command(TARGET copy_servicetypes PRE_BUILD COMMAND
+add_custom_command(PRE_BUILD COMMAND
     ${CMAKE_COMMAND} -E copy
     ${CMAKE_CURRENT_SOURCE_DIR}/services/kplugininfo.desktop
-    ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5) # not using KDE_INSTALL_KSERVICETYPES5DIR because QStandardPaths wants "data" on Windows
+    ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5 # not using KDE_INSTALL_KSERVICETYPES5DIR because QStandardPaths wants "data" on Windows
+    OUTPUT ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/services/kplugininfo.desktop)
+add_custom_target(copy_servicetypes DEPENDS ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5)
 add_dependencies(KF5Service copy_servicetypes)
 
 if (WIN32)
@@ -195,12 +197,14 @@ install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_SYSCONFDIR}/xdg/men
 endif ()
 
 # Local copy for the unittests
-add_custom_target(copy_menu)
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/menus)
-add_custom_command(TARGET copy_menu PRE_BUILD COMMAND
+add_custom_command(PRE_BUILD COMMAND
     ${CMAKE_COMMAND} -E copy
     ${CMAKE_CURRENT_SOURCE_DIR}/applications.menu
-    ${CMAKE_BINARY_DIR}/bin/data/menus/${APPLICATIONS_MENU_NAME})
+    ${CMAKE_BINARY_DIR}/bin/data/menus/${APPLICATIONS_MENU_NAME}
+    OUTPUT ${CMAKE_BINARY_DIR}/bin/data/menus/${APPLICATIONS_MENU_NAME}
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/applications.menu)
+add_custom_target(copy_menu DEPENDS ${CMAKE_BINARY_DIR}/bin/data/menus/${APPLICATIONS_MENU_NAME})
 add_dependencies(KF5Service copy_menu)
 
 install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
