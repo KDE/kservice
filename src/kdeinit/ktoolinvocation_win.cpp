@@ -19,6 +19,7 @@
 #include <QStandardPaths>
 #include <QDBusConnection>
 
+#include "kservice.h"
 #include "windows.h"
 #include "shellapi.h"
 
