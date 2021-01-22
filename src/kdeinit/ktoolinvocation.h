@@ -163,6 +163,7 @@ public Q_SLOTS:
                                const QString &workdir = QString(),
                                const QByteArray &startup_id = "");
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 79)
     /**
      *
      * Invokes the standard terminal application.
@@ -173,10 +174,13 @@ public Q_SLOTS:
      *           "" ( empty string ) is the default
      *
      * @since 4.1
+     * @deprecated since 5,79, use invokeTerminal(const QString &command, const QStringList &envs, const QString &workdir, const QByteArray &startup_id) instead
      */
+    KSERVICE_DEPRECATED_VERSION(5, 79, "Use invokeTerminal(const QString &command, const QStringList &envs, const QString &workdir, const QByteArray &startup_id) instead")
     static void invokeTerminal(const QString &command,
                                const QString &workdir = QString(),
-                               const QByteArray &startup_id = ""); // TODO KF6 Merge with other overload
+                               const QByteArray &startup_id = "");
+#endif
 
    /**
     * Returns the configured default terminal application. This is compatible with

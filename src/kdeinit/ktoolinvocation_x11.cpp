@@ -348,12 +348,14 @@ void KToolInvocation::invokeTerminal(const QString &command,
     }
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79)
 void KToolInvocation::invokeTerminal(const QString &command,
                                      const QString &workdir,
                                      const QByteArray &startup_id)
 {
     invokeTerminal(command, {}, workdir, startup_id);
 }
+#endif
 
 KServicePtr KToolInvocation::terminalApplication(const QString &command, const QString &workingDir)
 {
