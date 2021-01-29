@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(KF5_VERSION "5.79.0") # handled by release scripts
-set(KF5_DEP_VERSION "5.79.0") # handled by release scripts
-project(KService VERSION ${KF5_VERSION})
+set(KF_VERSION "5.79.0") # handled by release scripts
+set(KF_DEP_VERSION "5.79.0") # handled by release scripts
+project(KService VERSION ${KF_VERSION})
 
 # Disallow in-source build
 if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
@@ -47,14 +47,14 @@ if (NOT ANDROID)
   find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED DBus)
 endif()
 
-find_package(KF5Config ${KF5_DEP_VERSION} CONFIG REQUIRED)
-find_package(KF5CoreAddons ${KF5_DEP_VERSION} CONFIG REQUIRED)
+find_package(KF5Config ${KF_DEP_VERSION} CONFIG REQUIRED)
+find_package(KF5CoreAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
 if (NOT ANDROID)
-  find_package(KF5Crash ${KF5_DEP_VERSION} CONFIG REQUIRED)
-  find_package(KF5DBusAddons ${KF5_DEP_VERSION} CONFIG REQUIRED)
+  find_package(KF5Crash ${KF_DEP_VERSION} CONFIG REQUIRED)
+  find_package(KF5DBusAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
 endif()
-find_package(KF5I18n ${KF5_DEP_VERSION} CONFIG REQUIRED)
-find_package(KF5DocTools ${KF5_DEP_VERSION} CONFIG)
+find_package(KF5I18n ${KF_DEP_VERSION} CONFIG REQUIRED)
+find_package(KF5DocTools ${KF_DEP_VERSION} CONFIG)
 
 find_package(FLEX REQUIRED)
 set_package_properties(FLEX PROPERTIES

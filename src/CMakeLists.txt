@@ -103,7 +103,7 @@ add_library(KF5::Service ALIAS KF5Service)
 ecm_generate_export_header(KF5Service
     BASE_NAME KService
     GROUP_BASE_NAME KF
-    VERSION ${KF5_VERSION}
+    VERSION ${KF_VERSION}
     DEPRECATED_BASE_VERSION 0
     DEPRECATION_VERSIONS 5.0 5.15 5.61 5.63 5.66 5.67 5.70 5.71 5.79
     EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
@@ -226,7 +226,7 @@ if(BUILD_QCH)
         KF5Service_QCH
         NAME KService
         BASE_NAME KF5Service
-        VERSION ${KF5_VERSION}
+        VERSION ${KF_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
             ${KService_HEADERS}
