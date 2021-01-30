@@ -141,10 +141,12 @@ private Q_SLOTS:
 
         QCOMPARE(info.author(), QString::fromUtf8("Sebastian Kügler"));
         QCOMPARE(info.category(), QStringLiteral("Examples"));
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
         if (!info.dependencies().isEmpty()) {
             qWarning() << "Got dependencies" << info.dependencies();
         }
         QCOMPARE(info.dependencies(), QStringList());
+#endif
         QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(info.entryPath(), desktopFilePath);
         QCOMPARE(info.icon(), QStringLiteral("preferences-system-time"));
@@ -200,7 +202,13 @@ private Q_SLOTS:
         QCOMPARE(meta.authors().at(0).name(), QString::fromUtf8("Sebastian Kügler"));
         QCOMPARE(meta.authors().at(0).emailAddress(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(meta.category(), QStringLiteral("Examples"));
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
+QT_WARNING_PUSH
+QT_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
+QT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
         QCOMPARE(meta.dependencies(), QStringList());
+QT_WARNING_POP
+#endif
         QCOMPARE(meta.fileName(), pluginName);
         QCOMPARE(meta.pluginId(), pluginName);
         QCOMPARE(meta.iconName(), QStringLiteral("preferences-system-time"));
@@ -238,7 +246,9 @@ private Q_SLOTS:
                 " \"Icon\": \"preferences-system-time\",\n"
                 " \"Authors\": { \"Name\": \"Sebastian Kügler\", \"Email\": \"sebas@kde.org\" },\n"
                 " \"Category\": \"Examples\",\n"
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
                 " \"Dependencies\": [],\n"
+#endif
                 " \"EnabledByDefault\": \"true\",\n"
                 " \"License\": \"LGPL\",\n"
                 " \"Id\": \"fakeplugin\",\n" // not strictly required
@@ -272,7 +282,9 @@ private Q_SLOTS:
 
         QCOMPARE(info.author(), QString::fromUtf8("Sebastian Kügler"));
         QCOMPARE(info.category(), QStringLiteral("Examples"));
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
         QCOMPARE(info.dependencies(), QStringList());
+#endif
         QCOMPARE(info.email(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(info.entryPath(), pluginName);
         QCOMPARE(info.icon(), QStringLiteral("preferences-system-time"));
@@ -300,7 +312,9 @@ private Q_SLOTS:
         QCOMPARE(convertedList[0].name(), info.name());
         QCOMPARE(convertedList[0].author(), info.author());
         QCOMPARE(convertedList[0].category(), info.category());
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
         QCOMPARE(convertedList[0].dependencies(), info.dependencies());
+#endif
         QCOMPARE(convertedList[0].email(), info.email());
         QCOMPARE(convertedList[0].entryPath(), info.entryPath());
         QCOMPARE(convertedList[0].icon(), info.icon());

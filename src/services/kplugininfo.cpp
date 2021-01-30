@@ -49,7 +49,9 @@ GlobalQStringLiteral(s_versionKey, "X-KDE-PluginInfo-Version")
 GlobalQStringLiteral(s_websiteKey, "X-KDE-PluginInfo-Website")
 GlobalQStringLiteral(s_categoryKey, "X-KDE-PluginInfo-Category")
 GlobalQStringLiteral(s_licenseKey, "X-KDE-PluginInfo-License")
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
 GlobalQStringLiteral(s_dependenciesKey, "X-KDE-PluginInfo-Depends")
+#endif
 GlobalQStringLiteral(s_serviceTypesKey, "ServiceTypes")
 GlobalQStringLiteral(s_xKDEServiceTypes, "X-KDE-ServiceTypes")
 GlobalQStringLiteral(s_mimeTypeKey, "MimeType")
@@ -62,7 +64,9 @@ GlobalQStringLiteral(s_jsonDescriptionKey, "Description")
 GlobalQStringLiteral(s_jsonAuthorsKey, "Authors")
 GlobalQStringLiteral(s_jsonEmailKey, "Email")
 GlobalQStringLiteral(s_jsonCategoryKey, "Category")
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
 GlobalQStringLiteral(s_jsonDependenciesKey, "Dependencies")
+#endif
 GlobalQStringLiteral(s_jsonEnabledByDefaultKey, "EnabledByDefault")
 GlobalQStringLiteral(s_jsonFormFactorsKey, "FormFactors")
 GlobalQStringLiteral(s_jsonLicenseKey, "License")
@@ -134,7 +138,10 @@ QStringList KPluginInfoPrivate::deserializeList(const QString &data)
 // maps the KService, QVariant and KDesktopFile keys to the new KPluginMetaData keys
 template<typename T, typename Func>
 static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &description,
-                                       const QStringList &dependencies, const QStringList &serviceTypes,
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
+                                       const QStringList &dependencies,
+#endif
+                                       const QStringList &serviceTypes,
                                        const QStringList &formFactors, const T &data, Func accessor)
 {
     /* Metadata structure is as follows:
@@ -144,7 +151,9 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
         "Icon": "preferences-system-time",
         "Authors": { "Name": "Aaron Seigo", "Email": "aseigo@kde.org" },
         "Category": "Date and Time",
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
         "Dependencies": [],
+#endif
         "EnabledByDefault": "true",
         "License": "LGPL",
         "Id": "time",
@@ -175,7 +184,9 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
     kplugin[s_jsonWebsiteKey()] = accessor(data, s_websiteKey());
     kplugin[s_jsonFormFactorsKey()] = QJsonArray::fromStringList(formFactors);
     kplugin[s_serviceTypesKey()] = QJsonArray::fromStringList(serviceTypes);
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
     kplugin[s_jsonDependenciesKey()] = QJsonArray::fromStringList(dependencies);
+#endif
     QJsonValue mimeTypes = accessor(data, s_mimeTypeKey());
     if (mimeTypes.isString()) {
         QStringList mimeList = KPluginInfoPrivate::deserializeList(mimeTypes.toString());
@@ -210,7 +221,10 @@ static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QStr
     QString description = KPluginMetaData::readTranslatedString(json, s_commentKey());
     QStringList formfactors = KPluginMetaData::readStringList(json, s_jsonFormFactorsKey());
     QJsonObject kplugin = mapToJsonKPluginKey(name, description,
-            KPluginMetaData::readStringList(json, s_dependenciesKey()), serviceTypes, formfactors, json,
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
+                                             KPluginMetaData::readStringList(json, s_dependenciesKey()),
+#endif
+                                             serviceTypes, formfactors, json,
             [](const QJsonObject &o, const QString &key) { return o.value(key); });
     obj.insert(s_jsonKPluginKey(), kplugin);
     return KPluginMetaData(obj, lib, metaDataFile);
@@ -545,11 +559,17 @@ QString KPluginInfo::license() const
     return d->metaData.license();
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
 QStringList KPluginInfo::dependencies() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
+QT_WARNING_PUSH
+QT_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
+QT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
     return d->metaData.dependencies();
+QT_WARNING_POP
 }
+#endif
 
 QStringList KPluginInfo::serviceTypes() const
 {
@@ -633,8 +653,10 @@ QVariant KPluginInfo::property(const QString &key) const
         RETURN_WITH_DEPRECATED_WARNING(category());
     } else if (key == s_commentKey()) {
         RETURN_WITH_DEPRECATED_WARNING(comment());
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
     } else if (key == s_dependenciesKey()) {
         RETURN_WITH_DEPRECATED_WARNING(dependencies());
+#endif
     } else if (key == s_emailKey()) {
         RETURN_WITH_DEPRECATED_WARNING(email());
     } else if (key == s_enabledbyDefaultKey()) {

@@ -309,11 +309,17 @@ public:
      */
     QString license() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 79)
+#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 79)
     /**
      * @return A list of plugins required for this plugin to be enabled. Use
      *         the pluginName in this list.
+     * @deprecated Since 5.79, plugin dependencies are deprecated and will be removed in KF6
      */
+    KSERVICE_DEPRECATED_VERSION(5, 79, "Plugin dependencies are deprecated and will be removed in KF6")
     QStringList dependencies() const;
+#endif
+#endif
 
     /**
      * @return A list of ServiceTypes this plugin offers
