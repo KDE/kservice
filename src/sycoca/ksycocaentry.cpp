@@ -27,10 +27,7 @@ KSycocaEntry::KSycocaEntry(KSycocaEntryPrivate &d)
 {
 }
 
-KSycocaEntry::~KSycocaEntry()
-{
-    delete d_ptr;
-}
+KSycocaEntry::~KSycocaEntry() = default;
 
 bool KSycocaEntry::isType(KSycocaType t) const
 {

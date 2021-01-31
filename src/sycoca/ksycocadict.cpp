@@ -95,10 +95,7 @@ KSycocaDict::KSycocaDict(QDataStream *str, int offset)
     d->offset = str->device()->pos(); // Start of hashtable
 }
 
-KSycocaDict::~KSycocaDict()
-{
-    delete d;
-}
+KSycocaDict::~KSycocaDict() = default;
 
 void
 KSycocaDict::add(const QString &key, const KSycocaEntry::Ptr &payload)
@@ -220,8 +217,7 @@ uint KSycocaDict::count() const
 void
 KSycocaDict::clear()
 {
-    delete d;
-    d = nullptr;
+    d.reset();
 }
 
 uint KSycocaDictPrivate::hashKey(const QString &key) const

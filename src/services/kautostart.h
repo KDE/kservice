@@ -12,6 +12,8 @@
 
 #include <QObject>
 #include <QStringList>
+#include <memory>
+
 class KAutostartPrivate;
 
 /**
@@ -286,7 +288,9 @@ public:
 
 private:
     bool checkStartCondition() const;
-    KAutostartPrivate *const d;
+
+private:
+    std::unique_ptr<KAutostartPrivate> const d;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KAutostart::Conditions)

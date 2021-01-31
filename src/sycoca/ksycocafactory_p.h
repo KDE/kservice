@@ -14,6 +14,8 @@
 
 #include <ksycoca.h> // for KSycoca::self()
 
+#include <memory>
+
 class QString;
 class KSycoca;
 class KSycocaDict;
@@ -137,7 +139,7 @@ protected:
 private:
     QDataStream *m_str = nullptr;
     KSycoca *m_sycoca = nullptr;
-    KSycocaFactoryPrivate *const d;
+    std::unique_ptr<KSycocaFactoryPrivate> const d;
 
 protected:
     /** Virtual hook, used to add new "virtual" functions while maintaining

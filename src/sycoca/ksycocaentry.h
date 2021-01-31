@@ -16,6 +16,8 @@
 #include <QVariant>
 #include <QExplicitlySharedDataPointer>
 
+#include <memory>
+
 class KSycocaEntryPrivate;
 
 /**
@@ -114,7 +116,7 @@ public:
 
 protected:
     KSycocaEntry(KSycocaEntryPrivate &d);
-    KSycocaEntryPrivate *d_ptr;
+    std::unique_ptr<KSycocaEntryPrivate> const d_ptr;
 
 private:
     // All these need access to offset()

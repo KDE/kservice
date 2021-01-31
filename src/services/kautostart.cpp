@@ -86,10 +86,7 @@ KAutostart::KAutostart(const QString &entryName, QObject *parent)
     }
 }
 
-KAutostart::~KAutostart()
-{
-    delete d;
-}
+KAutostart::~KAutostart() = default;
 
 void KAutostart::setAutostarts(bool autostart)
 {

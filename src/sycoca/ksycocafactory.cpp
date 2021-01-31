@@ -68,7 +68,6 @@ KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id, KSycoca *sycoca)
 KSycocaFactory::~KSycocaFactory()
 {
     delete m_entryDict;
-    delete d;
 }
 
 void

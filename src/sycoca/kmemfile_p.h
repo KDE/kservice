@@ -12,6 +12,7 @@
 
 #include <QIODevice>
 #include <kservice_export.h>
+#include <memory>
 
 /**
  * @internal
@@ -80,7 +81,7 @@ protected:
 private:
     class Private;
     friend class Private;
-    Private *const d;
+    std::unique_ptr<Private> const d;
 };
 
 #endif //QT_NO_SHAREDMEMORY

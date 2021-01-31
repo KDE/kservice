@@ -12,6 +12,9 @@
 #include "ksycocaentry.h"
 
 #include <QList>
+
+#include <memory>
+
 class KSycocaDictPrivate;
 
 class QString;
@@ -118,7 +121,7 @@ public:
 
 private:
     Q_DISABLE_COPY(KSycocaDict)
-    KSycocaDictPrivate *d;
+    std::unique_ptr<KSycocaDictPrivate> d;
 };
 
 #endif

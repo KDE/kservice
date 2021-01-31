@@ -111,7 +111,6 @@ KMemFile::KMemFile(const QString &filename, QObject *parent)
 KMemFile::~KMemFile()
 {
     close();
-    delete d;
 }
 
 void KMemFile::close()

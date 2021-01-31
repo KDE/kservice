@@ -61,10 +61,7 @@ KServiceOffer::KServiceOffer(const KService::Ptr &_service, int _pref, int mimeT
 #endif
 }
 
-KServiceOffer::~KServiceOffer()
-{
-    delete d;
-}
+KServiceOffer::~KServiceOffer() = default;
 
 KServiceOffer &KServiceOffer::operator=(const KServiceOffer &rhs)
 {

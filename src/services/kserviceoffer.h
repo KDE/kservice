@@ -10,6 +10,9 @@
 #define KSERVICEOFFER_H
 
 #include <kservice.h>
+
+#include <memory>
+
 class KServiceOfferPrivate;
 
 /**
@@ -133,7 +136,7 @@ public:
     int mimeTypeInheritanceLevel() const;
 
 private:
-    KServiceOfferPrivate *const d;
+    std::unique_ptr<KServiceOfferPrivate> const d;
 };
 
 /**
