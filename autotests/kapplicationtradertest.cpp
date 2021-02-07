@@ -99,7 +99,7 @@ void KApplicationTraderTest::initTestCase()
 
     // fakegnomeapplication (do not show in Plasma). Should never be returned. To test the filtering code in queryByMimeType.
     QMap<QString, QString> fields;
-    fields.insert("OnlyShowIn", "Gnome");
+    fields.insert(QStringLiteral("OnlyShowIn"), QStringLiteral("Gnome"));
     m_fakeGnomeApplication = createFakeApplication(QStringLiteral("fakegnomeapplication.desktop"), QStringLiteral("FakeApplicationGnome"),
                                                    fields);
     m_fakeGnomeApplication = QFileInfo(m_fakeGnomeApplication).canonicalFilePath();
@@ -185,44 +185,44 @@ void KApplicationTraderTest::testTraderConstraints_data()
     QTest::newRow("no_such_name_by_case") << no_such_name_by_case << ExpectedResult::NoResults;
 
     // Name =~ 'fAkEaPPlicaTion'
-    FF match_case_insensitive = [](const KService::Ptr &serv) { return serv->name().compare("fAkEaPPlicaTion", Qt::CaseInsensitive) == 0; };
+    FF match_case_insensitive = [](const KService::Ptr &serv) { return serv->name().compare(QLatin1String{"fAkEaPPlicaTion"}, Qt::CaseInsensitive) == 0; };
     QTest::newRow("match_case_insensitive") << match_case_insensitive << ExpectedResult::FakeApplicationOnly;
 
     // 'FakeApp' ~ Name
-    FF is_contained_in = [](const KService::Ptr &serv) { return serv->name().contains("FakeApp"); };
+    FF is_contained_in = [](const KService::Ptr &serv) { return serv->name().contains(QLatin1String{"FakeApp"}); };
     QTest::newRow("is_contained_in") << is_contained_in << ExpectedResult::FakeApplicationOnly;
 
     // 'FakeApplicationNot' ~ Name
-    FF is_contained_in_fail = [](const KService::Ptr &serv) { return serv->name().contains("FakeApplicationNot"); };
+    FF is_contained_in_fail = [](const KService::Ptr &serv) { return serv->name().contains(QLatin1String{"FakeApplicationNot"}); };
     QTest::newRow("is_contained_in_fail") << is_contained_in_fail << ExpectedResult::NoResults;
 
     // 'faKeApP' ~~ Name
-    FF is_contained_in_case_insensitive = [](const KService::Ptr &serv) { return serv->name().contains("faKeApP", Qt::CaseInsensitive); };
+    FF is_contained_in_case_insensitive = [](const KService::Ptr &serv) { return serv->name().contains(QLatin1String{"faKeApP"}, Qt::CaseInsensitive); };
     QTest::newRow("is_contained_in_case_insensitive") << is_contained_in_case_insensitive << ExpectedResult::FakeApplicationOnly;
 
     // 'faKeApPp' ~ Name
-    FF is_contained_in_case_in_fail = [](const KService::Ptr &serv) { return serv->name().contains("faKeApPp", Qt::CaseInsensitive); };
+    FF is_contained_in_case_in_fail = [](const KService::Ptr &serv) { return serv->name().contains(QLatin1String{"faKeApPp"}, Qt::CaseInsensitive); };
     QTest::newRow("is_contained_in_case_in_fail") << is_contained_in_case_in_fail << ExpectedResult::NoResults;
 
     // 'FkApli' subseq Name
-    FF subseq = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence("FkApli", serv->name()); };
+    FF subseq = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence(QStringLiteral("FkApli"), serv->name()); };
     QTest::newRow("subseq") << subseq << ExpectedResult::FakeApplicationOnly;
 
     // 'fkApli' subseq Name
-    FF subseq_fail = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence("fkApli", serv->name()); };
+    FF subseq_fail = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence(QStringLiteral("fkApli"), serv->name()); };
     QTest::newRow("subseq_fail") << subseq_fail << ExpectedResult::NoResults;
 
     // 'fkApLI' ~subseq Name
-    FF subseq_case_insensitive = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence("fkApLI", serv->name(), Qt::CaseInsensitive); };
+    FF subseq_case_insensitive = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence(QStringLiteral("fkApLI"), serv->name(), Qt::CaseInsensitive); };
     QTest::newRow("subseq_case_insensitive") << subseq_case_insensitive << ExpectedResult::FakeApplicationOnly;
 
     // 'fk_Apli' ~subseq Name
-    FF subseq_case_insensitive_fail = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence("fk_Apli", serv->name(), Qt::CaseInsensitive); };
+    FF subseq_case_insensitive_fail = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence(QStringLiteral("fk_Apli"), serv->name(), Qt::CaseInsensitive); };
     QTest::newRow("subseq_case_insensitive_fail") << subseq_case_insensitive_fail << ExpectedResult::NoResults;
 
     // Test another property, parsed as a double
     FF testVersion = [](const KService::Ptr &serv) {
-        double d = serv->property("X-KDE-Version", QVariant::Double).toDouble();
+        double d = serv->property(QStringLiteral("X-KDE-Version"), QVariant::Double).toDouble();
         return d > 5.559 && d < 5.561;
     };
     QTest::newRow("float_parsing") << testVersion << ExpectedResult::FakeApplicationAndOthers;

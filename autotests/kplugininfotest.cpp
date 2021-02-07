@@ -90,22 +90,22 @@ private Q_SLOTS:
 
         QTest::newRow("from .desktop") << fakepluginDesktop << info << infoGerman << QVariant() << false;
         QTest::newRow("with custom property") << info.libraryPath() << withCustomProperty(info)
-            << withCustomProperty(infoGerman) << QVariant("Baz") << false;
+            << withCustomProperty(infoGerman) << QVariant(QStringLiteral("Baz")) << false;
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
         QTest::newRow("from KService::Ptr") << fakepluginDesktop << infoFromService
                 << infoFromServiceGerman << QVariant() << true;
         QTest::newRow("from KService::Ptr + custom property") << pluginName
                 << withCustomProperty(infoFromService) << withCustomProperty(infoFromServiceGerman)
-                << QVariant("Baz") << true;
+                << QVariant(QStringLiteral("Baz")) << true;
 #endif
         QTest::newRow("from JSON file") << pluginName << jsonInfo << jsonInfo << QVariant() << false;
         QTest::newRow("from JSON file + custom property") << pluginName
-                << withCustomProperty(jsonInfo) << withCustomProperty(jsonInfo) << QVariant("Baz") << false;
+                << withCustomProperty(jsonInfo) << withCustomProperty(jsonInfo) << QVariant(QStringLiteral("Baz")) << false;
         QTest::newRow("from JSON file (compatibility)") << pluginName
                 << compatJsonInfo << compatJsonInfoGerman << QVariant() << true;
         QTest::newRow("from JSON file (compatibility) + custom property") << pluginName
                 << withCustomProperty(compatJsonInfo) << withCustomProperty(compatJsonInfoGerman)
-                << QVariant("Baz") << true;
+                << QVariant(QStringLiteral("Baz")) << true;
     }
 
     void testLoadDesktop()
@@ -162,7 +162,7 @@ private Q_SLOTS:
         if (!info.service()) {
 #endif
             // KService does not include X-My-Custom-Property since there is no service type installed that defines it
-            QCOMPARE(info.property(QStringLiteral("X-My-Custom-Property")), QVariant("foo"));
+            QCOMPARE(info.property(QStringLiteral("X-My-Custom-Property")), QVariant(QStringLiteral("foo")));
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 70)
         }
 #endif
@@ -223,7 +223,7 @@ QT_WARNING_POP
         QCOMPARE(meta, KPluginInfo::toMetaData(info));
 
         // make sure custom values are also retained
-        QCOMPARE(info.property(QStringLiteral("X-Foo-Bar")), QVariant("Baz"));
+        QCOMPARE(info.property(QStringLiteral("X-Foo-Bar")), QVariant(QStringLiteral("Baz")));
         QCOMPARE(meta.rawData().value(QStringLiteral("X-Foo-Bar")).toString(), QStringLiteral("Baz"));
 
 
@@ -302,7 +302,7 @@ QT_WARNING_POP
 
         // make sure custom values are also retained
         QCOMPARE(meta.rawData().value(QStringLiteral("X-Foo-Bar")).toString(), QStringLiteral("Baz"));
-        QCOMPARE(info.property(QStringLiteral("X-Foo-Bar")), QVariant("Baz"));
+        QCOMPARE(info.property(QStringLiteral("X-Foo-Bar")), QVariant(QStringLiteral("Baz")));
 
         QVector<KPluginMetaData> srcList = QVector<KPluginMetaData>() << meta;
         KPluginInfo::List convertedList = KPluginInfo::fromMetaData(srcList);

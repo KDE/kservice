@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     const QString description = QStringLiteral("KPluginTrader test app");
     const char version[] = "1.0";
 
-    app.setApplicationVersion(version);
+    app.setApplicationVersion(QString::fromLatin1(version));
     parser.addVersionOption();
     parser.addHelpOption();
     parser.setApplicationDescription(description);

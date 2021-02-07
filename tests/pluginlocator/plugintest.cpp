@@ -125,7 +125,7 @@ bool PluginTest::loadFromKService(const QString &name)
 bool PluginTest::loadFromMetaData(const QString &serviceType)
 {
     bool ok = false;
-    QString pluginName("time");
+    QString pluginName(QStringLiteral("time"));
     QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(pluginName);
     const KPluginInfo::List res = KPluginTrader::self()->query(QStringLiteral("kf5"), serviceType, QString());
     qDebug() << "----------- Found " << res.count() << " Plugins" << constraint;
@@ -143,7 +143,7 @@ bool PluginTest::findPlugins()
 {
     QElapsedTimer timer;
     QList<qint64> timings;
-    const QString pluginDir("/media/storage/testdata/");
+    const QString pluginDir(QStringLiteral("/media/storage/testdata/"));
     const QStringList sizes = QStringList() << QStringLiteral("50")
                               << QStringLiteral("100")
                               << QStringLiteral("150")

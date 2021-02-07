@@ -53,7 +53,7 @@ void KAutostartTest::testStartInEnvDetection()
 
     KAutostart autostart(QStringLiteral("plasma-desktop"));
     // Let's see if plasma.desktop actually exists
-    if (QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("autostart/") + "plasma-desktop.desktop").isEmpty()) {
+    if (QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/plasma-desktop.desktop")).isEmpty()) {
         QSKIP("plasma-desktop.desktop not found, kdebase not installed");
     } else {
         QCOMPARE(autostart.autostarts(env), doesAutostart);
@@ -100,7 +100,7 @@ void KAutostartTest::testServiceRegistered()
     KAutostart autostart;
     QCOMPARE(KAutostart::isServiceRegistered(QStringLiteral("doesnotexist")), false);
 
-    if (QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("autostart/") + "plasma-desktop.desktop").isEmpty()) {
+    if (QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/plasma-desktop.desktop")).isEmpty()) {
         QSKIP("plasma-desktop.desktop not found, kdebase not installed");
     }
     QCOMPARE(KAutostart::isServiceRegistered(QStringLiteral("plasma-desktop")), true);
@@ -108,7 +108,7 @@ void KAutostartTest::testServiceRegistered()
 
 void KAutostartTest::testRegisteringAndManipulatingANewService()
 {
-    QFile::remove(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String("/autostart/") + "doesnotexist.desktop");
+    QFile::remove(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String{"/autostart/doesnotexist.desktop"});
     {
         // need to clean up the KAutostart object before QFile can remove it
         KAutostart autostart(QStringLiteral("doesnotexist"));
@@ -131,7 +131,7 @@ void KAutostartTest::testRegisteringAndManipulatingANewService()
         autostart.removeFromExcludedEnvironments(QStringLiteral("KDE"));
     }
 
-    QVERIFY(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String("/autostart/") + "doesnotexist.desktop"));
+    QVERIFY(QFile::exists(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String{"/autostart/doesnotexist.desktop"}));
 
     {
         QStringList allowedEnvs;
@@ -168,6 +168,6 @@ void KAutostartTest::testRegisteringAndManipulatingANewService()
 
 void KAutostartTest::testRemovalOfNewServiceFile()
 {
-    QVERIFY(QFile::remove(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String("/autostart/") + "doesnotexist.desktop"));
+    QVERIFY(QFile::remove(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String{"/autostart/doesnotexist.desktop"}));
 }
 

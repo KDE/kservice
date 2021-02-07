@@ -26,7 +26,7 @@ private Q_SLOTS:
         QStandardPaths::setTestModeEnabled(true);
 
         // dicttestplugintype: a servicetype
-        const QString dictTestPluginType = serviceTypesDir() + "/dicttestplugintype.desktop";
+        const QString dictTestPluginType = serviceTypesDir() + QLatin1String{"/dicttestplugintype.desktop"};
         if (!QFile::exists(dictTestPluginType)) {
             KDesktopFile file(dictTestPluginType);
             KConfigGroup group = file.desktopGroup();
@@ -41,7 +41,10 @@ private Q_SLOTS:
     void testStandardDict();
 
 private:
-    QString serviceTypesDir() { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservicetypes5"; }
+    QString serviceTypesDir()
+    {
+        return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5"};
+    }
 
     void add(KSycocaDict &dict, const QString &key, const QString &name)
     {

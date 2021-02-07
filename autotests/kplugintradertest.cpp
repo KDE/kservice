@@ -27,7 +27,7 @@ void PluginTraderTest::findPlugin_data()
     QTest::addColumn<int>("expectedResult");
 
     const QString _st = QStringLiteral("KService/NSA");
-    QString _c = "";
+    QString _c;
     QTest::newRow("no constraints") << _st << _c << 1;
 
     _c = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(QStringLiteral("fakeplugin"));
@@ -60,8 +60,8 @@ void PluginTraderTest::findSomething()
 
 void PluginTraderTest::loadPlugin()
 {
-    const QString pluginName("fakeplugin");
-    const QString serviceType("KService/NSA");
+    const QString pluginName(QStringLiteral("fakeplugin"));
+    const QString serviceType(QStringLiteral("KService/NSA"));
     const QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(pluginName);
 
     QObject *plugin = KPluginTrader::createInstanceFromQuery<QObject>(QString(), serviceType, constraint, this);

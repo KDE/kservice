@@ -29,12 +29,12 @@
 
 static QString fakeTextPluginDesktopFile()
 {
-    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "threadtextplugin.desktop";
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/threadtextplugin.desktop"};
 }
 
 static QString fakeServiceDesktopFile()
 {
-    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + "threadfakeservice.desktop";
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/threadfakeservice.desktop"};
 }
 
 // Helper method for all the trader tests
@@ -97,7 +97,7 @@ public Q_SLOTS:
 
             KService::Ptr lookedupService = KService::serviceByDesktopPath(entryPath);
             if (!lookedupService) {
-                if (entryPath == "threadfakeservice.desktop" && s_fakeServiceDeleted) { // ok, it got deleted meanwhile
+                if (entryPath == QLatin1String{"threadfakeservice.desktop"} && s_fakeServiceDeleted) { // ok, it got deleted meanwhile
                     continue;
                 }
                 qWarning() << entryPath << "is gone!";
@@ -113,7 +113,7 @@ public Q_SLOTS:
                 Q_ASSERT(!menuId.isEmpty());
                 lookedupService = KService::serviceByMenuId(menuId);
                 if (!lookedupService) {
-                    if (menuId == "threadfakeservice" && s_fakeServiceDeleted) { // ok, it got deleted meanwhile
+                    if (menuId == QLatin1String{"threadfakeservice"} && s_fakeServiceDeleted) { // ok, it got deleted meanwhile
                         continue;
                     }
                     qWarning() << menuId << "is gone!";

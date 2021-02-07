@@ -79,14 +79,14 @@ void KSycocaXdgDirsTest::testOtherAppDir()
     QCOMPARE(dataDir, QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).constLast());
     QVERIFY(!KService::serviceByDesktopPath(QStringLiteral("test_app_other.desktop")));
 
-    const QString appDir = dataDir + "/applications";
+    const QString appDir = dataDir + QLatin1String{"/applications"};
 
     // The buildsystem copied applications.menus into bin/data/menus, so we don't rely on /etc/xdg
     const QByteArray modifiedConfigDirs = QFile::encodeName(QCoreApplication::applicationDirPath()) + "/data";
     qputenv("XDG_CONFIG_DIRS", modifiedConfigDirs);
 
     // test_app_other: live in a different application directory
-    const QString testAppOther = appDir + "/test_app_other.desktop";
+    const QString testAppOther = appDir + QLatin1String{"/test_app_other.desktop"};
     KDesktopFile file(testAppOther);
     KConfigGroup group = file.desktopGroup();
     group.writeEntry("Type", "Application");

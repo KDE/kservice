@@ -132,15 +132,15 @@ private Q_SLOTS:
         QDir(cacheDir).removeRecursively();
 
         // Create fake application (associated with text/plain in mimeapps.list)
-        fakeTextApplication = m_localApps + "faketextapplication.desktop";
+        fakeTextApplication = m_localApps + QLatin1String{"faketextapplication.desktop"};
         writeAppDesktopFile(fakeTextApplication, QStringList() << QStringLiteral("text/plain"));
 
         // Create fake application (associated with text/plain in mimeapps.list)
-        fakeTextApplicationPrefixed = m_localApps + "fakepfx/faketextapplicationpfx.desktop";
+        fakeTextApplicationPrefixed = m_localApps + QLatin1String{"fakepfx/faketextapplicationpfx.desktop"};
         writeAppDesktopFile(fakeTextApplicationPrefixed, QStringList() << QStringLiteral("text/plain"));
 
         // A fake "default" application for text/plain (high initial preference, but not in mimeapps.list)
-        fakeDefaultTextApplication = m_localApps + "fakedefaulttextapplication.desktop";
+        fakeDefaultTextApplication = m_localApps + QLatin1String{"fakedefaulttextapplication.desktop"};
         writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << QStringLiteral("text/plain"), 9);
 
         // An app (like emacs) listing explicitly the derived mimetype (c-src); not in mimeapps.list
@@ -149,28 +149,28 @@ private Q_SLOTS:
         // the base mimetype is already listed.
         //
         // Also include aliases (msword), to check they don't cancel each other out.
-        fakeCSrcApplication = m_localApps + "fakecsrcmswordapplication.desktop";
+        fakeCSrcApplication = m_localApps + QLatin1String{"fakecsrcmswordapplication.desktop"};
         writeAppDesktopFile(fakeCSrcApplication, QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/c-src") << QStringLiteral("application/vnd.ms-word") << QStringLiteral("application/msword"), 8);
 
-        fakeJpegApplication = m_localApps + "fakejpegapplication.desktop";
+        fakeJpegApplication = m_localApps + QLatin1String{"fakejpegapplication.desktop"};
         writeAppDesktopFile(fakeJpegApplication, QStringList() << QStringLiteral("image/jpeg"));
 
-        fakeArkApplication = m_localApps + "fakearkapplication.desktop";
+        fakeArkApplication = m_localApps + QLatin1String{"fakearkapplication.desktop"};
         writeAppDesktopFile(fakeArkApplication, QStringList() << QStringLiteral("application/zip"));
 
-        fakeHtmlApplication = m_localApps + "fakehtmlapplication.desktop";
+        fakeHtmlApplication = m_localApps + QLatin1String{"fakehtmlapplication.desktop"};
         writeAppDesktopFile(fakeHtmlApplication, QStringList() << QStringLiteral("text/html"));
 
-        fakeHtmlApplicationPrefixed = m_localApps + "fakepfx/fakehtmlapplicationpfx.desktop";
+        fakeHtmlApplicationPrefixed = m_localApps + QLatin1String{"fakepfx/fakehtmlapplicationpfx.desktop"};
         writeAppDesktopFile(fakeHtmlApplicationPrefixed, QStringList() << QStringLiteral("text/html"));
 
-        fakeOktetaApplication = m_localApps + "fakeoktetaapplication.desktop";
+        fakeOktetaApplication = m_localApps + QLatin1String{"fakeoktetaapplication.desktop"};
         writeAppDesktopFile(fakeOktetaApplication, QStringList() << QStringLiteral("application/octet-stream"));
 
-        const QString fakeGnomeRoller = m_localApps + "fake.org.gnome.FileRoller.desktop";
+        const QString fakeGnomeRoller = m_localApps + QLatin1String{"fake.org.gnome.FileRoller.desktop"};
         writeNonKDEAppDesktopFile(fakeGnomeRoller, QStringList() << QStringLiteral("application/x-7z-compressed"));
 
-        const QString fakeNautilus = m_localApps + "fake.org.gnome.Nautilus.desktop";
+        const QString fakeNautilus = m_localApps + QLatin1String{"fake.org.gnome.Nautilus.desktop"};
         writeNonKDEAppDesktopFile(fakeNautilus, QStringList() << QStringLiteral("application/x-7z-compressed"));
 
         // Update ksycoca in ~/.qttest after creating the above
@@ -241,7 +241,7 @@ private Q_SLOTS:
 
     void cleanupTestCase()
     {
-        QFile::remove(m_localConfig + "/mimeapps.list");
+        QFile::remove(m_localConfig + QLatin1String{"/mimeapps.list"});
         runKBuildSycoca();
     }
 
@@ -253,7 +253,7 @@ private Q_SLOTS:
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
-        QFile tempFile(tempDir.path() + "/mimeapps.list");
+        QFile tempFile(tempDir.path() + QLatin1String{"/mimeapps.list"});
         QVERIFY(tempFile.open(QIODevice::WriteOnly));
         tempFile.write(m_mimeAppsFileContents);
         const QString fileName = tempFile.fileName();
@@ -307,7 +307,7 @@ private Q_SLOTS:
         QTemporaryDir tempDirGlobal;
         QVERIFY(tempDirGlobal.isValid());
 
-        QFile tempFileGlobal(tempDirGlobal.path() + "/mimeapps.list");
+        QFile tempFileGlobal(tempDirGlobal.path() + QLatin1String{"/mimeapps.list"});
         QVERIFY(tempFileGlobal.open(QIODevice::WriteOnly));
         QByteArray globalAppsFileContents = "[Added Associations]\n"
                                             "image/jpeg=firefox.desktop;\n" // removed by local config
@@ -321,7 +321,7 @@ private Q_SLOTS:
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
-        QFile tempFile(tempDir.path() + "/mimeapps.list");
+        QFile tempFile(tempDir.path() + QLatin1String{"/mimeapps.list"});
         QVERIFY(tempFile.open(QIODevice::WriteOnly));
         tempFile.write(m_mimeAppsFileContents);
         const QString fileName = tempFile.fileName();
@@ -507,7 +507,7 @@ private:
 
     void writeToMimeApps(const QByteArray &contents)
     {
-        QString mimeAppsPath = m_localConfig + "/mimeapps.list";
+        QString mimeAppsPath = m_localConfig + QLatin1String{"/mimeapps.list"};
         QFile mimeAppsFile(mimeAppsPath);
         QVERIFY(mimeAppsFile.open(QIODevice::WriteOnly));
         mimeAppsFile.write(contents);

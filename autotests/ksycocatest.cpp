@@ -53,7 +53,7 @@ private Q_SLOTS:
         QDir(servicesDir()).removeRecursively();
 
         QDir(menusDir()).removeRecursively();
-        QDir().mkpath(menusDir() + "/fakeSubserviceDirectory");
+        QDir().mkpath(menusDir() + QLatin1String{"/fakeSubserviceDirectory"});
 
 #ifdef Q_XDG_PLATFORM
         qputenv("XDG_DATA_DIRS", QFile::encodeName(m_tempDir.path()));
@@ -69,7 +69,7 @@ private Q_SLOTS:
 
     void cleanupTestCase()
     {
-        QFile::remove(serviceTypesDir() + "/fakeLocalServiceType.desktop");
+        QFile::remove(serviceTypesDir() + QLatin1String{"/fakeLocalServiceType.desktop"});
         QFile::remove(KSycoca::absoluteFilePath());
     }
     void ensureCacheValidShouldCreateDB();
@@ -85,19 +85,38 @@ private Q_SLOTS:
 private:
     void createGlobalServiceType()
     {
-        KDesktopFile file(serviceTypesDir() + "/fakeGlobalServiceType.desktop");
+        KDesktopFile file(serviceTypesDir() + QLatin1String{"/fakeGlobalServiceType.desktop"});
         KConfigGroup group = file.desktopGroup();
         group.writeEntry("Comment", "Fake Global ServiceType");
         group.writeEntry("Type", "ServiceType");
         group.writeEntry("X-KDE-ServiceType", "FakeGlobalServiceType");
         file.sync();
-        qDebug() << "created" << serviceTypesDir() + "/fakeGlobalServiceType.desktop";
+        qDebug() << "created" << serviceTypesDir() + QLatin1String{"/fakeGlobalServiceType.desktop"};
     }
-    QString servicesDir() const { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservices5"; }
-    QString serviceTypesDir() const { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/kservicetypes5"; }
-    QString extraFile() const { return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/mimeapps.list"; }
-    QString menusDir() const { return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/menus"; }
-    QString appsDir() const { return QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1Char('/'); }
+    QString servicesDir() const
+    {
+        return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5"};
+    }
+
+    QString serviceTypesDir() const
+    {
+        return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5"};
+    }
+
+    QString extraFile() const
+    {
+        return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/mimeapps.list"};
+    }
+
+    QString menusDir() const
+    {
+        return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String{"/menus"};
+    }
+
+    QString appsDir() const
+    {
+        return QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1Char('/');
+    }
 
     static void runKBuildSycoca(const QProcessEnvironment &environment, bool global = false);
 
@@ -119,7 +138,7 @@ void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
     // It used to be a DBus signal, now it's file watching
     QTest::qWait(s_waitDelay);
     // Ensure kbuildsycoca has something to do
-    QVERIFY(QFile::remove(serviceTypesDir() + "/fakeGlobalServiceType.desktop"));
+    QVERIFY(QFile::remove(serviceTypesDir() + QLatin1String{"/fakeGlobalServiceType.desktop"}));
     // Run kbuildsycoca
     QSignalSpy spy(KSycoca::self(), QOverload<const QStringList &>::of(&KSycoca::databaseChanged));
     runKBuildSycoca(QProcessEnvironment::systemEnvironment());
@@ -221,7 +240,7 @@ void KSycocaTest::recursiveCheckShouldIgnoreLinksGoingUp()
 #endif
     ksycoca_ms_between_checks = 0;
     const QString link = menusDir() + QLatin1String("/linkGoingUp");
-    QVERIFY(QFile::link("..", link));
+    QVERIFY(QFile::link(QStringLiteral(".."), link));
     QTest::qWait(s_waitDelay);
     KSycoca::self()->ensureCacheValid();
     QVERIFY2(QFile::exists(KSycoca::absoluteFilePath()), qPrintable(KSycoca::absoluteFilePath()));
@@ -277,8 +296,8 @@ void KSycocaTest::testAllResourceDirs()
 {
     // Dirs that exist and dirs that don't exist, should both be in allResourceDirs().
     const QStringList dirs = KSycoca::self()->allResourceDirs();
-    QVERIFY2(dirs.contains(servicesDir()), qPrintable(dirs.join(',')));
-    QVERIFY2(dirs.contains(serviceTypesDir()), qPrintable(dirs.join(',')));
+    QVERIFY2(dirs.contains(servicesDir()), qPrintable(dirs.join(QLatin1Char{','})));
+    QVERIFY2(dirs.contains(serviceTypesDir()), qPrintable(dirs.join(QLatin1Char{','})));
 }
 
 void KSycocaTest::testDeletingSycoca()
