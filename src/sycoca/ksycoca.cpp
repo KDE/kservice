@@ -304,7 +304,10 @@ void KSycocaPrivate::slotDatabaseChanged()
 
     // Now notify applications
     Q_EMIT q->databaseChanged();
+
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 80)
     Q_EMIT q->databaseChanged(changeList);
+#endif
 }
 
 KMimeTypeFactory *KSycocaPrivate::mimeTypeFactory()

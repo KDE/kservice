@@ -162,9 +162,10 @@ public:
      * @see KStandardDirs for the various resource types.
      *
      * This method is meant to be called from the GUI thread only.
-     * @deprecated Since 5.0, use the signal databaseChanged(QStringList) instead.
+     *
+     * @deprecated Since 5.0, use the @c KSycoca::databaseChanged() signal instead.
      */
-    KSERVICE_DEPRECATED_VERSION(5, 0, "Use signal KSycoca::databaseChanged(QStringList)")
+    KSERVICE_DEPRECATED_VERSION(5, 0, "Use KSycoca::databaseChanged() signal")
     static bool isChanged(const char *type);
 #endif
 
@@ -207,6 +208,7 @@ Q_SIGNALS:
      */
     void databaseChanged();
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 80)
     /**
      * Connect to this to get notified when the database changes
      * Example: when MIME type definitions have changed, applications showing
@@ -217,8 +219,12 @@ Q_SIGNALS:
      * @param changedResources List of resources where changes were detected.
      * This can include the following resources (as defined in KStandardDirs) :
      * apps, xdgdata-apps, services, servicetypes, xdgdata-mime.
+     *
+     * @deprecated since 5.80, use the @c KSycoca::databaseChanged() signal instead.
      */
-    void databaseChanged(const QStringList &changedResources); // KF6: deprecate
+    KSERVICE_DEPRECATED_VERSION(5, 80, "Use KSycoca::databaseChanged() signal")
+    void databaseChanged(const QStringList &changedResources);
+#endif
 
 protected:
     // @internal used by kbuildsycoca
@@ -250,4 +256,3 @@ private:
 };
 
 #endif
-
