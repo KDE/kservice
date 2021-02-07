@@ -80,7 +80,7 @@ typedef void *yyscan_t;
 %destructor { KTraderParse_destroy( $$ ); } factor_non
 %destructor { KTraderParse_destroy( $$ ); } factor
 
-%pure-parser
+%define api.pure
 
 %lex-param   { yyscan_t scanner }
 %parse-param { yyscan_t scanner }
