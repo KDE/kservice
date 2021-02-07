@@ -497,7 +497,7 @@ private:
     {
         // Wait for notifyDatabaseChanged DBus signal
         // (The real KCM code simply does the refresh in a slot, asynchronously)
-        QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
+        QSignalSpy spy(KSycoca::self(), QOverload<const QStringList &>::of(&KSycoca::databaseChanged));
         KBuildSycoca builder;
         QVERIFY(builder.recreate());
         if (spy.isEmpty()) {

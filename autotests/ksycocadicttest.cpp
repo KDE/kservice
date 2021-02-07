@@ -58,7 +58,7 @@ QTEST_MAIN(KSycocaDictTest)
 
 void KSycocaDictTest::runKBuildSycoca()
 {
-    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
+    QSignalSpy spy(KSycoca::self(), QOverload<const QStringList &>::of(&KSycoca::databaseChanged));
     KBuildSycoca builder;
     QVERIFY(builder.recreate());
     if (spy.isEmpty()) {

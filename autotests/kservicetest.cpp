@@ -232,7 +232,7 @@ void KServiceTest::initTestCase()
 
 void KServiceTest::runKBuildSycoca(bool noincremental)
 {
-    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
+    QSignalSpy spy(KSycoca::self(), QOverload<const QStringList &>::of(&KSycoca::databaseChanged));
     KBuildSycoca builder;
     QVERIFY(builder.recreate(!noincremental));
     if (spy.isEmpty()) {

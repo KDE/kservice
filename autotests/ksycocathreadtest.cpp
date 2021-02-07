@@ -178,7 +178,7 @@ public:
         // have the slot work() in WorkerThread itself. Typical QThread trap!
         WorkerObject wo;
         QTimer timer;
-        connect(&timer, SIGNAL(timeout()), &wo, SLOT(work()));
+        connect(&timer, &QTimer::timeout, &wo, &WorkerObject::work);
         timer.start(100);
         exec();
     }
@@ -224,7 +224,7 @@ private:
 
 static void runKBuildSycoca()
 {
-    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
+    QSignalSpy spy(KSycoca::self(), QOverload<const QStringList &>::of(&KSycoca::databaseChanged));
     KBuildSycoca builder;
     QVERIFY(builder.recreate());
     qDebug() << "waiting for signal";
@@ -330,7 +330,7 @@ void KSycocaThreadTest::deleteFakeService()
     const QString servPath = fakeServiceDesktopFile();
     QFile::remove(servPath);
 
-    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
+    QSignalSpy spy(KSycoca::self(), QOverload<const QStringList &>::of(&KSycoca::databaseChanged));
     QVERIFY(spy.isValid());
 
     qDebug() << "executing kbuildsycoca (2)";

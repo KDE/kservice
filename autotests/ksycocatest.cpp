@@ -121,7 +121,7 @@ void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
     // Ensure kbuildsycoca has something to do
     QVERIFY(QFile::remove(serviceTypesDir() + "/fakeGlobalServiceType.desktop"));
     // Run kbuildsycoca
-    QSignalSpy spy(KSycoca::self(), SIGNAL(databaseChanged(QStringList)));
+    QSignalSpy spy(KSycoca::self(), QOverload<const QStringList &>::of(&KSycoca::databaseChanged));
     runKBuildSycoca(QProcessEnvironment::systemEnvironment());
     qDebug() << "waiting for signal";
     QVERIFY(spy.wait(20000));
