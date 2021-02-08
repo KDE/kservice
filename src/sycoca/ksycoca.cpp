@@ -560,7 +560,7 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
     QStringList fileList;
     *str >> fileList;
     extraFiles.clear();
-    for (auto fileName : fileList) {
+    for (const auto &fileName : qAsConst(fileList)) {
         qint64 mtime;
         *str >> mtime;
         extraFiles.insert(fileName, mtime);

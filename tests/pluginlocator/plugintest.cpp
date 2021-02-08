@@ -18,7 +18,7 @@
 #include <QStandardPaths>
 #include <QStringList>
 
-static QTextStream cout(stdout);
+static QTextStream cout(stdout); // clazy:exclude=non-pod-global-static
 
 class PluginTestPrivate
 {

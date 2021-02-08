@@ -17,7 +17,7 @@
 
 Q_DECLARE_METATYPE(KPluginInfo)
 
-static QString pluginName = QStringLiteral("fakeplugin");
+static const QString pluginName = QStringLiteral("fakeplugin"); // clazy:exclude=non-pod-global-static
 
 class KPluginInfoTest : public QObject
 {

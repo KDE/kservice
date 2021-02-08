@@ -149,7 +149,7 @@ bool KBuildSycoca::build()
     for (KSycocaFactory* factory : factoryList) {
         KBSEntryDict *entryDict = new KBSEntryDict;
         if (m_allEntries) { // incremental build
-            for (const KSycocaEntry::Ptr &entry : qAsConst((*m_allEntries)[i++])) {
+            for (const KSycocaEntry::Ptr &entry : qAsConst((*m_allEntries).at(i++))) {
                 //if (entry->entryPath().contains("fake"))
                 //    qCDebug(SYCOCA) << "inserting into entryDict:" << entry->entryPath() << entry;
                 entryDict->insert(entry->entryPath(), entry);

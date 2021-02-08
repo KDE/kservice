@@ -55,13 +55,13 @@ static bool offerListHasService(const KService::List &offers,
     return found;
 }
 
-static QSet<QThread *> s_threadsWhoSawFakeService;
-static QMutex s_setMutex;
+static QSet<QThread *> s_threadsWhoSawFakeService; // clazy:exclude=non-pod-global-static
+static QMutex s_setMutex; // clazy:exclude=non-pod-global-static
 static int threadsWhoSawFakeService() {
     QMutexLocker locker(&s_setMutex);
     return s_threadsWhoSawFakeService.count();
 }
-static QAtomicInt s_fakeServiceDeleted = 0;
+static QAtomicInt s_fakeServiceDeleted = 0; // clazy:exclude=non-pod-global-static
 
 
 class WorkerObject : public QObject
