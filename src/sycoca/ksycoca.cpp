@@ -600,7 +600,7 @@ public:
     // Check times of last modification of all directories on which ksycoca depends,
     // If none of them is newer than the mtime we stored for that directory at the
     // last rebuild, this means that there's no need to rebuild ksycoca.
-    bool checkDirectoriesTimestamps(const QMap<QString, qint64> &dirs)
+    bool checkDirectoriesTimestamps(const QMap<QString, qint64> &dirs) const
     {
         Q_ASSERT(!dirs.isEmpty());
         // qCDebug(SYCOCA) << "checking file timestamps";
@@ -629,7 +629,7 @@ public:
         return true;
     }
 
-    bool checkFilesTimestamps(const QMap<QString, qint64> &files)
+    bool checkFilesTimestamps(const QMap<QString, qint64> &files) const
     {
         for (auto it = files.begin(); it != files.end(); ++it) {
             const QString fileName = it.key();
@@ -669,9 +669,10 @@ bool KSycocaPrivate::needsRebuild()
     }
     // these days timeStamp is really a "bool headerFound", the value itself doesn't matter...
     // KF6: replace it with bool.
+    const auto timestampChecker = TimestampChecker();
     bool ret = timeStamp != 0
-        && (!TimestampChecker().checkDirectoriesTimestamps(allResourceDirs) //
-            || !TimestampChecker().checkFilesTimestamps(extraFiles));
+        && (!timestampChecker.checkDirectoriesTimestamps(allResourceDirs) //
+            || !timestampChecker.checkFilesTimestamps(extraFiles));
     if (ret) {
         return true;
     }
