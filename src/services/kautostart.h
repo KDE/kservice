@@ -91,7 +91,7 @@ public:
          * all necessary conditions will be checked
          * @since 4.3
          */
-        CheckAll = 0xff
+        CheckAll = 0xff,
     };
     /**
      * Stores a combination of #Condition values.
@@ -118,7 +118,7 @@ public:
          * including most system tray applications, system monitors and
          * interactive applications
          */
-        Applications = 2
+        Applications = 2,
     };
 
     /**

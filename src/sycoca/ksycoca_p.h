@@ -55,7 +55,7 @@ public:
     bool openDatabase();
     enum BehaviorIfNotFound {
         IfNotFoundDoNothing = 0,
-        IfNotFoundRecreate = 1
+        IfNotFoundRecreate = 1,
     };
     Q_DECLARE_FLAGS(BehaviorsIfNotFound, BehaviorIfNotFound)
     bool checkDatabase(BehaviorsIfNotFound ifNotFound);
@@ -96,7 +96,7 @@ public:
     enum {
         DatabaseNotOpen, // openDatabase must be called
         BadVersion, // it's opened, but it's not useable
-        DatabaseOK
+        DatabaseOK,
     } databaseStatus;
     bool readError;
 

@@ -200,7 +200,7 @@ public:
         SortEntries = 0x1,    /**< sort items */
         ExcludeNoDisplay = 0x2, /**< exclude items marked "NoDisplay" */
         AllowSeparators = 0x4, /**< allow separator items to be included */
-        SortByGenericName = 0x8 /**< sort by GenericName+Name instead of Name+GenericName */
+        SortByGenericName = 0x8, /**< sort by GenericName+Name instead of Name+GenericName */
     };
     /**
      * Stores a combination of #EntriesOption values.

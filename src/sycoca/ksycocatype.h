@@ -22,7 +22,7 @@ enum KSycocaType { KST_KSycocaEntry = 0, KST_KService = 1, KST_KServiceType = 2,
                    // 8 was KST_KImageIOFormat in kdelibs4
                    // 9 was KST_KProtocolInfo in kdelibs4
                    KST_KServiceSeparator = 10,
-                   KST_KCustom = 1000
+                   KST_KCustom = 1000,
                  };
 
 /**
@@ -38,7 +38,7 @@ enum KSycocaFactoryId { KST_KServiceFactory = 1,
                         // 4 was KST_KImageIO in kdelibs4
                         // 5 was KST_KProtocolInfoFactory in kdelibs4
                         KST_KMimeTypeFactory = 6,
-                        KST_CTimeInfo = 100
+                        KST_CTimeInfo = 100,
                       };
 
 #define K_SYCOCAFACTORY( factory_id ) \
