@@ -660,10 +660,9 @@ bool KSycocaPrivate::needsRebuild()
     }
     // these days timeStamp is really a "bool headerFound", the value itself doesn't matter...
     // KF6: replace it with bool.
-    bool ret = timeStamp != 0 &&
-            (!TimestampChecker().checkDirectoriesTimestamps(allResourceDirs)
-            ||
-            !TimestampChecker().checkFilesTimestamps(extraFiles));
+    bool ret = timeStamp != 0
+        && (!TimestampChecker().checkDirectoriesTimestamps(allResourceDirs) //
+            || !TimestampChecker().checkFilesTimestamps(extraFiles));
     if (ret) {
         return true;
     }

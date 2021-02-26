@@ -283,7 +283,7 @@ VFolderMenu::~VFolderMenu()
     qDeleteAll(m_appsInfoList);
     delete m_rootMenu;
 }
-
+// clang-format off
 #define FOR_ALL_APPLICATIONS(it) \
     for (AppsInfo *info : qAsConst(m_appsInfoStack)) \
     { \
@@ -301,6 +301,7 @@ VFolderMenu::~VFolderMenu()
                 it != list.constEnd(); ++it) \
         {
 #define FOR_CATEGORY_END } }
+// clang-format on
 
 KService::Ptr
 VFolderMenu::findApplication(const QString &relPath)

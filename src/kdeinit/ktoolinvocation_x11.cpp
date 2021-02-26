@@ -224,7 +224,7 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
     // TODO this should check if cmd has a .desktop file, and use data from it, together
     // with sending more ASN data
     if (kdeinitExec(cmd, cmdTokens, &error, nullptr, startup_id)) {
-        KMessage::message(KMessage::Error,
+        KMessage::message(KMessage::Error, //
                           i18n("Could not launch the mail client:\n\n%1", error),
                           i18n("Could not launch Mail Client"));
     }
@@ -340,12 +340,14 @@ void KToolInvocation::invokeTerminal(const QString &command,
     const QString cmd = cmdTokens.takeFirst();
 
     QString error;
+    // clang-format off
     if (self()->startServiceInternal("kdeinit_exec_with_workdir",
                                      cmd, cmdTokens, &error, nullptr, nullptr, startup_id, false, workdir, envs)) {
         KMessage::message(KMessage::Error,
                           i18n("Could not launch the terminal client:\n\n%1", error),
                           i18n("Could not launch Terminal Client"));
     }
+    // clang-format on
 }
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79)

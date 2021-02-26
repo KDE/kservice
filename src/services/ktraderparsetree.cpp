@@ -460,10 +460,9 @@ bool ParseTreeIN::eval(ParseContext *_context) const
         return true;
     }
 
-    if (c1.type == ParseContext::T_DOUBLE &&
-            c2.type == ParseContext::T_SEQ &&
-            (*(c2.seq.begin())).type() == QVariant::Double) {
-
+    if (c1.type == ParseContext::T_DOUBLE //
+        && c2.type == ParseContext::T_SEQ //
+        && (*(c2.seq.begin())).type() == QVariant::Double) {
         QList<QVariant>::ConstIterator it = c2.seq.constBegin();
         QList<QVariant>::ConstIterator end = c2.seq.constEnd();
         _context->b = false;

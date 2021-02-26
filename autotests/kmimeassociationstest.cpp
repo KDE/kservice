@@ -266,8 +266,8 @@ private Q_SLOTS:
                 end = preferredApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
             // The data for derived types and aliases isn't for this test (which only looks at mimeapps.list)
-            if (mime == QLatin1String("text/x-csrc")
-                    || mime == QLatin1String("text/x-python")
+            if (mime == QLatin1String("text/x-csrc") //
+                    || mime == QLatin1String("text/x-python") //
                     || mime == QLatin1String("application/msword")) {
                 continue;
             }

@@ -496,9 +496,9 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
     KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("FakeBasePart"));
     QVERIFY(offers.count() > 0);
 
-    if (!offerListHasService(offers, QStringLiteral("fakepart.desktop"))
-        || !offerListHasService(offers, QStringLiteral("fakepart2.desktop"))
-        || !offerListHasService(offers, QStringLiteral("otherpart.desktop"))
+    if (!offerListHasService(offers, QStringLiteral("fakepart.desktop")) //
+        || !offerListHasService(offers, QStringLiteral("fakepart2.desktop")) //
+        || !offerListHasService(offers, QStringLiteral("otherpart.desktop")) //
         || !offerListHasService(offers, QStringLiteral("preferredpart.desktop"))) {
         for (KService::Ptr service : qAsConst(offers)) {
             qDebug("%s %s", qPrintable(service->name()), qPrintable(service->entryPath()));
@@ -746,10 +746,10 @@ void KServiceTest::testServiceGroups()
 
     KServiceGroup::Ptr group = root;
     QVERIFY(group);
-    const KServiceGroup::List list = group->entries(true /* sorted */,
-                                     true /* exclude no display entries */,
-                                     false /* allow separators */,
-                                     true /* sort by generic name */);
+    const KServiceGroup::List list = group->entries(true, // sorted
+                                                    true, // exclude no display entries,
+                                                    false, // allow separators
+                                                    true); // sort by generic name
 
     qDebug() << list.count();
     for (KServiceGroup::SPtr s : list) {

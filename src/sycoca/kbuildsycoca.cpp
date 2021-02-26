@@ -646,10 +646,10 @@ bool KBuildSycoca::checkGlobalHeader()
     const KSycocaHeader header = KSycocaPrivate::self()->readSycocaHeader();
     Q_ASSERT(!header.prefixes.split(QLatin1Char(':')).contains(QDir::homePath()));
 
-    return (current_update_sig == header.updateSignature) &&
-            (current_language == header.language) &&
-            (current_prefixes == header.prefixes) &&
-            (header.timeStamp != 0);
+    return (current_update_sig == header.updateSignature) //
+        && (current_language == header.language) //
+        && (current_prefixes == header.prefixes) //
+        && (header.timeStamp != 0);
 }
 
 const char *KBuildSycoca::sycocaPath()

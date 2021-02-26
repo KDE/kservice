@@ -321,6 +321,7 @@ void KServicePrivate::load(QDataStream &s)
     // !! This data structure should remain binary compatible at all times !!
     // You may add new fields at the end. Make sure to update KSYCOCA_VERSION
     // number in ksycoca.cpp
+    // clang-format off
     s >> m_strType >> m_strName >> m_strExec >> m_strIcon
       >> term >> m_strTerminalOptions
       >> m_strWorkingDirectory >> m_strComment >> def >> m_mapProps
@@ -331,6 +332,7 @@ void KServicePrivate::load(QDataStream &s)
       >> m_lstKeywords >> m_strGenName
       >> categories >> menuId >> m_actions >> m_serviceTypes
       >> m_lstFormFactors;
+    // clang-format on
 
     m_bAllowAsDefault = bool(def);
     m_bTerminal = bool(term);
@@ -793,8 +795,10 @@ bool KService::allowMultipleFiles() const
 {
     Q_D(const KService);
     // Can we pass multiple files on the command line or do we have to start the application for every single file ?
-    return (d->m_strExec.contains(QLatin1String("%F")) || d->m_strExec.contains(QLatin1String("%U")) ||
-            d->m_strExec.contains(QLatin1String("%N")) || d->m_strExec.contains(QLatin1String("%D")));
+    return (d->m_strExec.contains(QLatin1String("%F")) //
+            || d->m_strExec.contains(QLatin1String("%U")) //
+            || d->m_strExec.contains(QLatin1String("%N")) //
+            || d->m_strExec.contains(QLatin1String("%D")));
 }
 
 QStringList KService::categories() const
@@ -825,8 +829,9 @@ QString KService::storageId() const
 QString KService::locateLocal() const
 {
     Q_D(const KService);
-    if (d->menuId.isEmpty() || entryPath().startsWith(QLatin1String(".hidden")) ||
-            (QDir::isRelativePath(entryPath()) && d->categories.isEmpty())) {
+    if (d->menuId.isEmpty() //
+        || entryPath().startsWith(QLatin1String(".hidden")) //
+        || (QDir::isRelativePath(entryPath()) && d->categories.isEmpty())) {
         return KDesktopFile::locateLocal(entryPath());
     }
 

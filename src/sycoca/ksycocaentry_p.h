@@ -10,9 +10,11 @@
 
 #include "ksycocaentry.h"
 
+// clang-format off
 #define K_SYCOCATYPE( type, baseclass ) \
     bool isType(KSycocaType t) const override { if (t == type) return true; return baseclass::isType(t);} \
     KSycocaType sycocaType() const override { return type; }
+// clang-format on
 
 class KSycocaEntryPrivate
 {

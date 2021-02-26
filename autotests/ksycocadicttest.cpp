@@ -82,6 +82,7 @@ void KSycocaDictTest::testStandardDict()
     QVERIFY(KSycoca::isAvailable());
 
     QStringList serviceTypes;
+    // clang-format off
     serviceTypes << QStringLiteral("DictTestPluginType")
                  << QStringLiteral("KUriFilter/Plugin")
                  << QStringLiteral("KDataTool")
@@ -90,6 +91,7 @@ void KSycocaDictTest::testStandardDict()
                  << QStringLiteral("Browser/View")
                  << QStringLiteral("Plasma/Applet")
                  << QStringLiteral("Plasma/Runner");
+    // clang-format on
 
     // Skip servicetypes that are not installed
     QMutableListIterator<QString> it(serviceTypes);

@@ -22,6 +22,7 @@
 #include <kservicetypetrader.h>
 #include <kservicetypefactory_p.h>
 
+// clang-format off
 //#ifndef NDEBUG
 #define KPLUGININFO_ISVALID_ASSERTION \
     do { \
@@ -77,6 +78,7 @@ GlobalQStringLiteral(s_jsonMimeTypesKey, "MimeTypes")
 GlobalQStringLiteral(s_jsonKPluginKey, "KPlugin")
 
 }
+// clang-format on
 
 class KPluginInfoPrivate : public QSharedData
 {
