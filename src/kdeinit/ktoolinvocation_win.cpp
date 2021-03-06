@@ -8,6 +8,8 @@
 
 #include "ktoolinvocation.h"
 
+#include "kservice.h"
+
 #include <KLocalizedString>
 #include <KMessage>
 
@@ -19,9 +21,9 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-#include "kservice.h"
-#include "shellapi.h"
 #include "windows.h"
+
+#include "shellapi.h" // Must be included after "windows.h"
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startup_id)
