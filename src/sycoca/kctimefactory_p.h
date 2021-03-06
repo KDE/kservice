@@ -8,8 +8,8 @@
 #ifndef KCTIME_FACTORY_H
 #define KCTIME_FACTORY_H
 
-#include <ksycocafactory_p.h>
 #include <QHash>
+#include <ksycocafactory_p.h>
 
 /**
  * Simple dict for assocating a timestamp with each file in ksycoca
@@ -28,6 +28,7 @@ public:
 
     void load(QDataStream &str);
     void save(QDataStream &str) const;
+
 private:
     typedef QHash<QString, quint32> Hash;
     Hash m_hash;

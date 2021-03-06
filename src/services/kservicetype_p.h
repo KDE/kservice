@@ -18,18 +18,24 @@ public:
     K_SYCOCATYPE(KST_KServiceType, KSycocaEntryPrivate)
 
     explicit KServiceTypePrivate(const QString &path)
-        : KSycocaEntryPrivate(path),
-          m_serviceOffersOffset(-1), m_bDerived(false), m_parentTypeLoaded(false)
+        : KSycocaEntryPrivate(path)
+        , m_serviceOffersOffset(-1)
+        , m_bDerived(false)
+        , m_parentTypeLoaded(false)
     {
     }
 
     KServiceTypePrivate(QDataStream &_str, int offset)
-        : KSycocaEntryPrivate(_str, offset),
-          m_serviceOffersOffset(-1), m_bDerived(false), m_parentTypeLoaded(false)
+        : KSycocaEntryPrivate(_str, offset)
+        , m_serviceOffersOffset(-1)
+        , m_bDerived(false)
+        , m_parentTypeLoaded(false)
     {
     }
 
-    virtual ~KServiceTypePrivate() {}
+    virtual ~KServiceTypePrivate()
+    {
+    }
 
     void save(QDataStream &) override;
 
@@ -61,9 +67,8 @@ public:
     int m_serviceOffersOffset;
     QMap<QString, QVariant::Type> m_mapPropDefs;
     QMap<QString, QVariant> m_mapProps;
-    unsigned m_bDerived: 1;
-    unsigned m_parentTypeLoaded: 1;
+    unsigned m_bDerived : 1;
+    unsigned m_parentTypeLoaded : 1;
 };
 
 #endif // __kservicetype_p_h__
-

@@ -9,8 +9,8 @@
 #ifndef KSERVICEPRIVATE_H
 #define KSERVICEPRIVATE_H
 
-#include <QVector>
 #include "kservice.h"
+#include <QVector>
 
 #include <ksycocaentry_p.h>
 
@@ -20,15 +20,17 @@ public:
     K_SYCOCATYPE(KST_KService, KSycocaEntryPrivate)
 
     explicit KServicePrivate(const QString &path)
-        : KSycocaEntryPrivate(path),  m_bValid(true)
+        : KSycocaEntryPrivate(path)
+        , m_bValid(true)
     {
     }
     KServicePrivate(QDataStream &_str, int _offset)
-        : KSycocaEntryPrivate(_str, _offset), m_bValid(true)
+        : KSycocaEntryPrivate(_str, _offset)
+        , m_bValid(true)
     {
         load(_str);
     }
-    KServicePrivate(const KServicePrivate& other) = default;
+    KServicePrivate(const KServicePrivate &other) = default;
 
     void init(const KDesktopFile *config, KService *q);
 

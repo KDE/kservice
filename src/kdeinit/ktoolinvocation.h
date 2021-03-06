@@ -15,10 +15,10 @@
 
 #include <kservice_export.h>
 
-#include <QObject>
 #include <QByteArray>
-#include <QStringList>
 #include <QExplicitlySharedDataPointer>
+#include <QObject>
+#include <QStringList>
 
 class QUrl;
 class KToolInvocationPrivate;
@@ -62,10 +62,10 @@ typedef QExplicitlySharedDataPointer<KService> KServicePtr;
  */
 class KSERVICE_EXPORT KToolInvocation : public QObject
 {
-
     Q_OBJECT
 private:
     KToolInvocation();
+
 public:
     // @internal
     ~KToolInvocation();
@@ -86,8 +86,7 @@ public Q_SLOTS:
      * using QUrl::setPath(address) and a query item of "subject" for the subject.
      */
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use QDesktopServices::openUrl(mailtoURL), using QUrl::setPath(address) and a query item of \"subject\" for the subject")
-    static void invokeMailer(const QString &address, const QString &subject,
-                             const QByteArray &startup_id = QByteArray());
+    static void invokeMailer(const QString &address, const QString &subject, const QByteArray &startup_id = QByteArray());
 #endif
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
@@ -102,8 +101,7 @@ public Q_SLOTS:
      * @deprecated since 5.0, use QDesktopServices::openUrl(mailtoURL)
      */
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use QDesktopServices::openUrl(const QUrl&)")
-    static void invokeMailer(const QUrl &mailtoURL, const QByteArray &startup_id = QByteArray(),
-                             bool allowAttachments = false);
+    static void invokeMailer(const QUrl &mailtoURL, const QByteArray &startup_id = QByteArray(), bool allowAttachments = false);
 #endif
 
     /**
@@ -121,8 +119,11 @@ public Q_SLOTS:
      * @param startup_id for app startup notification, "0" for none,
      *           "" ( empty string ) is the default
      */
-    static void invokeMailer(const QString &to, const QString &cc, const QString &bcc,
-                             const QString &subject, const QString &body,
+    static void invokeMailer(const QString &to,
+                             const QString &cc,
+                             const QString &bcc,
+                             const QString &subject,
+                             const QString &body,
                              const QString &messageFile = QString(),
                              const QStringList &attachURLs = QStringList(),
                              const QByteArray &startup_id = QByteArray());
@@ -144,8 +145,7 @@ public Q_SLOTS:
      * @deprecated since 5.0, use QDesktopServices::openUrl(url)
      */
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use QDesktopServices::openUrl(const QUrl&)")
-    static void invokeBrowser(const QString &url,
-                              const QByteArray &startup_id = QByteArray());
+    static void invokeBrowser(const QString &url, const QByteArray &startup_id = QByteArray());
 #endif
 
     /**
@@ -158,10 +158,7 @@ public Q_SLOTS:
      *           "" ( empty string ) is the default
      * @since 5.73
      */
-    static void invokeTerminal(const QString &command,
-                               const QStringList &envs,
-                               const QString &workdir = QString(),
-                               const QByteArray &startup_id = "");
+    static void invokeTerminal(const QString &command, const QStringList &envs, const QString &workdir = QString(), const QByteArray &startup_id = "");
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 79)
     /**
@@ -176,24 +173,24 @@ public Q_SLOTS:
      * @since 4.1
      * @deprecated since 5,79, use invokeTerminal(const QString &command, const QStringList &envs, const QString &workdir, const QByteArray &startup_id) instead
      */
-    KSERVICE_DEPRECATED_VERSION(5, 79, "Use invokeTerminal(const QString &command, const QStringList &envs, const QString &workdir, const QByteArray &startup_id) instead")
-    static void invokeTerminal(const QString &command,
-                               const QString &workdir = QString(),
-                               const QByteArray &startup_id = "");
+    KSERVICE_DEPRECATED_VERSION(
+        5,
+        79,
+        "Use invokeTerminal(const QString &command, const QStringList &envs, const QString &workdir, const QByteArray &startup_id) instead")
+    static void invokeTerminal(const QString &command, const QString &workdir = QString(), const QByteArray &startup_id = "");
 #endif
 
-   /**
-    * Returns the configured default terminal application. This is compatible with
-    * the old config format from the KCM in Plasma < 5.21.
-    * @param command Command that should be executed in the terminal app
-    * @param workingDir Working directory for the terminal app.
-    * @return KServicePtr of terminal application.
-    * @since 5.78
-    */
-   static KServicePtr terminalApplication(const QString &command = QString(), const QString &workingDir = QString());
+    /**
+     * Returns the configured default terminal application. This is compatible with
+     * the old config format from the KCM in Plasma < 5.21.
+     * @param command Command that should be executed in the terminal app
+     * @param workingDir Working directory for the terminal app.
+     * @return KServicePtr of terminal application.
+     * @since 5.78
+     */
+    static KServicePtr terminalApplication(const QString &command = QString(), const QString &workingDir = QString());
 
 public:
-
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
     /**
      * Starts a service based on the (translated) name of the service.
@@ -217,9 +214,13 @@ public:
      * @deprecated Since 5.0, use startServiceByDesktopName or startServiceByDesktopPath
      */
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use KToolInvocation::startServiceByDesktopName(...) or KToolInvocation::startServiceByDesktopPath(...)")
-    static int startServiceByName(const QString &_name, const QString &URL,
-            QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
-            const QByteArray &startup_id = QByteArray(), bool noWait = false);
+    static int startServiceByName(const QString &_name,
+                                  const QString &URL,
+                                  QString *error = nullptr,
+                                  QString *serviceName = nullptr,
+                                  int *pid = nullptr,
+                                  const QByteArray &startup_id = QByteArray(),
+                                  bool noWait = false);
 #endif
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
@@ -245,9 +246,13 @@ public:
      * @deprecated Since 5.0, use startServiceByDesktopName or startServiceByDesktopPath
      */
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use KToolInvocation::startServiceByDesktopName(...) or KToolInvocation::startServiceByDesktopPath(...)")
-    static int startServiceByName(const QString &_name, const QStringList &URLs = QStringList(),
-            QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
-            const QByteArray &startup_id = QByteArray(), bool noWait = false);
+    static int startServiceByName(const QString &_name,
+                                  const QStringList &URLs = QStringList(),
+                                  QString *error = nullptr,
+                                  QString *serviceName = nullptr,
+                                  int *pid = nullptr,
+                                  const QByteArray &startup_id = QByteArray(),
+                                  bool noWait = false);
 #endif
 
     /**
@@ -274,9 +279,13 @@ public:
      *   to start a unique application in order to make D-Bus calls to it (after ensuring that
      *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
-    static int startServiceByDesktopPath(const QString &_name, const QString &URL,
-                                         QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
-                                         const QByteArray &startup_id = QByteArray(), bool noWait = false);
+    static int startServiceByDesktopPath(const QString &_name,
+                                         const QString &URL,
+                                         QString *error = nullptr,
+                                         QString *serviceName = nullptr,
+                                         int *pid = nullptr,
+                                         const QByteArray &startup_id = QByteArray(),
+                                         bool noWait = false);
 
     /**
      * Starts a service based on the desktop path of the service.
@@ -300,9 +309,13 @@ public:
      *   to start a unique application in order to make D-Bus calls to it (after ensuring that
      *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
-    static int startServiceByDesktopPath(const QString &_name, const QStringList &URLs = QStringList(),
-                                         QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
-                                         const QByteArray &startup_id = QByteArray(), bool noWait = false);
+    static int startServiceByDesktopPath(const QString &_name,
+                                         const QStringList &URLs = QStringList(),
+                                         QString *error = nullptr,
+                                         QString *serviceName = nullptr,
+                                         int *pid = nullptr,
+                                         const QByteArray &startup_id = QByteArray(),
+                                         bool noWait = false);
 
     /**
      * Starts a service based on the desktop name of the service.
@@ -327,9 +340,13 @@ public:
      *   to start a unique application in order to make D-Bus calls to it (after ensuring that
      *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
-    static int startServiceByDesktopName(const QString &_name, const QString &URL,
-                                         QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
-                                         const QByteArray &startup_id = QByteArray(), bool noWait = false);
+    static int startServiceByDesktopName(const QString &_name,
+                                         const QString &URL,
+                                         QString *error = nullptr,
+                                         QString *serviceName = nullptr,
+                                         int *pid = nullptr,
+                                         const QByteArray &startup_id = QByteArray(),
+                                         bool noWait = false);
 
     /**
      * Starts a service based on the desktop name of the service.
@@ -354,9 +371,13 @@ public:
      *   to start a unique application in order to make D-Bus calls to it (after ensuring that
      *   it installs a D-Bus org.kde.serviceName.service file). Otherwise just use QProcess or KRun.
      */
-    static int startServiceByDesktopName(const QString &_name, const QStringList &URLs = QStringList(),
-                                         QString *error = nullptr, QString *serviceName = nullptr, int *pid = nullptr,
-                                         const QByteArray &startup_id = QByteArray(), bool noWait = false);
+    static int startServiceByDesktopName(const QString &_name,
+                                         const QStringList &URLs = QStringList(),
+                                         QString *error = nullptr,
+                                         QString *serviceName = nullptr,
+                                         int *pid = nullptr,
+                                         const QByteArray &startup_id = QByteArray(),
+                                         bool noWait = false);
 
     /**
      * Starts a program via kdeinit.
@@ -375,8 +396,11 @@ public:
      *           "" ( empty string ) is the default
      * @return an error code indicating success (== 0) or failure (> 0).
      */
-    static int kdeinitExec(const QString &name, const QStringList &args = QStringList(),
-                           QString *error = nullptr, int *pid = nullptr, const QByteArray &startup_id = QByteArray());
+    static int kdeinitExec(const QString &name,
+                           const QStringList &args = QStringList(),
+                           QString *error = nullptr,
+                           int *pid = nullptr,
+                           const QByteArray &startup_id = QByteArray());
 
     /**
      * Starts a program via kdeinit and wait for it to finish.
@@ -395,8 +419,11 @@ public:
      *           "" ( empty string ) is the default
      * @return an error code indicating success (== 0) or failure (> 0).
      */
-    static int kdeinitExecWait(const QString &name, const QStringList &args = QStringList(),
-                               QString *error = nullptr, int *pid = nullptr, const QByteArray &startup_id = QByteArray());
+    static int kdeinitExecWait(const QString &name,
+                               const QStringList &args = QStringList(),
+                               QString *error = nullptr,
+                               int *pid = nullptr,
+                               const QByteArray &startup_id = QByteArray());
 
     /**
      * Ensures that kdeinit5 and klauncher are running.
@@ -412,9 +439,13 @@ Q_SIGNALS:
 
 private:
     int startServiceInternal(const char *_function,
-                             const QString &_name, const QStringList &URLs,
-                             QString *error, QString *serviceName, int *pid,
-                             const QByteArray &startup_id, bool noWait,
+                             const QString &_name,
+                             const QStringList &URLs,
+                             QString *error,
+                             QString *serviceName,
+                             int *pid,
+                             const QByteArray &startup_id,
+                             bool noWait,
                              const QString &workdir = QString(),
                              const QStringList &envs = QStringList());
     static bool isMainThreadActive(QString *error = nullptr);
@@ -424,4 +455,3 @@ private:
 };
 
 #endif
-

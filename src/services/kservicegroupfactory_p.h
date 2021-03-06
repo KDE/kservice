@@ -8,7 +8,6 @@
 #ifndef KSERVICEGROUPFACTORY_P_H
 #define KSERVICEGROUPFACTORY_P_H
 
-
 #include "kservicegroup.h"
 #include "ksycocafactory_p.h"
 #include <assert.h>
@@ -56,6 +55,7 @@ public:
      * @return the unique service group factory, creating it if necessary
      */
     static KServiceGroupFactory *self();
+
 protected:
     KServiceGroup *createGroup(int offset, bool deep) const;
     KServiceGroup *createEntry(int offset) const override;
@@ -64,6 +64,7 @@ protected:
 
 protected:
     void virtual_hook(int id, void *data) override;
+
 private:
     class KServiceGroupFactoryPrivate *d;
 };

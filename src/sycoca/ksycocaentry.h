@@ -8,13 +8,13 @@
 #ifndef KSYCOCAENTRY_H
 #define KSYCOCAENTRY_H
 
-#include <ksycocatype.h>
 #include <kservice_export.h>
+#include <ksycocatype.h>
 
 #include <QDataStream>
+#include <QExplicitlySharedDataPointer>
 #include <QStringList>
 #include <QVariant>
-#include <QExplicitlySharedDataPointer>
 
 #include <memory>
 
@@ -31,7 +31,6 @@ class KSycocaEntryPrivate;
  */
 class KSERVICE_EXPORT KSycocaEntry : public QSharedData
 {
-
 public:
     /*
      * constructs a invalid KSycocaEntry object
@@ -78,8 +77,8 @@ public:
     QString storageId() const;
 
     /**
-    * @return true if valid
-    */
+     * @return true if valid
+     */
     bool isValid() const;
 
     /**

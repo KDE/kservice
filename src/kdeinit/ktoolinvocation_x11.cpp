@@ -16,16 +16,16 @@
 #include <KSharedConfig>
 #include <kmimetypetrader.h>
 
-#include <KConfig>
-#include <KShell>
-#include <KMacroExpander>
-#include <KLocalizedString>
-#include <KMessage>
 #include "kservice.h"
+#include <KConfig>
+#include <KLocalizedString>
+#include <KMacroExpander>
+#include <KMessage>
+#include <KShell>
 
 #include <QDebug>
-#include <QStandardPaths>
 #include <QHash>
+#include <QStandardPaths>
 #include <QUrl>
 #include <QUrlQuery>
 
@@ -55,31 +55,31 @@ static QStringList splitEmailAddressList(const QString &aStr)
         // the following conversion to latin1 is o.k. because
         // we can safely ignore all non-latin1 characters
         switch (aStr[index].toLatin1()) {
-        case '"' : // start or end of quoted string
+        case '"': // start or end of quoted string
             if (commentlevel == 0) {
                 insidequote = !insidequote;
             }
             break;
-        case '(' : // start of comment
+        case '(': // start of comment
             if (!insidequote) {
                 commentlevel++;
             }
             break;
-        case ')' : // end of comment
+        case ')': // end of comment
             if (!insidequote) {
                 if (commentlevel > 0) {
                     commentlevel--;
                 } else {
-                    //qDebug() << "Error in address splitting: Unmatched ')'"
+                    // qDebug() << "Error in address splitting: Unmatched ')'"
                     //          << endl;
                     return list;
                 }
             }
             break;
-        case '\\' : // quoted character
+        case '\\': // quoted character
             index++; // ignore the quoted character
             break;
-        case ',' :
+        case ',':
             if (!insidequote && (commentlevel == 0)) {
                 addr = aStr.mid(addrstart, index - addrstart);
                 if (!addr.isEmpty()) {
@@ -97,7 +97,7 @@ static QStringList splitEmailAddressList(const QString &aStr)
             list += addr.simplified();
         }
     }
-    //else
+    // else
     //  qDebug() << "Error in address splitting: "
     //            << "Unexpected end of address list"
     //            << endl;
@@ -105,9 +105,13 @@ static QStringList splitEmailAddressList(const QString &aStr)
     return list;
 }
 
-void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const QString &_bcc,
-                                   const QString &subject, const QString &body,
-                                   const QString & /*messageFile TODO*/, const QStringList &attachURLs,
+void KToolInvocation::invokeMailer(const QString &_to,
+                                   const QString &_cc,
+                                   const QString &_bcc,
+                                   const QString &subject,
+                                   const QString &body,
+                                   const QString & /*messageFile TODO*/,
+                                   const QStringList &attachURLs,
                                    const QByteArray &startup_id)
 {
     if (!isMainThreadActive()) {
@@ -206,10 +210,10 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
             if (attachURLs.isEmpty()) {
                 cmdTokens.removeAt(i);
             } else {
-                const QString previousStr = cmdTokens.at(i-1);
+                const QString previousStr = cmdTokens.at(i - 1);
                 cmdTokens.removeAt(i);
                 const int currentPos = i;
-                for(const QString &attachUrl : attachURLs) {
+                for (const QString &attachUrl : attachURLs) {
                     cmdTokens.insert(currentPos, previousStr);
                     cmdTokens.insert(currentPos, attachUrl);
                     i += 2;
@@ -271,9 +275,8 @@ void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startu
                 // desktop file ID
                 KService::Ptr service = KService::serviceByStorageId(exe);
                 if (service) {
-                    //qDebug() << "Starting service" << service->entryPath();
-                    if (startServiceByDesktopPath(service->entryPath(), args,
-                                                  &error, nullptr, nullptr, startup_id)) {
+                    // qDebug() << "Starting service" << service->entryPath();
+                    if (startServiceByDesktopPath(service->entryPath(), args, &error, nullptr, nullptr, startup_id)) {
                         KMessage::message(KMessage::Error,
                                           // TODO: i18n("Could not launch %1:\n\n%2", exe, error),
                                           i18n("Could not launch the browser:\n\n%1", error),
@@ -316,7 +319,7 @@ void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startu
         exe = QStringLiteral("kde-open"); // it's from kdebase-runtime, it has to be there.
     }
 
-    //qDebug() << "Using" << exe << "to open" << url;
+    // qDebug() << "Using" << exe << "to open" << url;
     if (kdeinitExec(exe, args, &error, nullptr, startup_id)) {
         KMessage::message(KMessage::Error,
                           // TODO: i18n("Could not launch %1:\n\n%2", exe, error),
@@ -326,10 +329,7 @@ void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startu
 }
 #endif
 
-void KToolInvocation::invokeTerminal(const QString &command,
-                                     const QStringList &envs,
-                                     const QString &workdir,
-                                     const QByteArray &startup_id)
+void KToolInvocation::invokeTerminal(const QString &command, const QStringList &envs, const QString &workdir, const QByteArray &startup_id)
 {
     if (!isMainThreadActive()) {
         return;
@@ -351,9 +351,7 @@ void KToolInvocation::invokeTerminal(const QString &command,
 }
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79)
-void KToolInvocation::invokeTerminal(const QString &command,
-                                     const QString &workdir,
-                                     const QByteArray &startup_id)
+void KToolInvocation::invokeTerminal(const QString &command, const QString &workdir, const QByteArray &startup_id)
 {
     invokeTerminal(command, {}, workdir, startup_id);
 }

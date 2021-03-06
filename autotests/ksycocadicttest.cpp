@@ -5,16 +5,15 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include <ksycoca.h>
-#include <QTest>
-#include <QSignalSpy>
-#include <QDebug>
-#include <kservicetype.h>
-#include <KDesktopFile>
 #include <KConfigGroup>
-#include <ksycocadict_p.h>
+#include <KDesktopFile>
+#include <QDebug>
+#include <QSignalSpy>
+#include <QTest>
 #include <kbuildsycoca_p.h>
-
+#include <kservicetype.h>
+#include <ksycoca.h>
+#include <ksycocadict_p.h>
 
 class KSycocaDictTest : public QObject
 {
@@ -106,8 +105,7 @@ void KSycocaDictTest::testStandardDict()
         QByteArray buffer;
         {
             KSycocaDict dict;
-            for (const QString &str : qAsConst(serviceTypes))
-            {
+            for (const QString &str : qAsConst(serviceTypes)) {
                 add(dict, str, str);
             }
             dict.remove(QStringLiteral("DictTestPluginType")); // just to test remove
@@ -122,8 +120,7 @@ void KSycocaDictTest::testStandardDict()
         int offset = loadingDict.find_string(QStringLiteral("DictTestPluginType"));
         QVERIFY(offset > 0);
         QCOMPARE(offset, KServiceType::serviceType(QStringLiteral("DictTestPluginType"))->offset());
-        for (const QString &str : qAsConst(serviceTypes))
-        {
+        for (const QString &str : qAsConst(serviceTypes)) {
             int offset = loadingDict.find_string(str);
             QVERIFY(offset > 0);
             QCOMPARE(offset, KServiceType::serviceType(str)->offset());

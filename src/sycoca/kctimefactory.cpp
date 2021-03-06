@@ -8,8 +8,8 @@
 #include "kctimefactory_p.h"
 #include "sycocadebug.h"
 #include <ksycoca.h>
-#include <ksycocautils_p.h>
 #include <ksycocatype.h>
+#include <ksycocautils_p.h>
 
 #include <assert.h>
 
@@ -68,7 +68,8 @@ void KCTimeDict::save(QDataStream &str) const
 ///////////
 
 KCTimeFactory::KCTimeFactory(KSycoca *db)
-    : KSycocaFactory(KST_CTimeInfo, db), m_ctimeDict()
+    : KSycocaFactory(KST_CTimeInfo, db)
+    , m_ctimeDict()
 {
     if (!sycoca()->isBuilding()) {
         QDataStream *str = stream();
@@ -82,8 +83,7 @@ KCTimeFactory::~KCTimeFactory()
 {
 }
 
-void
-KCTimeFactory::saveHeader(QDataStream &str)
+void KCTimeFactory::saveHeader(QDataStream &str)
 {
     KSycocaFactory::saveHeader(str);
 

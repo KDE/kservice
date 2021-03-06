@@ -13,8 +13,8 @@
 #include <QStringList>
 
 #include <KConfigGroup>
-#include <kservice.h>
 #include <QList>
+#include <kservice.h>
 
 class KPluginMetaData;
 class KPluginInfoPrivate;
@@ -154,7 +154,6 @@ public:
      * @since 5.0
      */
     explicit KPluginInfo(const QVariantList &args, const QString &libraryPath = QString());
-
 
     /**
      * Read plugin info from a KPluginMetaData object.

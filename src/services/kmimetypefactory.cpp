@@ -8,10 +8,10 @@
 
 #include "kmimetypefactory_p.h"
 #include "servicesdebug.h"
+#include <QDataStream>
+#include <QVariant>
 #include <ksycoca.h>
 #include <ksycocadict_p.h>
-#include <QVariant>
-#include <QDataStream>
 
 extern int servicesDebugArea();
 
@@ -27,7 +27,7 @@ KMimeTypeFactory::~KMimeTypeFactory()
 int KMimeTypeFactory::entryOffset(const QString &mimeTypeName)
 {
     if (!sycocaDict()) {
-        return -1;    // Error!
+        return -1; // Error!
     }
     assert(!sycoca()->isBuilding());
     const int offset = sycocaDict()->find_string(mimeTypeName.toLower());
@@ -38,7 +38,7 @@ int KMimeTypeFactory::serviceOffersOffset(const QString &mimeTypeName)
 {
     const int offset = entryOffset(mimeTypeName.toLower());
     if (!offset) {
-        return -1;    // Not found
+        return -1; // Not found
     }
 
     MimeTypeEntry::Ptr newMimeType(createEntry(offset));
@@ -80,11 +80,9 @@ QStringList KMimeTypeFactory::allMimeTypes()
     // then move to KMimeTypeRepository
     QStringList result;
     const KSycocaEntry::List list = allEntries();
-    for (KSycocaEntry::List::ConstIterator it = list.begin();
-            it != list.end();
-            ++it) {
+    for (KSycocaEntry::List::ConstIterator it = list.begin(); it != list.end(); ++it) {
         Q_ASSERT((*it)->isType(KST_KMimeTypeEntry));
-        MimeTypeEntry::Ptr mimeType(static_cast<MimeTypeEntry*>((*it).data()));
+        MimeTypeEntry::Ptr mimeType(static_cast<MimeTypeEntry *>((*it).data()));
         result.append(mimeType->name());
     }
     return result;
@@ -95,7 +93,7 @@ KMimeTypeFactory::MimeTypeEntry::Ptr KMimeTypeFactory::findMimeTypeEntryByName(c
     Q_ASSERT(sycoca()->isBuilding());
     // We're building a database - the MIME type entry must be in memory
     KSycocaEntry::Ptr servType = m_entryDict->value(name.toLower());
-    return MimeTypeEntry::Ptr(static_cast<MimeTypeEntry*>(servType.data()));
+    return MimeTypeEntry::Ptr(static_cast<MimeTypeEntry *>(servType.data()));
 }
 
 QStringList KMimeTypeFactory::resourceDirs()
@@ -110,11 +108,14 @@ class KMimeTypeFactory::MimeTypeEntryPrivate : public KSycocaEntryPrivate
 public:
     K_SYCOCATYPE(KST_KMimeTypeEntry, KSycocaEntryPrivate)
     MimeTypeEntryPrivate(const QString &file, const QString &name)
-        : KSycocaEntryPrivate(file), m_name(name), m_serviceOffersOffset(-1)
+        : KSycocaEntryPrivate(file)
+        , m_name(name)
+        , m_serviceOffersOffset(-1)
     {
     }
     MimeTypeEntryPrivate(QDataStream &s, int offset)
-        : KSycocaEntryPrivate(s, offset), m_serviceOffersOffset(-1)
+        : KSycocaEntryPrivate(s, offset)
+        , m_serviceOffersOffset(-1)
     {
         s >> m_name >> m_serviceOffersOffset;
     }
@@ -146,7 +147,9 @@ KMimeTypeFactory::MimeTypeEntry::MimeTypeEntry(QDataStream &s, int offset)
 {
 }
 
-KMimeTypeFactory::MimeTypeEntry::~MimeTypeEntry() {}
+KMimeTypeFactory::MimeTypeEntry::~MimeTypeEntry()
+{
+}
 
 int KMimeTypeFactory::MimeTypeEntry::serviceOffersOffset() const
 {
@@ -159,4 +162,3 @@ void KMimeTypeFactory::MimeTypeEntry::setServiceOffersOffset(int off)
     Q_D(MimeTypeEntry);
     d->m_serviceOffersOffset = off;
 }
-

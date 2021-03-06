@@ -15,7 +15,10 @@ class KServiceTest : public QObject
 {
     Q_OBJECT
 public:
-    KServiceTest() : m_sycocaUpdateDone(0) {}
+    KServiceTest()
+        : m_sycocaUpdateDone(0)
+    {
+    }
 private Q_SLOTS:
     void initTestCase();
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)

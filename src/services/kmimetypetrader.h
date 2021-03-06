@@ -38,7 +38,6 @@ typedef QList<KServiceOffer> KServiceOfferList;
 class KSERVICE_EXPORT KMimeTypeTrader
 {
 public:
-
     /**
      * Standard destructor
      */
@@ -75,9 +74,8 @@ public:
      * (preferred service first)
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
      */
-    KService::List query(const QString &mimeType,
-                         const QString &genericServiceType = QStringLiteral("Application"),
-                         const QString &constraint = QString()) const;
+    KService::List
+    query(const QString &mimeType, const QString &genericServiceType = QStringLiteral("Application"), const QString &constraint = QString()) const;
 
     /**
      * Returns the preferred service for @p mimeType and @p genericServiceType
@@ -112,8 +110,10 @@ public:
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
      */
-    template <class T>
-    static T *createPartInstanceFromQuery(const QString &mimeType, QWidget *parentWidget = nullptr, QObject *parent = nullptr,
+    template<class T>
+    static T *createPartInstanceFromQuery(const QString &mimeType,
+                                          QWidget *parentWidget = nullptr,
+                                          QObject *parent = nullptr,
                                           const QString &constraint = QString(),
                                           const QVariantList &args = QVariantList(),
                                           QString *error = nullptr)
@@ -147,8 +147,10 @@ public:
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
      */
-    template <class T>
-    static T *createInstanceFromQuery(const QString &mimeType, const QString &serviceType, QObject *parent = nullptr,
+    template<class T>
+    static T *createInstanceFromQuery(const QString &mimeType,
+                                      const QString &serviceType,
+                                      QObject *parent = nullptr,
                                       const QString &constraint = QString(),
                                       const QVariantList &args = QVariantList(),
                                       QString *error = nullptr)

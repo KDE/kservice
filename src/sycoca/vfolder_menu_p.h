@@ -8,12 +8,12 @@
 #ifndef VFOLDER_MENU_H
 #define VFOLDER_MENU_H
 
-#include <QObject>
 #include <QDomDocument>
-#include <QStringList>
 #include <QHash>
+#include <QObject>
 #include <QSet>
 #include <QStack>
+#include <QStringList>
 
 #include <kservice.h>
 
@@ -28,7 +28,9 @@ public:
     class SubMenu
     {
     public:
-        SubMenu() : isDeleted(false), apps_info(nullptr)
+        SubMenu()
+            : isDeleted(false)
+            , apps_info(nullptr)
         {
             items.reserve(43);
         }
@@ -37,7 +39,7 @@ public:
             qDeleteAll(subMenus);
         }
         SubMenu(const SubMenu &) = delete;
-        SubMenu& operator=(const SubMenu &) = delete;
+        SubMenu &operator=(const SubMenu &) = delete;
 
     public:
         QString name;
@@ -84,7 +86,7 @@ public:
         enum Type { MI_Service, MI_SubMenu, MI_Separator };
         Type type;
         KService::Ptr service;
-        SubMenu  *submenu;
+        SubMenu *submenu;
     };
 
 public:

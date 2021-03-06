@@ -5,25 +5,25 @@
     SPDX-License-Identifier: LGPL-2.0-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#include <QTest>
 #include <QSignalSpy>
+#include <QTest>
 
-#include <QMimeDatabase>
-#include <QThread>
-#include <QTimer>
-#include <QStandardPaths>
 #include <QDebug>
 #include <QFile>
+#include <QMimeDatabase>
+#include <QStandardPaths>
+#include <QThread>
+#include <QTimer>
 #include <kbuildsycoca_p.h>
 
 #include <KConfig>
 #include <KConfigGroup>
 #include <KDesktopFile>
-#include <ksycoca.h>
+#include <QMutex>
 #include <kservicegroup.h>
 #include <kservicetype.h>
 #include <kservicetypeprofile.h>
-#include <QMutex>
+#include <ksycoca.h>
 
 #include "setupxdgdirs.h"
 
@@ -38,14 +38,13 @@ static QString fakeServiceDesktopFile()
 }
 
 // Helper method for all the trader tests
-static bool offerListHasService(const KService::List &offers,
-                                const QString &entryPath)
+static bool offerListHasService(const KService::List &offers, const QString &entryPath)
 {
     bool found = false;
     KService::List::const_iterator it = offers.begin();
     for (; it != offers.end(); ++it) {
         if ((*it)->entryPath() == entryPath) {
-            if (found) {  // should be there only once
+            if (found) { // should be there only once
                 qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
                 return false; // make test fail
             }
@@ -57,23 +56,26 @@ static bool offerListHasService(const KService::List &offers,
 
 static QSet<QThread *> s_threadsWhoSawFakeService; // clazy:exclude=non-pod-global-static
 static QMutex s_setMutex; // clazy:exclude=non-pod-global-static
-static int threadsWhoSawFakeService() {
+static int threadsWhoSawFakeService()
+{
     QMutexLocker locker(&s_setMutex);
     return s_threadsWhoSawFakeService.count();
 }
 static QAtomicInt s_fakeServiceDeleted = 0; // clazy:exclude=non-pod-global-static
 
-
 class WorkerObject : public QObject
 {
     Q_OBJECT
 public:
-    WorkerObject() : QObject() {}
+    WorkerObject()
+        : QObject()
+    {
+    }
 
 public Q_SLOTS:
     void work()
     {
-        //qDebug() << QThread::currentThread() << "working...";
+        // qDebug() << QThread::currentThread() << "working...";
 
         const KServiceType::List allServiceTypes = KServiceType::allServiceTypes();
         Q_ASSERT(!allServiceTypes.isEmpty());
@@ -85,13 +87,12 @@ public Q_SLOTS:
         const KService::List lst = KService::allServices();
         Q_ASSERT(!lst.isEmpty());
 
-        for (KService::List::ConstIterator it = lst.begin();
-                it != lst.end(); ++it) {
+        for (KService::List::ConstIterator it = lst.begin(); it != lst.end(); ++it) {
             const KService::Ptr service = (*it);
             Q_ASSERT(service->isType(KST_KService));
             const QString name = service->name();
             const QString entryPath = service->entryPath();
-            //qDebug() << name << "entryPath=" << entryPath << "menuId=" << service->menuId();
+            // qDebug() << name << "entryPath=" << entryPath << "menuId=" << service->menuId();
             Q_ASSERT(!name.isEmpty());
             Q_ASSERT(!entryPath.isEmpty());
 
@@ -102,7 +103,7 @@ public Q_SLOTS:
                 }
                 qWarning() << entryPath << "is gone!";
             }
-            Q_ASSERT(lookedupService);   // not null
+            Q_ASSERT(lookedupService); // not null
             QCOMPARE(lookedupService->entryPath(), entryPath);
 
             if (service->isApplication()) {
@@ -118,7 +119,7 @@ public Q_SLOTS:
                     }
                     qWarning() << menuId << "is gone!";
                 }
-                Q_ASSERT(lookedupService);   // not null
+                Q_ASSERT(lookedupService); // not null
                 QCOMPARE(lookedupService->menuId(), menuId);
             }
         }
@@ -144,7 +145,8 @@ class WorkerThread : public QThread
 {
     Q_OBJECT
 public:
-    WorkerThread() : QThread()
+    WorkerThread()
+        : QThread()
     {
         m_stop = false;
     }
@@ -159,6 +161,7 @@ public:
     {
         m_stop = true;
     }
+
 private:
     QAtomicInt m_stop; // bool
 };
@@ -187,7 +190,6 @@ public:
         quit();
     }
 };
-
 
 // This code runs in the main thread
 class KSycocaThreadTest : public QObject
@@ -294,7 +296,7 @@ static void waitUntilAfter(const QDateTime &ctime)
     QDateTime now;
     Q_FOREVER {
         now = QDateTime::currentDateTime();
-        if (now.toSecsSinceEpoch() == ctime.toSecsSinceEpoch())   // truncate milliseconds
+        if (now.toSecsSinceEpoch() == ctime.toSecsSinceEpoch()) // truncate milliseconds
         {
             totalWait += 50;
             QTest::qWait(50);
@@ -304,7 +306,7 @@ static void waitUntilAfter(const QDateTime &ctime)
             break;
         }
     }
-    //if (totalWait > 0)
+    // if (totalWait > 0)
     qDebug() << "Waited" << totalWait << "ms so that now" << now.toString(Qt::ISODate) << "is >" << ctime.toString(Qt::ISODate);
 }
 
@@ -368,7 +370,6 @@ void KSycocaThreadTest::createFakeService()
     group.writeEntry("ServiceTypes", "KPluginInfo");
     group.writeEntry("MimeType", "text/plain;");
 }
-
 
 QTEST_MAIN(KSycocaThreadTest)
 #include "ksycocathreadtest.moc"

@@ -95,8 +95,7 @@ public:
      * @return A list of services that satisfy the query
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
      */
-    KService::List query(const QString &servicetype,
-                         const QString &constraint = QString()) const;
+    KService::List query(const QString &servicetype, const QString &constraint = QString()) const;
 
     /**
      * Returns all offers associated with a given servicetype, IGNORING the
@@ -104,8 +103,7 @@ public:
      * in the .desktop files, and services disabled by the user will still be listed here.
      * This is used for "Revert to defaults" buttons in GUIs.
      */
-    KService::List defaultOffers(const QString &serviceType,
-                                 const QString &constraint = QString()) const;
+    KService::List defaultOffers(const QString &serviceType, const QString &constraint = QString()) const;
     /**
      * Returns the preferred service for @p serviceType.
      *
@@ -143,10 +141,12 @@ public:
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
      */
-    template <class T>
+    template<class T>
     static T *createInstanceFromQuery(const QString &serviceType,
-                                      const QString &constraint = QString(), QObject *parent = nullptr,
-                                      const QVariantList &args = QVariantList(), QString *error = nullptr)
+                                      const QString &constraint = QString(),
+                                      QObject *parent = nullptr,
+                                      const QVariantList &args = QVariantList(),
+                                      QString *error = nullptr)
     {
         return createInstanceFromQuery<T>(serviceType, nullptr, parent, constraint, args, error);
     }
@@ -168,10 +168,13 @@ public:
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
      */
-    template <class T>
+    template<class T>
     static T *createInstanceFromQuery(const QString &serviceType,
-                                      QWidget *parentWidget, QObject *parent, const QString &constraint = QString(),
-                                      const QVariantList &args = QVariantList(), QString *error = nullptr)
+                                      QWidget *parentWidget,
+                                      QObject *parent,
+                                      const QString &constraint = QString(),
+                                      const QVariantList &args = QVariantList(),
+                                      QString *error = nullptr)
     {
         const KService::List offers = self()->query(serviceType, constraint);
         if (error) {
@@ -192,8 +195,7 @@ public:
     /**
      * @internal  (public for KMimeTypeTrader)
      */
-    static void applyConstraints(KService::List &lst,
-                                 const QString &constraint);
+    static void applyConstraints(KService::List &lst, const QString &constraint);
 
 private:
     /**

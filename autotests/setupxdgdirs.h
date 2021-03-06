@@ -8,9 +8,9 @@
 #ifndef SETUP_XDG_DIRS_H
 #define SETUP_XDG_DIRS_H
 
-#include <QStandardPaths>
-#include <QFile>
 #include <QCoreApplication>
+#include <QFile>
+#include <QStandardPaths>
 
 static void setupXdgDirs()
 {

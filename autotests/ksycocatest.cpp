@@ -5,26 +5,26 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include <ksycoca.h>
-#include <kbuildsycoca_p.h>
-#include <ksycoca_p.h>
+#include <KConfigGroup>
+#include <KDesktopFile>
+#include <QDebug>
+#include <QProcess>
+#include <QSignalSpy>
 #include <QTemporaryDir>
 #include <QTest>
-#include <QDebug>
-#include <kservicetype.h>
-#include <KDesktopFile>
-#include <KConfigGroup>
-#include <QSignalSpy>
-#include <QProcess>
+#include <kbuildsycoca_p.h>
 #include <kservice.h>
 #include <kservicefactory_p.h>
+#include <kservicetype.h>
 #include <kservicetypefactory_p.h>
+#include <ksycoca.h>
+#include <ksycoca_p.h>
 
 // ## use QFile::setFileTime when it lands in Qt
 #include <time.h>
 #ifdef Q_OS_UNIX
-#include <utime.h>
 #include <sys/time.h>
+#include <utime.h>
 #endif
 
 // taken from tst_qstandardpaths
@@ -277,7 +277,6 @@ void KSycocaTest::recursiveCheckShouldIgnoreLinksGoingUp()
     // Ensure we don't pollute the other tests
     QFile(link).remove();
 }
-
 
 void KSycocaTest::runKBuildSycoca(const QProcessEnvironment &environment, bool global)
 {

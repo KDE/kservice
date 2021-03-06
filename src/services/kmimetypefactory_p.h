@@ -13,8 +13,8 @@
 
 #include <QStringList>
 
-#include "ksycocafactory_p.h"
 #include "ksycocaentry_p.h"
+#include "ksycocafactory_p.h"
 
 class KSycoca;
 
@@ -93,9 +93,10 @@ public: // public for KBuildServiceFactory
 
 protected:
     MimeTypeEntry *createEntry(int offset) const override;
+
 private:
     // d pointer: useless since this header is not installed
-    //class KMimeTypeFactoryPrivate* d;
+    // class KMimeTypeFactoryPrivate* d;
 };
 
 #endif

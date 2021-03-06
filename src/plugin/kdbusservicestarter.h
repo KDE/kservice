@@ -28,10 +28,9 @@ class KDBusServiceStarterPrivate;
  *
  * @deprecated since 5.61, use D-Bus activation instead
  */
-class KSERVICE_EXPORT KDBusServiceStarter   //krazy:exclude=dpointer (uses Q_GLOBAL_STATIC)
+class KSERVICE_EXPORT KDBusServiceStarter // krazy:exclude=dpointer (uses Q_GLOBAL_STATIC)
 {
 public:
-
     KSERVICE_DEPRECATED_VERSION(5, 61, "Use D-Bus activation")
     static KDBusServiceStarter *self();
 
@@ -55,10 +54,8 @@ public:
      *
      * @return an error code indicating success (== 0) or failure (> 0).
      */
-    int findServiceFor(const QString &serviceType,
-                       const QString &constraint = QString(),
-                       QString *error = nullptr, QString *dbusService = nullptr,
-                       int flags = 0);
+    int
+    findServiceFor(const QString &serviceType, const QString &constraint = QString(), QString *error = nullptr, QString *dbusService = nullptr, int flags = 0);
 
     /**
      * Find an implementation of the given @p serviceType,
@@ -81,10 +78,9 @@ public:
      *
      * @return an error code indicating success (== 0) or failure (> 0).
      */
-    virtual int startServiceFor(const QString &serviceType,
-                                const QString &constraint = QString(),
-                                QString *error = nullptr, QString *dbusService = nullptr,
-                                int flags = 0);
+    virtual int
+    startServiceFor(const QString &serviceType, const QString &constraint = QString(), QString *error = nullptr, QString *dbusService = nullptr, int flags = 0);
+
 protected:
     friend class KDBusServiceStarterPrivate;
     KDBusServiceStarter();
@@ -93,4 +89,3 @@ protected:
 #endif
 
 #endif
-

@@ -8,9 +8,9 @@
 #ifndef KBUILD_SERVICE_GROUP_FACTORY_H
 #define KBUILD_SERVICE_GROUP_FACTORY_H
 
+#include <QStringList>
 #include <kservice.h>
 #include <kservicegroupfactory_p.h>
-#include <QStringList>
 
 /**
  * Service group factory for building ksycoca

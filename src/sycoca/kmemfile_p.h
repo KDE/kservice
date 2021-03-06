@@ -73,17 +73,19 @@ public:
      * reread from the file system.
      */
     static void fileContentsChanged(const QString &filename);
+
 protected:
     /** @reimp */
     qint64 readData(char *data, qint64 maxSize) override;
     /** @reimp */
     qint64 writeData(const char *data, qint64 maxSize) override;
+
 private:
     class Private;
     friend class Private;
     std::unique_ptr<Private> const d;
 };
 
-#endif //QT_NO_SHAREDMEMORY
+#endif // QT_NO_SHAREDMEMORY
 
-#endif  // KMEMFILE_H
+#endif // KMEMFILE_H

@@ -9,10 +9,10 @@
 #include <QDebug>
 
 NSAPlugin::NSAPlugin(QObject *parent, const QVariantList &args)
-    : QObject(parent),
-      m_pluginInfo(args)
+    : QObject(parent)
+    , m_pluginInfo(args)
 {
-    //qDebug() << "SUCCESS!" << m_pluginInfo.pluginName() << m_pluginInfo.name() << m_pluginInfo.comment();
+    // qDebug() << "SUCCESS!" << m_pluginInfo.pluginName() << m_pluginInfo.name() << m_pluginInfo.comment();
     setObjectName(m_pluginInfo.comment());
 }
 

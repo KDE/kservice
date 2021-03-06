@@ -17,8 +17,8 @@
 #include <KConfig>
 #include <KConfigGroup>
 
-#include <QMutex>
 #include <QHash>
+#include <QMutex>
 #include <QtAlgorithms>
 
 // servicetype -> profile
@@ -27,7 +27,8 @@ class KServiceTypeProfiles : public QHash<QString, KServiceTypeProfileEntry *>
 public:
     KServiceTypeProfiles()
     {
-        m_parsed = false; ensureParsed();
+        m_parsed = false;
+        ensureParsed();
     }
     ~KServiceTypeProfiles()
     {
@@ -48,6 +49,7 @@ public:
     }
     void ensureParsed(); // mutex must be locked when calling this
     QMutex m_mutex;
+
 private:
     bool m_parsed;
 };
@@ -67,8 +69,7 @@ void KServiceTypeProfiles::ensureParsed()
     // avoid doing any init upfront, and just look up the group when asked...
     KConfig configFile(QStringLiteral("servicetype_profilerc"), KConfig::NoGlobals);
     const QStringList tmpList = configFile.groupList();
-    for (QStringList::const_iterator aIt = tmpList.begin();
-            aIt != tmpList.end(); ++aIt) {
+    for (QStringList::const_iterator aIt = tmpList.begin(); aIt != tmpList.end(); ++aIt) {
         const QString type = *aIt;
         KConfigGroup config(&configFile, type);
         const int count = config.readEntry("NumberOfEntries", 0);
@@ -83,14 +84,14 @@ void KServiceTypeProfiles::ensureParsed()
             const QString serviceId = config.readEntry(num + QLatin1String("_Service"), QString());
             if (!serviceId.isEmpty()) {
                 const int pref = config.readEntry(num + QLatin1String("_Preference"), 0);
-                //qDebug() << "adding service " << serviceId << " to profile for " << type << " with preference " << pref;
+                // qDebug() << "adding service " << serviceId << " to profile for " << type << " with preference " << pref;
                 p->addService(serviceId, pref);
             }
         }
     }
 }
 
-//static
+// static
 void KServiceTypeProfile::clearCache()
 {
     if (s_serviceTypeProfiles.exists())
@@ -121,15 +122,15 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
     const KServiceOfferList::const_iterator end = list.end();
     for (; it != end; ++it) {
         const KService::Ptr servPtr = (*it).service();
-        //qDebug() << "KServiceTypeProfile::offers considering " << servPtr->storageId();
+        // qDebug() << "KServiceTypeProfile::offers considering " << servPtr->storageId();
         // Look into the profile (if there's one), to find this service's preference.
         bool foundInProfile = false;
         if (profile) {
             QMap<QString, int>::ConstIterator it2 = profile->m_mapServices.constFind(servPtr->storageId());
             if (it2 != profile->m_mapServices.constEnd()) {
                 const int pref = it2.value();
-                //qDebug() << "found in mapServices pref=" << pref;
-                if (pref > 0) {   // 0 disables the service
+                // qDebug() << "found in mapServices pref=" << pref;
+                if (pref > 0) { // 0 disables the service
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
                     offers.append(KServiceOffer(servPtr, pref, 0, servPtr->allowAsDefault()));
 #else
@@ -144,7 +145,7 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
             // This can be because we have no profile at all, or because the
             // services have been installed after the profile was written,
             // but it's also the case for any service that's neither App nor ReadOnlyPart, e.g. RenameDlg/Plugin
-            //qDebug() << "not found in mapServices. Appending.";
+            // qDebug() << "not found in mapServices. Appending.";
 
             // If there's a profile, we use 0 as the preference to ensure new apps don't take over existing apps (which default to 1)
             offers.append(KServiceOffer(servPtr,
@@ -160,7 +161,7 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
 
     std::stable_sort(offers.begin(), offers.end());
 
-    //qDebug() << "KServiceTypeProfile::offers returning " << offers.count() << " offers";
+    // qDebug() << "KServiceTypeProfile::offers returning " << offers.count() << " offers";
     return offers;
 }
 
@@ -170,9 +171,7 @@ bool KServiceTypeProfile::hasProfile(const QString &serviceType)
 }
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
-void KServiceTypeProfile::writeServiceTypeProfile(const QString &serviceType,
-        const KService::List &services,
-        const KService::List &disabledServices)
+void KServiceTypeProfile::writeServiceTypeProfile(const QString &serviceType, const KService::List &services, const KService::List &disabledServices)
 {
     /*
      * [ServiceType]

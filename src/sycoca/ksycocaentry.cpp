@@ -12,7 +12,8 @@
 #include <ksycoca.h>
 
 KSycocaEntryPrivate::KSycocaEntryPrivate(QDataStream &_str, int iOffset)
-    : offset(iOffset), deleted(false)
+    : offset(iOffset)
+    , deleted(false)
 {
     _str >> path;
 }

@@ -19,8 +19,8 @@
 #include <KAboutData>
 #include <KDesktopFile>
 #include <KPluginMetaData>
-#include <kservicetypetrader.h>
 #include <kservicetypefactory_p.h>
+#include <kservicetypetrader.h>
 
 // clang-format off
 //#ifndef NDEBUG
@@ -87,10 +87,10 @@ public:
         : hidden(false)
         , pluginenabled(false)
         , kcmservicesCached(false)
-    {}
+    {
+    }
 
     static QStringList deserializeList(const QString &data);
-
 
     bool hidden : 1;
     bool pluginenabled : 1;
@@ -105,7 +105,7 @@ public:
     void setMetaData(const KPluginMetaData &md, bool warnOnOldStyle);
 };
 
-//This comes from KConfigGroupPrivate::deserializeList()
+// This comes from KConfigGroupPrivate::deserializeList()
 QStringList KPluginInfoPrivate::deserializeList(const QString &data)
 {
     if (data.isEmpty()) {
@@ -139,12 +139,15 @@ QStringList KPluginInfoPrivate::deserializeList(const QString &data)
 
 // maps the KService, QVariant and KDesktopFile keys to the new KPluginMetaData keys
 template<typename T, typename Func>
-static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &description,
+static QJsonObject mapToJsonKPluginKey(const QString &name,
+                                       const QString &description,
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
                                        const QStringList &dependencies,
 #endif
                                        const QStringList &serviceTypes,
-                                       const QStringList &formFactors, const T &data, Func accessor)
+                                       const QStringList &formFactors,
+                                       const T &data,
+                                       Func accessor)
 {
     /* Metadata structure is as follows:
      "KPlugin": {
@@ -203,8 +206,7 @@ static QJsonObject mapToJsonKPluginKey(const QString &name, const QString &descr
 }
 
 // TODO: KF6 remove
-static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QString &lib,
-                                             const QString &metaDataFile, bool warnOnOldStyle)
+static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QString &lib, const QString &metaDataFile, bool warnOnOldStyle)
 {
     // This is not added to KPluginMetaData(QJsonObject, QString) to ensure that all the compatility code
     // remains in kservice and does not increase the size of kcoreaddons
@@ -215,24 +217,30 @@ static KPluginMetaData fromCompatibilityJson(const QJsonObject &json, const QStr
     QJsonObject obj = json;
     QString name = KPluginMetaData::readTranslatedString(json, s_nameKey());
     if (warnOnOldStyle) {
-        qWarning("Constructing a KPluginInfo object from old style JSON. Please use"
-                " kcoreaddons_desktop_to_json() for \"%s\" instead of kservice_desktop_to_json()"
-                " in your CMake code.",
-                qPrintable(lib));
+        qWarning(
+            "Constructing a KPluginInfo object from old style JSON. Please use"
+            " kcoreaddons_desktop_to_json() for \"%s\" instead of kservice_desktop_to_json()"
+            " in your CMake code.",
+            qPrintable(lib));
     }
     QString description = KPluginMetaData::readTranslatedString(json, s_commentKey());
     QStringList formfactors = KPluginMetaData::readStringList(json, s_jsonFormFactorsKey());
-    QJsonObject kplugin = mapToJsonKPluginKey(name, description,
+    QJsonObject kplugin = mapToJsonKPluginKey(name,
+                                              description,
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
-                                             KPluginMetaData::readStringList(json, s_dependenciesKey()),
+                                              KPluginMetaData::readStringList(json, s_dependenciesKey()),
 #endif
-                                             serviceTypes, formfactors, json,
-            [](const QJsonObject &o, const QString &key) { return o.value(key); });
+                                              serviceTypes,
+                                              formfactors,
+                                              json,
+                                              [](const QJsonObject &o, const QString &key) {
+                                                  return o.value(key);
+                                              });
     obj.insert(s_jsonKPluginKey(), kplugin);
     return KPluginMetaData(obj, lib, metaDataFile);
 }
 
-void KPluginInfoPrivate::setMetaData(const KPluginMetaData& md, bool warnOnOldStyle)
+void KPluginInfoPrivate::setMetaData(const KPluginMetaData &md, bool warnOnOldStyle)
 {
     const QJsonObject json = md.rawData();
     if (!json.contains(s_jsonKPluginKey())) {
@@ -244,7 +252,7 @@ void KPluginInfoPrivate::setMetaData(const KPluginMetaData& md, bool warnOnOldSt
 }
 
 KPluginInfo::KPluginInfo(const KPluginMetaData &md)
-    :d(new KPluginInfoPrivate)
+    : d(new KPluginInfoPrivate)
 {
     d->setMetaData(md, true);
     if (!d->metaData.isValid()) {
@@ -338,7 +346,7 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
         mimeTypes.reserve(services.size());
         QStringList newServiceTypes;
         newServiceTypes.reserve(services.size());
-        for (const QString& s : services) {
+        for (const QString &s : services) {
             if (db.mimeTypeForName(s).isValid()) {
                 mimeTypes << s;
             } else {
@@ -418,8 +426,7 @@ KPluginInfo::~KPluginInfo()
 QList<KPluginInfo> KPluginInfo::fromServices(const KService::List &services, const KConfigGroup &config)
 {
     QList<KPluginInfo> infolist;
-    for (KService::List::ConstIterator it = services.begin();
-            it != services.end(); ++it) {
+    for (KService::List::ConstIterator it = services.begin(); it != services.end(); ++it) {
         KPluginInfo info(*it);
         if (info.isValid()) {
             info.setConfig(config);
@@ -444,7 +451,8 @@ QList<KPluginInfo> KPluginInfo::fromFiles(const QStringList &files, const KConfi
 QList<KPluginInfo> KPluginInfo::fromKPartsInstanceName(const QString &name, const KConfigGroup &config)
 {
     QStringList files;
-    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, name + QLatin1String("/kpartplugins"), QStandardPaths::LocateDirectory);
+    const QStringList dirs =
+        QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, name + QLatin1String("/kpartplugins"), QStandardPaths::LocateDirectory);
     for (const QString &dir : dirs) {
         QDirIterator it(dir, QStringList() << QStringLiteral("*.desktop"));
         while (it.hasNext()) {
@@ -463,21 +471,21 @@ bool KPluginInfo::isHidden() const
 void KPluginInfo::setPluginEnabled(bool enabled)
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    //qDebug() << Q_FUNC_INFO;
+    // qDebug() << Q_FUNC_INFO;
     d->pluginenabled = enabled;
 }
 
 bool KPluginInfo::isPluginEnabled() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    //qDebug() << Q_FUNC_INFO;
+    // qDebug() << Q_FUNC_INFO;
     return d->pluginenabled;
 }
 
 bool KPluginInfo::isPluginEnabledByDefault() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    //qDebug() << Q_FUNC_INFO;
+    // qDebug() << Q_FUNC_INFO;
     return d->metaData.isEnabledByDefault();
 }
 
@@ -565,11 +573,11 @@ QString KPluginInfo::license() const
 QStringList KPluginInfo::dependencies() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
-QT_WARNING_PUSH
-QT_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
-QT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
+    QT_WARNING_PUSH
+    QT_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
+    QT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
     return d->metaData.dependencies();
-QT_WARNING_POP
+    QT_WARNING_POP
 }
 #endif
 
@@ -592,9 +600,9 @@ QList<KService::Ptr> KPluginInfo::kcmServices() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
     if (!d->kcmservicesCached) {
-        d->kcmservices = KServiceTypeTrader::self()->query(QStringLiteral("KCModule"), QLatin1Char('\'') + pluginName() +
-                         QLatin1String("' in [X-KDE-ParentComponents]"));
-        //qDebug() << "found" << d->kcmservices.count() << "offers for" << d->pluginName;
+        d->kcmservices =
+            KServiceTypeTrader::self()->query(QStringLiteral("KCModule"), QLatin1Char('\'') + pluginName() + QLatin1String("' in [X-KDE-ParentComponents]"));
+        // qDebug() << "found" << d->kcmservices.count() << "offers for" << d->pluginName;
 
         d->kcmservicesCached = true;
     }
@@ -625,7 +633,7 @@ QVariant KPluginInfo::property(const QString &key) const
         KSycoca::self()->ensureCacheValid();
         const QVariant::Type t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(key);
 
-        //special case if we want a stringlist: split values by ',' or ';' and construct the list
+        // special case if we want a stringlist: split values by ',' or ';' and construct the list
         if (t == QVariant::StringList) {
             if (result.canConvert<QString>()) {
                 result = KPluginInfoPrivate::deserializeList(result.toString());
@@ -646,8 +654,10 @@ QVariant KPluginInfo::property(const QString &key) const
     // These warnings should only happen if JSON was generated with kcoreaddons_desktop_to_json
     // but the application uses KPluginTrader::query() instead of KPluginLoader::findPlugins()
     // TODO: KF6 remove
-#define RETURN_WITH_DEPRECATED_WARNING(ret) \
-    qWarning("Calling KPluginInfo::property(\"%s\") is deprecated, use KPluginInfo::" #ret " in \"%s\" instead.", qPrintable(key), qPrintable(d->metaData.fileName()));\
+#define RETURN_WITH_DEPRECATED_WARNING(ret)                                                                                                                    \
+    qWarning("Calling KPluginInfo::property(\"%s\") is deprecated, use KPluginInfo::" #ret " in \"%s\" instead.",                                              \
+             qPrintable(key),                                                                                                                                  \
+             qPrintable(d->metaData.fileName()));                                                                                                              \
     return ret;
     if (key == s_authorKey()) {
         RETURN_WITH_DEPRECATED_WARNING(author());
@@ -695,7 +705,7 @@ QVariantMap KPluginInfo::properties() const
 void KPluginInfo::save(KConfigGroup config)
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    //qDebug() << Q_FUNC_INFO;
+    // qDebug() << Q_FUNC_INFO;
     if (config.isValid()) {
         config.writeEntry(pluginName() + s_enabledKey(), isPluginEnabled());
     } else {
@@ -710,7 +720,7 @@ void KPluginInfo::save(KConfigGroup config)
 void KPluginInfo::load(const KConfigGroup &config)
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    //qDebug() << Q_FUNC_INFO;
+    // qDebug() << Q_FUNC_INFO;
     if (config.isValid()) {
         setPluginEnabled(config.readEntry(pluginName() + s_enabledKey(), isPluginEnabledByDefault()));
     } else {
@@ -724,7 +734,7 @@ void KPluginInfo::load(const KConfigGroup &config)
 
 void KPluginInfo::defaults()
 {
-    //qDebug() << Q_FUNC_INFO;
+    // qDebug() << Q_FUNC_INFO;
     setPluginEnabled(isPluginEnabledByDefault());
 }
 
@@ -744,7 +754,7 @@ KPluginMetaData KPluginInfo::toMetaData() const
     return d->metaData;
 }
 
-KPluginMetaData KPluginInfo::toMetaData(const KPluginInfo& info)
+KPluginMetaData KPluginInfo::toMetaData(const KPluginInfo &info)
 {
     return info.toMetaData();
 }
@@ -753,7 +763,7 @@ KPluginInfo::List KPluginInfo::fromMetaData(const QVector<KPluginMetaData> &list
 {
     KPluginInfo::List ret;
     ret.reserve(list.size());
-    for(const KPluginMetaData &md : list) {
+    for (const KPluginMetaData &md : list) {
         ret.append(KPluginInfo::fromMetaData(md));
     }
     return ret;
@@ -763,11 +773,10 @@ QVector<KPluginMetaData> KPluginInfo::toMetaData(const KPluginInfo::List &list)
 {
     QVector<KPluginMetaData> ret;
     ret.reserve(list.size());
-    for(const KPluginInfo &info : list) {
+    for (const KPluginInfo &info : list) {
         ret.append(info.toMetaData());
     }
     return ret;
 }
-
 
 #undef KPLUGININFO_ISVALID_ASSERTION

@@ -7,11 +7,10 @@
 */
 
 #include <QCoreApplication>
-#include <ktoolinvocation.h>
 #include <QDebug>
+#include <ktoolinvocation.h>
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 

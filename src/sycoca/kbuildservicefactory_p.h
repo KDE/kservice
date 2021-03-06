@@ -28,9 +28,7 @@ public:
     /**
      * Create factory
      */
-    KBuildServiceFactory(KServiceTypeFactory *serviceTypeFactory,
-                         KBuildMimeTypeFactory *mimeTypeFactory,
-                         KBuildServiceGroupFactory *serviceGroupFactory);
+    KBuildServiceFactory(KServiceTypeFactory *serviceTypeFactory, KBuildMimeTypeFactory *mimeTypeFactory, KBuildServiceGroupFactory *serviceGroupFactory);
 
     ~KBuildServiceFactory() override;
 

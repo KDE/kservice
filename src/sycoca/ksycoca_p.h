@@ -12,10 +12,10 @@
 #define KSYCOCA_P_H
 
 #include "ksycocafactory_p.h"
-#include <QStringList>
-#include <QElapsedTimer>
-#include <QDateTime>
 #include <KDirWatch>
+#include <QDateTime>
+#include <QElapsedTimer>
+#include <QStringList>
 
 #include <memory>
 
@@ -30,7 +30,11 @@ class KServiceGroupFactory;
 // This is for the part of the global header that we don't need to store,
 // i.e. it's just a struct for returning temp data from readSycocaHeader().
 struct KSycocaHeader {
-    KSycocaHeader() : timeStamp(0), updateSignature(0) {}
+    KSycocaHeader()
+        : timeStamp(0)
+        , updateSignature(0)
+    {
+    }
     QString prefixes;
     QString language;
     qint64 timeStamp; // in ms
@@ -49,7 +53,10 @@ public:
     explicit KSycocaPrivate(KSycoca *q);
 
     // per-thread "singleton"
-    static KSycocaPrivate *self() { return KSycoca::self()->d; }
+    static KSycocaPrivate *self()
+    {
+        return KSycoca::self()->d;
+    }
 
     bool checkVersion();
     bool openDatabase();
@@ -130,6 +137,7 @@ public:
     bool m_haveListeners;
 
     KSycoca *q;
+
 private:
     KSycocaFactoryList m_factories;
     size_t sycoca_size;
@@ -145,4 +153,3 @@ public:
 };
 
 #endif /* KSYCOCA_P_H */
-

@@ -25,7 +25,8 @@ class KMemFile;
 class KSycocaAbstractDevice
 {
 public:
-    KSycocaAbstractDevice() : m_stream(nullptr)
+    KSycocaAbstractDevice()
+        : m_stream(nullptr)
     {
     }
 
@@ -47,6 +48,7 @@ public:
     KSycocaMmapDevice(const char *sycoca_mmap, size_t sycoca_size);
     ~KSycocaMmapDevice() override;
     QIODevice *device() override;
+
 private:
     QBuffer *m_buffer;
 };
@@ -59,6 +61,7 @@ public:
     explicit KSycocaFileDevice(const QString &path);
     ~KSycocaFileDevice() override;
     QIODevice *device() override;
+
 private:
     QFile *m_database;
 };
@@ -71,6 +74,7 @@ public:
     explicit KSycocaMemFileDevice(const QString &path);
     ~KSycocaMemFileDevice() override;
     QIODevice *device() override;
+
 private:
     KMemFile *m_database;
 };
@@ -83,6 +87,7 @@ public:
     KSycocaBufferDevice();
     ~KSycocaBufferDevice() override;
     QIODevice *device() override;
+
 private:
     QBuffer *m_buffer;
 };

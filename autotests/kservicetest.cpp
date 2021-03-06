@@ -12,25 +12,25 @@
 
 #include <QTest>
 
+#include <../src/services/kserviceutil_p.h> // for KServiceUtilPrivate
 #include <KConfig>
 #include <KConfigGroup>
 #include <KDesktopFile>
-#include <ksycoca.h>
-#include <kbuildsycoca_p.h>
-#include <../src/services/kserviceutil_p.h> // for KServiceUtilPrivate
 #include <kapplicationtrader.h>
+#include <kbuildsycoca_p.h>
+#include <ksycoca.h>
 
-#include <kservicegroup.h>
-#include <kservicetypetrader.h>
-#include <kservicetype.h>
-#include <kservicetypeprofile.h>
 #include <KPluginMetaData>
 #include <kplugininfo.h>
+#include <kservicegroup.h>
+#include <kservicetype.h>
+#include <kservicetypeprofile.h>
+#include <kservicetypetrader.h>
 
 #include <QFile>
+#include <QSignalSpy>
 #include <QStandardPaths>
 #include <QThread>
-#include <QSignalSpy>
 
 #include <QDebug>
 #include <QLoggingCategory>
@@ -52,7 +52,6 @@ static void eraseProfiles()
         QFile::remove(profilerc);
     }
 }
-
 
 void KServiceTest::initTestCase()
 {
@@ -83,7 +82,8 @@ void KServiceTest::initTestCase()
     bool mustUpdateKSycoca = false;
 
     // fakeservice: deleted and recreated by testDeletingService, don't use in other tests
-    const QString fakeServiceDeleteMe = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice_deleteme.desktop");
+    const QString fakeServiceDeleteMe =
+        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice_deleteme.desktop");
     if (!QFile::exists(fakeServiceDeleteMe)) {
         mustUpdateKSycoca = true;
         createFakeService(QStringLiteral("fakeservice_deleteme.desktop"), QString());
@@ -163,7 +163,8 @@ void KServiceTest::initTestCase()
     }
 
     // fakeplugintype: a servicetype
-    const QString fakePluginType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakeplugintype.desktop"};
+    const QString fakePluginType =
+        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakeplugintype.desktop"};
     if (!QFile::exists(fakePluginType)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(fakePluginType);
@@ -190,7 +191,8 @@ void KServiceTest::initTestCase()
     }
 
     // fakederivedpart: a servicetype deriving from FakeBasePart (like ReadWritePart derives from ReadOnlyPart)
-    const QString fakeDerivedPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakederivedpart.desktop"};
+    const QString fakeDerivedPart =
+        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakederivedpart.desktop"};
     if (!QFile::exists(fakeDerivedPart)) {
         mustUpdateKSycoca = true;
         KDesktopFile file(fakeDerivedPart);
@@ -202,7 +204,8 @@ void KServiceTest::initTestCase()
     }
 
     // fakekdedmodule
-    const QString fakeKdedModule = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakekdedmodule.desktop"};
+    const QString fakeKdedModule =
+        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakekdedmodule.desktop"};
     if (!QFile::exists(fakeKdedModule)) {
         const QString src = QFINDTESTDATA("fakekdedmodule.desktop");
         QVERIFY(QFile::copy(src, fakeKdedModule));
@@ -251,7 +254,8 @@ void KServiceTest::cleanupTestCase()
 {
     // If I want the konqueror unit tests to work, then I better not have a non-working part
     // as the preferred part for text/plain...
-    const QStringList services = QStringList() << QStringLiteral("fakeservice.desktop") << QStringLiteral("fakepart.desktop") << QStringLiteral("faketextplugin.desktop") << QStringLiteral("fakeservice_querymustrebuild.desktop");
+    const QStringList services = QStringList() << QStringLiteral("fakeservice.desktop") << QStringLiteral("fakepart.desktop")
+                                               << QStringLiteral("faketextplugin.desktop") << QStringLiteral("fakeservice_querymustrebuild.desktop");
     for (const QString &service : services) {
         const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + service;
         QFile::remove(fakeService);
@@ -259,7 +263,7 @@ void KServiceTest::cleanupTestCase()
     const QStringList serviceTypes = QStringList() << QStringLiteral("fakeplugintype.desktop");
     for (const QString &serviceType : serviceTypes) {
         const QString fakeServiceType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + serviceType;
-        //QFile::remove(fakeServiceType);
+        // QFile::remove(fakeServiceType);
     }
     KBuildSycoca builder;
     builder.recreate();
@@ -304,7 +308,8 @@ void KServiceTest::testConstructorKDesktopFileFullPath()
 void KServiceTest::testConstructorKDesktopFile() // as happens inside kbuildsycoca.cpp
 {
     KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, QStringLiteral("kservices5/fakepart.desktop"));
-    QCOMPARE(KService(&desktopFile, QStringLiteral("kservices5/fakepart.desktop")).mimeTypes(), (QStringList{QStringLiteral("text/plain"), QStringLiteral("text/html")}));
+    QCOMPARE(KService(&desktopFile, QStringLiteral("kservices5/fakepart.desktop")).mimeTypes(),
+             (QStringList{QStringLiteral("text/plain"), QStringLiteral("text/html")}));
 }
 
 void KServiceTest::testCopyConstructor()
@@ -363,15 +368,16 @@ void KServiceTest::testProperty()
     QVERIFY(!kdedkcookiejar->property(QStringLiteral("Name[fr]"), QVariant::String).isValid());
 
     // TODO: for this we must install a servicetype desktop file...
-    //KService::Ptr kjavaappletviewer = KService::serviceByDesktopPath("kjavaappletviewer.desktop");
-    //QVERIFY(kjavaappletviewer);
-    //QCOMPARE(kjavaappletviewer->property("X-KDE-BrowserView-PluginsInfo").toString(), QString("kjava/pluginsinfo"));
+    // KService::Ptr kjavaappletviewer = KService::serviceByDesktopPath("kjavaappletviewer.desktop");
+    // QVERIFY(kjavaappletviewer);
+    // QCOMPARE(kjavaappletviewer->property("X-KDE-BrowserView-PluginsInfo").toString(), QString("kjava/pluginsinfo"));
 
     // Test property("X-KDE-Protocols"), which triggers the KServiceReadProperty code.
     KService::Ptr fakePart = KService::serviceByDesktopPath(QStringLiteral("fakepart.desktop"));
     QVERIFY(fakePart); // see initTestCase; it should be found.
     QVERIFY(fakePart->propertyNames().contains(QLatin1String("X-KDE-Protocols")));
-    QCOMPARE(fakePart->mimeTypes(), QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/html")); // okular relies on subclasses being kept here
+    QCOMPARE(fakePart->mimeTypes(),
+             QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/html")); // okular relies on subclasses being kept here
     const QStringList protocols = fakePart->property(QStringLiteral("X-KDE-Protocols")).toStringList();
     QCOMPARE(protocols, QStringList() << QStringLiteral("http") << QStringLiteral("ftp"));
 
@@ -407,8 +413,7 @@ void KServiceTest::testAllServices()
     QVERIFY(!lst.isEmpty());
     bool foundTestApp = false;
 
-    for (KService::List::ConstIterator it = lst.begin();
-            it != lst.end(); ++it) {
+    for (KService::List::ConstIterator it = lst.begin(); it != lst.end(); ++it) {
         const KService::Ptr service = (*it);
         QVERIFY(service->isType(KST_KService));
 
@@ -421,7 +426,7 @@ void KServiceTest::testAllServices()
         QVERIFY(!entryPath.isEmpty());
 
         KService::Ptr lookedupService = KService::serviceByDesktopPath(entryPath);
-        QVERIFY(lookedupService);   // not null
+        QVERIFY(lookedupService); // not null
         QCOMPARE(lookedupService->entryPath(), entryPath);
 
         if (service->isApplication()) {
@@ -433,7 +438,7 @@ void KServiceTest::testAllServices()
             }
             QVERIFY(!menuId.isEmpty());
             lookedupService = KService::serviceByMenuId(menuId);
-            QVERIFY(lookedupService);   // not null
+            QVERIFY(lookedupService); // not null
             QCOMPARE(lookedupService->menuId(), menuId);
         }
     }
@@ -441,14 +446,13 @@ void KServiceTest::testAllServices()
 }
 
 // Helper method for all the trader tests
-static bool offerListHasService(const KService::List &offers,
-                                const QString &entryPath)
+static bool offerListHasService(const KService::List &offers, const QString &entryPath)
 {
     bool found = false;
     KService::List::const_iterator it = offers.begin();
     for (; it != offers.end(); ++it) {
         if ((*it)->entryPath() == entryPath) {
-            if (found) {  // should be there only once
+            if (found) { // should be there only once
                 qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
                 return false; // make test fail
             }
@@ -466,7 +470,7 @@ void KServiceTest::testDBUSStartupType()
     KService::Ptr testapp = KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp"));
     QVERIFY(testapp);
     QCOMPARE(testapp->menuId(), QStringLiteral("org.kde.faketestapp.desktop"));
-    //qDebug() << testapp->entryPath();
+    // qDebug() << testapp->entryPath();
     QCOMPARE(int(testapp->dbusStartupType()), int(KService::DBusUnique));
 }
 
@@ -519,7 +523,7 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
 #endif
     for (KService::Ptr service : qAsConst(offers)) {
         const int preference = service->initialPreference(); // ## might be wrong if we use per-servicetype preferences...
-        //qDebug( "%s has preference %d, allowAsDefault=%d", qPrintable( path ), preference, service->allowAsDefault() );
+        // qDebug( "%s has preference %d, allowAsDefault=%d", qPrintable( path ), preference, service->allowAsDefault() );
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
         if (lastAllowedAsDefault && !service->allowAsDefault()) {
             // first "not allowed as default" offer
@@ -564,12 +568,14 @@ void KServiceTest::testTraderConstraints()
     QVERIFY(offerListHasService(offers, QStringLiteral("faketextplugin.desktop")));
 
     // "contains"
-    offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"), QStringLiteral("'textplugin' ~ Library")); // note: "is contained in", not "contains"...
+    offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"),
+                                               QStringLiteral("'textplugin' ~ Library")); // note: "is contained in", not "contains"...
     QCOMPARE(offers.count(), 1);
     QVERIFY(offerListHasService(offers, QStringLiteral("faketextplugin.desktop")));
 
     // "contains" case insensitive
-    offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"), QStringLiteral("'teXtPluGin' ~~ Library")); // note: "is contained in", not "contains"...
+    offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"),
+                                               QStringLiteral("'teXtPluGin' ~~ Library")); // note: "is contained in", not "contains"...
     QCOMPARE(offers.count(), 1);
     QVERIFY(offerListHasService(offers, QStringLiteral("faketextplugin.desktop")));
 
@@ -584,7 +590,6 @@ void KServiceTest::testTraderConstraints()
     QVERIFY(offerListHasService(offers, QStringLiteral("faketextplugin.desktop")));
 
     if (m_hasNonCLocale) {
-
         // Test float parsing, must use dot as decimal separator independent of locale.
         offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"), QStringLiteral("([X-KDE-Version] > 4.559) and ([X-KDE-Version] < 4.561)"));
         QCOMPARE(offers.count(), 1);
@@ -598,30 +603,26 @@ void KServiceTest::testTraderConstraints()
 
 void KServiceTest::testSubseqConstraints()
 {
-  auto test = [](const char* pattern, const char* text, bool sensitive) {
-    return KApplicationTrader::isSubsequence(
-        QString::fromLatin1(pattern),
-        QString::fromLatin1(text),
-        sensitive? Qt::CaseSensitive : Qt::CaseInsensitive
-    );
-  };
+    auto test = [](const char *pattern, const char *text, bool sensitive) {
+        return KApplicationTrader::isSubsequence(QString::fromLatin1(pattern), QString::fromLatin1(text), sensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
+    };
 
-  // Case Sensitive
-  QVERIFY2(!test("", "", 1), "both empty");
-  QVERIFY2(!test("", "something", 1), "empty pattern");
-  QVERIFY2(!test("something", "", 1), "empty text");
-  QVERIFY2(test("lngfile", "somereallylongfile", 1), "match ending");
-  QVERIFY2(test("somelong", "somereallylongfile", 1), "match beginning");
-  QVERIFY2(test("reallylong", "somereallylongfile", 1), "match middle");
-  QVERIFY2(test("across", "a 23 c @#! r o01 o 5 s_s", 1), "match across");
-  QVERIFY2(!test("nocigar", "soclosebutnociga", 1), "close but no match");
-  QVERIFY2(!test("god", "dog", 1), "incorrect letter order");
-  QVERIFY2(!test("mismatch", "mIsMaTcH", 1), "case sensitive mismatch");
+    // Case Sensitive
+    QVERIFY2(!test("", "", 1), "both empty");
+    QVERIFY2(!test("", "something", 1), "empty pattern");
+    QVERIFY2(!test("something", "", 1), "empty text");
+    QVERIFY2(test("lngfile", "somereallylongfile", 1), "match ending");
+    QVERIFY2(test("somelong", "somereallylongfile", 1), "match beginning");
+    QVERIFY2(test("reallylong", "somereallylongfile", 1), "match middle");
+    QVERIFY2(test("across", "a 23 c @#! r o01 o 5 s_s", 1), "match across");
+    QVERIFY2(!test("nocigar", "soclosebutnociga", 1), "close but no match");
+    QVERIFY2(!test("god", "dog", 1), "incorrect letter order");
+    QVERIFY2(!test("mismatch", "mIsMaTcH", 1), "case sensitive mismatch");
 
-  // Case insensitive
-  QVERIFY2(test("mismatch", "mIsMaTcH", 0), "case insensitive match");
-  QVERIFY2(test("tryhards", "Try Your Hardest", 0), "uppercase text");
-  QVERIFY2(test("TRYHARDS", "try your hardest", 0), "uppercase pattern");
+    // Case insensitive
+    QVERIFY2(test("mismatch", "mIsMaTcH", 0), "case insensitive match");
+    QVERIFY2(test("tryhards", "Try Your Hardest", 0), "uppercase text");
+    QVERIFY2(test("TRYHARDS", "try your hardest", 0), "uppercase pattern");
 }
 
 void KServiceTest::testHasServiceType1() // with services constructed with a full path (rare)
@@ -678,16 +679,16 @@ void KServiceTest::testWriteServiceTypeProfile()
     QVERIFY(QFile::exists(profilerc));
 
     KService::List offers = KServiceTypeTrader::self()->query(serviceType);
-    QVERIFY(offers.count() > 0);   // not empty
+    QVERIFY(offers.count() > 0); // not empty
 
-    //foreach( KService::Ptr service, offers )
+    // foreach( KService::Ptr service, offers )
     //    qDebug( "%s %s", qPrintable( service->name() ), qPrintable( service->entryPath() ) );
 
     QVERIFY(offers.count() >= 2);
     QCOMPARE(offers[0]->entryPath(), QStringLiteral("preferredpart.desktop"));
     QCOMPARE(offers[1]->entryPath(), QStringLiteral("fakepart.desktop"));
-    QVERIFY(offerListHasService(offers, QStringLiteral("otherpart.desktop")));     // should still be somewhere in there
-    QVERIFY(!offerListHasService(offers, QStringLiteral("fakepart2.desktop")));     // it got disabled above
+    QVERIFY(offerListHasService(offers, QStringLiteral("otherpart.desktop"))); // should still be somewhere in there
+    QVERIFY(!offerListHasService(offers, QStringLiteral("fakepart2.desktop"))); // it got disabled above
 }
 #endif
 
@@ -696,8 +697,8 @@ void KServiceTest::testDefaultOffers()
     // Now that we have a user-profile, let's see if defaultOffers indeed gives us the default ordering.
     const QString serviceType = QStringLiteral("FakeBasePart");
     KService::List offers = KServiceTypeTrader::self()->defaultOffers(serviceType);
-    QVERIFY(offers.count() > 0);   // not empty
-    QVERIFY(offerListHasService(offers, QStringLiteral("fakepart2.desktop")));     // it's here even though it's disabled in the profile
+    QVERIFY(offers.count() > 0); // not empty
+    QVERIFY(offerListHasService(offers, QStringLiteral("fakepart2.desktop"))); // it's here even though it's disabled in the profile
     QVERIFY(offerListHasService(offers, QStringLiteral("otherpart.desktop")));
     if (m_firstOffer.isEmpty()) {
         QSKIP("testServiceTypeTraderForReadOnlyPart not run");
@@ -712,8 +713,8 @@ void KServiceTest::testDeleteServiceTypeProfile()
     KServiceTypeProfile::deleteServiceTypeProfile(serviceType);
 
     KService::List offers = KServiceTypeTrader::self()->query(serviceType);
-    QVERIFY(offers.count() > 0);   // not empty
-    QVERIFY(offerListHasService(offers, QStringLiteral("fakepart2.desktop")));     // it's back
+    QVERIFY(offers.count() > 0); // not empty
+    QVERIFY(offerListHasService(offers, QStringLiteral("fakepart2.desktop"))); // it's back
 
     if (m_firstOffer.isEmpty()) {
         QSKIP("testServiceTypeTraderForReadOnlyPart not run");
@@ -794,7 +795,7 @@ void KServiceTest::testDeletingService()
     }
 }
 
-void KServiceTest::createFakeService(const QString &filename, const QString& serviceType)
+void KServiceTest::createFakeService(const QString &filename, const QString &serviceType)
 {
     const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + filename;
     KDesktopFile file(fakeService);
@@ -807,8 +808,8 @@ void KServiceTest::createFakeService(const QString &filename, const QString& ser
     group.writeEntry("MimeType", "text/plain;");
 }
 
-#include <QThreadPool>
 #include <QFutureSynchronizer>
+#include <QThreadPool>
 #include <QtConcurrentRun>
 
 // Testing for concurrent access to ksycoca from multiple threads
@@ -889,7 +890,8 @@ void KServiceTest::testCompleteBaseName()
 {
     QCOMPARE(KServiceUtilPrivate::completeBaseName(QStringLiteral("/home/x/.qttest/share/kservices5/fakepart2.desktop")), QStringLiteral("fakepart2"));
     // dots in filename before .desktop extension:
-    QCOMPARE(KServiceUtilPrivate::completeBaseName(QStringLiteral("/home/x/.qttest/share/kservices5/org.kde.fakeapp.desktop")), QStringLiteral("org.kde.fakeapp"));
+    QCOMPARE(KServiceUtilPrivate::completeBaseName(QStringLiteral("/home/x/.qttest/share/kservices5/org.kde.fakeapp.desktop")),
+             QStringLiteral("org.kde.fakeapp"));
 }
 
 void KServiceTest::testEntryPathToName()

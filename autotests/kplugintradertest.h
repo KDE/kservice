@@ -13,7 +13,9 @@ class PluginTraderTest : public QObject
 {
     Q_OBJECT
 public:
-    PluginTraderTest() {}
+    PluginTraderTest()
+    {
+    }
 
 private Q_SLOTS:
     void initTestCase();

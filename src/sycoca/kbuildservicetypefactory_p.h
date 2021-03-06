@@ -8,8 +8,8 @@
 #ifndef KBUILD_SERVICE_TYPE_FACTORY_H
 #define KBUILD_SERVICE_TYPE_FACTORY_H
 
-#include <kservicetypefactory_p.h>
 #include <QStringList>
+#include <kservicetypefactory_p.h>
 
 /**
  * Service-type factory for building ksycoca

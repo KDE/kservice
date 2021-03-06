@@ -9,17 +9,17 @@
 
 #ifndef QT_NO_SHAREDMEMORY
 
-#include <QSharedMemory>
-#include <QCryptographicHash>
-#include <QFile>
-#include <QDir>
 #include <QCoreApplication>
+#include <QCryptographicHash>
+#include <QDir>
+#include <QFile>
+#include <QSharedMemory>
 
 class KMemFile::Private
 {
 public:
     struct sharedInfoData {
-        int  shmCounter;
+        int shmCounter;
         qint64 shmDataSize;
 
         sharedInfoData()
@@ -27,7 +27,12 @@ public:
             memset(this, 0, sizeof(*this));
         }
     };
-    Private(KMemFile *_parent) : readWritePos(0), shmDataSize(0), parent(_parent) {}
+    Private(KMemFile *_parent)
+        : readWritePos(0)
+        , shmDataSize(0)
+        , parent(_parent)
+    {
+    }
 
     QString getShmKey(int iCounter = -1);
     static QString getShmKey(const QString &filename, int iCounter = -1);
@@ -103,7 +108,8 @@ void KMemFile::Private::close()
 }
 
 KMemFile::KMemFile(const QString &filename, QObject *parent)
-    : QIODevice(parent), d(new Private(this))
+    : QIODevice(parent)
+    , d(new Private(this))
 {
     d->filename = filename;
 }
@@ -239,4 +245,4 @@ void KMemFile::fileContentsChanged(const QString &filename)
     shmData.unlock();
 }
 
-#endif //QT_NO_SHAREDMEMORY
+#endif // QT_NO_SHAREDMEMORY

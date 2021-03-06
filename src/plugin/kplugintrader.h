@@ -142,8 +142,7 @@ public:
      * @return A list of services that satisfy the query
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
      */
-    KPluginInfo::List query(const QString &subDirectory, const QString &serviceType = QString(),
-                            const QString &constraint = QString());
+    KPluginInfo::List query(const QString &subDirectory, const QString &serviceType = QString(), const QString &constraint = QString());
 
     /**
      * This is a static pointer to the KPluginTrader singleton.
@@ -175,7 +174,7 @@ public:
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
      */
-    template <class T>
+    template<class T>
     static T *createInstanceFromQuery(const QString &subDirectory,
                                       const QString &serviceType = QString(),
                                       const QString &constraint = QString(),
@@ -204,7 +203,7 @@ public:
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
      */
-    template <class T>
+    template<class T>
     static T *createInstanceFromQuery(const QString &subDirectory,
                                       const QString &serviceType,
                                       const QString &constraint,
@@ -237,8 +236,7 @@ public:
         return nullptr;
     }
 
-    static void applyConstraints(KPluginInfo::List &lst,
-                                 const QString &constraint);
+    static void applyConstraints(KPluginInfo::List &lst, const QString &constraint);
 
 private:
     /**

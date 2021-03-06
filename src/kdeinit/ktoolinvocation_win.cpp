@@ -8,20 +8,20 @@
 
 #include "ktoolinvocation.h"
 
-#include <KMessage>
 #include <KLocalizedString>
+#include <KMessage>
 
+#include <QCoreApplication>
+#include <QDBusConnection>
+#include <QHash>
+#include <QProcess>
+#include <QStandardPaths>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QProcess>
-#include <QCoreApplication>
-#include <QHash>
-#include <QStandardPaths>
-#include <QDBusConnection>
 
 #include "kservice.h"
-#include "windows.h"
 #include "shellapi.h"
+#include "windows.h"
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startup_id)
@@ -42,9 +42,13 @@ void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startu
 }
 #endif
 
-void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const QString &_bcc,
-                                   const QString &subject, const QString &body,
-                                   const QString & /*messageFile TODO*/, const QStringList &attachURLs,
+void KToolInvocation::invokeMailer(const QString &_to,
+                                   const QString &_cc,
+                                   const QString &_bcc,
+                                   const QString &subject,
+                                   const QString &body,
+                                   const QString & /*messageFile TODO*/,
+                                   const QStringList &attachURLs,
                                    const QByteArray &startup_id)
 {
     QUrl url(QLatin1String("mailto:") + _to);
@@ -73,10 +77,7 @@ void KToolInvocation::invokeMailer(const QString &_to, const QString &_cc, const
 #endif
 }
 
-void KToolInvocation::invokeTerminal(const QString &command,
-                                     const QStringList &envs,
-                                     const QString &workdir,
-                                     const QByteArray &startup_id)
+void KToolInvocation::invokeTerminal(const QString &command, const QStringList &envs, const QString &workdir, const QByteArray &startup_id)
 {
     const QString windowsTerminal = QStringLiteral("wt.exe");
     const QString pwsh = QStringLiteral("pwsh.exe");
@@ -113,8 +114,7 @@ void KToolInvocation::invokeTerminal(const QString &command,
         }
         process.setProcessEnvironment(env);
     }
-    process.setCreateProcessArgumentsModifier(
-                [](QProcess::CreateProcessArguments *args) {
+    process.setCreateProcessArgumentsModifier([](QProcess::CreateProcessArguments *args) {
         args->flags |= CREATE_NEW_CONSOLE;
         args->startupInfo->dwFlags &= ~STARTF_USESTDHANDLES;
     });

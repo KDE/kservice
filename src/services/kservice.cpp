@@ -7,8 +7,8 @@
 */
 
 #include "kservice.h"
-#include "kservice_p.h"
 #include "kmimetypefactory_p.h"
+#include "kservice_p.h"
 #include "ksycoca.h"
 #include "ksycoca_p.h"
 
@@ -19,13 +19,13 @@
 #include <QMimeDatabase>
 
 #include <KAuthorized>
-#include <KDesktopFile>
 #include <KConfigGroup>
+#include <KDesktopFile>
 #include <KLocalizedString>
 #include <KShell>
 
-#include <QStandardPaths>
 #include <QDebug>
+#include <QStandardPaths>
 
 #include "kservicefactory_p.h"
 #include "kservicetypefactory_p.h"
@@ -53,7 +53,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     QMap<QString, QString> entryMap = desktopGroup.entryMap();
 
     entryMap.remove(QStringLiteral("Encoding")); // reserved as part of Desktop Entry Standard
-    entryMap.remove(QStringLiteral("Version"));  // reserved as part of Desktop Entry Standard
+    entryMap.remove(QStringLiteral("Version")); // reserved as part of Desktop Entry Standard
 
     q->setDeleted(desktopGroup.readEntry("Hidden", false));
     entryMap.remove(QStringLiteral("Hidden"));
@@ -85,9 +85,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
           return;*/
         m_strType = QStringLiteral("Application");
     } else if (m_strType != QLatin1String("Application") && m_strType != QLatin1String("Service")) {
-        qCWarning(SERVICES) << "The desktop entry file" << entryPath
-                   << "has Type=" << m_strType
-                   << "instead of \"Application\" or \"Service\"";
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "instead of \"Application\" or \"Service\"";
         m_bValid = false;
         return;
     }
@@ -117,22 +115,16 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
 
     const QStandardPaths::StandardLocation resource = config->resource();
 
-    if ((m_strType == QLatin1String("Application")) &&
-            (resource != QStandardPaths::ApplicationsLocation) &&
-            !absPath) {
-        qCWarning(SERVICES) << "The desktop entry file" << entryPath
-                   << "has Type=" << m_strType << "but is located under \"" << QStandardPaths::displayName(resource)
-                   << "\" instead of \"Applications\"";
+    if ((m_strType == QLatin1String("Application")) && (resource != QStandardPaths::ApplicationsLocation) && !absPath) {
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but is located under \""
+                            << QStandardPaths::displayName(resource) << "\" instead of \"Applications\"";
         m_bValid = false;
         return;
     }
 
-    if ((m_strType == QLatin1String("Service")) &&
-            (resource != QStandardPaths::GenericDataLocation) &&
-            !absPath) {
-        qCWarning(SERVICES) << "The desktop entry file" << entryPath
-                   << "has Type=" << m_strType << "but is located under \"" << QStandardPaths::displayName(resource)
-                   << "\" instead of \"Shared Data\"/kservices5";
+    if ((m_strType == QLatin1String("Service")) && (resource != QStandardPaths::GenericDataLocation) && !absPath) {
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but is located under \""
+                            << QStandardPaths::displayName(resource) << "\" instead of \"Shared Data\"/kservices5";
         m_bValid = false;
         return;
     }
@@ -143,9 +135,9 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
 
     m_strIcon = config->readIcon();
     entryMap.remove(QStringLiteral("Icon"));
-    m_bTerminal = desktopGroup.readEntry("Terminal", false);  // should be a property IMHO
+    m_bTerminal = desktopGroup.readEntry("Terminal", false); // should be a property IMHO
     entryMap.remove(QStringLiteral("Terminal"));
-    m_strTerminalOptions = desktopGroup.readEntry("TerminalOptions");   // should be a property IMHO
+    m_strTerminalOptions = desktopGroup.readEntry("TerminalOptions"); // should be a property IMHO
     entryMap.remove(QStringLiteral("TerminalOptions"));
     m_strWorkingDirectory = KShell::tildeExpand(config->readPath());
     entryMap.remove(QStringLiteral("Path"));
@@ -174,9 +166,9 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     entryMap.remove(QStringLiteral("X-KDE-Library"));
     if (!m_strLibrary.isEmpty() && m_strType == QLatin1String("Application")) {
         qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType
-                   << "but also has a X-KDE-Library key. This works for now,"
-                   " but makes user-preference handling difficult, so support for this might"
-                   " be removed at some point. Consider splitting it into two desktop files.";
+                            << "but also has a X-KDE-Library key. This works for now,"
+                               " but makes user-preference handling difficult, so support for this might"
+                               " be removed at some point. Consider splitting it into two desktop files.";
     }
 
     QStringList lstServiceTypes = desktopGroup.readEntry("ServiceTypes", QStringList());
@@ -187,7 +179,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     entryMap.remove(QStringLiteral("MimeType"));
 
     if (m_strType == QLatin1String("Application") && !lstServiceTypes.contains(QLatin1String("Application")))
-        // Applications implement the service type "Application" ;-)
+    // Applications implement the service type "Application" ;-)
     {
         lstServiceTypes += QStringLiteral("Application");
     }
@@ -261,13 +253,13 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     // Store all additional entries in the property map.
     // A QMap<QString,QString> would be easier for this but we can't
     // break BC, so we have to store it in m_mapProps.
-//  qDebug("Path = %s", entryPath.toLatin1().constData());
+    //  qDebug("Path = %s", entryPath.toLatin1().constData());
     QMap<QString, QString>::ConstIterator it = entryMap.constBegin();
     for (; it != entryMap.constEnd(); ++it) {
         const QString key = it.key();
         // do not store other translations like Name[fr]; kbuildsycoca will rerun if we change languages anyway
         if (!key.contains(QLatin1Char('['))) {
-            //qCDebug(SERVICES) << "  Key =" << key << " Data =" << *it;
+            // qCDebug(SERVICES) << "  Key =" << key << " Data =" << *it;
             if (key == QLatin1String("X-Flatpak-RenamedFrom")) {
                 m_mapProps.insert(key, desktopGroup.readXdgListEntry(key));
             } else {
@@ -300,11 +292,8 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
             if (!cg.hasKey("Name") || !cg.hasKey("Exec")) {
                 qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Name or no Exec key";
             } else {
-                m_actions.append(KServiceAction(group,
-                                                cg.readEntry("Name"),
-                                                cg.readEntry("Icon"),
-                                                cg.readEntry("Exec"),
-                                                cg.readEntry("NoDisplay", false), serviceClone));
+                m_actions.append(
+                    KServiceAction(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), cg.readEntry("NoDisplay", false), serviceClone));
             }
         } else {
             qCWarning(SERVICES) << "The desktop file" << q->entryPath() << "references the action" << group << "but doesn't define it";
@@ -353,15 +342,8 @@ void KServicePrivate::save(QDataStream &s)
     // !! This data structure should remain binary compatible at all times !!
     // You may add new fields at the end. Make sure to update KSYCOCA_VERSION
     // number in ksycoca.cpp
-    s << m_strType << m_strName << m_strExec << m_strIcon
-      << term << m_strTerminalOptions
-      << m_strWorkingDirectory << m_strComment << def << m_mapProps
-      << m_strLibrary
-      << dst
-      << m_strDesktopEntryName
-      << initpref
-      << m_lstKeywords << m_strGenName
-      << categories << menuId << m_actions << m_serviceTypes
+    s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment << def << m_mapProps
+      << m_strLibrary << dst << m_strDesktopEntryName << initpref << m_lstKeywords << m_strGenName << categories << menuId << m_actions << m_serviceTypes
       << m_lstFormFactors;
 }
 
@@ -408,7 +390,7 @@ KService::KService(QDataStream &_str, int _offset)
 }
 
 KService::KService(const KService &other)
-   : KSycocaEntry(*new KServicePrivate(*other.d_func()))
+    : KSycocaEntry(*new KServicePrivate(*other.d_func()))
 {
 }
 
@@ -421,7 +403,7 @@ bool KService::hasServiceType(const QString &serviceType) const
     Q_D(const KService);
 
     if (!d->m_bValid) {
-        return false;    // (useless) safety test
+        return false; // (useless) safety test
     }
     const KServiceType::Ptr ptr = KServiceType::serviceType(serviceType);
     if (!ptr) {
@@ -429,7 +411,7 @@ bool KService::hasServiceType(const QString &serviceType) const
     }
     const int serviceOffset = offset();
     // doesn't seem to work:
-    //if ( serviceOffset == 0 )
+    // if ( serviceOffset == 0 )
     //    serviceOffset = serviceByStorageId( storageId() );
     if (serviceOffset) {
         KSycoca::self()->ensureCacheValid();
@@ -442,7 +424,7 @@ bool KService::hasServiceType(const QString &serviceType) const
     QVector<ServiceTypeAndPreference>::ConstIterator it = d->m_serviceTypes.begin();
     for (; it != d->m_serviceTypes.end(); ++it) {
         const QString &st = (*it).serviceType;
-        //qCDebug(SERVICES) << "    has " << (*it);
+        // qCDebug(SERVICES) << "    has " << (*it);
         if (st == ptr->name()) {
             return true;
         }
@@ -479,7 +461,7 @@ bool KService::hasMimeType(const QString &mimeType) const
     QVector<ServiceTypeAndPreference>::ConstIterator it = d->m_serviceTypes.begin();
     for (; it != d->m_serviceTypes.end(); ++it) {
         const QString &st = (*it).serviceType;
-        //qCDebug(SERVICES) << "    has " << (*it);
+        // qCDebug(SERVICES) << "    has " << (*it);
         if (st == mime) {
             return true;
         }
@@ -515,9 +497,9 @@ QVariant KService::property(const QString &_name, QVariant::Type t) const
 QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
 {
     if (_name == QLatin1String("Type")) {
-        return QVariant(m_strType);    // can't be null
+        return QVariant(m_strType); // can't be null
     } else if (_name == QLatin1String("Name")) {
-        return QVariant(m_strName);    // can't be null
+        return QVariant(m_strName); // can't be null
     } else if (_name == QLatin1String("Exec")) {
         return makeStringVariant(m_strExec);
     } else if (_name == QLatin1String("Icon")) {
@@ -543,7 +525,7 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
     } else if (_name == QLatin1String("DesktopEntryPath")) { // can't be null
         return QVariant(path);
     } else if (_name == QLatin1String("DesktopEntryName")) {
-        return QVariant(m_strDesktopEntryName);    // can't be null
+        return QVariant(m_strDesktopEntryName); // can't be null
     } else if (_name == QLatin1String("Categories")) {
         return QVariant(categories);
     } else if (_name == QLatin1String("Keywords")) {
@@ -568,7 +550,7 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
 
     QMap<QString, QVariant>::ConstIterator it = m_mapProps.find(_name);
     if ((it == m_mapProps.end()) || (!it->isValid())) {
-        //qCDebug(SERVICES) << "Property not found " << _name;
+        // qCDebug(SERVICES) << "Property not found " << _name;
         return QVariant(); // No property set.
     }
 
@@ -838,8 +820,7 @@ QString KService::locateLocal() const
     return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/applications/") + d->menuId;
 }
 
-QString KService::newServicePath(bool showInMenu, const QString &suggestedName,
-                                 QString *menuId, const QStringList *reservedMenuIds)
+QString KService::newServicePath(bool showInMenu, const QString &suggestedName, QString *menuId, const QStringList *reservedMenuIds)
 {
     Q_UNUSED(showInMenu); // TODO KDE5: remove argument
 
@@ -885,8 +866,7 @@ QString KService::exec() const
 {
     Q_D(const KService);
     if (d->m_strType == QLatin1String("Application") && d->m_strExec.isEmpty()) {
-        qCWarning(SERVICES) << "The desktop entry file" << entryPath()
-                   << "has Type=" << d->m_strType << "but has no Exec field.";
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath() << "has Type=" << d->m_strType << "but has no Exec field.";
     }
     return d->m_strExec;
 }

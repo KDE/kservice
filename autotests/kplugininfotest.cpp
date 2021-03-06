@@ -4,13 +4,13 @@
     SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#include <QTest>
-#include <QLocale>
-#include <QJsonDocument>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QLocale>
+#include <QTest>
 
-#include <KPluginMetaData>
 #include <KAboutData>
+#include <KPluginMetaData>
 
 #include <kplugininfo.h>
 #include <kservice.h>
@@ -39,7 +39,6 @@ private Q_SLOTS:
         QTest::addColumn<KPluginInfo>("infoGerman");
         QTest::addColumn<QVariant>("customValue");
         QTest::addColumn<bool>("translationsWhenLoading");
-
 
         QString fakepluginDesktop = QFINDTESTDATA("fakeplugin.desktop");
         QVERIFY2(!fakepluginDesktop.isEmpty(), "Could not find fakeplugin.desktop");
@@ -89,23 +88,19 @@ private Q_SLOTS:
         QVERIFY(!KPluginInfo(QStringLiteral("/this/path/does/not/exist.desktop")).isValid());
 
         QTest::newRow("from .desktop") << fakepluginDesktop << info << infoGerman << QVariant() << false;
-        QTest::newRow("with custom property") << info.libraryPath() << withCustomProperty(info)
-            << withCustomProperty(infoGerman) << QVariant(QStringLiteral("Baz")) << false;
+        QTest::newRow("with custom property") << info.libraryPath() << withCustomProperty(info) << withCustomProperty(infoGerman)
+                                              << QVariant(QStringLiteral("Baz")) << false;
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
-        QTest::newRow("from KService::Ptr") << fakepluginDesktop << infoFromService
-                << infoFromServiceGerman << QVariant() << true;
-        QTest::newRow("from KService::Ptr + custom property") << pluginName
-                << withCustomProperty(infoFromService) << withCustomProperty(infoFromServiceGerman)
-                << QVariant(QStringLiteral("Baz")) << true;
+        QTest::newRow("from KService::Ptr") << fakepluginDesktop << infoFromService << infoFromServiceGerman << QVariant() << true;
+        QTest::newRow("from KService::Ptr + custom property")
+            << pluginName << withCustomProperty(infoFromService) << withCustomProperty(infoFromServiceGerman) << QVariant(QStringLiteral("Baz")) << true;
 #endif
         QTest::newRow("from JSON file") << pluginName << jsonInfo << jsonInfo << QVariant() << false;
-        QTest::newRow("from JSON file + custom property") << pluginName
-                << withCustomProperty(jsonInfo) << withCustomProperty(jsonInfo) << QVariant(QStringLiteral("Baz")) << false;
-        QTest::newRow("from JSON file (compatibility)") << pluginName
-                << compatJsonInfo << compatJsonInfoGerman << QVariant() << true;
-        QTest::newRow("from JSON file (compatibility) + custom property") << pluginName
-                << withCustomProperty(compatJsonInfo) << withCustomProperty(compatJsonInfoGerman)
-                << QVariant(QStringLiteral("Baz")) << true;
+        QTest::newRow("from JSON file + custom property")
+            << pluginName << withCustomProperty(jsonInfo) << withCustomProperty(jsonInfo) << QVariant(QStringLiteral("Baz")) << false;
+        QTest::newRow("from JSON file (compatibility)") << pluginName << compatJsonInfo << compatJsonInfoGerman << QVariant() << true;
+        QTest::newRow("from JSON file (compatibility) + custom property")
+            << pluginName << withCustomProperty(compatJsonInfo) << withCustomProperty(compatJsonInfoGerman) << QVariant(QStringLiteral("Baz")) << true;
     }
 
     void testLoadDesktop()
@@ -175,7 +170,6 @@ private Q_SLOTS:
         QCOMPARE(info.website(), QStringLiteral("http://kde.org/"));
 
         QCOMPARE(info.property(QStringLiteral("X-Foo-Bar")), customValue);
-
     }
 
     void testToMetaData()
@@ -197,17 +191,16 @@ private Q_SLOTS:
         QCOMPARE(meta.name(), QStringLiteral("NSA-Modul"));
         QLocale::setDefault(QLocale::c());
 
-
         QCOMPARE(meta.authors().size(), 1);
         QCOMPARE(meta.authors().at(0).name(), QString::fromUtf8("Sebastian Kügler"));
         QCOMPARE(meta.authors().at(0).emailAddress(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(meta.category(), QStringLiteral("Examples"));
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
-QT_WARNING_PUSH
-QT_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
-QT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
+        QT_WARNING_PUSH
+        QT_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
+        QT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
         QCOMPARE(meta.dependencies(), QStringList());
-QT_WARNING_POP
+        QT_WARNING_POP
 #endif
         QCOMPARE(meta.fileName(), pluginName);
         QCOMPARE(meta.pluginId(), pluginName);
@@ -226,7 +219,6 @@ QT_WARNING_POP
         QCOMPARE(info.property(QStringLiteral("X-Foo-Bar")), QVariant(QStringLiteral("Baz")));
         QCOMPARE(meta.rawData().value(QStringLiteral("X-Foo-Bar")).toString(), QStringLiteral("Baz"));
 
-
         KPluginInfo::List srcList = KPluginInfo::List() << info << info;
         QVector<KPluginMetaData> convertedList = KPluginInfo::toMetaData(srcList);
         QCOMPARE(convertedList.size(), 2);
@@ -237,28 +229,31 @@ QT_WARNING_POP
     void testFromMetaData()
     {
         QJsonParseError e;
-        QJsonObject jo = QJsonDocument::fromJson("{\n"
-            " \"KPlugin\": {\n"
-                " \"Name\": \"NSA Plugin\",\n"
-                " \"Name[de]\": \"NSA-Modul\",\n"
-                " \"Description\": \"Test Plugin Spy\",\n"
-                " \"Description[de]\": \"Test-Spionagemodul\",\n"
-                " \"Icon\": \"preferences-system-time\",\n"
-                " \"Authors\": { \"Name\": \"Sebastian Kügler\", \"Email\": \"sebas@kde.org\" },\n"
-                " \"Category\": \"Examples\",\n"
+        QJsonObject jo = QJsonDocument::fromJson(
+                             "{\n"
+                             " \"KPlugin\": {\n"
+                             " \"Name\": \"NSA Plugin\",\n"
+                             " \"Name[de]\": \"NSA-Modul\",\n"
+                             " \"Description\": \"Test Plugin Spy\",\n"
+                             " \"Description[de]\": \"Test-Spionagemodul\",\n"
+                             " \"Icon\": \"preferences-system-time\",\n"
+                             " \"Authors\": { \"Name\": \"Sebastian Kügler\", \"Email\": \"sebas@kde.org\" },\n"
+                             " \"Category\": \"Examples\",\n"
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
-                " \"Dependencies\": [],\n"
+                             " \"Dependencies\": [],\n"
 #endif
-                " \"EnabledByDefault\": \"true\",\n"
-                " \"License\": \"LGPL\",\n"
-                " \"Id\": \"fakeplugin\",\n" // not strictly required
-                " \"Version\": \"1.0\",\n"
-                " \"Website\": \"http://kde.org/\",\n"
-                " \"ServiceTypes\": [\"KService/NSA\"],\n"
-                " \"FormFactors\": [\"tablet\", \"handset\"]\n"
-            " },\n"
-        " \"X-Foo-Bar\": \"Baz\"\n"
-        "}", &e).object();
+                             " \"EnabledByDefault\": \"true\",\n"
+                             " \"License\": \"LGPL\",\n"
+                             " \"Id\": \"fakeplugin\",\n" // not strictly required
+                             " \"Version\": \"1.0\",\n"
+                             " \"Website\": \"http://kde.org/\",\n"
+                             " \"ServiceTypes\": [\"KService/NSA\"],\n"
+                             " \"FormFactors\": [\"tablet\", \"handset\"]\n"
+                             " },\n"
+                             " \"X-Foo-Bar\": \"Baz\"\n"
+                             "}",
+                             &e)
+                             .object();
         QCOMPARE(e.error, QJsonParseError::NoError);
         KPluginMetaData meta(jo, pluginName);
 

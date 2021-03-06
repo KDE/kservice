@@ -10,22 +10,22 @@
 
 #include <QTest>
 
+#include <../src/services/ktraderparsetree_p.h>
 #include <KConfig>
 #include <KConfigGroup>
 #include <KDesktopFile>
-#include <ksycoca.h>
 #include <kbuildsycoca_p.h>
-#include <../src/services/ktraderparsetree_p.h>
+#include <ksycoca.h>
 
-#include <kservicegroup.h>
 #include <kapplicationtrader.h>
+#include <kservicegroup.h>
 #include <kservicetype.h>
 #include <kservicetypeprofile.h>
 
 #include <QFile>
+#include <QSignalSpy>
 #include <QStandardPaths>
 #include <QThread>
-#include <QSignalSpy>
 
 #include <QDebug>
 #include <QLoggingCategory>
@@ -100,8 +100,7 @@ void KApplicationTraderTest::initTestCase()
     // fakegnomeapplication (do not show in Plasma). Should never be returned. To test the filtering code in queryByMimeType.
     QMap<QString, QString> fields;
     fields.insert(QStringLiteral("OnlyShowIn"), QStringLiteral("Gnome"));
-    m_fakeGnomeApplication = createFakeApplication(QStringLiteral("fakegnomeapplication.desktop"), QStringLiteral("FakeApplicationGnome"),
-                                                   fields);
+    m_fakeGnomeApplication = createFakeApplication(QStringLiteral("fakegnomeapplication.desktop"), QStringLiteral("FakeApplicationGnome"), fields);
     m_fakeGnomeApplication = QFileInfo(m_fakeGnomeApplication).canonicalFilePath();
 
     ksycoca_ms_between_checks = 0;
@@ -115,13 +114,12 @@ void KApplicationTraderTest::cleanupTestCase()
 }
 
 // Helper method for all the trader tests
-static bool offerListHasService(const KService::List &offers,
-                                const QString &entryPath)
+static bool offerListHasService(const KService::List &offers, const QString &entryPath)
 {
     bool found = false;
     for (const auto &service : offers) {
         if (service->entryPath() == entryPath) {
-            if (found) {  // should be there only once
+            if (found) { // should be there only once
                 qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
                 return false; // make test fail
             }
@@ -174,50 +172,76 @@ void KApplicationTraderTest::testTraderConstraints_data()
     QTest::addColumn<KApplicationTrader::FilterFunc>("filterFunc");
     QTest::addColumn<ExpectedResult>("expectedResult");
 
-    QTest::newRow("no_constraint") << FF([](const KService::Ptr &){ return true; }) << ExpectedResult::FakeApplicationAndOthers;
+    QTest::newRow("no_constraint") << FF([](const KService::Ptr &) {
+        return true;
+    }) << ExpectedResult::FakeApplicationAndOthers;
 
     // == tests
-    FF name_comparison = [](const KService::Ptr &serv) { return serv->name() == QLatin1String("FakeApplication"); };
+    FF name_comparison = [](const KService::Ptr &serv) {
+        return serv->name() == QLatin1String("FakeApplication");
+    };
     QTest::newRow("name_comparison") << name_comparison << ExpectedResult::FakeApplicationOnly;
-    FF isDontExist = [](const KService::Ptr &serv) { return serv->name() == QLatin1String("IDontExist"); };
+    FF isDontExist = [](const KService::Ptr &serv) {
+        return serv->name() == QLatin1String("IDontExist");
+    };
     QTest::newRow("no_such_name") << isDontExist << ExpectedResult::NoResults;
-    FF no_such_name_by_case = [](const KService::Ptr &serv) { return serv->name() == QLatin1String("fakeapplication"); };
+    FF no_such_name_by_case = [](const KService::Ptr &serv) {
+        return serv->name() == QLatin1String("fakeapplication");
+    };
     QTest::newRow("no_such_name_by_case") << no_such_name_by_case << ExpectedResult::NoResults;
 
     // Name =~ 'fAkEaPPlicaTion'
-    FF match_case_insensitive = [](const KService::Ptr &serv) { return serv->name().compare(QLatin1String{"fAkEaPPlicaTion"}, Qt::CaseInsensitive) == 0; };
+    FF match_case_insensitive = [](const KService::Ptr &serv) {
+        return serv->name().compare(QLatin1String{"fAkEaPPlicaTion"}, Qt::CaseInsensitive) == 0;
+    };
     QTest::newRow("match_case_insensitive") << match_case_insensitive << ExpectedResult::FakeApplicationOnly;
 
     // 'FakeApp' ~ Name
-    FF is_contained_in = [](const KService::Ptr &serv) { return serv->name().contains(QLatin1String{"FakeApp"}); };
+    FF is_contained_in = [](const KService::Ptr &serv) {
+        return serv->name().contains(QLatin1String{"FakeApp"});
+    };
     QTest::newRow("is_contained_in") << is_contained_in << ExpectedResult::FakeApplicationOnly;
 
     // 'FakeApplicationNot' ~ Name
-    FF is_contained_in_fail = [](const KService::Ptr &serv) { return serv->name().contains(QLatin1String{"FakeApplicationNot"}); };
+    FF is_contained_in_fail = [](const KService::Ptr &serv) {
+        return serv->name().contains(QLatin1String{"FakeApplicationNot"});
+    };
     QTest::newRow("is_contained_in_fail") << is_contained_in_fail << ExpectedResult::NoResults;
 
     // 'faKeApP' ~~ Name
-    FF is_contained_in_case_insensitive = [](const KService::Ptr &serv) { return serv->name().contains(QLatin1String{"faKeApP"}, Qt::CaseInsensitive); };
+    FF is_contained_in_case_insensitive = [](const KService::Ptr &serv) {
+        return serv->name().contains(QLatin1String{"faKeApP"}, Qt::CaseInsensitive);
+    };
     QTest::newRow("is_contained_in_case_insensitive") << is_contained_in_case_insensitive << ExpectedResult::FakeApplicationOnly;
 
     // 'faKeApPp' ~ Name
-    FF is_contained_in_case_in_fail = [](const KService::Ptr &serv) { return serv->name().contains(QLatin1String{"faKeApPp"}, Qt::CaseInsensitive); };
+    FF is_contained_in_case_in_fail = [](const KService::Ptr &serv) {
+        return serv->name().contains(QLatin1String{"faKeApPp"}, Qt::CaseInsensitive);
+    };
     QTest::newRow("is_contained_in_case_in_fail") << is_contained_in_case_in_fail << ExpectedResult::NoResults;
 
     // 'FkApli' subseq Name
-    FF subseq = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence(QStringLiteral("FkApli"), serv->name()); };
+    FF subseq = [](const KService::Ptr &serv) {
+        return KApplicationTrader::isSubsequence(QStringLiteral("FkApli"), serv->name());
+    };
     QTest::newRow("subseq") << subseq << ExpectedResult::FakeApplicationOnly;
 
     // 'fkApli' subseq Name
-    FF subseq_fail = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence(QStringLiteral("fkApli"), serv->name()); };
+    FF subseq_fail = [](const KService::Ptr &serv) {
+        return KApplicationTrader::isSubsequence(QStringLiteral("fkApli"), serv->name());
+    };
     QTest::newRow("subseq_fail") << subseq_fail << ExpectedResult::NoResults;
 
     // 'fkApLI' ~subseq Name
-    FF subseq_case_insensitive = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence(QStringLiteral("fkApLI"), serv->name(), Qt::CaseInsensitive); };
+    FF subseq_case_insensitive = [](const KService::Ptr &serv) {
+        return KApplicationTrader::isSubsequence(QStringLiteral("fkApLI"), serv->name(), Qt::CaseInsensitive);
+    };
     QTest::newRow("subseq_case_insensitive") << subseq_case_insensitive << ExpectedResult::FakeApplicationOnly;
 
     // 'fk_Apli' ~subseq Name
-    FF subseq_case_insensitive_fail = [](const KService::Ptr &serv) { return KApplicationTrader::isSubsequence(QStringLiteral("fk_Apli"), serv->name(), Qt::CaseInsensitive); };
+    FF subseq_case_insensitive_fail = [](const KService::Ptr &serv) {
+        return KApplicationTrader::isSubsequence(QStringLiteral("fk_Apli"), serv->name(), Qt::CaseInsensitive);
+    };
     QTest::newRow("subseq_case_insensitive_fail") << subseq_case_insensitive_fail << ExpectedResult::NoResults;
 
     // Test another property, parsed as a double
@@ -255,11 +279,15 @@ void KApplicationTraderTest::testQueryByMimeType()
 
     // With constraint
 
-    FF isFakeApplication = [](const KService::Ptr &serv) { return serv->name() == QLatin1String("FakeApplication"); };
+    FF isFakeApplication = [](const KService::Ptr &serv) {
+        return serv->name() == QLatin1String("FakeApplication");
+    };
     offers = KApplicationTrader::queryByMimeType(QStringLiteral("text/plain"), isFakeApplication);
     checkResult(offers, ExpectedResult::FakeApplicationOnly);
 
-    FF isDontExist = [](const KService::Ptr &serv) { return serv->name() == QLatin1String("IDontExist"); };
+    FF isDontExist = [](const KService::Ptr &serv) {
+        return serv->name() == QLatin1String("IDontExist");
+    };
     offers = KApplicationTrader::queryByMimeType(QStringLiteral("text/plain"), isDontExist);
     checkResult(offers, ExpectedResult::NoResults);
 }
@@ -283,8 +311,8 @@ QString KApplicationTraderTest::createFakeApplication(const QString &filename, c
     return fakeService;
 }
 
-#include <QThreadPool>
 #include <QFutureSynchronizer>
+#include <QThreadPool>
 #include <QtConcurrentRun>
 
 // Testing for concurrent access to ksycoca from multiple threads
@@ -302,7 +330,9 @@ void KApplicationTraderTest::testThreads()
 
 void KApplicationTraderTest::testTraderQueryMustRebuildSycoca()
 {
-    auto filter = [](const KService::Ptr &serv) { return serv->name() == QLatin1String("MustRebuild"); };
+    auto filter = [](const KService::Ptr &serv) {
+        return serv->name() == QLatin1String("MustRebuild");
+    };
     QCOMPARE(KApplicationTrader::query(filter).count(), 0);
     createFakeApplication(QStringLiteral("fakeservice_querymustrebuild.desktop"), QStringLiteral("MustRebuild"));
     KService::List offers = KApplicationTrader::query(filter);

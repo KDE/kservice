@@ -6,15 +6,15 @@
 */
 
 #include "kservicegroup.h"
-#include "kservicegroup_p.h"
-#include "kservicefactory_p.h"
-#include "kservicegroupfactory_p.h"
 #include "kservice.h"
+#include "kservicefactory_p.h"
+#include "kservicegroup_p.h"
+#include "kservicegroupfactory_p.h"
 #include "ksycoca_p.h"
 #include "servicesdebug.h"
-#include <ksycoca.h>
-#include <KDesktopFile>
 #include <KConfigGroup>
+#include <KDesktopFile>
+#include <ksycoca.h>
 
 KServiceGroup::KServiceGroup(const QString &name)
     : KSycocaEntry(*new KServiceGroupPrivate(name))
@@ -66,8 +66,8 @@ void KServiceGroupPrivate::load(const QString &cfg)
     }
 }
 
-KServiceGroup::KServiceGroup(QDataStream &_str, int offset, bool deep) :
-    KSycocaEntry(*new KServiceGroupPrivate(_str, offset))
+KServiceGroup::KServiceGroup(QDataStream &_str, int offset, bool deep)
+    : KSycocaEntry(*new KServiceGroupPrivate(_str, offset))
 {
     Q_D(KServiceGroup);
     d->m_bDeep = deep;
@@ -112,16 +112,15 @@ int KServiceGroupPrivate::childCount() const
     if (m_childCount == -1) {
         m_childCount = 0;
 
-        for (KServiceGroup::List::ConstIterator it = m_serviceList.begin();
-                it != m_serviceList.end(); ++it) {
+        for (KServiceGroup::List::ConstIterator it = m_serviceList.begin(); it != m_serviceList.end(); ++it) {
             KSycocaEntry::Ptr p = *it;
             if (p->isType(KST_KService)) {
-                KService::Ptr service(static_cast<KService*>(p.data()));
+                KService::Ptr service(static_cast<KService *>(p.data()));
                 if (!service->noDisplay()) {
                     m_childCount++;
                 }
             } else if (p->isType(KST_KServiceGroup)) {
-                KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup*>(p.data()));
+                KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup *>(p.data()));
                 m_childCount += serviceGroup->childCount();
             }
         }
@@ -209,10 +208,8 @@ void KServiceGroupPrivate::load(QDataStream &s)
     qint8 inlineHeader;
     qint8 _inlineAlias;
     qint8 _allowInline;
-    s >> m_strCaption >> m_strIcon >>
-      m_strComment >> groupList >> m_strBaseGroupName >> m_childCount >>
-      noDisplay >> suppressGenericNames >> directoryEntryPath >>
-      sortOrder >> _showEmptyMenu >> inlineHeader >> _inlineAlias >> _allowInline;
+    s >> m_strCaption >> m_strIcon >> m_strComment >> groupList >> m_strBaseGroupName >> m_childCount >> noDisplay >> suppressGenericNames >> directoryEntryPath
+        >> sortOrder >> _showEmptyMenu >> inlineHeader >> _inlineAlias >> _allowInline;
 
     m_bNoDisplay = (noDisplay != 0);
     m_bShowEmptyMenu = (_showEmptyMenu != 0);
@@ -252,27 +249,25 @@ void KServiceGroupPrivate::save(QDataStream &s)
     QStringList groupList;
     for (const KSycocaEntry::Ptr &p : qAsConst(m_serviceList)) {
         if (p->isType(KST_KService)) {
-            KService::Ptr service(static_cast<KService*>(p.data()));
+            KService::Ptr service(static_cast<KService *>(p.data()));
             groupList.append(service->entryPath());
         } else if (p->isType(KST_KServiceGroup)) {
-            KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup*>(p.data()));
+            KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup *>(p.data()));
             groupList.append(serviceGroup->relPath());
         } else {
-            //fprintf(stderr, "KServiceGroup: Unexpected object in list!\n");
+            // fprintf(stderr, "KServiceGroup: Unexpected object in list!\n");
         }
     }
 
-    (void) childCount();
+    (void)childCount();
 
     qint8 noDisplay = m_bNoDisplay ? 1 : 0;
     qint8 _showEmptyMenu = m_bShowEmptyMenu ? 1 : 0;
     qint8 inlineHeader = m_bShowInlineHeader ? 1 : 0;
     qint8 _inlineAlias = m_bInlineAlias ? 1 : 0;
     qint8 _allowInline = m_bAllowInline ? 1 : 0;
-    s << m_strCaption << m_strIcon <<
-      m_strComment << groupList << m_strBaseGroupName << m_childCount <<
-      noDisplay << suppressGenericNames << directoryEntryPath <<
-      sortOrder << _showEmptyMenu << inlineHeader << _inlineAlias << _allowInline;
+    s << m_strCaption << m_strIcon << m_strComment << groupList << m_strBaseGroupName << m_childCount << noDisplay << suppressGenericNames << directoryEntryPath
+      << sortOrder << _showEmptyMenu << inlineHeader << _inlineAlias << _allowInline;
 }
 
 QList<KServiceGroup::Ptr> KServiceGroup::groupEntries(EntriesOptions options)
@@ -283,7 +278,7 @@ QList<KServiceGroup::Ptr> KServiceGroup::groupEntries(EntriesOptions options)
     const List tmp = d->entries(this, sort, options & ExcludeNoDisplay, options & AllowSeparators, options & SortByGenericName);
     for (const SPtr &ptr : tmp) {
         if (ptr->isType(KST_KServiceGroup)) {
-            KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup*>(ptr.data()));
+            KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup *>(ptr.data()));
             list.append(serviceGroup);
         } else if (ptr->isType(KST_KServiceSeparator)) {
             list.append(KServiceGroup::Ptr(static_cast<KServiceGroup *>(new KSycocaEntry())));
@@ -303,7 +298,7 @@ KService::List KServiceGroup::serviceEntries(EntriesOptions options)
     bool foundService = false;
     for (const SPtr &ptr : tmp) {
         if (ptr->isType(KST_KService)) {
-            list.append(KService::Ptr(static_cast<KService*>(ptr.data())));
+            list.append(KService::Ptr(static_cast<KService *>(ptr.data())));
             foundService = true;
         } else if (ptr->isType(KST_KServiceSeparator) && foundService) {
             list.append(KService::Ptr(static_cast<KService *>(new KSycocaEntry())));
@@ -312,22 +307,19 @@ KService::List KServiceGroup::serviceEntries(EntriesOptions options)
     return list;
 }
 
-KServiceGroup::List
-KServiceGroup::entries(bool sort)
+KServiceGroup::List KServiceGroup::entries(bool sort)
 {
     Q_D(KServiceGroup);
     return d->entries(this, sort, true, false, false);
 }
 
-KServiceGroup::List
-KServiceGroup::entries(bool sort, bool excludeNoDisplay)
+KServiceGroup::List KServiceGroup::entries(bool sort, bool excludeNoDisplay)
 {
     Q_D(KServiceGroup);
     return d->entries(this, sort, excludeNoDisplay, false, false);
 }
 
-KServiceGroup::List
-KServiceGroup::entries(bool sort, bool excludeNoDisplay, bool allowSeparators, bool sortByGenericName)
+KServiceGroup::List KServiceGroup::entries(bool sort, bool excludeNoDisplay, bool allowSeparators, bool sortByGenericName)
 {
     Q_D(KServiceGroup);
     return d->entries(this, sort, excludeNoDisplay, allowSeparators, sortByGenericName);
@@ -342,8 +334,7 @@ static void addItem(KServiceGroup::List &sorted, const KSycocaEntry::Ptr &p, boo
     addSeparator = false;
 }
 
-KServiceGroup::List
-KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDisplay, bool allowSeparators, bool sortByGenericName)
+KServiceGroup::List KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDisplay, bool allowSeparators, bool sortByGenericName)
 {
     KSycoca::self()->ensureCacheValid();
 
@@ -374,9 +365,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
     SortedContainer glist;
     const auto listService = group->d_func()->m_serviceList;
     for (const KSycocaEntry::Ptr &p : listService) {
-        bool noDisplay = p->isType(KST_KServiceGroup) ?
-                         static_cast<KServiceGroup *>(p.data())->noDisplay() :
-                         static_cast<KService *>(p.data())->noDisplay();
+        bool noDisplay = p->isType(KST_KServiceGroup) ? static_cast<KServiceGroup *>(p.data())->noDisplay() : static_cast<KService *>(p.data())->noDisplay();
         if (excludeNoDisplay && noDisplay) {
             continue;
         }
@@ -419,7 +408,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
     if (sortOrder.isEmpty()) {
         sortOrder << QStringLiteral(":M");
         sortOrder << QStringLiteral(":F");
-        sortOrder << QStringLiteral(":OIH IL[4]"); //just inline header
+        sortOrder << QStringLiteral(":OIH IL[4]"); // just inline header
     }
 
     QString rp = path;
@@ -437,7 +426,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
             QString groupPath = rp + item.midRef(1) + QLatin1Char('/');
             // Remove entry from sorted list of services.
             for (SortedContainer::iterator it2 = glist.begin(); it2 != glist.end(); ++it2) {
-                const KServiceGroup::Ptr group(static_cast<KServiceGroup*>(it2.value().data()));
+                const KServiceGroup::Ptr group(static_cast<KServiceGroup *>(it2.value().data()));
                 if (group->relPath() == groupPath) {
                     glist.erase(it2);
                     break;
@@ -448,7 +437,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
             // TODO: Remove item from sortOrder-list if not found
             // TODO: This prevents duplicates
             for (SortedContainer::iterator it2 = slist.begin(); it2 != slist.end(); ++it2) {
-                const KService::Ptr service(static_cast<KService*>(it2.value().data()));
+                const KService::Ptr service(static_cast<KService *>(it2.value().data()));
                 if (service->menuId() == item) {
                     slist.erase(it2);
                     break;
@@ -474,7 +463,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
                     needSeparator = true;
                 }
             } else if (item.contains(QLatin1String(":O"))) {
-                //todo parse attribute:
+                // todo parse attribute:
                 QString tmp(item);
                 tmp.remove(QStringLiteral(":O"));
                 QStringList optionAttribute = tmp.split(QLatin1Char(' '), Qt::SkipEmptyParts);
@@ -488,10 +477,10 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
                 int inlineValue = -1;
 
                 for (QStringList::Iterator it3 = optionAttribute.begin(); it3 != optionAttribute.end(); ++it3) {
-                    parseAttribute(*it3,  showEmptyMenu, showInline, showInlineHeader, showInlineAlias, inlineValue);
+                    parseAttribute(*it3, showEmptyMenu, showInline, showInlineHeader, showInlineAlias, inlineValue);
                 }
                 for (SortedContainer::Iterator it2 = glist.begin(); it2 != glist.end(); ++it2) {
-                    KServiceGroup::Ptr group(static_cast<KServiceGroup*>(it2.value().data()));
+                    KServiceGroup::Ptr group(static_cast<KServiceGroup *>(it2.value().data()));
                     group->setShowEmptyMenu(showEmptyMenu);
                     group->setAllowInline(showInline);
                     group->setShowInlineHeader(showInlineHeader);
@@ -517,7 +506,7 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
                 while (true) {
                     if (it_s == slist.end()) {
                         if (it_g == glist.end()) {
-                            break;    // Done
+                            break; // Done
                         }
 
                         // Insert remaining sub-menu
@@ -541,17 +530,15 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
         } else if (item[0] == QLatin1Char('/')) {
             QString groupPath = rp + item.midRef(1) + QLatin1Char('/');
 
-            for (KServiceGroup::List::ConstIterator it2(group->d_func()->m_serviceList.constBegin());
-                    it2 != group->d_func()->m_serviceList.constEnd(); ++it2) {
+            for (KServiceGroup::List::ConstIterator it2(group->d_func()->m_serviceList.constBegin()); it2 != group->d_func()->m_serviceList.constEnd(); ++it2) {
                 if (!(*it2)->isType(KST_KServiceGroup)) {
                     continue;
                 }
-                KServiceGroup::Ptr group(static_cast<KServiceGroup*>((*it2).data()));
+                KServiceGroup::Ptr group(static_cast<KServiceGroup *>((*it2).data()));
                 if (group->relPath() == groupPath) {
                     if (!excludeNoDisplay || !group->noDisplay()) {
                         ++it;
-                        const QString &nextItem =
-                            (it == sortOrder.constEnd()) ? QString() : *it;
+                        const QString &nextItem = (it == sortOrder.constEnd()) ? QString() : *it;
 
                         if (nextItem.startsWith(QLatin1String(":O"))) {
                             QString tmp(nextItem);
@@ -583,12 +570,11 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
                 }
             }
         } else {
-            for (KServiceGroup::List::ConstIterator it2(group->d_func()->m_serviceList.constBegin());
-                    it2 != group->d_func()->m_serviceList.constEnd(); ++it2) {
+            for (KServiceGroup::List::ConstIterator it2(group->d_func()->m_serviceList.constBegin()); it2 != group->d_func()->m_serviceList.constEnd(); ++it2) {
                 if (!(*it2)->isType(KST_KService)) {
                     continue;
                 }
-                const KService::Ptr service(static_cast<KService*>((*it2).data()));
+                const KService::Ptr service(static_cast<KService *>((*it2).data()));
                 if (service->menuId() == item) {
                     if (!excludeNoDisplay || !service->noDisplay()) {
                         addItem(sorted, (*it2), needSeparator);
@@ -602,34 +588,39 @@ KServiceGroupPrivate::entries(KServiceGroup *group, bool sort, bool excludeNoDis
     return sorted;
 }
 
-void KServiceGroupPrivate::parseAttribute(const QString &item,  bool &showEmptyMenu, bool &showInline, bool &showInlineHeader, bool &showInlineAlias, int &inlineValue)
+void KServiceGroupPrivate::parseAttribute(const QString &item,
+                                          bool &showEmptyMenu,
+                                          bool &showInline,
+                                          bool &showInlineHeader,
+                                          bool &showInlineAlias,
+                                          int &inlineValue)
 {
-    if (item == QLatin1String("ME")) { //menu empty
+    if (item == QLatin1String("ME")) { // menu empty
         showEmptyMenu = true;
-    } else if (item == QLatin1String("NME")) { //not menu empty
+    } else if (item == QLatin1String("NME")) { // not menu empty
         showEmptyMenu = false;
-    } else if (item == QLatin1String("I")) { //inline menu !
+    } else if (item == QLatin1String("I")) { // inline menu !
         showInline = true;
-    } else if (item == QLatin1String("NI")) { //not inline menu!
+    } else if (item == QLatin1String("NI")) { // not inline menu!
         showInline = false;
-    } else if (item == QLatin1String("IH")) { //inline  header!
+    } else if (item == QLatin1String("IH")) { // inline  header!
         showInlineHeader = true;
-    } else if (item == QLatin1String("NIH")) { //not inline  header!
+    } else if (item == QLatin1String("NIH")) { // not inline  header!
         showInlineHeader = false;
-    } else if (item == QLatin1String("IA")) { //inline alias!
+    } else if (item == QLatin1String("IA")) { // inline alias!
         showInlineAlias = true;
-    } else if (item == QLatin1String("NIA")) { //not inline alias!
+    } else if (item == QLatin1String("NIA")) { // not inline alias!
         showInlineAlias = false;
-    } else if ((item).contains(QLatin1String("IL"))) { //inline limite!
+    } else if ((item).contains(QLatin1String("IL"))) { // inline limite!
         QString tmp(item);
         tmp.remove(QStringLiteral("IL["));
         tmp.remove(QLatin1Char(']'));
         bool ok;
         int _inlineValue = tmp.toInt(&ok);
-        if (!ok) { //error
+        if (!ok) { // error
             _inlineValue = -1;
         }
-        inlineValue =  _inlineValue;
+        inlineValue = _inlineValue;
     } else {
         qCDebug(SERVICES) << "This attribute is not supported:" << item;
     }
@@ -647,15 +638,13 @@ QStringList KServiceGroup::layoutInfo() const
     return d->sortOrder;
 }
 
-KServiceGroup::Ptr
-KServiceGroup::root()
+KServiceGroup::Ptr KServiceGroup::root()
 {
     KSycoca::self()->ensureCacheValid();
     return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(QStringLiteral("/"), true);
 }
 
-KServiceGroup::Ptr
-KServiceGroup::group(const QString &relPath)
+KServiceGroup::Ptr KServiceGroup::group(const QString &relPath)
 {
     if (relPath.isEmpty()) {
         return root();
@@ -664,8 +653,7 @@ KServiceGroup::group(const QString &relPath)
     return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(relPath, true);
 }
 
-KServiceGroup::Ptr
-KServiceGroup::childGroup(const QString &parent)
+KServiceGroup::Ptr KServiceGroup::childGroup(const QString &parent)
 {
     KSycoca::self()->ensureCacheValid();
     return KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(QLatin1String("#parent#") + parent, true);
@@ -676,8 +664,7 @@ QString KServiceGroup::baseGroupName() const
     return d_func()->m_strBaseGroupName;
 }
 
-QString
-KServiceGroup::directoryEntryPath() const
+QString KServiceGroup::directoryEntryPath() const
 {
     Q_D(const KServiceGroup);
     return d->directoryEntryPath;
@@ -701,7 +688,6 @@ QString KServiceSeparatorPrivate::name() const
     return QStringLiteral("separator");
 }
 
-
 KServiceSeparator::KServiceSeparator()
     : KSycocaEntry(*new KServiceSeparatorPrivate(QStringLiteral("separator")))
 {
@@ -710,4 +696,3 @@ KServiceSeparator::KServiceSeparator()
 KServiceSeparator::~KServiceSeparator()
 {
 }
-

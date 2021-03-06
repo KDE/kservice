@@ -6,8 +6,8 @@
 
 #include <kdbusservicestarter.h>
 
-#include <kservice.h>
 #include <QCoreApplication>
+#include <kservice.h>
 
 int main(int argc, char **argv)
 {
@@ -15,8 +15,7 @@ int main(int argc, char **argv)
     QCoreApplication app(argc, argv);
 
     QString error, dbusService;
-    KDBusServiceStarter::self()->
-    findServiceFor(QStringLiteral("DBUS/Organizer"), QString(), &error, &dbusService);
+    KDBusServiceStarter::self()->findServiceFor(QStringLiteral("DBUS/Organizer"), QString(), &error, &dbusService);
 
     return 0;
 }

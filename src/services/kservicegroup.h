@@ -8,8 +8,8 @@
 #ifndef KSERVICEGROUP_H
 #define KSERVICEGROUP_H
 
-#include <kservice_export.h>
 #include <kservice.h>
+#include <kservice_export.h>
 
 class KBuildServiceGroupFactory;
 
@@ -52,6 +52,7 @@ class KServiceGroupPrivate;
 class KSERVICE_EXPORT KServiceGroup : public KSycocaEntry
 {
     friend class KBuildServiceGroupFactory;
+
 public:
     /**
      * A shared data pointer for KServiceGroup.
@@ -65,6 +66,7 @@ public:
      * A list of shared data pointers for KSycocaEntry.
      */
     typedef QList<SPtr> List;
+
 public:
     /**
      * Construct a dummy servicegroup indexed with @p name.
@@ -196,8 +198,8 @@ public:
      * @see EntriesOptions
      */
     enum EntriesOption {
-        NoOptions = 0x0,        /**< no options set */
-        SortEntries = 0x1,    /**< sort items */
+        NoOptions = 0x0, /**< no options set */
+        SortEntries = 0x1, /**< sort items */
         ExcludeNoDisplay = 0x2, /**< exclude items marked "NoDisplay" */
         AllowSeparators = 0x4, /**< allow separator items to be included */
         SortByGenericName = 0x8, /**< sort by GenericName+Name instead of Name+GenericName */

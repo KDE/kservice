@@ -5,11 +5,11 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
+#include "kservice.h"
 #include "kservicegroupfactory_p.h"
 #include "ksycoca.h"
-#include "ksycocatype.h"
 #include "ksycocadict_p.h"
-#include "kservice.h"
+#include "ksycocatype.h"
 
 #include "servicesdebug.h"
 
@@ -45,11 +45,11 @@ KServiceGroupFactory::~KServiceGroupFactory()
 KServiceGroup::Ptr KServiceGroupFactory::findGroupByDesktopPath(const QString &_name, bool deep)
 {
     if (!sycocaDict()) {
-        return KServiceGroup::Ptr();    // Error!
+        return KServiceGroup::Ptr(); // Error!
     }
     int offset = sycocaDict()->find_string(_name);
     if (!offset) {
-        return KServiceGroup::Ptr();    // Not found
+        return KServiceGroup::Ptr(); // Not found
     }
 
     KServiceGroup::Ptr newGroup(createGroup(offset, deep));
@@ -65,7 +65,7 @@ KServiceGroup::Ptr KServiceGroupFactory::findGroupByDesktopPath(const QString &_
 KServiceGroup::Ptr KServiceGroupFactory::findBaseGroup(const QString &_baseGroupName, bool deep)
 {
     if (!m_baseGroupDict) {
-        return KServiceGroup::Ptr();    // Error!
+        return KServiceGroup::Ptr(); // Error!
     }
 
     // Warning : this assumes we're NOT building a database
@@ -74,7 +74,7 @@ KServiceGroup::Ptr KServiceGroupFactory::findBaseGroup(const QString &_baseGroup
 
     int offset = m_baseGroupDict->find_string(_baseGroupName);
     if (!offset) {
-        return KServiceGroup::Ptr();    // Not found
+        return KServiceGroup::Ptr(); // Not found
     }
 
     KServiceGroup::Ptr newGroup(createGroup(offset, deep));
@@ -114,4 +114,3 @@ void KServiceGroupFactory::virtual_hook(int id, void *data)
 {
     KSycocaFactory::virtual_hook(id, data);
 }
-

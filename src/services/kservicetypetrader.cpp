@@ -8,13 +8,13 @@
 
 #include "kservicetypetrader.h"
 
+#include "kservicefactory_p.h"
+#include "kservicetype.h"
+#include "kservicetypefactory_p.h"
 #include "ksycoca.h"
 #include "ksycoca_p.h"
 #include "ktraderparsetree_p.h"
 #include <kservicetypeprofile.h>
-#include "kservicetype.h"
-#include "kservicetypefactory_p.h"
-#include "kservicefactory_p.h"
 
 #include "servicesdebug.h"
 
@@ -50,14 +50,13 @@ KServiceTypeTrader::~KServiceTypeTrader()
 }
 
 // shared with KMimeTypeTrader
-void KServiceTypeTrader::applyConstraints(KService::List &lst,
-        const QString &constraint)
+void KServiceTypeTrader::applyConstraints(KService::List &lst, const QString &constraint)
 {
     if (lst.isEmpty() || constraint.isEmpty()) {
         return;
     }
 
-    const ParseTreeBase::Ptr constr = parseConstraints(constraint);   // for ownership
+    const ParseTreeBase::Ptr constr = parseConstraints(constraint); // for ownership
     const ParseTreeBase *pConstraintTree = constr.data(); // for speed
 
     if (!constr) { // parse error
@@ -76,9 +75,9 @@ void KServiceTypeTrader::applyConstraints(KService::List &lst,
     }
 }
 
-KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType)   // static, internal
+KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType) // static, internal
 {
-    //qDebug() << "KServiceTypeTrader::weightedOffers( " << serviceType << " )";
+    // qDebug() << "KServiceTypeTrader::weightedOffers( " << serviceType << " )";
 
     KSycoca::self()->ensureCacheValid();
     KServiceType::Ptr servTypePtr = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(serviceType);
@@ -86,7 +85,7 @@ KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType)
         qCWarning(SERVICES) << "KServiceTypeTrader: serviceType" << serviceType << "not found";
         return KServiceOfferList();
     }
-    if (servTypePtr->serviceOffersOffset() == -1) {  // no offers in ksycoca
+    if (servTypePtr->serviceOffersOffset() == -1) { // no offers in ksycoca
         return KServiceOfferList();
     }
 
@@ -98,8 +97,7 @@ KServiceOfferList KServiceTypeTrader::weightedOffers(const QString &serviceType)
     return offers;
 }
 
-KService::List KServiceTypeTrader::defaultOffers(const QString &serviceType,
-        const QString &constraint) const
+KService::List KServiceTypeTrader::defaultOffers(const QString &serviceType, const QString &constraint) const
 {
     KSycoca::self()->ensureCacheValid();
     KServiceType::Ptr servTypePtr = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(serviceType);
@@ -111,18 +109,16 @@ KService::List KServiceTypeTrader::defaultOffers(const QString &serviceType,
         return KService::List();
     }
 
-    KService::List lst =
-        KSycocaPrivate::self()->serviceFactory()->serviceOffers(servTypePtr->offset(), servTypePtr->serviceOffersOffset());
+    KService::List lst = KSycocaPrivate::self()->serviceFactory()->serviceOffers(servTypePtr->offset(), servTypePtr->serviceOffersOffset());
 
     applyConstraints(lst, constraint);
 
-    //qDebug() << "query for serviceType " << serviceType << constraint
+    // qDebug() << "query for serviceType " << serviceType << constraint
     //             << " : returning " << lst.count() << " offers" << endl;
     return lst;
 }
 
-KService::List KServiceTypeTrader::query(const QString &serviceType,
-        const QString &constraint) const
+KService::List KServiceTypeTrader::query(const QString &serviceType, const QString &constraint) const
 {
     if (!KServiceTypeProfile::hasProfile(serviceType)) {
         // Fast path: skip the profile stuff if there's none (to avoid kservice->serviceoffer->kservice)
@@ -142,7 +138,7 @@ KService::List KServiceTypeTrader::query(const QString &serviceType,
 
     applyConstraints(lst, constraint);
 
-    //qDebug() << "query for serviceType " << serviceType << constraint
+    // qDebug() << "query for serviceType " << serviceType << constraint
     //             << " : returning " << lst.count() << " offers" << endl;
     return lst;
 }
@@ -163,6 +159,6 @@ KService::Ptr KServiceTypeTrader::preferredService(const QString &serviceType) c
         return (*itOff).service();
     }
 
-    //qDebug() << "No offers, or none allowed as default";
+    // qDebug() << "No offers, or none allowed as default";
     return KService::Ptr();
 }

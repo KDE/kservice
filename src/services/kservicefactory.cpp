@@ -5,11 +5,11 @@
     SPDX-License-Identifier: LGPL-2.0-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
+#include "kservice.h"
 #include "kservicefactory_p.h"
 #include "ksycoca.h"
-#include "ksycocatype.h"
 #include "ksycocadict_p.h"
-#include "kservice.h"
+#include "ksycocatype.h"
 #include "servicesdebug.h"
 #include <QDir>
 #include <QFile>
@@ -17,10 +17,10 @@
 extern int servicesDebugArea();
 
 KServiceFactory::KServiceFactory(KSycoca *db)
-    : KSycocaFactory(KST_KServiceFactory, db),
-      m_nameDict(nullptr),
-      m_relNameDict(nullptr),
-      m_menuIdDict(nullptr)
+    : KSycocaFactory(KST_KServiceFactory, db)
+    , m_nameDict(nullptr)
+    , m_relNameDict(nullptr)
+    , m_menuIdDict(nullptr)
 {
     m_offerListOffset = 0;
     m_nameDictOffset = 0;
@@ -64,7 +64,7 @@ KServiceFactory::~KServiceFactory()
 KService::Ptr KServiceFactory::findServiceByName(const QString &_name)
 {
     if (!sycocaDict()) {
-        return KService::Ptr();    // Error!
+        return KService::Ptr(); // Error!
     }
 
     // Warning : this assumes we're NOT building a database
@@ -73,7 +73,7 @@ KService::Ptr KServiceFactory::findServiceByName(const QString &_name)
 
     int offset = sycocaDict()->find_string(_name);
     if (!offset) {
-        return KService::Ptr();    // Not found
+        return KService::Ptr(); // Not found
     }
 
     KService::Ptr newService(createEntry(offset));
@@ -89,7 +89,7 @@ KService::Ptr KServiceFactory::findServiceByName(const QString &_name)
 KService::Ptr KServiceFactory::findServiceByDesktopName(const QString &_name)
 {
     if (!m_nameDict) {
-        return KService::Ptr();    // Error!
+        return KService::Ptr(); // Error!
     }
 
     // Warning : this assumes we're NOT building a database
@@ -97,7 +97,7 @@ KService::Ptr KServiceFactory::findServiceByDesktopName(const QString &_name)
 
     int offset = m_nameDict->find_string(_name);
     if (!offset) {
-        return KService::Ptr();    // Not found
+        return KService::Ptr(); // Not found
     }
 
     KService::Ptr newService(createEntry(offset));
@@ -113,7 +113,7 @@ KService::Ptr KServiceFactory::findServiceByDesktopName(const QString &_name)
 KService::Ptr KServiceFactory::findServiceByDesktopPath(const QString &_name)
 {
     if (!m_relNameDict) {
-        return KService::Ptr();    // Error!
+        return KService::Ptr(); // Error!
     }
 
     // Warning : this assumes we're NOT building a database
@@ -121,7 +121,7 @@ KService::Ptr KServiceFactory::findServiceByDesktopPath(const QString &_name)
 
     int offset = m_relNameDict->find_string(_name);
     if (!offset) {
-        //qCDebug(SERVICES) << "findServiceByDesktopPath:" << _name << "not found";
+        // qCDebug(SERVICES) << "findServiceByDesktopPath:" << _name << "not found";
         return KService::Ptr(); // Not found
     }
 
@@ -142,7 +142,7 @@ KService::Ptr KServiceFactory::findServiceByDesktopPath(const QString &_name)
 KService::Ptr KServiceFactory::findServiceByMenuId(const QString &_menuId)
 {
     if (!m_menuIdDict) {
-        return KService::Ptr();    // Error!
+        return KService::Ptr(); // Error!
     }
 
     // Warning : this assumes we're NOT building a database
@@ -150,7 +150,7 @@ KService::Ptr KServiceFactory::findServiceByMenuId(const QString &_menuId)
 
     int offset = m_menuIdDict->find_string(_menuId);
     if (!offset) {
-        return KService::Ptr();    // Not found
+        return KService::Ptr(); // Not found
     }
 
     KService::Ptr newService(createEntry(offset));
@@ -221,7 +221,7 @@ KService::List KServiceFactory::allServices()
     for (; it != end; ++it) {
         const KSycocaEntry::Ptr entry = *it;
         if (entry->isType(KST_KService)) {
-            KService::Ptr service(static_cast<KService*>(entry.data()));
+            KService::Ptr service(static_cast<KService *>(entry.data()));
             result.append(service);
         }
     }
@@ -230,8 +230,7 @@ KService::List KServiceFactory::allServices()
 
 QStringList KServiceFactory::resourceDirs()
 {
-    return KSycocaFactory::allDirectories(QStringLiteral("kservices5"))
-           + KSycocaFactory::allDirectories(QStringLiteral("applications"));
+    return KSycocaFactory::allDirectories(QStringLiteral("kservices5")) + KSycocaFactory::allDirectories(QStringLiteral("applications"));
 }
 
 QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceOffersOffset)
@@ -265,10 +264,10 @@ QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceO
                 // Restore position
                 str->device()->seek(savedPos);
             } else {
-                break;    // too far
+                break; // too far
             }
         } else {
-            break;    // 0 => end of list
+            break; // 0 => end of list
         }
     }
     return list;
@@ -305,10 +304,10 @@ KService::List KServiceFactory::serviceOffers(int serviceTypeOffset, int service
                 // Restore position
                 str->device()->seek(savedPos);
             } else {
-                break;    // too far
+                break; // too far
             }
         } else {
-            break;    // 0 => end of list
+            break; // 0 => end of list
         }
     }
     return list;
@@ -340,10 +339,10 @@ bool KServiceFactory::hasOffer(int serviceTypeOffset, int serviceOffersOffset, i
                     found = true;
                 }
             } else {
-                break;    // too far
+                break; // too far
             }
         } else {
-            break;    // 0 => end of list
+            break; // 0 => end of list
         }
     }
     // Restore position
@@ -355,4 +354,3 @@ void KServiceFactory::virtual_hook(int id, void *data)
 {
     KSycocaFactory::virtual_hook(id, data);
 }
-

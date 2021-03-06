@@ -4,21 +4,21 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-
-#include <QTest>
-#include <KSharedConfig>
-#include <KService>
 #include <KConfigGroup>
+#include <KService>
+#include <KSharedConfig>
+#include <QTest>
 #include <ktoolinvocation.h>
 
 class KToolInvocationTest : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
-        void initTestCase();
-        void testTerminalEntryParsing();
-        void testLegacyEntryParsing();
-        void testTerminalEntryParsingWithParameters();
+    void initTestCase();
+    void testTerminalEntryParsing();
+    void testLegacyEntryParsing();
+    void testTerminalEntryParsingWithParameters();
+
 private:
     KConfigGroup general;
 };

@@ -14,9 +14,9 @@ class KServiceOfferPrivate
 {
 public:
     KServiceOfferPrivate()
-        : preference(-1),
-          mimeTypeInheritanceLevel(0),
-          pService(nullptr)
+        : preference(-1)
+        , mimeTypeInheritanceLevel(0)
+        , pService(nullptr)
     {
     }
 
@@ -73,7 +73,7 @@ KServiceOffer &KServiceOffer::operator=(const KServiceOffer &rhs)
     return *this;
 }
 
-bool KServiceOffer::operator< (const KServiceOffer &_o) const
+bool KServiceOffer::operator<(const KServiceOffer &_o) const
 {
     // First check mimetype inheritance level.
     // Direct mimetype association is preferred above association via parent mimetype
@@ -85,10 +85,10 @@ bool KServiceOffer::operator< (const KServiceOffer &_o) const
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 71)
     // Put offers allowed as default FIRST.
     if (_o.d->bAllowAsDefault && !d->bAllowAsDefault) {
-        return false;    // _o is default and not 'this'.
+        return false; // _o is default and not 'this'.
     }
     if (!_o.d->bAllowAsDefault && d->bAllowAsDefault) {
-        return true;    // 'this' is default but not _o.
+        return true; // 'this' is default but not _o.
     }
     // Both offers are allowed or not allowed as default
 #endif
@@ -135,13 +135,12 @@ int KServiceOffer::mimeTypeInheritanceLevel() const
     return d->mimeTypeInheritanceLevel;
 }
 
-
 QDebug operator<<(QDebug dbg, const KServiceOffer &offer)
 {
     QDebugStateSaver saver(dbg);
     dbg.nospace() << offer.service()->storageId() << " " << offer.preference();
     if (offer.mimeTypeInheritanceLevel() > 0) {
-       dbg << " (inheritance level " << offer.mimeTypeInheritanceLevel() << ")";
+        dbg << " (inheritance level " << offer.mimeTypeInheritanceLevel() << ")";
     }
     return dbg;
 }

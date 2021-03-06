@@ -4,11 +4,11 @@
     SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#include <kservice.h>
-#include <QCoreApplication>
 #include <QCommandLineParser>
+#include <QCoreApplication>
 #include <QTextStream>
 #include <kmimeassociations_p.h>
+#include <kservice.h>
 #include <ksycoca_p.h>
 
 int main(int argc, char *argv[])

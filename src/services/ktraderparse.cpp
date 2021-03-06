@@ -7,11 +7,10 @@
 
 // TODO: Torben: On error free memory!   (r932881 might serve as inspiration)
 
-extern "C"
-{
+extern "C" {
 #include "ktraderparse_p.h"
 
-    void KTraderParse_mainParse(const char *_code);
+void KTraderParse_mainParse(const char *_code);
 }
 
 #include "ktraderparsetree_p.h"
@@ -19,12 +18,11 @@ extern "C"
 #include <assert.h>
 #include <stdlib.h>
 
-#include <QThreadStorage>
 #include "servicesdebug.h"
+#include <QThreadStorage>
 
 namespace KTraderParse
 {
-
 struct ParsingData {
     ParseTreeBase::Ptr ptr;
     QByteArray buffer;
@@ -80,8 +78,7 @@ void *KTraderParse_newIN(void *_ptr1, void *_ptr2, int _cs)
 
 void *KTraderParse_newSubstringIN(void *_ptr1, void *_ptr2, int _cs)
 {
-    return new ParseTreeIN(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2),
-                           _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive, true);
+    return new ParseTreeIN(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2), _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive, true);
 }
 
 void *KTraderParse_newMATCH(void *_ptr1, void *_ptr2, int _cs)
@@ -91,7 +88,9 @@ void *KTraderParse_newMATCH(void *_ptr1, void *_ptr2, int _cs)
 
 void *KTraderParse_newSubsequenceMATCH(void *_ptr1, void *_ptr2, int _cs)
 {
-  return new ParseTreeSubsequenceMATCH(static_cast<ParseTreeBase *>(_ptr1), static_cast<ParseTreeBase *>(_ptr2), _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive);
+    return new ParseTreeSubsequenceMATCH(static_cast<ParseTreeBase *>(_ptr1),
+                                         static_cast<ParseTreeBase *>(_ptr2),
+                                         _cs == 1 ? Qt::CaseSensitive : Qt::CaseInsensitive);
 }
 
 void *KTraderParse_newCALC(void *_ptr1, void *_ptr2, int _i)
@@ -167,4 +166,3 @@ void KTraderParse_destroy(void *node)
         delete p;
     }
 }
-

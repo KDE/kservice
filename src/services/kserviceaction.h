@@ -8,8 +8,8 @@
 #ifndef KSERVICEACTION_H
 #define KSERVICEACTION_H
 
-#include <kservice_export.h>
 #include <QSharedDataPointer>
+#include <kservice_export.h>
 class QVariant;
 class KServiceActionPrivate;
 class KService;
@@ -36,9 +36,7 @@ public:
      * @deprecated Since 5.69, use the 6-args constructor
      */
     KSERVICE_DEPRECATED_VERSION_BELATED(5, 71, 5, 69, "Use the 6-args constructor")
-    KServiceAction(const QString &name, const QString &text,
-                   const QString &icon, const QString &exec,
-                   bool noDisplay = false);
+    KServiceAction(const QString &name, const QString &text, const QString &icon, const QString &exec, bool noDisplay = false);
 #endif
     /**
      * Creates a KServiceAction.
@@ -46,9 +44,7 @@ public:
      * when parsing the .desktop file.
      * @since 5.69
      */
-    KServiceAction(const QString &name, const QString &text,
-                   const QString &icon, const QString &exec,
-                   bool noDisplay, const KServicePtr &service);
+    KServiceAction(const QString &name, const QString &text, const QString &icon, const QString &exec, bool noDisplay, const KServicePtr &service);
     /**
      * @internal
      * Needed for operator>>
@@ -132,4 +128,3 @@ KSERVICE_EXPORT QDataStream &operator>>(QDataStream &str, KServiceAction &act);
 KSERVICE_EXPORT QDataStream &operator<<(QDataStream &str, const KServiceAction &act);
 
 #endif /* KSERVICEACTION_H */
-

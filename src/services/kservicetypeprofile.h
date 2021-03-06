@@ -39,9 +39,8 @@ namespace KServiceTypeProfile
  * @deprecated since 5.66, unused.
  */
 KSERVICE_DEPRECATED_VERSION(5, 66, "Unused")
-KSERVICE_EXPORT void writeServiceTypeProfile(const QString &serviceType,
-        const KService::List &services,
-        const KService::List &disabledServices = KService::List());
+KSERVICE_EXPORT void
+writeServiceTypeProfile(const QString &serviceType, const KService::List &services, const KService::List &disabledServices = KService::List());
 
 /**
  * Delete the complete profile for a given servicetype, reverting to the default

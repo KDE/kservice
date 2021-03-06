@@ -5,24 +5,26 @@
     SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#include "ksycocafactory_p.h"
 #include "ksycoca.h"
-#include "ksycocatype.h"
+#include "ksycocadict_p.h"
 #include "ksycocaentry.h"
 #include "ksycocaentry_p.h"
-#include "ksycocadict_p.h"
+#include "ksycocafactory_p.h"
+#include "ksycocatype.h"
 #include "sycocadebug.h"
 
 #include <QDebug>
 
-#include <QThread>
 #include <QHash>
 #include <QIODevice>
+#include <QThread>
 
 class KSycocaFactoryPrivate
 {
 public:
-    KSycocaFactoryPrivate() {}
+    KSycocaFactoryPrivate()
+    {
+    }
     ~KSycocaFactoryPrivate()
     {
         delete m_sycocaDict;
@@ -36,7 +38,8 @@ public:
 };
 
 KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id, KSycoca *sycoca)
-    : m_sycoca(sycoca), d(new KSycocaFactoryPrivate)
+    : m_sycoca(sycoca)
+    , d(new KSycocaFactoryPrivate)
 {
     if (!m_sycoca->isBuilding() && (m_str = m_sycoca->findFactory(factory_id))) {
         // Read position of index tables....
@@ -70,8 +73,7 @@ KSycocaFactory::~KSycocaFactory()
     delete m_entryDict;
 }
 
-void
-KSycocaFactory::saveHeader(QDataStream &str)
+void KSycocaFactory::saveHeader(QDataStream &str)
 {
     // Write header
     str.device()->seek(d->mOffset);
@@ -80,14 +82,13 @@ KSycocaFactory::saveHeader(QDataStream &str)
     str << qint32(d->m_endEntryOffset);
 }
 
-void
-KSycocaFactory::save(QDataStream &str)
+void KSycocaFactory::save(QDataStream &str)
 {
     if (!m_entryDict) {
         return; // Error! Function should only be called when building database
     }
     if (!d->m_sycocaDict) {
-        return;    // Error!
+        return; // Error!
     }
 
     d->mOffset = str.device()->pos(); // store position in member variable
@@ -100,7 +101,7 @@ KSycocaFactory::save(QDataStream &str)
 
     // Write all entries.
     int entryCount = 0;
-    for(KSycocaEntry::Ptr entry : qAsConst(*m_entryDict)) {
+    for (KSycocaEntry::Ptr entry : qAsConst(*m_entryDict)) {
         entry->d_ptr->save(str);
         entryCount++;
     }
@@ -110,7 +111,7 @@ KSycocaFactory::save(QDataStream &str)
     // Write indices...
     // Linear index
     str << qint32(entryCount);
-    for(const KSycocaEntry::Ptr &entry : qAsConst(*m_entryDict)) {
+    for (const KSycocaEntry::Ptr &entry : qAsConst(*m_entryDict)) {
         str << qint32(entry.data()->offset());
     }
 
@@ -127,16 +128,15 @@ KSycocaFactory::save(QDataStream &str)
     str.device()->seek(endOfFactoryData);
 }
 
-void
-KSycocaFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
+void KSycocaFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
 {
     if (!m_entryDict) {
-        return;    // Error! Function should only be called when
+        return; // Error! Function should only be called when
     }
     // building database
 
     if (!d->m_sycocaDict) {
-        return;    // Error!
+        return; // Error!
     }
 
     KSycocaEntry::Ptr oldEntry = m_entryDict->value(newEntry->storageId());
@@ -148,7 +148,8 @@ KSycocaFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
         // This can also happen with two .protocol files using the same protocol= entry.
         // If we didn't remove one here, we would end up asserting because save()
         // wasn't called on one of the entries.
-        //qDebug() << "removing" << oldEntry.data() << oldEntry->entryPath() << "because of" << newEntry->entryPath() << "they have the same storageId" << newEntry->storageId();
+        // qDebug() << "removing" << oldEntry.data() << oldEntry->entryPath() << "because of" << newEntry->entryPath() << "they have the same storageId" <<
+        // newEntry->storageId();
         removeEntry(newEntry->storageId());
     }
 
@@ -157,20 +158,19 @@ KSycocaFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
     d->m_sycocaDict->add(name, newEntry);
 }
 
-void
-KSycocaFactory::removeEntry(const QString &entryName)
+void KSycocaFactory::removeEntry(const QString &entryName)
 {
     if (!m_entryDict) {
-        return;    // Error! Function should only be called when
+        return; // Error! Function should only be called when
     }
     // building database
 
     if (!d->m_sycocaDict) {
-        return;    // Error!
+        return; // Error!
     }
 
     m_entryDict->remove(entryName);
-    d->m_sycocaDict->remove(entryName);   // O(N)
+    d->m_sycocaDict->remove(entryName); // O(N)
 }
 
 KSycocaEntry::List KSycocaFactory::allEntries() const
@@ -205,7 +205,7 @@ KSycocaEntry::List KSycocaFactory::allEntries() const
             list.append(KSycocaEntry::Ptr(newEntry));
         }
     }
-    delete [] offsetList;
+    delete[] offsetList;
     return list;
 }
 
@@ -250,4 +250,3 @@ void KSycocaFactory::virtual_hook(int /*id*/, void * /*data*/)
 {
     /*BASE::virtual_hook( id, data );*/
 }
-

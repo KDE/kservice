@@ -6,36 +6,36 @@
     SPDX-License-Identifier: LGPL-2.0-only
 */
 
+#include "kbuildmimetypefactory_p.h"
 #include "kbuildservicefactory_p.h"
 #include "kbuildservicegroupfactory_p.h"
-#include "kbuildmimetypefactory_p.h"
+#include "kservicetype.h"
 #include "kservicetypefactory_p.h"
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
 #include "ksycocaresourcelist_p.h"
-#include <KDesktopFile>
-#include "kservicetype.h"
 #include "sycocadebug.h"
+#include <KDesktopFile>
 
 #include <QDebug>
 #include <QDir>
 #include <QMimeDatabase>
 
+#include <QStandardPaths>
 #include <assert.h>
 #include <kmimetypefactory_p.h>
-#include <QStandardPaths>
 
 KBuildServiceFactory::KBuildServiceFactory(KServiceTypeFactory *serviceTypeFactory,
-        KBuildMimeTypeFactory *mimeTypeFactory,
-        KBuildServiceGroupFactory *serviceGroupFactory) :
-    KServiceFactory(serviceTypeFactory->sycoca()),
-    m_nameMemoryHash(),
-    m_relNameMemoryHash(),
-    m_menuIdMemoryHash(),
-    m_dupeDict(),
-    m_serviceTypeFactory(serviceTypeFactory),
-    m_mimeTypeFactory(mimeTypeFactory),
-    m_serviceGroupFactory(serviceGroupFactory)
+                                           KBuildMimeTypeFactory *mimeTypeFactory,
+                                           KBuildServiceGroupFactory *serviceGroupFactory)
+    : KServiceFactory(serviceTypeFactory->sycoca())
+    , m_nameMemoryHash()
+    , m_relNameMemoryHash()
+    , m_menuIdMemoryHash()
+    , m_dupeDict()
+    , m_serviceTypeFactory(serviceTypeFactory)
+    , m_mimeTypeFactory(mimeTypeFactory)
+    , m_serviceGroupFactory(serviceGroupFactory)
 {
     // We directly care about services desktop files.
     // All the application desktop files are parsed on demand from the vfolder menu code.
@@ -73,8 +73,7 @@ KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
 
     // Is it a .desktop file?
     if (name.endsWith(QLatin1String(".desktop"))) {
-
-        //qCDebug(SYCOCA) << file;
+        // qCDebug(SYCOCA) << file;
 
         KService *serv;
         if (QDir::isAbsolutePath(file)) { // vfolder sends us full paths for applications
@@ -87,12 +86,12 @@ KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
             serv = new KService(&desktopFile, file);
         }
 
-        //qCDebug(SYCOCA) << "Creating KService from" << file << "entryPath=" << serv->entryPath();
+        // qCDebug(SYCOCA) << "Creating KService from" << file << "entryPath=" << serv->entryPath();
         // Note that the menuId will be set by the vfolder_menu.cpp code just after
         // createEntry returns.
 
         if (serv->isValid() && !serv->isDeleted()) {
-            //qCDebug(SYCOCA) << "Creating KService from" << file << "entryPath=" << serv->entryPath() << "storageId=" << serv->storageId();
+            // qCDebug(SYCOCA) << "Creating KService from" << file << "entryPath=" << serv->entryPath() << "storageId=" << serv->storageId();
             return serv;
         } else {
             if (!serv->isDeleted()) {
@@ -163,7 +162,6 @@ void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName,
     const QMimeType qmime = db.mimeTypeForName(mimeTypeName);
     const auto lst = qmime.parentMimeTypes();
     for (QString parentMimeType : lst) {
-
         // Workaround issue in shared-mime-info and/or Qt, which sometimes return an alias as parent
         parentMimeType = db.mimeTypeForName(parentMimeType).name();
 
@@ -176,7 +174,8 @@ void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName,
             if (!m_offerHash.hasRemovedOffer(mimeTypeName, (*itserv).service())) {
                 KServiceOffer offer(*itserv);
                 offer.setMimeTypeInheritanceLevel(mimeTypeInheritanceLevel + 1);
-                //qCDebug(SYCOCA) << "INHERITANCE: Adding service" << (*itserv).service()->entryPath() << "to" << mimeTypeName << "mimeTypeInheritanceLevel=" << mimeTypeInheritanceLevel;
+                // qCDebug(SYCOCA) << "INHERITANCE: Adding service" << (*itserv).service()->entryPath() << "to" << mimeTypeName << "mimeTypeInheritanceLevel="
+                // << mimeTypeInheritanceLevel;
                 m_offerHash.addServiceOffer(mimeTypeName, offer);
             }
         }
@@ -195,9 +194,8 @@ void KBuildServiceFactory::postProcessServices()
     KSycocaEntryDict::const_iterator itserv = m_entryDict->constBegin();
     const KSycocaEntryDict::const_iterator endserv = m_entryDict->constEnd();
     for (; itserv != endserv; ++itserv) {
-
         KSycocaEntry::Ptr entry = *itserv;
-        KService::Ptr service(static_cast<KService*>(entry.data()));
+        KService::Ptr service(static_cast<KService *>(entry.data()));
 
         if (!service->isDeleted()) {
             const QString parent = service->parentApp();
@@ -226,7 +224,8 @@ void KBuildServiceFactory::postProcessServices()
         }
 
         const QString relName = service->entryPath();
-        //qCDebug(SYCOCA) << "adding service" << service.data() << "isApp=" << service->isApplication() << "menuId=" << service->menuId() << "name=" << name << "relName=" << relName;
+        // qCDebug(SYCOCA) << "adding service" << service.data() << "isApp=" << service->isApplication() << "menuId=" << service->menuId() << "name=" << name <<
+        // "relName=" << relName;
         m_relNameDict->add(relName, entry);
         m_relNameMemoryHash.insert(relName, service); // for KMimeAssociations
 
@@ -246,12 +245,11 @@ void KBuildServiceFactory::populateServiceTypes()
     KSycocaEntryDict::const_iterator itserv = m_entryDict->constBegin();
     const KSycocaEntryDict::const_iterator endserv = m_entryDict->constEnd();
     for (; itserv != endserv; ++itserv) {
-
-        KService::Ptr service(static_cast<KService*>((*itserv).data()));
+        KService::Ptr service(static_cast<KService *>((*itserv).data()));
         const bool hidden = !service->showInCurrentDesktop();
         QVector<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
-        //bool hasAllAll = false;
-        //bool hasAllFiles = false;
+        // bool hasAllAll = false;
+        // bool hasAllFiles = false;
 
         // Add this service to all its servicetypes (and their parents) and to all its MIME types
         for (int i = 0; i < serviceTypeList.count() /*don't cache it, it can change during iteration!*/; ++i) {
@@ -270,7 +268,7 @@ void KBuildServiceFactory::populateServiceTypes()
                     serviceTypeList.append(KService::ServiceTypeAndPreference(preference, parent));
                 }
 
-                //qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << serviceType->name() << "pref=" << preference;
+                // qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << serviceType->name() << "pref=" << preference;
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
                 m_offerHash.addServiceOffer(stName, KServiceOffer(service, preference, 0, service->allowAsDefault()));
 #else
@@ -289,7 +287,7 @@ void KBuildServiceFactory::populateServiceTypes()
                         m_mimeTypeFactory->createFakeMimeType(stName);
                         m_offerHash.addServiceOffer(stName, offer);
                     } else {
-                        //qCDebug(SYCOCA) << service->entryPath() << "specifies undefined MIME type/servicetype" << stName;
+                        // qCDebug(SYCOCA) << service->entryPath() << "specifies undefined MIME type/servicetype" << stName;
                         // technically we could call addServiceOffer here, 'mime' isn't used. But it
                         // would be useless, since we have no MIME type entry where to write the offers offset.
                         continue;
@@ -302,13 +300,14 @@ void KBuildServiceFactory::populateServiceTypes()
                         if (stName != otherType && mime.inherits(otherType)) {
                             // But don't skip aliases (they got resolved into mime.name() already, but don't let two aliases cancel out)
                             if (db.mimeTypeForName(otherType).name() != mime.name()) {
-                                //qCDebug(SYCOCA) << "Skipping" << mime.name() << "because of" << otherType << "(canonical" << db.mimeTypeForName(otherType) << ") while parsing" << service->entryPath();
+                                // qCDebug(SYCOCA) << "Skipping" << mime.name() << "because of" << otherType << "(canonical" << db.mimeTypeForName(otherType) <<
+                                // ") while parsing" << service->entryPath();
                                 shouldAdd = false;
                             }
                         }
                     }
                     if (shouldAdd) {
-                        //qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << mime.name();
+                        // qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << mime.name();
                         m_offerHash.addServiceOffer(mime.name(), offer); // mime.name() so that we resolve aliases
                     }
                 }
@@ -326,12 +325,12 @@ void KBuildServiceFactory::populateServiceTypes()
     // Now collect the offsets into the (future) offer list
     // The loops look very much like the ones in saveOfferList obviously.
     int offersOffset = 0;
-    const int offerEntrySize = sizeof(qint32) * 4;   // four qint32s, see saveOfferList.
+    const int offerEntrySize = sizeof(qint32) * 4; // four qint32s, see saveOfferList.
 
     const auto &offerHash = m_offerHash.serviceTypeData();
     auto it = offerHash.constBegin();
     const auto end = offerHash.constEnd();
-    for ( ; it != end ; ++it ) {
+    for (; it != end; ++it) {
         const QString stName = it.key();
         const ServiceTypeOffersData offersData = it.value();
         const int numOffers = offersData.offers.count();
@@ -363,16 +362,16 @@ void KBuildServiceFactory::populateServiceTypes()
 void KBuildServiceFactory::saveOfferList(QDataStream &str)
 {
     m_offerListOffset = str.device()->pos();
-    //qCDebug(SYCOCA) << "Saving offer list at offset" << m_offerListOffset;
+    // qCDebug(SYCOCA) << "Saving offer list at offset" << m_offerListOffset;
 
     const auto &offerHash = m_offerHash.serviceTypeData();
     auto it = offerHash.constBegin();
     const auto end = offerHash.constEnd();
-    for ( ; it != end ; ++it ) {
+    for (; it != end; ++it) {
         const QString stName = it.key();
         const ServiceTypeOffersData offersData = it.value();
         QList<KServiceOffer> offers = offersData.offers;
-        std::stable_sort(offers.begin(), offers.end());   // by initial preference
+        std::stable_sort(offers.begin(), offers.end()); // by initial preference
 
         int offset = -1;
         KServiceType::Ptr serviceType = m_serviceTypeFactory->findServiceTypeByName(stName);
@@ -382,7 +381,7 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
             KMimeTypeFactory::MimeTypeEntry::Ptr entry = m_mimeTypeFactory->findMimeTypeEntryByName(stName);
             if (entry) {
                 offset = entry->offset();
-                //Q_ASSERT(str.device()->pos() == entry->serviceOffersOffset() + m_offerListOffset);
+                // Q_ASSERT(str.device()->pos() == entry->serviceOffersOffset() + m_offerListOffset);
             }
         }
         if (offset == -1) {
@@ -390,10 +389,9 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
             continue;
         }
 
-        for (QList<KServiceOffer>::const_iterator it2 = offers.constBegin();
-                it2 != offers.constEnd(); ++it2) {
-
-            //qCDebug(SYCOCA) << stName << ": writing offer" << (*it2).service()->desktopEntryName() << offset << (*it2).service()->offset() << "in sycoca at pos" << str.device()->pos();
+        for (QList<KServiceOffer>::const_iterator it2 = offers.constBegin(); it2 != offers.constEnd(); ++it2) {
+            // qCDebug(SYCOCA) << stName << ": writing offer" << (*it2).service()->desktopEntryName() << offset << (*it2).service()->offset() << "in sycoca at
+            // pos" << str.device()->pos();
             Q_ASSERT((*it2).service()->offset() != 0);
 
             str << qint32(offset);
@@ -404,7 +402,7 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
         }
     }
 
-    str << qint32(0);               // End of list marker (0)
+    str << qint32(0); // End of list marker (0)
 }
 
 void KBuildServiceFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
@@ -414,7 +412,7 @@ void KBuildServiceFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
         return;
     }
 
-    const KService::Ptr service(static_cast<KService*>(newEntry.data()));
+    const KService::Ptr service(static_cast<KService *>(newEntry.data()));
     m_dupeDict.insert(newEntry);
     KSycocaFactory::addEntry(newEntry);
 }

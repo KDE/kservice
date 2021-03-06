@@ -20,13 +20,17 @@ class KSycocaEntryPrivate
 {
 public:
     explicit KSycocaEntryPrivate(const QString &path_)
-        : offset(0),
-          deleted(false), path(path_)
-    {}
+        : offset(0)
+        , deleted(false)
+        , path(path_)
+    {
+    }
 
     KSycocaEntryPrivate(QDataStream &_str, int iOffset);
 
-    virtual ~KSycocaEntryPrivate() {}
+    virtual ~KSycocaEntryPrivate()
+    {
+    }
 
     // Don't forget to call the parent class
     // first if you override this function.

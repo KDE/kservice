@@ -7,8 +7,8 @@
 
 #include "kautostart.h"
 
-#include <KDesktopFile>
 #include <KConfigGroup>
+#include <KDesktopFile>
 
 #include <QCoreApplication>
 #include <QDir>
@@ -19,8 +19,8 @@ class KAutostartPrivate
 {
 public:
     KAutostartPrivate()
-        : df(nullptr),
-          copyIfNeededChecked(false)
+        : df(nullptr)
+        , copyIfNeededChecked(false)
     {
     }
 
@@ -49,8 +49,8 @@ void KAutostartPrivate::copyIfNeeded()
         if (!global.isEmpty()) {
             KDesktopFile *newDf = df->copyTo(local);
             delete df;
-            delete newDf; //Force sync-to-disk
-            df = new KDesktopFile(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + name); //Recreate from disk
+            delete newDf; // Force sync-to-disk
+            df = new KDesktopFile(QStandardPaths::GenericConfigLocation, QStringLiteral("autostart/") + name); // Recreate from disk
         }
     }
 
@@ -58,8 +58,8 @@ void KAutostartPrivate::copyIfNeeded()
 }
 
 KAutostart::KAutostart(const QString &entryName, QObject *parent)
-    : QObject(parent),
-      d(new KAutostartPrivate)
+    : QObject(parent)
+    , d(new KAutostartPrivate)
 {
     const bool isAbsolute = QDir::isAbsolutePath(entryName);
     if (isAbsolute) {
@@ -126,7 +126,6 @@ bool KAutostart::checkStartCondition() const
 {
     return KAutostart::isStartConditionMet(d->df->desktopGroup().readEntry("X-KDE-autostart-condition"));
 }
-
 
 bool KAutostart::isStartConditionMet(const QString &condition)
 {
@@ -349,4 +348,3 @@ QString KAutostart::startAfter() const
 {
     return d->df->desktopGroup().readEntry("X-KDE-autostart-after");
 }
-

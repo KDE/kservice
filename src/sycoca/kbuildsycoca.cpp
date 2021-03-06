@@ -9,52 +9,54 @@
 #include "kbuildsycoca_p.h"
 #include "ksycoca_p.h"
 #include "ksycocaresourcelist_p.h"
-#include "vfolder_menu_p.h"
 #include "ksycocautils_p.h"
 #include "sycocadebug.h"
+#include "vfolder_menu_p.h"
 
-#include <config-ksycoca.h>
-#include <kservicegroup.h>
-#include <kservice.h>
-#include "kbuildservicetypefactory_p.h"
 #include "kbuildmimetypefactory_p.h"
 #include "kbuildservicefactory_p.h"
 #include "kbuildservicegroupfactory_p.h"
+#include "kbuildservicetypefactory_p.h"
 #include "kctimefactory_p.h"
 #include <QDataStream>
+#include <QDateTime>
+#include <QDebug>
 #include <QDir>
+#include <QDirIterator>
 #include <QEventLoop>
 #include <QFile>
 #include <QLocale>
-#include <QTimer>
-#include <QDebug>
-#include <QDirIterator>
-#include <QDateTime>
 #include <QSaveFile>
+#include <QTimer>
+#include <config-ksycoca.h>
+#include <kservice.h>
+#include <kservicegroup.h>
 
 #include <kmemfile_p.h>
 
+#include <QLockFile>
+#include <QStandardPaths>
+#include <memory> // auto_ptr
 #include <qplatformdefs.h>
 #include <time.h>
-#include <memory> // auto_ptr
-#include <QStandardPaths>
-#include <QLockFile>
 
 static const char *s_cSycocaPath = nullptr;
 
-KBuildSycocaInterface::~KBuildSycocaInterface() {}
+KBuildSycocaInterface::~KBuildSycocaInterface()
+{
+}
 
 KBuildSycoca::KBuildSycoca()
-    : KSycoca(true),
-      m_allEntries(nullptr),
-      m_ctimeFactory(nullptr),
-      m_ctimeDict(nullptr),
-      m_currentEntryDict(nullptr),
-      m_serviceGroupEntryDict(nullptr),
-      m_vfolder(nullptr),
-      m_newTimestamp(0),
-      m_menuTest(false),
-      m_changed(false)
+    : KSycoca(true)
+    , m_allEntries(nullptr)
+    , m_ctimeFactory(nullptr)
+    , m_ctimeDict(nullptr)
+    , m_currentEntryDict(nullptr)
+    , m_serviceGroupEntryDict(nullptr)
+    , m_vfolder(nullptr)
+    , m_newTimestamp(0)
+    , m_menuTest(false)
+    , m_changed(false)
 {
 }
 
@@ -122,7 +124,7 @@ KService::Ptr KBuildSycoca::createService(const QString &path)
     if (entry) {
         m_tempStorage.append(entry);
     }
-    return KService::Ptr(static_cast<KService*>(entry.data()));
+    return KService::Ptr(static_cast<KService *>(entry.data()));
 }
 
 static QStringList locateDirInResource(const QString &resourceSubdir)
@@ -146,11 +148,11 @@ bool KBuildSycoca::build()
     int i = 0;
     // For each factory
     const auto &factoryList = *factories();
-    for (KSycocaFactory* factory : factoryList) {
+    for (KSycocaFactory *factory : factoryList) {
         KBSEntryDict *entryDict = new KBSEntryDict;
         if (m_allEntries) { // incremental build
             for (const KSycocaEntry::Ptr &entry : qAsConst((*m_allEntries).at(i++))) {
-                //if (entry->entryPath().contains("fake"))
+                // if (entry->entryPath().contains("fake"))
                 //    qCDebug(SYCOCA) << "inserting into entryDict:" << entry->entryPath() << entry;
                 entryDict->insert(entry->entryPath(), entry);
             }
@@ -168,7 +170,7 @@ bool KBuildSycoca::build()
     const auto lstDirs = factoryResourceDirs();
     for (const QString &dir : lstDirs) {
         qint64 stamp = 0;
-        KSycocaUtilsPrivate::visitResourceDirectory(dir, [&stamp] (const QFileInfo &info) {
+        KSycocaUtilsPrivate::visitResourceDirectory(dir, [&stamp](const QFileInfo &info) {
             stamp = qMax(stamp, info.lastModified().toMSecsSinceEpoch());
             return true;
         });
@@ -182,28 +184,26 @@ bool KBuildSycoca::build()
 
     QMap<QString, QByteArray> allResourcesSubDirs; // dirs, kstandarddirs-resource-name
     // For each factory
-    for (KSycocaFactory* factory : factoryList) {
+    for (KSycocaFactory *factory : factoryList) {
         // For each resource the factory deals with
         const KSycocaResourceList resourceList = factory->resourceList();
         for (const KSycocaResource &res : resourceList) {
             // With this we would get dirs, but not a unique list of relative files (for global+local merging to work)
-            //const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, res.subdir, QStandardPaths::LocateDirectory);
-            //allResourcesSubDirs[res.resource] += dirs;
+            // const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, res.subdir, QStandardPaths::LocateDirectory);
+            // allResourcesSubDirs[res.resource] += dirs;
             allResourcesSubDirs.insert(res.subdir, res.resource);
         }
     }
 
     m_ctimeFactory = new KCTimeFactory(this); // This is a build factory too, don't delete!!
-    for (QMap<QString, QByteArray>::ConstIterator it1 = allResourcesSubDirs.constBegin();
-            it1 != allResourcesSubDirs.constEnd();
-            ++it1) {
+    for (QMap<QString, QByteArray>::ConstIterator it1 = allResourcesSubDirs.constBegin(); it1 != allResourcesSubDirs.constEnd(); ++it1) {
         m_changed = false;
         m_resourceSubdir = it1.key();
         m_resource = it1.value();
 
         QSet<QString> relFiles;
         const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_resourceSubdir, QStandardPaths::LocateDirectory)
-                + locateDirInResource(m_resourceSubdir);
+            + locateDirInResource(m_resourceSubdir);
         qCDebug(SYCOCA) << "Looking for subdir" << m_resourceSubdir << "=>" << dirs;
         for (const QString &dir : dirs) {
             QDirIterator it(dir, QDirIterator::Subdirectories);
@@ -269,7 +269,7 @@ bool KBuildSycoca::build()
             }
             if (!m_allResourceDirs.contains(dir)) {
                 qint64 stamp = 0;
-                KSycocaUtilsPrivate::visitResourceDirectory(dir, [&stamp] (const QFileInfo &info) {
+                KSycocaUtilsPrivate::visitResourceDirectory(dir, [&stamp](const QFileInfo &info) {
                     stamp = qMax(stamp, info.lastModified().toMSecsSinceEpoch());
                     return true;
                 });
@@ -314,9 +314,9 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
             if (timeStamp && (timeStamp == oldTimestamp)) {
                 KSycocaEntry::Ptr group = m_serviceGroupEntryDict->value(subName);
                 if (group) {
-                    entry = KServiceGroup::Ptr(static_cast<KServiceGroup*>(group.data()));
+                    entry = KServiceGroup::Ptr(static_cast<KServiceGroup *>(group.data()));
                     if (entry->directoryEntryPath() != directoryFile) {
-                        entry = nullptr;    // Can't reuse this one!
+                        entry = nullptr; // Can't reuse this one!
                     }
                 }
             }
@@ -340,7 +340,9 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
     for (const KService::Ptr &p : qAsConst(menu->items)) {
         if (m_menuTest) {
             if (!menu->isDeleted && !p->noDisplay())
-                printf("%s\t%s\t%s\n", qPrintable(caption), qPrintable(p->menuId()),
+                printf("%s\t%s\t%s\n",
+                       qPrintable(caption),
+                       qPrintable(p->menuId()),
                        qPrintable(QStandardPaths::locate(QStandardPaths::ApplicationsLocation, p->entryPath())));
         } else {
             m_buildServiceGroupFactory->addNewEntryTo(name, p);
@@ -359,13 +361,13 @@ bool KBuildSycoca::recreate(bool incremental)
 
     QLockFile lockFile(path + QLatin1String(".lock"));
     if (!lockFile.tryLock()) {
-        qCDebug(SYCOCA) <<  "Waiting for already running" << KBUILDSYCOCA_EXENAME << "to finish.";
+        qCDebug(SYCOCA) << "Waiting for already running" << KBUILDSYCOCA_EXENAME << "to finish.";
         if (!lockFile.lock()) {
             qCWarning(SYCOCA) << "Couldn't lock" << path + QLatin1String(".lock");
             return false;
         }
         if (!needsRebuild()) {
-            //qCDebug(SYCOCA) << "Up-to-date, skipping.";
+            // qCDebug(SYCOCA) << "Up-to-date, skipping.";
             return true;
         }
     }
@@ -422,13 +424,13 @@ bool KBuildSycoca::recreate(bool incremental)
     if (build()) { // Parse dirs
         save(str); // Save database
         if (str->status() != QDataStream::Ok) { // Probably unnecessary now in Qt5, since QSaveFile detects write errors
-            database.cancelWriting();    // Error
+            database.cancelWriting(); // Error
         }
         delete str;
         str = nullptr;
 
-        //if we are currently via sudo, preserve the original owner
-        //as $HOME may also be that of another user rather than /root
+        // if we are currently via sudo, preserve the original owner
+        // as $HOME may also be that of another user rather than /root
 #ifdef Q_OS_UNIX
         if (qEnvironmentVariableIsSet("SUDO_UID")) {
             const int uid = qEnvironmentVariableIntValue("SUDO_UID");
@@ -483,17 +485,17 @@ void KBuildSycoca::save(QDataStream *str)
     str->device()->seek(0);
 
     (*str) << qint32(KSycoca::version());
-    //KSycocaFactory * servicetypeFactory = 0;
-    //KBuildMimeTypeFactory * mimeTypeFactory = 0;
+    // KSycocaFactory * servicetypeFactory = 0;
+    // KBuildMimeTypeFactory * mimeTypeFactory = 0;
     KBuildServiceFactory *serviceFactory = nullptr;
     auto lst = *factories();
-    for (KSycocaFactory* factory : qAsConst(lst)) {
+    for (KSycocaFactory *factory : qAsConst(lst)) {
         qint32 aId;
         qint32 aOffset;
         aId = factory->factoryId();
-        //if ( aId == KST_KServiceTypeFactory )
+        // if ( aId == KST_KServiceTypeFactory )
         //   servicetypeFactory = factory;
-        //else if ( aId == KST_KMimeTypeFactory )
+        // else if ( aId == KST_KMimeTypeFactory )
         //   mimeTypeFactory = static_cast<KBuildMimeTypeFactory *>( factory );
         if (aId == KST_KServiceFactory) {
             serviceFactory = static_cast<KBuildServiceFactory *>(factory);
@@ -519,17 +521,18 @@ void KBuildSycoca::save(QDataStream *str)
     }
 
     // Calculate per-servicetype/MIME type data
-    if (serviceFactory) serviceFactory->postProcessServices();
+    if (serviceFactory)
+        serviceFactory->postProcessServices();
 
     // Here so that it's the last debug message
     qCDebug(SYCOCA) << "Saving";
 
     // Write factory data....
     lst = *factories();
-    for (KSycocaFactory* factory : qAsConst(lst)) {
+    for (KSycocaFactory *factory : qAsConst(lst)) {
         factory->save(*str);
         if (str->status() != QDataStream::Ok) { // ######## TODO: does this detect write errors, e.g. disk full?
-            return;    // error
+            return; // error
         }
     }
 
@@ -540,7 +543,7 @@ void KBuildSycoca::save(QDataStream *str)
 
     (*str) << qint32(KSycoca::version());
     lst = *factories();
-    for (KSycocaFactory* factory : qAsConst(lst)) {
+    for (KSycocaFactory *factory : qAsConst(lst)) {
         qint32 aId;
         qint32 aOffset;
         aId = factory->factoryId();
@@ -587,8 +590,7 @@ QStringList KBuildSycoca::existingResourceDirs()
     }
     dirs = new QStringList(factoryResourceDirs());
 
-    for (QStringList::Iterator it = dirs->begin();
-            it != dirs->end();) {
+    for (QStringList::Iterator it = dirs->begin(); it != dirs->end();) {
         QFileInfo inf(*it);
         if (!inf.exists() || !inf.isReadable()) {
             it = dirs->erase(it);
@@ -618,13 +620,14 @@ quint32 KBuildSycoca::calcResourceHash(const QString &resourceSubDir, const QStr
     }
     const QString filePath = resourceSubDir + QLatin1Char('/') + filename;
     const QString qrcFilePath = QStringLiteral(":/kf/") + filePath;
-    const QStringList files = QFileInfo::exists(qrcFilePath) ? QStringList{ qrcFilePath } : QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, filePath);
+    const QStringList files =
+        QFileInfo::exists(qrcFilePath) ? QStringList{qrcFilePath} : QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, filePath);
     for (const QString &file : files) {
         hash = updateHash(file, hash);
     }
     if (hash == 0 && !filename.endsWith(QLatin1String("update_ksycoca"))
-            && !filename.endsWith(QLatin1String(".directory")) // bug? needs investigation from someone who understands the VFolder spec
-       ) {
+        && !filename.endsWith(QLatin1String(".directory")) // bug? needs investigation from someone who understands the VFolder spec
+    ) {
         if (files.isEmpty()) {
             // This can happen if the file was deleted between directory listing and the above locateAll
             qCDebug(SYCOCA) << "File not found anymore:" << filename << " -- probably deleted meanwhile";

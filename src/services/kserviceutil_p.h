@@ -21,7 +21,7 @@ public:
      *
      * Example: "/tmp/archive.tar.gz" --> "archive.tar"
      */
-    static QString completeBaseName(const QString& filepath)
+    static QString completeBaseName(const QString &filepath)
     {
         QString name = filepath;
         int pos = name.lastIndexOf(QLatin1Char('/'));

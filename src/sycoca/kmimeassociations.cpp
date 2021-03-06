@@ -6,18 +6,19 @@
 */
 
 #include "kmimeassociations_p.h"
-#include <kservice.h>
-#include <kservicefactory_p.h>
-#include <KConfigGroup>
+#include "sycocadebug.h"
 #include <KConfig>
+#include <KConfigGroup>
 #include <QDebug>
 #include <QFile>
-#include <QStandardPaths>
 #include <QMimeDatabase>
-#include "sycocadebug.h"
+#include <QStandardPaths>
+#include <kservice.h>
+#include <kservicefactory_p.h>
 
 KMimeAssociations::KMimeAssociations(KOfferHash &offerHash, KServiceFactory *serviceFactory)
-    : m_offerHash(offerHash), m_serviceFactory(serviceFactory)
+    : m_offerHash(offerHash)
+    , m_serviceFactory(serviceFactory)
 {
 }
 
@@ -65,8 +66,7 @@ QStringList KMimeAssociations::mimeAppsFiles()
 QStringList KMimeAssociations::mimeAppsDirs()
 {
     // list the dirs in the order of the spec (XDG_CONFIG_HOME, XDG_CONFIG_DIRS, XDG_DATA_HOME, XDG_DATA_DIRS)
-    return QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation)
-            + QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+    return QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation) + QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
 }
 
 void KMimeAssociations::parseAllMimeAppsList()
@@ -77,7 +77,7 @@ void KMimeAssociations::parseAllMimeAppsList()
     mimeappsIter.toBack();
     while (mimeappsIter.hasPrevious()) { // global first, then local.
         const QString mimeappsFile = mimeappsIter.previous();
-        //qDebug() << "Parsing" << mimeappsFile;
+        // qDebug() << "Parsing" << mimeappsFile;
         parseMimeAppsList(mimeappsFile, basePreference);
         basePreference += 50;
     }
@@ -119,7 +119,7 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
                 if (!pService) {
                     qCDebug(SYCOCA) << file << "specifies unknown service" << service << "in" << group.name();
                 } else {
-                    //qDebug() << "adding mime" << resolvedMimeName << "to service" << pService->entryPath() << "pref=" << pref;
+                    // qDebug() << "adding mime" << resolvedMimeName << "to service" << pService->entryPath() << "pref=" << pref;
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
                     m_offerHash.addServiceOffer(resolvedMimeName, KServiceOffer(pService, pref, 0, pService->allowAsDefault()));
 #else
@@ -139,11 +139,11 @@ void KMimeAssociations::parseRemovedAssociations(const KConfigGroup &group, cons
     for (const QString &mime : keyList) {
         const QStringList services = group.readXdgListEntry(mime);
         for (const QString &service : services) {
-            KService::Ptr pService =  m_serviceFactory->findServiceByStorageId(service);
+            KService::Ptr pService = m_serviceFactory->findServiceByStorageId(service);
             if (!pService) {
-                //qDebug() << file << "specifies unknown service" << service << "in" << group.name();
+                // qDebug() << file << "specifies unknown service" << service << "in" << group.name();
             } else {
-                //qDebug() << "removing mime" << mime << "from service" << pService.data() << pService->entryPath();
+                // qDebug() << "removing mime" << mime << "from service" << pService.data() << pService->entryPath();
                 m_offerHash.removeServiceOffer(mime, pService);
             }
         }
@@ -153,7 +153,7 @@ void KMimeAssociations::parseRemovedAssociations(const KConfigGroup &group, cons
 void KOfferHash::addServiceOffer(const QString &serviceType, const KServiceOffer &offer)
 {
     KService::Ptr service = offer.service();
-    //qDebug() << "Adding" << service->entryPath() << "to" << serviceType << offer.preference();
+    // qDebug() << "Adding" << service->entryPath() << "to" << serviceType << offer.preference();
     ServiceTypeOffersData &data = m_serviceTypeData[serviceType]; // find or create
     QList<KServiceOffer> &offers = data.offers;
     QSet<KService::Ptr> &offerSet = data.offerSet;
@@ -161,7 +161,7 @@ void KOfferHash::addServiceOffer(const QString &serviceType, const KServiceOffer
         offers.append(offer);
         offerSet.insert(service);
     } else {
-        //qDebug() << service->entryPath() << "already in" << serviceType;
+        // qDebug() << service->entryPath() << "already in" << serviceType;
         // This happens when mimeapps.list mentions a service (to make it preferred)
         // Update initialPreference to qMax(existing offer, new offer)
         QMutableListIterator<KServiceOffer> sfit(data.offers);

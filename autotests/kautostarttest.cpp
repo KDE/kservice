@@ -12,7 +12,7 @@
 
 #include <QFile>
 
-QTEST_MAIN(KAutostartTest)   // Qt5 TODO: QTEST_GUILESS_MAIN
+QTEST_MAIN(KAutostartTest) // Qt5 TODO: QTEST_GUILESS_MAIN
 
 #include <kautostart.h>
 
@@ -73,8 +73,7 @@ void KAutostartTest::testStartphase_data()
     if (KAutostart::isServiceRegistered(QStringLiteral("khotkeys"))) {
         QTest::newRow("khotkeys") << "ktip" << int(KAutostart::Applications);
     }
-    QTest::newRow("does not exist") << "doesnotexist"
-                                    << int(KAutostart::Applications);
+    QTest::newRow("does not exist") << "doesnotexist" << int(KAutostart::Applications);
 }
 
 void KAutostartTest::testStartphase()
@@ -170,4 +169,3 @@ void KAutostartTest::testRemovalOfNewServiceFile()
 {
     QVERIFY(QFile::remove(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String{"/autostart/doesnotexist.desktop"}));
 }
-

@@ -8,8 +8,8 @@
 #ifndef KMIMEASSOCIATIONS_H
 #define KMIMEASSOCIATIONS_H
 
-#include <QSet>
 #include <QHash>
+#include <QSet>
 #include <kserviceoffer.h>
 class KConfigGroup;
 class KServiceFactory;
@@ -23,9 +23,11 @@ struct ServiceTypeOffersData {
 class KOfferHash
 {
 public:
-    KOfferHash() {}
+    KOfferHash()
+    {
+    }
     KOfferHash(const KOfferHash &) = delete;
-    KOfferHash& operator=(const KOfferHash &) = delete;
+    KOfferHash &operator=(const KOfferHash &) = delete;
     QList<KServiceOffer> offersFor(const QString &serviceType) const
     {
         QHash<QString, ServiceTypeOffersData>::const_iterator it = m_serviceTypeData.find(serviceType);
@@ -38,7 +40,10 @@ public:
     void removeServiceOffer(const QString &serviceType, const KService::Ptr &service);
     bool hasRemovedOffer(const QString &serviceType, const KService::Ptr &service) const;
 
-    const QHash<QString, ServiceTypeOffersData> &serviceTypeData() const { return m_serviceTypeData; }
+    const QHash<QString, ServiceTypeOffersData> &serviceTypeData() const
+    {
+        return m_serviceTypeData;
+    }
 
 private:
     QHash<QString, ServiceTypeOffersData> m_serviceTypeData;

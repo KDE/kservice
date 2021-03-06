@@ -55,8 +55,7 @@ public:
      * @deprecated Since 5.71, use constructor without @p allowedAsDefault argument
      */
     KSERVICE_DEPRECATED_VERSION(5, 71, "Use constructor without allowedAsDefault argument")
-    KServiceOffer(const KService::Ptr &service,
-                  int pref, int mimeTypeInheritanceLevel, bool allowedAsDefault);
+    KServiceOffer(const KService::Ptr &service, int pref, int mimeTypeInheritanceLevel, bool allowedAsDefault);
 #endif
 
     /**
@@ -77,7 +76,7 @@ public:
      * A service is bigger that the other when it can be default
      * (and the other is not) and its preference value it higher.
      */
-    bool operator< (const KServiceOffer &) const;
+    bool operator<(const KServiceOffer &) const;
 
     /**
      * Assignment operator
@@ -144,7 +143,6 @@ private:
  */
 typedef QList<KServiceOffer> KServiceOfferList;
 
-QDebug operator<<(QDebug dbg, const KServiceOffer& offer);
+QDebug operator<<(QDebug dbg, const KServiceOffer &offer);
 
 #endif /* KSERVICEOFFER_H */
-

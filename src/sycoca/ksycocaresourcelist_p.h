@@ -8,15 +8,18 @@
 #ifndef KSYCOCARESOURCELIST_H
 #define KSYCOCARESOURCELIST_H
 
-#include <vector>
 #include <QString>
+#include <vector>
 
-struct KSycocaResource
-{
+struct KSycocaResource {
     // resource is just used in the databaseChanged signal
     // subdir is always under QStandardPaths::GenericDataLocation. E.g. mime, kservices5, etc.
     KSycocaResource(const QByteArray &resource, const QString &subdir, const QString &filter)
-        : resource(resource), subdir(subdir), extension(filter.mid(1)) {}
+        : resource(resource)
+        , subdir(subdir)
+        , extension(filter.mid(1))
+    {
+    }
 
     const QByteArray resource;
     const QString subdir;

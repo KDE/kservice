@@ -8,20 +8,22 @@
 
 #include "kmimetypetrader.h"
 
+#include "kmimetypefactory_p.h"
+#include "kservicefactory_p.h"
+#include "kservicetype.h"
+#include "kservicetypeprofile.h"
+#include "kservicetypetrader.h"
 #include "ksycoca.h"
 #include "ksycoca_p.h"
-#include "kservicetypeprofile.h"
-#include "kservicetype.h"
-#include "kservicetypetrader.h"
-#include "kservicefactory_p.h"
-#include "kmimetypefactory_p.h"
 #include "servicesdebug.h"
 #include <QMimeDatabase>
 
 class KMimeTypeTraderPrivate
 {
 public:
-    KMimeTypeTraderPrivate() {}
+    KMimeTypeTraderPrivate()
+    {
+    }
 };
 
 class KMimeTypeTraderSingleton
@@ -103,11 +105,11 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     return lst;
 }
 
-#define CHECK_SERVICETYPE(genericServiceTypePtr) \
-    if (!genericServiceTypePtr) { \
-        qCWarning(SERVICES) << "KMimeTypeTrader: couldn't find service type" << genericServiceType << \
-                   "\nPlease ensure that the .desktop file for it is installed; then run kbuildsycoca5."; \
-        return; \
+#define CHECK_SERVICETYPE(genericServiceTypePtr)                                                                                                               \
+    if (!genericServiceTypePtr) {                                                                                                                              \
+        qCWarning(SERVICES) << "KMimeTypeTrader: couldn't find service type" << genericServiceType                                                             \
+                            << "\nPlease ensure that the .desktop file for it is installed; then run kbuildsycoca5.";                                          \
+        return;                                                                                                                                                \
     }
 
 /**
@@ -146,9 +148,9 @@ void KMimeTypeTrader::filterMimeTypeOffers(KService::List &list, const QString &
         const KService::Ptr servPtr = it.next();
         // Expand servPtr->hasServiceType( genericServiceTypePtr ) to avoid lookup each time:
         if (!KSycocaPrivate::self()->serviceFactory()->hasOffer(genericServiceTypePtr->offset(),
-                                               genericServiceTypePtr->serviceOffersOffset(),
-                                               servPtr->offset())
-                || !servPtr->showInCurrentDesktop()) {
+                                                                genericServiceTypePtr->serviceOffersOffset(),
+                                                                servPtr->offset())
+            || !servPtr->showInCurrentDesktop()) {
             it.remove();
         }
     }
@@ -156,9 +158,7 @@ void KMimeTypeTrader::filterMimeTypeOffers(KService::List &list, const QString &
 
 #undef CHECK_SERVICETYPE
 
-KService::List KMimeTypeTrader::query(const QString &mimeType,
-                                      const QString &genericServiceType,
-                                      const QString &constraint) const
+KService::List KMimeTypeTrader::query(const QString &mimeType, const QString &genericServiceType, const QString &constraint) const
 {
     // Get all services of this mime type.
     KService::List lst = mimeTypeSycocaServiceOffers(mimeType);
@@ -166,7 +166,7 @@ KService::List KMimeTypeTrader::query(const QString &mimeType,
 
     KServiceTypeTrader::applyConstraints(lst, constraint);
 
-    //qCDebug(SERVICES) << "query for MIME type " << mimeType << ", " << genericServiceType
+    // qCDebug(SERVICES) << "query for MIME type " << mimeType << ", " << genericServiceType
     //         << " : returning " << lst.count() << " offers";
     return lst;
 }
@@ -192,6 +192,6 @@ KService::Ptr KMimeTypeTrader::preferredService(const QString &mimeType, const Q
         return (*itOff).service();
     }
 
-    //qCDebug(SERVICES) << "No offers, or none allowed as default";
+    // qCDebug(SERVICES) << "No offers, or none allowed as default";
     return KService::Ptr();
 }

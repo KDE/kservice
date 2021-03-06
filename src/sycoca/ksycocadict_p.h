@@ -8,8 +8,8 @@
 #ifndef KSYCOCADICT_H
 #define KSYCOCADICT_H
 
-#include <kservice_export.h>
 #include "ksycocaentry.h"
+#include <kservice_export.h>
 
 #include <QList>
 
@@ -26,7 +26,7 @@ class QDataStream;
  *
  * Only exported for the unit test
  */
-class KSERVICE_EXPORT KSycocaDict //krazy:exclude=dpointer (not const because it gets deleted by clear())
+class KSERVICE_EXPORT KSycocaDict // krazy:exclude=dpointer (not const because it gets deleted by clear())
 {
 public:
     /**
@@ -84,10 +84,10 @@ public:
     QList<int> findMultiString(const QString &key) const;
 
     /**
-    * The number of entries in the dictionary.
-    *
-    * Only valid when building the database.
-    */
+     * The number of entries in the dictionary.
+     *
+     * Only valid when building the database.
+     */
     uint count() const;
 
     /**

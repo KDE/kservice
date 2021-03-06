@@ -6,11 +6,11 @@
 */
 
 #include "kservicetypefactory_p.h"
-#include "ksycoca.h"
-#include "ksycocautils_p.h"
-#include "ksycocatype.h"
-#include "ksycocadict_p.h"
 #include "kservicetypeprofile.h"
+#include "ksycoca.h"
+#include "ksycocadict_p.h"
+#include "ksycocatype.h"
+#include "ksycocautils_p.h"
 #include "servicesdebug.h"
 
 #include <assert.h>
@@ -34,7 +34,7 @@ KServiceTypeFactory::KServiceTypeFactory(KSycoca *db)
                     m_propertyTypeDict.insert(string, i);
                 }
             }
-        }  else {
+        } else {
             qWarning() << "Could not open sycoca database, you must run kbuildsycoca first!";
         }
     }
@@ -50,12 +50,12 @@ KServiceTypeFactory::~KServiceTypeFactory()
 KServiceType::Ptr KServiceTypeFactory::findServiceTypeByName(const QString &_name)
 {
     if (!sycocaDict()) {
-        return KServiceType::Ptr();    // Error!
+        return KServiceType::Ptr(); // Error!
     }
     assert(!sycoca()->isBuilding());
     int offset = sycocaDict()->find_string(_name);
     if (!offset) {
-        return KServiceType::Ptr();    // Not found
+        return KServiceType::Ptr(); // Not found
     }
     KServiceType::Ptr newServiceType(createEntry(offset));
 
@@ -70,7 +70,7 @@ KServiceType::Ptr KServiceTypeFactory::findServiceTypeByName(const QString &_nam
 QVariant::Type KServiceTypeFactory::findPropertyTypeByName(const QString &_name)
 {
     if (!sycocaDict()) {
-        return QVariant::Invalid;    // Error!
+        return QVariant::Invalid; // Error!
     }
 
     assert(!sycoca()->isBuilding());
@@ -82,11 +82,9 @@ KServiceType::List KServiceTypeFactory::allServiceTypes()
 {
     KServiceType::List result;
     const KSycocaEntry::List list = allEntries();
-    for (KSycocaEntry::List::ConstIterator it = list.begin();
-            it != list.end();
-            ++it) {
+    for (KSycocaEntry::List::ConstIterator it = list.begin(); it != list.end(); ++it) {
         if ((*it)->isType(KST_KServiceType)) {
-            KServiceType::Ptr newServiceType(static_cast<KServiceType*>((*it).data()));
+            KServiceType::Ptr newServiceType(static_cast<KServiceType *>((*it).data()));
             result.append(newServiceType);
         }
     }

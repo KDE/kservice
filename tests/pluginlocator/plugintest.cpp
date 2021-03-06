@@ -7,10 +7,10 @@
 #include "plugintest.h"
 
 #include <QDebug>
-#include <kservice.h>
-#include <kservicetypetrader.h>
 #include <kplugininfo.h>
 #include <kplugintrader.h>
+#include <kservice.h>
+#include <kservicetypetrader.h>
 
 #include <QCommandLineParser>
 
@@ -26,8 +26,8 @@ public:
     QString pluginName;
 };
 
-PluginTest::PluginTest() :
-    QObject(nullptr)
+PluginTest::PluginTest()
+    : QObject(nullptr)
 {
     d = new PluginTestPrivate;
 }
@@ -44,8 +44,7 @@ int PluginTest::runMain()
     int runs = 1;
     QList<qint64> timings;
 
-    cout << "-- KPluginTrader Test --" << Qt::endl
-            ;
+    cout << "-- KPluginTrader Test --" << Qt::endl;
     bool ok = true;
 
     // KSycoca querying
@@ -67,7 +66,7 @@ int PluginTest::runMain()
         if (!loadFromMetaData()) {
             ok = false;
         }
-        //if (!loadFromMetaData2("Plasma/ContainmentActions")) ok = false;
+        // if (!loadFromMetaData2("Plasma/ContainmentActions")) ok = false;
         timings << timer.nsecsElapsed();
     }
     report(timings, QStringLiteral("Metadata"));
@@ -103,8 +102,7 @@ bool PluginTest::loadFromKService(const QString &name)
 {
     bool ok = false;
     QString constraint = QStringLiteral("[X-KDE-PluginInfo-Name] == '%1'").arg(name);
-    KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("Plasma/DataEngine"),
-                            constraint);
+    KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("Plasma/DataEngine"), constraint);
     if (offers.isEmpty()) {
         qDebug() << "offers are empty for " << name << " with constraint " << constraint;
     } else {
@@ -132,11 +130,9 @@ bool PluginTest::loadFromMetaData(const QString &serviceType)
     ok = res.count() > 0;
     for (const KPluginInfo &info : res) {
         qDebug() << "   file: " << info.libraryPath();
-
     }
 
     return ok;
-
 }
 
 bool PluginTest::findPlugins()
@@ -144,21 +140,10 @@ bool PluginTest::findPlugins()
     QElapsedTimer timer;
     QList<qint64> timings;
     const QString pluginDir(QStringLiteral("/media/storage/testdata/"));
-    const QStringList sizes = QStringList() << QStringLiteral("50")
-                              << QStringLiteral("100")
-                              << QStringLiteral("150")
-                              << QStringLiteral("200")
-                              << QStringLiteral("250")
-                              << QStringLiteral("300")
-                              << QStringLiteral("400")
-                              << QStringLiteral("500")
-                              << QStringLiteral("600")
-                              << QStringLiteral("700")
-                              << QStringLiteral("800")
-                              << QStringLiteral("1000")
-                              << QStringLiteral("1500")
-                              << QStringLiteral("2000")
-                              << QStringLiteral("5000");
+    const QStringList sizes = QStringList() << QStringLiteral("50") << QStringLiteral("100") << QStringLiteral("150") << QStringLiteral("200")
+                                            << QStringLiteral("250") << QStringLiteral("300") << QStringLiteral("400") << QStringLiteral("500")
+                                            << QStringLiteral("600") << QStringLiteral("700") << QStringLiteral("800") << QStringLiteral("1000")
+                                            << QStringLiteral("1500") << QStringLiteral("2000") << QStringLiteral("5000");
     QStringList datadirs;
 
     for (const QString &_s : sizes) {
@@ -178,4 +163,3 @@ bool PluginTest::findPlugins()
 }
 
 #include "moc_plugintest.cpp"
-

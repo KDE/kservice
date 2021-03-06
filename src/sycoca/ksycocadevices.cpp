@@ -5,8 +5,8 @@
     SPDX-License-Identifier: LGPL-2.0-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#include "ksycocadevices_p.h"
 #include "kmemfile_p.h"
+#include "ksycocadevices_p.h"
 #include <QBuffer>
 #include <QDataStream>
 #include <QFile>
@@ -61,7 +61,6 @@ QIODevice *KSycocaFileDevice::device()
 {
     return m_database;
 }
-
 
 #ifndef QT_NO_SHAREDMEMORY
 KSycocaMemFileDevice::KSycocaMemFileDevice(const QString &path)

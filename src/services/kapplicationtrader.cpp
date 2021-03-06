@@ -8,11 +8,11 @@
 
 #include "kapplicationtrader.h"
 
+#include "kmimetypefactory_p.h"
+#include "kservicefactory_p.h"
+#include "kservicetypefactory_p.h"
 #include "ksycoca.h"
 #include "ksycoca_p.h"
-#include "kservicetypefactory_p.h"
-#include "kservicefactory_p.h"
-#include "kmimetypefactory_p.h"
 #include "servicesdebug.h"
 
 #include <QMimeDatabase>
@@ -91,8 +91,7 @@ KService::List KApplicationTrader::query(FilterFunc filterFunc)
     return lst;
 }
 
-KService::List KApplicationTrader::queryByMimeType(const QString &mimeType,
-                                                   FilterFunc filterFunc)
+KService::List KApplicationTrader::queryByMimeType(const QString &mimeType, FilterFunc filterFunc)
 {
     // Get all services of this MIME type.
     KService::List lst = mimeTypeSycocaServiceOffers(mimeType);
@@ -128,5 +127,3 @@ bool KApplicationTrader::isSubsequence(const QString &pattern, const QString &te
     }
     return j == pattern.constEnd();
 }
-
-

@@ -11,9 +11,9 @@
 
 #include <ksycocaentry.h>
 
+#include <QMap>
 #include <QString>
 #include <QStringList>
-#include <QMap>
 #include <QVariant>
 
 #include <KConfig>
@@ -149,7 +149,7 @@ private:
     Q_DECLARE_PRIVATE(KServiceType)
 };
 
-//QDataStream& operator>>( QDataStream& _str, KServiceType& s );
-//QDataStream& operator<<( QDataStream& _str, KServiceType& s );
+// QDataStream& operator>>( QDataStream& _str, KServiceType& s );
+// QDataStream& operator<<( QDataStream& _str, KServiceType& s );
 
 #endif

@@ -4,8 +4,8 @@
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QCommandLineParser>
 
 #include "plugintest.h"
 
@@ -25,4 +25,3 @@ int main(int argc, char **argv)
     PluginTest test;
     return test.runMain();
 }
-

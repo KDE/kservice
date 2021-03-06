@@ -9,14 +9,12 @@
 #ifndef KSYCOCAUTILS_P_H
 #define KSYCOCAUTILS_P_H
 
+#include <QDir>
 #include <QFileInfo>
 #include <QString>
-#include <QDir>
-
 
 namespace KSycocaUtilsPrivate
 {
-
 // helper function for visitResourceDirectory
 template<typename Visitor>
 bool visitResourceDirectoryHelper(const QString &dirname, Visitor visitor)
@@ -60,4 +58,3 @@ bool visitResourceDirectory(const QString &dirname, Visitor visitor)
 }
 
 #endif /* KSYCOCAUTILS_P_H */
-

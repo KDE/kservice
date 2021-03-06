@@ -8,9 +8,9 @@
 #ifndef KSYCOCAFACTORY_H
 #define KSYCOCAFACTORY_H
 
-#include <ksycocaentry.h>
 #include "ksycocaresourcelist_p.h"
 #include <QStandardPaths>
+#include <ksycocaentry.h>
 
 #include <ksycoca.h> // for KSycoca::self()
 
@@ -19,8 +19,10 @@
 class QString;
 class KSycoca;
 class KSycocaDict;
-template <typename T> class QList;
-template <typename KT, typename VT> class QHash;
+template<typename T>
+class QList;
+template<typename KT, typename VT>
+class QHash;
 
 typedef QHash<QString, KSycocaEntry::Ptr> KSycocaEntryDict;
 class KSycocaFactoryPrivate;
@@ -122,7 +124,10 @@ public:
      */
     bool isEmpty() const;
 
-    KSycoca *sycoca() const { return m_sycoca; }
+    KSycoca *sycoca() const
+    {
+        return m_sycoca;
+    }
 
 protected:
     QDataStream *stream() const;
@@ -152,10 +157,12 @@ protected:
  * This, instead of a typedef, allows to declare "class ..." in header files.
  * @internal
  */
-class KSycocaFactoryList : public QList<KSycocaFactory *> //krazy:exclude=dpointer (acts as a typedef)
+class KSycocaFactoryList : public QList<KSycocaFactory *> // krazy:exclude=dpointer (acts as a typedef)
 {
 public:
-    KSycocaFactoryList() { }
+    KSycocaFactoryList()
+    {
+    }
 };
 
 #endif

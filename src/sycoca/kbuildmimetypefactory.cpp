@@ -10,11 +10,11 @@
 #include "ksycocadict_p.h"
 #include "ksycocaresourcelist_p.h"
 
-#include <assert.h>
 #include <QDebug>
 #include <QHash>
 #include <QIODevice>
 #include <QStandardPaths>
+#include <assert.h>
 
 KBuildMimeTypeFactory::KBuildMimeTypeFactory(KSycoca *db)
     : KMimeTypeFactory(db)
@@ -53,7 +53,7 @@ KSycocaEntry *KBuildMimeTypeFactory::createEntry(const QString &file) const
     }
     const QString name = file.left(dot);
 
-    //qDebug() << "Creating MIME type" << name << "from file" << file;
+    // qDebug() << "Creating MIME type" << name << "from file" << file;
 
     MimeTypeEntry *e = new MimeTypeEntry(file, name);
     return e;

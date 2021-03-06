@@ -4,7 +4,6 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-
 #include <stdio.h>
 
 #include <QCommandLineOption>
@@ -25,21 +24,15 @@ int main(int argc, char **argv)
     parser.addHelpOption();
     parser.addVersionOption();
     parser.addPositionalArgument(QStringLiteral("id"), QStringLiteral("service identifier"));
-    QCommandLineOption desktopName(
-        QStringList() << QStringLiteral("n") << QStringLiteral("desktop-name"),
-        QStringLiteral("Find the service by its desktop name (default)"));
+    QCommandLineOption desktopName(QStringList() << QStringLiteral("n") << QStringLiteral("desktop-name"),
+                                   QStringLiteral("Find the service by its desktop name (default)"));
     parser.addOption(desktopName);
-    QCommandLineOption desktopPath(
-        QStringList() << QStringLiteral("p") << QStringLiteral("desktop-path"),
-        QStringLiteral("Find the service by its desktop path"));
+    QCommandLineOption desktopPath(QStringList() << QStringLiteral("p") << QStringLiteral("desktop-path"),
+                                   QStringLiteral("Find the service by its desktop path"));
     parser.addOption(desktopPath);
-    QCommandLineOption menuId(
-        QStringList() << QStringLiteral("m") << QStringLiteral("menu-id"),
-        QStringLiteral("Find the service by its menu id"));
+    QCommandLineOption menuId(QStringList() << QStringLiteral("m") << QStringLiteral("menu-id"), QStringLiteral("Find the service by its menu id"));
     parser.addOption(menuId);
-    QCommandLineOption storageId(
-        QStringList() << QStringLiteral("s") << QStringLiteral("storage-id"),
-        QStringLiteral("Find the service by its storage id"));
+    QCommandLineOption storageId(QStringList() << QStringLiteral("s") << QStringLiteral("storage-id"), QStringLiteral("Find the service by its storage id"));
     parser.addOption(storageId);
 
     parser.process(app);

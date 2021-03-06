@@ -12,8 +12,8 @@
 #include <QStringList>
 
 #include "kserviceoffer.h"
-#include "ksycocafactory_p.h"
 #include "kservicetype.h"
+#include "ksycocafactory_p.h"
 #include <assert.h>
 
 class KSycoca;
@@ -120,6 +120,7 @@ protected:
 
 protected:
     void virtual_hook(int id, void *data) override;
+
 private:
     class KServiceFactoryPrivate *d;
 };

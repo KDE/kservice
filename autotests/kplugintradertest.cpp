@@ -12,7 +12,6 @@
 #include <kplugininfo.h>
 #include <kplugintrader.h>
 
-
 QTEST_MAIN(PluginTraderTest)
 
 void PluginTraderTest::initTestCase()
@@ -68,4 +67,3 @@ void PluginTraderTest::loadPlugin()
     QVERIFY(plugin != nullptr);
     QCOMPARE(plugin->objectName(), QStringLiteral("Test Plugin Spy"));
 }
-

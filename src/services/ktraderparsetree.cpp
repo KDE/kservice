@@ -5,12 +5,11 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include "ktraderparsetree_p.h"
 #include "kapplicationtrader.h"
+#include "ktraderparsetree_p.h"
 
 namespace KTraderParse
 {
-
 QVariant ParseContext::property(const QString &_key) const
 {
     if (service) {
@@ -26,11 +25,11 @@ bool ParseTreeOR::eval(ParseContext *_context) const
     ParseContext c1(_context);
     ParseContext c2(_context);
 
-// don't evaluate both expressions but return immediately
-// if the first one of them succeeds. Otherwise queries like
-// ((not exist Blah) or (Blah == 'Foo')) do not work, because
-// the evaluation of the second term ends up in a fatal error
-// (Simon)
+    // don't evaluate both expressions but return immediately
+    // if the first one of them succeeds. Otherwise queries like
+    // ((not exist Blah) or (Blah == 'Foo')) do not work, because
+    // the evaluation of the second term ends up in a fatal error
+    // (Simon)
 
     if (!m_pLeft->eval(&c1)) {
         return false;
@@ -188,7 +187,7 @@ bool ParseTreeCALC::eval(ParseContext *_context) const
         break;
     case 3: /* Mul */
         if (c1.type == ParseContext::T_DOUBLE) {
-            //cout << "Double Mult" << endl;
+            // cout << "Double Mult" << endl;
             _context->f = (c1.f * c2.f);
             return true;
         }
@@ -214,7 +213,7 @@ bool ParseTreeCALC::eval(ParseContext *_context) const
 
 bool ParseTreeCMP::eval(ParseContext *_context) const
 {
-    //cout << "CMP 1 cmd=" << m_cmd << endl;
+    // cout << "CMP 1 cmd=" << m_cmd << endl;
     ParseContext c1(_context);
     ParseContext c2(_context);
     if (!m_pLeft->eval(&c1)) {
@@ -278,7 +277,7 @@ bool ParseTreeCMP::eval(ParseContext *_context) const
         if (c1.type == ParseContext::T_STRING) {
             if (m_cmd == 8) {
                 _context->b = QString::compare(c1.str, c2.str, Qt::CaseInsensitive) != 0;
-            } else  {
+            } else {
                 _context->b = (c1.str != c2.str);
             }
             return true;
@@ -359,7 +358,6 @@ bool ParseTreeCMP::eval(ParseContext *_context) const
         }
         _context->b = false;
         return true;
-
     }
 
     return false;
@@ -414,21 +412,21 @@ bool ParseTreeMATCH::eval(ParseContext *_context) const
 
 bool ParseTreeSubsequenceMATCH::eval(ParseContext *_context) const
 {
-  _context->type = ParseContext::T_BOOL;
+    _context->type = ParseContext::T_BOOL;
 
-  ParseContext c1(_context);
-  ParseContext c2(_context);
-  if (!m_pLeft->eval(&c1)) {
-    return false;
-  }
-  if (!m_pRight->eval(&c2)) {
-    return false;
-  }
-  if (c1.type != ParseContext::T_STRING || c2.type != ParseContext::T_STRING) {
-    return false;
-  }
-  _context->b = KApplicationTrader::isSubsequence(c1.str, c2.str, m_cs);
-  return true;
+    ParseContext c1(_context);
+    ParseContext c2(_context);
+    if (!m_pLeft->eval(&c1)) {
+        return false;
+    }
+    if (!m_pRight->eval(&c2)) {
+        return false;
+    }
+    if (c1.type != ParseContext::T_STRING || c2.type != ParseContext::T_STRING) {
+        return false;
+    }
+    _context->b = KApplicationTrader::isSubsequence(c1.str, c2.str, m_cs);
+    return true;
 }
 
 bool ParseTreeIN::eval(ParseContext *_context) const
@@ -444,16 +442,12 @@ bool ParseTreeIN::eval(ParseContext *_context) const
         return false;
     }
 
-    if ((c1.type == ParseContext::T_NUM) &&
-            (c2.type == ParseContext::T_SEQ) &&
-            ((*(c2.seq.begin())).type() == QVariant::Int)) {
-
+    if ((c1.type == ParseContext::T_NUM) && (c2.type == ParseContext::T_SEQ) && ((*(c2.seq.begin())).type() == QVariant::Int)) {
         QList<QVariant>::ConstIterator it = c2.seq.constBegin();
         QList<QVariant>::ConstIterator end = c2.seq.constEnd();
         _context->b = false;
         for (; it != end; ++it)
-            if ((*it).type() == QVariant::Int &&
-                    (*it).toInt() == c1.i) {
+            if ((*it).type() == QVariant::Int && (*it).toInt() == c1.i) {
                 _context->b = true;
                 break;
             }
@@ -467,8 +461,7 @@ bool ParseTreeIN::eval(ParseContext *_context) const
         QList<QVariant>::ConstIterator end = c2.seq.constEnd();
         _context->b = false;
         for (; it != end; ++it)
-            if ((*it).type() == QVariant::Double &&
-                    qFuzzyCompare((*it).toDouble(), c1.i)) {
+            if ((*it).type() == QVariant::Double && qFuzzyCompare((*it).toDouble(), c1.i)) {
                 _context->b = true;
                 break;
             }
@@ -562,12 +555,10 @@ bool ParseTreeMIN2::eval(ParseContext *_context) const
     }
 
     if (prop.type() == QVariant::Int && it.value().type == PreferencesMaxima::PM_INT) {
-        _context->f = double(prop.toInt() - it.value().iMin) /
-                      double(it.value().iMax - it.value().iMin) * (-2.0) + 1.0;
+        _context->f = double(prop.toInt() - it.value().iMin) / double(it.value().iMax - it.value().iMin) * (-2.0) + 1.0;
         return true;
     } else if (prop.type() == QVariant::Double && it.value().type == PreferencesMaxima::PM_DOUBLE) {
-        _context->f = (prop.toDouble() - it.value().fMin) / (it.value().fMax - it.value().fMin)
-                      * (-2.0) + 1.0;
+        _context->f = (prop.toDouble() - it.value().fMin) / (it.value().fMax - it.value().fMin) * (-2.0) + 1.0;
         return true;
     }
 
@@ -596,20 +587,17 @@ bool ParseTreeMAX2::eval(ParseContext *_context) const
     }
 
     if (prop.type() == QVariant::Int && it.value().type == PreferencesMaxima::PM_INT) {
-        _context->f = double(prop.toInt() - it.value().iMin) /
-                      double(it.value().iMax - it.value().iMin) * 2.0 - 1.0;
+        _context->f = double(prop.toInt() - it.value().iMin) / double(it.value().iMax - it.value().iMin) * 2.0 - 1.0;
         return true;
     } else if (prop.type() == QVariant::Double && it.value().type == PreferencesMaxima::PM_DOUBLE) {
-        _context->f = (prop.toDouble() - it.value().fMin) /
-                      (it.value().fMax - it.value().fMin) * 2.0 - 1.0;
+        _context->f = (prop.toDouble() - it.value().fMin) / (it.value().fMax - it.value().fMin) * 2.0 - 1.0;
         return true;
     }
 
     return false;
 }
 
-int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &_service,
-                    const KService::List &_list)
+int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &_service, const KService::List &_list)
 {
     // Empty tree matches always
     if (!_tree) {
@@ -632,8 +620,7 @@ int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &_service,
     return (c.b ? 1 : 0);
 }
 
-int matchConstraintPlugin(const ParseTreeBase *_tree, const KPluginInfo &_info,
-                          const KPluginInfo::List &_list)
+int matchConstraintPlugin(const ParseTreeBase *_tree, const KPluginInfo &_info, const KPluginInfo::List &_list)
 {
     // Empty tree matches always
     if (!_tree) {
@@ -673,8 +660,7 @@ bool ParseContext::initMaxima(const QString &_prop)
     // Did we cache the result ?
     QMap<QString, PreferencesMaxima>::Iterator it = maxima.find(_prop);
     if (it != maxima.end())
-        return (it.value().type == PreferencesMaxima::PM_DOUBLE ||
-                it.value().type == PreferencesMaxima::PM_INT);
+        return (it.value().type == PreferencesMaxima::PM_DOUBLE || it.value().type == PreferencesMaxima::PM_INT);
 
     // Double or Int ?
     PreferencesMaxima extrema;
@@ -737,11 +723,12 @@ bool ParseContext::initMaxima(const QString &_prop)
     maxima.insert(_prop, extrema);
 
     // Did we succeed ?
-    return (extrema.type == PreferencesMaxima::PM_DOUBLE ||
-            extrema.type == PreferencesMaxima::PM_INT);
+    return (extrema.type == PreferencesMaxima::PM_DOUBLE || extrema.type == PreferencesMaxima::PM_INT);
 }
 
-ParseTreeBase::~ParseTreeBase() { }
+ParseTreeBase::~ParseTreeBase()
+{
+}
 
 bool ParseTreeSTRING::eval(ParseContext *_context) const
 {

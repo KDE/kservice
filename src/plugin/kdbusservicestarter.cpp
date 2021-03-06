@@ -6,20 +6,23 @@
 */
 
 #include "kdbusservicestarter.h"
-#include "kservicetypetrader.h"
 #include "kservice.h"
+#include "kservicetypetrader.h"
 #include <KLocalizedString>
-#include <ktoolinvocation.h>
 #include <QDBusConnection>
 #include <QDBusConnectionInterface>
 #include <QDebug>
+#include <ktoolinvocation.h>
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 61)
 
 class KDBusServiceStarterPrivate
 {
 public:
-    KDBusServiceStarterPrivate() : q(nullptr) {}
+    KDBusServiceStarterPrivate()
+        : q(nullptr)
+    {
+    }
     ~KDBusServiceStarterPrivate()
     {
         delete q;
@@ -50,10 +53,7 @@ KDBusServiceStarter::~KDBusServiceStarter()
 {
 }
 
-int KDBusServiceStarter::findServiceFor(const QString &serviceType,
-                                        const QString &_constraint,
-                                        QString *error, QString *pDBusService,
-                                        int flags)
+int KDBusServiceStarter::findServiceFor(const QString &serviceType, const QString &_constraint, QString *error, QString *pDBusService, int flags)
 {
     // Ask the trader which service is preferred for this servicetype
     // We want one that provides a DBus interface
@@ -65,7 +65,7 @@ int KDBusServiceStarter::findServiceFor(const QString &serviceType,
     const KService::List offers = KServiceTypeTrader::self()->query(serviceType, constraint);
     if (offers.isEmpty()) {
         if (error) {
-            *error = i18n("No service implementing %1",  serviceType);
+            *error = i18n("No service implementing %1", serviceType);
         }
         qWarning() << "KDBusServiceStarter: No service implementing " << serviceType;
         return -1;
@@ -83,23 +83,21 @@ int KDBusServiceStarter::findServiceFor(const QString &serviceType,
             return -2;
         }
     }
-    //qDebug() << "DBus service is available now, as" << dbusService;
+    // qDebug() << "DBus service is available now, as" << dbusService;
     if (pDBusService) {
         *pDBusService = dbusService;
     }
     return 0;
 }
 
-int KDBusServiceStarter::startServiceFor(const QString &serviceType,
-        const QString &constraint,
-        QString *error, QString *dbusService, int /*flags*/)
+int KDBusServiceStarter::startServiceFor(const QString &serviceType, const QString &constraint, QString *error, QString *dbusService, int /*flags*/)
 {
     const KService::List offers = KServiceTypeTrader::self()->query(serviceType, constraint);
     if (offers.isEmpty()) {
         return -1;
     }
     KService::Ptr ptr = offers.first();
-    //qDebug() << "starting" << ptr->entryPath();
+    // qDebug() << "starting" << ptr->entryPath();
     return KToolInvocation::startServiceByDesktopPath(ptr->entryPath(), QStringList(), error, dbusService);
 }
 

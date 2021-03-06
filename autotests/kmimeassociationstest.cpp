@@ -5,41 +5,44 @@
     SPDX-License-Identifier: LGPL-2.0-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#include <QDebug>
-#include <QDir>
+#include "kmimeassociations_p.h"
+#include "ksycoca_p.h"
+#include "setupxdgdirs.h"
 #include <KConfigGroup>
 #include <KDesktopFile>
-#include <kapplicationtrader.h>
-#include <kservicefactory_p.h>
-#include <QTemporaryDir>
-#include <QTemporaryFile>
-#include <QTest>
-#include "setupxdgdirs.h"
-#include "kmimeassociations_p.h"
-#include <kbuildsycoca_p.h>
-#include <ksycoca.h>
-#include "ksycoca_p.h"
+#include <QDebug>
+#include <QDir>
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QSignalSpy>
+#include <QTemporaryDir>
+#include <QTemporaryFile>
+#include <QTest>
+#include <kapplicationtrader.h>
+#include <kbuildsycoca_p.h>
+#include <kservicefactory_p.h>
+#include <ksycoca.h>
 
 // We need a factory that returns the same KService::Ptr every time it's asked for a given service.
 // Otherwise the changes to the service's serviceTypes by KMimeAssociationsTest have no effect
 class FakeServiceFactory : public KServiceFactory
 {
 public:
-    FakeServiceFactory(KSycoca *db) : KServiceFactory(db) {}
+    FakeServiceFactory(KSycoca *db)
+        : KServiceFactory(db)
+    {
+    }
     ~FakeServiceFactory();
 
     KService::Ptr findServiceByMenuId(const QString &name) override
     {
-        //qDebug() << name;
+        // qDebug() << name;
         KService::Ptr result = m_cache.value(name);
         if (!result) {
             result = KServiceFactory::findServiceByMenuId(name);
             m_cache.insert(name, result);
         }
-        //qDebug() << name << result.data();
+        // qDebug() << name << result.data();
         return result;
     }
     KService::Ptr findServiceByDesktopPath(const QString &name) override
@@ -51,14 +54,13 @@ public:
         }
         return result;
     }
+
 private:
     QMap<QString, KService::Ptr> m_cache;
 };
 
 // Helper method for all the trader tests, comes from kmimetypetest.cpp
-static bool offerListHasService(const KService::List &offers,
-                                const QString &entryPath,
-                                bool expected /* if set, show error if not found */)
+static bool offerListHasService(const KService::List &offers, const QString &entryPath, bool expected /* if set, show error if not found */)
 {
     // ksycoca resolves to canonical paths, so do it here as well
     const QString realPath = QFileInfo(entryPath).canonicalFilePath();
@@ -67,7 +69,7 @@ static bool offerListHasService(const KService::List &offers,
     bool found = false;
     for (const KService::Ptr &serv : offers) {
         if (serv->entryPath() == realPath) {
-            if (found) {  // should be there only once
+            if (found) { // should be there only once
                 qWarning("ERROR: %s was found twice in the list", qPrintable(realPath));
                 return false; // make test fail
             }
@@ -150,7 +152,10 @@ private Q_SLOTS:
         //
         // Also include aliases (msword), to check they don't cancel each other out.
         fakeCSrcApplication = m_localApps + QLatin1String{"fakecsrcmswordapplication.desktop"};
-        writeAppDesktopFile(fakeCSrcApplication, QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/c-src") << QStringLiteral("application/vnd.ms-word") << QStringLiteral("application/msword"), 8);
+        writeAppDesktopFile(fakeCSrcApplication,
+                            QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/c-src") << QStringLiteral("application/vnd.ms-word")
+                                          << QStringLiteral("application/msword"),
+                            8);
 
         fakeJpegApplication = m_localApps + QLatin1String{"fakejpegapplication.desktop"};
         writeAppDesktopFile(fakeJpegApplication, QStringList() << QStringLiteral("image/jpeg"));
@@ -195,37 +200,34 @@ private Q_SLOTS:
         KService::Ptr fakeApplicationService = KService::serviceByStorageId(QStringLiteral("faketextapplication.desktop"));
         QVERIFY(fakeApplicationService);
 
-        m_mimeAppsFileContents = "[Added Associations]\n"
-                                 "image/jpeg=fakejpegapplication.desktop;\n"
-                                 "text/html=fakehtmlapplication.desktop;fakehtmlapplicationpfx.desktop;\n"
-                                 "text/plain=fakepfx-faketextapplicationpfx.desktop;gvim.desktop;wine.desktop;idontexist.desktop;\n"
-                                 // test alias resolution
-                                 "application/x-pdf=fakejpegapplication.desktop;\n"
-                                 // test x-scheme-handler (#358159) (missing trailing ';' as per xdg-mime bug...)
-                                 "x-scheme-handler/mailto=faketextapplication.desktop\n"
-                                 // test association with octet-stream (#425154)
-                                 "application/octet-stream=fakeoktetaapplication.desktop\n"
-                                 // test a non-kde app (#427469)
-                                 "application/x-7z-compressed=fake.org.gnome.FileRoller.desktop;\n"
-                                 "[Added KParts/ReadOnlyPart Associations]\n"
-                                 "text/plain=katepart.desktop;\n"
-                                 "[Removed Associations]\n"
-                                 "image/jpeg=firefox.desktop;\n"
-                                 "text/html=gvim.desktop;abiword.desktop;\n"
-                                 "[Default Applications]\n"
-                                 "text/plain=faketextapplication.desktop;second-faketextapplicationpfx.desktop\n";
+        m_mimeAppsFileContents =
+            "[Added Associations]\n"
+            "image/jpeg=fakejpegapplication.desktop;\n"
+            "text/html=fakehtmlapplication.desktop;fakehtmlapplicationpfx.desktop;\n"
+            "text/plain=fakepfx-faketextapplicationpfx.desktop;gvim.desktop;wine.desktop;idontexist.desktop;\n"
+            // test alias resolution
+            "application/x-pdf=fakejpegapplication.desktop;\n"
+            // test x-scheme-handler (#358159) (missing trailing ';' as per xdg-mime bug...)
+            "x-scheme-handler/mailto=faketextapplication.desktop\n"
+            // test association with octet-stream (#425154)
+            "application/octet-stream=fakeoktetaapplication.desktop\n"
+            // test a non-kde app (#427469)
+            "application/x-7z-compressed=fake.org.gnome.FileRoller.desktop;\n"
+            "[Added KParts/ReadOnlyPart Associations]\n"
+            "text/plain=katepart.desktop;\n"
+            "[Removed Associations]\n"
+            "image/jpeg=firefox.desktop;\n"
+            "text/html=gvim.desktop;abiword.desktop;\n"
+            "[Default Applications]\n"
+            "text/plain=faketextapplication.desktop;second-faketextapplicationpfx.desktop\n";
         // Expected results
         preferredApps[QStringLiteral("image/jpeg")] << QStringLiteral("fakejpegapplication.desktop");
         preferredApps[QStringLiteral("application/pdf")] << QStringLiteral("fakejpegapplication.desktop");
-        preferredApps[QStringLiteral("text/plain")] << QStringLiteral("faketextapplication.desktop")
-                                    << QStringLiteral("second-faketextapplicationpfx.desktop")
-                                    << QStringLiteral("fakepfx-faketextapplicationpfx.desktop")
-                                    << QStringLiteral("gvim.desktop");
+        preferredApps[QStringLiteral("text/plain")] << QStringLiteral("faketextapplication.desktop") << QStringLiteral("second-faketextapplicationpfx.desktop")
+                                                    << QStringLiteral("fakepfx-faketextapplicationpfx.desktop") << QStringLiteral("gvim.desktop");
         preferredApps[QStringLiteral("text/x-csrc")] << QStringLiteral("faketextapplication.desktop")
-                                     << QStringLiteral("fakepfx-faketextapplicationpfx.desktop")
-                                     << QStringLiteral("gvim.desktop");
-        preferredApps[QStringLiteral("text/html")] << QStringLiteral("fakehtmlapplication.desktop")
-                                   << QStringLiteral("fakepfx-fakehtmlapplicationpfx.desktop");
+                                                     << QStringLiteral("fakepfx-faketextapplicationpfx.desktop") << QStringLiteral("gvim.desktop");
+        preferredApps[QStringLiteral("text/html")] << QStringLiteral("fakehtmlapplication.desktop") << QStringLiteral("fakepfx-fakehtmlapplicationpfx.desktop");
         preferredApps[QStringLiteral("application/msword")] << QStringLiteral("fakecsrcmswordapplication.desktop");
         preferredApps[QStringLiteral("x-scheme-handler/mailto")] << QStringLiteral("faketextapplication.desktop");
         preferredApps[QStringLiteral("text/x-python")] << QStringLiteral("faketextapplication.desktop");
@@ -259,16 +261,15 @@ private Q_SLOTS:
         const QString fileName = tempFile.fileName();
         tempFile.close();
 
-        //QTest::ignoreMessage(QtDebugMsg, "findServiceByDesktopPath: idontexist.desktop not found");
+        // QTest::ignoreMessage(QtDebugMsg, "findServiceByDesktopPath: idontexist.desktop not found");
         parser.parseMimeAppsList(fileName, 100);
 
-        for (ExpectedResultsMap::const_iterator it = preferredApps.constBegin(),
-                end = preferredApps.constEnd(); it != end; ++it) {
+        for (ExpectedResultsMap::const_iterator it = preferredApps.constBegin(), end = preferredApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
             // The data for derived types and aliases isn't for this test (which only looks at mimeapps.list)
             if (mime == QLatin1String("text/x-csrc") //
-                    || mime == QLatin1String("text/x-python") //
-                    || mime == QLatin1String("application/msword")) {
+                || mime == QLatin1String("text/x-python") //
+                || mime == QLatin1String("application/msword")) {
                 continue;
             }
             const QList<KServiceOffer> offers = offerHash.offersFor(mime);
@@ -284,14 +285,13 @@ private Q_SLOTS:
             }
         }
 
-        for (ExpectedResultsMap::const_iterator it = removedApps.constBegin(),
-                end = removedApps.constEnd(); it != end; ++it) {
+        for (ExpectedResultsMap::const_iterator it = removedApps.constBegin(), end = removedApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
             const QList<KServiceOffer> offers = offerHash.offersFor(mime);
             for (const QString &service : it.value()) {
                 KService::Ptr serv = KService::serviceByStorageId(service);
                 if (serv && offersContains(offers, serv)) {
-                    //qDebug() << serv.data() << serv->entryPath() << "does not have" << mime;
+                    // qDebug() << serv.data() << serv->entryPath() << "does not have" << mime;
                     QFAIL("offer should not have servicetype");
                 }
             }
@@ -309,10 +309,11 @@ private Q_SLOTS:
 
         QFile tempFileGlobal(tempDirGlobal.path() + QLatin1String{"/mimeapps.list"});
         QVERIFY(tempFileGlobal.open(QIODevice::WriteOnly));
-        QByteArray globalAppsFileContents = "[Added Associations]\n"
-                                            "image/jpeg=firefox.desktop;\n" // removed by local config
-                                            "text/html=firefox.desktop;\n" // mdv
-                                            "image/png=fakejpegapplication.desktop;\n";
+        QByteArray globalAppsFileContents =
+            "[Added Associations]\n"
+            "image/jpeg=firefox.desktop;\n" // removed by local config
+            "text/html=firefox.desktop;\n" // mdv
+            "image/png=fakejpegapplication.desktop;\n";
         tempFileGlobal.write(globalAppsFileContents);
         const QString globalFileName = tempFileGlobal.fileName();
         tempFileGlobal.close();
@@ -373,13 +374,12 @@ private Q_SLOTS:
                 const QStringList expectedPreferredServices = it.value();
                 for (int i = 0; i < expectedPreferredServices.count(); ++i) {
                     qDebug() << mime << i << expectedPreferredServices[i];
-                    //QCOMPARE(expectedPreferredServices[i], offers[i]->storageId());
+                    // QCOMPARE(expectedPreferredServices[i], offers[i]->storageId());
                 }
             }
             QCOMPARE(offerIds, it.value());
         }
-        for (auto it = removedApps.constBegin(),
-                end = removedApps.constEnd(); it != end; ++it) {
+        for (auto it = removedApps.constBegin(), end = removedApps.constEnd(); it != end; ++it) {
             const QString mime = it.key();
             const KService::List offers = KApplicationTrader::queryByMimeType(mime);
             const QStringList offerIds = assembleServices(offers);
@@ -405,8 +405,9 @@ private Q_SLOTS:
         KService::List offers = KApplicationTrader::queryByMimeType(QStringLiteral("text/plain"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));
 
-        writeToMimeApps(QByteArray("[Removed Associations]\n"
-                                   "text/plain=faketextapplication.desktop;\n"));
+        writeToMimeApps(
+            QByteArray("[Removed Associations]\n"
+                       "text/plain=faketextapplication.desktop;\n"));
 
         offers = KApplicationTrader::queryByMimeType(QStringLiteral("text/plain"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
@@ -431,8 +432,9 @@ private Q_SLOTS:
         KService::List offers = KApplicationTrader::queryByMimeType(opendocument);
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
 
-        writeToMimeApps(QByteArray("[Removed Associations]\n"
-                                   "application/vnd.oasis.opendocument.text=fakearkapplication.desktop;\n"));
+        writeToMimeApps(
+            QByteArray("[Removed Associations]\n"
+                       "application/vnd.oasis.opendocument.text=fakearkapplication.desktop;\n"));
 
         offers = KApplicationTrader::queryByMimeType(opendocument);
         QVERIFY(!offerListHasService(offers, fakeArkApplication, false));
@@ -459,8 +461,9 @@ private Q_SLOTS:
         KService::List offers = KApplicationTrader::queryByMimeType(mime);
         QVERIFY(offerListHasService(offers, fakeArkApplication, true));
 
-        writeToMimeApps(QByteArray("[Removed Associations]\n"
-                                   "application/x-kns=fakearkapplication.desktop;\n"));
+        writeToMimeApps(
+            QByteArray("[Removed Associations]\n"
+                       "application/x-kns=fakearkapplication.desktop;\n"));
 
         offers = KApplicationTrader::queryByMimeType(mime);
         QVERIFY(!offerListHasService(offers, fakeArkApplication, false));
@@ -477,8 +480,9 @@ private Q_SLOTS:
         // get it from text/plain...
 
         KService::List offers;
-        writeToMimeApps(QByteArray("[Removed Associations]\n"
-                                   "application/x-desktop=faketextapplication.desktop;\n"));
+        writeToMimeApps(
+            QByteArray("[Removed Associations]\n"
+                       "application/x-desktop=faketextapplication.desktop;\n"));
 
         offers = KApplicationTrader::queryByMimeType(QStringLiteral("text/plain"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));
@@ -556,7 +560,7 @@ private:
             QMutableStringListIterator serv_it(it.value());
             while (serv_it.hasNext()) {
                 if (!KService::serviceByStorageId(serv_it.next())) {
-                    //qDebug() << "removing non-existing entry" << serv_it.value();
+                    // qDebug() << "removing non-existing entry" << serv_it.value();
                     serv_it.remove();
                 }
             }

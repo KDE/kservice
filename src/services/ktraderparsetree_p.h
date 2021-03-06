@@ -8,16 +8,15 @@
 #ifndef __ktrader_parse_tree_h__
 #define __ktrader_parse_tree_h__
 
+#include <QMap>
 #include <QString>
 #include <QStringList>
-#include <QMap>
 
-#include <kservice.h>
 #include <kplugininfo.h>
+#include <kservice.h>
 
 namespace KTraderParse
 {
-
 class ParseTreeBase;
 
 /**
@@ -26,17 +25,18 @@ class ParseTreeBase;
  *         1  => Does match
  *         <0 => Error
  */
-int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &,
-                    const KService::List &);
-int matchConstraintPlugin(const ParseTreeBase *_tree, const KPluginInfo &_info,
-                          const KPluginInfo::List &_list);
+int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &, const KService::List &);
+int matchConstraintPlugin(const ParseTreeBase *_tree, const KPluginInfo &_info, const KPluginInfo::List &_list);
 
 /**
  * @internal
  */
 struct KSERVICE_EXPORT PreferencesMaxima {
     PreferencesMaxima()
-        : iMax(0), iMin(0), fMax(0), fMin(0)
+        : iMax(0)
+        , iMin(0)
+        , fMax(0)
+        , fMin(0)
     {
     }
 
@@ -58,22 +58,43 @@ public:
     /**
      * This is NOT a copy constructor.
      */
-    explicit ParseContext(const ParseContext *_ctx) : service(_ctx->service), info(_ctx->info), maxima(_ctx->maxima),
-        offers(_ctx->offers), pluginOffers(_ctx->pluginOffers) {}
-    ParseContext(const KService::Ptr &_service, const KService::List &_offers,
-                 QMap<QString, PreferencesMaxima> &_m)
-        : service(_service), info(KPluginInfo()), maxima(_m), offers(_offers), pluginOffers(KPluginInfo::List()) {}
-    ParseContext(const KPluginInfo &_info, const KPluginInfo::List &_offers,
-                 QMap<QString, PreferencesMaxima> &_m)
-        : service(nullptr), info(_info), maxima(_m), offers(KService::List()), pluginOffers(_offers) {}
+    explicit ParseContext(const ParseContext *_ctx)
+        : service(_ctx->service)
+        , info(_ctx->info)
+        , maxima(_ctx->maxima)
+        , offers(_ctx->offers)
+        , pluginOffers(_ctx->pluginOffers)
+    {
+    }
+    ParseContext(const KService::Ptr &_service, const KService::List &_offers, QMap<QString, PreferencesMaxima> &_m)
+        : service(_service)
+        , info(KPluginInfo())
+        , maxima(_m)
+        , offers(_offers)
+        , pluginOffers(KPluginInfo::List())
+    {
+    }
+    ParseContext(const KPluginInfo &_info, const KPluginInfo::List &_offers, QMap<QString, PreferencesMaxima> &_m)
+        : service(nullptr)
+        , info(_info)
+        , maxima(_m)
+        , offers(KService::List())
+        , pluginOffers(_offers)
+    {
+    }
 
     bool initMaxima(const QString &_prop);
 
     QVariant property(const QString &_key) const;
 
-    enum Type { T_STRING = 1, T_DOUBLE = 2, T_NUM = 3, T_BOOL = 4,
-                T_STR_SEQ = 5, T_SEQ = 6,
-              };
+    enum Type {
+        T_STRING = 1,
+        T_DOUBLE = 2,
+        T_NUM = 3,
+        T_BOOL = 4,
+        T_STR_SEQ = 5,
+        T_SEQ = 6,
+    };
 
     QString str;
     int i;
@@ -98,7 +119,9 @@ class ParseTreeBase : public QSharedData
 {
 public:
     typedef QExplicitlySharedDataPointer<ParseTreeBase> Ptr;
-    ParseTreeBase() { }
+    ParseTreeBase()
+    {
+    }
     virtual ~ParseTreeBase();
 
     virtual bool eval(ParseContext *_context) const = 0;
@@ -172,10 +195,10 @@ class ParseTreeIN : public ParseTreeBase
 {
 public:
     ParseTreeIN(ParseTreeBase *ptr1, ParseTreeBase *ptr2, Qt::CaseSensitivity cs, bool substring = false)
-        : m_pLeft(ptr1),
-          m_pRight(ptr2),
-          m_cs(cs),
-          m_substring(substring)
+        : m_pLeft(ptr1)
+        , m_pRight(ptr2)
+        , m_cs(cs)
+        , m_substring(substring)
     {
     }
 
@@ -210,36 +233,36 @@ protected:
 };
 
 /**
-  * @internal
-  *
-  * A sub-sequence match is like a sub-string match except the characters
-  * do not have to be contiguous. For example 'ct' is a sub-sequence of 'cat'
-  * but not a sub-string. 'at' is both a sub-string and sub-sequence of 'cat'.
-  * All sub-strings are sub-sequences.
-  *
-  * This is useful if you want to support a fuzzier search, say for instance
-  * you are searching for `LibreOffice 6.0 Writer`, after typing `libre` you
-  * see a list of all the LibreOffice apps, to narrow down that list you only
-  * need to add `write` (so the search term is `librewrite`) instead of typing
-  * out the entire app name until a distinguishing letter is reached.
-  * It's also useful to allow the user to forget to type some characters.
-  */
+ * @internal
+ *
+ * A sub-sequence match is like a sub-string match except the characters
+ * do not have to be contiguous. For example 'ct' is a sub-sequence of 'cat'
+ * but not a sub-string. 'at' is both a sub-string and sub-sequence of 'cat'.
+ * All sub-strings are sub-sequences.
+ *
+ * This is useful if you want to support a fuzzier search, say for instance
+ * you are searching for `LibreOffice 6.0 Writer`, after typing `libre` you
+ * see a list of all the LibreOffice apps, to narrow down that list you only
+ * need to add `write` (so the search term is `librewrite`) instead of typing
+ * out the entire app name until a distinguishing letter is reached.
+ * It's also useful to allow the user to forget to type some characters.
+ */
 class ParseTreeSubsequenceMATCH : public ParseTreeBase
 {
 public:
-  ParseTreeSubsequenceMATCH(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, Qt::CaseSensitivity cs)
-  {
-    m_pLeft = _ptr1;
-    m_pRight = _ptr2;
-    m_cs = cs;
-  }
+    ParseTreeSubsequenceMATCH(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, Qt::CaseSensitivity cs)
+    {
+        m_pLeft = _ptr1;
+        m_pRight = _ptr2;
+        m_cs = cs;
+    }
 
-  bool eval(ParseContext *_context) const override;
+    bool eval(ParseContext *_context) const override;
 
 protected:
-  ParseTreeBase::Ptr m_pLeft;
-  ParseTreeBase::Ptr m_pRight;
-  Qt::CaseSensitivity m_cs;
+    ParseTreeBase::Ptr m_pLeft;
+    ParseTreeBase::Ptr m_pRight;
+    Qt::CaseSensitivity m_cs;
 };
 
 /**

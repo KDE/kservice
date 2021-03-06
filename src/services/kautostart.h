@@ -64,8 +64,7 @@ public:
      * @since 5.61 we are allowed to specify an absolute path to the service
      * description and it will still work.
      */
-    explicit KAutostart(const QString &entryName = QString(),
-                        QObject *parent = nullptr);
+    explicit KAutostart(const QString &entryName = QString(), QObject *parent = nullptr);
     ~KAutostart();
 
     /**
@@ -137,8 +136,7 @@ public:
      * @param check autostart conditions to check for (see commandToCheck())
      * @see setAutostarts()
      */
-    bool autostarts(const QString &environment = QString(),
-                    Conditions check = NoConditions) const;
+    bool autostarts(const QString &environment = QString(), Conditions check = NoConditions) const;
 
     /**
      * Returns the associated command for this autostart service

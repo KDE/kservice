@@ -17,7 +17,9 @@
 class KServiceTypeProfileEntry
 {
 public:
-    explicit KServiceTypeProfileEntry() {}
+    explicit KServiceTypeProfileEntry()
+    {
+    }
 
     /**
      * Add a service to this profile.
@@ -41,4 +43,3 @@ public:
 };
 
 #endif /* KSERVICETYPEPROFILE_P_H */
-

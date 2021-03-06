@@ -10,8 +10,8 @@
 
 #include "../../kservice_version.h"
 
-#include <KLocalizedString>
 #include <KAboutData>
+#include <KLocalizedString>
 #ifndef __ANDROID__
 #include <KCrash>
 #endif
@@ -19,12 +19,12 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QCoreApplication>
-#include <QStandardPaths>
-#include <QFile>
+#include <QDateTime>
 #include <QDebug>
 #include <QDir>
-#include <QDateTime>
+#include <QFile>
 #include <QFileInfo>
+#include <QStandardPaths>
 
 #include <qplatformdefs.h> // for unlink
 
@@ -49,38 +49,26 @@ int main(int argc, char **argv)
                      i18nc("application description", "Rebuilds the system configuration cache."),
                      KAboutLicense::GPL,
                      i18nc("@info:credit", "Copyright 1999-2014 KDE Developers"));
-    about.addAuthor(i18nc("@info:credit", "David Faure"),
-                    i18nc("@info:credit", "Author"),
-                    QStringLiteral("faure@kde.org"));
-    about.addAuthor(i18nc("@info:credit", "Waldo Bastian"),
-                    i18nc("@info:credit", "Author"),
-                    QStringLiteral("bastian@kde.org"));
+    about.addAuthor(i18nc("@info:credit", "David Faure"), i18nc("@info:credit", "Author"), QStringLiteral("faure@kde.org"));
+    about.addAuthor(i18nc("@info:credit", "Waldo Bastian"), i18nc("@info:credit", "Author"), QStringLiteral("bastian@kde.org"));
     KAboutData::setApplicationData(about);
 
     QCommandLineParser parser;
     about.setupCommandLine(&parser);
-    parser.addOption(QCommandLineOption(QStringLiteral("nosignal"),
-                i18nc("@info:shell command-line option",
-                      "Do not signal applications to update (deprecated, no longer having any effect)")));
-    parser.addOption(QCommandLineOption(QStringLiteral("noincremental"),
-                i18nc("@info:shell command-line option",
-                      "Disable incremental update, re-read everything")));
+    parser.addOption(
+        QCommandLineOption(QStringLiteral("nosignal"),
+                           i18nc("@info:shell command-line option", "Do not signal applications to update (deprecated, no longer having any effect)")));
+    parser.addOption(
+        QCommandLineOption(QStringLiteral("noincremental"), i18nc("@info:shell command-line option", "Disable incremental update, re-read everything")));
     parser.addOption(QCommandLineOption(QStringLiteral("checkstamps"),
-                i18nc("@info:shell command-line option",
-                      "Check file timestamps (deprecated, no longer having any effect)")));
+                                        i18nc("@info:shell command-line option", "Check file timestamps (deprecated, no longer having any effect)")));
     parser.addOption(QCommandLineOption(QStringLiteral("nocheckfiles"),
-                i18nc("@info:shell command-line option",
-                      "Disable checking files (deprecated, no longer having any effect)")));
-    parser.addOption(QCommandLineOption(QStringLiteral("menutest"),
-                i18nc("@info:shell command-line option",
-                      "Perform menu generation test run only")));
-    parser.addOption(QCommandLineOption(QStringLiteral("track"),
-                i18nc("@info:shell command-line option",
-                      "Track menu id for debug purposes"),
-                QStringLiteral("menu-id")));
-    parser.addOption(QCommandLineOption(QStringLiteral("testmode"),
-                i18nc("@info:shell command-line option",
-                      "Switch QStandardPaths to test mode, for unit tests only")));
+                                        i18nc("@info:shell command-line option", "Disable checking files (deprecated, no longer having any effect)")));
+    parser.addOption(QCommandLineOption(QStringLiteral("menutest"), i18nc("@info:shell command-line option", "Perform menu generation test run only")));
+    parser.addOption(
+        QCommandLineOption(QStringLiteral("track"), i18nc("@info:shell command-line option", "Track menu id for debug purposes"), QStringLiteral("menu-id")));
+    parser.addOption(
+        QCommandLineOption(QStringLiteral("testmode"), i18nc("@info:shell command-line option", "Switch QStandardPaths to test mode, for unit tests only")));
     parser.process(app);
     about.processCommandLine(&parser);
 

@@ -7,16 +7,20 @@
 
 #include "kserviceaction.h"
 #include "kservice.h"
-#include <QVariant>
 #include <QDataStream>
+#include <QVariant>
 
 class KServiceActionPrivate : public QSharedData
 {
 public:
-    KServiceActionPrivate(const QString &name, const QString &text,
-                          const QString &icon, const QString &exec,
-                          bool noDisplay)
-        : m_name(name), m_text(text), m_icon(icon), m_exec(exec), m_noDisplay(noDisplay) {}
+    KServiceActionPrivate(const QString &name, const QString &text, const QString &icon, const QString &exec, bool noDisplay)
+        : m_name(name)
+        , m_text(text)
+        , m_icon(icon)
+        , m_exec(exec)
+        , m_noDisplay(noDisplay)
+    {
+    }
     QString m_name;
     QString m_text;
     QString m_icon;
@@ -33,17 +37,13 @@ KServiceAction::KServiceAction()
 }
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
-KServiceAction::KServiceAction(const QString &name, const QString &text,
-                               const QString &icon, const QString &exec,
-                               bool noDisplay)
+KServiceAction::KServiceAction(const QString &name, const QString &text, const QString &icon, const QString &exec, bool noDisplay)
     : d(new KServiceActionPrivate(name, text, icon, exec, noDisplay))
 {
 }
 #endif
 
-KServiceAction::KServiceAction(const QString &name, const QString &text,
-                               const QString &icon, const QString &exec,
-                               bool noDisplay, const KServicePtr &service)
+KServiceAction::KServiceAction(const QString &name, const QString &text, const QString &icon, const QString &exec, bool noDisplay, const KServicePtr &service)
     : d(new KServiceActionPrivate(name, text, icon, exec, noDisplay))
 {
     d->m_service = service;

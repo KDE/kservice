@@ -11,13 +11,13 @@
 #include "ksycocaresourcelist_p.h"
 #include "sycocadebug.h"
 
-#include <QDebug>
-#include <assert.h>
-#include <KDesktopFile>
 #include <KConfigGroup>
+#include <KDesktopFile>
+#include <QDebug>
 #include <QFileInfo>
 #include <QHash>
 #include <QStandardPaths>
+#include <assert.h>
 
 KBuildServiceTypeFactory::KBuildServiceTypeFactory(KSycoca *db)
     : KServiceTypeFactory(db)
@@ -34,7 +34,7 @@ KServiceType::Ptr KBuildServiceTypeFactory::findServiceTypeByName(const QString 
     assert(sycoca()->isBuilding());
     // We're building a database - the service type must be in memory
     KSycocaEntry::Ptr servType = m_entryDict->value(_name);
-    return KServiceType::Ptr(static_cast<KServiceType*>(servType.data()));
+    return KServiceType::Ptr(static_cast<KServiceType *>(servType.data()));
 }
 
 KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
@@ -90,8 +90,7 @@ KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
     return e;
 }
 
-void
-KBuildServiceTypeFactory::saveHeader(QDataStream &str)
+void KBuildServiceTypeFactory::saveHeader(QDataStream &str)
 {
     KSycocaFactory::saveHeader(str);
     str << qint32(m_propertyTypeDict.count());
@@ -100,18 +99,16 @@ KBuildServiceTypeFactory::saveHeader(QDataStream &str)
     }
 }
 
-void
-KBuildServiceTypeFactory::save(QDataStream &str)
+void KBuildServiceTypeFactory::save(QDataStream &str)
 {
     KSycocaFactory::save(str);
 }
 
-void
-KBuildServiceTypeFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
+void KBuildServiceTypeFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
 {
     KSycocaFactory::addEntry(newEntry);
 
-    KServiceType::Ptr serviceType(static_cast<KServiceType*>(newEntry.data()));
+    KServiceType::Ptr serviceType(static_cast<KServiceType *>(newEntry.data()));
 
     const QMap<QString, QVariant::Type> &pd = serviceType->propertyDefs();
     QMap<QString, QVariant::Type>::ConstIterator pit = pd.begin();
@@ -125,4 +122,3 @@ KBuildServiceTypeFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
         }
     }
 }
-

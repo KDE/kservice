@@ -9,8 +9,8 @@
 
 #include <QObject>
 
-#include <kplugininfo.h>
 #include <KPluginFactory>
+#include <kplugininfo.h>
 
 class NSAPlugin : public QObject
 {
@@ -21,8 +21,7 @@ public:
 
 private:
     KPluginInfo m_pluginInfo;
-
 };
-//Q_DECLARE_METATYPE(NSAPlugin*)
+// Q_DECLARE_METATYPE(NSAPlugin*)
 
 #endif // NSAPLUGIN_H

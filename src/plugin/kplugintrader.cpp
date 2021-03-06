@@ -10,9 +10,9 @@
 #include "kplugintrader.h"
 #include "ktraderparsetree_p.h"
 
-#include <QVector>
 #include <KPluginLoader>
 #include <KPluginMetaData>
+#include <QVector>
 
 using namespace KTraderParse;
 
@@ -57,8 +57,7 @@ void KPluginTrader::applyConstraints(KPluginInfo::List &lst, const QString &cons
 
 KPluginInfo::List KPluginTrader::query(const QString &subDirectory, const QString &servicetype, const QString &constraint)
 {
-    auto filter = [&](const KPluginMetaData &md) -> bool
-    {
+    auto filter = [&](const KPluginMetaData &md) -> bool {
         const auto &types = md.serviceTypes();
         if (!types.isEmpty() && types.contains(servicetype)) {
             return true;
@@ -71,8 +70,7 @@ KPluginInfo::List KPluginTrader::query(const QString &subDirectory, const QStrin
         }
         return data.value(QStringLiteral("ServiceTypes")).toVariant().toStringList().contains(servicetype);
     };
-    QVector<KPluginMetaData> plugins = servicetype.isEmpty() ?
-            KPluginLoader::findPlugins(subDirectory) : KPluginLoader::findPlugins(subDirectory, filter);
+    QVector<KPluginMetaData> plugins = servicetype.isEmpty() ? KPluginLoader::findPlugins(subDirectory) : KPluginLoader::findPlugins(subDirectory, filter);
     KPluginInfo::List lst = KPluginInfo::fromMetaData(plugins);
     applyConstraints(lst, constraint);
     return lst;

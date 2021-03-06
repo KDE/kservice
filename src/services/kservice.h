@@ -10,12 +10,12 @@
 #define KSERVICE_H
 
 #include "kserviceaction.h"
-#include <QStringList>
-#include <QVariant>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <ksycocaentry.h>
 #include <QCoreApplication>
+#include <QStringList>
+#include <QVariant>
+#include <ksycocaentry.h>
 
 class KServiceType;
 class QDataStream;
@@ -328,7 +328,10 @@ public:
      * @deprecated since 5.0, use showInCurrentDesktop()
      */
     KSERVICE_DEPRECATED_VERSION(5, 0, "Use KService::showInCurrentDesktop()")
-    bool showInKDE() const { return showInCurrentDesktop(); }
+    bool showInKDE() const
+    {
+        return showInCurrentDesktop();
+    }
 #endif
 
     /**
@@ -512,9 +515,7 @@ public:
      *        of the reservedMenuIds
      * @return The path to use for the new KService.
      */
-    static QString newServicePath(bool showInMenu, const QString &suggestedName,
-                                  QString *menuId = nullptr,
-                                  const QStringList *reservedMenuIds = nullptr);
+    static QString newServicePath(bool showInMenu, const QString &suggestedName, QString *menuId = nullptr, const QStringList *reservedMenuIds = nullptr);
 
     /**
      * This template allows to load the library for the specified service and ask the
@@ -528,9 +529,8 @@ public:
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
      */
-    template <class T>
-    T *createInstance(QObject *parent = nullptr,
-                      const QVariantList &args = QVariantList(), QString *error = nullptr) const
+    template<class T>
+    T *createInstance(QObject *parent = nullptr, const QVariantList &args = QVariantList(), QString *error = nullptr) const
     {
         return createInstance<T>(nullptr, parent, args, error);
     }
@@ -548,9 +548,8 @@ public:
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
      */
-    template <class T>
-    T *createInstance(QWidget *parentWidget, QObject *parent,
-                      const QVariantList &args = QVariantList(), QString *error = nullptr) const
+    template<class T>
+    T *createInstance(QWidget *parentWidget, QObject *parent, const QVariantList &args = QVariantList(), QString *error = nullptr) const
     {
         KPluginLoader pluginLoader(*this);
         KPluginFactory *factory = pluginLoader.factory();
@@ -560,7 +559,7 @@ public:
             T *o = factory->template create<T>(parentWidget, parent, pluginKeyword(), argsWithMetaData);
             if (!o && error)
                 *error = QCoreApplication::translate("", "The service '%1' does not provide an interface '%2' with keyword '%3'")
-                         .arg(name(), QString::fromLatin1(T::staticMetaObject.className()), pluginKeyword());
+                             .arg(name(), QString::fromLatin1(T::staticMetaObject.className()), pluginKeyword());
             return o;
         } else if (error) {
             *error = pluginLoader.errorString();
@@ -588,9 +587,15 @@ private:
     /// @internal for KBuildSycoca only
     struct ServiceTypeAndPreference {
         ServiceTypeAndPreference()
-            : preference(-1), serviceType() {}
+            : preference(-1)
+            , serviceType()
+        {
+        }
         ServiceTypeAndPreference(int pref, const QString &servType)
-            : preference(pref), serviceType(servType) {}
+            : preference(pref)
+            , serviceType(servType)
+        {
+        }
         int preference;
         QString serviceType; // or MIME type
     };

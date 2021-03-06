@@ -10,36 +10,36 @@
 
 #include "ksycoca.h"
 #include "ksycoca_p.h"
-#include "ksycocautils_p.h"
-#include "ksycocatype.h"
 #include "ksycocafactory_p.h"
+#include "ksycocatype.h"
+#include "ksycocautils_p.h"
+#include "sycocadebug.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include "sycocadebug.h"
 
-#include <QStandardPaths>
-#include <QDataStream>
 #include <QCoreApplication>
+#include <QDataStream>
 #include <QFile>
 #include <QFileInfo>
+#include <QMetaMethod>
+#include <QStandardPaths>
 #include <QThread>
 #include <QThreadStorage>
-#include <QMetaMethod>
 
-#include <stdlib.h>
+#include <QCryptographicHash>
 #include <fcntl.h>
 #include <kmimetypefactory_p.h>
-#include <kservicetypefactory_p.h>
-#include <kservicegroupfactory_p.h>
 #include <kservicefactory_p.h>
-#include <QCryptographicHash>
+#include <kservicegroupfactory_p.h>
+#include <kservicetypefactory_p.h>
+#include <stdlib.h>
 
 #include "kbuildsycoca_p.h"
 #include "ksycocadevices_p.h"
 
 #ifdef Q_OS_UNIX
-#include <utime.h>
 #include <sys/time.h>
+#include <utime.h>
 #endif
 
 /**
@@ -56,10 +56,11 @@
 #endif
 
 #ifndef MAP_FAILED
-#define MAP_FAILED ((void *) -1)
+#define MAP_FAILED ((void *)-1)
 #endif
 
-QDataStream &operator>>(QDataStream &in, KSycocaHeader &h) {
+QDataStream &operator>>(QDataStream &in, KSycocaHeader &h)
+{
     in >> h.prefixes >> h.timeStamp >> h.language >> h.updateSignature;
     return in;
 }
@@ -75,22 +76,22 @@ QDataStream &operator>>(QDataStream &in, KSycocaHeader &h) {
 Q_DECLARE_OPERATORS_FOR_FLAGS(KSycocaPrivate::BehaviorsIfNotFound)
 
 KSycocaPrivate::KSycocaPrivate(KSycoca *q)
-    : databaseStatus(DatabaseNotOpen),
-      readError(false),
-      timeStamp(0),
-      m_databasePath(),
-      updateSig(0),
-      m_fileWatcher(new KDirWatch),
-      m_haveListeners(false),
-      q(q),
-      sycoca_size(0),
-      sycoca_mmap(nullptr),
-      m_mmapFile(nullptr),
-      m_device(nullptr),
-      m_mimeTypeFactory(nullptr),
-      m_serviceTypeFactory(nullptr),
-      m_serviceFactory(nullptr),
-      m_serviceGroupFactory(nullptr)
+    : databaseStatus(DatabaseNotOpen)
+    , readError(false)
+    , timeStamp(0)
+    , m_databasePath()
+    , updateSig(0)
+    , m_fileWatcher(new KDirWatch)
+    , m_haveListeners(false)
+    , q(q)
+    , sycoca_size(0)
+    , sycoca_mmap(nullptr)
+    , m_mmapFile(nullptr)
+    , m_device(nullptr)
+    , m_mimeTypeFactory(nullptr)
+    , m_serviceTypeFactory(nullptr)
+    , m_serviceFactory(nullptr)
+    , m_serviceGroupFactory(nullptr)
 {
 #ifdef Q_OS_WIN
     /*
@@ -130,9 +131,7 @@ bool KSycocaPrivate::tryMmap()
     }
     fcntl(m_mmapFile->handle(), F_SETFD, FD_CLOEXEC);
     sycoca_size = m_mmapFile->size();
-    void *mmapRet = mmap(nullptr, sycoca_size,
-                       PROT_READ, MAP_SHARED,
-                       m_mmapFile->handle(), 0);
+    void *mmapRet = mmap(nullptr, sycoca_size, PROT_READ, MAP_SHARED, m_mmapFile->handle(), 0);
     /* POSIX mandates only MAP_FAILED, but we are paranoid so check for
        null pointer too.  */
     if (mmapRet == MAP_FAILED || mmapRet == nullptr) {
@@ -142,7 +141,7 @@ bool KSycocaPrivate::tryMmap()
     } else {
         sycoca_mmap = static_cast<const char *>(mmapRet);
 #if HAVE_MADVISE
-        (void) posix_madvise(mmapRet, sycoca_size, POSIX_MADV_WILLNEED);
+        (void)posix_madvise(mmapRet, sycoca_size, POSIX_MADV_WILLNEED);
 #endif // HAVE_MADVISE
         return true;
     }
@@ -159,8 +158,12 @@ int KSycoca::version()
 class KSycocaSingleton
 {
 public:
-    KSycocaSingleton() { }
-    ~KSycocaSingleton() { }
+    KSycocaSingleton()
+    {
+    }
+    ~KSycocaSingleton()
+    {
+    }
 
     bool hasSycoca() const
     {
@@ -210,9 +213,13 @@ KSycoca::KSycoca()
 {
     if (d->m_fileWatcher) {
         // We always delete and recreate the DB, so KDirWatch normally emits created
-        connect(d->m_fileWatcher.get(), &KDirWatch::created, this, [this](){ d->slotDatabaseChanged(); });
+        connect(d->m_fileWatcher.get(), &KDirWatch::created, this, [this]() {
+            d->slotDatabaseChanged();
+        });
         // In some cases, KDirWatch only thinks the file was modified though
-        connect(d->m_fileWatcher.get(), &KDirWatch::dirty, this, [this]() { d->slotDatabaseChanged(); });
+        connect(d->m_fileWatcher.get(), &KDirWatch::dirty, this, [this]() {
+            d->slotDatabaseChanged();
+        });
     }
 }
 
@@ -220,7 +227,8 @@ bool KSycocaPrivate::openDatabase()
 {
     Q_ASSERT(databaseStatus == DatabaseNotOpen);
 
-    delete m_device; m_device = nullptr;
+    delete m_device;
+    m_device = nullptr;
 
     if (m_databasePath.isEmpty()) {
         m_databasePath = findDatabase();
@@ -232,7 +240,7 @@ bool KSycocaPrivate::openDatabase()
         m_dbLastModified = QFileInfo(m_databasePath).lastModified();
         result = checkVersion();
     } else { // No database file
-        //qCDebug(SYCOCA) << "Could not open ksycoca";
+        // qCDebug(SYCOCA) << "Could not open ksycoca";
         result = false;
     }
     return result;
@@ -248,10 +256,10 @@ KSycocaAbstractDevice *KSycocaPrivate::device()
     Q_ASSERT(!m_databasePath.isEmpty());
 #if HAVE_MMAP
     if (m_sycocaStrategy == StrategyMmap && tryMmap()) {
-        device = new KSycocaMmapDevice(sycoca_mmap,
-                sycoca_size);
+        device = new KSycocaMmapDevice(sycoca_mmap, sycoca_size);
         if (!device->device()->open(QIODevice::ReadOnly)) {
-            delete device; device = nullptr;
+            delete device;
+            device = nullptr;
         }
     }
 #endif
@@ -259,7 +267,8 @@ KSycocaAbstractDevice *KSycocaPrivate::device()
     if (!device && m_sycocaStrategy == StrategyMemFile) {
         device = new KSycocaMemFileDevice(m_databasePath);
         if (!device->device()->open(QIODevice::ReadOnly)) {
-            delete device; device = nullptr;
+            delete device;
+            device = nullptr;
         }
     }
 #endif
@@ -267,7 +276,7 @@ KSycocaAbstractDevice *KSycocaPrivate::device()
         device = new KSycocaFileDevice(m_databasePath);
         if (!device->device()->open(QIODevice::ReadOnly)) {
             qCWarning(SYCOCA) << "Couldn't open" << m_databasePath << "even though it is readable? Impossible.";
-            //delete device; device = 0; // this would crash in the return statement...
+            // delete device; device = 0; // this would crash in the return statement...
         }
     }
     if (device) {
@@ -366,7 +375,7 @@ KSycoca::~KSycoca()
 {
     d->closeDatabase();
     delete d;
-    //if (ksycocaInstance.exists()
+    // if (ksycocaInstance.exists()
     //    && ksycocaInstance->self == this)
     //    ksycocaInstance->self = 0;
 }
@@ -400,7 +409,8 @@ void KSycocaPrivate::closeDatabase()
         munmap(const_cast<char *>(sycoca_mmap), sycoca_size);
         sycoca_mmap = nullptr;
     }
-    delete m_mmapFile; m_mmapFile = nullptr;
+    delete m_mmapFile;
+    m_mmapFile = nullptr;
 #endif
 
     databaseStatus = DatabaseNotOpen;
@@ -424,12 +434,12 @@ QDataStream *KSycoca::findEntry(int offset, KSycocaType &type)
 {
     QDataStream *str = stream();
     Q_ASSERT(str);
-    //qCDebug(SYCOCA) << QString("KSycoca::_findEntry(offset=%1)").arg(offset,8,16);
+    // qCDebug(SYCOCA) << QString("KSycoca::_findEntry(offset=%1)").arg(offset,8,16);
     str->device()->seek(offset);
     qint32 aType;
     *str >> aType;
     type = KSycocaType(aType);
-    //qCDebug(SYCOCA) << QString("KSycoca::found type %1").arg(aType);
+    // qCDebug(SYCOCA) << QString("KSycoca::found type %1").arg(aType);
     return str;
 }
 
@@ -477,7 +487,6 @@ bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
         // Database exists, and version is ok, we can read it.
 
         if (qAppName() != QLatin1String(KBUILDSYCOCA_EXENAME) && ifNotFound != IfNotFoundDoNothing) {
-
             // Ensure it's uptodate, rebuild if needed
             checkDirectories();
 
@@ -515,7 +524,7 @@ QDataStream *KSycoca::findFactory(KSycocaFactoryId id)
         }
         *str >> aOffset;
         if (aId == id) {
-            //qCDebug(SYCOCA) << "KSycoca::findFactory(" << id << ") offset " << aOffset;
+            // qCDebug(SYCOCA) << "KSycoca::findFactory(" << id << ") offset " << aOffset;
             str->device()->seek(aOffset);
             return str;
         }
@@ -547,7 +556,7 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
         if (aId) {
             *str >> aOffset;
         } else {
-            break;    // just read 0
+            break; // just read 0
         }
     }
     // We now point to the header
@@ -580,13 +589,13 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
     return header;
 }
 
-
 class TimestampChecker
 {
 public:
     TimestampChecker()
         : m_now(QDateTime::currentDateTime())
-    {}
+    {
+    }
 
     // Check times of last modification of all directories on which ksycoca depends,
     // If none of them is newer than the mtime we stored for that directory at the
@@ -594,12 +603,12 @@ public:
     bool checkDirectoriesTimestamps(const QMap<QString, qint64> &dirs)
     {
         Q_ASSERT(!dirs.isEmpty());
-        //qCDebug(SYCOCA) << "checking file timestamps";
+        // qCDebug(SYCOCA) << "checking file timestamps";
         for (auto it = dirs.begin(); it != dirs.end(); ++it) {
             const QString dir = it.key();
             const qint64 lastStamp = it.value();
 
-            auto visitor = [&] (const QFileInfo &fi) {
+            auto visitor = [&](const QFileInfo &fi) {
                 const QDateTime mtime = fi.lastModified();
                 if (mtime.toMSecsSinceEpoch() > lastStamp) {
                     if (mtime > m_now) {
@@ -656,7 +665,7 @@ void KSycocaPrivate::checkDirectories()
 bool KSycocaPrivate::needsRebuild()
 {
     if (!timeStamp && databaseStatus == DatabaseOK) {
-        (void) readSycocaHeader();
+        (void)readSycocaHeader();
     }
     // these days timeStamp is really a "bool headerFound", the value itself doesn't matter...
     // KF6: replace it with bool.
@@ -694,7 +703,7 @@ bool KSycocaPrivate::buildSycoca()
 quint32 KSycoca::timeStamp()
 {
     if (!d->timeStamp) {
-        (void) d->readSycocaHeader();
+        (void)d->readSycocaHeader();
     }
     return d->timeStamp / 1000; // from ms to s
 }
@@ -704,7 +713,7 @@ quint32 KSycoca::timeStamp()
 quint32 KSycoca::updateSignature()
 {
     if (!d->timeStamp) {
-        (void) d->readSycocaHeader();
+        (void)d->readSycocaHeader();
     }
     return d->updateSig;
 }
@@ -735,7 +744,7 @@ QString KSycoca::absoluteFilePath(DatabaseType type)
 QString KSycoca::language()
 {
     if (d->language.isEmpty()) {
-        (void) d->readSycocaHeader();
+        (void)d->readSycocaHeader();
     }
     return d->language;
 }
@@ -744,7 +753,7 @@ QString KSycoca::language()
 QStringList KSycoca::allResourceDirs()
 {
     if (!d->timeStamp) {
-        (void) d->readSycocaHeader();
+        (void)d->readSycocaHeader();
     }
     return d->allResourceDirs.keys();
 }

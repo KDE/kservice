@@ -5,18 +5,18 @@
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
 
-#include <ksycoca.h>
-#include <ksycoca_p.h>
+#include <KConfigGroup>
+#include <KDesktopFile>
+#include <QDebug>
+#include <QProcess>
 #include <QTemporaryDir>
 #include <QTest>
-#include <QDebug>
-#include <kservicetype.h>
-#include <KDesktopFile>
-#include <KConfigGroup>
-#include <QProcess>
 #include <kservice.h>
 #include <kservicefactory_p.h>
+#include <kservicetype.h>
 #include <kservicetypefactory_p.h>
+#include <ksycoca.h>
+#include <ksycoca_p.h>
 
 // taken from tst_qstandardpaths
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC) && !defined(Q_OS_BLACKBERRY) && !defined(Q_OS_ANDROID)
@@ -55,7 +55,7 @@ void KSycocaXdgDirsTest::runKBuildSycoca(const QProcessEnvironment &environment)
     QVERIFY(!kbuildsycoca.isEmpty());
     QStringList args;
     args << QStringLiteral("--testmode");
-    //proc.setProcessChannelMode(QProcess::ForwardedChannels);
+    // proc.setProcessChannelMode(QProcess::ForwardedChannels);
     proc.start(kbuildsycoca, args);
     proc.setProcessEnvironment(environment);
 

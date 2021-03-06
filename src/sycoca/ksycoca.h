@@ -33,7 +33,7 @@ class KSycocaPrivate;
 class KSERVICE_EXPORT KSycoca : public QObject
 {
     Q_OBJECT
-    //Q_CLASSINFO("D-Bus Interface", "org.kde.KSycoca")
+    // Q_CLASSINFO("D-Bus Interface", "org.kde.KSycoca")
 
 protected:
     /**

@@ -26,4 +26,4 @@ private Q_SLOTS:
     void testRemovalOfNewServiceFile();
 };
 
-#endif //KAUTOSTARTTEST_H
+#endif // KAUTOSTARTTEST_H
