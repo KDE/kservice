@@ -448,6 +448,7 @@ QList<KPluginInfo> KPluginInfo::fromFiles(const QStringList &files, const KConfi
     return infolist;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 81)
 QList<KPluginInfo> KPluginInfo::fromKPartsInstanceName(const QString &name, const KConfigGroup &config)
 {
     QStringList files;
@@ -461,6 +462,7 @@ QList<KPluginInfo> KPluginInfo::fromKPartsInstanceName(const QString &name, cons
     }
     return fromFiles(files, config);
 }
+#endif
 
 bool KPluginInfo::isHidden() const
 {

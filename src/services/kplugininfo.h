@@ -201,14 +201,18 @@ public:
      */
     static KPluginInfo::List fromFiles(const QStringList &files, const KConfigGroup &config = KConfigGroup());
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 81)
     /**
      * @return A list of KPluginInfo objects for the KParts plugins of a
      * component.
      *
      * @param componentName Use the component name to look up all KParts plugins for it.
      * @param config The config group where to save/load whether the plugin is enabled/disabled
+     * @deprecated since 5.81, removed for lack of usage, KParts loads the plugins all by itself
      */
+    KSERVICE_DEPRECATED_VERSION(5, 81, "Removed for lack of usage, KParts plugins don't use this anymore (or never did)")
     static KPluginInfo::List fromKPartsInstanceName(const QString &componentName, const KConfigGroup &config = KConfigGroup());
+#endif
 
     /**
      * @return Whether the plugin should be hidden.
