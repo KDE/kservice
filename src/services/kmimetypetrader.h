@@ -14,6 +14,7 @@ class KMimeTypeTraderPrivate;
 class KServiceOffer;
 typedef QList<KServiceOffer> KServiceOfferList;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 82)
 /**
  * @class KMimeTypeTrader kmimetypetrader.h <KMimeTypeTrader>
  *
@@ -34,6 +35,10 @@ typedef QList<KServiceOffer> KServiceOfferList;
  * Although if this is about loading that component you would use createPartInstanceFromQuery() directly.
  *
  * @see KServiceTypeTrader, KService
+ *
+ * @deprecated since 5.82. For querying applications use KApplicationTrader.
+ * For querying KParts use KParts::PartLoader.
+ * For querying plugins use KPluginLoader.
  */
 class KSERVICE_EXPORT KMimeTypeTrader
 {
@@ -73,7 +78,11 @@ public:
      * @return A list of services that satisfy the query, sorted by preference
      * (preferred service first)
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
+     * @deprecated since 5.82. For querying applications use KApplicationTrader::query().
+     * For querying KParts use KParts::PartLoader::partsForMimeType().
+     * For querying plugins use KPluginLoader.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 82, "See API docs.")
     KService::List
     query(const QString &mimeType, const QString &genericServiceType = QStringLiteral("Application"), const QString &constraint = QString()) const;
 
@@ -85,8 +94,11 @@ public:
      *
      * @param mimeType the MIME type (see query())
      * @param genericServiceType the service type (see query())
-     * @return the preferred service, or @c nullptr if no service is available
+     * @return the preferred service, or @c nullptr if no service is available.
+     * @deprecated since 5.82. For querying applications use KApplicationTrader::preferredService(). For querying KParts use
+     * KParts::PartLoader::partsForMimeType().first().
      */
+    KSERVICE_DEPRECATED_VERSION(5, 82, "See API docs.")
     KService::Ptr preferredService(const QString &mimeType, const QString &genericServiceType = QStringLiteral("Application"));
 
     /**
@@ -109,7 +121,10 @@ public:
      * @param error The string passed here will contain an error description.
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
+     * @deprecated since 5.82. For KParts use KParts::PartLoader::createPartInstanceForMimeType().
+     * Otherwise use KPluginLoader.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 82, "See API docs.")
     template<class T>
     static T *createPartInstanceFromQuery(const QString &mimeType,
                                           QWidget *parentWidget = nullptr,
@@ -146,7 +161,10 @@ public:
      * @param error The string passed here will contain an error description.
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
+     * @deprecated since 5.82. For KParts use KParts::PartLoader::createPartInstanceForMimeType().
+     * Otherwise use KPluginLoader.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 82, "See API docs.")
     template<class T>
     static T *createInstanceFromQuery(const QString &mimeType,
                                       const QString &serviceType,
@@ -195,5 +213,7 @@ private:
     static void filterMimeTypeOffers(KService::List &list, const QString &genericServiceType);
     friend class KMimeTypeTraderSingleton;
 };
+
+#endif
 
 #endif /* KMIMETYPETRADER_H */

@@ -18,6 +18,8 @@
 #include "servicesdebug.h"
 #include <QMimeDatabase>
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 82)
+
 class KMimeTypeTraderPrivate
 {
 public:
@@ -195,3 +197,5 @@ KService::Ptr KMimeTypeTrader::preferredService(const QString &mimeType, const Q
     // qCDebug(SERVICES) << "No offers, or none allowed as default";
     return KService::Ptr();
 }
+
+#endif
