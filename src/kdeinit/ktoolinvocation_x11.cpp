@@ -12,9 +12,9 @@
 
 #include "ktoolinvocation.h"
 
+#include <KApplicationTrader>
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <kmimetypetrader.h>
 
 #include "kservice.h"
 #include <KConfig>
@@ -117,7 +117,7 @@ void KToolInvocation::invokeMailer(const QString &_to,
     if (!isMainThreadActive()) {
         return;
     }
-    KService::Ptr emailClient = KMimeTypeTrader::self()->preferredService(QStringLiteral("x-scheme-handler/mailto"));
+    KService::Ptr emailClient = KApplicationTrader::preferredService(QStringLiteral("x-scheme-handler/mailto"));
     auto command = emailClient->exec();
 
     QString to, cc, bcc;
@@ -286,7 +286,7 @@ void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startu
                 }
             }
         } else {
-            const KService::Ptr htmlApp = KMimeTypeTrader::self()->preferredService(QStringLiteral("text/html"));
+            const KService::Ptr htmlApp = KApplicationTrader::preferredService(QStringLiteral("text/html"));
             if (htmlApp) {
                 // WORKAROUND: For bugs 264562 and 265474:
                 // In order to correctly handle non-HTML urls we change the service
