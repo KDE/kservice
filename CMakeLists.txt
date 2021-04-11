@@ -75,7 +75,7 @@ set_package_properties(BISON PROPERTIES
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
 add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
-add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055000)
+add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055100)
 add_definitions(-DKCOREADDONS_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054E00) # for KPluginInfo::dependencies
 add_definitions(-DQT_NO_FOREACH)
 if (IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/po")
