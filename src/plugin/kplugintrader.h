@@ -183,8 +183,8 @@ public:
      *         factory was unable to create an object of the given type.
      * @deprecated since 5.82, use KPluginLoader API.
      */
-    KSERVICE_DEPRECATED_VERSION(5, 82, "Use KPluginLoader API")
     template<class T>
+    KSERVICE_DEPRECATED_VERSION(5, 82, "Use KPluginLoader API")
     static T *createInstanceFromQuery(const QString &subDirectory,
                                       const QString &serviceType = QString(),
                                       const QString &constraint = QString(),
@@ -214,8 +214,8 @@ public:
      *         factory was unable to create an object of the given type.
      * @deprecated since 5.82, use KPluginLoader API.
      */
-    KSERVICE_DEPRECATED_VERSION(5, 82, "Use KPluginLoader API")
     template<class T>
+    KSERVICE_DEPRECATED_VERSION(5, 82, "Use KPluginLoader API")
     static T *createInstanceFromQuery(const QString &subDirectory,
                                       const QString &serviceType,
                                       const QString &constraint,
