@@ -124,8 +124,8 @@ public:
      * @deprecated since 5.82. For KParts use KParts::PartLoader::createPartInstanceForMimeType().
      * Otherwise use KPluginLoader.
      */
-    KSERVICE_DEPRECATED_VERSION(5, 82, "See API docs.")
     template<class T>
+    KSERVICE_DEPRECATED_VERSION(5, 82, "See API docs.")
     static T *createPartInstanceFromQuery(const QString &mimeType,
                                           QWidget *parentWidget = nullptr,
                                           QObject *parent = nullptr,
@@ -164,8 +164,8 @@ public:
      * @deprecated since 5.82. For KParts use KParts::PartLoader::createPartInstanceForMimeType().
      * Otherwise use KPluginLoader.
      */
-    KSERVICE_DEPRECATED_VERSION(5, 82, "See API docs.")
     template<class T>
+    KSERVICE_DEPRECATED_VERSION(5, 82, "See API docs.")
     static T *createInstanceFromQuery(const QString &mimeType,
                                       const QString &serviceType,
                                       QObject *parent = nullptr,
