@@ -42,7 +42,7 @@ KSycocaEntry *KBuildMimeTypeFactory::createEntry(const QString &file) const
     if (pos == -1) { // huh?
         return nullptr;
     }
-    const QStringRef dirName = file.leftRef(pos);
+    const auto dirName = QStringView(file).left(pos);
     if (dirName == QLatin1String("packages")) { // special subdir
         return nullptr;
     }

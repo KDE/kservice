@@ -423,7 +423,7 @@ KServiceGroup::List KServiceGroupPrivate::entries(KServiceGroup *group, bool sor
             continue;
         }
         if (item[0] == QLatin1Char('/')) {
-            QString groupPath = rp + item.midRef(1) + QLatin1Char('/');
+            QString groupPath = rp + QStringView(item).mid(1) + QLatin1Char('/');
             // Remove entry from sorted list of services.
             for (SortedContainer::iterator it2 = glist.begin(); it2 != glist.end(); ++it2) {
                 const KServiceGroup::Ptr group(static_cast<KServiceGroup *>(it2.value().data()));
@@ -528,7 +528,7 @@ KServiceGroup::List KServiceGroupPrivate::entries(KServiceGroup *group, bool sor
                 }
             }
         } else if (item[0] == QLatin1Char('/')) {
-            QString groupPath = rp + item.midRef(1) + QLatin1Char('/');
+            QString groupPath = rp + QStringView(item).mid(1) + QLatin1Char('/');
 
             for (KServiceGroup::List::ConstIterator it2(group->d_func()->m_serviceList.constBegin()); it2 != group->d_func()->m_serviceList.constEnd(); ++it2) {
                 if (!(*it2)->isType(KST_KServiceGroup)) {
