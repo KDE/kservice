@@ -241,6 +241,7 @@ int KToolInvocation::startServiceByDesktopName(const QString &_name,
 }
 #endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 83)
 int KToolInvocation::kdeinitExec(const QString &name, const QStringList &args, QString *error, int *pid, const QByteArray &startup_id)
 {
     if (!isMainThreadActive(error)) {
@@ -249,6 +250,7 @@ int KToolInvocation::kdeinitExec(const QString &name, const QStringList &args, Q
 
     return self()->startServiceInternal("kdeinit_exec", name, args, error, nullptr, pid, startup_id, false);
 }
+#endif
 
 int KToolInvocation::kdeinitExecWait(const QString &name, const QStringList &args, QString *error, int *pid, const QByteArray &startup_id)
 {
