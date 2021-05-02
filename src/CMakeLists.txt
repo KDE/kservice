@@ -131,7 +131,7 @@ if (TARGET KF5::DBusAddons)
   target_link_libraries(KF5Service PRIVATE KF5::DBusAddons)  # KDEInitInterface
 endif()
 
-set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION_STRING}
+set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION}
                                             SOVERSION ${KSERVICE_SOVERSION}
                                             EXPORT_NAME Service
 )
