@@ -227,11 +227,12 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     m_strDesktopEntryName = _name.toLower();
 
     // Exec lines from the KCMs always have the pattern "<program> m_strDesktopEntryName", see https://phabricator.kde.org/T13729
+    const static bool hasSystemsettings = !QStandardPaths::findExecutable(QStringLiteral("systemsettings5")).isEmpty();
     if (m_strExec.isEmpty() && serviceTypes().contains(QStringLiteral("KCModule"))) {
         if (desktopGroup.readEntry("X-KDE-ParentApp") == QLatin1String("kinfocenter")) {
             m_strExec = QStringLiteral("kinfocenter ") + m_strDesktopEntryName;
         } else if (desktopGroup.readEntry("X-KDE-ParentApp") == QLatin1String("kcontrol")) {
-            if (!desktopGroup.readEntry("X-KDE-System-Settings-Parent-Category").isEmpty()) {
+            if (!desktopGroup.readEntry("X-KDE-System-Settings-Parent-Category").isEmpty() && hasSystemsettings) {
                 m_strExec = QStringLiteral("systemsettings5 ") + m_strDesktopEntryName;
             } else {
                 m_strExec = QStringLiteral("kcmshell5 ") + m_strDesktopEntryName;
