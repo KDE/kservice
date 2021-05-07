@@ -395,6 +395,7 @@ public:
                                          bool noWait = false);
 #endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 83)
     /**
      * Starts a program via kdeinit.
      *
@@ -413,7 +414,6 @@ public:
      * @return an error code indicating success (== 0) or failure (> 0).
      * @deprecated since 5.83, use CommandLauncherJob instead
      */
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 83)
     KSERVICE_DEPRECATED_VERSION(5, 83, "use CommandLauncherJob instead")
     static int kdeinitExec(const QString &name,
                            const QStringList &args = QStringList(),
