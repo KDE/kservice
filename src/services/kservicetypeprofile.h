@@ -38,9 +38,9 @@ namespace KServiceTypeProfile
  * but which should be disabled, i.e. trader queries will not return them.
  * @deprecated since 5.66, unused.
  */
+KSERVICE_EXPORT
 KSERVICE_DEPRECATED_VERSION(5, 66, "Unused")
-KSERVICE_EXPORT void
-writeServiceTypeProfile(const QString &serviceType, const KService::List &services, const KService::List &disabledServices = KService::List());
+void writeServiceTypeProfile(const QString &serviceType, const KService::List &services, const KService::List &disabledServices = KService::List());
 
 /**
  * Delete the complete profile for a given servicetype, reverting to the default
@@ -49,9 +49,9 @@ writeServiceTypeProfile(const QString &serviceType, const KService::List &servic
  * Do not use this for MIME types.
  * @param serviceType The name of the servicetype.
  */
+KSERVICE_EXPORT
 KSERVICE_DEPRECATED_VERSION(5, 66, "Unused")
-KSERVICE_EXPORT void deleteServiceTypeProfile(const QString &serviceType);
-
+void deleteServiceTypeProfile(const QString &serviceType);
 }
 #endif
 
