@@ -70,7 +70,7 @@ if (UNIX)
    )
 endif()
 
-qt5_add_resources(kservice_SRCS kservice.qrc)
+qt_add_resources(kservice_SRCS kservice.qrc)
 
 bison_target(TraderParser
              services/yacc.y
@@ -91,7 +91,7 @@ set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/yacc.h PROPERTY SKIP_AUTOMOC TRU
 # And I don't want to have it here as a source file (who wants to edit dbus xml by hand), so it can be
 # generated from klauncher's implementation header.
 if (TARGET Qt5::DBus)
-  qt5_add_dbus_interface(kservice_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
+  qt_add_dbus_interface(kservice_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
 endif()
 
 add_library(KF5Service ${kservice_SRCS})
