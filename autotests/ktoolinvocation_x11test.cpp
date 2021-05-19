@@ -18,6 +18,7 @@ private Q_SLOTS:
     void testTerminalEntryParsing();
     void testLegacyEntryParsing();
     void testTerminalEntryParsingWithParameters();
+    void testNoKonsole();
 
 private:
     KConfigGroup general;
@@ -61,6 +62,15 @@ void KToolInvocationTest::testTerminalEntryParsingWithParameters()
     QVERIFY(ptr->isValid());
     QCOMPARE(ptr->exec(), QStringLiteral("konsole --noclose -e /bin/true --workdir %1").arg(QDir::homePath()));
     QCOMPARE(ptr->workingDirectory(), QDir::homePath());
+}
+
+void KToolInvocationTest::testNoKonsole()
+{
+    general.deleteGroup();
+    general.sync();
+
+    const KService::Ptr ptr = KToolInvocation::terminalApplication();
+    QVERIFY(!ptr);
 }
 
 QTEST_MAIN(KToolInvocationTest)

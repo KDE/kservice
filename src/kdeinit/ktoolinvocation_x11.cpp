@@ -335,8 +335,13 @@ void KToolInvocation::invokeTerminal(const QString &command, const QStringList &
         return;
     }
 
-    const QString exec = terminalApplication(command, workdir)->exec();
-    QStringList cmdTokens = KShell::splitArgs(exec);
+    const KService::Ptr terminal = terminalApplication(command, workdir);
+    if (!terminal) {
+        KMessage::message(KMessage::Error, i18n("Unable to determine the default terminal"));
+        return;
+    }
+
+    QStringList cmdTokens = KShell::splitArgs(terminal->exec());
     const QString cmd = cmdTokens.takeFirst();
 
     QString error;
@@ -370,6 +375,9 @@ KServicePtr KToolInvocation::terminalApplication(const QString &command, const Q
     }
     if (!ptr) {
         ptr = KService::serviceByStorageId(QStringLiteral("org.kde.konsole"));
+    }
+    if (!ptr) {
+        return KServicePtr();
     }
     QString exec = ptr->exec();
     if (!command.isEmpty()) {
