@@ -1,0 +1,209 @@
+# translation of kdelibs4.po to Estonian
+# Copyright (C) 1999-2004, 2005, 2006, 2009 Free Software Foundation, Inc.
+#
+# Hasso Tepper <hasso@kde.org>, 1999-2004, 2005, 2006.
+# Marek Laane <bald@smail.ee>, 2003-2009.
+# Peeter Russak <pezz@tkwcy.ee>, 2005.
+# Marek Laane <bald@smail.ee>, 2009, 2010, 2011, 2012, 2014, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-05-20 00:14+0000\n"
+"PO-Revision-Date: 2016-09-09 02:56+0300\n"
+"Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
+"Language-Team: Estonian <kde-i18n-doc@kde.org>\n"
+"Language: et\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Marek Laane"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "qiilaq69@gmail.com"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:47
+#, kde-format
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:49
+#, kde-format
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Süsteemi seadistuste puhvri ümberehitamine."
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:51
+#, kde-format
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "Autoriõigus 1999-2014: KDE arendajad"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:52
+#, kde-format
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:52 kbuildsycoca/kbuildsycoca_main.cpp:53
+#, kde-format
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Autor"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:53
+#, kde-format
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:60
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr ""
+"Rakendustele ei anta korraldust uuendada (iganenud, ei avalda enam mingit "
+"mõju)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:62
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Inkrementuuenduse keelamine, kõik loetakse uuesti sisse"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:64
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr "Faili ajatemplite kontroll (iganenud, ei avalda enam mingit mõju)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:66
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr "Failide kontrolli keelamine (iganenud, ei avalda enam mingit mõju)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:67
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Ainult menüü genereerimise test"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:69
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Menüü ID jälgimine silumise huvides"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:71
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr "QStandardPaths'i lülitamine testirežiimi (ainult ühiktestide tarbeks)"
+
+#: kdeinit/ktoolinvocation.cpp:60
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "Funktsioon tuleb välja kutsuda pealõimest."
+
+#: kdeinit/ktoolinvocation.cpp:101
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Viga rakenduse %1 käivitamisel. KLauncher ei tööta enam või ei suutnud see "
+"rakendust käivitada."
+
+#: kdeinit/ktoolinvocation.cpp:104
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher pole D-Busi kaudu kättesaadav, viga %1 väljakutsumisel:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:232
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"E-posti kliendi käivitamine nurjus:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:233
+#, kde-format
+msgid "Could not launch Mail Client"
+msgstr "E-posti kliendi käivitamine nurjus"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:282 kdeinit/ktoolinvocation_x11.cpp:307
+#: kdeinit/ktoolinvocation_x11.cpp:326
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Brauseri käivitamine nurjus:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:283 kdeinit/ktoolinvocation_x11.cpp:308
+#: kdeinit/ktoolinvocation_x11.cpp:327
+#, kde-format
+msgid "Could not launch Browser"
+msgstr "Brauseri käivitamine nurjus"
+
+#: kdeinit/ktoolinvocation_x11.cpp:340
+#, kde-format
+msgid "Unable to determine the default terminal"
+msgstr ""
+
+#: kdeinit/ktoolinvocation_x11.cpp:352
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Terminalikliendi käivitamine nurjus:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:353
+#, kde-format
+msgid "Could not launch Terminal Client"
+msgstr "Terminalikliendi käivitamine nurjus"
+
+#: plugin/kdbusservicestarter.cpp:68
+#, kde-format
+msgid "No service implementing %1"
+msgstr "%1 rakendamiseks puudub teenus"
+
+#: services/kservice.cpp:1041
+#, kde-format
+msgid "The provided service is not valid"
+msgstr "Määratud teenus ei ole korrektne"
+
+#: services/kservice.cpp:1045
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "Teenus '%1' ei paku teeki või puudub võti Library "
