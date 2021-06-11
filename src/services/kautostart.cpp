@@ -13,7 +13,6 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
-#include <QStringList>
 
 class KAutostartPrivate
 {
