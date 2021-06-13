@@ -9,7 +9,6 @@
 #include "kmimetypefactory_p.h"
 #include "servicesdebug.h"
 #include <QDataStream>
-#include <QVariant>
 #include <ksycoca.h>
 #include <ksycocadict_p.h>
 
