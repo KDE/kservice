@@ -12,7 +12,6 @@
 #include <kservice.h>
 #include <kservicetypetrader.h>
 
-
 #include <QElapsedTimer>
 #include <QStandardPaths>
 #include <QStringList>
