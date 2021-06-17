@@ -4,7 +4,16 @@ check_function_exists(mmap HAVE_MMAP)
 check_symbol_exists(posix_madvise "sys/mman.h" HAVE_MADVISE)
 configure_file(config-ksycoca.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-ksycoca.h )
 
-set(kservice_SRCS
+add_library(KF5Service)
+add_library(KF5::Service ALIAS KF5Service)
+
+set_target_properties(KF5Service PROPERTIES
+    VERSION     ${KSERVICE_VERSION}
+    SOVERSION   ${KSERVICE_SOVERSION}
+    EXPORT_NAME Service
+)
+
+target_sources(KF5Service PRIVATE
    kdeinit/ktoolinvocation.cpp
    services/kautostart.cpp
    services/kapplicationtrader.cpp
@@ -38,11 +47,17 @@ set(kservice_SRCS
    sycoca/kmimeassociations.cpp
    sycoca/vfolder_menu.cpp
    plugin/kplugintrader.cpp
+
+   kservice.qrc
 )
+
 if (TARGET Qt5::DBus)
-  list(APPEND kservice_SRCS plugin/kdbusservicestarter.cpp)
+    target_sources(KF5Service PRIVATE
+        plugin/kdbusservicestarter.cpp
+    )
 endif()
-ecm_qt_declare_logging_category(kservice_SRCS
+
+ecm_qt_declare_logging_category(KF5Service
     HEADER servicesdebug.h
     IDENTIFIER SERVICES
     CATEGORY_NAME kf.service.services
@@ -50,7 +65,7 @@ ecm_qt_declare_logging_category(kservice_SRCS
     EXPORT KSERVICE
     DESCRIPTION "service (kservice lib)"
 )
-ecm_qt_declare_logging_category(kservice_SRCS
+ecm_qt_declare_logging_category(KF5Service
     HEADER sycocadebug.h
     IDENTIFIER SYCOCA
     CATEGORY_NAME kf.service.sycoca
@@ -60,17 +75,15 @@ ecm_qt_declare_logging_category(kservice_SRCS
 )
 
 if (WIN32)
-   LIST(APPEND kservice_SRCS
-      kdeinit/ktoolinvocation_win.cpp
-   )
+    target_sources(KF5Service PRIVATE
+        kdeinit/ktoolinvocation_win.cpp
+    )
 endif()
 if (UNIX)
-   LIST(APPEND kservice_SRCS
-      kdeinit/ktoolinvocation_x11.cpp
-   )
+    target_sources(KF5Service PRIVATE
+        kdeinit/ktoolinvocation_x11.cpp
+    )
 endif()
-
-qt_add_resources(kservice_SRCS kservice.qrc)
 
 bison_target(TraderParser
              services/yacc.y
@@ -84,22 +97,25 @@ flex_target(TraderLexer
 )
 set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/lex.c ${CMAKE_CURRENT_BINARY_DIR}/yacc.c PROPERTY SKIP_AUTOMOC ON)
 add_flex_bison_dependency(TraderLexer TraderParser)
-list(APPEND kservice_SRCS ${BISON_TraderParser_OUTPUTS} ${FLEX_TraderLexer_OUTPUTS})
+target_sources(KF5Service PRIVATE
+    ${BISON_TraderParser_OUTPUTS}
+    ${FLEX_TraderLexer_OUTPUTS}
+)
 set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/yacc.h PROPERTY SKIP_AUTOMOC TRUE) # don't run automoc on this file
 
 # kservice cannot depend on kinit (because kinit->kio->kservice), so we need a copy of org.kde.KLauncher.xml here.
 # And I don't want to have it here as a source file (who wants to edit dbus xml by hand), so it can be
 # generated from klauncher's implementation header.
 if (TARGET Qt5::DBus)
-  qt_add_dbus_interface(kservice_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
+    set(kservice_dbus_SRCS)
+    qt_add_dbus_interface(kservice_dbus_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
+    target_sources(KF5Service PRIVATE ${kservice_dbus_SRCS})
 endif()
 
-add_library(KF5Service ${kservice_SRCS})
 if(WIN32)
     #unistd.h does not exist on windows
     target_compile_definitions(KF5Service PRIVATE YY_NO_UNISTD_H=1)
 endif()
-add_library(KF5::Service ALIAS KF5Service)
 ecm_generate_export_header(KF5Service
     BASE_NAME KService
     GROUP_BASE_NAME KF
@@ -115,9 +131,12 @@ set(kservice_includes
    ${CMAKE_CURRENT_SOURCE_DIR}/plugin
    ${CMAKE_CURRENT_SOURCE_DIR}/kdeinit
 )
-target_include_directories(KF5Service PUBLIC "$<BUILD_INTERFACE:${kservice_includes}>")
-
-target_include_directories(KF5Service INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KService>")
+target_include_directories(KF5Service
+    PUBLIC
+        "$<BUILD_INTERFACE:${kservice_includes}>"
+    INTERFACE
+        "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KService>"
+)
 
 target_link_libraries(KF5Service
   PUBLIC
@@ -130,11 +149,6 @@ target_link_libraries(KF5Service
 if (TARGET KF5::DBusAddons)
   target_link_libraries(KF5Service PRIVATE KF5::DBusAddons)  # KDEInitInterface
 endif()
-
-set_target_properties(KF5Service PROPERTIES VERSION ${KSERVICE_VERSION}
-                                            SOVERSION ${KSERVICE_SOVERSION}
-                                            EXPORT_NAME Service
-)
 
 ecm_generate_headers(KService_HEADERS
   HEADER_NAMES
