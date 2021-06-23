@@ -236,6 +236,17 @@ bool KSycocaPrivate::openDatabase()
 
     bool result = true;
     if (!m_databasePath.isEmpty()) {
+        static bool firstTime = true;
+        if (firstTime) {
+            firstTime = false;
+            if (QFileInfo::exists(QStringLiteral("/.flatpak-info"))) {
+                // We're running inside flatpak, which sets all times to 1970
+                // So the first very time, don't use an existing database, recreate it
+                qCDebug(SYCOCA) << "flatpak detected, ignoring" << m_databasePath;
+                return false;
+            }
+        }
+
         qCDebug(SYCOCA) << "Opening ksycoca from" << m_databasePath;
         m_dbLastModified = QFileInfo(m_databasePath).lastModified();
         result = checkVersion();
