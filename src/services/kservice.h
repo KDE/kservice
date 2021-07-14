@@ -612,7 +612,7 @@ private:
     /**
      * @internal
      * Construct a service from a stream.
-     * The stream must already be positionned at the correct offset.
+     * The stream must already be positioned at the correct offset.
      */
     KService(QDataStream &str, int offset);
 };

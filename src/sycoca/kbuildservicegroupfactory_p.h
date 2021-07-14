@@ -44,7 +44,7 @@ public:
 
     /**
      * Adds the entry @p newEntry to the "parent group" @p parent, creating
-     * the group if necassery.
+     * the group if necessary.
      * A "parent group" is a group of services that all have the same
      * "X-KDE-ParentApp".
      */

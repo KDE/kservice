@@ -76,9 +76,9 @@ private:
     void collectInheritedServices();
     void collectInheritedServices(const QString &mime, QSet<QString> &visitedMimes, int mimeTypeInheritanceLevel);
 
-    QHash<QString, KService::Ptr> m_nameMemoryHash; // m_nameDict is not useable while building ksycoca
-    QHash<QString, KService::Ptr> m_relNameMemoryHash; // m_relNameDict is not useable while building ksycoca
-    QHash<QString, KService::Ptr> m_menuIdMemoryHash; // m_menuIdDict is not useable while building ksycoca
+    QHash<QString, KService::Ptr> m_nameMemoryHash; // m_nameDict is not usable while building ksycoca
+    QHash<QString, KService::Ptr> m_relNameMemoryHash; // m_relNameDict is not usable while building ksycoca
+    QHash<QString, KService::Ptr> m_menuIdMemoryHash; // m_menuIdDict is not usable while building ksycoca
     QSet<KSycocaEntry::Ptr> m_dupeDict;
 
     KOfferHash m_offerHash;

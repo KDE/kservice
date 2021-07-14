@@ -102,7 +102,7 @@ public:
 
     enum {
         DatabaseNotOpen, // openDatabase must be called
-        BadVersion, // it's opened, but it's not useable
+        BadVersion, // it's opened, but it's not usable
         DatabaseOK,
     } databaseStatus;
     bool readError;

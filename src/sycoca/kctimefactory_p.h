@@ -12,7 +12,7 @@
 #include <ksycocafactory_p.h>
 
 /**
- * Simple dict for assocating a timestamp with each file in ksycoca
+ * Simple dict for associating a timestamp with each file in ksycoca
  */
 class KCTimeDict
 {

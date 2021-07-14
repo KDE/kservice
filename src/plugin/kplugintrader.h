@@ -173,7 +173,7 @@ public:
      * }
      * \endcode
      *
-     * @param subDirectory The subdirectory under the Qt plugin pathes to search in
+     * @param subDirectory The subdirectory under the Qt plugin paths to search in
      * @param serviceType The type of service for which to find a plugin
      * @param constraint An optional constraint to pass to the trader (see KTrader)
      * @param parent The parent object for the part itself
@@ -203,7 +203,7 @@ public:
      * const QVariantList&, QString*),
      * but you can specify an additional parent widget.  This is important for a KPart, for example.
      *
-     * @param subDirectory The subdirectory under the Qt plugin pathes to search in
+     * @param subDirectory The subdirectory under the Qt plugin paths to search in
      * @param serviceType the type of service for which to find a plugin
      * @param constraint an optional constraint to pass to the trader (see KTrader)
      * @param parent the parent object for the part itself

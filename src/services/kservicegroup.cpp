@@ -611,7 +611,7 @@ void KServiceGroupPrivate::parseAttribute(const QString &item,
         showInlineAlias = true;
     } else if (item == QLatin1String("NIA")) { // not inline alias!
         showInlineAlias = false;
-    } else if ((item).contains(QLatin1String("IL"))) { // inline limite!
+    } else if ((item).contains(QLatin1String("IL"))) { // inline limit!
         QString tmp(item);
         tmp.remove(QStringLiteral("IL["));
         tmp.remove(QLatin1Char(']'));

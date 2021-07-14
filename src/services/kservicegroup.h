@@ -148,7 +148,7 @@ public:
     void setAllowInline(bool _b);
 
     /**
-     * @return inline limite value
+     * @return inline limit value
      */
     int inlineValue() const;
     void setInlineValue(int _val);
@@ -269,7 +269,7 @@ private:
     friend class KServiceGroupFactory;
     /**
      * @internal construct a service from a stream.
-     * The stream must already be positionned at the correct offset
+     * The stream must already be positioned at the correct offset
      */
     KServiceGroup(QDataStream &_str, int offset, bool deep);
 
