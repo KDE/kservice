@@ -197,12 +197,14 @@ void KBuildServiceFactory::postProcessServices()
         KSycocaEntry::Ptr entry = *itserv;
         KService::Ptr service(static_cast<KService *>(entry.data()));
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 87)
         if (!service->isDeleted()) {
             const QString parent = service->parentApp();
             if (!parent.isEmpty()) {
                 m_serviceGroupFactory->addNewChild(parent, KSycocaEntry::Ptr(service));
             }
         }
+#endif
 
         const QString name = service->desktopEntryName();
         KService::Ptr dup = m_nameMemoryHash.value(name);

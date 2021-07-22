@@ -751,6 +751,7 @@ QString KService::untranslatedGenericName() const
     return v.isValid() ? v.toString() : QString();
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 87)
 QString KService::parentApp() const
 {
     Q_D(const KService);
@@ -761,6 +762,7 @@ QString KService::parentApp() const
 
     return it->toString();
 }
+#endif
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 87)
 QString KService::pluginKeyword() const

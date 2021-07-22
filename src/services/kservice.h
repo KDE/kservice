@@ -363,12 +363,17 @@ public:
      */
     bool showOnCurrentPlatform() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 87)
     /**
      * Name of the application this service belongs to.
      * (Useful for e.g. plugins)
      * @return the parent application, or QString() if not set
+     * @deprecated Since 5.87, the concept of parent apps is deprecated. Plugins should use KPluginMetaData instead of
+     * KService and a dedicated namespace if the plugins are only for one app relevant.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 87, "See API docs")
     QString parentApp() const;
+#endif
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 87)
     /**
