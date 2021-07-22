@@ -370,12 +370,20 @@ public:
      */
     QString parentApp() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 87)
     /**
      * The keyword to be used when constructing the plugin using KPluginFactory. The keyword is
      * defined with X-KDE-PluginKeyword in the .desktop file and with registerPlugin<T>(keyword)
      * in the K_PLUGIN_FACTORY macro when implementing the plugin.
+     * @deprecated Since 5.87, the metadata should be embedded in the actual plugin. Consequently
+     * this property is obsolete. In case there is only one plugin in the library the usage is not needed.
+     * In case there are different base classes registered the keyword is not needed too.
+     * If there are multiple classes of a common base class registered they should be split up
+     * in separate libs.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 87, "See API docs")
     QString pluginKeyword() const;
+#endif
 
     /**
      * The path to the documentation for this service.

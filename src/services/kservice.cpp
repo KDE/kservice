@@ -762,6 +762,7 @@ QString KService::parentApp() const
     return it->toString();
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 87)
 QString KService::pluginKeyword() const
 {
     Q_D(const KService);
@@ -772,6 +773,7 @@ QString KService::pluginKeyword() const
 
     return it->toString();
 }
+#endif
 
 QString KService::docPath() const
 {
