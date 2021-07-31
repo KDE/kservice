@@ -206,7 +206,7 @@ Q_SIGNALS:
      * and which is always visible (otherwise querying sycoca before showing
      * could be enough).
      */
-    void databaseChanged();
+    void databaseChanged(); // clazy:exclude=overloaded-signal
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 80)
     /**
@@ -223,7 +223,7 @@ Q_SIGNALS:
      * @deprecated since 5.80, use the @c KSycoca::databaseChanged() signal instead.
      */
     KSERVICE_DEPRECATED_VERSION(5, 80, "Use KSycoca::databaseChanged() signal")
-    void databaseChanged(const QStringList &changedResources);
+    void databaseChanged(const QStringList &changedResources); // clazy:exclude=overloaded-signal
 #endif
 
 protected:
