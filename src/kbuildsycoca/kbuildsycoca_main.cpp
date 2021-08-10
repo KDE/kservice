@@ -12,9 +12,6 @@
 
 #include <KAboutData>
 #include <KLocalizedString>
-#ifndef __ANDROID__
-#include <KCrash>
-#endif
 
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -27,6 +24,9 @@
 #include <QStandardPaths>
 
 #include <qplatformdefs.h> // for unlink
+#ifdef Q_OS_WIN
+#include <qt_windows.h>
+#endif
 
 static void crashHandler(int)
 {
@@ -35,6 +35,49 @@ static void crashHandler(int)
     if (KBuildSycoca::sycocaPath()) {
         unlink(KBuildSycoca::sycocaPath());
     }
+}
+
+#if defined(Q_OS_WIN)
+// glue function for calling the unix signal handler from the windows unhandled exception filter
+// Inspired from KCrash, but heavily simplified
+LONG WINAPI KCrash::win32UnhandledExceptionFilter(_EXCEPTION_POINTERS *)
+{
+    crashHandler(0);
+    return EXCEPTION_EXECUTE_HANDLER; // allow windows to do the default action (terminate)
+}
+#endif
+
+void setCrashHandler()
+{
+#if defined(Q_OS_WIN)
+    SetUnhandledExceptionFilter(win32UnhandledExceptionFilter);
+#elif !defined(Q_OS_ANDROID)
+    sigset_t mask;
+    sigemptyset(&mask);
+
+#ifdef SIGSEGV
+    signal(SIGSEGV, crashHandler);
+    sigaddset(&mask, SIGSEGV);
+#endif
+#ifdef SIGBUS
+    signal(SIGBUS, crashHandler);
+    sigaddset(&mask, SIGBUS);
+#endif
+#ifdef SIGFPE
+    signal(SIGFPE, crashHandler);
+    sigaddset(&mask, SIGFPE);
+#endif
+#ifdef SIGILL
+    signal(SIGILL, crashHandler);
+    sigaddset(&mask, SIGILL);
+#endif
+#ifdef SIGABRT
+    signal(SIGABRT, crashHandler);
+    sigaddset(&mask, SIGABRT);
+#endif
+
+    sigprocmask(SIG_UNBLOCK, &mask, nullptr);
+#endif
 }
 
 int main(int argc, char **argv)
@@ -78,9 +121,7 @@ int main(int argc, char **argv)
         QStandardPaths::setTestModeEnabled(true);
     }
 
-#ifndef __ANDROID__
-    KCrash::setEmergencySaveFunction(crashHandler);
-#endif
+    setCrashHandler();
 
     fprintf(stderr, "%s running...\n", KBUILDSYCOCA_EXENAME);
 

@@ -16,9 +16,4 @@ target_link_libraries(kbuildsycoca5
    KF5::I18n
    Qt5::Xml
 )
-if (NOT ANDROID)
-    target_link_libraries(kbuildsycoca5
-        KF5::Crash      # set a crash handler for the kbuildsycoca binary
-    )
-endif()
 install(TARGETS kbuildsycoca5 ${KF5_INSTALL_TARGETS_DEFAULT_ARGS} )
