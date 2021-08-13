@@ -10,6 +10,8 @@
 
 #include <kservice_export.h>
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 87)
+
 #include <QObject>
 #include <QStringList>
 #include <memory>
@@ -37,6 +39,9 @@ class KAutostartPrivate;
  * // we will actually start up on log in
  * config.setAutoStart(autostart.autoStarts());
  * @endcode
+ * @deprecated Since 5.87, the autostart is done inside of Plasma, apps should use the X-KDE-autostart-condition
+ * to toggle their autostart values.
+ * If the app should autostart in other desktop environments it's desktop file has to be compied to the autostart location manually.
  */
 class KSERVICE_EXPORT KAutostart : public QObject
 {
@@ -63,7 +68,9 @@ public:
      *
      * @since 5.61 we are allowed to specify an absolute path to the service
      * description and it will still work.
+     * @deprecated Since 5.87, see class docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 87, "See class docs")
     explicit KAutostart(const QString &entryName = QString(), QObject *parent = nullptr);
     ~KAutostart();
 
@@ -165,7 +172,9 @@ public:
      * with the autostart system. Does not check whether or not it is
      * set to actually autostart or not.
      * @param entryName the name of the service to check for
+     * @deprecated Since 5.87, see class docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 87, "See class docs")
     static bool isServiceRegistered(const QString &entryName);
 
     /**
@@ -281,7 +290,9 @@ public:
      * @param condition: config in the format "rcfile:group:entry:default"
      *
      * @since 5.69
+     * @deprecated Since 5.87, see class docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 87, "See class docs")
     static bool isStartConditionMet(const QString &condition);
 
 private:
@@ -292,4 +303,5 @@ private:
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KAutostart::Conditions)
+#endif
 #endif

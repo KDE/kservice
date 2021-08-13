@@ -7,6 +7,8 @@
 
 #include "kautostart.h"
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 87)
+
 #include <KConfigGroup>
 #include <KDesktopFile>
 
@@ -347,3 +349,4 @@ QString KAutostart::startAfter() const
 {
     return d->df->desktopGroup().readEntry("X-KDE-autostart-after");
 }
+#endif

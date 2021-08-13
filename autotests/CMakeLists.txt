@@ -15,7 +15,6 @@ endmacro(KSERVICE_UNIT_TESTS)
 kservice_unit_tests(
  ksycocatest
  ksycoca_xdgdirstest
- kautostarttest
  ksycocadicttest
  ksycocathreadtest
  kservicetest
@@ -30,6 +29,10 @@ endif()
 if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
    EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.82.0)
    kservice_unit_tests(kplugintradertest)
+endif()
+if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
+   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.87.0)
+   kservice_unit_tests(kautostarttest)
 endif()
 
 # the test plays with the timestamp of ~/.qttest/share/kservicetypes5, and with the ksycoca file, other tests can collide
