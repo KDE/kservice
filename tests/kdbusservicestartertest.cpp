@@ -14,7 +14,8 @@ int main(int argc, char **argv)
     QCoreApplication::setApplicationName(QStringLiteral("kdbusservicestartertest"));
     QCoreApplication app(argc, argv);
 
-    QString error, dbusService;
+    QString error;
+    QString dbusService;
     KDBusServiceStarter::self()->findServiceFor(QStringLiteral("DBUS/Organizer"), QString(), &error, &dbusService);
 
     return 0;

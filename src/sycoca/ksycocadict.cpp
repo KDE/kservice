@@ -85,7 +85,8 @@ KSycocaDict::KSycocaDict(QDataStream *str, int offset)
     d->stream = str;
     d->offset = offset;
 
-    quint32 test1, test2;
+    quint32 test1;
+    quint32 test2;
     str->device()->seek(offset);
     (*str) >> test1 >> test2;
     if ((test1 > 0x000fffff) || (test2 > 1024)) {
@@ -389,7 +390,8 @@ void KSycocaDict::save(QDataStream &str)
     int lastDiv = 0;
 
     while (true) {
-        int divsum = 0, divnum = 0;
+        int divsum = 0;
+        int divnum = 0;
 
         int maxDiv = 0;
         int maxPos = 0;

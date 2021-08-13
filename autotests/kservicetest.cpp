@@ -659,7 +659,8 @@ void KServiceTest::testHasServiceType2() // with services coming from ksycoca
 void KServiceTest::testWriteServiceTypeProfile()
 {
     const QString serviceType = QStringLiteral("FakeBasePart");
-    KService::List services, disabledServices;
+    KService::List services;
+    KService::List disabledServices;
     services.append(KService::serviceByDesktopPath(QStringLiteral("preferredpart.desktop")));
     services.append(KService::serviceByDesktopPath(QStringLiteral("fakepart.desktop")));
     disabledServices.append(KService::serviceByDesktopPath(QStringLiteral("fakepart2.desktop")));

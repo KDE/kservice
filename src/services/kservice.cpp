@@ -304,8 +304,10 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
 
 void KServicePrivate::load(QDataStream &s)
 {
-    qint8 def, term;
-    qint8 dst, initpref;
+    qint8 def;
+    qint8 term;
+    qint8 dst;
+    qint8 initpref;
 
     // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KService 5.x VERSIONS!
     // !! This data structure should remain binary compatible at all times !!
@@ -335,7 +337,8 @@ void KServicePrivate::load(QDataStream &s)
 void KServicePrivate::save(QDataStream &s)
 {
     KSycocaEntryPrivate::save(s);
-    qint8 def = m_bAllowAsDefault, initpref = m_initialPreference;
+    qint8 def = m_bAllowAsDefault;
+    qint8 initpref = m_initialPreference;
     qint8 term = m_bTerminal;
     qint8 dst = qint8(m_DBUSStartusType);
 

@@ -814,8 +814,9 @@ void KSycoca::connectNotify(const QMetaMethod &signal)
 
 void KSycoca::clearCaches()
 {
-    if (ksycocaInstance.exists() && ksycocaInstance()->hasSycoca())
+    if (ksycocaInstance.exists() && ksycocaInstance()->hasSycoca()) {
         ksycocaInstance()->sycoca()->d->closeDatabase();
+    }
 }
 
 extern KSERVICE_EXPORT int ksycoca_ms_between_checks;

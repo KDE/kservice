@@ -94,8 +94,9 @@ void KServiceTypeProfiles::ensureParsed()
 // static
 void KServiceTypeProfile::clearCache()
 {
-    if (s_serviceTypeProfiles.exists())
+    if (s_serviceTypeProfiles.exists()) {
         s_serviceTypeProfiles()->clear();
+    }
 }
 
 /**

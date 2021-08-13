@@ -646,8 +646,9 @@ QVariant KPluginInfo::property(const QString &key) const
                     newResult += value.toString();
                 }
                 result = newResult;
-            } else
+            } else {
                 qCWarning(SERVICES) << "Cannot interpret" << result << "into a string list";
+            }
         }
         return result;
     }

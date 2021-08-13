@@ -446,11 +446,12 @@ bool ParseTreeIN::eval(ParseContext *_context) const
         QList<QVariant>::ConstIterator it = c2.seq.constBegin();
         QList<QVariant>::ConstIterator end = c2.seq.constEnd();
         _context->b = false;
-        for (; it != end; ++it)
+        for (; it != end; ++it) {
             if ((*it).type() == QVariant::Int && (*it).toInt() == c1.i) {
                 _context->b = true;
                 break;
             }
+        }
         return true;
     }
 
@@ -460,11 +461,12 @@ bool ParseTreeIN::eval(ParseContext *_context) const
         QList<QVariant>::ConstIterator it = c2.seq.constBegin();
         QList<QVariant>::ConstIterator end = c2.seq.constEnd();
         _context->b = false;
-        for (; it != end; ++it)
+        for (; it != end; ++it) {
             if ((*it).type() == QVariant::Double && qFuzzyCompare((*it).toDouble(), c1.i)) {
                 _context->b = true;
                 break;
             }
+        }
         return true;
     }
 
@@ -659,8 +661,9 @@ bool ParseContext::initMaxima(const QString &_prop)
 
     // Did we cache the result ?
     QMap<QString, PreferencesMaxima>::Iterator it = maxima.find(_prop);
-    if (it != maxima.end())
+    if (it != maxima.end()) {
         return (it.value().type == PreferencesMaxima::PM_DOUBLE || it.value().type == PreferencesMaxima::PM_INT);
+    }
 
     // Double or Int ?
     PreferencesMaxima extrema;

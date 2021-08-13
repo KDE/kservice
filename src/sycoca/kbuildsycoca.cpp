@@ -339,11 +339,12 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
     }
     for (const KService::Ptr &p : qAsConst(menu->items)) {
         if (m_menuTest) {
-            if (!menu->isDeleted && !p->noDisplay())
+            if (!menu->isDeleted && !p->noDisplay()) {
                 printf("%s\t%s\t%s\n",
                        qPrintable(caption),
                        qPrintable(p->menuId()),
                        qPrintable(QStandardPaths::locate(QStandardPaths::ApplicationsLocation, p->entryPath())));
+            }
         } else {
             m_buildServiceGroupFactory->addNewEntryTo(name, p);
         }
@@ -521,8 +522,9 @@ void KBuildSycoca::save(QDataStream *str)
     }
 
     // Calculate per-servicetype/MIME type data
-    if (serviceFactory)
+    if (serviceFactory) {
         serviceFactory->postProcessServices();
+    }
 
     // Here so that it's the last debug message
     qCDebug(SYCOCA) << "Saving";

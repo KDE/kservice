@@ -120,7 +120,9 @@ void KToolInvocation::invokeMailer(const QString &_to,
     KService::Ptr emailClient = KApplicationTrader::preferredService(QStringLiteral("x-scheme-handler/mailto"));
     auto command = emailClient->exec();
 
-    QString to, cc, bcc;
+    QString to;
+    QString cc;
+    QString bcc;
     if (emailClient->storageId() == QStringLiteral("org.kde.kmail2.desktop")) {
         command = QStringLiteral("kmail --composer -s %s -c %c -b %b --body %B --attach %A -- %t");
         if (!_to.isEmpty()) {

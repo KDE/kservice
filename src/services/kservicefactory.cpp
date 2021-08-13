@@ -241,7 +241,10 @@ QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceO
     QDataStream *str = stream();
     str->device()->seek(m_offerListOffset + serviceOffersOffset);
 
-    qint32 aServiceTypeOffset, aServiceOffset, initialPreference, mimeTypeInheritanceLevel;
+    qint32 aServiceTypeOffset;
+    qint32 aServiceOffset;
+    qint32 initialPreference;
+    qint32 mimeTypeInheritanceLevel;
     while (true) {
         (*str) >> aServiceTypeOffset;
         if (aServiceTypeOffset) {
@@ -286,7 +289,10 @@ KService::List KServiceFactory::serviceOffers(int serviceTypeOffset, int service
     QDataStream *str = stream();
     str->device()->seek(m_offerListOffset + serviceOffersOffset);
 
-    qint32 aServiceTypeOffset, aServiceOffset, initialPreference, mimeTypeInheritanceLevel;
+    qint32 aServiceTypeOffset;
+    qint32 aServiceOffset;
+    qint32 initialPreference;
+    qint32 mimeTypeInheritanceLevel;
     while (true) {
         (*str) >> aServiceTypeOffset;
         if (aServiceTypeOffset) {
@@ -327,7 +333,10 @@ bool KServiceFactory::hasOffer(int serviceTypeOffset, int serviceOffersOffset, i
     // Jump to the offer list
     str->device()->seek(m_offerListOffset + serviceOffersOffset);
     bool found = false;
-    qint32 aServiceTypeOffset, aServiceOffset, initialPreference, mimeTypeInheritanceLevel;
+    qint32 aServiceTypeOffset;
+    qint32 aServiceOffset;
+    qint32 initialPreference;
+    qint32 mimeTypeInheritanceLevel;
     while (!found) {
         (*str) >> aServiceTypeOffset;
         if (aServiceTypeOffset) {
