@@ -122,6 +122,7 @@ public:
      */
     static KServiceTypeTrader *self();
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * Get a plugin from a trader query
      *
@@ -140,8 +141,12 @@ public:
      * @param error The string passed here will contain an error description.
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
+     *
+     * @see KPluginFactory::instantiatePlugin
+     * @deprecated Since 5.86, Use KPluginMetaData/KPluginFactory or QPluginloader instead
      */
     template<class T>
+    KSERVICE_DEPRECATED_VERSION(5, 86, "Use KPluginMetaData/KPluginFactory or QPluginloader instead")
     static T *createInstanceFromQuery(const QString &serviceType,
                                       const QString &constraint = QString(),
                                       QObject *parent = nullptr,
@@ -150,7 +155,9 @@ public:
     {
         return createInstanceFromQuery<T>(serviceType, nullptr, parent, constraint, args, error);
     }
+#endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * Get a plugin from a trader query
      *
@@ -167,8 +174,12 @@ public:
      * @param error The string passed here will contain an error description.
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
+     *
+     * @see KPluginFactory::instantiatePlugin
+     * @deprecated Since 5.86, Use KPluginMetaData/KPluginFactory or QPluginloader instead
      */
     template<class T>
+    KSERVICE_DEPRECATED_VERSION(5, 86, "Use KPluginMetaData/KPluginFactory or QPluginloader instead")
     static T *createInstanceFromQuery(const QString &serviceType,
                                       QWidget *parentWidget,
                                       QObject *parent,
@@ -191,6 +202,7 @@ public:
         }
         return nullptr;
     }
+#endif
 
     /**
      * @internal  (public for KMimeTypeTrader)

@@ -517,6 +517,8 @@ public:
      */
     static QString newServicePath(bool showInMenu, const QString &suggestedName, QString *menuId = nullptr, const QStringList *reservedMenuIds = nullptr);
 
+#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * This template allows to load the library for the specified service and ask the
      * factory to create an instance of the given template type.
@@ -528,13 +530,21 @@ public:
      *
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
+     *
+     * @see KPluginFactory::instantiatePlugin
+     * @deprecated Since 5.86, Use KPluginMetaData/KPluginFactory or QPluginloader instead
      */
     template<class T>
+    KSERVICE_DEPRECATED_VERSION(5, 86, "Use KPluginMetaData/KPluginFactory or QPluginloader instead")
     T *createInstance(QObject *parent = nullptr, const QVariantList &args = QVariantList(), QString *error = nullptr) const
     {
         return createInstance<T>(nullptr, parent, args, error);
     }
+#endif
+#endif
 
+#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * This template allows to load the library for the specified service and ask the
      * factory to create an instance of the given template type.
@@ -547,8 +557,12 @@ public:
      *
      * @return A pointer to the newly created object or a null pointer if the
      *         factory was unable to create an object of the given type.
+     *
+     * @see KPluginFactory::instantiatePlugin
+     * @deprecated Since 5.86, Use KPluginMetaData/KPluginFactory or QPluginloader instead
      */
     template<class T>
+    KSERVICE_DEPRECATED_VERSION(5, 86, "Use KPluginMetaData/KPluginFactory or QPluginloader instead")
     T *createInstance(QWidget *parentWidget, QObject *parent, const QVariantList &args = QVariantList(), QString *error = nullptr) const
     {
         KPluginLoader pluginLoader(*this);
@@ -567,7 +581,11 @@ public:
         }
         return nullptr;
     }
+#endif
+#endif
 
+#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * Convert this KService to a KPluginName.
      *
@@ -580,6 +598,8 @@ public:
      * will be set appropriately.
      */
     operator KPluginName() const;
+#endif
+#endif
 
 private:
     friend class KBuildServiceFactory;

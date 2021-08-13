@@ -846,6 +846,7 @@ void KServiceTest::testThreads()
     sync.waitForFinished();
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 86)
 void KServiceTest::testOperatorKPluginName()
 {
     KService fservice(QFINDTESTDATA("fakeplugin.desktop"));
@@ -879,6 +880,7 @@ void KServiceTest::testOperatorKPluginName()
     KPluginLoader iplugin(iservice);
     QVERIFY(!iplugin.factory());
 }
+#endif
 
 void KServiceTest::testKPluginInfoQuery()
 {

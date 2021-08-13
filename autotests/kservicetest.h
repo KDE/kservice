@@ -53,7 +53,9 @@ private Q_SLOTS:
     void testDeletingService();
     void testReaderThreads();
     void testThreads();
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 86)
     void testOperatorKPluginName();
+#endif
     void testKPluginInfoQuery();
     void testCompleteBaseName();
     void testEntryPathToName();

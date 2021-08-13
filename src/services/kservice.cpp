@@ -1048,6 +1048,9 @@ QList<KServiceAction> KService::actions() const
     Q_D(const KService);
     return d->m_actions;
 }
+
+#if KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 86)
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 86)
 KService::operator KPluginName() const
 {
     if (!isValid()) {
@@ -1060,3 +1063,5 @@ KService::operator KPluginName() const
 
     return KPluginName(library());
 }
+#endif
+#endif
