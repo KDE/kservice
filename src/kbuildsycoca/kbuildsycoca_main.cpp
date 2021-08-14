@@ -40,7 +40,7 @@ static void crashHandler(int)
 #if defined(Q_OS_WIN)
 // glue function for calling the unix signal handler from the windows unhandled exception filter
 // Inspired from KCrash, but heavily simplified
-LONG WINAPI KCrash::win32UnhandledExceptionFilter(_EXCEPTION_POINTERS *)
+LONG WINAPI win32UnhandledExceptionFilter(_EXCEPTION_POINTERS *)
 {
     crashHandler(0);
     return EXCEPTION_EXECUTE_HANDLER; // allow windows to do the default action (terminate)
