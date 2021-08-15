@@ -42,7 +42,7 @@ set(APPLICATIONS_MENU_NAME applications.menu
     CACHE STRING "Name to install the applications.menu file as.")
 
 # Dependencies
-set(REQUIRED_QT_VERSION 5.15.0)
+set(REQUIRED_QT_VERSION 5.15.2)
 find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Xml)
 if (NOT ANDROID)
   find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED DBus)
@@ -73,7 +73,7 @@ set_package_properties(BISON PROPERTIES
 )
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
+add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f02)
 add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055100)
 add_definitions(-DKCOREADDONS_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054E00) # for KPluginInfo::dependencies
 ki18n_install(po)
