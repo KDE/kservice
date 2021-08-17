@@ -144,9 +144,9 @@ public:
      *
      * @return A list of services that satisfy the query
      * @see http://techbase.kde.org/Development/Tutorials/Services/Traders#The_KTrader_Query_Language
-     * @deprecated since 5.82, use KPluginLoader::findPlugins.
+     * @deprecated since 5.82, use KPluginMetaData::findPlugins.
      */
-    KSERVICE_DEPRECATED_VERSION(5, 82, "Use KPluginLoader::findPlugins")
+    KSERVICE_DEPRECATED_VERSION(5, 82, "Use KPluginMetaData::findPlugins")
     KPluginInfo::List query(const QString &subDirectory, const QString &serviceType = QString(), const QString &constraint = QString());
 
     /**
@@ -155,11 +155,11 @@ public:
      * You will need to use this to access the KPluginTrader functionality since the
      * constructors are protected.
      *
-     * @deprecated since 5.82, use KPluginLoader
+     * @deprecated since 5.82, use KPluginMetaData and KPluginFactory.
      *
      * @return Static KPluginTrader instance
      */
-    KSERVICE_DEPRECATED_VERSION(5, 82, "Use KPluginLoader")
+    KSERVICE_DEPRECATED_VERSION(5, 82, "Use KPluginMetaData and KPluginFactory")
     static KPluginTrader *self();
 
     /**
