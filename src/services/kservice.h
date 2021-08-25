@@ -121,12 +121,20 @@ public:
      *         or QString() if not set
      */
     QString terminalOptions() const;
+
     /**
-     * Checks whether the service runs on a discrete graphics card
-     * @return true if the service has to run under a discrete graphics card
+     * Returns @c true if the service inidicates that it's preferred to run
+     * the application on a discrete graphics card, otherwise return @c false.
+     *
+     * In releases older than 5.86 this methoed checked for the @c X-KDE-RunOnDiscreteGpu
+     * key in the .desktop file represented by this service; starting from 5.86 this method
+     * now also checks for @c PrefersNonDefaultGPU key (added to the Freedesktop.org desktop
+     * entry spec in version 1.4 of the spec).
+     *
      * @since 5.30
      */
     bool runOnDiscreteGpu() const;
+
     /**
      * Checks whether the service runs with a different user id.
      * @return true if the service has to be run under a different uid.
