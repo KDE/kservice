@@ -911,8 +911,13 @@ bool KService::terminal() const
 
 bool KService::runOnDiscreteGpu() const
 {
-    QVariant v = property(QStringLiteral("X-KDE-RunOnDiscreteGpu"), QVariant::Bool);
-    return v.isValid() && v.toBool();
+    QVariant prop = property(QStringLiteral("PrefersNonDefaultGPU"), QVariant::Bool);
+    if (!prop.isValid()) {
+        // For backwards compatibility
+        prop = property(QStringLiteral("X-KDE-RunOnDiscreteGpu"), QVariant::Bool);
+    }
+
+    return prop.isValid() && prop.toBool();
 }
 
 QString KService::desktopEntryName() const
