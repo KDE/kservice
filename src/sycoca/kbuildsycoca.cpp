@@ -151,7 +151,7 @@ bool KBuildSycoca::build()
     for (KSycocaFactory *factory : factoryList) {
         KBSEntryDict *entryDict = new KBSEntryDict;
         if (m_allEntries) { // incremental build
-            for (const KSycocaEntry::Ptr &entry : qAsConst((*m_allEntries).at(i++))) {
+            for (const KSycocaEntry::Ptr &entry : std::as_const((*m_allEntries).at(i++))) {
                 // if (entry->entryPath().contains("fake"))
                 //    qCDebug(SYCOCA) << "inserting into entryDict:" << entry->entryPath() << entry;
                 entryDict->insert(entry->entryPath(), entry);
@@ -228,7 +228,7 @@ bool KBuildSycoca::build()
                 }
 
                 // For each file in the resource
-                for (const QString &entryPath : qAsConst(relFiles)) {
+                for (const QString &entryPath : std::as_const(relFiles)) {
                     // Check if file matches filter
                     if (entryPath.endsWith(res.extension)) {
                         KSycocaEntry::Ptr entry = createEntry(currentFactory, entryPath);
@@ -295,7 +295,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
 {
     QString caption = caption_;
     QString name = name_;
-    for (VFolderMenu::SubMenu *subMenu : qAsConst(menu->subMenus)) {
+    for (VFolderMenu::SubMenu *subMenu : std::as_const(menu->subMenus)) {
         QString subName = name + subMenu->name + QLatin1Char('/');
 
         QString directoryFile = subMenu->directoryFile;
@@ -337,7 +337,7 @@ void KBuildSycoca::createMenu(const QString &caption_, const QString &name_, VFo
     if (name.isEmpty()) {
         name += QLatin1Char('/');
     }
-    for (const KService::Ptr &p : qAsConst(menu->items)) {
+    for (const KService::Ptr &p : std::as_const(menu->items)) {
         if (m_menuTest) {
             if (!menu->isDeleted && !p->noDisplay()) {
                 printf("%s\t%s\t%s\n",
@@ -490,7 +490,7 @@ void KBuildSycoca::save(QDataStream *str)
     // KBuildMimeTypeFactory * mimeTypeFactory = 0;
     KBuildServiceFactory *serviceFactory = nullptr;
     auto lst = *factories();
-    for (KSycocaFactory *factory : qAsConst(lst)) {
+    for (KSycocaFactory *factory : std::as_const(lst)) {
         qint32 aId;
         qint32 aOffset;
         aId = factory->factoryId();
@@ -531,7 +531,7 @@ void KBuildSycoca::save(QDataStream *str)
 
     // Write factory data....
     lst = *factories();
-    for (KSycocaFactory *factory : qAsConst(lst)) {
+    for (KSycocaFactory *factory : std::as_const(lst)) {
         factory->save(*str);
         if (str->status() != QDataStream::Ok) { // ######## TODO: does this detect write errors, e.g. disk full?
             return; // error
@@ -545,7 +545,7 @@ void KBuildSycoca::save(QDataStream *str)
 
     (*str) << qint32(KSycoca::version());
     lst = *factories();
-    for (KSycocaFactory *factory : qAsConst(lst)) {
+    for (KSycocaFactory *factory : std::as_const(lst)) {
         qint32 aId;
         qint32 aOffset;
         aId = factory->factoryId();

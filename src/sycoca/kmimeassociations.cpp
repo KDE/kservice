@@ -53,7 +53,7 @@ QStringList KMimeAssociations::mimeAppsFiles()
     QStringList mimeappsFiles;
     // collect existing files
     for (const QString &dir : mimeappsDirs) {
-        for (const QString &file : qAsConst(mimeappsFileNames)) {
+        for (const QString &file : std::as_const(mimeappsFileNames)) {
             const QString filePath = dir + QLatin1Char('/') + file;
             if (QFile::exists(filePath) && !mimeappsFiles.contains(filePath)) {
                 mimeappsFiles.append(filePath);

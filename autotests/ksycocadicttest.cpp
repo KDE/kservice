@@ -105,7 +105,7 @@ void KSycocaDictTest::testStandardDict()
         QByteArray buffer;
         {
             KSycocaDict dict;
-            for (const QString &str : qAsConst(serviceTypes)) {
+            for (const QString &str : std::as_const(serviceTypes)) {
                 add(dict, str, str);
             }
             dict.remove(QStringLiteral("DictTestPluginType")); // just to test remove
@@ -120,7 +120,7 @@ void KSycocaDictTest::testStandardDict()
         int offset = loadingDict.find_string(QStringLiteral("DictTestPluginType"));
         QVERIFY(offset > 0);
         QCOMPARE(offset, KServiceType::serviceType(QStringLiteral("DictTestPluginType"))->offset());
-        for (const QString &str : qAsConst(serviceTypes)) {
+        for (const QString &str : std::as_const(serviceTypes)) {
             int offset = loadingDict.find_string(str);
             QVERIFY(offset > 0);
             QCOMPARE(offset, KServiceType::serviceType(str)->offset());

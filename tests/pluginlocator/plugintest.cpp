@@ -147,7 +147,7 @@ bool PluginTest::findPlugins()
     for (const QString &_s : sizes) {
         datadirs << pluginDir + _s;
     }
-    for (const QString &subdir : qAsConst(datadirs)) {
+    for (const QString &subdir : std::as_const(datadirs)) {
         const QString constraint;
         const QString serviceType;
 

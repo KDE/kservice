@@ -218,7 +218,7 @@ void KServiceGroupPrivate::load(QDataStream &s)
     m_bAllowInline = (_allowInline != 0);
 
     if (m_bDeep) {
-        for (const QString &path : qAsConst(groupList)) {
+        for (const QString &path : std::as_const(groupList)) {
             if (path.endsWith(QLatin1Char('/'))) {
                 KServiceGroup::Ptr serviceGroup;
                 serviceGroup = KSycocaPrivate::self()->serviceGroupFactory()->findGroupByDesktopPath(path, false);
@@ -247,7 +247,7 @@ void KServiceGroupPrivate::save(QDataStream &s)
     KSycocaEntryPrivate::save(s);
 
     QStringList groupList;
-    for (const KSycocaEntry::Ptr &p : qAsConst(m_serviceList)) {
+    for (const KSycocaEntry::Ptr &p : std::as_const(m_serviceList)) {
         if (p->isType(KST_KService)) {
             KService::Ptr service(static_cast<KService *>(p.data()));
             groupList.append(service->entryPath());
@@ -418,7 +418,7 @@ KServiceGroup::List KServiceGroupPrivate::entries(KServiceGroup *group, bool sor
 
     // Iterate through the sort spec list.
     // If an entry gets mentioned explicitly, we remove it from the sorted list
-    for (const QString &item : qAsConst(sortOrder)) {
+    for (const QString &item : std::as_const(sortOrder)) {
         if (item.isEmpty()) {
             continue;
         }
@@ -552,7 +552,7 @@ KServiceGroup::List KServiceGroupPrivate::entries(KServiceGroup *group, bool sor
                             bool bShowInlineHeader = false;
                             bool bShowInlineAlias = false;
                             int inlineValue = -1;
-                            for (const QString &opt_attr : qAsConst(optionAttribute)) {
+                            for (const QString &opt_attr : std::as_const(optionAttribute)) {
                                 parseAttribute(opt_attr, bShowEmptyMenu, bShowInline, bShowInlineHeader, bShowInlineAlias, inlineValue);
                                 group->setShowEmptyMenu(bShowEmptyMenu);
                                 group->setAllowInline(bShowInline);

@@ -216,7 +216,7 @@ void VFolderMenu::insertSubMenu(SubMenu *parentMenu, const QString &menuName, Su
     const QString s2 = menuName.mid(i + 1);
 
     // Look up menu
-    for (SubMenu *menu : qAsConst(parentMenu->subMenus)) {
+    for (SubMenu *menu : std::as_const(parentMenu->subMenus)) {
         if (menu->name == s1) {
             if (i == -1) {
                 mergeMenu(menu, newMenu, reversePriority);
@@ -253,7 +253,7 @@ void VFolderMenu::insertService(SubMenu *parentMenu, const QString &name, KServi
     QString s2 = name.mid(i + 1);
 
     // Look up menu
-    for (SubMenu *menu : qAsConst(parentMenu->subMenus)) {
+    for (SubMenu *menu : std::as_const(parentMenu->subMenus)) {
         if (menu->name == s1) {
             insertService(menu, s2, newService);
             return;
@@ -285,7 +285,7 @@ VFolderMenu::~VFolderMenu()
 }
 // clang-format off
 #define FOR_ALL_APPLICATIONS(it) \
-    for (AppsInfo *info : qAsConst(m_appsInfoStack)) \
+    for (AppsInfo *info : std::as_const(m_appsInfoStack)) \
     { \
         QHashIterator<QString,KService::Ptr> it = info->applications; \
         while (it.hasNext()) \
@@ -294,7 +294,7 @@ VFolderMenu::~VFolderMenu()
 #define FOR_ALL_APPLICATIONS_END } }
 
 #define FOR_CATEGORY(category, it) \
-    for (AppsInfo *info : qAsConst(m_appsInfoStack)) \
+    for (AppsInfo *info : std::as_const(m_appsInfoStack)) \
     { \
         const KService::List list = info->dictCategories.value(category); \
         for(KService::List::ConstIterator it = list.constBegin(); \
@@ -305,7 +305,7 @@ VFolderMenu::~VFolderMenu()
 
 KService::Ptr VFolderMenu::findApplication(const QString &relPath)
 {
-    for (AppsInfo *info : qAsConst(m_appsInfoStack)) {
+    for (AppsInfo *info : std::as_const(m_appsInfoStack)) {
         if (info->applications.contains(relPath)) {
             KService::Ptr s = info->applications[relPath];
             if (s) {
@@ -325,7 +325,7 @@ void VFolderMenu::addApplication(const QString &id, KService::Ptr service)
 
 void VFolderMenu::buildApplicationIndex(bool unusedOnly)
 {
-    for (AppsInfo *info : qAsConst(m_appsInfoList)) {
+    for (AppsInfo *info : std::as_const(m_appsInfoList)) {
         info->dictCategories.clear();
         QMutableHashIterator<QString, KService::Ptr> it = info->applications;
         while (it.hasNext()) {
@@ -605,7 +605,7 @@ void VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
                 }
             }
 
-            for (const QString &file : qAsConst(fileList)) {
+            for (const QString &file : std::as_const(fileList)) {
                 pushDocInfo(file);
                 mergeFile(docElem, n);
                 popDocInfo();
@@ -1026,7 +1026,7 @@ void VFolderMenu::processMenu(QDomElement &docElem, int pass)
         m_currentMenu = nullptr;
         // Look up menu
         if (parentMenu) {
-            for (SubMenu *menu : qAsConst(parentMenu->subMenus)) {
+            for (SubMenu *menu : std::as_const(parentMenu->subMenus)) {
                 if (menu->name == name) {
                     m_currentMenu = menu;
                     break;
@@ -1061,7 +1061,7 @@ void VFolderMenu::processMenu(QDomElement &docElem, int pass)
     } else {
         // Look up menu
         if (parentMenu) {
-            for (SubMenu *menu : qAsConst(parentMenu->subMenus)) {
+            for (SubMenu *menu : std::as_const(parentMenu->subMenus)) {
                 if (menu->name == name) {
                     m_currentMenu = menu;
                     break;
@@ -1344,7 +1344,7 @@ void VFolderMenu::layoutMenu(VFolderMenu::SubMenu *menu, QStringList defaultLayo
         }
     }
 
-    for (VFolderMenu::SubMenu *subMenu : qAsConst(menu->subMenus)) {
+    for (VFolderMenu::SubMenu *subMenu : std::as_const(menu->subMenus)) {
         layoutMenu(subMenu, defaultLayout);
     }
 }

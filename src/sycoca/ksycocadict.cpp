@@ -501,7 +501,7 @@ void KSycocaDict::save(QDataStream &str)
 
                 /*qCDebug(SYCOCA) << QString("Duplicate lists: Offset = %1 list_size = %2") .arg(hashTable[i].duplicate_offset,8,16).arg(dups->count());
                  */
-                for (string_entry *dup : qAsConst(*dups)) {
+                for (string_entry *dup : std::as_const(*dups)) {
                     const qint32 offset = dup->payload->offset();
                     if (!offset) {
                         const QString storageId = dup->payload->storageId();

@@ -504,7 +504,7 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
         || !offerListHasService(offers, QStringLiteral("fakepart2.desktop")) //
         || !offerListHasService(offers, QStringLiteral("otherpart.desktop")) //
         || !offerListHasService(offers, QStringLiteral("preferredpart.desktop"))) {
-        for (KService::Ptr service : qAsConst(offers)) {
+        for (KService::Ptr service : std::as_const(offers)) {
             qDebug("%s %s", qPrintable(service->name()), qPrintable(service->entryPath()));
         }
     }
@@ -521,7 +521,7 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
     bool lastAllowedAsDefault = true;
 #endif
-    for (KService::Ptr service : qAsConst(offers)) {
+    for (KService::Ptr service : std::as_const(offers)) {
         const int preference = service->initialPreference(); // ## might be wrong if we use per-servicetype preferences...
         // qDebug( "%s has preference %d, allowAsDefault=%d", qPrintable( path ), preference, service->allowAsDefault() );
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
@@ -665,10 +665,10 @@ void KServiceTest::testWriteServiceTypeProfile()
     services.append(KService::serviceByDesktopPath(QStringLiteral("fakepart.desktop")));
     disabledServices.append(KService::serviceByDesktopPath(QStringLiteral("fakepart2.desktop")));
 
-    for (const KService::Ptr &serv : qAsConst(services)) {
+    for (const KService::Ptr &serv : std::as_const(services)) {
         QVERIFY(serv);
     }
-    for (const KService::Ptr &serv : qAsConst(disabledServices)) {
+    for (const KService::Ptr &serv : std::as_const(disabledServices)) {
         QVERIFY(serv);
     }
 

@@ -108,7 +108,7 @@ void KApplicationTraderTest::initTestCase()
 
 void KApplicationTraderTest::cleanupTestCase()
 {
-    for (const QString &file : qAsConst(m_createdDesktopFiles)) {
+    for (const QString &file : std::as_const(m_createdDesktopFiles)) {
         QFile::remove(file);
     }
 }

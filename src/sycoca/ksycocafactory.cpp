@@ -100,7 +100,7 @@ void KSycocaFactory::save(QDataStream &str)
 
     // Write all entries.
     int entryCount = 0;
-    for (KSycocaEntry::Ptr entry : qAsConst(*m_entryDict)) {
+    for (KSycocaEntry::Ptr entry : std::as_const(*m_entryDict)) {
         entry->d_ptr->save(str);
         entryCount++;
     }
@@ -110,7 +110,7 @@ void KSycocaFactory::save(QDataStream &str)
     // Write indices...
     // Linear index
     str << qint32(entryCount);
-    for (const KSycocaEntry::Ptr &entry : qAsConst(*m_entryDict)) {
+    for (const KSycocaEntry::Ptr &entry : std::as_const(*m_entryDict)) {
         str << qint32(entry.data()->offset());
     }
 

@@ -583,7 +583,7 @@ KSycocaHeader KSycocaPrivate::readSycocaHeader()
     QStringList fileList;
     *str >> fileList;
     extraFiles.clear();
-    for (const auto &fileName : qAsConst(fileList)) {
+    for (const auto &fileName : std::as_const(fileList)) {
         qint64 mtime;
         *str >> mtime;
         extraFiles.insert(fileName, mtime);
