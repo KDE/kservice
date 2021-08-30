@@ -236,7 +236,7 @@ void KServiceTest::initTestCase()
 void KServiceTest::runKBuildSycoca(bool noincremental)
 {
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 80)
-    QSignalSpy spy(KSycoca::self(), QOverload<const QStringList &>::of(&KSycoca::databaseChanged));
+    QSignalSpy spy(KSycoca::self(), qOverload<const QStringList &>(&KSycoca::databaseChanged));
 #else
     QSignalSpy spy(KSycoca::self(), &KSycoca::databaseChanged);
 #endif
