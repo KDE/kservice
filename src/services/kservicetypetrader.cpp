@@ -64,14 +64,11 @@ void KServiceTypeTrader::applyConstraints(KService::List &lst, const QString &co
     } else {
         // Find all services matching the constraint
         // and remove the other ones
-        KService::List::iterator it = lst.begin();
-        while (it != lst.end()) {
-            if (matchConstraint(pConstraintTree, (*it), lst) != 1) {
-                it = lst.erase(it);
-            } else {
-                ++it;
-            }
-        }
+        auto isMatch = [=](const KService::Ptr &service) {
+            return matchConstraint(pConstraintTree, service, lst) != 1;
+        };
+
+        lst.erase(std::remove_if(lst.begin(), lst.end(), isMatch), lst.end());
     }
 }
 

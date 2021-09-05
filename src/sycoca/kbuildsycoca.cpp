@@ -592,14 +592,12 @@ QStringList KBuildSycoca::existingResourceDirs()
     }
     dirs = new QStringList(factoryResourceDirs());
 
-    for (QStringList::Iterator it = dirs->begin(); it != dirs->end();) {
-        QFileInfo inf(*it);
-        if (!inf.exists() || !inf.isReadable()) {
-            it = dirs->erase(it);
-        } else {
-            ++it;
-        }
-    }
+    auto checkDir = [](const QString &str) {
+        QFileInfo info(str);
+        return !info.exists() || !info.isReadable();
+    };
+    dirs->erase(std::remove_if(dirs->begin(), dirs->end(), checkDir), dirs->end());
+
     return *dirs;
 }
 
