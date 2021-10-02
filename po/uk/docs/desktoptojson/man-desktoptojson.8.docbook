@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Ukrainian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<refentry lang="&language;">
+
+<refentryinfo>
+<title
+>&kde; Frameworks: KService</title>
+<author
+><firstname
+>Scarlett</firstname
+> <surname
+>Clark</surname
+> <contrib
+>Автор початкової версії документації.</contrib>
+<affiliation>
+<address
+><email
+>scarlett@scarlettgatelyclark.com</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alex</firstname
+> <surname
+>Merry</surname
+> <contrib
+>Редагування документації.</contrib>
+<affiliation>
+<address
+><email
+>alexmerry@kde.org</email
+></address>
+</affiliation>
+</author>
+
+<date
+>2 квітня 2014 року</date>
+<releaseinfo
+>Frameworks 5.0</releaseinfo>
+<productname
+>KDE Frameworks</productname>
+
+</refentryinfo>
+
+
+<refmeta>
+<refentrytitle
+><command
+>desktoptojson</command
+></refentrytitle>
+<manvolnum
+>8</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>desktoptojson</command
+></refname>
+<refpurpose
+>Перетворює файл <filename class="extension"
+>.desktop</filename
+> на файл <filename class="extension"
+>.json</filename
+>.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<title
+>Короткий опис</title>
+
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <arg choice="plain"
+>--input <replaceable
+>ФАЙЛ-DESKTOP</replaceable
+></arg
+> <arg choice="plain"
+>--output <replaceable
+>ФАЙЛ-JSON</replaceable
+></arg
+> </cmdsynopsis>
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <group choice="req"
+> <arg choice="plain"
+>--version</arg
+> <arg choice="plain"
+>--help</arg
+> </group
+> </cmdsynopsis>
+
+</refsynopsisdiv>
+
+
+
+
+<refsect1>
+<title
+>Опис</title>
+
+<para
+>Бібліотеки KService використовують дані, що зберігаються у файлах <filename class="extension"
+>.desktop</filename
+>, для пошуку служб, зокрема додатків для програм та бібліотек на основі Qt5. Втім, система додатків Qt5 використовує дані JSON, які вбудовано до самого додатка. За допомогою <command
+>desktoptojson</command
+> можна скористатися даними, що містяться у файлі <filename class="extension"
+>.desktop</filename
+>, так само як вбудованими даними для додатка Qt5, шляхом перетворення записів файла <filename class="extension"
+>.desktop</filename
+> у дані JSON.</para>
+
+<para
+>Перетворені дані JSON являтимуть собою об’єкт JSON з відображенням записів з групи <literal
+>[Desktop Entry]</literal
+> файла <filename class="extension"
+>.desktop</filename
+>. Усі інші групи буде проігноровано. Більшість записів буде просто перетворено у рядки JSON, але частину записів (зокрема <literal
+>Hidden</literal
+> та <literal
+>X-KDE-PluginInfo-EnabledByDefault</literal
+>), які є булевими значеннями, буде перетворено не булеві значення, а деякі (зокрема <literal
+>X-KDE-ServiceTypes</literal
+> та <literal
+>X-KDE-PluginInfo-Depends</literal
+>) завжди перетворюватимуться на масиви рядків.</para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Параметри</title>
+<variablelist>
+
+<varlistentry>
+  <term
+><option
+>--input <replaceable
+>ФАЙЛ-DESKTOP</replaceable
+></option
+></term>
+<listitem>
+<para
+>Файл <filename class="extension"
+>.desktop</filename
+>, який слід перетворити.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--output <replaceable
+>ФАЙЛ-JSON</replaceable
+></option
+></term>
+<listitem>
+<para
+>Файл, до якого слід записати перетворені дані JSON.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help</option
+></term>
+<listitem>
+<para
+>Показати короткий довідковий текст.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--version</option
+></term>
+<listitem>
+<para
+>Показати інформацію про версію програми.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Користування</title>
+<para
+>Більшість користувачів цієї програми використовуватимуть макрос CMake <function
+>kservice_desktop_to_json</function
+> як частину процесу збирання додатка. <programlisting language="cmake">
+<![CDATA[
+add_library(myplugin MODULE ${myplugin_SRCS})
+kservice_desktop_to_json(myplugin myplugin.desktop)
+]]>
+</programlisting
+> Ці команди призведуть до створення файла JSON <filename
+>myplugin.json</filename
+>, на який можна посилатися у макросах <function
+>K_PLUGIN_FACTORY_WITH_JSON</function
+> та <function
+>Q_PLUGIN_METADATA</function
+>. </para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Вади</title>
+<para
+>Для сповіщення про вади скористайтеся адресою <ulink url="https://bugs.kde.org"
+>системою стеження за вадами KDE</ulink
+>.</para>
+</refsect1>
+
+</refentry>
+
+
+
