@@ -74,8 +74,7 @@ public:
      */
     explicit KPluginInfo(const QString &filename /*, QStandardPaths::StandardLocation resource = ...? GenericDataLocation + services ? Is this used? */);
 
-// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kded and kparts still need this for compat reasons
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 88)
     /**
      * Read plugin info from a KService object.
      *
@@ -102,8 +101,10 @@ public:
      * In the first three entries the Icon entry is optional.
      * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
      * metadata into the plugin using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
+     * @deprecated since 5.88, use QPluginLoader/KPluginMetaData instead and build the
+     * metadata into the plugins using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
      */
-    KSERVICE_DEPRECATED_VERSION(5, 0, "Use (Q|K)PluginLoader")
+    KSERVICE_DEPRECATED_VERSION(5, 88, "see API docs")
     explicit KPluginInfo(const KService::Ptr service);
 #endif
 
@@ -174,8 +175,7 @@ public:
 
     ~KPluginInfo();
 
-// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kded still need this for compat reasons
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 88)
     /**
      * @return A list of KPluginInfo objects constructed from a list of
      * KService objects. If you get a trader offer of the plugins you want
@@ -183,10 +183,10 @@ public:
      *
      * @param services The list of services to construct the list of KPluginInfo objects from
      * @param config The config group where to save/load whether the plugin is enabled/disabled
-     * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
+     * @deprecated since 5.88, use QPluginLoader/KPluginMetaData instead and build the
      * metadata into the plugins using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
      */
-    KSERVICE_DEPRECATED_VERSION(5, 0, "Use fromMetaData and KPluginLoader(info.libraryPath())")
+    KSERVICE_DEPRECATED_VERSION(5, 88, "see API docs")
     static KPluginInfo::List fromServices(const KService::List &services, const KConfigGroup &config = KConfigGroup());
 #endif
 
@@ -346,9 +346,8 @@ public:
      * @since 5.0
      */
     QString libraryPath() const;
-
-// Not using KSERVICE_ENABLE_DEPRECATED_SINCE because kcmutils still needs this for compat reasons
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 70)
+    // visibility check set to a later version because the BUILD variant was used before
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 88)
     /**
      * @return The KService object for this plugin. You might need it if you
      *         want to read custom values. To do this you need to define
