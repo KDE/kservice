@@ -586,6 +586,9 @@ public:
     KSERVICE_DEPRECATED_VERSION(5, 86, "Use KPluginMetaData/KPluginFactory or QPluginloader instead")
     T *createInstance(QWidget *parentWidget, QObject *parent, const QVariantList &args = QVariantList(), QString *error = nullptr) const
     {
+        QT_WARNING_PUSH
+        QT_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
+        QT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
         KPluginLoader pluginLoader(*this);
         KPluginFactory *factory = pluginLoader.factory();
         if (factory) {
@@ -600,6 +603,7 @@ public:
             *error = pluginLoader.errorString();
             pluginLoader.unload();
         }
+        QT_WARNING_POP
         return nullptr;
     }
 #endif
