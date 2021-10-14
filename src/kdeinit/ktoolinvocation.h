@@ -15,6 +15,7 @@
 
 #include <kservice_export.h>
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 89)
 #include <QByteArray>
 #include <QExplicitlySharedDataPointer>
 #include <QObject>
@@ -118,7 +119,9 @@ public Q_SLOTS:
      * @param attachURLs  List of URLs to be attached to the mail.
      * @param startup_id for app startup notification, "0" for none,
      *           "" ( empty string ) is the default
+     * @deprecated Since 5.89, use KEMailClientLauncherJob instead
      */
+    KSERVICE_DEPRECATED_VERSION(5, 89, "use KEMailClientLauncherJob instead")
     static void invokeMailer(const QString &to,
                              const QString &cc,
                              const QString &bcc,
@@ -157,7 +160,9 @@ public Q_SLOTS:
      * @param startup_id for app startup notification, "0" for none,
      *           "" ( empty string ) is the default
      * @since 5.73
+     * @deprecated Since 5.89, use KTerminalLauncherJob instead
      */
+    KSERVICE_DEPRECATED_VERSION(5, 89, "use KTerminalLauncherJob instead")
     static void invokeTerminal(const QString &command, const QStringList &envs, const QString &workdir = QString(), const QByteArray &startup_id = "");
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 79)
@@ -187,7 +192,9 @@ public Q_SLOTS:
      * @param workingDir Working directory for the terminal app.
      * @return KServicePtr of terminal application.
      * @since 5.78
+     * @deprecated Since 5.89, use KTerminalLauncherJob instead to launch the executable
      */
+    KSERVICE_DEPRECATED_VERSION(5, 89, "use KTerminalLauncherJob instead to launch the executable")
     static KServicePtr terminalApplication(const QString &command = QString(), const QString &workingDir = QString());
 
 public:
@@ -474,4 +481,5 @@ private:
     friend class KToolInvocationSingleton;
 };
 
+#endif
 #endif

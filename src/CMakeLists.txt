@@ -14,7 +14,6 @@ set_target_properties(KF5Service PROPERTIES
 )
 
 target_sources(KF5Service PRIVATE
-   kdeinit/ktoolinvocation.cpp
    services/kautostart.cpp
    services/kapplicationtrader.cpp
    services/kmimetypefactory.cpp
@@ -51,6 +50,17 @@ target_sources(KF5Service PRIVATE
    kservice.qrc
 )
 
+if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
+   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.89.0)
+   target_sources(KF5Service PRIVATE kdeinit/ktoolinvocation.cpp)
+   if (WIN32)
+        target_sources(KF5Service PRIVATE kdeinit/ktoolinvocation_win.cpp)
+    endif()
+    if (UNIX)
+        target_sources(KF5Service PRIVATE kdeinit/ktoolinvocation_x11.cpp)
+    endif()
+endif()
+
 if (TARGET Qt5::DBus)
     target_sources(KF5Service PRIVATE
         plugin/kdbusservicestarter.cpp
@@ -73,17 +83,6 @@ ecm_qt_declare_logging_category(KF5Service
     EXPORT KSERVICE
     DESCRIPTION "sycoca (kservice)"
 )
-
-if (WIN32)
-    target_sources(KF5Service PRIVATE
-        kdeinit/ktoolinvocation_win.cpp
-    )
-endif()
-if (UNIX)
-    target_sources(KF5Service PRIVATE
-        kdeinit/ktoolinvocation_x11.cpp
-    )
-endif()
 
 bison_target(TraderParser
              services/yacc.y
@@ -121,7 +120,7 @@ ecm_generate_export_header(KF5Service
     GROUP_BASE_NAME KF
     VERSION ${KF_VERSION}
     DEPRECATED_BASE_VERSION 0
-    DEPRECATION_VERSIONS 5.0 5.15 5.61 5.63 5.66 5.67 5.70 5.71 5.79 5.80 5.81 5.82 5.83 5.86 5.87 5.88
+    DEPRECATION_VERSIONS 5.0 5.15 5.61 5.63 5.66 5.67 5.70 5.71 5.79 5.80 5.81 5.82 5.83 5.86 5.87 5.88 5.89
     EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
 )
 set(kservice_includes

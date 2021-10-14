@@ -22,7 +22,9 @@ kservice_unit_tests(
  kapplicationtradertest
 )
 
-if (UNIX)
+if(UNIX AND
+  NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
+   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.89.0)
   kservice_unit_tests(ktoolinvocation_x11test)
 endif()
 
