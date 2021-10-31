@@ -782,15 +782,20 @@ QString KService::pluginKeyword() const
 QString KService::docPath() const
 {
     Q_D(const KService);
-    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("X-DocPath"));
-    if ((it == d->m_mapProps.end()) || (!it->isValid())) {
-        it = d->m_mapProps.find(QStringLiteral("DocPath"));
-        if ((it == d->m_mapProps.end()) || (!it->isValid())) {
-            return QString();
+
+    for (const QString &str : {QStringLiteral("X-DocPath"), QStringLiteral("DocPath")}) {
+        auto it = d->m_mapProps.constFind(str);
+        if (it != d->m_mapProps.cend()) {
+            const QVariant variant = it.value();
+            Q_ASSERT(variant.isValid());
+            const QString path = variant.toString();
+            if (!path.isEmpty()) {
+                return path;
+            }
         }
     }
 
-    return it->toString();
+    return {};
 }
 
 bool KService::allowMultipleFiles() const

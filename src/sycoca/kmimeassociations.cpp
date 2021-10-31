@@ -72,13 +72,13 @@ QStringList KMimeAssociations::mimeAppsDirs()
 void KMimeAssociations::parseAllMimeAppsList()
 {
     int basePreference = 1000; // start high :)
-    const QStringList mimeappsFiles = KMimeAssociations::mimeAppsFiles();
-    QListIterator<QString> mimeappsIter(mimeappsFiles);
-    mimeappsIter.toBack();
-    while (mimeappsIter.hasPrevious()) { // global first, then local.
-        const QString mimeappsFile = mimeappsIter.previous();
+    const QStringList files = KMimeAssociations::mimeAppsFiles();
+    // Global first, then local
+    auto it = files.crbegin();
+    auto endIt = files.crend();
+    for (; it != endIt; ++it) {
         // qDebug() << "Parsing" << mimeappsFile;
-        parseMimeAppsList(mimeappsFile, basePreference);
+        parseMimeAppsList(*it, basePreference);
         basePreference += 50;
     }
 }
