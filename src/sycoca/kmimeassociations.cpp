@@ -178,12 +178,14 @@ void KOfferHash::removeServiceOffer(const QString &serviceType, const KService::
     ServiceTypeOffersData &data = m_serviceTypeData[serviceType]; // find or create
     data.removedOffers.insert(service);
     data.offerSet.remove(service);
-    QMutableListIterator<KServiceOffer> sfit(data.offers);
-    while (sfit.hasNext()) {
-        if (sfit.next().service()->storageId() == service->storageId()) {
-            sfit.remove();
-        }
-    }
+
+    const QString id = service->storageId();
+
+    auto &list = data.offers;
+    auto it = std::remove_if(list.begin(), list.end(), [&id](const KServiceOffer &offer) {
+        return offer.service()->storageId() == id;
+    });
+    list.erase(it, list.end());
 }
 
 bool KOfferHash::hasRemovedOffer(const QString &serviceType, const KService::Ptr &service) const

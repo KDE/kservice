@@ -77,13 +77,17 @@ QStringList KMimeTypeFactory::allMimeTypes()
 {
     // TODO: reimplement in terms of "listing xdgdata-mime", to avoid ksycoca dependency,
     // then move to KMimeTypeRepository
-    QStringList result;
     const KSycocaEntry::List list = allEntries();
-    for (KSycocaEntry::List::ConstIterator it = list.begin(); it != list.end(); ++it) {
-        Q_ASSERT((*it)->isType(KST_KMimeTypeEntry));
-        MimeTypeEntry::Ptr mimeType(static_cast<MimeTypeEntry *>((*it).data()));
-        result.append(mimeType->name());
-    }
+    QStringList result;
+    result.reserve(list.size());
+
+    std::transform(list.cbegin(), list.cend(), std::back_inserter(result), [](const KSycocaEntry::Ptr &entry) {
+        Q_ASSERT(entry->isType(KST_KMimeTypeEntry));
+
+        MimeTypeEntry::Ptr mimeType(static_cast<MimeTypeEntry *>(entry.data()));
+        return mimeType->name();
+    });
+
     return result;
 }
 

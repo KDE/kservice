@@ -446,30 +446,20 @@ bool ParseTreeIN::eval(ParseContext *_context) const
     }
 
     if ((c1.type == ParseContext::T_NUM) && (c2.type == ParseContext::T_SEQ) && ((*(c2.seq.begin())).type() == QVariant::Int)) {
-        QList<QVariant>::ConstIterator it = c2.seq.constBegin();
-        QList<QVariant>::ConstIterator end = c2.seq.constEnd();
-        _context->b = false;
-        for (; it != end; ++it) {
-            if ((*it).type() == QVariant::Int && (*it).toInt() == c1.i) {
-                _context->b = true;
-                break;
-            }
-        }
+        _context->b = std::any_of(c2.seq.cbegin(), c2.seq.cend(), [&c1](const QVariant &variant) {
+            return variant.type() == QVariant::Int && variant.toInt() == c1.i;
+        });
+
         return true;
     }
 
     if (c1.type == ParseContext::T_DOUBLE //
         && c2.type == ParseContext::T_SEQ //
         && (*(c2.seq.begin())).type() == QVariant::Double) {
-        QList<QVariant>::ConstIterator it = c2.seq.constBegin();
-        QList<QVariant>::ConstIterator end = c2.seq.constEnd();
-        _context->b = false;
-        for (; it != end; ++it) {
-            if ((*it).type() == QVariant::Double && qFuzzyCompare((*it).toDouble(), c1.i)) {
-                _context->b = true;
-                break;
-            }
-        }
+        _context->b = std::any_of(c2.seq.cbegin(), c2.seq.cend(), [&c1](const QVariant &variant) {
+            return variant.type() == QVariant::Double && qFuzzyCompare(variant.toDouble(), c1.i);
+        });
+
         return true;
     }
 
@@ -681,17 +671,19 @@ bool ParseContext::initMaxima(const QString &_prop)
     // Iterate over all offers
     QVariantList offerValues;
     if (service) {
-        KService::List::ConstIterator oit = offers.cbegin();
-        for (; oit != offers.cend(); ++oit) {
-            offerValues << (*oit)->property(_prop);
-        }
+        offerValues.reserve(offers.size());
+
+        std::transform(offers.cbegin(), offers.cend(), std::back_inserter(offerValues), [&_prop](const KService::Ptr &servicePtr) {
+            return servicePtr->property(_prop);
+        });
     }
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     else if (info.isValid()) {
-        KPluginInfo::List::ConstIterator oit = pluginOffers.cbegin();
-        for (; oit != pluginOffers.cend(); ++oit) {
-            offerValues << (*oit).property(_prop);
-        }
+        offerValues.reserve(pluginOffers.size());
+
+        std::transform(pluginOffers.cbegin(), pluginOffers.cend(), std::back_inserter(offerValues), [&_prop](const KPluginInfo &plugin) {
+            return plugin.property(_prop);
+        });
     }
 #endif
 

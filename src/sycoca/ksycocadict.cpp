@@ -123,17 +123,14 @@ void KSycocaDict::remove(const QString &key)
         return;
     }
 
-    bool found = false;
-    for (KSycocaDictStringList::Iterator it = d->stringlist.begin(); it != d->stringlist.end(); ++it) {
-        string_entry *entry = *it;
-        if (entry->keyStr == key) {
-            d->stringlist.erase(it);
-            delete entry;
-            found = true;
-            break;
-        }
-    }
-    if (!found) {
+    auto it = std::find_if(d->stringlist.begin(), d->stringlist.end(), [&key](string_entry *entry) {
+        return entry->keyStr == key;
+    });
+
+    if (it != d->stringlist.end()) {
+        delete *it;
+        d->stringlist.erase(it);
+    } else {
         qCDebug(SYCOCA) << "key not found:" << key;
     }
 }

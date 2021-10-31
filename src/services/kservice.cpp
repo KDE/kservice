@@ -976,11 +976,13 @@ QStringList KService::keywords() const
 QStringList KServicePrivate::serviceTypes() const
 {
     QStringList ret;
-    QVector<KService::ServiceTypeAndPreference>::const_iterator it = m_serviceTypes.begin();
-    for (; it < m_serviceTypes.end(); ++it) {
-        Q_ASSERT(!(*it).serviceType.isEmpty());
-        ret.append((*it).serviceType);
-    }
+    ret.reserve(m_serviceTypes.size());
+
+    std::transform(m_serviceTypes.cbegin(), m_serviceTypes.cend(), std::back_inserter(ret), [](const KService::ServiceTypeAndPreference &typePref) {
+        Q_ASSERT(!typePref.serviceType.isEmpty());
+        return typePref.serviceType;
+    });
+
     return ret;
 }
 

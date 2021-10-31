@@ -450,11 +450,14 @@ QList<KPluginInfo> KPluginInfo::fromServices(const KService::List &services, con
 QList<KPluginInfo> KPluginInfo::fromFiles(const QStringList &files, const KConfigGroup &config)
 {
     QList<KPluginInfo> infolist;
-    for (QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
-        KPluginInfo info(*it);
+    infolist.reserve(files.size());
+
+    std::transform(files.cbegin(), files.cend(), std::back_inserter(infolist), [&config](const QString &file) {
+        KPluginInfo info(file);
         info.setConfig(config);
-        infolist += info;
-    }
+        return info;
+    });
+
     return infolist;
 }
 

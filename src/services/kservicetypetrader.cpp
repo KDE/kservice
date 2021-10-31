@@ -125,15 +125,15 @@ KService::List KServiceTypeTrader::query(const QString &serviceType, const QStri
         return defaultOffers(serviceType, constraint);
     }
 
-    KService::List lst;
     // Get all services of this service type.
     const KServiceOfferList offers = weightedOffers(serviceType);
+    KService::List lst;
+    lst.reserve(offers.size());
 
     // Now extract only the services; the weighting was only used for sorting.
-    KServiceOfferList::const_iterator itOff = offers.begin();
-    for (; itOff != offers.end(); ++itOff) {
-        lst.append((*itOff).service());
-    }
+    std::transform(offers.cbegin(), offers.cend(), std::back_inserter(lst), [](const KServiceOffer &offer) {
+        return offer.service();
+    });
 
     applyConstraints(lst, constraint);
 
