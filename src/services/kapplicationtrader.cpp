@@ -119,12 +119,12 @@ bool KApplicationTrader::isSubsequence(const QString &pattern, const QString &te
     }
     const bool chk_case = cs == Qt::CaseSensitive;
 
-    QString::const_iterator i = text.constBegin();
-    QString::const_iterator j = pattern.constBegin();
-    for (; i != text.constEnd() && j != pattern.constEnd(); ++i) {
-        if ((chk_case && *i == *j) || (!chk_case && i->toLower() == j->toLower())) {
-            ++j;
+    auto textIt = text.cbegin();
+    auto patternIt = pattern.cbegin();
+    for (; textIt != text.cend() && patternIt != pattern.cend(); ++textIt) {
+        if ((chk_case && *textIt == *patternIt) || (!chk_case && textIt->toLower() == patternIt->toLower())) {
+            ++patternIt;
         }
     }
-    return j == pattern.constEnd();
+    return patternIt == pattern.cend();
 }

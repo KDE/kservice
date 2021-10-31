@@ -191,10 +191,8 @@ void KBuildServiceFactory::postProcessServices()
     // storage ID) have been removed.
 
     // For every service...
-    KSycocaEntryDict::const_iterator itserv = m_entryDict->constBegin();
-    const KSycocaEntryDict::const_iterator endserv = m_entryDict->constEnd();
-    for (; itserv != endserv; ++itserv) {
-        KSycocaEntry::Ptr entry = *itserv;
+    for (auto itserv = m_entryDict->cbegin(), endIt = m_entryDict->cend(); itserv != endIt; ++itserv) {
+        KSycocaEntry::Ptr entry = itserv.value();
         KService::Ptr service(static_cast<KService *>(entry.data()));
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 87)
@@ -244,10 +242,10 @@ void KBuildServiceFactory::populateServiceTypes()
 {
     QMimeDatabase db;
     // For every service...
-    KSycocaEntryDict::const_iterator itserv = m_entryDict->constBegin();
-    const KSycocaEntryDict::const_iterator endserv = m_entryDict->constEnd();
-    for (; itserv != endserv; ++itserv) {
-        KService::Ptr service(static_cast<KService *>((*itserv).data()));
+    auto servIt = m_entryDict->cbegin();
+    const auto endIt = m_entryDict->cend();
+    for (; servIt != endIt; ++servIt) {
+        KService::Ptr service(static_cast<KService *>(servIt.value().data()));
         const bool hidden = !service->showInCurrentDesktop();
         QVector<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
         // bool hasAllAll = false;

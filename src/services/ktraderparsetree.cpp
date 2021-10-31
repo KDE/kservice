@@ -554,8 +554,8 @@ bool ParseTreeMIN2::eval(ParseContext *_context) const
         return false;
     }
 
-    QMap<QString, PreferencesMaxima>::Iterator it = _context->maxima.find(m_strId);
-    if (it == _context->maxima.end()) {
+    auto it = _context->maxima.constFind(m_strId);
+    if (it == _context->maxima.cend()) {
         return false;
     }
 
@@ -586,8 +586,8 @@ bool ParseTreeMAX2::eval(ParseContext *_context) const
     }
 
     // Find extrema
-    QMap<QString, PreferencesMaxima>::Iterator it = _context->maxima.find(m_strId);
-    if (it == _context->maxima.end()) {
+    auto it = _context->maxima.constFind(m_strId);
+    if (it == _context->maxima.cend()) {
         return false;
     }
 
@@ -665,8 +665,8 @@ bool ParseContext::initMaxima(const QString &_prop)
     }
 
     // Did we cache the result ?
-    QMap<QString, PreferencesMaxima>::Iterator it = maxima.find(_prop);
-    if (it != maxima.end()) {
+    auto it = maxima.constFind(_prop);
+    if (it != maxima.cend()) {
         return (it.value().type == PreferencesMaxima::PM_DOUBLE || it.value().type == PreferencesMaxima::PM_INT);
     }
 

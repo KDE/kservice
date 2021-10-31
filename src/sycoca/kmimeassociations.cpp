@@ -188,9 +188,9 @@ void KOfferHash::removeServiceOffer(const QString &serviceType, const KService::
 
 bool KOfferHash::hasRemovedOffer(const QString &serviceType, const KService::Ptr &service) const
 {
-    QHash<QString, ServiceTypeOffersData>::const_iterator it = m_serviceTypeData.find(serviceType);
-    if (it != m_serviceTypeData.end()) {
-        return (*it).removedOffers.contains(service);
+    auto it = m_serviceTypeData.constFind(serviceType);
+    if (it != m_serviceTypeData.cend()) {
+        return it.value().removedOffers.contains(service);
     }
     return false;
 }

@@ -264,7 +264,7 @@ private Q_SLOTS:
         // QTest::ignoreMessage(QtDebugMsg, "findServiceByDesktopPath: idontexist.desktop not found");
         parser.parseMimeAppsList(fileName, 100);
 
-        for (ExpectedResultsMap::const_iterator it = preferredApps.constBegin(), end = preferredApps.constEnd(); it != end; ++it) {
+        for (auto it = preferredApps.cbegin(), endIt = preferredApps.cend(); it != endIt; ++it) {
             const QString mime = it.key();
             // The data for derived types and aliases isn't for this test (which only looks at mimeapps.list)
             if (mime == QLatin1String("text/x-csrc") //
@@ -285,7 +285,7 @@ private Q_SLOTS:
             }
         }
 
-        for (ExpectedResultsMap::const_iterator it = removedApps.constBegin(), end = removedApps.constEnd(); it != end; ++it) {
+        for (auto it = removedApps.cbegin(), end = removedApps.cend(); it != end; ++it) {
             const QString mime = it.key();
             const QList<KServiceOffer> offers = offerHash.offersFor(mime);
             for (const QString &service : it.value()) {
@@ -361,7 +361,7 @@ private Q_SLOTS:
 
         // Now the generic variant of the above test:
         // for each mimetype, check that the preferred apps are as specified
-        for (ExpectedResultsMap::const_iterator it = preferredApps.constBegin(), end = preferredApps.constEnd(); it != end; ++it) {
+        for (auto it = preferredApps.cbegin(), endIt = preferredApps.cend(); it != endIt; ++it) {
             const QString mime = it.key();
             const KService::List offers = KApplicationTrader::queryByMimeType(mime);
             const QStringList offerIds = assembleServices(offers, it.value().count());
@@ -379,7 +379,7 @@ private Q_SLOTS:
             }
             QCOMPARE(offerIds, it.value());
         }
-        for (auto it = removedApps.constBegin(), end = removedApps.constEnd(); it != end; ++it) {
+        for (auto it = removedApps.constBegin(), endIt = removedApps.constEnd(); it != endIt; ++it) {
             const QString mime = it.key();
             const KService::List offers = KApplicationTrader::queryByMimeType(mime);
             const QStringList offerIds = assembleServices(offers);
@@ -556,7 +556,7 @@ private:
 
     void removeNonExisting(ExpectedResultsMap &erm)
     {
-        for (ExpectedResultsMap::iterator it = erm.begin(), end = erm.end(); it != end; ++it) {
+        for (auto it = erm.begin(), endIt = erm.end(); it != endIt; ++it) {
             QMutableStringListIterator serv_it(it.value());
             while (serv_it.hasNext()) {
                 if (!KService::serviceByStorageId(serv_it.next())) {

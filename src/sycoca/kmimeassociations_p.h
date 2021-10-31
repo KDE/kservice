@@ -30,9 +30,9 @@ public:
     KOfferHash &operator=(const KOfferHash &) = delete;
     QList<KServiceOffer> offersFor(const QString &serviceType) const
     {
-        QHash<QString, ServiceTypeOffersData>::const_iterator it = m_serviceTypeData.find(serviceType);
-        if (it != m_serviceTypeData.end()) {
-            return (*it).offers;
+        auto it = m_serviceTypeData.constFind(serviceType);
+        if (it != m_serviceTypeData.cend()) {
+            return it.value().offers;
         }
         return QList<KServiceOffer>();
     }

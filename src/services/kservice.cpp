@@ -243,28 +243,28 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     entryMap.remove(QStringLiteral("AllowDefault"));
 
     // allow plugin users to translate categories without needing a separate key
-    QMap<QString, QString>::Iterator entry = entryMap.find(QStringLiteral("X-KDE-PluginInfo-Category"));
-    if (entry != entryMap.end()) {
-        const QString &key = entry.key();
+    auto entryIt = entryMap.find(QStringLiteral("X-KDE-PluginInfo-Category"));
+    if (entryIt != entryMap.end()) {
+        const QString &key = entryIt.key();
         m_mapProps.insert(key, QVariant(desktopGroup.readEntryUntranslated(key)));
-        m_mapProps.insert(key + QLatin1String("-Translated"), QVariant(*entry));
-        entryMap.erase(entry);
+        m_mapProps.insert(key + QLatin1String("-Translated"), QVariant(entryIt.value()));
+        entryMap.erase(entryIt);
     }
 
     // Store all additional entries in the property map.
     // A QMap<QString,QString> would be easier for this but we can't
     // break BC, so we have to store it in m_mapProps.
     //  qDebug("Path = %s", entryPath.toLatin1().constData());
-    QMap<QString, QString>::ConstIterator it = entryMap.constBegin();
+    auto it = entryMap.constBegin();
     for (; it != entryMap.constEnd(); ++it) {
         const QString key = it.key();
         // do not store other translations like Name[fr]; kbuildsycoca will rerun if we change languages anyway
         if (!key.contains(QLatin1Char('['))) {
-            // qCDebug(SERVICES) << "  Key =" << key << " Data =" << *it;
+            // qCDebug(SERVICES) << "  Key =" << key << " Data =" << it.value();
             if (key == QLatin1String("X-Flatpak-RenamedFrom")) {
                 m_mapProps.insert(key, desktopGroup.readXdgListEntry(key));
             } else {
-                m_mapProps.insert(key, QVariant(*it));
+                m_mapProps.insert(key, QVariant(it.value()));
             }
         }
     }
@@ -675,23 +675,29 @@ bool KService::showInCurrentDesktop() const
 
     // This algorithm is described in the desktop entry spec
 
-    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("OnlyShowIn"));
-    if ((it != d->m_mapProps.end()) && (it->isValid())) {
-        const QStringList aList = it->toString().split(QLatin1Char(';'));
-        for (const auto &desktop : std::as_const(currentDesktops)) {
-            if (aList.contains(desktop)) {
-                return true;
+    auto it = d->m_mapProps.constFind(QStringLiteral("OnlyShowIn"));
+    if (it != d->m_mapProps.cend()) {
+        const QVariant &val = it.value();
+        if (val.isValid()) {
+            const QStringList aList = val.toString().split(QLatin1Char(';'));
+            for (const auto &desktop : std::as_const(currentDesktops)) {
+                if (aList.contains(desktop)) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
-    it = d->m_mapProps.find(QStringLiteral("NotShowIn"));
-    if ((it != d->m_mapProps.end()) && (it->isValid())) {
-        const QStringList aList = it->toString().split(QLatin1Char(';'));
-        for (const auto &desktop : std::as_const(currentDesktops)) {
-            if (aList.contains(desktop)) {
-                return false;
+    it = d->m_mapProps.constFind(QStringLiteral("NotShowIn"));
+    if (it != d->m_mapProps.cend()) {
+        const QVariant &val = it.value();
+        if (val.isValid()) {
+            const QStringList aList = val.toString().split(QLatin1Char(';'));
+            for (const auto &desktop : std::as_const(currentDesktops)) {
+                if (aList.contains(desktop)) {
+                    return false;
+                }
             }
         }
     }
@@ -755,12 +761,15 @@ QString KService::untranslatedGenericName() const
 QString KService::parentApp() const
 {
     Q_D(const KService);
-    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("X-KDE-ParentApp"));
-    if ((it == d->m_mapProps.end()) || (!it->isValid())) {
-        return QString();
+    auto it = d->m_mapProps.constFind(QStringLiteral("X-KDE-ParentApp"));
+    if (it != d->m_mapProps.cend()) {
+        const QVariant &val = it.value();
+        if (val.isValid()) {
+            return val.toString();
+        }
     }
 
-    return it->toString();
+    return {};
 }
 #endif
 

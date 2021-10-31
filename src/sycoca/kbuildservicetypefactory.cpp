@@ -94,8 +94,8 @@ void KBuildServiceTypeFactory::saveHeader(QDataStream &str)
 {
     KSycocaFactory::saveHeader(str);
     str << qint32(m_propertyTypeDict.count());
-    for (QMap<QString, int>::ConstIterator it = m_propertyTypeDict.constBegin(); it != m_propertyTypeDict.constEnd(); ++it) {
-        str << it.key() << qint32(it.value());
+    for (auto it = m_propertyTypeDict.cbegin(); it != m_propertyTypeDict.cend(); ++it) {
+        str << it.key() << static_cast<qint32>(it.value());
     }
 }
 
@@ -111,13 +111,13 @@ void KBuildServiceTypeFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
     KServiceType::Ptr serviceType(static_cast<KServiceType *>(newEntry.data()));
 
     const QMap<QString, QVariant::Type> &pd = serviceType->propertyDefs();
-    QMap<QString, QVariant::Type>::ConstIterator pit = pd.begin();
-    for (; pit != pd.end(); ++pit) {
-        const QString property = pit.key();
-        QMap<QString, int>::iterator dictit = m_propertyTypeDict.find(property);
-        if (dictit == m_propertyTypeDict.end()) {
-            m_propertyTypeDict.insert(property, pit.value());
-        } else if (*dictit != static_cast<int>(pit.value())) {
+    for (auto pit = pd.cbegin(); pit != pd.cend(); ++pit) {
+        const QString &property = pit.key();
+        const QVariant::Type &type = pit.value();
+        auto dictit = m_propertyTypeDict.constFind(property);
+        if (dictit == m_propertyTypeDict.cend()) {
+            m_propertyTypeDict.insert(property, type);
+        } else if (dictit.value() != static_cast<int>(type)) {
             qCWarning(SYCOCA) << "Property '" << property << "' is defined multiple times (" << serviceType->name() << ")";
         }
     }

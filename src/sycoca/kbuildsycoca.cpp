@@ -196,7 +196,7 @@ bool KBuildSycoca::build()
     }
 
     m_ctimeFactory = new KCTimeFactory(this); // This is a build factory too, don't delete!!
-    for (QMap<QString, QByteArray>::ConstIterator it1 = allResourcesSubDirs.constBegin(); it1 != allResourcesSubDirs.constEnd(); ++it1) {
+    for (auto it1 = allResourcesSubDirs.cbegin(); it1 != allResourcesSubDirs.cend(); ++it1) {
         m_changed = false;
         m_resourceSubdir = it1.key();
         m_resource = it1.value();

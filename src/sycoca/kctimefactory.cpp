@@ -57,9 +57,7 @@ void KCTimeDict::load(QDataStream &str)
 
 void KCTimeDict::save(QDataStream &str) const
 {
-    Hash::const_iterator it = m_hash.constBegin();
-    const Hash::const_iterator end = m_hash.constEnd();
-    for (; it != end; ++it) {
+    for (auto it = m_hash.cbegin(), endIt = m_hash.cend(); it != endIt; ++it) {
         str << it.key() << it.value();
     }
     str << QString() << quint32(0);

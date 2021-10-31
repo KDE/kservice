@@ -24,7 +24,7 @@ static void foldNode(QDomElement &docElem, QDomElement &e, QMap<QString, QDomEle
     if (s.isEmpty()) {
         s = e.text();
     }
-    QMap<QString, QDomElement>::iterator it = dupeList.find(s);
+    auto it = dupeList.find(s);
     if (it != dupeList.end()) {
         // qCDebug(SYCOCA) << e.tagName() << "and" << s << "requires combining!";
 
