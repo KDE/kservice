@@ -41,9 +41,8 @@ static QString fakeServiceDesktopFile()
 static bool offerListHasService(const KService::List &offers, const QString &entryPath)
 {
     bool found = false;
-    KService::List::const_iterator it = offers.begin();
-    for (; it != offers.end(); ++it) {
-        if ((*it)->entryPath() == entryPath) {
+    for (const auto &servicePtr : offers) {
+        if (servicePtr->entryPath() == entryPath) {
             if (found) { // should be there only once
                 qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
                 return false; // make test fail
@@ -87,8 +86,7 @@ public Q_SLOTS:
         const KService::List lst = KService::allServices();
         Q_ASSERT(!lst.isEmpty());
 
-        for (KService::List::ConstIterator it = lst.begin(); it != lst.end(); ++it) {
-            const KService::Ptr service = (*it);
+        for (const KService::Ptr &service : lst) {
             Q_ASSERT(service->isType(KST_KService));
             const QString name = service->name();
             const QString entryPath = service->entryPath();

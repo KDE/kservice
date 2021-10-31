@@ -236,13 +236,11 @@ QDataStream *KSycocaFactory::stream() const
 QStringList KSycocaFactory::allDirectories(const QString &subdir)
 {
     // We don't use QStandardPaths::locateAll() because we want all paths, even those that don't exist yet
-    const QStringList topDirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
-    QStringList dirs;
-    dirs.reserve(topDirs.size());
-    for (QStringList::const_iterator dir = topDirs.constBegin(); dir != topDirs.constEnd(); ++dir) {
-        dirs.append(*dir + QLatin1Char('/') + subdir);
+    QStringList topDirs = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
+    for (auto &dir : topDirs) {
+        dir += QLatin1Char('/') + subdir;
     }
-    return dirs;
+    return topDirs;
 }
 
 void KSycocaFactory::virtual_hook(int /*id*/, void * /*data*/)

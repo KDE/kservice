@@ -279,10 +279,7 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
 
     KService::Ptr serviceClone(new KService(*q));
 
-    QStringList::ConstIterator it = keys.begin();
-    const QStringList::ConstIterator end = keys.end();
-    for (; it != end; ++it) {
-        const QString group = *it;
+    for (const QString &group : keys) {
         if (group == QLatin1String("_SEPARATOR_")) {
             m_actions.append(KServiceAction(group, QString(), QString(), QString(), false, serviceClone));
             continue;
@@ -425,20 +422,24 @@ bool KService::hasServiceType(const QString &serviceType) const
     // fall-back code for services that are NOT from ksycoca
     // For each service type we are associated with, if it doesn't
     // match then we try its parent service types.
-    QVector<ServiceTypeAndPreference>::ConstIterator it = d->m_serviceTypes.begin();
-    for (; it != d->m_serviceTypes.end(); ++it) {
-        const QString &st = (*it).serviceType;
-        // qCDebug(SERVICES) << "    has " << (*it);
-        if (st == ptr->name()) {
+    const QString serviceTypeName = ptr->name();
+    auto matchFunc = [&serviceTypeName](const ServiceTypeAndPreference &typePref) {
+        const QString &st = typePref.serviceType;
+        // qCDebug(SERVICES) << "    has " << typePref;
+        if (st == serviceTypeName) {
             return true;
         }
+
         // also the case of parent servicetypes
         KServiceType::Ptr p = KServiceType::serviceType(st);
-        if (p && p->inherits(ptr->name())) {
+        if (p && p->inherits(serviceTypeName)) {
             return true;
         }
-    }
-    return false;
+
+        return false;
+    };
+
+    return std::any_of(d->m_serviceTypes.cbegin(), d->m_serviceTypes.cend(), matchFunc);
 }
 
 bool KService::hasMimeType(const QString &mimeType) const
@@ -461,20 +462,20 @@ bool KService::hasMimeType(const QString &mimeType) const
         return KSycocaPrivate::self()->serviceFactory()->hasOffer(mimeOffset, serviceOffersOffset, serviceOffset);
     }
 
-    // fall-back code for services that are NOT from ksycoca
-    QVector<ServiceTypeAndPreference>::ConstIterator it = d->m_serviceTypes.begin();
-    for (; it != d->m_serviceTypes.end(); ++it) {
-        const QString &st = (*it).serviceType;
-        // qCDebug(SERVICES) << "    has " << (*it);
-        if (st == mime) {
+    auto matchFunc = [&mime](const ServiceTypeAndPreference &typePref) {
+        // qCDebug(SERVICES) << "    has " << typePref;
+        if (typePref.serviceType == mime) {
             return true;
         }
         // TODO: should we handle inherited MIME types here?
         // KMimeType was in kio when this code was written, this is the only reason it's not done.
         // But this should matter only in a very rare case, since most code gets KServices from ksycoca.
         // Warning, change hasServiceType if you implement this here (and check kbuildservicefactory).
-    }
-    return false;
+        return false;
+    };
+
+    // fall-back code for services that are NOT from ksycoca
+    return std::any_of(d->m_serviceTypes.cbegin(), d->m_serviceTypes.cend(), matchFunc);
 }
 
 QVariant KServicePrivate::property(const QString &_name) const
@@ -552,51 +553,46 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
         }
     }
 
-    QMap<QString, QVariant>::ConstIterator it = m_mapProps.find(_name);
-    if ((it == m_mapProps.end()) || (!it->isValid())) {
+    auto it = m_mapProps.constFind(_name);
+    if (it == m_mapProps.cend() || !it.value().isValid()) {
         // qCDebug(SERVICES) << "Property not found " << _name;
         return QVariant(); // No property set.
     }
 
     if (t == QVariant::String) {
-        return *it; // no conversion necessary
+        return it.value(); // no conversion necessary
     } else {
         // All others
         // For instance properties defined as StringList, like MimeTypes.
         // XXX This API is accessible only through a friend declaration.
-        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it->toString().toUtf8(), QVariant(t));
+        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(t));
     }
 }
 
 QStringList KServicePrivate::propertyNames() const
 {
-    QStringList res;
+    static const QStringList defaultKeys = {
+        QStringLiteral("Type"),
+        QStringLiteral("Name"),
+        QStringLiteral("Comment"),
+        QStringLiteral("GenericName"),
+        QStringLiteral("Icon"),
+        QStringLiteral("Exec"),
+        QStringLiteral("Terminal"),
+        QStringLiteral("TerminalOptions"),
+        QStringLiteral("Path"),
+        QStringLiteral("ServiceTypes"),
+        QStringLiteral("AllowAsDefault"),
+        QStringLiteral("InitialPreference"),
+        QStringLiteral("Library"),
+        QStringLiteral("DesktopEntryPath"),
+        QStringLiteral("DesktopEntryName"),
+        QStringLiteral("Keywords"),
+        QStringLiteral("FormFactors"),
+        QStringLiteral("Categories"),
+    };
 
-    QMap<QString, QVariant>::ConstIterator it = m_mapProps.begin();
-    for (; it != m_mapProps.end(); ++it) {
-        res.append(it.key());
-    }
-
-    res.append(QStringLiteral("Type"));
-    res.append(QStringLiteral("Name"));
-    res.append(QStringLiteral("Comment"));
-    res.append(QStringLiteral("GenericName"));
-    res.append(QStringLiteral("Icon"));
-    res.append(QStringLiteral("Exec"));
-    res.append(QStringLiteral("Terminal"));
-    res.append(QStringLiteral("TerminalOptions"));
-    res.append(QStringLiteral("Path"));
-    res.append(QStringLiteral("ServiceTypes"));
-    res.append(QStringLiteral("AllowAsDefault"));
-    res.append(QStringLiteral("InitialPreference"));
-    res.append(QStringLiteral("Library"));
-    res.append(QStringLiteral("DesktopEntryPath"));
-    res.append(QStringLiteral("DesktopEntryName"));
-    res.append(QStringLiteral("Keywords"));
-    res.append(QStringLiteral("FormFactors"));
-    res.append(QStringLiteral("Categories"));
-
-    return res;
+    return m_mapProps.keys() + defaultKeys;
 }
 
 KService::List KService::allServices()
@@ -995,13 +991,14 @@ QStringList KService::serviceTypes() const
 QStringList KService::mimeTypes() const
 {
     Q_D(const KService);
-    QStringList ret;
+
     QMimeDatabase db;
-    QVector<KService::ServiceTypeAndPreference>::const_iterator it = d->m_serviceTypes.begin();
-    for (; it < d->m_serviceTypes.end(); ++it) {
-        const QString sv = (*it).serviceType;
-        if (db.mimeTypeForName(sv).isValid()) { // keep only mimetypes, filter out servicetypes
-            ret.append(sv);
+    QStringList ret;
+
+    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
+        const QString servType = s.serviceType;
+        if (db.mimeTypeForName(servType).isValid()) { // keep only mimetypes, filter out servicetypes
+            ret.append(servType);
         }
     }
     return ret;

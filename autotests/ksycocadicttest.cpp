@@ -93,12 +93,11 @@ void KSycocaDictTest::testStandardDict()
     // clang-format on
 
     // Skip servicetypes that are not installed
-    QMutableListIterator<QString> it(serviceTypes);
-    while (it.hasNext()) {
-        if (!KServiceType::serviceType(it.next())) {
-            it.remove();
-        }
-    }
+    auto it = std::remove_if(serviceTypes.begin(), serviceTypes.end(), [](const QString &s) {
+        return !KServiceType::serviceType(s);
+    });
+    serviceTypes.erase(it, serviceTypes.end());
+
     qDebug() << serviceTypes;
 
     QBENCHMARK {

@@ -216,13 +216,9 @@ KService::List KServiceFactory::allServices()
 {
     KService::List result;
     const KSycocaEntry::List list = allEntries();
-    KSycocaEntry::List::const_iterator it = list.begin();
-    const KSycocaEntry::List::const_iterator end = list.end();
-    for (; it != end; ++it) {
-        const KSycocaEntry::Ptr entry = *it;
-        if (entry->isType(KST_KService)) {
-            KService::Ptr service(static_cast<KService *>(entry.data()));
-            result.append(service);
+    for (const auto &entryPtr : list) {
+        if (entryPtr->isType(KST_KService)) {
+            result.append(KService::Ptr(static_cast<KService *>(entryPtr.data())));
         }
     }
     return result;

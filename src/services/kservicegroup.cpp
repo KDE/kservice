@@ -112,15 +112,14 @@ int KServiceGroupPrivate::childCount() const
     if (m_childCount == -1) {
         m_childCount = 0;
 
-        for (KServiceGroup::List::ConstIterator it = m_serviceList.begin(); it != m_serviceList.end(); ++it) {
-            KSycocaEntry::Ptr p = *it;
-            if (p->isType(KST_KService)) {
-                KService::Ptr service(static_cast<KService *>(p.data()));
+        for (const KSycocaEntry::Ptr &entryPtr : m_serviceList) {
+            if (entryPtr->isType(KST_KService)) {
+                KService::Ptr service(static_cast<KService *>(entryPtr.data()));
                 if (!service->noDisplay()) {
                     m_childCount++;
                 }
-            } else if (p->isType(KST_KServiceGroup)) {
-                KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup *>(p.data()));
+            } else if (entryPtr->isType(KST_KServiceGroup)) {
+                KServiceGroup::Ptr serviceGroup(static_cast<KServiceGroup *>(entryPtr.data()));
                 m_childCount += serviceGroup->childCount();
             }
         }

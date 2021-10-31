@@ -168,11 +168,9 @@ void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName,
         collectInheritedServices(parentMimeType, visitedMimes, mimeTypeInheritanceLevel + 1);
 
         const QList<KServiceOffer> &offers = m_offerHash.offersFor(parentMimeType);
-        QList<KServiceOffer>::const_iterator itserv = offers.begin();
-        const QList<KServiceOffer>::const_iterator endserv = offers.end();
-        for (; itserv != endserv; ++itserv) {
-            if (!m_offerHash.hasRemovedOffer(mimeTypeName, (*itserv).service())) {
-                KServiceOffer offer(*itserv);
+        for (const auto &serviceOffer : offers) {
+            if (!m_offerHash.hasRemovedOffer(mimeTypeName, serviceOffer.service())) {
+                KServiceOffer offer(serviceOffer);
                 offer.setMimeTypeInheritanceLevel(mimeTypeInheritanceLevel + 1);
                 // qCDebug(SYCOCA) << "INHERITANCE: Adding service" << (*itserv).service()->entryPath() << "to" << mimeTypeName << "mimeTypeInheritanceLevel="
                 // << mimeTypeInheritanceLevel;
@@ -389,15 +387,15 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
             continue;
         }
 
-        for (QList<KServiceOffer>::const_iterator it2 = offers.constBegin(); it2 != offers.constEnd(); ++it2) {
-            // qCDebug(SYCOCA) << stName << ": writing offer" << (*it2).service()->desktopEntryName() << offset << (*it2).service()->offset() << "in sycoca at
+        for (const auto &offer : std::as_const(offers)) {
+            // qCDebug(SYCOCA) << stName << ": writing offer" << offer.service()->desktopEntryName() << offset << offer.service()->offset() << "in sycoca at
             // pos" << str.device()->pos();
-            Q_ASSERT((*it2).service()->offset() != 0);
+            Q_ASSERT(offer.service()->offset() != 0);
 
             str << qint32(offset);
-            str << qint32((*it2).service()->offset());
-            str << qint32((*it2).preference());
-            str << qint32((*it2).mimeTypeInheritanceLevel());
+            str << qint32(offer.service()->offset());
+            str << qint32(offer.preference());
+            str << qint32(offer.mimeTypeInheritanceLevel());
             // update offerEntrySize in populateServiceTypes if you add/remove something here
         }
     }

@@ -394,10 +394,7 @@ void KServiceTest::testAllServiceTypes()
     const KServiceType::List allServiceTypes = KServiceType::allServiceTypes();
 
     // A bit of checking on the allServiceTypes list itself
-    KServiceType::List::ConstIterator stit = allServiceTypes.begin();
-    const KServiceType::List::ConstIterator stend = allServiceTypes.end();
-    for (; stit != stend; ++stit) {
-        const KServiceType::Ptr servtype = (*stit);
+    for (const KServiceType::Ptr &servtype : allServiceTypes) {
         const QString name = servtype->name();
         QVERIFY(!name.isEmpty());
         QVERIFY(servtype->sycocaType() == KST_KServiceType);
@@ -413,8 +410,7 @@ void KServiceTest::testAllServices()
     QVERIFY(!lst.isEmpty());
     bool foundTestApp = false;
 
-    for (KService::List::ConstIterator it = lst.begin(); it != lst.end(); ++it) {
-        const KService::Ptr service = (*it);
+    for (const KService::Ptr &service : lst) {
         QVERIFY(service->isType(KST_KService));
 
         const QString name = service->name();
@@ -449,9 +445,8 @@ void KServiceTest::testAllServices()
 static bool offerListHasService(const KService::List &offers, const QString &entryPath)
 {
     bool found = false;
-    KService::List::const_iterator it = offers.begin();
-    for (; it != offers.end(); ++it) {
-        if ((*it)->entryPath() == entryPath) {
+    for (const auto &servicePtr : offers) {
+        if (servicePtr->entryPath() == entryPath) {
             if (found) { // should be there only once
                 qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
                 return false; // make test fail

@@ -69,8 +69,7 @@ void KServiceTypeProfiles::ensureParsed()
     // avoid doing any init upfront, and just look up the group when asked...
     KConfig configFile(QStringLiteral("servicetype_profilerc"), KConfig::NoGlobals);
     const QStringList tmpList = configFile.groupList();
-    for (QStringList::const_iterator aIt = tmpList.begin(); aIt != tmpList.end(); ++aIt) {
-        const QString type = *aIt;
+    for (const auto &type : tmpList) {
         KConfigGroup config(&configFile, type);
         const int count = config.readEntry("NumberOfEntries", 0);
         KServiceTypeProfileEntry *p = this->value(type, nullptr);
@@ -119,15 +118,13 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
 
     KServiceOfferList offers;
 
-    KServiceOfferList::const_iterator it = list.begin();
-    const KServiceOfferList::const_iterator end = list.end();
-    for (; it != end; ++it) {
-        const KService::Ptr servPtr = (*it).service();
+    for (const auto &offer : list) {
+        const KService::Ptr servPtr = offer.service();
         // qDebug() << "KServiceTypeProfile::offers considering " << servPtr->storageId();
         // Look into the profile (if there's one), to find this service's preference.
         bool foundInProfile = false;
         if (profile) {
-            QMap<QString, int>::ConstIterator it2 = profile->m_mapServices.constFind(servPtr->storageId());
+            auto it2 = profile->m_mapServices.constFind(servPtr->storageId());
             if (it2 != profile->m_mapServices.constEnd()) {
                 const int pref = it2.value();
                 // qDebug() << "found in mapServices pref=" << pref;
@@ -150,7 +147,7 @@ KServiceOfferList KServiceTypeProfile::sortServiceTypeOffers(const KServiceOffer
 
             // If there's a profile, we use 0 as the preference to ensure new apps don't take over existing apps (which default to 1)
             offers.append(KServiceOffer(servPtr,
-                                        profile ? 0 : (*it).preference(),
+                                        profile ? 0 : offer.preference(),
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
                                         0,
                                         servPtr->allowAsDefault()));

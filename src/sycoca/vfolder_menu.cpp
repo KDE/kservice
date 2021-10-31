@@ -34,18 +34,18 @@ static void foldNode(QDomElement &docElem, QDomElement &e, QMap<QString, QDomEle
     dupeList.insert(s, e);
 }
 
-static void replaceNode(QDomElement &docElem, QDomNode &n, const QStringList &list, const QString &tag)
+static void replaceNode(QDomElement &docElem, QDomNode &node, const QStringList &list, const QString &tag)
 {
-    for (QStringList::ConstIterator it = list.begin(); it != list.end(); ++it) {
-        QDomElement e = docElem.ownerDocument().createElement(tag);
-        QDomText txt = docElem.ownerDocument().createTextNode(*it);
-        e.appendChild(txt);
-        docElem.insertAfter(e, n);
+    for (const QString &str : list) {
+        QDomElement element = docElem.ownerDocument().createElement(tag);
+        const QDomText txt = docElem.ownerDocument().createTextNode(str);
+        element.appendChild(txt);
+        docElem.insertAfter(element, node);
     }
 
-    QDomNode next = n.nextSibling();
-    docElem.removeChild(n);
-    n = next;
+    QDomNode next = node.nextSibling();
+    docElem.removeChild(node);
+    node = next;
     //   qCDebug(SYCOCA) << "Next tag = " << n.toElement().tagName();
 }
 

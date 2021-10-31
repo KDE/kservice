@@ -48,26 +48,20 @@ void KServiceTypePrivate::init(KDesktopFile *config)
         m_mapProps.insert(QStringLiteral("X-KDE-Derived"), sDerived);
     }
 
-    const QStringList tmpList = config->groupList();
-    QStringList::const_iterator gIt = tmpList.begin();
+    const QStringList lst = config->groupList();
 
-    for (; gIt != tmpList.end(); ++gIt) {
-        if ((*gIt).startsWith(QLatin1String("Property::"))) {
-            KConfigGroup cg(config, *gIt);
-            QVariant v = QVariant::nameToType(cg.readEntry("Type").toLatin1().constData());
-            v = cg.readEntry("Value", v);
+    for (const auto &groupName : lst) {
+        if (QLatin1String marker("Property::"); groupName.startsWith(marker)) {
+            KConfigGroup cg(config, groupName);
+            QVariant variant = QVariant::nameToType(cg.readEntry("Type").toLatin1().constData());
+            variant = cg.readEntry("Value", variant);
 
-            if (v.isValid()) {
-                m_mapProps.insert((*gIt).mid(10), v);
+            if (variant.isValid()) {
+                m_mapProps.insert(groupName.mid(marker.size()), variant);
             }
-        }
-    }
-
-    gIt = tmpList.begin();
-    for (; gIt != tmpList.end(); ++gIt) {
-        if ((*gIt).startsWith(QLatin1String("PropertyDef::"))) {
-            KConfigGroup cg(config, *gIt);
-            m_mapPropDefs.insert((*gIt).mid(13), QVariant::nameToType(cg.readEntry("Type").toLatin1().constData()));
+        } else if (QLatin1String marker("PropertyDef::"); groupName.startsWith(marker)) {
+            KConfigGroup cg(config, groupName);
+            m_mapPropDefs.insert(groupName.mid(marker.size()), QVariant::nameToType(cg.readEntry("Type").toLatin1().constData()));
         }
     }
 }
