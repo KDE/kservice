@@ -250,17 +250,20 @@ void KBuildServiceFactory::populateServiceTypes()
         // bool hasAllFiles = false;
 
         // Add this service to all its servicetypes (and their parents) and to all its MIME types
-        for (int i = 0; i < serviceTypeList.count() /*don't cache it, it can change during iteration!*/; ++i) {
-            const QString stName = serviceTypeList[i].serviceType;
+        // Don't cache count(), it can change during iteration! (we can't use an iterator-based loop
+        // here the container could get reallocated which would invalidate iterators)
+        for (int i = 0; i < serviceTypeList.count(); ++i) {
+            const KService::ServiceTypeAndPreference &typeAndPref = serviceTypeList.at(i);
+            const QString stName = typeAndPref.serviceType;
 
             if (hidden && stName != QLatin1String("Application")) {
                 continue;
             }
+            const int preference = typeAndPref.preference;
 
             // It could be a servicetype or a MIME type.
             KServiceType::Ptr serviceType = m_serviceTypeFactory->findServiceTypeByName(stName);
             if (serviceType) {
-                const int preference = serviceTypeList[i].preference;
                 const QString parent = serviceType->parentServiceType();
                 if (!parent.isEmpty()) {
                     serviceTypeList.append(KService::ServiceTypeAndPreference(preference, parent));
@@ -274,9 +277,9 @@ void KBuildServiceFactory::populateServiceTypes()
 #endif
             } else {
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
-                KServiceOffer offer(service, serviceTypeList[i].preference, 0, service->allowAsDefault());
+                KServiceOffer offer(service, preference, 0, service->allowAsDefault());
 #else
-                KServiceOffer offer(service, serviceTypeList[i].preference, 0);
+                KServiceOffer offer(service, preference, 0);
 #endif
                 QMimeType mime = db.mimeTypeForName(stName);
                 if (!mime.isValid()) {
