@@ -32,7 +32,7 @@ public:
         : KServiceFactory(db)
     {
     }
-    ~FakeServiceFactory();
+    ~FakeServiceFactory() override;
 
     KService::Ptr findServiceByMenuId(const QString &name) override
     {

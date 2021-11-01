@@ -68,7 +68,7 @@ private:
 
 public:
     // @internal
-    ~KToolInvocation();
+    ~KToolInvocation() override;
     static KToolInvocation *self();
 
 public Q_SLOTS:

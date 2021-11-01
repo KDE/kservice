@@ -33,7 +33,7 @@ public:
     {
     }
 
-    virtual ~KServiceTypePrivate()
+    ~KServiceTypePrivate() override
     {
     }
 

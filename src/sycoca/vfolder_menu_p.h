@@ -55,7 +55,7 @@ public:
     };
 
     VFolderMenu(KServiceFactory *serviceFactory, KBuildSycocaInterface *kbuildsycocaInterface);
-    ~VFolderMenu();
+    ~VFolderMenu() override;
 
     /**
      * Parses VFolder menu definition and generates a menu layout.

@@ -48,7 +48,7 @@ public:
      */
     explicit KServiceType(KDesktopFile *config);
 
-    virtual ~KServiceType();
+    ~KServiceType() override;
 
     /**
      * Returns the descriptive comment associated, if any.

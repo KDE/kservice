@@ -17,7 +17,7 @@ class PluginTest : public QObject
 
 public:
     PluginTest();
-    virtual ~PluginTest();
+    ~PluginTest() override;
 
 public Q_SLOTS:
     int runMain();

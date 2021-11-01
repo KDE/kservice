@@ -92,7 +92,7 @@ public:
      * Construct a service separator
      */
     KServiceSeparator();
-    ~KServiceSeparator();
+    ~KServiceSeparator() override;
 };
 
 #endif

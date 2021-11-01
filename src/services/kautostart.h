@@ -72,7 +72,7 @@ public:
      */
     KSERVICE_DEPRECATED_VERSION(5, 87, "See class docs")
     explicit KAutostart(const QString &entryName = QString(), QObject *parent = nullptr);
-    ~KAutostart();
+    ~KAutostart() override;
 
     /**
      * Flags for each of the conditions that may affect whether or not

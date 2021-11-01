@@ -81,7 +81,7 @@ public:
      */
     KServiceGroup(const QString &_fullpath, const QString &_relpath);
 
-    virtual ~KServiceGroup();
+    ~KServiceGroup() override;
 
     /**
      * Returns the relative path of the service group.

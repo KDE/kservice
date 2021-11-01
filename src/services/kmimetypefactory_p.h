@@ -83,7 +83,7 @@ public: // public for KBuildServiceFactory
 
         MimeTypeEntry(const QString &file, const QString &name);
         MimeTypeEntry(QDataStream &s, int offset);
-        ~MimeTypeEntry();
+        ~MimeTypeEntry() override;
 
         int serviceOffersOffset() const;
         void setServiceOffersOffset(int off);

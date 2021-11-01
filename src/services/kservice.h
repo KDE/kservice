@@ -78,7 +78,7 @@ public:
 
     KService(const KService &other);
 
-    virtual ~KService();
+    ~KService() override;
 
     /**
      * Services are either applications (executables) or dlopened libraries (plugins).
