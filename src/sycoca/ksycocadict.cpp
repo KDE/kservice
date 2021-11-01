@@ -68,7 +68,7 @@ public:
     // Calculate hash - can be used during loading and during saving.
     quint32 hashKey(const QString &key) const;
 
-    KSycocaDictStringList stringlist;
+    KSycocaDictStringList m_stringentries;
     QDataStream *stream;
     qint64 offset;
     quint32 hashTableSize;
@@ -114,7 +114,7 @@ void KSycocaDict::add(const QString &key, const KSycocaEntry::Ptr &payload)
         return; // Not allowed!
     }
 
-    d->stringlist.append(new string_entry(key, payload));
+    d->m_stringentries.append(new string_entry(key, payload));
 }
 
 void KSycocaDict::remove(const QString &key)
@@ -123,13 +123,13 @@ void KSycocaDict::remove(const QString &key)
         return;
     }
 
-    auto it = std::find_if(d->stringlist.begin(), d->stringlist.end(), [&key](string_entry *entry) {
+    auto it = std::find_if(d->m_stringentries.begin(), d->m_stringentries.end(), [&key](string_entry *entry) {
         return entry->keyStr == key;
     });
 
-    if (it != d->stringlist.end()) {
+    if (it != d->m_stringentries.end()) {
         delete *it;
-        d->stringlist.erase(it);
+        d->m_stringentries.erase(it);
     } else {
         qCDebug(SYCOCA) << "key not found:" << key;
     }
@@ -214,7 +214,7 @@ uint KSycocaDict::count() const
         return 0;
     }
 
-    return d->stringlist.count();
+    return d->m_stringentries.count();
 }
 
 void KSycocaDict::clear()
@@ -346,7 +346,7 @@ void KSycocaDict::save(QDataStream &str)
 
     int maxLength = 0;
     // qCDebug(SYCOCA) << "Finding maximum string length";
-    for (KSycocaDictStringList::const_iterator it = d->stringlist.constBegin(); it != d->stringlist.constEnd(); ++it) {
+    for (KSycocaDictStringList::const_iterator it = d->m_stringentries.constBegin(); it != d->m_stringentries.constEnd(); ++it) {
         string_entry *entry = *it;
         entry->hash = 0;
         if (entry->length > maxLength) {
@@ -400,7 +400,7 @@ void KSycocaDict::save(QDataStream &str)
                 continue;
             }
 
-            const int diversity = calcDiversity(&(d->stringlist), pos, sz);
+            const int diversity = calcDiversity(&(d->m_stringentries), pos, sz);
             if (diversity > maxDiv) {
                 maxDiv = diversity;
                 maxPos = pos;
@@ -419,11 +419,11 @@ void KSycocaDict::save(QDataStream &str)
         }
         // qCDebug(SYCOCA) << "Max Div=" << maxDiv << "at pos" << maxPos;
         lastDiv = maxDiv;
-        addDiversity(&(d->stringlist), maxPos);
+        addDiversity(&(d->m_stringentries), maxPos);
         d->hashList.append(maxPos);
     }
 
-    for (auto it = d->stringlist.constBegin(); it != d->stringlist.constEnd(); ++it) {
+    for (auto it = d->m_stringentries.constBegin(); it != d->m_stringentries.constEnd(); ++it) {
         (*it)->hash = d->hashKey((*it)->keyStr);
     }
     // fprintf(stderr, "Calculating minimum table size..\n");
@@ -447,7 +447,7 @@ void KSycocaDict::save(QDataStream &str)
     }
 
     // qCDebug(SYCOCA) << "Filling hashtable...";
-    for (auto it = d->stringlist.constBegin(); it != d->stringlist.constEnd(); ++it) {
+    for (auto it = d->m_stringentries.constBegin(); it != d->m_stringentries.constEnd(); ++it) {
         string_entry *entry = *it;
         // qCDebug(SYCOCA) << "entry keyStr=" << entry->keyStr << entry->payload.data() << entry->payload->entryPath();
         int hash = entry->hash % sz;
