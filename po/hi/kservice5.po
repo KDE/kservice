@@ -1,0 +1,209 @@
+# translation of kdelibs4.po to Hindi
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Ravishankar Shrivastava <raviratlami@yahoo.com>, 2007.
+# Ravishankar Shrivastava <raviratlami@aol.in>, 2008.
+# G Karunakar <karunakar@indlinux.org>, 2009, 2010, 2012.
+# Sameer Singh <lumarzeli30@gmail.com>, 2021.
+# Raghavendra Kamath <raghu@raghukamath.com>, 2021.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-09-19 00:15+0000\n"
+"PO-Revision-Date: 2021-07-01 17:28+0530\n"
+"Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
+"Language-Team: kde-hindi\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Lokalize 21.04.2\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "करुणाकर गुंटुपल्ली, समीर सिंह, राघवेंद्र कामत"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "karunakar@indlinux.org, lumarzeli30@gmail.com, raghu@raghukamath.com"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:90
+#, kde-format
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "के-बिल्ड-सायकोका"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:92
+#, kde-format
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "सिस्टम विन्यास कैशे फिर निर्मित करता है।"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:94
+#, kde-format
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "सर्वाधिकार संरक्षित १९९९-२०१४ केडीई विकासकर्ता"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95
+#, kde-format
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "डेविड फ़ॉउर"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "लेखक"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "वाल्दो बास्तियान"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr "अनुप्रयोगों को अद्यतन का संकेत न दें (पदावनत, अब कोई प्रभाव नहीं)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "वार्धिक अद्यतन अक्षम करें, सभी फिर से पढ़ें"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr "फाइल का टाइमस्टैंप जांचें (पदावनत, अब कोई प्रभाव नहीं)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:109
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr "फाइल जाँच अक्षम करें (पदावनत, अब कोई प्रभाव नहीं)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "केवल मेनू उत्पादन जाँच चलन पूरा करें"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "डिबग प्रक्रिया के लिए मेन्यू आईडी ट्रैक करें"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr "क्यूस्टैंडर्डपाथ्स को परीक्षण मोड में बदलें, केवल इकाई परीक्षण के लिए"
+
+#: kdeinit/ktoolinvocation.cpp:60
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "फ़ंक्शन को मुख्य थ्रेड से कॉल किया जाना चाहिए।"
+
+#: kdeinit/ktoolinvocation.cpp:101
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"%1 खोलने में त्रुटि। या तो के-लॉन्चर अभी चल नहीं रहा, या फिर वह अनुप्रयोग खोलने में असफल "
+"हो गया है।"
+
+#: kdeinit/ktoolinvocation.cpp:104
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"के लांचर डी_बस के जरिए पहुँच नहीं पाया। %1 को कॉल करने के दौरान त्रुटि:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:234
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"मेल क्लाएंट को शुरू नही कर सका:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:235
+#, kde-format
+msgid "Could not launch Mail Client"
+msgstr "मेल क्लाएंट को शुरू नही कर सका"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
+#: kdeinit/ktoolinvocation_x11.cpp:328
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"ब्राउज़र को शुरू नही कर सका:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
+#: kdeinit/ktoolinvocation_x11.cpp:329
+#, kde-format
+msgid "Could not launch Browser"
+msgstr "ब्राउज़र को शुरू नहीं कर सके"
+
+#: kdeinit/ktoolinvocation_x11.cpp:342
+#, kde-format
+msgid "Unable to determine the default terminal"
+msgstr "पूर्वन्यस्त टर्मिनल निर्धारित करने में असमर्थ"
+
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"टर्मिनल क्लाएंट को शुरू नही कर सका:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:355
+#, kde-format
+msgid "Could not launch Terminal Client"
+msgstr "टर्मिनल क्लाएंट को शुरू नहीं कर सका"
+
+#: plugin/kdbusservicestarter.cpp:68
+#, kde-format
+msgid "No service implementing %1"
+msgstr "कोई सेवा %1 लागू नहीं कर रही"
+
+#: services/kservice.cpp:1066
+#, kde-format
+msgid "The provided service is not valid"
+msgstr "प्रदान की गई सेवा मान्य नहीं है"
+
+#: services/kservice.cpp:1070
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "सेवा '%1' कोई लाइब्रेरी नहीं देता या लाइब्रेरी कुंजी गुम है"

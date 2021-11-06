@@ -1,0 +1,220 @@
+# translation of kdelibs4.po to Spanish
+# Translation of kdelibs4 to Spanish
+# Copyright (C) 2000-2007
+#
+# Pablo de Vicente <vicente@oan.es>, 2000-2002,2003, 2004.
+# Pablo de Vicente <vicnte@oan.es>, 2003.
+# Pablo de Vicente <p.devicente@wanadoo.es>, 2004, 2005.
+# Eloy Cuadra <ecuadra@eloihr.net>, 2005, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2021.
+# Pablo de Vicente <pablo.devicente@gmail.com>, 2005, 2006, 2007.
+# Enrique Matias Sanchez (aka Quique) <cronopios@gmail.com>, 2007.
+# Jaime Robles <jaime@kde.org>, 2007.
+# Javier Viñal <fjvinal@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-09-19 00:15+0000\n"
+"PO-Revision-Date: 2021-05-20 17:31+0200\n"
+"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
+"Language-Team: Spanish <kde-l10n-es@kde.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"First-Translator: Boris Wesslowski <Boris@Wesslowski.com>\n"
+"X-Generator: Lokalize 21.04.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Eloy Cuadra"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "ecuadra@eloihr.net"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:90
+#, kde-format
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:92
+#, kde-format
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Reconstruye la caché de configuración del sistema."
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:94
+#, kde-format
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "Copyright 1999-2014 Los desarrolladores de KDE"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95
+#, kde-format
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Autor"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr ""
+"No enviar señales a las aplicaciones a actualizar (desaconsejado, ya no "
+"tiene efecto)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Desactivar la actualización incremental, releer todo"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr ""
+"Comprobar las marcas de tiempo de los archivos (desaconsejado, ya no tiene "
+"efecto)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:109
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr ""
+"Desactivar la verificación de archivos (desaconsejado, ya no tiene efecto)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Realizar solo comprobación de generación de menú"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Seguir el identificador de menú para depuración"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr "Cambiar QStandardPaths al modo de pruebas, solo para pruebas unitarias"
+
+#: kdeinit/ktoolinvocation.cpp:60
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "La función se debe llamar desde el hilo principal."
+
+#: kdeinit/ktoolinvocation.cpp:101
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Error al ejecutar %1. Es probable que KLauncher no esté en ejecución, o que "
+"haya fallado al iniciar la aplicación."
+
+#: kdeinit/ktoolinvocation.cpp:104
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"No se pudo llegar a KLauncher por medio de D-Bus. Error al llamar %1:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:234
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"No se pudo iniciar el cliente de correo:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:235
+#, kde-format
+msgid "Could not launch Mail Client"
+msgstr "No se ha podido iniciar el cliente de correo"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
+#: kdeinit/ktoolinvocation_x11.cpp:328
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"No se pudo iniciar el navegador:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
+#: kdeinit/ktoolinvocation_x11.cpp:329
+#, kde-format
+msgid "Could not launch Browser"
+msgstr "No se ha podido iniciar el navegador"
+
+#: kdeinit/ktoolinvocation_x11.cpp:342
+#, kde-format
+msgid "Unable to determine the default terminal"
+msgstr "No se ha podido determinar el terminal predeterminado"
+
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"No se pudo iniciar el cliente de terminal:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:355
+#, kde-format
+msgid "Could not launch Terminal Client"
+msgstr "No se ha podido iniciar el cliente de terminal"
+
+#: plugin/kdbusservicestarter.cpp:68
+#, kde-format
+msgid "No service implementing %1"
+msgstr "Ningún servicio implementa %1"
+
+#: services/kservice.cpp:1066
+#, kde-format
+msgid "The provided service is not valid"
+msgstr "El servicio proporcionado no es válido"
+
+#: services/kservice.cpp:1070
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"El servicio «%1» no proporciona ninguna biblioteca, o falta la entrada "
+"«Library»"

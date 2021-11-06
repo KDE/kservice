@@ -1,0 +1,230 @@
+# translation of kdelibs4.po to Français
+# translation of kdelibs4.po to
+# Matthieu Robin <kde@macolu.org>, 2002,2003, 2004.
+# Robert Jacolin <rjacolin@ifrance.com>, 2003,2004.
+# Gilles Caulier <caulier.gilles@free.fr>, 2003.
+# Gérard Delafond <gerard@delafond.org>, 2003, 2004.
+# Matthieu Robin <kde@macolu.org>, 2004, 2005, 2006.
+# Cedric Pasteur <cedric.pasteur@free.fr>, 2004.
+# Nicolas Ternisien <nicolas.ternisien@gmail.com>, 2004, 2005, 2006, 2007, 2008.
+# Matthieu Robin <matthieu@macolu.org>, 2005.
+# Éric Bischoff <ebischoff@nerim.net>, 2005.
+# Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2006, 2007, 2008.
+# Anne-Marie Mahfouf <annma@kde.org>, 2007, 2008, 2012.
+# Ludovic Grossard <grossard@kde.org>, 2008.
+# Mickael Sibelle <kimael@gmail.com>, 2008.
+# Nicolas Lécureuil <nlecureuil@mandriva.com>, 2010.
+# Joëlle Cornavin <jcorn@free.fr>, 2007, 2008, 2009, 2010, 2011, 2012, 2013.
+# Sebastien Renard <renard@kde.org>, 2013, 2014.
+# Vincent Pinon <vpinon@kde.org>, 2016, 2017.
+# Xavier Besnard <xavier.besnard@neuf.fr>, 2021.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-09-19 00:15+0000\n"
+"PO-Revision-Date: 2021-10-06 15:37+0200\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
+"Language-Team: French <kde-francophone@kde.org>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 21.08.1\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Joëlle Cornavin, Matthieu Robin, Sébastien Renard, Vincent Pinon"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "jcorn@free.fr, kde@macolu.org, renard@kde.org, vpinon@kde.org"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:90
+#, kde-format
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:92
+#, kde-format
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Reconstruit le cache de configuration système."
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:94
+#, kde-format
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "Copyright 1999-2014 Les développeurs de KDE"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95
+#, kde-format
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Auteur"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr ""
+"Ne pas avertir des applications à mettre à jour (déconseillé, n'a plus aucun "
+"effet)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Désactiver la mise à jour incrémentale, tout relire"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr "Vérifier l'horodatage du fichier (déconseillé, n'a plus aucun effet)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:109
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr ""
+"Désactiver la vérification des fichiers (déconseillé, n'a plus aucun effet)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Effectuer seulement l'exécution de tests de génération de menu"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Suivre l'identifiant de menu à des fins de débogage"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+"Basculer QStandardPaths en mode test, pour les tests unitaires uniquement"
+
+#: kdeinit/ktoolinvocation.cpp:60
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "La fonction doit être appelée à partir du fil d'exécution principal."
+
+#: kdeinit/ktoolinvocation.cpp:101
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Erreur lors du lancement de %1. Soit KLauncher ne fonctionne plus, soit il "
+"ne peut pas démarrer l'application."
+
+#: kdeinit/ktoolinvocation.cpp:104
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"Il est impossible d'atteindre KLauncher via D-Bus, erreur lors de l'appel de "
+"%1 :\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:234
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Il est impossible de démarrer le client de messagerie :\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:235
+#, kde-format
+msgid "Could not launch Mail Client"
+msgstr "Il est impossible de lancer le client de messagerie"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
+#: kdeinit/ktoolinvocation_x11.cpp:328
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Il est impossible de démarrer le navigateur :\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
+#: kdeinit/ktoolinvocation_x11.cpp:329
+#, kde-format
+msgid "Could not launch Browser"
+msgstr "Il est impossible de lancer le navigateur"
+
+#: kdeinit/ktoolinvocation_x11.cpp:342
+#, kde-format
+msgid "Unable to determine the default terminal"
+msgstr "Impossible de déterminer le terminal par défaut"
+
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Il est impossible de lancer le client de terminal :\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:355
+#, kde-format
+msgid "Could not launch Terminal Client"
+msgstr "Il est impossible de lancer le client de terminal"
+
+#: plugin/kdbusservicestarter.cpp:68
+#, kde-format
+msgid "No service implementing %1"
+msgstr "Aucun service n'implémente %1"
+
+#: services/kservice.cpp:1066
+#, kde-format
+msgid "The provided service is not valid"
+msgstr "Le service fourni n'est pas valable"
+
+#: services/kservice.cpp:1070
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"Le service « %1 » ne fournit aucune bibliothèque ou bien la clé « Library » "
+"est absente"

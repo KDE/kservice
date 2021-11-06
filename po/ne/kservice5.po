@@ -1,0 +1,231 @@
+# translation of kdelibs4.po to Nepali
+# Mahesh Subedi <submanesh@gmail.com>, 2006, 2007.
+# Shiva Prasad Pokharel <pokharelshiva@hotmail.com>, 2006, 2007.
+# shyam krishna ball <shyam@mpp.org.np>, 2006.
+# shyam krishna bal <shyamkrishna_bal@yahoo.com>, 2006, 2007.
+# Shiva Pokharel <shiva@mpp.org.np>, 2007.
+# Nabin Gautam <nabin@mpp.org.np>, 2007.
+# Shiva Prasad Pokharel <pokharelshiv@gmail.com>, 2007.
+# Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-09-19 00:15+0000\n"
+"PO-Revision-Date: 2007-11-05 15:41+0545\n"
+"Last-Translator: Shyam Krishna Bal <shyamkrishna_bal@yahoo.com>\n"
+"Language-Team: Nepali <info@mpp.org.np>\n"
+"Language: ne\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n !=1\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Mahesh Subedi, श्यामकृष्ण बल, Nabin Gautam"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "submanesh@gmail.com, shyamkrishna_bal@yahoo.com, Nabin@mpp.org.np"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:90
+#, fuzzy, kde-format
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:92
+#, fuzzy, kde-format
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "प्रणाली कन्फिगरेसन क्यास फेरि निर्माण गर्दछ ।"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:94
+#, fuzzy, kde-format
+#| msgid "(c) 1999-2002 KDE Developers"
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "(c) 1999-2002 केडीई विकासकर्ता"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95
+#, fuzzy, kde-format
+#| msgid "David Faure"
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "डेभिड फाउर"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
+#, fuzzy, kde-format
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "लेखक"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:96
+#, fuzzy, kde-format
+#| msgid "Waldo Bastian"
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "वाल्डो वस्टिएन"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
+#, fuzzy, kde-format
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr "(खतरा) फाइलको जाँच अक्षम पार्नुहोस्"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#, fuzzy, kde-format
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "बढोत्तरित अद्यावधिक अक्षम पार्नुहोस्, सबै वस्तु फेरि पढ्नुहोस्"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:109
+#, fuzzy, kde-format
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr "(खतरा) फाइलको जाँच अक्षम पार्नुहोस्"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#, fuzzy, kde-format
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "मेनु उत्पन्न परीक्षण चाल मात्र सम्पादन गर्नुहोस्"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#, fuzzy, kde-format
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "त्रुटिमोचन उद्देश्यका लागि ट्र्याक मेनु"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:60
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "मुख्य थ्रेडबाट प्रकार्य कल गर्नुपर्दछ ।"
+
+#: kdeinit/ktoolinvocation.cpp:101
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:104
+#, fuzzy, kde-format
+#| msgid ""
+#| "KLauncher could not be reached via D-Bus, error when calling %1:\n"
+#| "%2\n"
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"केडीई सुरुआतकर्ता D-Bus हुँदै पुग्न सक्दैन, %1 कल गर्दा त्रुटि:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:234
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"पत्र क्लाइन्ट सुरुआत गर्न सकेन:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:235
+#, fuzzy, kde-format
+#| msgid "Could not Launch Mail Client"
+msgid "Could not launch Mail Client"
+msgstr "पत्र क्लाइन्ट सुरुआत गर्न सकेन"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
+#: kdeinit/ktoolinvocation_x11.cpp:328
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"ब्राउजर सुरुआत गर्न सकेन:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
+#: kdeinit/ktoolinvocation_x11.cpp:329
+#, fuzzy, kde-format
+#| msgid "Could not Launch Browser"
+msgid "Could not launch Browser"
+msgstr "ब्राउजर सुरुआत गर्न सकेन"
+
+#: kdeinit/ktoolinvocation_x11.cpp:342
+#, kde-format
+msgid "Unable to determine the default terminal"
+msgstr ""
+
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, fuzzy, kde-format
+#| msgid ""
+#| "Could not launch the mail client:\n"
+#| "\n"
+#| "%1"
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"पत्र क्लाइन्ट सुरुआत गर्न सकेन:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:355
+#, fuzzy, kde-format
+#| msgid "Could not Launch Mail Client"
+msgid "Could not launch Terminal Client"
+msgstr "पत्र क्लाइन्ट सुरुआत गर्न सकेन"
+
+#: plugin/kdbusservicestarter.cpp:68
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1066
+#, kde-format
+msgid "The provided service is not valid"
+msgstr ""
+
+#: services/kservice.cpp:1070
+#, fuzzy, kde-format
+#| msgid ""
+#| "The service '%1' provides no library or the Library key is missing in "
+#| "the .desktop file"
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "लाइब्रेरी वा लाइब्रेरी कुञ्जी उपलब्ध नगर्ने सेवा '%1' डेस्कटप फाइलमा हराइरहेको छ"

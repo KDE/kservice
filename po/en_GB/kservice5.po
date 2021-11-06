@@ -1,0 +1,207 @@
+# translation of kdelibs4.po to British English
+# Malcolm Hunter <malcolm.hunter@gmx.co.uk>, 2002,2003,2004, 2005, 2006, 2007, 2008, 2009.
+# Jonathan Riddell <kde-en-gb@jriddell.org>, 2003.
+# Andrew Coles <andrew_coles@yahoo.co.uk>, 2004, 2005, 2009, 2010.
+# Steve Allewell <steve.allewell@gmail.com>, 2014, 2015, 2021.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-09-19 00:15+0000\n"
+"PO-Revision-Date: 2021-06-12 14:30+0100\n"
+"Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
+"Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 21.04.1\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Andrew Cole, Steve Allewell"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "andrew_coles@yahoo.co.uk, steve.allewell@gmail.com"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:90
+#, kde-format
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:92
+#, kde-format
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Rebuilds the system configuration cache."
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:94
+#, kde-format
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "Copyright 1999-2014 KDE Developers"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95
+#, kde-format
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Author"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Disable incremental update, re-read everything"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr "Check file timestamps (deprecated, no longer having any effect)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:109
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr "Disable checking files (deprecated, no longer having any effect)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Perform menu generation test run only"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Track menu id for debug purposes"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr "Switch QStandardPaths to test mode, for unit tests only"
+
+#: kdeinit/ktoolinvocation.cpp:60
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "Function must be called from the main thread."
+
+#: kdeinit/ktoolinvocation.cpp:101
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+
+#: kdeinit/ktoolinvocation.cpp:104
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:234
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:235
+#, kde-format
+msgid "Could not launch Mail Client"
+msgstr "Could not launch Mail Client"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
+#: kdeinit/ktoolinvocation_x11.cpp:328
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
+#: kdeinit/ktoolinvocation_x11.cpp:329
+#, kde-format
+msgid "Could not launch Browser"
+msgstr "Could not launch Browser"
+
+#: kdeinit/ktoolinvocation_x11.cpp:342
+#, kde-format
+msgid "Unable to determine the default terminal"
+msgstr "Unable to determine the default terminal"
+
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:355
+#, kde-format
+msgid "Could not launch Terminal Client"
+msgstr "Could not launch Terminal Client"
+
+#: plugin/kdbusservicestarter.cpp:68
+#, kde-format
+msgid "No service implementing %1"
+msgstr "No service implementing %1"
+
+#: services/kservice.cpp:1066
+#, kde-format
+msgid "The provided service is not valid"
+msgstr "The provided service is not valid"
+
+#: services/kservice.cpp:1070
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "The service '%1' provides no library or the Library key is missing"
