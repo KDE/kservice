@@ -19,6 +19,7 @@
 class KPluginMetaData;
 class KPluginInfoPrivate;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 90)
 /**
  * @class KPluginInfo kplugininfo.h <KPluginInfo>
  *
@@ -28,6 +29,15 @@ class KPluginInfoPrivate;
  * user to decide whether he wants to use this plugin or not.
  *
  * @author Matthias Kretz <kretz@kde.org>
+ * @deprecated since 5.88, use QPluginLoader or the KPluginFactory::loadFactory/KPluginFactory::instantiatePlugins
+ * methods instead to create objects from the plugins.
+ * For accessing the metadata, use KPluginMetaData instead.
+ * To embed json metadata in your plugin, use K_PLUGIN_CLASS_WITH_JSON(MyClass, "mypluginmetadata.json")
+ *
+ * The reading of the enabled state can be done using the KPluginMetaData::isEnabled method.
+ * Writing the config should be done manually. Consider using KPluginWidget for the configuration
+ * of plugins in the UI.
+ *
  */
 class KSERVICE_EXPORT KPluginInfo
 {
@@ -71,10 +81,11 @@ public:
      * @param resource  If filename is relative, you need to specify a resource type
      * (e.g. "service", "apps"... KStandardDirs). Otherwise,
      * resource isn't used.
+     * @deprecated Since 5.90, see class API docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 90, "see class API docs")
     explicit KPluginInfo(const QString &filename /*, QStandardPaths::StandardLocation resource = ...? GenericDataLocation + services ? Is this used? */);
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 88)
     /**
      * Read plugin info from a KService object.
      *
@@ -99,14 +110,10 @@ public:
        Comment=Description of what the plugin does
        \endverbatim
      * In the first three entries the Icon entry is optional.
-     * @deprecated since 5.0, use (Q|K)PluginLoader instead and build the
-     * metadata into the plugin using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
-     * @deprecated since 5.88, use QPluginLoader/KPluginMetaData instead and build the
-     * metadata into the plugins using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
+     * @deprecated Since 5.90, see class API docs
      */
-    KSERVICE_DEPRECATED_VERSION(5, 88, "see API docs")
+    KSERVICE_DEPRECATED_VERSION(5, 90, "see class API docs")
     explicit KPluginInfo(const KService::Ptr service);
-#endif
 
     /**
      * Read plugin info from arguments passed to the plugin. These arguments should contain
@@ -153,7 +160,9 @@ public:
      * \see K_PLUGIN_CLASS_WITH_JSON()
      * \see KPluginFactory::factory()
      * @since 5.0
+     * @deprecated Since 5.90, see class API docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 90, "see class API docs")
     explicit KPluginInfo(const QVariantList &args, const QString &libraryPath = QString());
 
     /**
@@ -163,7 +172,9 @@ public:
      * @see K_PLUGIN_CLASS_WITH_JSON()
      * @see KPluginLoader
      * @since 5.5
+     * @deprecated Since 5.90, see class API docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 90, "see class API docs")
     explicit KPluginInfo(const KPluginMetaData &md);
 
     /**
@@ -175,7 +186,6 @@ public:
 
     ~KPluginInfo();
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 88)
     /**
      * @return A list of KPluginInfo objects constructed from a list of
      * KService objects. If you get a trader offer of the plugins you want
@@ -183,12 +193,10 @@ public:
      *
      * @param services The list of services to construct the list of KPluginInfo objects from
      * @param config The config group where to save/load whether the plugin is enabled/disabled
-     * @deprecated since 5.88, use QPluginLoader/KPluginMetaData instead and build the
-     * metadata into the plugins using K_PLUGIN_CLASS_WITH_JSON( ..., "mypluginmetadata.json")
+     * @deprecated Since 5.90, see class API docs
      */
-    KSERVICE_DEPRECATED_VERSION(5, 88, "see API docs")
+    KSERVICE_DEPRECATED_VERSION(5, 90, "see class API docs")
     static KPluginInfo::List fromServices(const KService::List &services, const KConfigGroup &config = KConfigGroup());
-#endif
 
     /**
      * @return A list of KPluginInfo objects constructed from a list of
@@ -451,28 +459,36 @@ public:
      * @param info the KPluginInfo object to convert
      * @return a KPluginMetaData object with equivalent meta data.
      * @since 5.3
+     * @deprecated Since 5.90, see class API docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 90, "see class API docs")
     static KPluginMetaData toMetaData(const KPluginInfo &info);
 
     /**
      * @param meta the KPluginMetaData to convert
      * @return a KPluginInfo object with equivalent meta data.
      * @since 5.3
+     * @deprecated Since 5.90, see class API docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 90, "see class API docs")
     static KPluginInfo fromMetaData(const KPluginMetaData &meta);
 
     /**
      * @param list the list of KPluginInfo objects to convert
      * @return a list of KPluginMetaData objects with equivalent meta data.
      * @since 5.3
+     * @deprecated Since 5.90, see class API docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 90, "see class API docs")
     static QVector<KPluginMetaData> toMetaData(const KPluginInfo::List &list);
 
     /**
      * @param list the list of KPluginMetaData objects to convert
      * @return a list of KPluginInfo objects with equivalent meta data.
      * @since 5.3
+     * @deprecated Since 5.90, see class API docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 90, "see class API docs")
     static KPluginInfo::List fromMetaData(const QVector<KPluginMetaData> &list);
 
 private:
@@ -482,4 +498,5 @@ private:
 
 KSERVICE_EXPORT uint qHash(const KPluginInfo &);
 
+#endif
 #endif // KPLUGININFO_H

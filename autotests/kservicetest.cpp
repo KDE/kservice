@@ -882,12 +882,14 @@ void KServiceTest::testOperatorKPluginName()
 }
 #endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
 void KServiceTest::testKPluginInfoQuery()
 {
     KPluginInfo info(KPluginMetaData(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/fakepart2.desktop"}));
 
     QCOMPARE(info.property(QStringLiteral("X-KDE-TestList")).toStringList().size(), 2);
 }
+#endif
 
 void KServiceTest::testCompleteBaseName()
 {

@@ -26,7 +26,9 @@ class ParseTreeBase;
  *         <0 => Error
  */
 int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &, const KService::List &);
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
 int matchConstraintPlugin(const ParseTreeBase *_tree, const KPluginInfo &_info, const KPluginInfo::List &_list);
+#endif
 
 /**
  * @internal
@@ -60,28 +62,34 @@ public:
      */
     explicit ParseContext(const ParseContext *_ctx)
         : service(_ctx->service)
-        , info(_ctx->info)
         , maxima(_ctx->maxima)
         , offers(_ctx->offers)
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
+        , info(_ctx->info)
         , pluginOffers(_ctx->pluginOffers)
+#endif
     {
     }
     ParseContext(const KService::Ptr &_service, const KService::List &_offers, QMap<QString, PreferencesMaxima> &_m)
         : service(_service)
-        , info(KPluginInfo())
         , maxima(_m)
         , offers(_offers)
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
+        , info(KPluginInfo())
         , pluginOffers(KPluginInfo::List())
+#endif
     {
     }
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     ParseContext(const KPluginInfo &_info, const KPluginInfo::List &_offers, QMap<QString, PreferencesMaxima> &_m)
         : service(nullptr)
-        , info(_info)
         , maxima(_m)
         , offers(KService::List())
+        , info(_info)
         , pluginOffers(_offers)
     {
     }
+#endif
 
     bool initMaxima(const QString &_prop);
 
@@ -105,11 +113,13 @@ public:
     Type type;
 
     KService::Ptr service;
-    KPluginInfo info;
 
     QMap<QString, PreferencesMaxima> &maxima;
     KService::List offers;
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
+    KPluginInfo info;
     KPluginInfo::List pluginOffers;
+#endif
 };
 
 /**

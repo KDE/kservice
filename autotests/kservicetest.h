@@ -56,7 +56,9 @@ private Q_SLOTS:
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 86)
     void testOperatorKPluginName();
 #endif
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     void testKPluginInfoQuery();
+#endif
     void testCompleteBaseName();
     void testEntryPathToName();
     void testTraderQueryMustRebuildSycoca();

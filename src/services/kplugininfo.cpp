@@ -8,6 +8,7 @@
 
 #include "kplugininfo.h"
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
 #include "servicesdebug.h"
 #include <QDirIterator>
 #include <QJsonArray>
@@ -785,3 +786,4 @@ QVector<KPluginMetaData> KPluginInfo::toMetaData(const KPluginInfo::List &list)
 }
 
 #undef KPLUGININFO_ISVALID_ASSERTION
+#endif
