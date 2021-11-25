@@ -338,7 +338,6 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
     // reintroduce the separation between MimeType= and X-KDE-ServiceTypes=
     // we could do this by modifying KService and KSyCoCa, but as this is only compatibility
     // code we just query QMimeDatabase whether a ServiceType is a valid MIME type.
-    // TODO: should we also make sure invalid MimeType= entries end up in KPluginMetaData::mimeTypes()?
     const QStringList services = service->serviceTypes();
     if (!services.isEmpty()) {
         QMimeDatabase db;
@@ -347,7 +346,10 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
         QStringList newServiceTypes;
         newServiceTypes.reserve(services.size());
         for (const QString &s : services) {
-            if (db.mimeTypeForName(s).isValid()) {
+            // If we have a valid mime type of a wildcard, we know it is a mime type and not a service type
+            // this is for example required in the thumbnailers.
+            // Also the conversion code in kcoreaddons does not check the validity.
+            if (db.mimeTypeForName(s).isValid() || s.contains(QLatin1Char('*'))) {
                 mimeTypes << s;
             } else {
                 newServiceTypes << s;
