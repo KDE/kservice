@@ -1,0 +1,214 @@
+# Translation of kservice5 to Norwegian Bokmål
+#
+# Knut Yrvin <knut.yrvin@gmail.com>, 2002, 2003, 2004, 2005.
+# Bjørn Steensrud <bjornst@skogkatt.homelinux.org>, 2002, 2003, 2004, 2005, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014.
+# Eskild Hustvedt <zerodogg@skolelinux.no>, 2004, 2005.
+# Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 2004, 2005.
+# Axel Bojer <fri_programvare@bojer.no>, 2005, 2006.
+# Nils Kristian Tomren <slx@nilsk.net>, 2005, 2007.
+# Øyvind A. Holm <sunny@sunbase.org>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-09-19 00:15+0000\n"
+"PO-Revision-Date: 2014-11-05 13:40+0100\n"
+"Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
+"Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
+"Language: nb\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Environment: kde\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Knut Yrvin,Axel Bojer,Bjørn Steensrud"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"knut.yrvin@gmail.com,fri_programvare@bojer.no,bjornst@skogkatt.homelinux.org"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:90
+#, kde-format
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:92
+#, kde-format
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Bygger mellomlageret for systemoppsettet på nytt."
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:94
+#, kde-format
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "© 1999–2014 KDE-utviklerne"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95
+#, kde-format
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Forfatter"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Slå av stegvis oppdatering, les alt på nytt"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:109
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Bare prøvekjør meny-opprettelse"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Spor på meny-id-en for feilsøking"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr "Skru over QStandardPaths til testmodus, bare for enhetstester"
+
+#: kdeinit/ktoolinvocation.cpp:60
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "Funksjonen må kalles fra hovedtråden."
+
+#: kdeinit/ktoolinvocation.cpp:101
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"Feil under oppstart av %1. Enten kjører ikke KLauncher lenger, eller så "
+"klarte den ikke å starte programmet."
+
+#: kdeinit/ktoolinvocation.cpp:104
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher kunne ikke nås via D-Bus, feil ved kall til %1:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:234
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Klarte ikke starte e-postprogrammet:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:235
+#, kde-format
+msgid "Could not launch Mail Client"
+msgstr "Klarte ikke starte e-postklienten"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
+#: kdeinit/ktoolinvocation_x11.cpp:328
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Klarte ikke å starte nettleseren:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
+#: kdeinit/ktoolinvocation_x11.cpp:329
+#, kde-format
+msgid "Could not launch Browser"
+msgstr "Klarte ikke å starte nettleseren"
+
+#: kdeinit/ktoolinvocation_x11.cpp:342
+#, kde-format
+msgid "Unable to determine the default terminal"
+msgstr ""
+
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Klarte ikke starte terminalklienten:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:355
+#, kde-format
+msgid "Could not launch Terminal Client"
+msgstr "Klarte ikke starte terminalklienten"
+
+#: plugin/kdbusservicestarter.cpp:68
+#, kde-format
+msgid "No service implementing %1"
+msgstr "Ingen tjeneste som implementerer %1"
+
+#: services/kservice.cpp:1066
+#, kde-format
+msgid "The provided service is not valid"
+msgstr "Den oppgitte tjenesten er ikke gyldig"
+
+#: services/kservice.cpp:1070
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr ""
+"Tjenesten «%1» tilbyr ikke noe bibliotek, eller Library-nøkkelen mangler"

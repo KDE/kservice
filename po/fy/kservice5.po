@@ -1,0 +1,224 @@
+# translation of kdelibs4.po to Nederlands
+# translation of kdelibs4.po to
+# KTranslator Generated File
+# Fryske oersetting fan kdelibs.
+# Copyright (C) 2000,2001,2002,2003 KDE e.v..
+# let op! het bestand bevat ter hoogte van string 2470
+# een gesplitste zinnen die mbv. %1 of %2 weer worden samengevoegd!!
+# Bauke Nicolai <mildaam@hotmail.com>, 2002.
+# KDE-oersetgroep Frysk <frysk@kde.nl>, 2000, 2001, 2002,2003.
+# Rinse de Vries <rinsedevries@kde.nl>, 2004, 2005, 2006, 2007.
+# Berend ytsma <berendy@bigfoot.com>, 2004.
+# Rinse de Vries <RinseDeVries@home.nl>, 2006, 2008.
+# Berend Ytsma <berendy@gmail.com>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-09-19 00:15+0000\n"
+"PO-Revision-Date: 2010-07-22 09:48+0100\n"
+"Last-Translator: Berend Ytsma <berendy@gmail.com>\n"
+"Language-Team: nl <kde-i18n-doc@lists.kde.org>\n"
+"Language: fy\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KAider 0.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Berend Ytsma"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "Berendy@gmail.com"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:90
+#, fuzzy, kde-format
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:92
+#, fuzzy, kde-format
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "Dwaande mei it wer opbouwen fan systeemkonfiguraasjecache."
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:94
+#, fuzzy, kde-format
+#| msgid "(c) 1999-2002 KDE Developers"
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "(c) 1999-2002 KDE Untwikkelders"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95
+#, fuzzy, kde-format
+#| msgid "David Faure"
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
+#, fuzzy, kde-format
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "Skriuwer"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:96
+#, fuzzy, kde-format
+#| msgid "Waldo Bastian"
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
+#, fuzzy, kde-format
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr "Kontrolearje fan triemmen útsette (gefaarlik)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#, fuzzy, kde-format
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "Bywurkje yn meardere stappen útsette, alles op 'e nij lêze"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:109
+#, fuzzy, kde-format
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr "Kontrolearje fan triemmen útsette (gefaarlik)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#, fuzzy, kde-format
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "Fier allinnich it testen fan menugeneraasje út"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#, fuzzy, kde-format
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "Menu-id fêstlizze foar it doel fan debuggen"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:60
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "De funksje moat fanút de haadtried oanroppen wurde."
+
+#: kdeinit/ktoolinvocation.cpp:101
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:104
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"KLauncher wie net fia D-Bus te berikken, flater by it oanroppen fan %1:\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:234
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"Koe it e-postprogramma net starte:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:235
+#, kde-format
+msgid "Could not launch Mail Client"
+msgstr "Koe it e-postprogramma net starte"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
+#: kdeinit/ktoolinvocation_x11.cpp:328
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"Koe de blêder net starte:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
+#: kdeinit/ktoolinvocation_x11.cpp:329
+#, kde-format
+msgid "Could not launch Browser"
+msgstr "Koe de blêder net starte"
+
+#: kdeinit/ktoolinvocation_x11.cpp:342
+#, kde-format
+msgid "Unable to determine the default terminal"
+msgstr ""
+
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"Koe it e-postprogramma net starte:\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:355
+#, kde-format
+msgid "Could not launch Terminal Client"
+msgstr "Koe it terminal kliïnt net starte"
+
+#: plugin/kdbusservicestarter.cpp:68
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1066
+#, kde-format
+msgid "The provided service is not valid"
+msgstr "De ferskafte tsjinst is net jildich"
+
+#: services/kservice.cpp:1070
+#, fuzzy, kde-format
+#| msgid ""
+#| "The service '%1' provides no library or the Library key is missing in "
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "De tsjnst '%1' ferskaft gjin biblioteek of de biblioteekkaai mist yn"

@@ -1,0 +1,215 @@
+# translation of kdelibs4.po to Khmer
+# Khoem Sokhem <khoemsokhem@khmeros.info>, 2008, 2009, 2010, 2011, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: kdelibs4\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2021-09-19 00:15+0000\n"
+"PO-Revision-Date: 2012-06-27 10:04+0700\n"
+"Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
+"Language-Team: Khmer\n"
+"Language: km\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: KBabel 1.11.4\n"
+"X-Language: km-KH\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr " ខឹម សុខែម, ម៉ន ម៉េត, សេង សុត្ថា​​, ចាន់ សម្បត្តិរតនៈ, សុខ សុភា"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+"khoemsokhem@khmeros.info,​​mornmet@khmeros.info,sutha@khmeros.info,"
+"ratanak@khmeros.info,sophea@khmeros.info"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:90
+#, fuzzy, kde-format
+#| msgid "KBuildSycoca"
+msgctxt "application name"
+msgid "KBuildSycoca"
+msgstr "KBuildSycoca"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:92
+#, fuzzy, kde-format
+#| msgid "Rebuilds the system configuration cache."
+msgctxt "application description"
+msgid "Rebuilds the system configuration cache."
+msgstr "ស្ថាបនា​ឃ្លាំង​សម្ងាត់​នៃ​ការកំណត់​រចនាសម្ព័ន្ធ​របស់​ប្រព័ន្ធ​ឡើង​វិញ ។"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:94
+#, fuzzy, kde-format
+#| msgid "(c) 1999-2002 KDE Developers"
+msgctxt "@info:credit"
+msgid "Copyright 1999-2014 KDE Developers"
+msgstr "រក្សាសិទ្ធិ​ឆ្នាំ ១៩៩៩-២០០២ ដោយ​អ្នក​អភិវឌ្ឍន៍ KDE"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95
+#, fuzzy, kde-format
+#| msgid "David Faure"
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
+#, fuzzy, kde-format
+#| msgid "Author"
+msgctxt "@info:credit"
+msgid "Author"
+msgstr "អ្នក​និពន្ធ"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:96
+#, fuzzy, kde-format
+#| msgid "Waldo Bastian"
+msgctxt "@info:credit"
+msgid "Waldo Bastian"
+msgstr "Waldo Bastian"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
+#, fuzzy, kde-format
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid ""
+"Do not signal applications to update (deprecated, no longer having any "
+"effect)"
+msgstr "បិទ​ការពិនិត្យ​ឯកសារ (គ្រោះថ្នាក់)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#, fuzzy, kde-format
+#| msgid "Disable incremental update, re-read everything"
+msgctxt "@info:shell command-line option"
+msgid "Disable incremental update, re-read everything"
+msgstr "បិទ​ការ​ធ្វើបច្ចុប្បន្នភាព​​បន្ថែម អាន​អ្វី​ៗ​ឡើង​វិញ"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Check file timestamps (deprecated, no longer having any effect)"
+msgstr ""
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:109
+#, fuzzy, kde-format
+#| msgid "Disable checking files (dangerous)"
+msgctxt "@info:shell command-line option"
+msgid "Disable checking files (deprecated, no longer having any effect)"
+msgstr "បិទ​ការពិនិត្យ​ឯកសារ (គ្រោះថ្នាក់)"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#, fuzzy, kde-format
+#| msgid "Perform menu generation test run only"
+msgctxt "@info:shell command-line option"
+msgid "Perform menu generation test run only"
+msgstr "ធ្វើ​តែ​ការ​រត់​សាកល្បង​ក្នុង​ការ​បង្កើត​ម៉ឺនុយ​ប៉ុណ្ណោះ"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#, fuzzy, kde-format
+#| msgid "Track menu id for debug purposes"
+msgctxt "@info:shell command-line option"
+msgid "Track menu id for debug purposes"
+msgstr "តាមដាន​លេខ​សម្គាល់​ម៉ឺនុយ ដើម្បី​មើល​គោលបំណង​បំបាត់កំហុស"
+
+#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#, kde-format
+msgctxt "@info:shell command-line option"
+msgid "Switch QStandardPaths to test mode, for unit tests only"
+msgstr ""
+
+#: kdeinit/ktoolinvocation.cpp:60
+#, kde-format
+msgid "Function must be called from the main thread."
+msgstr "មុខងារ​ត្រូវ​តែ​ហៅ​ចេញ​មកពី​ខ្សែស្រឡាយ​មេ ។"
+
+#: kdeinit/ktoolinvocation.cpp:101
+#, kde-format
+msgid ""
+"Error launching %1. Either KLauncher is not running anymore, or it failed to "
+"start the application."
+msgstr ""
+"កំហុស​ក្នុងការ​ចាប់ផ្ដើម %1 ។ KLauncher មិន​កំពុង​រត់​ទៀត​ទេ ឬ​វា​បានបរាជ័យ​ក្នុងការ​ចាប់ផ្ដើម​កម្មវិធី ។"
+
+#: kdeinit/ktoolinvocation.cpp:104
+#, kde-format
+msgid ""
+"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+"%2\n"
+msgstr ""
+"មិនអាច​បើក KLauncher តាម​រយៈ D-Bus បានទេ មាន​កំហុស​នៅពេល​ហៅ %1 ៖\n"
+"%2\n"
+
+#: kdeinit/ktoolinvocation_x11.cpp:234
+#, kde-format
+msgid ""
+"Could not launch the mail client:\n"
+"\n"
+"%1"
+msgstr ""
+"មិន​អាច​បើក​កម្មវិធី​អ៊ីមែល​បាន​ឡើយ ៖\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:235
+#, kde-format
+msgid "Could not launch Mail Client"
+msgstr "មិនអាច​ចាប់ផ្ដើម​​កម្មវិធី​អ៊ីមែល​បាន​ទេ"
+
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
+#. i18n("Could not launch %1:\n\n%2", exe, error),
+#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
+#: kdeinit/ktoolinvocation_x11.cpp:328
+#, kde-format
+msgid ""
+"Could not launch the browser:\n"
+"\n"
+"%1"
+msgstr ""
+"មិន​អាច​បើក​កម្មវិធី​រុករក​បាន​ឡើយ ៖\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
+#: kdeinit/ktoolinvocation_x11.cpp:329
+#, kde-format
+msgid "Could not launch Browser"
+msgstr "មិនអាច​ចាប់ផ្ដើម​កម្មវិធី​រុករក​បាន​ទេ"
+
+#: kdeinit/ktoolinvocation_x11.cpp:342
+#, kde-format
+msgid "Unable to determine the default terminal"
+msgstr ""
+
+#: kdeinit/ktoolinvocation_x11.cpp:354
+#, kde-format
+msgid ""
+"Could not launch the terminal client:\n"
+"\n"
+"%1"
+msgstr ""
+"មិន​អាច​បើក​កម្មវិធី​អ៊ីមែល​បាន​ឡើយ ៖\n"
+"\n"
+"%1"
+
+#: kdeinit/ktoolinvocation_x11.cpp:355
+#, kde-format
+msgid "Could not launch Terminal Client"
+msgstr "មិនអាច​ចាប់ផ្ដើម​​ម៉ាស៊ីន​ស្ថានីយ​បាន​ទេ"
+
+#: plugin/kdbusservicestarter.cpp:68
+#, kde-format
+msgid "No service implementing %1"
+msgstr ""
+
+#: services/kservice.cpp:1066
+#, kde-format
+msgid "The provided service is not valid"
+msgstr "សេវា​ដែល​បានផ្ដល់​មិន​ត្រឹមត្រូវ​ទេ"
+
+#: services/kservice.cpp:1070
+#, kde-format
+msgid "The service '%1' provides no library or the Library key is missing"
+msgstr "សេវា '%1' មិន​បានផ្ដល់​បណ្ណាល័យ​ ឬ​សោ​បណ្ណាល័យ​បាត់​ទេ"
