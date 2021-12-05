@@ -224,7 +224,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         m_DBUSStartusType = KService::DBusNone;
     }
 
-    m_strDesktopEntryName = _name.toLower();
+    m_strDesktopEntryName = _name;
 
     // Exec lines from the KCMs always have the pattern "<program> m_strDesktopEntryName", see https://phabricator.kde.org/T13729
     const static bool hasSystemsettings = !QStandardPaths::findExecutable(QStringLiteral("systemsettings5")).isEmpty();
