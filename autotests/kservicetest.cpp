@@ -828,12 +828,21 @@ void KServiceTest::testReaderThreads()
 {
     QThreadPool::globalInstance()->setMaxThreadCount(10);
     QFutureSynchronizer<void> sync;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
+    sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
+    sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
+    sync.addFuture(QtConcurrent::run(&KServiceTest::testHasServiceType1, this));
+    sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
+    sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
+#else
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testHasServiceType1));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
+#endif
     sync.waitForFinished();
     QThreadPool::globalInstance()->setMaxThreadCount(1); // delete those threads
 }
@@ -842,6 +851,11 @@ void KServiceTest::testThreads()
 {
     QThreadPool::globalInstance()->setMaxThreadCount(10);
     QFutureSynchronizer<void> sync;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
+    sync.addFuture(QtConcurrent::run(&KServiceTest::testHasServiceType1, this));
+    sync.addFuture(QtConcurrent::run(&KServiceTest::testDeletingService, this));
+#else
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testHasServiceType1));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testDeletingService));
@@ -849,6 +863,7 @@ void KServiceTest::testThreads()
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testTraderConstraints));
 #endif
+#endif // QT_VERSION
 
     // process events (DBus, inotify...), until we get all expected signals
     QTRY_COMPARE_WITH_TIMEOUT(m_sycocaUpdateDone.loadRelaxed(), 1, 15000); // not using a bool, just to silence helgrind

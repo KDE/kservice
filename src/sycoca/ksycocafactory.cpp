@@ -14,8 +14,8 @@
 #include "sycocadebug.h"
 
 #include <QDebug>
-
 #include <QHash>
+#include <QIODevice>
 #include <QThread>
 
 class KSycocaFactoryPrivate

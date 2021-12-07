@@ -323,8 +323,13 @@ void KApplicationTraderTest::testThreads()
     QThreadPool::globalInstance()->setMaxThreadCount(10);
     QFutureSynchronizer<void> sync;
     // Can't use data-driven tests here, QTestLib isn't threadsafe.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    sync.addFuture(QtConcurrent::run(&KApplicationTraderTest::testQueryByMimeType, this));
+    sync.addFuture(QtConcurrent::run(&KApplicationTraderTest::testQueryByMimeType, this));
+#else
     sync.addFuture(QtConcurrent::run(this, &KApplicationTraderTest::testQueryByMimeType));
     sync.addFuture(QtConcurrent::run(this, &KApplicationTraderTest::testQueryByMimeType));
+#endif
     sync.waitForFinished();
 }
 

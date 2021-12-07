@@ -2,12 +2,12 @@ include(ECMAddTests)
 
 ########### unittests ###############
 
-find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Concurrent Test)
+find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} CONFIG REQUIRED Concurrent Test)
 
 macro(KSERVICE_UNIT_TESTS)
   foreach(_testname ${ARGN})
     ecm_add_test(${_testname}.cpp TEST_NAME ${_testname}
-        LINK_LIBRARIES KF5::Service Qt5::Test Qt5::Concurrent Qt5::Xml)
+        LINK_LIBRARIES KF5::Service Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Concurrent Qt${QT_MAJOR_VERSION}::Xml)
     target_compile_definitions(${_testname} PRIVATE -DKBUILDSYCOCAEXE=\"$<TARGET_FILE:kbuildsycoca5>\")
   endforeach()
 endmacro(KSERVICE_UNIT_TESTS)
@@ -76,5 +76,5 @@ ecm_qt_declare_logging_category(kmimeassociationstest_SRCS
 )
 
 ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
-             LINK_LIBRARIES KF5::Service Qt5::Test Qt5::Xml)
+             LINK_LIBRARIES KF5::Service Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Xml)
 

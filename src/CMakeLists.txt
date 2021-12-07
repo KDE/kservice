@@ -61,7 +61,7 @@ if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
     endif()
 endif()
 
-if (TARGET Qt5::DBus)
+if (TARGET Qt${QT_MAJOR_VERSION}::DBus)
     target_sources(KF5Service PRIVATE
         plugin/kdbusservicestarter.cpp
     )
@@ -105,7 +105,7 @@ set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/yacc.h PROPERTY SKIP_AUTOMOC TRU
 # kservice cannot depend on kinit (because kinit->kio->kservice), so we need a copy of org.kde.KLauncher.xml here.
 # And I don't want to have it here as a source file (who wants to edit dbus xml by hand), so it can be
 # generated from klauncher's implementation header.
-if (TARGET Qt5::DBus)
+if (TARGET Qt${QT_MAJOR_VERSION}::DBus)
     set(kservice_dbus_SRCS)
     qt_add_dbus_interface(kservice_dbus_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
     target_sources(KF5Service PRIVATE ${kservice_dbus_SRCS})
@@ -134,7 +134,7 @@ target_include_directories(KF5Service
     PUBLIC
         "$<BUILD_INTERFACE:${kservice_includes}>"
     INTERFACE
-        "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KService>"
+        "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KService>"
 )
 
 target_link_libraries(KF5Service
@@ -143,7 +143,7 @@ target_link_libraries(KF5Service
     KF5::CoreAddons   # KShell KPluginLoader
   PRIVATE
     KF5::I18n
-    Qt5::Xml          # (for vfolder menu) QDomDocument
+    Qt${QT_MAJOR_VERSION}::Xml  # (for vfolder menu) QDomDocument
 )
 if (TARGET KF5::DBusAddons)
   target_link_libraries(KF5Service PRIVATE KF5::DBusAddons)  # KDEInitInterface
@@ -189,7 +189,7 @@ ecm_generate_headers(KService_HEADERS
 install(FILES
    services/kplugininfo.desktop # TODO move to qrc too, like application.desktop?
    services/application.desktop # KF6: TODO: stop installing this file, it's now bundled into the qrc
-   DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR}
+   DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR}
 )
 
 # Local copy for the unittests
@@ -197,7 +197,7 @@ file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5)
 add_custom_command(TARGET KF5Service PRE_BUILD COMMAND
     ${CMAKE_COMMAND} -E copy
     ${CMAKE_CURRENT_SOURCE_DIR}/services/kplugininfo.desktop
-    ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5) # not using KDE_INSTALL_KSERVICETYPES5DIR because QStandardPaths wants "data" on Windows
+    ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5) # not using KDE_INSTALL_KSERVICETYPESDIR because QStandardPaths wants "data" on Windows
 
 if (WIN32)
 install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_DATAROOTDIR}/xdg/menus  RENAME ${APPLICATIONS_MENU_NAME} )
@@ -217,7 +217,7 @@ install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF5_INSTALL_TARGETS_DEFAUL
 install(FILES
    "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
    ${KService_HEADERS}
-   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF5}/KService COMPONENT Devel
+   DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KService COMPONENT Devel
 )
 
 ecm_qt_install_logging_categories(
@@ -257,5 +257,5 @@ endif()
 add_subdirectory(kbuildsycoca)
 
 include(ECMGeneratePriFile)
-ecm_generate_pri_file(BASE_NAME KService LIB_NAME KF5Service DEPS "KConfigCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KService)
+ecm_generate_pri_file(BASE_NAME KService LIB_NAME KF5Service DEPS "KConfigCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KService)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})

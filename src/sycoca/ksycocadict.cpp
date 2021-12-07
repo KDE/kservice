@@ -12,6 +12,7 @@
 #include <kservice.h>
 
 #include <QBitArray>
+#include <QIODevice>
 #include <QVector>
 
 namespace

@@ -14,6 +14,6 @@ target_link_libraries(kbuildsycoca5
    KF5::Service
    KF5::CoreAddons # KAboutData
    KF5::I18n
-   Qt5::Xml
+   Qt${QT_MAJOR_VERSION}::Xml
 )
 install(TARGETS kbuildsycoca5 ${KF5_INSTALL_TARGETS_DEFAULT_ARGS} )
