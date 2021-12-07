@@ -113,7 +113,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         return;
     }
 
-    const QStandardPaths::StandardLocation resource = config->resource();
+    const QStandardPaths::StandardLocation resource = config->locationType();
 
     if ((m_strType == QLatin1String("Application")) && (resource != QStandardPaths::ApplicationsLocation) && !absPath) {
         qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but is located under \""
