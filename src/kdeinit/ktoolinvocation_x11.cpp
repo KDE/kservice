@@ -105,6 +105,7 @@ static QStringList splitEmailAddressList(const QString &aStr)
     return list;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 89)
 void KToolInvocation::invokeMailer(const QString &_to,
                                    const QString &_cc,
                                    const QString &_bcc,
@@ -235,6 +236,7 @@ void KToolInvocation::invokeMailer(const QString &_to,
                           i18n("Could not launch Mail Client"));
     }
 }
+#endif
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
 void KToolInvocation::invokeBrowser(const QString &url, const QByteArray &startup_id)
