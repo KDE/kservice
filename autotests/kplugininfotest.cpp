@@ -163,7 +163,9 @@ private Q_SLOTS:
 #endif
         // Now check that converting to KPluginMetaData has the separation
         KPluginMetaData asMetaData = info.toMetaData();
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 89)
         QCOMPARE(asMetaData.serviceTypes(), QStringList() << QStringLiteral("KService/NSA"));
+#endif
         QCOMPARE(asMetaData.mimeTypes(), QStringList() << QStringLiteral("text/plain") << QStringLiteral("image/png"));
 
         QCOMPARE(info.version(), QStringLiteral("1.0"));
@@ -207,7 +209,9 @@ private Q_SLOTS:
         QCOMPARE(meta.iconName(), QStringLiteral("preferences-system-time"));
         QCOMPARE(meta.isEnabledByDefault(), true);
         QCOMPARE(meta.license(), QStringLiteral("LGPL"));
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 89)
         QCOMPARE(meta.serviceTypes(), QStringList() << QStringLiteral("KService/NSA"));
+#endif
         QCOMPARE(meta.formFactors(), QStringList() << QStringLiteral("tablet") << QStringLiteral("handset"));
         QCOMPARE(meta.version(), QStringLiteral("1.0"));
         QCOMPARE(meta.website(), QStringLiteral("http://kde.org/"));
