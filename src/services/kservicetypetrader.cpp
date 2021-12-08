@@ -8,6 +8,8 @@
 
 #include "kservicetypetrader.h"
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
+
 #include "kservicefactory_p.h"
 #include "kservicetype.h"
 #include "kservicetypefactory_p.h"
@@ -159,3 +161,5 @@ KService::Ptr KServiceTypeTrader::preferredService(const QString &serviceType) c
     // qDebug() << "No offers, or none allowed as default";
     return KService::Ptr();
 }
+
+#endif

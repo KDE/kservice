@@ -10,6 +10,9 @@
 #define __kservicetypetrader_h__
 
 #include "kservice.h"
+
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 90)
+
 class KServiceOffer;
 typedef QList<KServiceOffer> KServiceOfferList;
 class KServiceTypeTraderPrivate;
@@ -60,6 +63,8 @@ class KServiceTypeTraderPrivate;
  * greater than 4.
  *
  * @see KMimeTypeTrader, KService
+ * @deprecated Since 5.90, use @p KPluginMetaData::findPlugins for querying plugins.
+ * Desktop files should be loaded from a specific folder instead, see @p KFileUtils::findAllUniqueFiles.
  */
 class KSERVICE_EXPORT KServiceTypeTrader
 {
@@ -119,7 +124,9 @@ public:
      * constructors are protected.
      *
      * @return Static KServiceTypeTrader instance
+     * @deprecated Since 5.90, see class API docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 90, "See class API docs")
     static KServiceTypeTrader *self();
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
@@ -226,4 +233,5 @@ private:
     friend class KServiceTypeTraderSingleton;
 };
 
+#endif
 #endif

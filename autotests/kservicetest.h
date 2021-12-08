@@ -34,15 +34,19 @@ private Q_SLOTS:
     void testProperty();
     void testAllServiceTypes();
     void testAllServices();
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     void testServiceTypeTraderForReadOnlyPart();
     void testTraderConstraints();
+#endif
     void testSubseqConstraints();
     void testHasServiceType1();
     void testHasServiceType2();
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
     void testWriteServiceTypeProfile();
 #endif
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     void testDefaultOffers();
+#endif
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
     void testDeleteServiceTypeProfile();
 #endif
@@ -61,7 +65,10 @@ private Q_SLOTS:
 #endif
     void testCompleteBaseName();
     void testEntryPathToName();
+
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     void testTraderQueryMustRebuildSycoca();
+#endif
 
 private:
     void createFakeService(const QString &filenameSuffix, const QString &serviceType);

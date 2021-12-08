@@ -490,6 +490,7 @@ void KServiceTest::testByStorageId()
     QCOMPARE(KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp"))->menuId(), QStringLiteral("org.kde.faketestapp.desktop"));
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
 void KServiceTest::testServiceTypeTraderForReadOnlyPart()
 {
     if (!KSycoca::isAvailable()) {
@@ -537,10 +538,12 @@ void KServiceTest::testServiceTypeTraderForReadOnlyPart()
         lastPreference = preference;
     }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     // Now look for any FakePluginType
     offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"));
     QVERIFY(offerListHasService(offers, QStringLiteral("fakeservice.desktop")));
     QVERIFY(offerListHasService(offers, QStringLiteral("faketextplugin.desktop")));
+#endif
 }
 
 void KServiceTest::testTraderConstraints()
@@ -600,6 +603,7 @@ void KServiceTest::testTraderConstraints()
     offers = KServiceTypeTrader::self()->query(QStringLiteral("FakePluginType"), QStringLiteral("A == B OR C == D AND OR Foo == 'Parse Error'"));
     QVERIFY(offers.isEmpty());
 }
+#endif
 
 void KServiceTest::testSubseqConstraints()
 {
@@ -693,6 +697,7 @@ void KServiceTest::testWriteServiceTypeProfile()
 }
 #endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
 void KServiceTest::testDefaultOffers()
 {
     // Now that we have a user-profile, let's see if defaultOffers indeed gives us the default ordering.
@@ -706,6 +711,7 @@ void KServiceTest::testDefaultOffers()
     }
     QCOMPARE(offers[0]->entryPath(), m_firstOffer);
 }
+#endif
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
 void KServiceTest::testDeleteServiceTypeProfile()
@@ -839,7 +845,11 @@ void KServiceTest::testThreads()
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testHasServiceType1));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testDeletingService));
+
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testTraderConstraints));
+#endif
+
     // process events (DBus, inotify...), until we get all expected signals
     QTRY_COMPARE_WITH_TIMEOUT(m_sycocaUpdateDone.loadRelaxed(), 1, 15000); // not using a bool, just to silence helgrind
     qDebug() << "Joining all threads";
@@ -918,6 +928,7 @@ void KServiceTest::testKPluginMetaData()
 }
 #endif
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
 void KServiceTest::testTraderQueryMustRebuildSycoca()
 {
     QVERIFY(!KServiceTypeProfile::hasProfile(QStringLiteral("FakeBasePart")));
@@ -926,3 +937,4 @@ void KServiceTest::testTraderQueryMustRebuildSycoca()
     KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("FakeBasePart"));
     QVERIFY(offers.count() > 0);
 }
+#endif

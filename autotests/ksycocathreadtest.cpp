@@ -124,12 +124,14 @@ public Q_SLOTS:
             }
         }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
         KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("KPluginInfo"));
         Q_ASSERT(offerListHasService(offers, QStringLiteral("threadtextplugin.desktop")));
 
         offers = KServiceTypeTrader::self()->query(QStringLiteral("KPluginInfo"), QStringLiteral("Library == 'threadtextplugin'"));
         Q_ASSERT(offers.count() == 1);
         QVERIFY(offerListHasService(offers, QStringLiteral("threadtextplugin.desktop")));
+#endif
 
         KServiceGroup::Ptr root = KServiceGroup::root();
         Q_ASSERT(root);
