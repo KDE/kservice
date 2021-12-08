@@ -29,6 +29,8 @@ class KServiceTypePrivate;
  * In order to discover services of a given type, using KServiceTypeTrader.
  * Service types are stored as desktop files in $KDEDIR/share/servicetypes.
  * @see KService, KServiceTypeTrader
+ * @deprecated Since  5.90, this class is an implementation detail of KService.
+ * Use @ref KService or @ref KApplicationTrader instead.
  */
 class KSERVICE_EXPORT KServiceType : public KSycocaEntry // TODO KDE5: inherit kshared, but move KSycocaEntry to KServiceTypePrivate
 {
@@ -45,7 +47,9 @@ public:
     /**
      * Construct a service type and take all information from a desktop file.
      * @param config the configuration file
+     * @deprecated Since 5.90, see class API docs
      */
+    KSERVICE_DEPRECATED_VERSION(5, 90, "See class API docs")
     explicit KServiceType(KDesktopFile *config);
 
     ~KServiceType() override;
