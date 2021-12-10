@@ -113,18 +113,18 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         return;
     }
 
-    const QStandardPaths::StandardLocation resource = config->resource();
+    const QStandardPaths::StandardLocation locationType = config->locationType();
 
-    if ((m_strType == QLatin1String("Application")) && (resource != QStandardPaths::ApplicationsLocation) && !absPath) {
+    if ((m_strType == QLatin1String("Application")) && (locationType != QStandardPaths::ApplicationsLocation) && !absPath) {
         qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but is located under \""
-                            << QStandardPaths::displayName(resource) << "\" instead of \"Applications\"";
+                            << QStandardPaths::displayName(locationType) << "\" instead of \"Applications\"";
         m_bValid = false;
         return;
     }
 
-    if ((m_strType == QLatin1String("Service")) && (resource != QStandardPaths::GenericDataLocation) && !absPath) {
+    if ((m_strType == QLatin1String("Service")) && (locationType != QStandardPaths::GenericDataLocation) && !absPath) {
         qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but is located under \""
-                            << QStandardPaths::displayName(resource) << "\" instead of \"Shared Data\"/kservices5";
+                            << QStandardPaths::displayName(locationType) << "\" instead of \"Shared Data\"/kservices5";
         m_bValid = false;
         return;
     }
