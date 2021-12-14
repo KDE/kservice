@@ -564,7 +564,7 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
         // All others
         // For instance properties defined as StringList, like MimeTypes.
         // XXX This API is accessible only through a friend declaration.
-        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it->toString().toUtf8(), t);
+        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it->toString().toUtf8(), QVariant(t));
     }
 }
 
