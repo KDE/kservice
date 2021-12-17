@@ -63,8 +63,11 @@ class KServiceTypeTraderPrivate;
  * greater than 4.
  *
  * @see KMimeTypeTrader, KService
- * @deprecated Since 5.90, use @p KPluginMetaData::findPlugins for querying plugins.
- * Desktop files should be loaded from a specific folder instead, see @p KFileUtils::findAllUniqueFiles.
+ * @deprecated Since 5.90.
+ * For querying plugins use @p KPluginMetaData::findPlugins.
+ * For querying applications use @p KApplicationTrader.
+ * For querying KParts use @p KParts::PartLoader.
+ * For querying desktop files use @p KFileUtils::findAllUniqueFiles and @p KDesktopFile.
  */
 class KSERVICE_EXPORT KServiceTypeTrader
 {
