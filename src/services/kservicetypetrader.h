@@ -133,6 +133,7 @@ public:
     static KServiceTypeTrader *self();
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
+#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * Get a plugin from a trader query
      *
@@ -166,8 +167,10 @@ public:
         return createInstanceFromQuery<T>(serviceType, nullptr, parent, constraint, args, error);
     }
 #endif
+#endif
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
+#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * Get a plugin from a trader query
      *
@@ -212,6 +215,7 @@ public:
         }
         return nullptr;
     }
+#endif
 #endif
 
     /**
