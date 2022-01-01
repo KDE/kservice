@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Swedish "INCLUDE"
+><!-- change language only here -->
+]>
+
+<refentry lang="&language;">
+
+<refentryinfo>
+<title
+>&kde;-ramverk: KService</title>
+<author
+><firstname
+>Scarlett</firstname
+> <surname
+>Clark</surname
+> <contrib
+>Skrev originaldokumentationen.</contrib>
+<affiliation>
+<address
+><email
+>scarlett@scarlettgatelyclark.com</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alex</firstname
+> <surname
+>Merry</surname
+> <contrib
+>Redigerade dokumentationen.</contrib>
+<affiliation>
+<address
+><email
+>alexmerry@kde.org</email
+></address>
+</affiliation>
+</author>
+
+<date
+>2014-04-02</date>
+<releaseinfo
+>Ramverk 5.0</releaseinfo>
+<productname
+>KDE Ramverk</productname>
+
+</refentryinfo>
+
+
+<refmeta>
+<refentrytitle
+><command
+>desktoptojson</command
+></refentrytitle>
+<manvolnum
+>8</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>desktoptojson</command
+></refname>
+<refpurpose
+>Konverterar en <filename class="extension"
+>.desktop</filename
+>-fil till en <filename class="extension"
+>.json</filename
+>-fil.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<title
+>Översikt</title>
+
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <arg choice="plain"
+>--input <replaceable
+>SKRIVBORDSFIL</replaceable
+></arg
+> <arg choice="plain"
+>--output <replaceable
+>JSON-FIL</replaceable
+></arg
+> </cmdsynopsis>
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <group choice="req"
+> <arg choice="plain"
+>--version</arg
+> <arg choice="plain"
+>--help</arg
+> </group
+> </cmdsynopsis>
+
+</refsynopsisdiv>
+
+
+
+
+<refsect1>
+<title
+>Beskrivning</title>
+
+<para
+>KService-ramverket använder information som finns i <filename class="extension"
+>.desktop</filename
+>-filer för att hitta tjänster, inklusive insticksprogram för Qt5-baserade program och bibliotek. Qt5-instickssystemet använder dock &JSON;-data inbäddad i själva insticksprogrammet. <command
+>desktoptojson</command
+> gör det möjligt att också använda informationen som finns i en <filename class="extension"
+>.desktop</filename
+>-fil som inbäddad data för ett Qt5-insticksprogram genom att konvertera <filename class="extension"
+>.desktop</filename
+>-filens poster till &JSON;-data.</para>
+
+<para
+>Skapad &JSON;-data är ett &JSON;-objekt som avbildar posterna från gruppen <literal
+>[Desktop Entry]</literal
+> i <filename class="extension"
+>.desktop</filename
+>-filen. Alla andra grupper ignoreras. De flesta poster konverteras bara till &JSON;-strängar, men för vissa poster (såsom <literal
+>Hidden</literal
+> and <literal
+>X-KDE-PluginInfo-EnabledByDefault</literal
+>) är det känt att de är Booleska värden, och de konverteras som sådana. På liknande sätt konverteras vissa andra (såsom <literal
+>X-KDE-ServiceTypes</literal
+> och <literal
+>X-KDE-PluginInfo-Depends</literal
+>) alltid som fält av strängar.</para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Väljare</title>
+<variablelist>
+
+<varlistentry>
+  <term
+><option
+>--input <replaceable
+>SKRIVBORDSFIL</replaceable
+></option
+></term>
+<listitem>
+<para
+><filename class="extension"
+>.desktop</filename
+>-filen att konvertera.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--output <replaceable
+>JSON-FIL</replaceable
+></option
+></term>
+<listitem>
+<para
+>Filen dit genererad &JSON;-data ska skrivas.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help</option
+></term>
+<listitem>
+<para
+>Visa en kortfattad hjälptext.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--version</option
+></term>
+<listitem>
+<para
+>Visa versionsinformation.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Användning</title>
+<para
+>De flesta användare av verktyget kommer att använda &cmake;-makrot <function
+>kservice_desktop_to_json</function
+> som en del av processen när ett insticksprogram byggs. <programlisting language="cmake">
+<![CDATA[
+add_library(myplugin MODULE ${myplugin_SRCS})
+kservice_desktop_to_json(myplugin myplugin.desktop)
+]]>
+</programlisting
+> Det skapar JSON-filen <filename
+>myplugin.json</filename
+>, som kan refereras i makrot <function
+>K_PLUGIN_FACTORY_WITH_JSON</function
+> eller <function
+>Q_PLUGIN_METADATA</function
+>. </para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Fel</title>
+<para
+>Använd <ulink url="https://bugs.kde.org"
+>&kde;:s felspårningssystem</ulink
+> för att rapportera fel.</para>
+</refsect1>
+
+</refentry>
+
+
+

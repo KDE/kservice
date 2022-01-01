@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Catalan  "INCLUDE"
+><!-- change language only here -->
+]>
+
+<refentry lang="&language;">
+
+<refentryinfo>
+<title
+>&kde-frameworks;: KService</title>
+<author
+><firstname
+>Scarlett</firstname
+> <surname
+>Clark</surname
+> <contrib
+>Va escriure la documentació original.</contrib>
+<affiliation>
+<address
+><email
+>scarlett@scarlettgatelyclark.com</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alex</firstname
+> <surname
+>Merry</surname
+> <contrib
+>Ha editat la documentació.</contrib>
+<affiliation>
+<address
+><email
+>alexmerry@kde.org</email
+></address>
+</affiliation>
+</author>
+
+<date
+>2 d'abril de 2014</date>
+<releaseinfo
+>Frameworks 5.0</releaseinfo>
+<productname
+>Frameworks del KDE</productname>
+
+</refentryinfo>
+
+
+<refmeta>
+<refentrytitle
+><command
+>desktoptojson</command
+></refentrytitle>
+<manvolnum
+>8</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>desktoptojson</command
+></refname>
+<refpurpose
+>Converteix un fitxer <filename class="extension"
+>.desktop</filename
+> a un fitxer <filename class="extension"
+>.json</filename
+>.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<title
+>Sinopsi</title>
+
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <arg choice="plain"
+>--input <replaceable
+>FITXER_DESKTOP</replaceable
+></arg
+> <arg choice="plain"
+>--output <replaceable
+>FITXER_JSON</replaceable
+></arg
+> </cmdsynopsis>
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <group choice="req"
+> <arg choice="plain"
+>--version</arg
+> <arg choice="plain"
+>--help</arg
+> </group
+> </cmdsynopsis>
+
+</refsynopsisdiv>
+
+
+
+
+<refsect1>
+<title
+>Descripció</title>
+
+<para
+>L'entorn de treball KService utilitza la informació continguda als fitxers <filename class="extension"
+>.desktop</filename
+> per a localitzar els serveis, inclosos els connectors per a les aplicacions i biblioteques basades en les &Qt; 5. De tota manera, el sistema de connectors de les &Qt; 5, utilitza les dades &JSON; incrustades en el mateix connector. <command
+>desktoptojson</command
+> permet que la informació continguda en un fitxer <filename class="extension"
+>.desktop</filename
+> també es pugui utilitzar com a dades incrustades en un connector de les Qt 5, convertint les entrades al fitxer <filename class="extension"
+>.desktop</filename
+> en dades &JSON;.</para>
+
+<para
+>Les dades &JSON; generades són un objecte &JSON; que mapa les entrades des del grup <literal
+>[Desktop Entry]</literal
+> del fitxer <filename class="extension"
+>.desktop</filename
+>. Qualssevol altre grup serà ignorat. La majoria de les entrades són simplement convertides a cadenes &JSON;, però certes entrades (com <literal
+>Hidden</literal
+> i <literal
+>X-KDE-PluginInfo-EnabledByDefault</literal
+>) són conegudes per ser valors booleans i per tant es converteixen, i algunes similars (com <literal
+>X-KDE-ServiceTypes</literal
+> i <literal
+>X-KDE-PluginInfo-Depends</literal
+>) sempre es converteixen a matrius de cadenes.</para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Opcions</title>
+<variablelist>
+
+<varlistentry>
+  <term
+><option
+>--input <replaceable
+>FITXER_DESKTOP</replaceable
+></option
+></term>
+<listitem>
+<para
+>El fitxer <filename class="extension"
+>.desktop</filename
+> a convertir.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--output <replaceable
+>FITXER_JSON</replaceable
+></option
+></term>
+<listitem>
+<para
+>El fitxer on escriure les dades &JSON; generades.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help</option
+></term>
+<listitem>
+<para
+>Mostra un text breu d'ajuda.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--version</option
+></term>
+<listitem>
+<para
+>Mostra la informació sobre la versió.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Ús</title>
+<para
+>La majoria dels usuaris d'aquesta eina podran utilitzar la macro de &cmake; <function
+>kservice_desktop_to_json</function
+> com a part del procés de construcció d'un connector. <programlisting language="cmake">
+<![CDATA[
+add_library(myplugin MODULE ${myplugin_SRCS})
+kservice_desktop_to_json(myplugin myplugin.desktop)
+]]>
+</programlisting
+> Això presentarà el fitxer &JSON; <filename
+>myplugin.json</filename
+>, al qual es pot fer referència des de les macros <function
+>K_PLUGIN_FACTORY_WITH_JSON</function
+> o <function
+>Q_PLUGIN_METADATA</function
+>. </para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Errors</title>
+<para
+>Si us plau, empreu el <ulink url="https://bugs.kde.org"
+>Seguidor d'errors del &kde;</ulink
+> (escriviu-hi en anglès) per a informar dels errors.</para>
+</refsect1>
+
+</refentry>
+
+
+
