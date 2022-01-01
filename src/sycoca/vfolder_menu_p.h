@@ -262,6 +262,7 @@ private:
     QString locateMenuFile(const QString &fileName);
     QString locateDirectoryFile(const QString &fileName);
     void loadApplications(const QString &, const QString &);
+    QStringList parseLayoutNode(const QDomElement &docElem);
 
 private:
     KServiceFactory *m_serviceFactory;
