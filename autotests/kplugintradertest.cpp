@@ -14,6 +14,9 @@
 
 QTEST_MAIN(PluginTraderTest)
 
+QT_WARNING_PUSH
+QT_WARNING_DISABLE_DEPRECATED
+
 void PluginTraderTest::initTestCase()
 {
     QCoreApplication::setLibraryPaths(QStringList() << QCoreApplication::applicationDirPath());

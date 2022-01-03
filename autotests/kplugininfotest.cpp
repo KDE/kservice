@@ -19,6 +19,9 @@ Q_DECLARE_METATYPE(KPluginInfo)
 
 static const QString pluginName = QStringLiteral("fakeplugin"); // clazy:exclude=non-pod-global-static
 
+QT_WARNING_PUSH
+QT_WARNING_DISABLE_DEPRECATED
+
 class KPluginInfoTest : public QObject
 {
     Q_OBJECT
@@ -196,11 +199,7 @@ private Q_SLOTS:
         QCOMPARE(meta.authors().at(0).emailAddress(), QStringLiteral("sebas@kde.org"));
         QCOMPARE(meta.category(), QStringLiteral("Examples"));
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 79) && KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 79)
-        QT_WARNING_PUSH
-        QT_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
-        QT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
         QCOMPARE(meta.dependencies(), QStringList());
-        QT_WARNING_POP
 #endif
         QCOMPARE(meta.fileName(), pluginName);
         QCOMPARE(meta.pluginId(), pluginName);

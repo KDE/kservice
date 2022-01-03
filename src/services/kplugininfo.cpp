@@ -8,6 +8,9 @@
 
 #include "kplugininfo.h"
 
+QT_WARNING_PUSH
+QT_WARNING_DISABLE_DEPRECATED
+
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
 #include "servicesdebug.h"
 #include <QDirIterator>
@@ -578,11 +581,7 @@ QString KPluginInfo::license() const
 QStringList KPluginInfo::dependencies() const
 {
     KPLUGININFO_ISVALID_ASSERTION;
-    QT_WARNING_PUSH
-    QT_WARNING_DISABLE_CLANG("-Wdeprecated-declarations")
-    QT_WARNING_DISABLE_GCC("-Wdeprecated-declarations")
     return d->metaData.dependencies();
-    QT_WARNING_POP
 }
 #endif
 

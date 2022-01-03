@@ -7,6 +7,10 @@
     SPDX-License-Identifier: LGPL-2.0-only
 */
 
+#include <QtGlobal>
+QT_WARNING_PUSH
+QT_WARNING_DISABLE_DEPRECATED
+
 #include "kplugintrader.h"
 #include "ktraderparsetree_p.h"
 

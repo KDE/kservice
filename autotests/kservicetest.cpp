@@ -874,6 +874,8 @@ void KServiceTest::testThreads()
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 86)
 void KServiceTest::testOperatorKPluginName()
 {
+    QT_WARNING_PUSH
+    QT_WARNING_DISABLE_DEPRECATED
     KService fservice(QFINDTESTDATA("fakeplugin.desktop"));
     KPluginName fname(fservice);
     QVERIFY(fname.isValid());
@@ -904,6 +906,7 @@ void KServiceTest::testOperatorKPluginName()
     QVERIFY(!iname.errorString().isEmpty());
     KPluginLoader iplugin(iservice);
     QVERIFY(!iplugin.factory());
+    QT_WARNING_POP
 }
 #endif
 
