@@ -1280,7 +1280,7 @@ static QString parseAttribute(const QDomElement &e)
     return option;
 }
 
-QStringList VFolderMenu::parseLayoutNode(const QDomElement &docElem)
+QStringList VFolderMenu::parseLayoutNode(const QDomElement &docElem) const
 {
     QStringList layout;
 
