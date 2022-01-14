@@ -680,12 +680,9 @@ bool KService::showInCurrentDesktop() const
         const QVariant &val = it.value();
         if (val.isValid()) {
             const QStringList aList = val.toString().split(QLatin1Char(';'));
-            for (const auto &desktop : std::as_const(currentDesktops)) {
-                if (aList.contains(desktop)) {
-                    return true;
-                }
-            }
-            return false;
+            return std::any_of(currentDesktops.cbegin(), currentDesktops.cend(), [&aList](const auto desktop) {
+                return aList.contains(desktop);
+            });
         }
     }
 
@@ -694,13 +691,12 @@ bool KService::showInCurrentDesktop() const
         const QVariant &val = it.value();
         if (val.isValid()) {
             const QStringList aList = val.toString().split(QLatin1Char(';'));
-            for (const auto &desktop : std::as_const(currentDesktops)) {
-                if (aList.contains(desktop)) {
-                    return false;
-                }
-            }
+            return std::none_of(currentDesktops.cbegin(), currentDesktops.cend(), [&aList](const auto desktop) {
+                return aList.contains(desktop);
+            });
         }
     }
+
     return true;
 }
 
