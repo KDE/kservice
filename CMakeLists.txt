@@ -26,6 +26,7 @@ include(ECMGenerateHeaders)
 include(ECMAddQch)
 include(ECMQtDeclareLoggingCategory)
 include(ECMGenerateExportHeader)
+include(ECMDeprecationSettings)
 
 set(EXCLUDE_DEPRECATED_BEFORE_AND_AT 0 CACHE STRING "Control the range of deprecated API excluded from the build [default=0].")
 
@@ -73,9 +74,13 @@ set_package_properties(BISON PROPERTIES
 )
 
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
-add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f02)
-add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055900)
-add_definitions(-DKCOREADDONS_DISABLE_DEPRECATED_BEFORE_AND_AT=0x054E00) # for KPluginInfo::dependencies
+
+ecm_set_disabled_deprecation_versions(
+    QT 5.15.2
+    KF 5.90.0
+    KCOREADDONS 5.78 # for KPluginInfo::dependencies
+)
+
 ki18n_install(po)
 
 if (KF5DocTools_FOUND)
