@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
     KServiceGroup::Ptr first;
 
-    qDebug("Found %d entries", list.count());
+    qDebug() << "Found " << list.count() << " entries";
     for (KServiceGroup::List::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it) {
         KSycocaEntry::Ptr p = (*it);
         if (p->isType(KST_KService)) {
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
     if (first) {
         list = first->entries();
-        qDebug("Found %d entries", list.count());
+        qDebug() << "Found " << list.count() << " entries";
         for (KServiceGroup::List::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it) {
             KSycocaEntry::Ptr p = (*it);
             if (p->isType(KST_KService)) {
