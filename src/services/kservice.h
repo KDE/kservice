@@ -247,7 +247,7 @@ public:
     /**
      * Returns the list of MIME types that this service supports.
      * Note that this doesn't include inherited MIME types,
-     * only the MIME types types listed in the .desktop file.
+     * only the MIME types listed in the .desktop file.
      * @since 4.8.3
      */
     QStringList mimeTypes() const;
