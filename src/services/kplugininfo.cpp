@@ -280,7 +280,11 @@ KPluginInfo::KPluginInfo(const QString &filename /*, QStandardPaths::StandardLoc
         return;
     }
 
-    d->setMetaData(KPluginMetaData(file.fileName()), true);
+    if (file.fileName().endsWith(QLatin1String(".desktop"))) {
+        d->setMetaData(KPluginMetaData::fromDesktopFile(file.fileName()), true);
+    } else {
+        d->setMetaData(KPluginMetaData(file.fileName()), true);
+    }
     if (!d->metaData.isValid()) {
         qCWarning(SERVICES) << "Failed to read metadata from .desktop file" << file.fileName();
         d.reset();

@@ -913,7 +913,8 @@ void KServiceTest::testOperatorKPluginName()
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
 void KServiceTest::testKPluginInfoQuery()
 {
-    KPluginInfo info(KPluginMetaData(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/fakepart2.desktop"}));
+    KPluginInfo info(KPluginMetaData::fromDesktopFile(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation)
+                                                      + QLatin1String{"/kservices5/fakepart2.desktop"}));
 
     QCOMPARE(info.property(QStringLiteral("X-KDE-TestList")).toStringList().size(), 2);
 }
@@ -938,7 +939,7 @@ void KServiceTest::testEntryPathToName()
 void KServiceTest::testKPluginMetaData()
 {
     const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/fakepart.desktop"};
-    KPluginMetaData md(fakePart);
+    KPluginMetaData md = KPluginMetaData::fromDesktopFile(fakePart);
     KService::Ptr service(new KService(fakePart));
     KPluginInfo info(service);
     auto info_md = info.toMetaData();
