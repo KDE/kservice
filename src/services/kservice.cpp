@@ -155,6 +155,10 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
 
     m_lstKeywords = desktopGroup.readXdgListEntry("Keywords", QStringList());
     entryMap.remove(QStringLiteral("Keywords"));
+    const QString _untranslatedKeywords = desktopGroup.readEntryUntranslated("Keywords");
+    if (!_untranslatedGenericName.isEmpty()) {
+        entryMap.insert(QStringLiteral("UntranslatedKeywords"), _untranslatedKeywords);
+    }
     m_lstKeywords += desktopGroup.readEntry("X-KDE-Keywords", QStringList());
     entryMap.remove(QStringLiteral("X-KDE-Keywords"));
     categories = desktopGroup.readXdgListEntry("Categories");
@@ -971,6 +975,12 @@ QStringList KService::keywords() const
 {
     Q_D(const KService);
     return d->m_lstKeywords;
+}
+
+QStringList KService::untranslatedKeywords() const
+{
+    QVariant v = property(QStringLiteral("UntranslatedKeywords"), QVariant::String);
+    return v.isValid() ? v.toString().split(QLatin1Char(';')) : QStringList();
 }
 
 QStringList KServicePrivate::serviceTypes() const

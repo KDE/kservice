@@ -239,6 +239,14 @@ public:
     QStringList keywords() const;
 
     /**
+     * Returns a list of untranslated (en_US) descriptive keywords of the service,
+     * if there are any.
+     * @return the list of untranslated keywords
+     * @since 5.92
+     */
+    QStringList untranslatedKeywords() const;
+
+    /**
      * Returns a list of VFolder categories.
      * @return the list of VFolder categories
      */
