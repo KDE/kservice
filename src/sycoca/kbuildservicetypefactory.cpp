@@ -50,7 +50,7 @@ KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
     }
 
     QString filePath = QLatin1String("kservicetypes5/") + file;
-    const QString qrcFilePath = QLatin1String(":/kf/") + filePath;
+    const QString qrcFilePath = QLatin1String(":/") + filePath;
     if (QFileInfo::exists(qrcFilePath)) {
         filePath = qrcFilePath;
     }

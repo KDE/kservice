@@ -129,7 +129,7 @@ KService::Ptr KBuildSycoca::createService(const QString &path)
 
 static QStringList locateDirInResource(const QString &resourceSubdir)
 {
-    const QString dir = QStringLiteral(":/kf/") + resourceSubdir;
+    const QString dir = QStringLiteral(":/") + resourceSubdir; // e.g. :/kservicetypes5
     if (QDir(dir).exists()) {
         return {dir};
     }
@@ -619,7 +619,7 @@ quint32 KBuildSycoca::calcResourceHash(const QString &resourceSubDir, const QStr
         return updateHash(filename, hash);
     }
     const QString filePath = resourceSubDir + QLatin1Char('/') + filename;
-    const QString qrcFilePath = QStringLiteral(":/kf/") + filePath;
+    const QString qrcFilePath = QStringLiteral(":/") + filePath;
     const QStringList files =
         QFileInfo::exists(qrcFilePath) ? QStringList{qrcFilePath} : QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, filePath);
     for (const QString &file : files) {

@@ -1,6 +1,6 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
-    <qresource prefix="/kf/kservicetypes5/">
+    <qresource prefix="/kservicetypes5/">
         <file alias="application.desktop">services/application.desktop</file>
     </qresource>
 </RCC>
