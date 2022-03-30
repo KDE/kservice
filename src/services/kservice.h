@@ -10,12 +10,16 @@
 #define KSERVICE_H
 
 #include "kserviceaction.h"
-#include <KPluginFactory>
-#include <KPluginLoader>
 #include <QCoreApplication>
 #include <QStringList>
 #include <QVariant>
 #include <ksycocaentry.h>
+
+// Exclude includes that are not needed when deprecations are disabled
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 94)
+#include <KPluginFactory>
+#include <KPluginLoader>
+#endif
 
 class KServiceType;
 class QDataStream;
@@ -538,8 +542,8 @@ public:
      */
     static QString newServicePath(bool showInMenu, const QString &suggestedName, QString *menuId = nullptr, const QStringList *reservedMenuIds = nullptr);
 
-#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
+#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * This template allows to load the library for the specified service and ask the
      * factory to create an instance of the given template type.
@@ -564,8 +568,8 @@ public:
 #endif
 #endif
 
-#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
+#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * This template allows to load the library for the specified service and ask the
      * factory to create an instance of the given template type.
@@ -608,8 +612,8 @@ public:
 #endif
 #endif
 
-#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
+#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
     /**
      * Convert this KService to a KPluginName.
      *
