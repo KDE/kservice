@@ -138,13 +138,28 @@ target_include_directories(KF5Service
 )
 
 target_link_libraries(KF5Service
-  PUBLIC
-    KF5::ConfigCore   # KConfig and friends
-    KF5::CoreAddons   # KShell KPluginLoader
   PRIVATE
     KF5::I18n
     Qt${QT_MAJOR_VERSION}::Xml  # (for vfolder menu) QDomDocument
 )
+
+if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
+   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.94.0)
+    target_link_libraries(KF5Service
+    PUBLIC
+        KF5::ConfigCore   # KConfig and friends
+        KF5::CoreAddons   # KShell KPluginLoader
+    )
+else()
+    target_link_libraries(KF5Service
+    PUBLIC
+        Qt${QT_MAJOR_VERSION}::Core
+    PRIVATE
+        KF5::ConfigCore   # KConfig and friends
+        KF5::CoreAddons   # KShell KPluginLoader
+    )
+endif()
+
 if (TARGET KF5::DBusAddons)
   target_link_libraries(KF5Service PRIVATE KF5::DBusAddons)  # KDEInitInterface
 endif()
