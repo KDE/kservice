@@ -76,5 +76,5 @@ ecm_qt_declare_logging_category(kmimeassociationstest_SRCS
 )
 
 ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
-             LINK_LIBRARIES KF5::Service Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Xml)
+             LINK_LIBRARIES KF5::Service Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Xml KF5::ConfigCore KF5::CoreAddons)
 

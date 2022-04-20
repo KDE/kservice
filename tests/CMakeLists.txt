@@ -46,4 +46,4 @@ target_sources(kmimeassociations_dumper PRIVATE
     ../src/sycoca/kmimeassociations.cpp
 )
 
-target_link_libraries(kmimeassociations_dumper KF5::Service)
+target_link_libraries(kmimeassociations_dumper KF5::Service KF5::CoreAddons KF5::ConfigCore)
