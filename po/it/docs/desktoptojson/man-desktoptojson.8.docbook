@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Italian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<refentry lang="&language;">
+
+<refentryinfo>
+<title
+>&kde-frameworks;: KService</title>
+<author
+><firstname
+>Scarlett</firstname
+> <surname
+>Clark</surname
+> <contrib
+>Ha scritto la documentazione originale.</contrib>
+<affiliation>
+<address
+><email
+>scarlett@scarlettgatelyclark.com</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alex</firstname
+> <surname
+>Merry</surname
+> <contrib
+>Modifiche alla documentazione.</contrib>
+<affiliation>
+<address
+><email
+>alexmerry@kde.org</email
+></address>
+</affiliation>
+</author>
+
+<date
+>2014-04-02</date>
+<releaseinfo
+>Frameworks 5.0</releaseinfo>
+<productname
+>KDE Frameworks</productname>
+
+</refentryinfo>
+
+
+<refmeta>
+<refentrytitle
+><command
+>desktoptojson</command
+></refentrytitle>
+<manvolnum
+>8</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>desktoptojson</command
+></refname>
+<refpurpose
+>Converte un file <filename class="extension"
+>.desktop</filename
+> in un file <filename class="extension"
+>.json</filename
+>.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<title
+>Sintassi</title>
+
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <arg choice="plain"
+>--input <replaceable
+>FILE-DESKTOP</replaceable
+></arg
+> <arg choice="plain"
+>--output <replaceable
+>FILE-JSON</replaceable
+></arg
+> </cmdsynopsis>
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <group choice="req"
+> <arg choice="plain"
+>--version</arg
+> <arg choice="plain"
+>--help</arg
+> </group
+> </cmdsynopsis>
+
+</refsynopsisdiv>
+
+
+
+
+<refsect1>
+<title
+>Descrizione</title>
+
+<para
+>Il framework KService usa informazioni contenute nei file <filename class="extension"
+>.desktop</filename
+> per localizzare i servizi, incluse le estensioni per applicazioni e librerie basate su Qt5. Il sistema delle estensioni di Qt5, tuttavia, usa dati &JSON; integrati nelle stesse estensioni. <command
+>desktoptojson</command
+> permette che le informazioni contenute in un file <filename class="extension"
+>.desktop</filename
+> siano usate anche come i dati integrati in un'estensione Qt5 convertendo le voci del file <filename class="extension"
+>.desktop</filename
+> in dati &JSON;.</para>
+
+<para
+>I dati &JSON; generati costituiscono un oggetto &JSON; che mappa le voci dal gruppo <literal
+>[Desktop Entry]</literal
+> del file <filename class="extension"
+>.desktop</filename
+>. Tutti gli altri gruppi sono ignorati. La maggior parte delle voci sono semplicemente convertite in stringhe &JSON;, ma alcune di esse (come <literal
+>Hidden</literal
+> e <literal
+>X-KDE-PluginInfo-EnabledByDefault</literal
+>) sono notoriamente valori booleani e quindi viene usato tale tipo; analogamente altre voci (come <literal
+>X-KDE-ServiceTypes</literal
+> e <literal
+>X-KDE-PluginInfo-Depends</literal
+>) sono sempre convertite in vettori di stringhe.</para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Opzioni</title>
+<variablelist>
+
+<varlistentry>
+  <term
+><option
+>--input <replaceable
+>FILE-DESKTOP</replaceable
+></option
+></term>
+<listitem>
+<para
+>Il file <filename class="extension"
+>.desktop</filename
+> da convertire.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--output <replaceable
+>FILE-JSON</replaceable
+></option
+></term>
+<listitem>
+<para
+>Il file in cui scrivere i dati &JSON; generati.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help</option
+></term>
+<listitem>
+<para
+>Mostra un breve testo di aiuto.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--version</option
+></term>
+<listitem>
+<para
+>Mostra le informazioni sulla versione.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Uso</title>
+<para
+>Buona parte degli utenti di questo strumento useranno la macro di &cmake; <function
+>kservice_desktop_to_json</function
+> come parte del processo di generazione di un'estensione. <programlisting language="cmake">
+<![CDATA[
+add_library(myplugin MODULE ${myplugin_SRCS})
+kservice_desktop_to_json(myplugin myplugin.desktop)
+]]>
+</programlisting
+> Questo produrrà il file &JSON; <filename
+>myplugin.json</filename
+> a cui si può fare riferimento dalle macro <function
+>K_PLUGIN_FACTORY_WITH_JSON</function
+> o <function
+>Q_PLUGIN_METADATA</function
+>. </para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Errori</title>
+<para
+>Usa <ulink url="https://bugs.kde.org"
+>il sito di gestione dei bug di &kde;</ulink
+> per segnalarli.</para>
+</refsect1>
+
+</refentry>
+
+
+
