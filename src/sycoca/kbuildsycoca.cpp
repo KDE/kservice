@@ -607,7 +607,15 @@ static quint32 updateHash(const QString &file, quint32 hash)
     if (fi.isReadable() && fi.isFile()) {
         // This was using buff.st_ctime (in Waldo's initial commit to kstandarddirs.cpp in 2001), but that looks wrong?
         // Surely we want to catch manual editing, while a chmod doesn't matter much?
-        hash += fi.lastModified().toSecsSinceEpoch();
+        qint64 timestamp = fi.lastModified().toSecsSinceEpoch();
+        // On some systems (i.e. Fedora Kinoite), all files in /usr have a last
+        // modified timestamp of 0 (UNIX Epoch). In this case, always assume
+        // the file as been changed.
+        if (timestamp == 0) {
+            static qint64 now = QDateTime::currentDateTimeUtc().toSecsSinceEpoch();
+            timestamp = now;
+        }
+        hash += timestamp;
     }
     return hash;
 }
