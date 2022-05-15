@@ -239,10 +239,14 @@ bool KSycocaPrivate::openDatabase()
         static bool firstTime = true;
         if (firstTime) {
             firstTime = false;
+            // If we're running inside flatpak or on an rpm-ostree system (e.g. Fedora Kinoite),
+            // which set all times to 1970, for the very first time don't use an existing database,
+            // rather recreate it
             if (QFileInfo::exists(QStringLiteral("/.flatpak-info"))) {
-                // We're running inside flatpak, which sets all times to 1970
-                // So the first very time, don't use an existing database, recreate it
                 qCDebug(SYCOCA) << "flatpak detected, ignoring" << m_databasePath;
+                return false;
+            } else if (QFileInfo::exists(QStringLiteral("/run/ostree-booted"))) {
+                qCDebug(SYCOCA) << "An rpm-ostree based system detected, ignoring" << m_databasePath;
                 return false;
             }
         }
