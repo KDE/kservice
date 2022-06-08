@@ -2,6 +2,7 @@
     This file is part of the KDE libraries
     SPDX-FileCopyrightText: 1999-2001 Waldo Bastian <bastian@kde.org>
     SPDX-FileCopyrightText: 1999-2005 David Faure <faure@kde.org>
+    SPDX-FileCopyrightText: 2022 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-only
 */
@@ -1078,3 +1079,8 @@ KService::operator KPluginName() const
 }
 #endif
 #endif
+
+QString KService::aliasFor() const
+{
+    return KServiceUtilPrivate::completeBaseName(property(QStringLiteral("X-KDE-AliasFor"), QVariant::String).toString());
+}

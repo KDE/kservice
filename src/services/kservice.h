@@ -2,6 +2,7 @@
     This file is part of the KDE project
     SPDX-FileCopyrightText: 1998, 1999 Torben Weis <weis@kde.org>
     SPDX-FileCopyrightText: 1999-2006 David Faure <faure@kde.org>
+    SPDX-FileCopyrightText: 2022 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-or-later
 */
@@ -628,6 +629,23 @@ public:
     operator KPluginName() const;
 #endif
 #endif
+
+    /**
+     * @brief A desktop file name that this service is an alias for.
+     *
+     * This is used when a NoDisplay service is used to enforce specific handling
+     * for an application. In that case the NoDisplay service is an AliasFor another
+     * service and be considered roughly equal to the AliasFor service (which should
+     * not be NoDisplay=true)
+     * For example okular supplies a desktop file for each supported format (e.g. PDF), all
+     * of which NoDisplay and merely there to selectively support specific file formats.
+     * A UI may choose to display the aliased entry org.kde.okular instead of the NoDisplay entries.
+     *
+     * @since 5.96
+     *
+     * @return QString desktopName of the aliased service (excluding .desktop suffix)
+     */
+    QString aliasFor() const;
 
 private:
     friend class KBuildServiceFactory;

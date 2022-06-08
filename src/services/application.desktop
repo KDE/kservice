@@ -157,3 +157,6 @@ Type=bool
 
 [PropertyDef::X-KDE-DBUS-Restricted-Interfaces]
 Type=QStringList
+
+[PropertyDef::X-KDE-AliasFor]
+Type=QString

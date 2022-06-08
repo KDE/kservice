@@ -1,5 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2006 David Faure <faure@kde.org>
+    SPDX-FileCopyrightText: 2022 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-only
 */
@@ -952,3 +953,13 @@ void KServiceTest::testTraderQueryMustRebuildSycoca()
     QVERIFY(offers.count() > 0);
 }
 #endif
+
+void KServiceTest::testAliasFor()
+{
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
+    KService::Ptr testapp = KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp"));
+    QVERIFY(testapp);
+    QCOMPARE(testapp->aliasFor(), QStringLiteral("org.kde.okular"));
+}

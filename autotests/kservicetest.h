@@ -1,5 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2006 David Faure <faure@kde.org>
+    SPDX-FileCopyrightText: 2022 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-only
 */
@@ -69,6 +70,8 @@ private Q_SLOTS:
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     void testTraderQueryMustRebuildSycoca();
 #endif
+
+    void testAliasFor();
 
 private:
     void createFakeService(const QString &filenameSuffix, const QString &serviceType);

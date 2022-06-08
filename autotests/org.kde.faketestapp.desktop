@@ -10,6 +10,7 @@ X-DBUS-StartupType=Unique
 StartupNotify=true
 X-KDE-AuthorizeAction=shell_access
 StartupWMClass=konsole
+X-KDE-AliasFor=org.kde.okular.desktop
 
 Name=Konsole
 Name[af]=Konsole
