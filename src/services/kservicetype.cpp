@@ -22,7 +22,7 @@
 extern int servicesDebugArea();
 
 template QDataStream &operator>><QString, QVariant>(QDataStream &, QMap<QString, QVariant> &);
-template QDataStream &operator<<<QString, QVariant>(QDataStream &, const QMap<QString, QVariant> &);
+template QDataStream &operator<< <QString, QVariant>(QDataStream &, const QMap<QString, QVariant> &);
 
 KServiceType::KServiceType(KDesktopFile *config)
     : KSycocaEntry(*new KServiceTypePrivate(config->fileName()))
