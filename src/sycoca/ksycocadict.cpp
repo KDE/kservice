@@ -34,20 +34,6 @@ struct string_entry {
 };
 }
 
-class KSycocaDictStringList : public QList<string_entry *>
-{
-public:
-    KSycocaDictStringList()
-    {
-    }
-    ~KSycocaDictStringList()
-    {
-        qDeleteAll(*this);
-    }
-    KSycocaDictStringList(const KSycocaDictStringList &) = delete;
-    KSycocaDictStringList &operator=(const KSycocaDictStringList &) = delete;
-};
-
 class KSycocaDictPrivate
 {
 public:
@@ -68,7 +54,7 @@ public:
     // Calculate hash - can be used during loading and during saving.
     quint32 hashKey(const QString &key) const;
 
-    KSycocaDictStringList m_stringentries;
+    std::vector<std::unique_ptr<string_entry>> m_stringentries;
     QDataStream *stream;
     qint64 offset;
     quint32 hashTableSize;
@@ -114,7 +100,7 @@ void KSycocaDict::add(const QString &key, const KSycocaEntry::Ptr &payload)
         return; // Not allowed!
     }
 
-    d->m_stringentries.append(new string_entry(key, payload));
+    d->m_stringentries.push_back(std::make_unique<string_entry>(key, payload));
 }
 
 void KSycocaDict::remove(const QString &key)
@@ -123,12 +109,11 @@ void KSycocaDict::remove(const QString &key)
         return;
     }
 
-    auto it = std::find_if(d->m_stringentries.begin(), d->m_stringentries.end(), [&key](string_entry *entry) {
+    auto it = std::find_if(d->m_stringentries.begin(), d->m_stringentries.end(), [&key](const std::unique_ptr<string_entry> &entry) {
         return entry->keyStr == key;
     });
 
     if (it != d->m_stringentries.end()) {
-        delete *it;
         d->m_stringentries.erase(it);
     } else {
         qCDebug(SYCOCA) << "key not found:" << key;
@@ -214,7 +199,7 @@ uint KSycocaDict::count() const
         return 0;
     }
 
-    return d->m_stringentries.count();
+    return d->m_stringentries.size();
 }
 
 void KSycocaDict::clear()
@@ -261,12 +246,11 @@ uint KSycocaDictPrivate::hashKey(const QString &key) const
 
 // Calculate the diversity of the strings at position 'pos'
 // NOTE: this code is slow, it takes 12% of the _overall_ `kbuildsycoca5 --noincremental` running time
-static int calcDiversity(KSycocaDictStringList *stringlistp, int inPos, uint sz)
+static int calcDiversity(std::vector<std::unique_ptr<string_entry>> *stringlist, int inPos, uint sz)
 {
     if (inPos == 0) {
         return 0;
     }
-    KSycocaDictStringList &stringlist = *stringlistp;
     QBitArray matrix(sz);
     int pos;
 
@@ -275,11 +259,10 @@ static int calcDiversity(KSycocaDictStringList *stringlistp, int inPos, uint sz)
 
     if (inPos < 0) {
         pos = -inPos;
-        for (auto it = stringlist.constBegin(), end = stringlist.constEnd(); it != end; ++it) {
-            string_entry *entry = *it;
-            int rpos = entry->length - pos;
+        for (const auto &entryPtr : *stringlist) {
+            const int rpos = entryPtr->length - pos;
             if (rpos > 0) {
-                uint hash = ((entry->hash * 13) + (entry->key[rpos].cell() % 29)) & 0x3ffffff;
+                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[rpos].cell() % 29)) & 0x3ffffff;
                 matrix.setBit(hash % sz, true);
             }
             // if (++numItem == s_maxItems)
@@ -287,10 +270,9 @@ static int calcDiversity(KSycocaDictStringList *stringlistp, int inPos, uint sz)
         }
     } else {
         pos = inPos - 1;
-        for (auto it = stringlist.constBegin(), end = stringlist.constEnd(); it != end; ++it) {
-            string_entry *entry = *it;
-            if (pos < entry->length) {
-                uint hash = ((entry->hash * 13) + (entry->key[pos].cell() % 29)) & 0x3ffffff;
+        for (const auto &entryPtr : *stringlist) {
+            if (pos < entryPtr->length) {
+                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[pos].cell() % 29)) & 0x3ffffff;
                 matrix.setBit(hash % sz, true);
             }
             // if (++numItem == s_maxItems)
@@ -302,27 +284,25 @@ static int calcDiversity(KSycocaDictStringList *stringlistp, int inPos, uint sz)
 
 //
 // Add the diversity of the strings at position 'pos'
-static void addDiversity(KSycocaDictStringList *stringlistp, int pos)
+static void addDiversity(std::vector<std::unique_ptr<string_entry>> *stringlist, int pos)
 {
     if (pos == 0) {
         return;
     }
-    KSycocaDictStringList &stringlist = *stringlistp;
+
     if (pos < 0) {
         pos = -pos;
-        for (auto it = stringlist.constBegin(), end = stringlist.constEnd(); it != end; ++it) {
-            string_entry *entry = *it;
-            int rpos = entry->length - pos;
+        for (auto &entryPtr : *stringlist) {
+            const int rpos = entryPtr->length - pos;
             if (rpos > 0) {
-                entry->hash = ((entry->hash * 13) + (entry->key[rpos].cell() % 29)) & 0x3fffffff;
+                entryPtr->hash = ((entryPtr->hash * 13) + (entryPtr->key[rpos].cell() % 29)) & 0x3fffffff;
             }
         }
     } else {
         pos = pos - 1;
-        for (auto it = stringlist.constBegin(), end = stringlist.constEnd(); it != end; ++it) {
-            string_entry *entry = *it;
-            if (pos < entry->length) {
-                entry->hash = ((entry->hash * 13) + (entry->key[pos].cell() % 29)) & 0x3fffffff;
+        for (auto &entryPtr : *stringlist) {
+            if (pos < entryPtr->length) {
+                entryPtr->hash = ((entryPtr->hash * 13) + (entryPtr->key[pos].cell() % 29)) & 0x3fffffff;
             }
         }
     }
@@ -346,11 +326,10 @@ void KSycocaDict::save(QDataStream &str)
 
     int maxLength = 0;
     // qCDebug(SYCOCA) << "Finding maximum string length";
-    for (KSycocaDictStringList::const_iterator it = d->m_stringentries.constBegin(); it != d->m_stringentries.constEnd(); ++it) {
-        string_entry *entry = *it;
-        entry->hash = 0;
-        if (entry->length > maxLength) {
-            maxLength = entry->length;
+    for (auto &entryPtr : d->m_stringentries) {
+        entryPtr->hash = 0;
+        if (entryPtr->length > maxLength) {
+            maxLength = entryPtr->length;
         }
     }
 
@@ -423,8 +402,8 @@ void KSycocaDict::save(QDataStream &str)
         d->hashList.append(maxPos);
     }
 
-    for (auto it = d->m_stringentries.constBegin(); it != d->m_stringentries.constEnd(); ++it) {
-        (*it)->hash = d->hashKey((*it)->keyStr);
+    for (auto &entryPtr : d->m_stringentries) {
+        entryPtr->hash = d->hashKey(entryPtr->keyStr);
     }
     // fprintf(stderr, "Calculating minimum table size..\n");
 
@@ -447,13 +426,12 @@ void KSycocaDict::save(QDataStream &str)
     }
 
     // qCDebug(SYCOCA) << "Filling hashtable...";
-    for (auto it = d->m_stringentries.constBegin(); it != d->m_stringentries.constEnd(); ++it) {
-        string_entry *entry = *it;
+    for (const auto &entryPtr : d->m_stringentries) {
         // qCDebug(SYCOCA) << "entry keyStr=" << entry->keyStr << entry->payload.data() << entry->payload->entryPath();
-        int hash = entry->hash % sz;
+        const int hash = entryPtr->hash % sz;
         if (!hashTable[hash].entry) {
             // First entry
-            hashTable[hash].entry = entry;
+            hashTable[hash].entry = entryPtr.get();
         } else {
             if (!hashTable[hash].duplicates) {
                 // Second entry, build duplicate list.
@@ -461,7 +439,7 @@ void KSycocaDict::save(QDataStream &str)
                 hashTable[hash].duplicates->append(hashTable[hash].entry);
                 hashTable[hash].duplicate_offset = 0;
             }
-            hashTable[hash].duplicates->append(entry);
+            hashTable[hash].duplicates->append(entryPtr.get());
         }
     }
 
