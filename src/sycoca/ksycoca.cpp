@@ -3,7 +3,7 @@
     SPDX-FileCopyrightText: 1999-2000 Waldo Bastian <bastian@kde.org>
     SPDX-FileCopyrightText: 2005-2009 David Faure <faure@kde.org>
     SPDX-FileCopyrightText: 2008 Hamish Rodda <rodda@kde.org>
-    SPDX-FileCopyrightText: 2020 Harald Sitter <sitter@kde.org>
+    SPDX-FileCopyrightText: 2020-2022 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-only
 */
@@ -15,6 +15,7 @@
 #include "ksycocautils_p.h"
 #include "sycocadebug.h"
 #include <KConfigGroup>
+#include <KSandbox>
 #include <KSharedConfig>
 
 #include <QCoreApplication>
@@ -239,7 +240,7 @@ bool KSycocaPrivate::openDatabase()
         static bool firstTime = true;
         if (firstTime) {
             firstTime = false;
-            if (QFileInfo::exists(QStringLiteral("/.flatpak-info"))) {
+            if (KSandbox::isFlatpak()) {
                 // We're running inside flatpak, which sets all times to 1970
                 // So the first very time, don't use an existing database, recreate it
                 qCDebug(SYCOCA) << "flatpak detected, ignoring" << m_databasePath;
