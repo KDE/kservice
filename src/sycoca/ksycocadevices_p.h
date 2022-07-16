@@ -12,7 +12,7 @@
 #include <stdlib.h>
 // TODO: remove mmap() from kdewin32 and use QFile::mmap() when needed
 #ifdef Q_OS_WIN
-#undef HAVE_MMAP
+#define HAVE_MMAP 0
 #endif
 
 class QString;
