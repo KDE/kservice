@@ -146,6 +146,9 @@ Type=QStringList
 [PropertyDef::X-GNOME-UsesNotifications]
 Type=bool
 
+[PropertyDef::X-Flatpak]
+Type=QString
+
 [PropertyDef::X-Flatpak-RenamedFrom]
 Type=QStringList
 
