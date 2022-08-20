@@ -299,8 +299,23 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
             if (!cg.hasKey("Name") || !cg.hasKey("Exec")) {
                 qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Name or no Exec key";
             } else {
-                m_actions.append(
-                    KServiceAction(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), cg.readEntry("NoDisplay", false), serviceClone));
+                const QMap<QString, QString> entries = cg.entryMap();
+
+                QVariantMap entriesVariants;
+
+                for (auto it = entries.constKeyValueBegin(); it != entries.constKeyValueEnd(); ++it) {
+                    // Those are stored separately
+                    if (it->first == QLatin1String("Name") || it->first == QLatin1String("Icon") || it->first == QLatin1String("Exec")
+                        || it->first == QLatin1String("NoDisplay")) {
+                        continue;
+                    }
+
+                    entriesVariants.insert(it->first, it->second);
+                }
+
+                KServiceAction action(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), cg.readEntry("NoDisplay", false), serviceClone);
+                action.setData(QVariant::fromValue(entriesVariants));
+                m_actions.append(action);
             }
         } else {
             qCWarning(SERVICES) << "The desktop file" << q->entryPath() << "references the action" << group << "but doesn't define it";

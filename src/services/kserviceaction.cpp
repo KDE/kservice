@@ -6,9 +6,15 @@
 */
 
 #include "kserviceaction.h"
+#include "kbuildservicetypefactory_p.h"
 #include "kservice.h"
+#include "ksycoca.h"
+#include "ksycoca_p.h"
+
 #include <QDataStream>
 #include <QVariant>
+
+#include <KConfigGroup>
 
 class KServiceActionPrivate : public QSharedData
 {
@@ -136,4 +142,34 @@ QDataStream &operator<<(QDataStream &str, const KServiceAction &act)
     str << d->m_data;
     str << d->m_noDisplay;
     return str;
+}
+
+QVariant KServiceAction::property(const QString &_name, QMetaType::Type type) const
+{
+    if (type == QMetaType::UnknownType) {
+        KSycoca::self()->ensureCacheValid();
+        type = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(_name);
+        if (type == QMetaType::UnknownType) {
+            return QVariant(); // Unknown property: Invalid variant.
+        }
+    }
+
+    const auto dataMap = d->m_data.toMap();
+    auto it = dataMap.constFind(_name);
+    if (it == dataMap.cend() || !it.value().isValid()) {
+        return QVariant(); // No property set.
+    }
+
+    if (type == QMetaType::QString) {
+        return it.value(); // no conversion necessary
+    } else {
+        // All others
+        // For instance properties defined as StringList, like MimeTypes.
+        // XXX This API is accessible only through a friend declaration.
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(static_cast<QVariant::Type>(type)));
+#else
+        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(QMetaType(type)));
+#endif
+    }
 }

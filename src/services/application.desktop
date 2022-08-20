@@ -164,3 +164,6 @@ Type=QStringList
 
 [PropertyDef::X-KDE-AliasFor]
 Type=QString
+
+[PropertyDef::X-KDE-Shortcuts]
+Type=QStringList

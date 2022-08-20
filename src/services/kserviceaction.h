@@ -9,6 +9,7 @@
 #define KSERVICEACTION_H
 
 #include <QSharedDataPointer>
+#include <QVariant>
 #include <kservice_export.h>
 class QVariant;
 class KServiceActionPrivate;
@@ -115,6 +116,16 @@ public:
      * @since 5.69
      */
     KServicePtr service() const;
+
+    /**
+     * Returns the requested property.
+     *
+     * @param name the name of the property
+     * @param type the assumed type of the property
+     * @return the property, or an invalid QVariant if not found
+     * @since 5.102
+     */
+    QVariant property(const QString &name, QMetaType::Type type) const;
 
 private:
     QSharedDataPointer<KServiceActionPrivate> d;
