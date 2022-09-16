@@ -16,4 +16,4 @@ target_link_libraries(kbuildsycoca5
    KF5::I18n
    Qt${QT_MAJOR_VERSION}::Xml
 )
-install(TARGETS kbuildsycoca5 ${KF5_INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS kbuildsycoca5 ${KF_INSTALL_TARGETS_DEFAULT_ARGS} )

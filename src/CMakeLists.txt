@@ -227,7 +227,7 @@ add_custom_command(TARGET KF5Service PRE_BUILD COMMAND
     ${CMAKE_CURRENT_SOURCE_DIR}/applications.menu
     ${CMAKE_BINARY_DIR}/bin/data/menus/${APPLICATIONS_MENU_NAME})
 
-install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
    "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
