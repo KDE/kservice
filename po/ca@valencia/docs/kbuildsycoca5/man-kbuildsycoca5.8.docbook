@@ -99,7 +99,7 @@
 >La biblioteca KService utilitza esta base de dades per a proporcionar de manera eficient la informació requerida. </para>
 
 <para
->Normalment, els usuaris no necessitaran executar esta aplicació directament. KService l'executarà si cal, cada vegada que algun dels fitxers canvie les dades guardades a la memòria cau. </para>
+>Normalment, els usuaris no necessitaran executar esta aplicació directament. KService l'executarà si cal, cada vegada que algun dels fitxers canvie les dades guardades en la memòria cau. </para>
 </refsect1>
 
 
@@ -118,7 +118,7 @@
 <para
 >Ignora els fitxers definits per l'usuari (a <varname
 >XDG_DATA_HOME</varname
->). Actualment, açò només està suportat en sistemes &UNIX;.</para>
+>). Actualment, açò només està admés en sistemes &UNIX;.</para>
 </listitem>
 </varlistentry>
 

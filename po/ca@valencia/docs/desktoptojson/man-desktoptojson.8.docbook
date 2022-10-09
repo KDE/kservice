@@ -107,13 +107,13 @@
 >Descripció</title>
 
 <para
->L'entorn de treball KService utilitza la informació continguda als fitxers <filename class="extension"
+>L'entorn de treball KService utilitza la informació continguda en els fitxers <filename class="extension"
 >.desktop</filename
 > per a localitzar els serveis, inclosos els connectors per a les aplicacions i biblioteques basades en les &Qt; 5. De tota manera, el sistema de connectors de les &Qt; 5, utilitza les dades &JSON; incrustades en el mateix connector. <command
 >desktoptojson</command
 > permet que la informació continguda en un fitxer <filename class="extension"
 >.desktop</filename
-> també es puga utilitzar com a dades incrustades en un connector de les Qt 5, convertint les entrades al fitxer <filename class="extension"
+> també es puga utilitzar com a dades incrustades en un connector de les Qt 5, convertint les entrades a dins del fitxer <filename class="extension"
 >.desktop</filename
 > en dades &JSON;.</para>
 
