@@ -116,7 +116,7 @@
 ></term>
 <listitem>
 <para
->Ignora els fitxers definits per l'usuari (a <varname
+>Ignora els fitxers definits per l'usuari (en <varname
 >XDG_DATA_HOME</varname
 >). Actualment, açò només està admés en sistemes &UNIX;.</para>
 </listitem>
