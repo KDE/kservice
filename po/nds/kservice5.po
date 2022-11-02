@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-06-22 00:41+0000\n"
+"POT-Creation-Date: 2022-11-02 00:44+0000\n"
 "PO-Revision-Date: 2014-05-11 00:55+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -200,12 +200,12 @@ msgstr "Dat Terminalprogramm lett sik nich starten."
 msgid "No service implementing %1"
 msgstr "Keen Deenst stellt „%1“ praat."
 
-#: services/kservice.cpp:1076
+#: services/kservice.cpp:1082
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "De angeven Deenst is leeg"
 
-#: services/kservice.cpp:1080
+#: services/kservice.cpp:1086
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr ""
