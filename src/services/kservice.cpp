@@ -23,6 +23,7 @@
 #include <KConfigGroup>
 #include <KDesktopFile>
 #include <KLocalizedString>
+#include <KSharedConfig>
 #include <KShell>
 
 #include <QDebug>
@@ -1059,6 +1060,32 @@ void KService::setWorkingDirectory(const QString &workingDir)
     if (!workingDir.isEmpty()) {
         d->m_strWorkingDirectory = workingDir;
         d->path.clear();
+    }
+}
+
+void KService::setDefaultForMimeType(const QString &mimeTypeName)
+{
+    Q_D(KService);
+
+    if (!mimeTypeName.isEmpty()) {
+        KSharedConfig::Ptr profile = KSharedConfig::openConfig(QStringLiteral("mimeapps.list"), KConfig::NoGlobals, QStandardPaths::GenericConfigLocation);
+
+        // Save the default application according to mime-apps-spec 1.0
+        KConfigGroup defaultApp(profile, "Default Applications");
+        defaultApp.writeXdgListEntry(mimeTypeName, QStringList(d->storageId()));
+
+        KConfigGroup addedApps(profile, "Added Associations");
+        QStringList apps = addedApps.readXdgListEntry(mimeTypeName);
+        apps.removeAll(d->storageId());
+        apps.prepend(d->storageId()); // make it the preferred app
+        addedApps.writeXdgListEntry(mimeTypeName, apps);
+
+        profile->sync();
+
+        // Also make sure the "auto embed" setting for this MIME type is off
+        KSharedConfig::Ptr fileTypesConfig = KSharedConfig::openConfig(QStringLiteral("filetypesrc"), KConfig::NoGlobals);
+        fileTypesConfig->group("EmbedSettings").writeEntry(QStringLiteral("embed-") + mimeTypeName, false);
+        fileTypesConfig->sync();
     }
 }
 

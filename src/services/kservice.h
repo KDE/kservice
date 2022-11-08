@@ -467,6 +467,15 @@ public:
     void setWorkingDirectory(const QString &workingDir);
 
     /**
+     * Sets the service as default for the given mimetype.
+     *
+     * @internal
+     * @param mimeTypeName
+     * @since 5.100
+     */
+    void setDefaultForMimeType(const QString &mimeTypeName);
+
+    /**
      * Find a service based on its path as returned by entryPath().
      * It's usually better to use serviceByStorageId() instead.
      *
