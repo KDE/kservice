@@ -471,7 +471,7 @@ public:
      *
      * @internal
      * @param mimeTypeName
-     * @since 5.100
+     * @since 5.101
      */
     void setDefaultForMimeType(const QString &mimeTypeName);
 
