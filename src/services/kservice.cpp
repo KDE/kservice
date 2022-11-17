@@ -500,10 +500,10 @@ static QVariant makeStringVariant(const QString &string)
     return string.isNull() ? QVariant() : QVariant(string);
 }
 
-QVariant KService::property(const QString &_name, QVariant::Type t) const
+QVariant KService::property(const QString &_name, int t) const
 {
     Q_D(const KService);
-    return d->property(_name, t);
+    return d->property(_name, QVariant::Type(t));
 }
 
 QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const

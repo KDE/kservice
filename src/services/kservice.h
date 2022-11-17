@@ -410,7 +410,17 @@ public:
      * @return the property, or invalid if not found
      * @see KServiceType
      */
-    QVariant property(const QString &_name, QVariant::Type t) const;
+    QVariant property(const QString &_name, int t) const;
+#if QT_DEPRECATED_SINCE(6, 0)
+    inline QVariant property(const QString &_name, QVariant::Type t) const
+    {
+        return property(_name, int(t));
+    }
+#endif
+    inline QVariant property(const QString &_name, QMetaType::Type t) const
+    {
+        return property(_name, int(t));
+    }
 
     using KSycocaEntry::property;
 
