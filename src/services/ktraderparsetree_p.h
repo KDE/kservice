@@ -146,9 +146,9 @@ class ParseTreeOR : public ParseTreeBase
 {
 public:
     ParseTreeOR(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2)
+        : m_pLeft(_ptr1)
+        , m_pRight(_ptr2)
     {
-        m_pLeft = _ptr1;
-        m_pRight = _ptr2;
     }
 
     bool eval(ParseContext *_context) const override;
@@ -165,9 +165,9 @@ class ParseTreeAND : public ParseTreeBase
 {
 public:
     ParseTreeAND(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2)
+        : m_pLeft(_ptr1)
+        , m_pRight(_ptr2)
     {
-        m_pLeft = _ptr1;
-        m_pRight = _ptr2;
     }
 
     bool eval(ParseContext *_context) const override;
@@ -184,10 +184,10 @@ class ParseTreeCMP : public ParseTreeBase
 {
 public:
     ParseTreeCMP(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, int _i)
+        : m_pLeft(_ptr1)
+        , m_pRight(_ptr2)
+        , m_cmd(_i)
     {
-        m_pLeft = _ptr1;
-        m_pRight = _ptr2;
-        m_cmd = _i;
     }
 
     bool eval(ParseContext *_context) const override;
@@ -228,10 +228,10 @@ class ParseTreeMATCH : public ParseTreeBase
 {
 public:
     ParseTreeMATCH(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, Qt::CaseSensitivity cs)
+        : m_pLeft(_ptr1)
+        , m_pRight(_ptr2)
+        , m_cs(cs)
     {
-        m_pLeft = _ptr1;
-        m_pRight = _ptr2;
-        m_cs = cs;
     }
 
     bool eval(ParseContext *_context) const override;
@@ -261,10 +261,10 @@ class ParseTreeSubsequenceMATCH : public ParseTreeBase
 {
 public:
     ParseTreeSubsequenceMATCH(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, Qt::CaseSensitivity cs)
+        : m_pLeft(_ptr1)
+        , m_pRight(_ptr2)
+        , m_cs(cs)
     {
-        m_pLeft = _ptr1;
-        m_pRight = _ptr2;
-        m_cs = cs;
     }
 
     bool eval(ParseContext *_context) const override;
@@ -282,10 +282,10 @@ class ParseTreeCALC : public ParseTreeBase
 {
 public:
     ParseTreeCALC(ParseTreeBase *_ptr1, ParseTreeBase *_ptr2, int _i)
+        : m_pLeft(_ptr1)
+        , m_pRight(_ptr2)
+        , m_cmd(_i)
     {
-        m_pLeft = _ptr1;
-        m_pRight = _ptr2;
-        m_cmd = _i;
     }
 
     bool eval(ParseContext *_context) const override;
@@ -303,8 +303,8 @@ class ParseTreeBRACKETS : public ParseTreeBase
 {
 public:
     explicit ParseTreeBRACKETS(ParseTreeBase *_ptr)
+        : m_pLeft(_ptr)
     {
-        m_pLeft = _ptr;
     }
 
     bool eval(ParseContext *_context) const override;
@@ -320,8 +320,8 @@ class ParseTreeNOT : public ParseTreeBase
 {
 public:
     explicit ParseTreeNOT(ParseTreeBase *_ptr)
+        : m_pLeft(_ptr)
     {
-        m_pLeft = _ptr;
     }
 
     bool eval(ParseContext *_context) const override;
@@ -337,8 +337,8 @@ class ParseTreeEXIST : public ParseTreeBase
 {
 public:
     explicit ParseTreeEXIST(const char *_id)
+        : m_id(QString::fromUtf8(_id))
     {
-        m_id = QString::fromUtf8(_id);
     }
 
     bool eval(ParseContext *_context) const override;
@@ -354,8 +354,8 @@ class ParseTreeID : public ParseTreeBase
 {
 public:
     explicit ParseTreeID(const char *arg)
+        : m_str(QString::fromUtf8(arg))
     {
-        m_str = QString::fromUtf8(arg);
     }
 
     bool eval(ParseContext *_context) const override;
@@ -371,8 +371,8 @@ class ParseTreeSTRING : public ParseTreeBase
 {
 public:
     explicit ParseTreeSTRING(const char *arg)
+        : m_str(QString::fromUtf8(arg))
     {
-        m_str = QString::fromUtf8(arg);
     }
 
     bool eval(ParseContext *_context) const override;
@@ -439,8 +439,8 @@ class ParseTreeMAX2 : public ParseTreeBase
 {
 public:
     explicit ParseTreeMAX2(const char *_id)
+        : m_strId(QString::fromUtf8(_id))
     {
-        m_strId = QString::fromUtf8(_id);
     }
 
     bool eval(ParseContext *_context) const override;
@@ -456,8 +456,8 @@ class ParseTreeMIN2 : public ParseTreeBase
 {
 public:
     explicit ParseTreeMIN2(const char *_id)
+        : m_strId(QString::fromUtf8(_id))
     {
-        m_strId = QString::fromUtf8(_id);
     }
 
     bool eval(ParseContext *_context) const override;

@@ -147,8 +147,8 @@ class WorkerThread : public QThread
 public:
     WorkerThread()
         : QThread()
+        , m_stop(false)
     {
-        m_stop = false;
     }
     void run() override
     {
