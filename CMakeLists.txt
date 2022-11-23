@@ -76,7 +76,7 @@ set_package_properties(BISON PROPERTIES
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
 
 ecm_set_disabled_deprecation_versions(
-    QT 5.15.2
+    QT 6.0
     KF 5.97.0
     KCOREADDONS 5.78 # for KPluginInfo::dependencies
 )
