@@ -500,7 +500,7 @@ static QVariant makeStringVariant(const QString &string)
     return string.isNull() ? QVariant() : QVariant(string);
 }
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 101)
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 101) && QT_DEPRECATED_SINCE(6, 0)
 QVariant KService::property(const QString &_name, QVariant::Type t) const
 {
     Q_D(const KService);

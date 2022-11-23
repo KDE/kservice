@@ -445,9 +445,9 @@ bool ParseTreeIN::eval(ParseContext *_context) const
         return false;
     }
 
-    if ((c1.type == ParseContext::T_NUM) && (c2.type == ParseContext::T_SEQ) && ((*(c2.seq.begin())).type() == QVariant::Int)) {
+    if ((c1.type == ParseContext::T_NUM) && (c2.type == ParseContext::T_SEQ) && ((*(c2.seq.begin())).userType() == QMetaType::Int)) {
         _context->b = std::any_of(c2.seq.cbegin(), c2.seq.cend(), [&c1](const QVariant &variant) {
-            return variant.type() == QVariant::Int && variant.toInt() == c1.i;
+            return variant.userType() == QMetaType::Int && variant.toInt() == c1.i;
         });
 
         return true;
@@ -455,9 +455,9 @@ bool ParseTreeIN::eval(ParseContext *_context) const
 
     if (c1.type == ParseContext::T_DOUBLE //
         && c2.type == ParseContext::T_SEQ //
-        && (*(c2.seq.begin())).type() == QVariant::Double) {
+        && (*(c2.seq.begin())).userType() == QMetaType::Double) {
         _context->b = std::any_of(c2.seq.cbegin(), c2.seq.cend(), [&c1](const QVariant &variant) {
-            return variant.type() == QVariant::Double && qFuzzyCompare(variant.toDouble(), c1.i);
+            return variant.userType() == QMetaType::Double && qFuzzyCompare(variant.toDouble(), c1.i);
         });
 
         return true;
@@ -490,37 +490,37 @@ bool ParseTreeID::eval(ParseContext *_context) const
         return false;
     }
 
-    if (prop.type() == QVariant::String) {
+    if (prop.userType() == QMetaType::QString) {
         _context->str = prop.toString();
         _context->type = ParseContext::T_STRING;
         return true;
     }
 
-    if (prop.type() == QVariant::Int) {
+    if (prop.userType() == QMetaType::Int) {
         _context->i = prop.toInt();
         _context->type = ParseContext::T_NUM;
         return true;
     }
 
-    if (prop.type() == QVariant::Bool) {
+    if (prop.userType() == QMetaType::Bool) {
         _context->b = prop.toBool();
         _context->type = ParseContext::T_BOOL;
         return true;
     }
 
-    if (prop.type() == QVariant::Double) {
+    if (prop.userType() == QMetaType::Double) {
         _context->f = prop.toDouble();
         _context->type = ParseContext::T_DOUBLE;
         return true;
     }
 
-    if (prop.type() == QVariant::List) {
+    if (prop.userType() == QMetaType::QVariantList) {
         _context->seq = prop.toList();
         _context->type = ParseContext::T_SEQ;
         return true;
     }
 
-    if (prop.type() == QVariant::StringList) {
+    if (prop.userType() == QMetaType::QStringList) {
         _context->strSeq = prop.toStringList();
         _context->type = ParseContext::T_STR_SEQ;
         return true;
@@ -549,10 +549,10 @@ bool ParseTreeMIN2::eval(ParseContext *_context) const
         return false;
     }
 
-    if (prop.type() == QVariant::Int && it.value().type == PreferencesMaxima::PM_INT) {
+    if (prop.userType() == QMetaType::Int && it.value().type == PreferencesMaxima::PM_INT) {
         _context->f = double(prop.toInt() - it.value().iMin) / double(it.value().iMax - it.value().iMin) * (-2.0) + 1.0;
         return true;
-    } else if (prop.type() == QVariant::Double && it.value().type == PreferencesMaxima::PM_DOUBLE) {
+    } else if (prop.userType() == QMetaType::Double && it.value().type == PreferencesMaxima::PM_DOUBLE) {
         _context->f = (prop.toDouble() - it.value().fMin) / (it.value().fMax - it.value().fMin) * (-2.0) + 1.0;
         return true;
     }
@@ -581,10 +581,10 @@ bool ParseTreeMAX2::eval(ParseContext *_context) const
         return false;
     }
 
-    if (prop.type() == QVariant::Int && it.value().type == PreferencesMaxima::PM_INT) {
+    if (prop.userType() == QMetaType::Int && it.value().type == PreferencesMaxima::PM_INT) {
         _context->f = double(prop.toInt() - it.value().iMin) / double(it.value().iMax - it.value().iMin) * 2.0 - 1.0;
         return true;
-    } else if (prop.type() == QVariant::Double && it.value().type == PreferencesMaxima::PM_DOUBLE) {
+    } else if (prop.userType() == QMetaType::Double && it.value().type == PreferencesMaxima::PM_DOUBLE) {
         _context->f = (prop.toDouble() - it.value().fMin) / (it.value().fMax - it.value().fMin) * 2.0 - 1.0;
         return true;
     }
@@ -650,7 +650,7 @@ bool ParseContext::initMaxima(const QString &_prop)
     }
 
     // Numeric ?
-    if (prop.type() != QVariant::Int && prop.type() != QVariant::Double) {
+    if (prop.userType() != QMetaType::Int && prop.userType() != QMetaType::Double) {
         return false;
     }
 
@@ -662,7 +662,7 @@ bool ParseContext::initMaxima(const QString &_prop)
 
     // Double or Int ?
     PreferencesMaxima extrema;
-    if (prop.type() == QVariant::Int) {
+    if (prop.userType() == QMetaType::Int) {
         extrema.type = PreferencesMaxima::PM_INVALID_INT;
     } else {
         extrema.type = PreferencesMaxima::PM_INVALID_DOUBLE;

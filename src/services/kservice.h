@@ -402,7 +402,7 @@ public:
      */
     QString docPath() const;
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 101)
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 101) && QT_DEPRECATED_SINCE(6, 0)
     /**
      * Returns the requested property.
      *
