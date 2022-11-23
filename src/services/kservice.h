@@ -402,6 +402,21 @@ public:
      */
     QString docPath() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 101)
+    /**
+     * Returns the requested property.
+     *
+     * @param _name the name of the property
+     * @param t the assumed type of the property
+     * @return the property, or invalid if not found
+     * @see KServiceType
+     *
+     * @deprecated since 5.101, use property(QString, QMetaType::Type) instead.
+     */
+    KSERVICE_DEPRECATED_VERSION(5, 101, "Use property(QString, QMetaType::Type) instead")
+    QVariant property(const QString &_name, QVariant::Type t) const;
+#endif
+
     /**
      * Returns the requested property.
      *
@@ -410,7 +425,7 @@ public:
      * @return the property, or invalid if not found
      * @see KServiceType
      */
-    QVariant property(const QString &_name, QVariant::Type t) const;
+    QVariant property(const QString &_name, QMetaType::Type t) const;
 
     using KSycocaEntry::property;
 

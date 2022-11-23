@@ -55,7 +55,7 @@ public:
     /**
      * Find a the property type of a named property.
      */
-    QVariant::Type findPropertyTypeByName(const QString &_name);
+    QMetaType::Type findPropertyTypeByName(const QString &_name);
 
     /**
      * @return all servicetypes

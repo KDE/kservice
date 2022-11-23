@@ -487,7 +487,7 @@ bool KService::hasMimeType(const QString &mimeType) const
 
 QVariant KServicePrivate::property(const QString &_name) const
 {
-    return property(_name, QVariant::Invalid);
+    return property(_name, QMetaType::UnknownType);
 }
 
 // Return a string QVariant if string isn't null, and invalid variant otherwise
@@ -500,13 +500,21 @@ static QVariant makeStringVariant(const QString &string)
     return string.isNull() ? QVariant() : QVariant(string);
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 101)
 QVariant KService::property(const QString &_name, QVariant::Type t) const
+{
+    Q_D(const KService);
+    return d->property(_name, (QMetaType::Type)t);
+}
+#endif
+
+QVariant KService::property(const QString &_name, QMetaType::Type t) const
 {
     Q_D(const KService);
     return d->property(_name, t);
 }
 
-QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
+QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) const
 {
     if (_name == QLatin1String("Type")) {
         return QVariant(m_strType); // can't be null
@@ -548,13 +556,13 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
 
     // Ok we need to convert the property from a QString to its real type.
     // Maybe the caller helped us.
-    if (t == QVariant::Invalid) {
+    if (t == QMetaType::UnknownType) {
         // No luck, let's ask KServiceTypeFactory what the type of this property
         // is supposed to be.
         // ######### this looks in all servicetypes, not just the ones this service supports!
         KSycoca::self()->ensureCacheValid();
         t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(_name);
-        if (t == QVariant::Invalid) {
+        if (t == QMetaType::UnknownType) {
             qCDebug(SERVICES) << "Request for unknown property" << _name;
             return QVariant(); // Unknown property: Invalid variant.
         }
@@ -566,13 +574,18 @@ QVariant KServicePrivate::property(const QString &_name, QVariant::Type t) const
         return QVariant(); // No property set.
     }
 
-    if (t == QVariant::String) {
+    if (t == QMetaType::QString) {
         return it.value(); // no conversion necessary
     } else {
         // All others
         // For instance properties defined as StringList, like MimeTypes.
         // XXX This API is accessible only through a friend declaration.
-        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(t));
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(static_cast<QVariant::Type>(t)));
+#else
+        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(QMetaType(t)));
+#endif
     }
 }
 
@@ -634,7 +647,7 @@ KService::Ptr KService::serviceByStorageId(const QString &_storageId)
 
 bool KService::substituteUid() const
 {
-    QVariant v = property(QStringLiteral("X-KDE-SubstituteUID"), QVariant::Bool);
+    QVariant v = property(QStringLiteral("X-KDE-SubstituteUID"), QMetaType::Bool);
     return v.isValid() && v.toBool();
 }
 
@@ -642,7 +655,7 @@ QString KService::username() const
 {
     // See also KDesktopFile::tryExec()
     QString user;
-    QVariant v = property(QStringLiteral("X-KDE-Username"), QVariant::String);
+    QVariant v = property(QStringLiteral("X-KDE-Username"), QMetaType::QString);
     user = v.isValid() ? v.toString() : QString();
     if (user.isEmpty()) {
         user = QString::fromLocal8Bit(qgetenv("ADMIN_ACCOUNT"));
@@ -731,7 +744,7 @@ bool KService::showOnCurrentPlatform() const
 
 bool KService::noDisplay() const
 {
-    if (qvariant_cast<bool>(property(QStringLiteral("NoDisplay"), QVariant::Bool))) {
+    if (qvariant_cast<bool>(property(QStringLiteral("NoDisplay"), QMetaType::Bool))) {
         return true;
     }
 
@@ -752,7 +765,7 @@ bool KService::noDisplay() const
 
 QString KService::untranslatedGenericName() const
 {
-    QVariant v = property(QStringLiteral("UntranslatedGenericName"), QVariant::String);
+    QVariant v = property(QStringLiteral("UntranslatedGenericName"), QMetaType::QString);
     return v.isValid() ? v.toString() : QString();
 }
 
@@ -928,10 +941,10 @@ bool KService::terminal() const
 
 bool KService::runOnDiscreteGpu() const
 {
-    QVariant prop = property(QStringLiteral("PrefersNonDefaultGPU"), QVariant::Bool);
+    QVariant prop = property(QStringLiteral("PrefersNonDefaultGPU"), QMetaType::Bool);
     if (!prop.isValid()) {
         // For backwards compatibility
-        prop = property(QStringLiteral("X-KDE-RunOnDiscreteGpu"), QVariant::Bool);
+        prop = property(QStringLiteral("X-KDE-RunOnDiscreteGpu"), QMetaType::Bool);
     }
 
     return prop.isValid() && prop.toBool();
@@ -1093,5 +1106,5 @@ KService::operator KPluginName() const
 
 QString KService::aliasFor() const
 {
-    return KServiceUtilPrivate::completeBaseName(property(QStringLiteral("X-KDE-AliasFor"), QVariant::String).toString());
+    return KServiceUtilPrivate::completeBaseName(property(QStringLiteral("X-KDE-AliasFor"), QMetaType::QString).toString());
 }

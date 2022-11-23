@@ -366,7 +366,7 @@ void KServiceTest::testProperty()
     QCOMPARE(kdedkcookiejar->property(QStringLiteral("X-KDE-Kded-autoload")).toBool(), false);
     QCOMPARE(kdedkcookiejar->property(QStringLiteral("X-KDE-Kded-load-on-demand")).toBool(), true);
     QVERIFY(!kdedkcookiejar->property(QStringLiteral("Name")).toString().isEmpty());
-    QVERIFY(!kdedkcookiejar->property(QStringLiteral("Name[fr]"), QVariant::String).isValid());
+    QVERIFY(!kdedkcookiejar->property(QStringLiteral("Name[fr]"), QMetaType::QString).isValid());
 
     // TODO: for this we must install a servicetype desktop file...
     // KService::Ptr kjavaappletviewer = KService::serviceByDesktopPath("kjavaappletviewer.desktop");
@@ -730,7 +730,7 @@ void KServiceTest::testActionsAndDataStream()
 {
     KService::Ptr service = KService::serviceByStorageId(QStringLiteral("org.kde.faketestapp.desktop"));
     QVERIFY(service);
-    QVERIFY(!service->property(QStringLiteral("Name[fr]"), QVariant::String).isValid());
+    QVERIFY(!service->property(QStringLiteral("Name[fr]"), QMetaType::QString).isValid());
     const QList<KServiceAction> actions = service->actions();
     QCOMPARE(actions.count(), 2); // NewWindow, NewTab
     const KServiceAction newTabAction = actions.at(1);

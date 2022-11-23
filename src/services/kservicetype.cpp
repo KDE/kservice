@@ -53,7 +53,11 @@ void KServiceTypePrivate::init(KDesktopFile *config)
     for (const auto &groupName : lst) {
         if (QLatin1String marker("Property::"); groupName.startsWith(marker)) {
             KConfigGroup cg(config, groupName);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             QVariant variant = QVariant::nameToType(cg.readEntry("Type").toLatin1().constData());
+#else
+            QVariant variant(QMetaType::fromName(cg.readEntry("Type").toLatin1().constData()));
+#endif
             variant = cg.readEntry("Value", variant);
 
             if (variant.isValid()) {
@@ -61,7 +65,12 @@ void KServiceTypePrivate::init(KDesktopFile *config)
             }
         } else if (QLatin1String marker("PropertyDef::"); groupName.startsWith(marker)) {
             KConfigGroup cg(config, groupName);
-            m_mapPropDefs.insert(groupName.mid(marker.size()), QVariant::nameToType(cg.readEntry("Type").toLatin1().constData()));
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+            m_mapPropDefs.insert(groupName.mid(marker.size()), static_cast<QMetaType::Type>(QVariant::nameToType(cg.readEntry("Type").toLatin1().constData())));
+#else
+            m_mapPropDefs.insert(groupName.mid(marker.size()),
+                                 static_cast<QMetaType::Type>(QMetaType::fromName(cg.readEntry("Type").toLatin1().constData()).id()));
+#endif
         }
     }
 }
@@ -142,10 +151,10 @@ QStringList KServiceTypePrivate::propertyNames() const
     return res;
 }
 
-QVariant::Type KServiceType::propertyDef(const QString &_name) const
+QMetaType::Type KServiceType::propertyDef(const QString &_name) const
 {
     Q_D(const KServiceType);
-    return static_cast<QVariant::Type>(d->m_mapPropDefs.value(_name, QVariant::Invalid));
+    return static_cast<QMetaType::Type>(d->m_mapPropDefs.value(_name, QMetaType::UnknownType));
 }
 
 QStringList KServiceType::propertyDefNames() const
@@ -213,7 +222,7 @@ bool KServiceType::isDerived() const
     return d->m_bDerived;
 }
 
-QMap<QString, QVariant::Type> KServiceType::propertyDefs() const
+QMap<QString, QMetaType::Type> KServiceType::propertyDefs() const
 {
     Q_D(const KServiceType);
     return d->m_mapPropDefs;

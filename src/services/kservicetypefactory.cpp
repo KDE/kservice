@@ -67,15 +67,15 @@ KServiceType::Ptr KServiceTypeFactory::findServiceTypeByName(const QString &_nam
     return newServiceType;
 }
 
-QVariant::Type KServiceTypeFactory::findPropertyTypeByName(const QString &_name)
+QMetaType::Type KServiceTypeFactory::findPropertyTypeByName(const QString &_name)
 {
     if (!sycocaDict()) {
-        return QVariant::Invalid; // Error!
+        return QMetaType::UnknownType; // Error!
     }
 
     assert(!sycoca()->isBuilding());
 
-    return static_cast<QVariant::Type>(m_propertyTypeDict.value(_name, QVariant::Invalid));
+    return static_cast<QMetaType::Type>(m_propertyTypeDict.value(_name, QMetaType::UnknownType));
 }
 
 KServiceType::List KServiceTypeFactory::allServiceTypes()

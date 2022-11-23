@@ -334,9 +334,9 @@ KPluginInfo::KPluginInfo(const KService::Ptr service)
     QJsonObject json;
     const auto propertyList = service->propertyNames();
     for (const QString &key : propertyList) {
-        QVariant::Type t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(key);
-        if (t == QVariant::Invalid) {
-            t = QVariant::String; // default to string if the type is not known
+        QMetaType::Type t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(key);
+        if (t == QMetaType::UnknownType) {
+            t = QMetaType::QString; // default to string if the type is not known
         }
         QVariant v = service->property(key, t);
         if (v.isValid()) {
@@ -642,10 +642,10 @@ QVariant KPluginInfo::property(const QString &key) const
     QVariant result = d->metaData.rawData().value(key).toVariant();
     if (result.isValid()) {
         KSycoca::self()->ensureCacheValid();
-        const QVariant::Type t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(key);
+        const QMetaType::Type t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(key);
 
         // special case if we want a stringlist: split values by ',' or ';' and construct the list
-        if (t == QVariant::StringList) {
+        if (t == QMetaType::QStringList) {
             if (result.canConvert<QString>()) {
                 result = KPluginInfoPrivate::deserializeList(result.toString());
             } else if (result.canConvert<QVariantList>()) {

@@ -60,7 +60,7 @@ public:
 
     QStringList propertyNames() const override;
 
-    QVariant property(const QString &_name, QVariant::Type t) const;
+    QVariant property(const QString &_name, QMetaType::Type t) const;
 
     QStringList serviceTypes() const;
 

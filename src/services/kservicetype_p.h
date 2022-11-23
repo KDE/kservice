@@ -65,7 +65,7 @@ public:
     QString m_strName;
     mutable /*remove mutable when kmimetype doesn't use this anymore*/ QString m_strComment;
     int m_serviceOffersOffset;
-    QMap<QString, QVariant::Type> m_mapPropDefs;
+    QMap<QString, QMetaType::Type> m_mapPropDefs;
     QMap<QString, QVariant> m_mapProps;
     unsigned m_bDerived : 1;
     unsigned m_parentTypeLoaded : 1;

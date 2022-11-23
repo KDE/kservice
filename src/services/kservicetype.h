@@ -88,7 +88,7 @@ public:
      * @return the property type, or null if not found
      * @see propertyDefNames
      */
-    QVariant::Type propertyDef(const QString &_name) const;
+    QMetaType::Type propertyDef(const QString &_name) const;
 
     /**
      * Returns the list of all property definitions for this servicetype.
@@ -106,7 +106,7 @@ public:
     QStringList propertyDefNames() const;
 
     /// @internal (for KBuildServiceTypeFactory)
-    QMap<QString, QVariant::Type> propertyDefs() const;
+    QMap<QString, QMetaType::Type> propertyDefs() const;
 
     /**
      * @internal
