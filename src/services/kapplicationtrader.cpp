@@ -17,6 +17,9 @@
 
 #include <QMimeDatabase>
 
+#include <KConfigGroup>
+#include <KSharedConfig>
+
 static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
 {
     KService::List lst;
@@ -110,6 +113,31 @@ KService::Ptr KApplicationTrader::preferredService(const QString &mimeType)
         return offers.at(0);
     }
     return KService::Ptr();
+}
+
+void KApplicationTrader::setPreferredService(const QString &mimeType, const KService::Ptr service)
+{
+    if (mimeType.isEmpty() || !(service && service->isValid())) {
+        return;
+    }
+    KSharedConfig::Ptr profile = KSharedConfig::openConfig(QStringLiteral("mimeapps.list"), KConfig::NoGlobals, QStandardPaths::GenericConfigLocation);
+
+    // Save the default application according to mime-apps-spec 1.0
+    KConfigGroup defaultApp(profile, "Default Applications");
+    defaultApp.writeXdgListEntry(mimeType, QStringList(service->storageId()));
+
+    KConfigGroup addedApps(profile, "Added Associations");
+    QStringList apps = addedApps.readXdgListEntry(mimeType);
+    apps.removeAll(service->storageId());
+    apps.prepend(service->storageId()); // make it the preferred app
+    addedApps.writeXdgListEntry(mimeType, apps);
+
+    profile->sync();
+
+    // Also make sure the "auto embed" setting for this MIME type is off
+    KSharedConfig::Ptr fileTypesConfig = KSharedConfig::openConfig(QStringLiteral("filetypesrc"), KConfig::NoGlobals);
+    fileTypesConfig->group("EmbedSettings").writeEntry(QStringLiteral("embed-") + mimeType, false);
+    fileTypesConfig->sync();
 }
 
 bool KApplicationTrader::isSubsequence(const QString &pattern, const QString &text, Qt::CaseSensitivity cs)

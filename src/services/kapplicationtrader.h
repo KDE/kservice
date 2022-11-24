@@ -76,6 +76,17 @@ KSERVICE_EXPORT KService::List queryByMimeType(const QString &mimeType, FilterFu
 KSERVICE_EXPORT KService::Ptr preferredService(const QString &mimeType);
 
 /**
+ * Changes the preferred service for @p mimeType to @p service
+ *
+ * You may need to rebuild KSyCoca for the change to be reflected
+ *
+ * @param mimeType the MIME type
+ * @param service the service to set as the preferred one
+ * @since 5.101
+ */
+KSERVICE_EXPORT void setPreferredService(const QString &mimeType, const KService::Ptr service);
+
+/**
  * Returns true if @p pattern matches a subsequence of the string @p text.
  * For instance the pattern "libremath" matches the text "LibreOffice Math", assuming
  * @p cs is Qt::CaseInsensitive.
