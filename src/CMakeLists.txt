@@ -201,11 +201,14 @@ ecm_generate_headers(KService_HEADERS
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
 
-install(FILES
-   services/kplugininfo.desktop # TODO move to qrc too, like application.desktop?
-   services/application.desktop # KF6: TODO: stop installing this file, it's now bundled into the qrc
-   DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR}
-)
+if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
+   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.102.0)
+    install(FILES
+    services/kplugininfo.desktop # TODO move to qrc too, like application.desktop?
+    services/application.desktop # KF6: TODO: stop installing this file, it's now bundled into the qrc
+    DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR}
+    )
+endif()
 
 # Local copy for the unittests
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5)
