@@ -221,6 +221,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         parseActions(config, q);
     }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 102)
     QString dbusStartupType = desktopGroup.readEntry("X-DBUS-StartupType").toLower();
     entryMap.remove(QStringLiteral("X-DBUS-StartupType"));
     if (dbusStartupType == QLatin1String("unique")) {
@@ -230,6 +231,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     } else {
         m_DBUSStartusType = KService::DBusNone;
     }
+#endif
 
     m_strDesktopEntryName = _name;
 
@@ -332,7 +334,9 @@ void KServicePrivate::load(QDataStream &s)
 
     m_bAllowAsDefault = bool(def);
     m_bTerminal = bool(term);
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 102)
     m_DBUSStartusType = static_cast<KService::DBusStartupType>(dst);
+#endif
     m_initialPreference = initpref;
 
     m_bValid = true;
@@ -344,7 +348,11 @@ void KServicePrivate::save(QDataStream &s)
     qint8 def = m_bAllowAsDefault;
     qint8 initpref = m_initialPreference;
     qint8 term = m_bTerminal;
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 102)
     qint8 dst = qint8(m_DBUSStartusType);
+#else
+    qint8 dst = 0;
+#endif
 
     // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KService 5.x VERSIONS!
     // !! This data structure should remain binary compatible at all times !!
@@ -943,11 +951,13 @@ QString KService::desktopEntryName() const
     return d->m_strDesktopEntryName;
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 102)
 KService::DBusStartupType KService::dbusStartupType() const
 {
     Q_D(const KService);
     return d->m_DBUSStartusType;
 }
+#endif
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 63)
 QString KService::path() const

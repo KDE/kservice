@@ -178,6 +178,7 @@ public:
      */
     QString storageId() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 102)
     /**
      * Describes the D-Bus Startup type of the service.
      * @li None - This service has no D-Bus support
@@ -189,12 +190,18 @@ public:
      *             the PID of the process.
      */
     enum DBusStartupType { DBusNone = 0, DBusUnique, DBusMulti };
+#endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 102)
     /**
      * Returns the DBUSStartupType supported by this service.
      * @return the DBUSStartupType supported by this service
+     *
+     * @deprecated since 5.102, no known users.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 102, "No known users")
     DBusStartupType dbusStartupType() const;
+#endif
 
 #if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 63)
     /**
