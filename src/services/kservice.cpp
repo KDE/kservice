@@ -429,6 +429,7 @@ KService::~KService()
 {
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 104)
 bool KService::hasServiceType(const QString &serviceType) const
 {
     Q_D(const KService);
@@ -471,6 +472,7 @@ bool KService::hasServiceType(const QString &serviceType) const
 
     return std::any_of(d->m_serviceTypes.cbegin(), d->m_serviceTypes.cend(), matchFunc);
 }
+#endif
 
 bool KService::hasMimeType(const QString &mimeType) const
 {
@@ -1032,11 +1034,13 @@ QStringList KServicePrivate::serviceTypes() const
     return ret;
 }
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 104)
 QStringList KService::serviceTypes() const
 {
     Q_D(const KService);
     return d->serviceTypes();
 }
+#endif
 
 QStringList KService::mimeTypes() const
 {
@@ -1051,6 +1055,7 @@ QStringList KService::mimeTypes() const
             ret.append(servType);
         }
     }
+
     return ret;
 }
 

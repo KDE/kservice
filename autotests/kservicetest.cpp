@@ -639,6 +639,7 @@ void KServiceTest::testSubseqConstraints()
     QVERIFY2(test("TRYHARDS", "try your hardest", 0), "uppercase pattern");
 }
 
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 104)
 void KServiceTest::testHasServiceType1() // with services constructed with a full path (rare)
 {
     QString fakepartPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kservices5/fakepart.desktop"));
@@ -668,6 +669,7 @@ void KServiceTest::testHasServiceType2() // with services coming from ksycoca
     QVERIFY(faketextPlugin->hasServiceType(QStringLiteral("FakePluginType")));
     QVERIFY(!faketextPlugin->hasServiceType(QStringLiteral("FakeBasePart")));
 }
+#endif
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
 void KServiceTest::testWriteServiceTypeProfile()
@@ -849,7 +851,9 @@ void KServiceTest::testReaderThreads()
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 104)
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testHasServiceType1));
+#endif
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
 #endif
@@ -867,7 +871,9 @@ void KServiceTest::testThreads()
     sync.addFuture(QtConcurrent::run(&KServiceTest::testDeletingService, this));
 #else
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testAllServices));
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 104)
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testHasServiceType1));
+#endif
     sync.addFuture(QtConcurrent::run(this, &KServiceTest::testDeletingService));
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)

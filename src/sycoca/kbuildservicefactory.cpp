@@ -295,7 +295,11 @@ void KBuildServiceFactory::populateServiceTypes()
                     }
                 } else {
                     bool shouldAdd = true;
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 104)
                     const auto lst = service->serviceTypes();
+#else
+                    const auto lst = service->mimeTypes();
+#endif
                     for (const QString &otherType : lst) {
                         // Skip derived types if the base class is listed (#321706)
                         if (stName != otherType && mime.inherits(otherType)) {

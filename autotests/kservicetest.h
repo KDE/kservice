@@ -40,8 +40,10 @@ private Q_SLOTS:
     void testTraderConstraints();
 #endif
     void testSubseqConstraints();
+#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 104)
     void testHasServiceType1();
     void testHasServiceType2();
+#endif
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
     void testWriteServiceTypeProfile();
 #endif

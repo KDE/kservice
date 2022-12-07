@@ -264,6 +264,7 @@ public:
      */
     QStringList mimeTypes() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 104)
     /**
      * Returns the list of protocols this service supports.
      *
@@ -281,17 +282,29 @@ public:
      * @return the list of service types that are supported
      * Note that this doesn't include inherited servicetypes or MIME types,
      * only the service types listed in the .desktop file.
+     *
+     * @deprecated since 5.104, service types are deprecated. Read the
+     * X-KDE-ServiceType[s] key manually if really needed.
+     *
      */
+    KSERVICE_DEPRECATED_VERSION(5, 104, "Service Types are deprecated")
     QStringList serviceTypes() const;
+#endif
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 104)
     /**
      * Checks whether the service supports this service type
      * @param serviceTypePtr The name of the service type you are
      *        interested in determining whether this service supports.
      *
      * @return true if the service type you specified is supported, otherwise false.
+     *
+     *       @deprecated since 5.104, service types are deprecated. Read the
+     * X-KDE-ServiceType[s] key manually if really needed.
      */
+    KSERVICE_DEPRECATED_VERSION(5, 104, "Service Types are deprecated")
     bool hasServiceType(const QString &serviceTypePtr) const;
+#endif
 
     /**
      * Checks whether the service supports this MIME type
