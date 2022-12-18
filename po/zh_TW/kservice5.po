@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-02 00:44+0000\n"
+"POT-Creation-Date: 2022-12-18 00:48+0000\n"
 "PO-Revision-Date: 2016-06-28 17:34+0800\n"
 "Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
 "Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
@@ -202,12 +202,12 @@ msgstr "無法執行終端機客戶程式。"
 msgid "No service implementing %1"
 msgstr "沒有服務實作 %1"
 
-#: services/kservice.cpp:1082
+#: services/kservice.cpp:1105
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "提供的服務不合法"
 
-#: services/kservice.cpp:1086
+#: services/kservice.cpp:1109
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr "此服務 %1 沒有提供函式庫，或是遺失了函式庫的主鍵值。"

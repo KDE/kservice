@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kservice5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-02 00:44+0000\n"
+"POT-Creation-Date: 2022-12-18 00:48+0000\n"
 "PO-Revision-Date: 2021-05-20 08:38+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -200,12 +200,12 @@ msgstr "Не вдалося запустити програму клієнта �
 msgid "No service implementing %1"
 msgstr "Немає служби, що реалізує роботу з %1"
 
-#: services/kservice.cpp:1082
+#: services/kservice.cpp:1105
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Вказано некоректну службу"
 
-#: services/kservice.cpp:1086
+#: services/kservice.cpp:1109
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr ""
