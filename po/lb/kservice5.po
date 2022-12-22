@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-18 00:48+0000\n"
+"POT-Creation-Date: 2022-12-22 00:43+0000\n"
 "PO-Revision-Date: 2006-06-22 16:29+0200\n"
 "Last-Translator: Michel Ludwig <michel.ludwig@kdemail.net>\n"
 "Language-Team: Luxembourgish <kde-i18n-lb@kde.org>\n"
@@ -203,12 +203,12 @@ msgstr "Konnt de Mailprogramm net starten"
 msgid "No service implementing %1"
 msgstr ""
 
-#: services/kservice.cpp:1105
+#: services/kservice.cpp:1120
 #, kde-format
 msgid "The provided service is not valid"
 msgstr ""
 
-#: services/kservice.cpp:1109
+#: services/kservice.cpp:1124
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr ""

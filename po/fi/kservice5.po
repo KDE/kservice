@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-18 00:48+0000\n"
+"POT-Creation-Date: 2022-12-22 00:43+0000\n"
 "PO-Revision-Date: 2021-07-02 13:28+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -221,12 +221,12 @@ msgstr "Päätettä ei voitu käynnistää"
 msgid "No service implementing %1"
 msgstr "Mikään palvelu ei toteuta: %1"
 
-#: services/kservice.cpp:1105
+#: services/kservice.cpp:1120
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Tarjottu palvelu ei ole kelvollinen"
 
-#: services/kservice.cpp:1109
+#: services/kservice.cpp:1124
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr "Palvelu ”%1” ei tarjoa kirjastoa tai sen avain puuttuu"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-18 00:48+0000\n"
+"POT-Creation-Date: 2022-12-22 00:43+0000\n"
 "PO-Revision-Date: 2015-04-19 16:26-0700\n"
 "Last-Translator: Fumiaki Okushi <fumiaki.okushi@gmail.com>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -210,12 +210,12 @@ msgstr "ターミナルクライアントを起動できませんでした"
 msgid "No service implementing %1"
 msgstr ""
 
-#: services/kservice.cpp:1105
+#: services/kservice.cpp:1120
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "提供されたサービスは有効ではありません"
 
-#: services/kservice.cpp:1109
+#: services/kservice.cpp:1124
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr ""
