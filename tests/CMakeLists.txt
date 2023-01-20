@@ -10,7 +10,7 @@ find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} CONFIG REQUIRED Test)
 macro(kservice_executable_tests)
   foreach(_testname ${ARGN})
     add_executable(${_testname} ${_testname}.cpp)
-    target_link_libraries(${_testname} KF5::Service)
+    target_link_libraries(${_testname} KF6::Service)
     ecm_mark_as_test(${_testname})
   endforeach(_testname)
 endmacro()
@@ -46,4 +46,4 @@ target_sources(kmimeassociations_dumper PRIVATE
     ../src/sycoca/kmimeassociations.cpp
 )
 
-target_link_libraries(kmimeassociations_dumper KF5::Service KF5::CoreAddons KF5::ConfigCore)
+target_link_libraries(kmimeassociations_dumper KF6::Service KF6::CoreAddons KF6::ConfigCore)

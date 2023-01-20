@@ -12,7 +12,7 @@ application specific code.
 
 If you are using CMake, you need to have
 
-    find_package(KF5Service)
+    find_package(KF6Service)
 
-(or similar) in your CMakeLists.txt file, and you need to link to KF5::Service.
+(or similar) in your CMakeLists.txt file, and you need to link to KF6::Service.
 

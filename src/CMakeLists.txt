@@ -4,16 +4,16 @@ check_function_exists(mmap HAVE_MMAP)
 check_symbol_exists(posix_madvise "sys/mman.h" HAVE_MADVISE)
 configure_file(config-ksycoca.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-ksycoca.h )
 
-add_library(KF5Service)
-add_library(KF5::Service ALIAS KF5Service)
+add_library(KF6Service)
+add_library(KF6::Service ALIAS KF6Service)
 
-set_target_properties(KF5Service PROPERTIES
+set_target_properties(KF6Service PROPERTIES
     VERSION     ${KSERVICE_VERSION}
     SOVERSION   ${KSERVICE_SOVERSION}
     EXPORT_NAME Service
 )
 
-target_sources(KF5Service PRIVATE
+target_sources(KF6Service PRIVATE
    services/kautostart.cpp
    services/kapplicationtrader.cpp
    services/kmimetypefactory.cpp
@@ -52,22 +52,22 @@ target_sources(KF5Service PRIVATE
 
 if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
    EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.89.0)
-   target_sources(KF5Service PRIVATE kdeinit/ktoolinvocation.cpp)
+   target_sources(KF6Service PRIVATE kdeinit/ktoolinvocation.cpp)
    if (WIN32)
-        target_sources(KF5Service PRIVATE kdeinit/ktoolinvocation_win.cpp)
+        target_sources(KF6Service PRIVATE kdeinit/ktoolinvocation_win.cpp)
     endif()
     if (UNIX)
-        target_sources(KF5Service PRIVATE kdeinit/ktoolinvocation_x11.cpp)
+        target_sources(KF6Service PRIVATE kdeinit/ktoolinvocation_x11.cpp)
     endif()
 endif()
 
 if (TARGET Qt${QT_MAJOR_VERSION}::DBus)
-    target_sources(KF5Service PRIVATE
+    target_sources(KF6Service PRIVATE
         plugin/kdbusservicestarter.cpp
     )
 endif()
 
-ecm_qt_declare_logging_category(KF5Service
+ecm_qt_declare_logging_category(KF6Service
     HEADER servicesdebug.h
     IDENTIFIER SERVICES
     CATEGORY_NAME kf.service.services
@@ -75,7 +75,7 @@ ecm_qt_declare_logging_category(KF5Service
     EXPORT KSERVICE
     DESCRIPTION "service (kservice lib)"
 )
-ecm_qt_declare_logging_category(KF5Service
+ecm_qt_declare_logging_category(KF6Service
     HEADER sycocadebug.h
     IDENTIFIER SYCOCA
     CATEGORY_NAME kf.service.sycoca
@@ -96,7 +96,7 @@ flex_target(TraderLexer
 )
 set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/lex.c ${CMAKE_CURRENT_BINARY_DIR}/yacc.c PROPERTY SKIP_AUTOMOC ON)
 add_flex_bison_dependency(TraderLexer TraderParser)
-target_sources(KF5Service PRIVATE
+target_sources(KF6Service PRIVATE
     ${BISON_TraderParser_OUTPUTS}
     ${FLEX_TraderLexer_OUTPUTS}
 )
@@ -108,14 +108,14 @@ set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/yacc.h PROPERTY SKIP_AUTOMOC TRU
 if (TARGET Qt${QT_MAJOR_VERSION}::DBus)
     set(kservice_dbus_SRCS)
     qt_add_dbus_interface(kservice_dbus_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
-    target_sources(KF5Service PRIVATE ${kservice_dbus_SRCS})
+    target_sources(KF6Service PRIVATE ${kservice_dbus_SRCS})
 endif()
 
 if(WIN32)
     #unistd.h does not exist on windows
-    target_compile_definitions(KF5Service PRIVATE YY_NO_UNISTD_H=1)
+    target_compile_definitions(KF6Service PRIVATE YY_NO_UNISTD_H=1)
 endif()
-ecm_generate_export_header(KF5Service
+ecm_generate_export_header(KF6Service
     BASE_NAME KService
     GROUP_BASE_NAME KF
     VERSION ${KF_VERSION}
@@ -130,38 +130,38 @@ set(kservice_includes
    ${CMAKE_CURRENT_SOURCE_DIR}/plugin
    ${CMAKE_CURRENT_SOURCE_DIR}/kdeinit
 )
-target_include_directories(KF5Service
+target_include_directories(KF6Service
     PUBLIC
         "$<BUILD_INTERFACE:${kservice_includes}>"
     INTERFACE
         "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KService>"
 )
 
-target_link_libraries(KF5Service
+target_link_libraries(KF6Service
   PRIVATE
-    KF5::I18n
+    KF6::I18n
     Qt${QT_MAJOR_VERSION}::Xml  # (for vfolder menu) QDomDocument
 )
 
 if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
    EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.94.0)
-    target_link_libraries(KF5Service
+    target_link_libraries(KF6Service
     PUBLIC
-        KF5::ConfigCore   # KConfig and friends
-        KF5::CoreAddons   # KShell KPluginLoader
+        KF6::ConfigCore   # KConfig and friends
+        KF6::CoreAddons   # KShell KPluginLoader
     )
 else()
-    target_link_libraries(KF5Service
+    target_link_libraries(KF6Service
     PUBLIC
         Qt${QT_MAJOR_VERSION}::Core
     PRIVATE
-        KF5::ConfigCore   # KConfig and friends
-        KF5::CoreAddons   # KShell KPluginLoader
+        KF6::ConfigCore   # KConfig and friends
+        KF6::CoreAddons   # KShell KPluginLoader
     )
 endif()
 
-if (TARGET KF5::DBusAddons)
-  target_link_libraries(KF5Service PRIVATE KF5::DBusAddons)  # KDEInitInterface
+if (TARGET KF6::DBusAddons)
+  target_link_libraries(KF6Service PRIVATE KF6::DBusAddons)  # KDEInitInterface
 endif()
 
 ecm_generate_headers(KService_HEADERS
@@ -209,7 +209,7 @@ install(FILES
 
 # Local copy for the unittests
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5)
-add_custom_command(TARGET KF5Service PRE_BUILD COMMAND
+add_custom_command(TARGET KF6Service PRE_BUILD COMMAND
     ${CMAKE_COMMAND} -E copy
     ${CMAKE_CURRENT_SOURCE_DIR}/services/kplugininfo.desktop
     ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5) # not using KDE_INSTALL_KSERVICETYPESDIR because QStandardPaths wants "data" on Windows
@@ -222,12 +222,12 @@ endif ()
 
 # Local copy for the unittests
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/menus)
-add_custom_command(TARGET KF5Service PRE_BUILD COMMAND
+add_custom_command(TARGET KF6Service PRE_BUILD COMMAND
     ${CMAKE_COMMAND} -E copy
     ${CMAKE_CURRENT_SOURCE_DIR}/applications.menu
     ${CMAKE_BINARY_DIR}/bin/data/menus/${APPLICATIONS_MENU_NAME})
 
-install(TARGETS KF5Service EXPORT KF5ServiceTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS KF6Service EXPORT KF6ServiceTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
    "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
@@ -243,17 +243,17 @@ ecm_qt_install_logging_categories(
 
 if(BUILD_QCH)
     ecm_add_qch(
-        KF5Service_QCH
+        KF6Service_QCH
         NAME KService
-        BASE_NAME KF5Service
+        BASE_NAME KF6Service
         VERSION ${KF_VERSION}
         ORG_DOMAIN org.kde
         SOURCES # using only public headers, to cover only public API
             ${KService_HEADERS}
         MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
         LINK_QCHS
-            KF5Config_QCH
-            KF5CoreAddons_QCH
+            KF6Config_QCH
+            KF6CoreAddons_QCH
         INCLUDE_DIRS
             ${CMAKE_CURRENT_BINARY_DIR}
             ${kservice_includes}
@@ -272,5 +272,5 @@ endif()
 add_subdirectory(kbuildsycoca)
 
 include(ECMGeneratePriFile)
-ecm_generate_pri_file(BASE_NAME KService LIB_NAME KF5Service DEPS "KConfigCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KService)
+ecm_generate_pri_file(BASE_NAME KService LIB_NAME KF6Service DEPS "KConfigCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KService)
 install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})

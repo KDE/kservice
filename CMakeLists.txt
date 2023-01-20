@@ -36,8 +36,8 @@ add_feature_info(QCH ${BUILD_QCH} "API documentation in QCH format (for e.g. Qt 
 ecm_setup_version(PROJECT
                   VARIABLE_PREFIX KSERVICE
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/kservice_version.h"
-                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfigVersion.cmake"
-                  SOVERSION 5)
+                  PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF6ServiceConfigVersion.cmake"
+                  SOVERSION 6)
 
 set(APPLICATIONS_MENU_NAME applications.menu
     CACHE STRING "Name to install the applications.menu file as.")
@@ -49,13 +49,13 @@ if (NOT ANDROID)
   find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} CONFIG REQUIRED DBus)
 endif()
 
-find_package(KF5Config ${KF_DEP_VERSION} CONFIG REQUIRED)
-find_package(KF5CoreAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
+find_package(KF6Config ${KF_DEP_VERSION} CONFIG REQUIRED)
+find_package(KF6CoreAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
 if (NOT ANDROID)
-  find_package(KF5DBusAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
+  find_package(KF6DBusAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
 endif()
-find_package(KF5I18n ${KF_DEP_VERSION} CONFIG REQUIRED)
-find_package(KF5DocTools ${KF_DEP_VERSION} CONFIG)
+find_package(KF6I18n ${KF_DEP_VERSION} CONFIG REQUIRED)
+find_package(KF6DocTools ${KF_DEP_VERSION} CONFIG)
 
 find_package(FLEX REQUIRED)
 set_package_properties(FLEX PROPERTIES
@@ -83,11 +83,11 @@ ecm_set_disabled_deprecation_versions(
 
 ki18n_install(po)
 
-if (KF5DocTools_FOUND)
+if (KF6DocTools_FOUND)
     kdoctools_install(po)
 endif()
 
-if (KF5DocTools_FOUND)
+if (KF6DocTools_FOUND)
     add_subdirectory(docs)
 endif()
 
@@ -98,30 +98,30 @@ if (BUILD_TESTING)
 endif()
 
 # create a Config.cmake and a ConfigVersion.cmake file and install them
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF5Service")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/KF6Service")
 
 if (BUILD_QCH)
     ecm_install_qch_export(
-        TARGETS KF5Service_QCH
-        FILE KF5ServiceQchTargets.cmake
+        TARGETS KF6Service_QCH
+        FILE KF6ServiceQchTargets.cmake
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
     )
-    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF5ServiceQchTargets.cmake\")")
+    set(PACKAGE_INCLUDE_QCHTARGETS "include(\"\${CMAKE_CURRENT_LIST_DIR}/KF6ServiceQchTargets.cmake\")")
 endif()
 
 include(CMakePackageConfigHelpers)
 
-configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/KF5ServiceConfig.cmake.in"
-                              "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfig.cmake"
+configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/KF6ServiceConfig.cmake.in"
+                              "${CMAKE_CURRENT_BINARY_DIR}/KF6ServiceConfig.cmake"
                               INSTALL_DESTINATION  ${CMAKECONFIG_INSTALL_DIR}
                              )
 
-install(EXPORT KF5ServiceTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KF5ServiceTargets.cmake NAMESPACE KF5:: )
+install(EXPORT KF6ServiceTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE KF6ServiceTargets.cmake NAMESPACE KF6:: )
 
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfig.cmake"
-              "${CMAKE_CURRENT_BINARY_DIR}/KF5ServiceConfigVersion.cmake"
-              "${CMAKE_CURRENT_SOURCE_DIR}/KF5ServiceMacros.cmake"
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/KF6ServiceConfig.cmake"
+              "${CMAKE_CURRENT_BINARY_DIR}/KF6ServiceConfigVersion.cmake"
+              "${CMAKE_CURRENT_SOURCE_DIR}/KF6ServiceMacros.cmake"
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
        )

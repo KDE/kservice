@@ -13,8 +13,8 @@ deprecated: false
 release: true
 libraries:
  - qmake: KService
-   cmake: "KF5::Service"
-cmakename: KF5Service
+   cmake: "KF6::Service"
+cmakename: KF6Service
 
 public_lib: true
 group: Frameworks
