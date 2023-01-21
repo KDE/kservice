@@ -6,7 +6,6 @@
 */
 
 #include "kservicetypefactory_p.h"
-#include "kservicetypeprofile.h"
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
 #include "ksycocatype.h"
@@ -42,9 +41,6 @@ KServiceTypeFactory::KServiceTypeFactory(KSycoca *db)
 
 KServiceTypeFactory::~KServiceTypeFactory()
 {
-    if (!sycoca()->isBuilding()) {
-        KServiceTypeProfile::clearCache();
-    }
 }
 
 KServiceType::Ptr KServiceTypeFactory::findServiceTypeByName(const QString &_name)

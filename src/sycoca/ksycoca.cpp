@@ -325,10 +325,6 @@ void KSycocaPrivate::slotDatabaseChanged()
 
     // Now notify applications
     Q_EMIT q->databaseChanged();
-
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 80)
-    Q_EMIT q->databaseChanged(changeList);
-#endif
 }
 
 KMimeTypeFactory *KSycocaPrivate::mimeTypeFactory()
@@ -434,13 +430,6 @@ void KSycoca::addFactory(KSycocaFactory *factory)
 {
     d->addFactory(factory);
 }
-
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
-bool KSycoca::isChanged(const char *type)
-{
-    return self()->d->changeList.contains(QString::fromLatin1(type));
-}
-#endif
 
 QDataStream *KSycoca::findEntry(int offset, KSycocaType &type)
 {
@@ -712,26 +701,6 @@ bool KSycocaPrivate::buildSycoca()
     return true;
 }
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 15)
-quint32 KSycoca::timeStamp()
-{
-    if (!d->timeStamp) {
-        (void)d->readSycocaHeader();
-    }
-    return d->timeStamp / 1000; // from ms to s
-}
-#endif
-
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 15)
-quint32 KSycoca::updateSignature()
-{
-    if (!d->timeStamp) {
-        (void)d->readSycocaHeader();
-    }
-    return d->updateSig;
-}
-#endif
-
 QString KSycoca::absoluteFilePath(DatabaseType type)
 {
     Q_UNUSED(type); // GlobalDatabase concept removed in 5.61
@@ -752,16 +721,6 @@ QString KSycoca::absoluteFilePath(DatabaseType type)
         return QFile::decodeName(ksycoca_env);
     }
 }
-
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 15)
-QString KSycoca::language()
-{
-    if (d->language.isEmpty()) {
-        (void)d->readSycocaHeader();
-    }
-    return d->language;
-}
-#endif
 
 QStringList KSycoca::allResourceDirs()
 {

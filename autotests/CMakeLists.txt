@@ -21,50 +21,10 @@ kservice_unit_tests(
  kapplicationtradertest
 )
 
-if(UNIX AND
-  NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
-   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.89.0)
-  kservice_unit_tests(ktoolinvocation_x11test)
-endif()
-
-if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
-   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.82.0)
-   kservice_unit_tests(kplugintradertest)
-endif()
-if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
-   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.87.0)
-   kservice_unit_tests(kautostarttest)
-endif()
-
 # the test plays with the timestamp of ~/.qttest/share/kservicetypes5, and with the ksycoca file, other tests can collide
 set_tests_properties(ksycocatest PROPERTIES RUN_SERIAL TRUE)
 # KServiceTest::testAllServices can fail if any service is deleted while the test runs
 set_tests_properties(kservicetest PROPERTIES RUN_SERIAL TRUE)
-# This test deletes ~/.qttest/share/applications
-set_tests_properties(kapplicationtradertest PROPERTIES RUN_SERIAL TRUE)
-
-target_sources(kapplicationtradertest PUBLIC
-  ${CMAKE_CURRENT_SOURCE_DIR}/../src/services/ktraderparsetree.cpp
-)
-
-if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
-   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.90.0)
-    kservice_unit_tests(kplugininfotest)
-
-    add_library(fakeplugin MODULE nsaplugin.cpp)
-    ecm_mark_as_test(fakeplugin)
-    target_link_libraries(fakeplugin KF6::Service)
-
-
-    # generate new-style and old-style JSON from the .desktop file
-    file(COPY fakeplugin.desktop DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-    file(RENAME ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin.desktop ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_json_old.desktop)
-    kcoreaddons_desktop_to_json(fakeplugin ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_json_old.desktop COMPAT_MODE)
-
-    file(COPY fakeplugin.desktop DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-    file(RENAME ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin.desktop ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_json_new.desktop)
-    kcoreaddons_desktop_to_json(fakeplugin ${CMAKE_CURRENT_BINARY_DIR}/fakeplugin_json_new.desktop)
-endif()
 
 ######### kmimeassociationstest ########
 

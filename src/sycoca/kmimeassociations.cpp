@@ -120,11 +120,7 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
                     qCDebug(SYCOCA) << file << "specifies unknown service" << service << "in" << group.name();
                 } else {
                     // qDebug() << "adding mime" << resolvedMimeName << "to service" << pService->entryPath() << "pref=" << pref;
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
-                    m_offerHash.addServiceOffer(resolvedMimeName, KServiceOffer(pService, pref, 0, pService->allowAsDefault()));
-#else
                     m_offerHash.addServiceOffer(resolvedMimeName, KServiceOffer(pService, pref, 0));
-#endif
                     --pref;
                 }
             }

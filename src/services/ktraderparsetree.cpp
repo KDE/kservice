@@ -15,11 +15,7 @@ QVariant ParseContext::property(const QString &_key) const
     if (service) {
         return service->property(_key);
     }
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
-    if (info.isValid()) {
-        return info.property(_key);
-    }
-#endif
+
     return QVariant();
 }
 
@@ -615,31 +611,6 @@ int matchConstraint(const ParseTreeBase *_tree, const KService::Ptr &_service, c
     return (c.b ? 1 : 0);
 }
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
-int matchConstraintPlugin(const ParseTreeBase *_tree, const KPluginInfo &_info, const KPluginInfo::List &_list)
-{
-    // Empty tree matches always
-    if (!_tree) {
-        return 1;
-    }
-
-    QMap<QString, PreferencesMaxima> maxima;
-    ParseContext c(_info, _list, maxima);
-
-    // Error during evaluation ?
-    if (!_tree->eval(&c)) {
-        return -1;
-    }
-
-    // Did we get a bool ?
-    if (c.type != ParseContext::T_BOOL) {
-        return -1;
-    }
-
-    return (c.b ? 1 : 0);
-}
-#endif
-
 bool ParseContext::initMaxima(const QString &_prop)
 {
     // Is the property known ?
@@ -677,15 +648,6 @@ bool ParseContext::initMaxima(const QString &_prop)
             return servicePtr->property(_prop);
         });
     }
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
-    else if (info.isValid()) {
-        offerValues.reserve(pluginOffers.size());
-
-        std::transform(pluginOffers.cbegin(), pluginOffers.cend(), std::back_inserter(offerValues), [&_prop](const KPluginInfo &plugin) {
-            return plugin.property(_prop);
-        });
-    }
-#endif
 
     for (const QVariant &p : std::as_const(offerValues)) {
         if (p.isValid()) {

@@ -254,11 +254,7 @@ QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceO
                 KService *serv = createEntry(aServiceOffset);
                 if (serv) {
                     KService::Ptr servPtr(serv);
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
-                    list.append(KServiceOffer(servPtr, initialPreference, mimeTypeInheritanceLevel, servPtr->allowAsDefault()));
-#else
                     list.append(KServiceOffer(servPtr, initialPreference, mimeTypeInheritanceLevel));
-#endif
                 }
                 // Restore position
                 str->device()->seek(savedPos);

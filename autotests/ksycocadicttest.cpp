@@ -60,11 +60,7 @@ QTEST_MAIN(KSycocaDictTest)
 
 void KSycocaDictTest::runKBuildSycoca()
 {
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 80)
-    QSignalSpy spy(KSycoca::self(), qOverload<const QStringList &>(&KSycoca::databaseChanged));
-#else
     QSignalSpy spy(KSycoca::self(), &KSycoca::databaseChanged);
-#endif
 
     KBuildSycoca builder;
     QVERIFY(builder.recreate());

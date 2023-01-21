@@ -22,9 +22,6 @@ public:
     }
 private Q_SLOTS:
     void initTestCase();
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 0)
-    void testKPluginMetaData();
-#endif
     void cleanupTestCase();
     void testByName();
     void testConstructorFullPath();
@@ -35,22 +32,9 @@ private Q_SLOTS:
     void testProperty();
     void testAllServiceTypes();
     void testAllServices();
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
-    void testServiceTypeTraderForReadOnlyPart();
-    void testTraderConstraints();
-#endif
     void testSubseqConstraints();
     void testHasServiceType1();
     void testHasServiceType2();
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
-    void testWriteServiceTypeProfile();
-#endif
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
-    void testDefaultOffers();
-#endif
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 66)
-    void testDeleteServiceTypeProfile();
-#endif
     void testDBUSStartupType();
     void testByStorageId();
     void testActionsAndDataStream();
@@ -58,18 +42,8 @@ private Q_SLOTS:
     void testDeletingService();
     void testReaderThreads();
     void testThreads();
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 86)
-    void testOperatorKPluginName();
-#endif
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
-    void testKPluginInfoQuery();
-#endif
     void testCompleteBaseName();
     void testEntryPathToName();
-
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
-    void testTraderQueryMustRebuildSycoca();
-#endif
 
     void testAliasFor();
 

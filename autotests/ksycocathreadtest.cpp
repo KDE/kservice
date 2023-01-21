@@ -22,7 +22,6 @@
 #include <QMutex>
 #include <kservicegroup.h>
 #include <kservicetype.h>
-#include <kservicetypeprofile.h>
 #include <ksycoca.h>
 
 #include "setupxdgdirs.h"
@@ -122,15 +121,6 @@ public Q_SLOTS:
             }
         }
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
-        KService::List offers = KServiceTypeTrader::self()->query(QStringLiteral("KPluginInfo"));
-        Q_ASSERT(offerListHasService(offers, QStringLiteral("threadtextplugin.desktop")));
-
-        offers = KServiceTypeTrader::self()->query(QStringLiteral("KPluginInfo"), QStringLiteral("Library == 'threadtextplugin'"));
-        Q_ASSERT(offers.count() == 1);
-        QVERIFY(offerListHasService(offers, QStringLiteral("threadtextplugin.desktop")));
-#endif
-
         KServiceGroup::Ptr root = KServiceGroup::root();
         Q_ASSERT(root);
 
@@ -226,11 +216,7 @@ private:
 
 static void runKBuildSycoca()
 {
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 80)
-    QSignalSpy spy(KSycoca::self(), qOverload<const QStringList &>(&KSycoca::databaseChanged));
-#else
     QSignalSpy spy(KSycoca::self(), &KSycoca::databaseChanged);
-#endif
 
     KBuildSycoca builder;
     QVERIFY(builder.recreate());
@@ -337,23 +323,14 @@ void KSycocaThreadTest::deleteFakeService()
     const QString servPath = fakeServiceDesktopFile();
     QFile::remove(servPath);
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 80)
-    QSignalSpy spy(KSycoca::self(), qOverload<const QStringList &>(&KSycoca::databaseChanged));
-#else
     QSignalSpy spy(KSycoca::self(), &KSycoca::databaseChanged);
-#endif
 
     QVERIFY(spy.isValid());
 
     qDebug() << "executing kbuildsycoca (2)";
     runKBuildSycoca();
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 80)
-    QVERIFY(!spy.isEmpty());
-    QVERIFY(spy[0][0].toStringList().contains(QLatin1String("services")));
-#else
     QCOMPARE(spy.count(), 1);
-#endif
 
     QVERIFY(fakeService); // the whole point of refcounting is that this KService instance is still valid.
     QVERIFY(!QFile::exists(servPath));

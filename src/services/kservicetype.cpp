@@ -11,7 +11,6 @@
 #include "kservicefactory_p.h"
 #include "kservicetype_p.h"
 #include "kservicetypefactory_p.h"
-#include "kservicetypeprofile.h"
 #include "ksycoca.h"
 #include "ksycoca_p.h"
 #include "servicesdebug.h"

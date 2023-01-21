@@ -14,10 +14,8 @@ set_target_properties(KF6Service PROPERTIES
 )
 
 target_sources(KF6Service PRIVATE
-   services/kautostart.cpp
    services/kapplicationtrader.cpp
    services/kmimetypefactory.cpp
-   services/kmimetypetrader.cpp
    services/kservice.cpp
    services/kserviceaction.cpp
    services/kservicefactory.cpp
@@ -26,11 +24,8 @@ target_sources(KF6Service PRIVATE
    services/kserviceoffer.cpp
    services/kservicetype.cpp
    services/kservicetypefactory.cpp
-   services/kservicetypeprofile.cpp
-   services/kservicetypetrader.cpp
    services/ktraderparse.cpp
    services/ktraderparsetree.cpp
-   services/kplugininfo.cpp
    sycoca/ksycoca.cpp
    sycoca/ksycocadevices.cpp
    sycoca/ksycocadict.cpp
@@ -45,27 +40,9 @@ target_sources(KF6Service PRIVATE
    sycoca/kctimefactory.cpp
    sycoca/kmimeassociations.cpp
    sycoca/vfolder_menu.cpp
-   plugin/kplugintrader.cpp
 
    kservice.qrc
 )
-
-if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
-   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.89.0)
-   target_sources(KF6Service PRIVATE kdeinit/ktoolinvocation.cpp)
-   if (WIN32)
-        target_sources(KF6Service PRIVATE kdeinit/ktoolinvocation_win.cpp)
-    endif()
-    if (UNIX)
-        target_sources(KF6Service PRIVATE kdeinit/ktoolinvocation_x11.cpp)
-    endif()
-endif()
-
-if (TARGET Qt${QT_MAJOR_VERSION}::DBus)
-    target_sources(KF6Service PRIVATE
-        plugin/kdbusservicestarter.cpp
-    )
-endif()
 
 ecm_qt_declare_logging_category(KF6Service
     HEADER servicesdebug.h
@@ -102,15 +79,6 @@ target_sources(KF6Service PRIVATE
 )
 set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/yacc.h PROPERTY SKIP_AUTOMOC TRUE) # don't run automoc on this file
 
-# kservice cannot depend on kinit (because kinit->kio->kservice), so we need a copy of org.kde.KLauncher.xml here.
-# And I don't want to have it here as a source file (who wants to edit dbus xml by hand), so it can be
-# generated from klauncher's implementation header.
-if (TARGET Qt${QT_MAJOR_VERSION}::DBus)
-    set(kservice_dbus_SRCS)
-    qt_add_dbus_interface(kservice_dbus_SRCS kdeinit/org.kde.KLauncher.xml klauncher_iface)
-    target_sources(KF6Service PRIVATE ${kservice_dbus_SRCS})
-endif()
-
 if(WIN32)
     #unistd.h does not exist on windows
     target_compile_definitions(KF6Service PRIVATE YY_NO_UNISTD_H=1)
@@ -120,15 +88,13 @@ ecm_generate_export_header(KF6Service
     GROUP_BASE_NAME KF
     VERSION ${KF_VERSION}
     DEPRECATED_BASE_VERSION 0
-    DEPRECATION_VERSIONS 5.0 5.15 5.61 5.63 5.66 5.67 5.70 5.71 5.79 5.80 5.81 5.82 5.83 5.86 5.87 5.88 5.89 5.90 5.102
+    DEPRECATION_VERSIONS 5.90 5.102
     EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
 )
 set(kservice_includes
    ${CMAKE_CURRENT_BINARY_DIR}/.. # Since we publicly include kservice_version.h
    ${CMAKE_CURRENT_SOURCE_DIR}/services
    ${CMAKE_CURRENT_SOURCE_DIR}/sycoca
-   ${CMAKE_CURRENT_SOURCE_DIR}/plugin
-   ${CMAKE_CURRENT_SOURCE_DIR}/kdeinit
 )
 target_include_directories(KF6Service
     PUBLIC
@@ -143,34 +109,14 @@ target_link_libraries(KF6Service
     Qt${QT_MAJOR_VERSION}::Xml  # (for vfolder menu) QDomDocument
 )
 
-if(NOT EXCLUDE_DEPRECATED_BEFORE_AND_AT STREQUAL "CURRENT" AND
-   EXCLUDE_DEPRECATED_BEFORE_AND_AT VERSION_LESS 5.94.0)
-    target_link_libraries(KF6Service
-    PUBLIC
-        KF6::ConfigCore   # KConfig and friends
-        KF6::CoreAddons   # KShell KPluginLoader
-    )
-else()
-    target_link_libraries(KF6Service
-    PUBLIC
-        Qt${QT_MAJOR_VERSION}::Core
-    PRIVATE
-        KF6::ConfigCore   # KConfig and friends
-        KF6::CoreAddons   # KShell KPluginLoader
-    )
-endif()
-
-if (TARGET KF6::DBusAddons)
-  target_link_libraries(KF6Service PRIVATE KF6::DBusAddons)  # KDEInitInterface
-endif()
-
-ecm_generate_headers(KService_HEADERS
-  HEADER_NAMES
-  KPluginTrader
-  KDBusServiceStarter
-
-  RELATIVE plugin REQUIRED_HEADERS KService_HEADERS
+target_link_libraries(KF6Service
+PUBLIC
+    Qt${QT_MAJOR_VERSION}::Core
+PRIVATE
+    KF6::ConfigCore   # KConfig and friends
+    KF6::CoreAddons   # KShell
 )
+
 ecm_generate_headers(KService_HEADERS
   HEADER_NAMES
   KSycoca
@@ -181,38 +127,17 @@ ecm_generate_headers(KService_HEADERS
 )
 ecm_generate_headers(KService_HEADERS
   HEADER_NAMES
-  KToolInvocation
-
-  RELATIVE kdeinit REQUIRED_HEADERS KService_HEADERS
-)
-ecm_generate_headers(KService_HEADERS
-  HEADER_NAMES
   KApplicationTrader
-  KAutostart
-  KMimeTypeTrader
   KService
   KServiceAction
   KServiceGroup
   KServiceType
-  KServiceTypeProfile
-  KServiceTypeTrader
-  KPluginInfo
 
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
 
-install(FILES
-   services/kplugininfo.desktop # TODO move to qrc too, like application.desktop?
-   services/application.desktop # KF6: TODO: stop installing this file, it's now bundled into the qrc
-   DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR}
-)
-
 # Local copy for the unittests
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5)
-add_custom_command(TARGET KF6Service PRE_BUILD COMMAND
-    ${CMAKE_COMMAND} -E copy
-    ${CMAKE_CURRENT_SOURCE_DIR}/services/kplugininfo.desktop
-    ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5) # not using KDE_INSTALL_KSERVICETYPESDIR because QStandardPaths wants "data" on Windows
 
 if (WIN32)
 install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_DATAROOTDIR}/xdg/menus  RENAME ${APPLICATIONS_MENU_NAME} )

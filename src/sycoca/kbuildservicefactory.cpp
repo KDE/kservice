@@ -193,15 +193,6 @@ void KBuildServiceFactory::postProcessServices()
         KSycocaEntry::Ptr entry = itserv.value();
         KService::Ptr service(static_cast<KService *>(entry.data()));
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 87)
-        if (!service->isDeleted()) {
-            const QString parent = service->parentApp();
-            if (!parent.isEmpty()) {
-                m_serviceGroupFactory->addNewChild(parent, KSycocaEntry::Ptr(service));
-            }
-        }
-#endif
-
         const QString name = service->desktopEntryName();
         KService::Ptr dup = m_nameMemoryHash.value(name);
         if (dup) {
@@ -270,17 +261,9 @@ void KBuildServiceFactory::populateServiceTypes()
                 }
 
                 // qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << serviceType->name() << "pref=" << preference;
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
-                m_offerHash.addServiceOffer(stName, KServiceOffer(service, preference, 0, service->allowAsDefault()));
-#else
                 m_offerHash.addServiceOffer(stName, KServiceOffer(service, preference, 0));
-#endif
             } else {
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
-                KServiceOffer offer(service, preference, 0, service->allowAsDefault());
-#else
                 KServiceOffer offer(service, preference, 0);
-#endif
                 QMimeType mime = db.mimeTypeForName(stName);
                 if (!mime.isValid()) {
                     if (stName.startsWith(QLatin1String("x-scheme-handler/"))) {

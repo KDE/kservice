@@ -45,15 +45,9 @@ set(APPLICATIONS_MENU_NAME applications.menu
 # Dependencies
 set(REQUIRED_QT_VERSION 6.4.0)
 find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} CONFIG REQUIRED Xml)
-if (NOT ANDROID)
-  find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} CONFIG REQUIRED DBus)
-endif()
 
 find_package(KF6Config ${KF_DEP_VERSION} CONFIG REQUIRED)
 find_package(KF6CoreAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
-if (NOT ANDROID)
-  find_package(KF6DBusAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
-endif()
 find_package(KF6I18n ${KF_DEP_VERSION} CONFIG REQUIRED)
 find_package(KF6DocTools ${KF_DEP_VERSION} CONFIG)
 
@@ -121,7 +115,6 @@ install(EXPORT KF6ServiceTargets DESTINATION "${CMAKECONFIG_INSTALL_DIR}" FILE K
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/KF6ServiceConfig.cmake"
               "${CMAKE_CURRENT_BINARY_DIR}/KF6ServiceConfigVersion.cmake"
-              "${CMAKE_CURRENT_SOURCE_DIR}/KF6ServiceMacros.cmake"
         DESTINATION "${CMAKECONFIG_INSTALL_DIR}"
         COMPONENT Devel
        )

@@ -42,13 +42,6 @@ KServiceAction::KServiceAction()
 {
 }
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 69)
-KServiceAction::KServiceAction(const QString &name, const QString &text, const QString &icon, const QString &exec, bool noDisplay)
-    : d(new KServiceActionPrivate(name, text, icon, exec, noDisplay))
-{
-}
-#endif
-
 KServiceAction::KServiceAction(const QString &name, const QString &text, const QString &icon, const QString &exec, bool noDisplay, const KServicePtr &service)
     : d(new KServiceActionPrivate(name, text, icon, exec, noDisplay))
 {

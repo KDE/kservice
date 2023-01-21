@@ -41,23 +41,6 @@ public:
      */
     KServiceOffer(const KServiceOffer &);
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 71)
-    /**
-     * Creates a new KServiceOffer.
-     * @param service a pointer to the KService
-     * @param pref the user's preference value, must be positive,
-     *              bigger is better
-     * @param mimeTypeInheritanceLevel level of MIME type inheritance
-     *       which allows this service to handling the MIME type.
-     *       0 if no inheritance involved, 1 for parent MIME type, etc.
-     * @param allowedAsDefault true if the service should be used as
-     *                 default
-     * @deprecated Since 5.71, use constructor without @p allowedAsDefault argument
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 71, "Use constructor without allowedAsDefault argument")
-    KServiceOffer(const KService::Ptr &service, int pref, int mimeTypeInheritanceLevel, bool allowedAsDefault);
-#endif
-
     /**
      * Creates a new KServiceOffer.
      * @param service a pointer to the KService
@@ -82,17 +65,6 @@ public:
      * Assignment operator
      */
     KServiceOffer &operator=(const KServiceOffer &other);
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 67)
-    /**
-     * Is it allowed to use this service for default actions
-     * (e.g. Left Click in a file manager, or KRun in general).
-     * @return true if the service is a allowed as default
-     * @deprecated since 5.67, no know use case.
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 67, "No known use case")
-    bool allowAsDefault() const;
-#endif
 
     /**
      * The bigger this number is, the better is this service.

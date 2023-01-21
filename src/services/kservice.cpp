@@ -792,35 +792,6 @@ QString KService::untranslatedGenericName() const
     return v.isValid() ? v.toString() : QString();
 }
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 87)
-QString KService::parentApp() const
-{
-    Q_D(const KService);
-    auto it = d->m_mapProps.constFind(QStringLiteral("X-KDE-ParentApp"));
-    if (it != d->m_mapProps.cend()) {
-        const QVariant &val = it.value();
-        if (val.isValid()) {
-            return val.toString();
-        }
-    }
-
-    return {};
-}
-#endif
-
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 87)
-QString KService::pluginKeyword() const
-{
-    Q_D(const KService);
-    QMap<QString, QVariant>::ConstIterator it = d->m_mapProps.find(QStringLiteral("X-KDE-PluginKeyword"));
-    if ((it == d->m_mapProps.end()) || (!it->isValid())) {
-        return QString();
-    }
-
-    return it->toString();
-}
-#endif
-
 QString KService::docPath() const
 {
     Q_D(const KService);
@@ -987,14 +958,6 @@ KService::DBusStartupType KService::dbusStartupType() const
 }
 #endif
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 63)
-QString KService::path() const
-{
-    Q_D(const KService);
-    return d->m_strWorkingDirectory;
-}
-#endif
-
 QString KService::workingDirectory() const
 {
     Q_D(const KService);
@@ -1054,14 +1017,6 @@ QStringList KService::mimeTypes() const
     return ret;
 }
 
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 67)
-bool KService::allowAsDefault() const
-{
-    Q_D(const KService);
-    return d->m_bAllowAsDefault;
-}
-#endif
-
 int KService::initialPreference() const
 {
     Q_D(const KService);
@@ -1111,23 +1066,6 @@ QList<KServiceAction> KService::actions() const
     Q_D(const KService);
     return d->m_actions;
 }
-
-#if KCOREADDONS_BUILD_DEPRECATED_SINCE(5, 86)
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 86)
-KService::operator KPluginName() const
-{
-    if (!isValid()) {
-        return KPluginName::fromErrorString(i18n("The provided service is not valid"));
-    }
-
-    if (library().isEmpty()) {
-        return KPluginName::fromErrorString(i18n("The service '%1' provides no library or the Library key is missing", entryPath()));
-    }
-
-    return KPluginName(library());
-}
-#endif
-#endif
 
 QString KService::aliasFor() const
 {

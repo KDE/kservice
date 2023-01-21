@@ -100,35 +100,6 @@ public:
      */
     static QString absoluteFilePath(DatabaseType type = LocalDatabase);
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 15)
-    /**
-     * @internal - returns language stored inside database
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 15, "No longer use.")
-    QString language(); // KF6: remove
-
-    /**
-     * @internal - returns timestamp of database
-     *
-     * The database contains all changes made _before_ this time and
-     * _might_ contain changes made after that.
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 15, "No longer use.")
-    quint32 timeStamp(); // KF6: remove
-
-    /**
-     * @internal - returns update signature of database
-     *
-     * Signature that keeps track of changes to
-     * $KDEDIR/share/services/update_ksycoca
-     *
-     * Touching this file causes the database to be recreated
-     * from scratch.
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 15, "No longer use.")
-    quint32 updateSignature(); // KF6: remove
-#endif
-
     /**
      * @internal - returns all directories with information
      * stored inside sycoca.
@@ -154,20 +125,6 @@ public:
      * (e.g. inotify instances on Linux).
      */
     static void disableAutoRebuild();
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
-    /**
-     * When you receive a "databaseChanged" signal, you can query here if
-     * a change has occurred in a specific resource type.
-     * @see KStandardDirs for the various resource types.
-     *
-     * This method is meant to be called from the GUI thread only.
-     *
-     * @deprecated Since 5.0, use the @c KSycoca::databaseChanged() signal instead.
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 0, "Use KSycoca::databaseChanged() signal")
-    static bool isChanged(const char *type);
-#endif
 
     /**
      * A read error occurs.
@@ -207,24 +164,6 @@ Q_SIGNALS:
      * could be enough).
      */
     void databaseChanged(); // clazy:exclude=overloaded-signal
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 80)
-    /**
-     * Connect to this to get notified when the database changes
-     * Example: when MIME type definitions have changed, applications showing
-     * files as icons refresh icons to take into account the new MIME types.
-     * Another example: after creating a .desktop file in KOpenWithDialog,
-     * it must wait until kbuildsycoca5 finishes until the KService::Ptr is available.
-     *
-     * @param changedResources List of resources where changes were detected.
-     * This can include the following resources (as defined in KStandardDirs) :
-     * apps, xdgdata-apps, services, servicetypes, xdgdata-mime.
-     *
-     * @deprecated since 5.80, use the @c KSycoca::databaseChanged() signal instead.
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 80, "Use KSycoca::databaseChanged() signal")
-    void databaseChanged(const QStringList &changedResources); // clazy:exclude=overloaded-signal
-#endif
 
 protected:
     // @internal used by kbuildsycoca

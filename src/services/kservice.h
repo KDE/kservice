@@ -16,12 +16,6 @@
 #include <QVariant>
 #include <ksycocaentry.h>
 
-// Exclude includes that are not needed when deprecations are disabled
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 94)
-#include <KPluginFactory>
-#include <KPluginLoader>
-#endif
-
 class KServiceType;
 class QDataStream;
 class KDesktopFile;
@@ -203,16 +197,6 @@ public:
     DBusStartupType dbusStartupType() const;
 #endif
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 63)
-    /**
-     * @return the working directory to run the program in,
-     *         or QString() if not set
-     * @deprecated since 5.63, use workingDirectory() instead
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 63, "Use KService::workingDirectory()")
-    QString path() const;
-#endif
-
     /**
      * @return the working directory to run the program in,
      *         or QString() if not set
@@ -289,22 +273,6 @@ public:
      */
     bool hasMimeType(const QString &mimeType) const;
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 67)
-    /**
-     * Set to true if it is allowed to use this service as the default (main)
-     * action for the files it supports (e.g. Left Click in a file manager, or KRun in general).
-     *
-     * If not, then this service is only available in RMB popups, so it must
-     * be selected explicitly by the user in order to be used.
-     * Note that servicemenus supersede this functionality though, at least in konqueror.
-     *
-     * @return true if the service may be used as the default (main) handler
-     * @deprecated since 5.67 due to no known use case
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 67, "No known use case")
-    bool allowAsDefault() const;
-#endif
-
     /**
      * Returns the actions defined in this desktop file
      */
@@ -335,25 +303,6 @@ public:
      */
     bool noDisplay() const;
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 0)
-    /**
-     * Whether the service should be shown in KDE at all
-     * (including in context menus).
-     * @return true if the service should be shown.
-     *
-     * KMimeTypeTrader honors this and removes such services
-     * from its results.
-     *
-     * @since 4.5
-     * @deprecated since 5.0, use showInCurrentDesktop()
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 0, "Use KService::showInCurrentDesktop()")
-    bool showInKDE() const
-    {
-        return showInCurrentDesktop();
-    }
-#endif
-
     /**
      * Whether the service should be shown in the current desktop
      * (including in context menus).
@@ -374,33 +323,6 @@ public:
      * @since 5.0
      */
     bool showOnCurrentPlatform() const;
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 87)
-    /**
-     * Name of the application this service belongs to.
-     * (Useful for e.g. plugins)
-     * @return the parent application, or QString() if not set
-     * @deprecated Since 5.87, the concept of parent apps is deprecated. Plugins should use KPluginMetaData instead of
-     * KService and a dedicated namespace if the plugins are only for one app relevant.
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 87, "See API docs")
-    QString parentApp() const;
-#endif
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 87)
-    /**
-     * The keyword to be used when constructing the plugin using KPluginFactory. The keyword is
-     * defined with X-KDE-PluginKeyword in the .desktop file and with registerPlugin<T>(keyword)
-     * in the K_PLUGIN_FACTORY macro when implementing the plugin.
-     * @deprecated Since 5.87, the metadata should be embedded in the actual plugin. Consequently
-     * this property is obsolete. In case there is only one plugin in the library the usage is not needed.
-     * In case there are different base classes registered the keyword is not needed too.
-     * If there are multiple classes of a common base class registered they should be split up
-     * in separate libs.
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 87, "See API docs")
-    QString pluginKeyword() const;
-#endif
 
     /**
      * The path to the documentation for this service.
@@ -566,93 +488,6 @@ public:
      * @return The path to use for the new KService.
      */
     static QString newServicePath(bool showInMenu, const QString &suggestedName, QString *menuId = nullptr, const QStringList *reservedMenuIds = nullptr);
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
-#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
-    /**
-     * This template allows to load the library for the specified service and ask the
-     * factory to create an instance of the given template type.
-     *
-     * @param parent The parent object (see QObject constructor)
-     * @param args A list of arguments, passed to the factory and possibly
-     *             to the component (see KPluginFactory)
-     * @param error A pointer to QString which should receive the error description or @c nullptr
-     *
-     * @return A pointer to the newly created object or a null pointer if the
-     *         factory was unable to create an object of the given type.
-     *
-     * @see KPluginFactory::instantiatePlugin
-     * @deprecated Since 5.86, Use KPluginMetaData/KPluginFactory or QPluginloader instead
-     */
-    template<class T>
-    KSERVICE_DEPRECATED_VERSION(5, 86, "Use KPluginMetaData/KPluginFactory or QPluginloader instead")
-    T *createInstance(QObject *parent = nullptr, const QVariantList &args = QVariantList(), QString *error = nullptr) const
-    {
-        return createInstance<T>(nullptr, parent, args, error);
-    }
-#endif
-#endif
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
-#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
-    /**
-     * This template allows to load the library for the specified service and ask the
-     * factory to create an instance of the given template type.
-     *
-     * @param parentWidget A parent widget for the service. This is used e. g. for parts
-     * @param parent The parent object (see QObject constructor)
-     * @param args A list of arguments, passed to the factory and possibly
-     *             to the component (see KPluginFactory)
-     * @param error A pointer to QString which should receive the error description or @c nullptr
-     *
-     * @return A pointer to the newly created object or a null pointer if the
-     *         factory was unable to create an object of the given type.
-     *
-     * @see KPluginFactory::instantiatePlugin
-     * @deprecated Since 5.86, Use KPluginMetaData/KPluginFactory or QPluginloader instead
-     */
-    template<class T>
-    KSERVICE_DEPRECATED_VERSION(5, 86, "Use KPluginMetaData/KPluginFactory or QPluginloader instead")
-    T *createInstance(QWidget *parentWidget, QObject *parent, const QVariantList &args = QVariantList(), QString *error = nullptr) const
-    {
-        QT_WARNING_PUSH
-        QT_WARNING_DISABLE_DEPRECATED
-        KPluginLoader pluginLoader(*this);
-        KPluginFactory *factory = pluginLoader.factory();
-        if (factory) {
-            QVariantList argsWithMetaData = args;
-            argsWithMetaData << pluginLoader.metaData().toVariantMap();
-            T *o = factory->template create<T>(parentWidget, parent, pluginKeyword(), argsWithMetaData);
-            if (!o && error)
-                *error = QCoreApplication::translate("", "The service '%1' does not provide an interface '%2' with keyword '%3'")
-                             .arg(name(), QString::fromLatin1(T::staticMetaObject.className()), pluginKeyword());
-            return o;
-        } else if (error) {
-            *error = pluginLoader.errorString();
-            pluginLoader.unload();
-        }
-        QT_WARNING_POP
-        return nullptr;
-    }
-#endif
-#endif
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 86)
-#if KCOREADDONS_ENABLE_DEPRECATED_SINCE(5, 86)
-    /**
-     * Convert this KService to a KPluginName.
-     *
-     * This allows expressions like
-     * @code
-     * KPluginLoader(service);
-     * @endcode
-     * which will use library() as the name of the plugin.  If the service
-     * is not valid or does not have a library, KPluginLoader::errorString()
-     * will be set appropriately.
-     */
-    operator KPluginName() const;
-#endif
-#endif
 
     /**
      * @brief A desktop file name that this service is an alias for.

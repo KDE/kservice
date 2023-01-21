@@ -29,16 +29,6 @@ typedef QExplicitlySharedDataPointer<KService> KServicePtr;
 class KSERVICE_EXPORT KServiceAction
 {
 public:
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 69)
-    /**
-     * Creates a KServiceAction.
-     * Normally you don't have to do this, KService creates the actions
-     * when parsing the .desktop file.
-     * @deprecated Since 5.69, use the 6-args constructor
-     */
-    KSERVICE_DEPRECATED_VERSION_BELATED(5, 71, 5, 69, "Use the 6-args constructor")
-    KServiceAction(const QString &name, const QString &text, const QString &icon, const QString &exec, bool noDisplay = false);
-#endif
     /**
      * Creates a KServiceAction.
      * Normally you don't have to do this, KService creates the actions
