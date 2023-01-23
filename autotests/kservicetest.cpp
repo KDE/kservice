@@ -460,9 +460,6 @@ void KServiceTest::testDBUSStartupType()
     QVERIFY(testapp);
     QCOMPARE(testapp->menuId(), QStringLiteral("org.kde.faketestapp.desktop"));
     // qDebug() << testapp->entryPath();
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 102)
-    QCOMPARE(int(testapp->dbusStartupType()), int(KService::DBusUnique));
-#endif
 }
 
 void KServiceTest::testByStorageId()

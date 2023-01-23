@@ -172,31 +172,6 @@ public:
      */
     QString storageId() const;
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 102)
-    /**
-     * Describes the D-Bus Startup type of the service.
-     * @li None - This service has no D-Bus support
-     * @li Unique - This service provides a unique D-Bus service.
-     *              The service name is equal to the desktopEntryName.
-     * @li Multi - This service provides a D-Bus service which can be run
-     *             with multiple instances in parallel. The service name of
-     *             an instance is equal to the desktopEntryName + "-" +
-     *             the PID of the process.
-     */
-    enum DBusStartupType { DBusNone = 0, DBusUnique, DBusMulti };
-#endif
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 102)
-    /**
-     * Returns the DBUSStartupType supported by this service.
-     * @return the DBUSStartupType supported by this service
-     *
-     * @deprecated since 5.102, no known users.
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 102, "No known users")
-    DBusStartupType dbusStartupType() const;
-#endif
-
     /**
      * @return the working directory to run the program in,
      *         or QString() if not set
@@ -330,21 +305,6 @@ public:
      * @return the documentation path, or QString() if not set
      */
     QString docPath() const;
-
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 102)
-    /**
-     * Returns the requested property.
-     *
-     * @param _name the name of the property
-     * @param t the assumed type of the property
-     * @return the property, or invalid if not found
-     * @see KServiceType
-     *
-     * @deprecated since 5.102, use property(QString, QMetaType::Type) instead.
-     */
-    KSERVICE_DEPRECATED_VERSION(5, 102, "Use property(QString, QMetaType::Type) instead")
-    QVariant property(const QString &_name, QVariant::Type t) const;
-#endif
 
     /**
      * Returns the requested property.

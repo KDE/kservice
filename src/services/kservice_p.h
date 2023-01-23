@@ -80,9 +80,6 @@ public:
     QVector<KService::ServiceTypeAndPreference> m_serviceTypes;
 
     QString m_strDesktopEntryName;
-#if KSERVICE_BUILD_DEPRECATED_SINCE(5, 102)
-    KService::DBusStartupType m_DBUSStartusType;
-#endif
     QMap<QString, QVariant> m_mapProps;
     QStringList m_lstFormFactors;
     QStringList m_lstKeywords;
