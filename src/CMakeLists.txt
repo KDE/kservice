@@ -24,8 +24,6 @@ target_sources(KF6Service PRIVATE
    services/kserviceoffer.cpp
    services/kservicetype.cpp
    services/kservicetypefactory.cpp
-   services/ktraderparse.cpp
-   services/ktraderparsetree.cpp
    sycoca/ksycoca.cpp
    sycoca/ksycocadevices.cpp
    sycoca/ksycocadict.cpp
@@ -61,28 +59,6 @@ ecm_qt_declare_logging_category(KF6Service
     DESCRIPTION "sycoca (kservice)"
 )
 
-bison_target(TraderParser
-             services/yacc.y
-             ${CMAKE_CURRENT_BINARY_DIR}/yacc.c
-             COMPILE_FLAGS "-p kiotrader -d"
-)
-flex_target(TraderLexer
-            services/lex.l
-            ${CMAKE_CURRENT_BINARY_DIR}/lex.c
-            COMPILE_FLAGS "-Pkiotrader -B -i"
-)
-set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/lex.c ${CMAKE_CURRENT_BINARY_DIR}/yacc.c PROPERTY SKIP_AUTOMOC ON)
-add_flex_bison_dependency(TraderLexer TraderParser)
-target_sources(KF6Service PRIVATE
-    ${BISON_TraderParser_OUTPUTS}
-    ${FLEX_TraderLexer_OUTPUTS}
-)
-set_property(SOURCE ${CMAKE_CURRENT_BINARY_DIR}/yacc.h PROPERTY SKIP_AUTOMOC TRUE) # don't run automoc on this file
-
-if(WIN32)
-    #unistd.h does not exist on windows
-    target_compile_definitions(KF6Service PRIVATE YY_NO_UNISTD_H=1)
-endif()
 ecm_generate_export_header(KF6Service
     BASE_NAME KService
     GROUP_BASE_NAME KF

@@ -51,22 +51,6 @@ find_package(KF6CoreAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
 find_package(KF6I18n ${KF_DEP_VERSION} CONFIG REQUIRED)
 find_package(KF6DocTools ${KF_DEP_VERSION} CONFIG)
 
-find_package(FLEX REQUIRED)
-set_package_properties(FLEX PROPERTIES
-    URL "http://flex.sourceforge.net"
-    DESCRIPTION "Fast Lexical Analyzer"
-    TYPE REQUIRED
-    PURPOSE "Required for the Trader parser"
-)
-
-find_package(BISON 3.0 REQUIRED)
-set_package_properties(BISON PROPERTIES
-    URL "http://www.gnu.org/software/bison"
-    DESCRIPTION "general-purpose parser generator"
-    TYPE REQUIRED
-    PURPOSE "Required for the Trader parser"
-)
-
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
 
 ecm_set_disabled_deprecation_versions(

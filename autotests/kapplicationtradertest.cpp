@@ -10,7 +10,6 @@
 
 #include <QTest>
 
-#include <../src/services/ktraderparsetree_p.h>
 #include <KConfig>
 #include <KConfigGroup>
 #include <KDesktopFile>
