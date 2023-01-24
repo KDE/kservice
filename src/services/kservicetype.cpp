@@ -68,7 +68,7 @@ void KServiceTypePrivate::init(KDesktopFile *config)
             m_mapPropDefs.insert(groupName.mid(marker.size()), QVariant::nameToType(cg.readEntry("Type").toLatin1().constData()));
 #else
             m_mapPropDefs.insert(groupName.mid(marker.size()),
-                                 static_cast<QVariant::Type>(QMetaType::fromName(cg.readEntry("Type").toLatin1().constData()).id()));
+                                 static_cast<QMetaType::Type>(QMetaType::fromName(cg.readEntry("Type").toLatin1().constData()).id()));
 #endif
         }
     }
@@ -150,10 +150,10 @@ QStringList KServiceTypePrivate::propertyNames() const
     return res;
 }
 
-QVariant::Type KServiceType::propertyDef(const QString &_name) const
+QMetaType::Type KServiceType::propertyDef(const QString &_name) const
 {
     Q_D(const KServiceType);
-    return d->m_mapPropDefs.value(_name, QVariant::Invalid);
+    return d->m_mapPropDefs.value(_name, QMetaType::UnknownType);
 }
 
 QStringList KServiceType::propertyDefNames() const
@@ -221,7 +221,7 @@ bool KServiceType::isDerived() const
     return d->m_bDerived;
 }
 
-QMap<QString, QVariant::Type> KServiceType::propertyDefs() const
+QMap<QString, QMetaType::Type> KServiceType::propertyDefs() const
 {
     Q_D(const KServiceType);
     return d->m_mapPropDefs;

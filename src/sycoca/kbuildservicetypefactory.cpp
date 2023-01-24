@@ -110,10 +110,10 @@ void KBuildServiceTypeFactory::addEntry(const KSycocaEntry::Ptr &newEntry)
 
     KServiceType::Ptr serviceType(static_cast<KServiceType *>(newEntry.data()));
 
-    const QMap<QString, QVariant::Type> &pd = serviceType->propertyDefs();
+    const QMap<QString, QMetaType::Type> &pd = serviceType->propertyDefs();
     for (auto pit = pd.cbegin(); pit != pd.cend(); ++pit) {
         const QString &property = pit.key();
-        const QVariant::Type &type = pit.value();
+        const QMetaType::Type &type = pit.value();
         auto dictit = m_propertyTypeDict.constFind(property);
         if (dictit == m_propertyTypeDict.cend()) {
             m_propertyTypeDict.insert(property, type);

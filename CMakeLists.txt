@@ -54,9 +54,8 @@ find_package(KF6DocTools ${KF_DEP_VERSION} CONFIG)
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
 
 ecm_set_disabled_deprecation_versions(
-    QT 5.15.2
-    KF 5.97.0
-    KCOREADDONS 5.78 # for KPluginInfo::dependencies
+    QT 6.4
+    KF 5.102.0
 )
 
 ki18n_install(po)
