@@ -410,49 +410,6 @@ KService::~KService()
 {
 }
 
-bool KService::hasServiceType(const QString &serviceType) const
-{
-    Q_D(const KService);
-
-    if (!d->m_bValid) {
-        return false; // (useless) safety test
-    }
-    const KServiceType::Ptr ptr = KServiceType::serviceType(serviceType);
-    if (!ptr) {
-        return false;
-    }
-    const int serviceOffset = offset();
-    // doesn't seem to work:
-    // if ( serviceOffset == 0 )
-    //    serviceOffset = serviceByStorageId( storageId() );
-    if (serviceOffset) {
-        KSycoca::self()->ensureCacheValid();
-        return KSycocaPrivate::self()->serviceFactory()->hasOffer(ptr->offset(), ptr->serviceOffersOffset(), serviceOffset);
-    }
-
-    // fall-back code for services that are NOT from ksycoca
-    // For each service type we are associated with, if it doesn't
-    // match then we try its parent service types.
-    const QString serviceTypeName = ptr->name();
-    auto matchFunc = [&serviceTypeName](const ServiceTypeAndPreference &typePref) {
-        const QString &st = typePref.serviceType;
-        // qCDebug(SERVICES) << "    has " << typePref;
-        if (st == serviceTypeName) {
-            return true;
-        }
-
-        // also the case of parent servicetypes
-        KServiceType::Ptr p = KServiceType::serviceType(st);
-        if (p && p->inherits(serviceTypeName)) {
-            return true;
-        }
-
-        return false;
-    };
-
-    return std::any_of(d->m_serviceTypes.cbegin(), d->m_serviceTypes.cend(), matchFunc);
-}
-
 bool KService::hasMimeType(const QString &mimeType) const
 {
     Q_D(const KService);
@@ -945,12 +902,6 @@ QStringList KServicePrivate::serviceTypes() const
     });
 
     return ret;
-}
-
-QStringList KService::serviceTypes() const
-{
-    Q_D(const KService);
-    return d->serviceTypes();
 }
 
 QStringList KService::mimeTypes() const

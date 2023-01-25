@@ -224,23 +224,6 @@ public:
     QStringList mimeTypes() const;
 
     /**
-     * Returns the service types that this service supports.
-     * @return the list of service types that are supported
-     * Note that this doesn't include inherited servicetypes or MIME types,
-     * only the service types listed in the .desktop file.
-     */
-    QStringList serviceTypes() const;
-
-    /**
-     * Checks whether the service supports this service type
-     * @param serviceTypePtr The name of the service type you are
-     *        interested in determining whether this service supports.
-     *
-     * @return true if the service type you specified is supported, otherwise false.
-     */
-    bool hasServiceType(const QString &serviceTypePtr) const;
-
-    /**
      * Checks whether the service supports this MIME type
      * @param mimeType The name of the MIME type you are
      *        interested in determining whether this service supports.
