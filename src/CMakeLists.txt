@@ -103,7 +103,6 @@ ecm_generate_headers(KService_HEADERS
   KService
   KServiceAction
   KServiceGroup
-  KServiceType
 
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
