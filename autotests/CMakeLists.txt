@@ -2,12 +2,12 @@ include(ECMAddTests)
 
 ########### unittests ###############
 
-find_package(Qt${QT_MAJOR_VERSION} ${REQUIRED_QT_VERSION} CONFIG REQUIRED Concurrent Test)
+find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Concurrent Test)
 
 macro(KSERVICE_UNIT_TESTS)
   foreach(_testname ${ARGN})
     ecm_add_test(${_testname}.cpp TEST_NAME ${_testname}
-        LINK_LIBRARIES KF6::Service Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Concurrent KF6::ConfigCore KF6::CoreAddons Qt${QT_MAJOR_VERSION}::Xml)
+        LINK_LIBRARIES KF6::Service Qt6::Test Qt6::Concurrent KF6::ConfigCore KF6::CoreAddons Qt6::Xml)
     target_compile_definitions(${_testname} PRIVATE -DKBUILDSYCOCAEXE=\"$<TARGET_FILE:kbuildsycoca5>\")
   endforeach()
 endmacro(KSERVICE_UNIT_TESTS)
@@ -36,5 +36,5 @@ ecm_qt_declare_logging_category(kmimeassociationstest_SRCS
 )
 
 ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
-             LINK_LIBRARIES KF6::Service Qt${QT_MAJOR_VERSION}::Test Qt${QT_MAJOR_VERSION}::Xml KF6::ConfigCore KF6::CoreAddons)
+             LINK_LIBRARIES KF6::Service Qt6::Test Qt6::Xml KF6::ConfigCore KF6::CoreAddons)
 

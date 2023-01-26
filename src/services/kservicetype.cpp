@@ -52,11 +52,7 @@ void KServiceTypePrivate::init(KDesktopFile *config)
     for (const auto &groupName : lst) {
         if (QLatin1String marker("Property::"); groupName.startsWith(marker)) {
             KConfigGroup cg(config, groupName);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            QVariant variant = QVariant::nameToType(cg.readEntry("Type").toLatin1().constData());
-#else
             QVariant variant(QMetaType::fromName(cg.readEntry("Type").toLatin1().constData()));
-#endif
             variant = cg.readEntry("Value", variant);
 
             if (variant.isValid()) {
@@ -64,12 +60,8 @@ void KServiceTypePrivate::init(KDesktopFile *config)
             }
         } else if (QLatin1String marker("PropertyDef::"); groupName.startsWith(marker)) {
             KConfigGroup cg(config, groupName);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            m_mapPropDefs.insert(groupName.mid(marker.size()), QVariant::nameToType(cg.readEntry("Type").toLatin1().constData()));
-#else
             m_mapPropDefs.insert(groupName.mid(marker.size()),
                                  static_cast<QMetaType::Type>(QMetaType::fromName(cg.readEntry("Type").toLatin1().constData()).id()));
-#endif
         }
     }
 }

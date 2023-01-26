@@ -82,12 +82,12 @@ target_include_directories(KF6Service
 target_link_libraries(KF6Service
   PRIVATE
     KF6::I18n
-    Qt${QT_MAJOR_VERSION}::Xml  # (for vfolder menu) QDomDocument
+    Qt6::Xml  # (for vfolder menu) QDomDocument
 )
 
 target_link_libraries(KF6Service
 PUBLIC
-    Qt${QT_MAJOR_VERSION}::Core
+    Qt6::Core
 PRIVATE
     KF6::ConfigCore   # KConfig and friends
     KF6::CoreAddons   # KShell

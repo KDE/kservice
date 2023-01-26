@@ -159,10 +159,6 @@ QVariant KServiceAction::property(const QString &_name, QMetaType::Type type) co
         // All others
         // For instance properties defined as StringList, like MimeTypes.
         // XXX This API is accessible only through a friend declaration.
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(static_cast<QVariant::Type>(type)));
-#else
         return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(QMetaType(type)));
-#endif
     }
 }

@@ -576,12 +576,7 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
         // All others
         // For instance properties defined as StringList, like MimeTypes.
         // XXX This API is accessible only through a friend declaration.
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(static_cast<QVariant::Type>(t)));
-#else
         return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), it.value().toString().toUtf8(), QVariant(QMetaType(t)));
-#endif
     }
 }
 
@@ -668,21 +663,13 @@ bool KService::showInCurrentDesktop() const
 
     const QString envVar = QString::fromLatin1(qgetenv("XDG_CURRENT_DESKTOP"));
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QVector<QStringView> currentDesktops = QStringView(envVar).split(QLatin1Char(':'), Qt::SkipEmptyParts);
-#else
-    QVector<QStringRef> currentDesktops = envVar.splitRef(QLatin1Char(':'), Qt::SkipEmptyParts);
-#endif
 
     const QString kde = QStringLiteral("KDE");
     if (currentDesktops.isEmpty()) {
         // This could be an old display manager, or e.g. a failsafe session with no desktop name
         // In doubt, let's say we show KDE stuff.
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         currentDesktops.append(kde);
-#else
-        currentDesktops.append(&kde);
-#endif
     }
 
     // This algorithm is described in the desktop entry spec
