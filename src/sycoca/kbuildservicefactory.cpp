@@ -236,64 +236,56 @@ void KBuildServiceFactory::populateServiceTypes()
     for (; servIt != endIt; ++servIt) {
         KService::Ptr service(static_cast<KService *>(servIt.value().data()));
         const bool hidden = !service->showInCurrentDesktop();
-        QVector<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
-        // bool hasAllAll = false;
-        // bool hasAllFiles = false;
 
-        // Add this service to all its servicetypes (and their parents) and to all its MIME types
+        if (service->isApplication()) {
+            m_offerHash.addServiceOffer(QStringLiteral("Application"), KServiceOffer(service, service->initialPreference(), 0));
+        }
+
+        QVector<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
+
+        // Add this service to all its MIME types
         // Don't cache count(), it can change during iteration! (we can't use an iterator-based loop
         // here the container could get reallocated which would invalidate iterators)
         for (int i = 0; i < serviceTypeList.count(); ++i) {
             const KService::ServiceTypeAndPreference &typeAndPref = serviceTypeList.at(i);
             const QString stName = typeAndPref.serviceType;
 
-            if (hidden && stName != QLatin1String("Application")) {
+            if (hidden) {
                 continue;
             }
             const int preference = typeAndPref.preference;
 
-            // It could be a servicetype or a MIME type.
-            KServiceType::Ptr serviceType = m_serviceTypeFactory->findServiceTypeByName(stName);
-            if (serviceType) {
-                const QString parent = serviceType->parentServiceType();
-                if (!parent.isEmpty()) {
-                    serviceTypeList.append(KService::ServiceTypeAndPreference(preference, parent));
-                }
-
-                // qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << serviceType->name() << "pref=" << preference;
-                m_offerHash.addServiceOffer(stName, KServiceOffer(service, preference, 0));
-            } else {
-                KServiceOffer offer(service, preference, 0);
-                QMimeType mime = db.mimeTypeForName(stName);
-                if (!mime.isValid()) {
-                    if (stName.startsWith(QLatin1String("x-scheme-handler/"))) {
-                        // Create those on demand
-                        m_mimeTypeFactory->createFakeMimeType(stName);
-                        m_offerHash.addServiceOffer(stName, offer);
-                    } else {
-                        // qCDebug(SYCOCA) << service->entryPath() << "specifies undefined MIME type/servicetype" << stName;
-                        // technically we could call addServiceOffer here, 'mime' isn't used. But it
-                        // would be useless, since we have no MIME type entry where to write the offers offset.
-                        continue;
-                    }
+            KServiceOffer offer(service, preference, 0);
+            QMimeType mime = db.mimeTypeForName(stName);
+            if (!mime.isValid()) {
+                if (stName.startsWith(QLatin1String("x-scheme-handler/"))) {
+                    // Create those on demand
+                    m_mimeTypeFactory->createFakeMimeType(stName);
+                    m_offerHash.addServiceOffer(stName, offer);
                 } else {
-                    bool shouldAdd = true;
-                    const auto lst = service->serviceTypes();
-                    for (const QString &otherType : lst) {
-                        // Skip derived types if the base class is listed (#321706)
-                        if (stName != otherType && mime.inherits(otherType)) {
-                            // But don't skip aliases (they got resolved into mime.name() already, but don't let two aliases cancel out)
-                            if (db.mimeTypeForName(otherType).name() != mime.name()) {
-                                // qCDebug(SYCOCA) << "Skipping" << mime.name() << "because of" << otherType << "(canonical" << db.mimeTypeForName(otherType) <<
-                                // ") while parsing" << service->entryPath();
-                                shouldAdd = false;
-                            }
+                    qCDebug(SYCOCA) << service->entryPath() << "specifies undefined MIME type/servicetype" << stName;
+                    // technically we could call addServiceOffer here, 'mime' isn't used. But it
+                    // would be useless, since we have no MIME type entry where to write the offers offset.
+                    continue;
+                }
+            } else {
+                bool shouldAdd = true;
+                const auto lst = service->mimeTypes();
+
+                for (const QString &otherType : lst) {
+                    // Skip derived types if the base class is listed (#321706)
+                    if (stName != otherType && mime.inherits(otherType)) {
+                        // But don't skip aliases (they got resolved into mime.name() already, but don't let two aliases cancel out)
+                        if (db.mimeTypeForName(otherType).name() != mime.name()) {
+                            // qCDebug(SYCOCA) << "Skipping" << mime.name() << "because of" << otherType << "(canonical" << db.mimeTypeForName(otherType) <<
+                            // ") while parsing" << service->entryPath();
+                            shouldAdd = false;
                         }
                     }
-                    if (shouldAdd) {
-                        // qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << mime.name();
-                        m_offerHash.addServiceOffer(mime.name(), offer); // mime.name() so that we resolve aliases
-                    }
+                }
+                if (shouldAdd) {
+                    // qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << mime.name();
+                    m_offerHash.addServiceOffer(mime.name(), offer); // mime.name() so that we resolve aliases
                 }
             }
         }

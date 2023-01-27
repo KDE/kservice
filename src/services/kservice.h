@@ -485,7 +485,7 @@ private:
         QString serviceType; // or MIME type
     };
     /// @internal for KBuildSycoca only
-    QVector<ServiceTypeAndPreference> &_k_accessServiceTypes();
+    QVector<ServiceTypeAndPreference> _k_accessServiceTypes();
 
     friend QDataStream &operator>>(QDataStream &, ServiceTypeAndPreference &);
     friend QDataStream &operator<<(QDataStream &, const ServiceTypeAndPreference &);

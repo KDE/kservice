@@ -1007,10 +1007,21 @@ void KService::setWorkingDirectory(const QString &workingDir)
     }
 }
 
-QVector<KService::ServiceTypeAndPreference> &KService::_k_accessServiceTypes()
+QVector<KService::ServiceTypeAndPreference> KService::_k_accessServiceTypes()
 {
     Q_D(KService);
-    return d->m_serviceTypes;
+
+    QVector<KService::ServiceTypeAndPreference> ret;
+    QMimeDatabase db;
+
+    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
+        const QString servType = s.serviceType;
+        if (db.mimeTypeForName(servType).isValid()) { // keep only mimetypes, filter out servicetypes
+            ret.append(s);
+        }
+    }
+
+    return ret;
 }
 
 QList<KServiceAction> KService::actions() const
