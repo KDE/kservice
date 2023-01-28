@@ -80,17 +80,13 @@ target_include_directories(KF6Service
 )
 
 target_link_libraries(KF6Service
-  PRIVATE
-    KF6::I18n
-    Qt6::Xml  # (for vfolder menu) QDomDocument
-)
-
-target_link_libraries(KF6Service
 PUBLIC
     Qt6::Core
 PRIVATE
+    Qt6::Xml  # (for vfolder menu) QDomDocument
     KF6::ConfigCore   # KConfig and friends
     KF6::CoreAddons   # KShell
+    KF6::I18n
 )
 
 ecm_generate_headers(KService_HEADERS
