@@ -502,36 +502,6 @@ void KServiceTest::testSubseqConstraints()
     QVERIFY2(test("TRYHARDS", "try your hardest", 0), "uppercase pattern");
 }
 
-void KServiceTest::testHasServiceType1() // with services constructed with a full path (rare)
-{
-    QString fakepartPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kservices5/fakepart.desktop"));
-    QVERIFY(!fakepartPath.isEmpty());
-    KService fakepart(fakepartPath);
-    QVERIFY(fakepart.hasServiceType(QStringLiteral("FakeBasePart")));
-    QVERIFY(fakepart.hasServiceType(QStringLiteral("FakeDerivedPart")));
-    QCOMPARE(fakepart.mimeTypes(), QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/html"));
-
-    QString faketextPluginPath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("kservices5/faketextplugin.desktop"));
-    QVERIFY(!faketextPluginPath.isEmpty());
-    KService faketextPlugin(faketextPluginPath);
-    QVERIFY(faketextPlugin.hasServiceType(QStringLiteral("FakePluginType")));
-    QVERIFY(!faketextPlugin.hasServiceType(QStringLiteral("FakeBasePart")));
-}
-
-void KServiceTest::testHasServiceType2() // with services coming from ksycoca
-{
-    KService::Ptr fakepart = KService::serviceByDesktopPath(QStringLiteral("fakepart.desktop"));
-    QVERIFY(fakepart);
-    QVERIFY(fakepart->hasServiceType(QStringLiteral("FakeBasePart")));
-    QVERIFY(fakepart->hasServiceType(QStringLiteral("FakeDerivedPart")));
-    QCOMPARE(fakepart->mimeTypes(), QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/html"));
-
-    KService::Ptr faketextPlugin = KService::serviceByDesktopPath(QStringLiteral("faketextplugin.desktop"));
-    QVERIFY(faketextPlugin);
-    QVERIFY(faketextPlugin->hasServiceType(QStringLiteral("FakePluginType")));
-    QVERIFY(!faketextPlugin->hasServiceType(QStringLiteral("FakeBasePart")));
-}
-
 void KServiceTest::testActionsAndDataStream()
 {
     KService::Ptr service = KService::serviceByStorageId(QStringLiteral("org.kde.faketestapp.desktop"));
@@ -633,7 +603,6 @@ void KServiceTest::testReaderThreads()
     sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
     sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
     sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
-    sync.addFuture(QtConcurrent::run(&KServiceTest::testHasServiceType1, this));
     sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
     sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
     sync.waitForFinished();
@@ -645,7 +614,6 @@ void KServiceTest::testThreads()
     QThreadPool::globalInstance()->setMaxThreadCount(10);
     QFutureSynchronizer<void> sync;
     sync.addFuture(QtConcurrent::run(&KServiceTest::testAllServices, this));
-    sync.addFuture(QtConcurrent::run(&KServiceTest::testHasServiceType1, this));
     sync.addFuture(QtConcurrent::run(&KServiceTest::testDeletingService, this));
 
     // process events (DBus, inotify...), until we get all expected signals

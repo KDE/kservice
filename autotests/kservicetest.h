@@ -33,8 +33,6 @@ private Q_SLOTS:
     void testAllServiceTypes();
     void testAllServices();
     void testSubseqConstraints();
-    void testHasServiceType1();
-    void testHasServiceType2();
     void testDBUSStartupType();
     void testByStorageId();
     void testActionsAndDataStream();
