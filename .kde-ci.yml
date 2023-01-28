@@ -8,7 +8,6 @@ Dependencies:
 
 - 'on': ['Linux', 'FreeBSD', 'Windows', 'macOS']
   'require':
-    'frameworks/kdbusaddons' : '@same'
     'frameworks/kdoctools' : '@same'
 
 Options:
