@@ -1,12 +1,16 @@
 # KService
 
-Plugin framework for desktop services
-
 ## Introduction
 
-KService provides a plugin framework for handling desktop services. Services can
-be applications or libraries. They can be bound to MIME types or handled by
-application specific code.
+KService allows to query information about installed applications and their associated file types.
+
+The two relevant classes are:
+- KService: This models an installed application and allows to query various properties about it
+- KApplicationTrader: This is used to list available applications as well as applications associated with a given file type
+
+## KSycoca
+
+KSycoca caches the information about available applications and file associations for faster access.
 
 ## Usage
 
