@@ -24,7 +24,7 @@ class KSycocaPrivate;
 /**
  * Executable name of the kbuildsycoca program
  */
-#define KBUILDSYCOCA_EXENAME "kbuildsycoca5"
+#define KBUILDSYCOCA_EXENAME "kbuildsycoca6"
 
 /**
  * @internal
@@ -158,7 +158,7 @@ Q_SIGNALS:
      * Connect to this to get notified when the database changes.
      *
      * Example: after creating a .desktop file in KOpenWithDialog, it
-     * must wait until kbuildsycoca5 finishes until the KService::Ptr is available.
+     * must wait until kbuildsycoca6 finishes until the KService::Ptr is available.
      * Other examples: anything that displays a list of apps or plugins to the user
      * and which is always visible (otherwise querying sycoca before showing
      * could be enough).

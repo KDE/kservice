@@ -8,7 +8,7 @@ macro(KSERVICE_UNIT_TESTS)
   foreach(_testname ${ARGN})
     ecm_add_test(${_testname}.cpp TEST_NAME ${_testname}
         LINK_LIBRARIES KF6::Service Qt6::Test Qt6::Concurrent KF6::ConfigCore KF6::CoreAddons Qt6::Xml)
-    target_compile_definitions(${_testname} PRIVATE -DKBUILDSYCOCAEXE=\"$<TARGET_FILE:kbuildsycoca5>\")
+    target_compile_definitions(${_testname} PRIVATE -DKBUILDSYCOCAEXE=\"$<TARGET_FILE:kbuildsycoca6>\")
   endforeach()
 endmacro(KSERVICE_UNIT_TESTS)
 
