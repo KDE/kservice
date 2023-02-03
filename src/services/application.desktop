@@ -167,3 +167,6 @@ Type=QString
 
 [PropertyDef::X-KDE-Shortcuts]
 Type=QStringList
+
+[PropertyDef::X-SnapInstanceName]
+Type=QString
