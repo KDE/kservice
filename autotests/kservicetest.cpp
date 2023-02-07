@@ -79,138 +79,18 @@ void KServiceTest::initTestCase()
 
     bool mustUpdateKSycoca = false;
 
-    // fakeservice: deleted and recreated by testDeletingService, don't use in other tests
-    const QString fakeServiceDeleteMe =
-        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice_deleteme.desktop");
-    if (!QFile::exists(fakeServiceDeleteMe)) {
-        mustUpdateKSycoca = true;
-        createFakeService(QStringLiteral("fakeservice_deleteme.desktop"), QString());
-    }
-
-    // fakeservice: a plugin that implements FakePluginType
-    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/fakeservice.desktop");
-    if (!QFile::exists(fakeService)) {
-        mustUpdateKSycoca = true;
-        createFakeService(QStringLiteral("fakeservice.desktop"), QStringLiteral("FakePluginType"));
-    }
-
-    // fakepart: a readwrite part, like katepart
-    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/fakepart.desktop"};
-    if (!QFile::exists(fakePart)) {
-        mustUpdateKSycoca = true;
-        KDesktopFile file(fakePart);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Name", "FakePart");
-        group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-Library", "fakepart");
-        group.writeEntry("X-KDE-Protocols", "http,ftp");
-        group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart,FakeDerivedPart");
-        group.writeEntry("MimeType", "text/plain;text/html;");
-        group.writeEntry("X-KDE-FormFactors", "tablet,handset");
-    }
-
-    const QString fakePart2 = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/fakepart2.desktop"};
-    if (!QFile::exists(fakePart2)) {
-        mustUpdateKSycoca = true;
-        KDesktopFile file(fakePart2);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Name", "FakePart2");
-        group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-Library", "fakepart2");
-        group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart");
-        group.writeEntry("MimeType", "text/plain;");
-        group.writeEntry("X-KDE-TestList", QStringList() << QStringLiteral("item1") << QStringLiteral("item2"));
-        group.writeEntry("X-KDE-FormFactors", "tablet,handset");
-    }
-
-    const QString preferredPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/preferredpart.desktop"};
-    if (!QFile::exists(preferredPart)) {
-        mustUpdateKSycoca = true;
-        KDesktopFile file(preferredPart);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Name", "PreferredPart");
-        group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-Library", "preferredpart");
-        group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart");
-        group.writeEntry("MimeType", "text/plain;");
-    }
-
-    const QString otherPart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/otherpart.desktop"};
-    if (!QFile::exists(otherPart)) {
-        mustUpdateKSycoca = true;
-        KDesktopFile file(otherPart);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Name", "OtherPart");
-        group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-Library", "otherpart");
-        group.writeEntry("X-KDE-ServiceTypes", "FakeBasePart");
-        group.writeEntry("MimeType", "text/plain;");
-    }
-
-    // faketextplugin: a ktexteditor plugin
-    const QString fakeTextplugin = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/faketextplugin.desktop"};
-    if (!QFile::exists(fakeTextplugin)) {
-        mustUpdateKSycoca = true;
-        KDesktopFile file(fakeTextplugin);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Name", "FakeTextPlugin");
-        group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-Library", "faketextplugin");
-        group.writeEntry("X-KDE-ServiceTypes", "FakePluginType");
-        group.writeEntry("MimeType", "text/plain;");
-    }
-
-    // fakeplugintype: a servicetype
-    const QString fakePluginType =
-        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakeplugintype.desktop"};
-    if (!QFile::exists(fakePluginType)) {
-        mustUpdateKSycoca = true;
-        KDesktopFile file(fakePluginType);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Comment", "Fake Text Plugin");
-        group.writeEntry("Type", "ServiceType");
-        group.writeEntry("X-KDE-ServiceType", "FakePluginType");
-        file.group("PropertyDef::X-KDE-Version").writeEntry("Type", "double"); // like in ktexteditorplugin.desktop
-        group.writeEntry("X-KDE-FormFactors", "tablet,handset");
-    }
-
-    // fakebasepart: a servicetype (like ReadOnlyPart)
-    const QString fakeBasePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakebasepart.desktop"};
-    if (!QFile::exists(fakeBasePart)) {
-        mustUpdateKSycoca = true;
-        KDesktopFile file(fakeBasePart);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Comment", "Fake Base Part");
-        group.writeEntry("Type", "ServiceType");
-        group.writeEntry("X-KDE-ServiceType", "FakeBasePart");
-
-        KConfigGroup listGroup(&file, "PropertyDef::X-KDE-TestList");
-        listGroup.writeEntry("Type", "QStringList");
-    }
-
-    // fakederivedpart: a servicetype deriving from FakeBasePart (like ReadWritePart derives from ReadOnlyPart)
-    const QString fakeDerivedPart =
-        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakederivedpart.desktop"};
-    if (!QFile::exists(fakeDerivedPart)) {
-        mustUpdateKSycoca = true;
-        KDesktopFile file(fakeDerivedPart);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Comment", "Fake Derived Part");
-        group.writeEntry("Type", "ServiceType");
-        group.writeEntry("X-KDE-ServiceType", "FakeDerivedPart");
-        group.writeEntry("X-KDE-Derived", "FakeBasePart");
-    }
-
-    // fakekdedmodule
-    const QString fakeKdedModule =
-        QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservicetypes5/fakekdedmodule.desktop"};
-    if (!QFile::exists(fakeKdedModule)) {
-        const QString src = QFINDTESTDATA("fakekdedmodule.desktop");
-        QVERIFY(QFile::copy(src, fakeKdedModule));
+    // org.kde.deleteme.desktop: deleted and recreated by testDeletingService, don't use in other tests
+    const QString deleteMeApp = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.deleteme.desktop");
+    if (!QFile::exists(deleteMeApp)) {
+        QVERIFY(QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)));
+        const QString src = QFINDTESTDATA("org.kde.deleteme.desktop");
+        QVERIFY(!src.isEmpty());
+        QVERIFY2(QFile::copy(src, deleteMeApp), qPrintable(deleteMeApp));
+        qDebug() << "Created" << deleteMeApp;
         mustUpdateKSycoca = true;
     }
 
-    // faketestapp.desktop
+    // org.kde.faketestapp.desktop
     const QString testApp = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.faketestapp.desktop");
     if (!QFile::exists(testApp)) {
         QVERIFY(QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)));
@@ -236,9 +116,6 @@ void KServiceTest::initTestCase()
         // Update ksycoca in ~/.qttest after creating the above
         runKBuildSycoca(true);
     }
-    QVERIFY(KServiceType::serviceType(QStringLiteral("FakePluginType")));
-    QVERIFY(KServiceType::serviceType(QStringLiteral("FakeBasePart")));
-    QVERIFY(KServiceType::serviceType(QStringLiteral("FakeDerivedPart")));
     QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp")));
     QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.otherfakeapp")));
 }
@@ -258,19 +135,6 @@ void KServiceTest::runKBuildSycoca(bool noincremental)
 
 void KServiceTest::cleanupTestCase()
 {
-    // If I want the konqueror unit tests to work, then I better not have a non-working part
-    // as the preferred part for text/plain...
-    const QStringList services = QStringList() << QStringLiteral("fakeservice.desktop") << QStringLiteral("fakepart.desktop")
-                                               << QStringLiteral("faketextplugin.desktop") << QStringLiteral("fakeservice_querymustrebuild.desktop");
-    for (const QString &service : services) {
-        const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + service;
-        QFile::remove(fakeService);
-    }
-    const QStringList serviceTypes = QStringList() << QStringLiteral("fakeplugintype.desktop");
-    for (const QString &serviceType : serviceTypes) {
-        const QString fakeServiceType = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservicetypes5/") + serviceType;
-        // QFile::remove(fakeServiceType);
-    }
     KBuildSycoca builder;
     builder.recreate();
 }
@@ -281,56 +145,41 @@ void KServiceTest::testByName()
         QSKIP("ksycoca not available");
     }
 
-    KServiceType::Ptr s0 = KServiceType::serviceType(QStringLiteral("FakeBasePart"));
-    QVERIFY2(s0, "KServiceType::serviceType(\"FakeBasePart\") failed!");
-    QCOMPARE(s0->name(), QStringLiteral("FakeBasePart"));
-
-    KService::Ptr myService = KService::serviceByDesktopPath(QStringLiteral("fakepart.desktop"));
+    const QString filePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("applications/org.kde.faketestapp.desktop"));
+    KService::Ptr myService = KService::serviceByDesktopPath(filePath);
     QVERIFY(myService);
-    QCOMPARE(myService->name(), QStringLiteral("FakePart"));
+    QCOMPARE(myService->name(), QStringLiteral("Konsole"));
 }
 
 void KServiceTest::testConstructorFullPath()
 {
-    // Requirement: text/html must be a known mimetype
-    QVERIFY(QMimeDatabase().mimeTypeForName(QStringLiteral("text/html")).isValid());
-    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/fakepart.desktop"};
-    QVERIFY(QFile::exists(fakePart));
-    KService service(fakePart);
+    const QString filePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("applications/org.kde.faketestapp.desktop"));
+    QVERIFY(QFile::exists(filePath));
+    KService service(filePath);
     QVERIFY(service.isValid());
-    QCOMPARE(service.mimeTypes(), (QStringList{QStringLiteral("text/plain"), QStringLiteral("text/html")}));
-}
-
-void KServiceTest::testConstructorKDesktopFileFullPath()
-{
-    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/fakepart.desktop"};
-    QVERIFY(QFile::exists(fakePart));
-    KDesktopFile desktopFile(fakePart);
-    KService service(&desktopFile);
-    QVERIFY(service.isValid());
-    QCOMPARE(service.mimeTypes(), (QStringList{QStringLiteral("text/plain"), QStringLiteral("text/html")}));
+    QCOMPARE(service.name(), QStringLiteral("Konsole"));
 }
 
 void KServiceTest::testConstructorKDesktopFile() // as happens inside kbuildsycoca.cpp
 {
-    KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, QStringLiteral("kservices5/fakepart.desktop"));
-    QCOMPARE(KService(&desktopFile, QStringLiteral("kservices5/fakepart.desktop")).mimeTypes(),
-             (QStringList{QStringLiteral("text/plain"), QStringLiteral("text/html")}));
+    const QString filePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("applications/org.kde.faketestapp.desktop"));
+    KDesktopFile desktopFile(filePath);
+    QCOMPARE(KService(&desktopFile, filePath).name(), QStringLiteral("Konsole"));
 }
 
 void KServiceTest::testCopyConstructor()
 {
-    const QString fakePart = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/fakepart.desktop"};
-    QVERIFY(QFile::exists(fakePart));
-    KDesktopFile desktopFile(fakePart);
-    // KRun needs to make a copy of a KService that will go out of scope, let's test that here.
+    const QString filePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("applications/org.kde.faketestapp.desktop"));
+    QVERIFY(QFile::exists(filePath));
+    KDesktopFile desktopFile(filePath);
+    // Test making a copy of a KService that will go out of scope
     KService::Ptr service;
     {
         KService origService(&desktopFile);
         service = new KService(origService);
     }
     QVERIFY(service->isValid());
-    QCOMPARE(service->mimeTypes(), (QStringList{QStringLiteral("text/plain"), QStringLiteral("text/html")}));
+    QCOMPARE(service->name(), QStringLiteral("Konsole"));
 }
 
 void KServiceTest::testCopyInvalidService()
@@ -350,42 +199,24 @@ void KServiceTest::testProperty()
 
     // Let's try creating a desktop file and ensuring it's noticed by the timestamp check
     QTest::qWait(1000);
-    const QString fakeCookie = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/kded/fakekcookiejar.desktop"};
-    if (!QFile::exists(fakeCookie)) {
-        KDesktopFile file(fakeCookie);
+    QString fakeAppPath = KService::newServicePath(false, QStringLiteral("org.kde.foo"));
+    if (!QFile::exists(fakeAppPath)) {
+        KDesktopFile file(fakeAppPath);
         KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Name", "OtherPart");
-        group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-ServiceTypes", "FakeKDEDModule");
-        group.writeEntry("X-KDE-Library", "kcookiejar");
-        group.writeEntry("X-KDE-Kded-autoload", "false");
-        group.writeEntry("X-KDE-Kded-load-on-demand", "true");
-        qDebug() << "created" << fakeCookie;
+        group.writeEntry("Name", "Foo");
+        group.writeEntry("Type", "Application");
+        group.writeEntry("X-Flatpak-RenamedFrom", "foo");
+        group.writeEntry("Exec", "bla");
+        group.writeEntry("X-GNOME-UsesNotifications", true);
+        qDebug() << "created" << fakeAppPath;
     }
 
-    KService::Ptr kdedkcookiejar = KService::serviceByDesktopPath(QStringLiteral("kded/fakekcookiejar.desktop"));
-    QVERIFY(kdedkcookiejar);
-    QCOMPARE(kdedkcookiejar->entryPath(), QStringLiteral("kded/fakekcookiejar.desktop"));
-
-    QCOMPARE(kdedkcookiejar->property(QStringLiteral("ServiceTypes")).toStringList().join(QLatin1Char(',')), QStringLiteral("FakeKDEDModule"));
-    QCOMPARE(kdedkcookiejar->property(QStringLiteral("X-KDE-Kded-autoload")).toBool(), false);
-    QCOMPARE(kdedkcookiejar->property(QStringLiteral("X-KDE-Kded-load-on-demand")).toBool(), true);
-    QVERIFY(!kdedkcookiejar->property(QStringLiteral("Name")).toString().isEmpty());
-    QVERIFY(!kdedkcookiejar->property(QStringLiteral("Name[fr]"), QMetaType::QString).isValid());
-
-    // TODO: for this we must install a servicetype desktop file...
-    // KService::Ptr kjavaappletviewer = KService::serviceByDesktopPath("kjavaappletviewer.desktop");
-    // QVERIFY(kjavaappletviewer);
-    // QCOMPARE(kjavaappletviewer->property("X-KDE-BrowserView-PluginsInfo").toString(), QString("kjava/pluginsinfo"));
-
-    // Test property("X-KDE-Protocols"), which triggers the KServiceReadProperty code.
-    KService::Ptr fakePart = KService::serviceByDesktopPath(QStringLiteral("fakepart.desktop"));
-    QVERIFY(fakePart); // see initTestCase; it should be found.
-    QVERIFY(fakePart->propertyNames().contains(QLatin1String("X-KDE-Protocols")));
-    QCOMPARE(fakePart->mimeTypes(),
-             QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/html")); // okular relies on subclasses being kept here
-    const QStringList protocols = fakePart->property(QStringLiteral("X-KDE-Protocols")).toStringList();
-    QCOMPARE(protocols, QStringList() << QStringLiteral("http") << QStringLiteral("ftp"));
+    KService::Ptr fakeApp = KService::serviceByDesktopName(QStringLiteral("org.kde.foo"));
+    QVERIFY(fakeApp);
+    QCOMPARE(fakeApp->property(QStringLiteral("X-Flatpak-RenamedFrom")).toString(), QStringLiteral("foo"));
+    QCOMPARE(fakeApp->property(QStringLiteral("X-GNOME-UsesNotifications"), QMetaType::Bool).toBool(), true);
+    QVERIFY(!fakeApp->property(QStringLiteral("Name")).toString().isEmpty());
+    QVERIFY(!fakeApp->property(QStringLiteral("Name[fr]"), QMetaType::QString).isValid());
 
     // Restore value
     ksycoca_ms_between_checks = 1500;
@@ -529,17 +360,17 @@ void KServiceTest::testDeletingService()
     // workaround unexplained inotify issue (in CI only...)
     QTest::qWait(1000);
 
-    const QString serviceName = QStringLiteral("fakeservice_deleteme.desktop");
-    KService::Ptr fakeService = KService::serviceByDesktopPath(serviceName);
+    const QString serviceName = QStringLiteral("org.kde.deleteme");
+    KService::Ptr fakeService = KService::serviceByDesktopName(serviceName);
     QVERIFY(fakeService); // see initTestCase; it should be found.
 
     // Test deleting a service
-    const QString servPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + serviceName;
+    const QString servPath = fakeService->locateLocal();
     QVERIFY(QFile::exists(servPath));
     QFile::remove(servPath);
     runKBuildSycoca();
     ksycoca_ms_between_checks = 0; // need it to check the ksycoca mtime
-    QVERIFY(!KService::serviceByDesktopPath(serviceName)); // not in ksycoca anymore
+    QVERIFY(!KService::serviceByDesktopName(serviceName)); // not in ksycoca anymore
 
     // Restore value
     ksycoca_ms_between_checks = 1500;
@@ -548,28 +379,15 @@ void KServiceTest::testDeletingService()
     QVERIFY(!QFile::exists(servPath));
 
     // Recreate it, for future tests
-    createFakeService(serviceName, QString());
-    QVERIFY(QFile::exists(servPath));
-    qDebug() << "executing kbuildsycoca (2)";
+    const QString deleteMeApp = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.deleteme.desktop");
+    const QString src = QFINDTESTDATA("org.kde.deleteme.desktop");
+    QVERIFY2(QFile::copy(src, deleteMeApp), qPrintable(deleteMeApp));
 
     runKBuildSycoca();
 
     if (QThread::currentThread() != QCoreApplication::instance()->thread()) {
         m_sycocaUpdateDone.ref();
     }
-}
-
-void KServiceTest::createFakeService(const QString &filename, const QString &serviceType)
-{
-    const QString fakeService = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kservices5/") + filename;
-    KDesktopFile file(fakeService);
-    KConfigGroup group = file.desktopGroup();
-    group.writeEntry("Name", "FakePlugin");
-    group.writeEntry("Type", "Service");
-    group.writeEntry("X-KDE-Library", "fakeservice");
-    group.writeEntry("X-KDE-Version", "4.56");
-    group.writeEntry("ServiceTypes", serviceType);
-    group.writeEntry("MimeType", "text/plain;");
 }
 
 #include <QFutureSynchronizer>

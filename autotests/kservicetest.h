@@ -25,7 +25,6 @@ private Q_SLOTS:
     void cleanupTestCase();
     void testByName();
     void testConstructorFullPath();
-    void testConstructorKDesktopFileFullPath();
     void testConstructorKDesktopFile();
     void testCopyConstructor();
     void testCopyInvalidService();
@@ -47,7 +46,6 @@ private Q_SLOTS:
     void testAliasFor();
 
 private:
-    void createFakeService(const QString &filenameSuffix, const QString &serviceType);
     void runKBuildSycoca(bool noincremental = false);
 
     QString m_firstOffer;

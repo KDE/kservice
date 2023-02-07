@@ -15,7 +15,6 @@ endmacro(KSERVICE_UNIT_TESTS)
 kservice_unit_tests(
  ksycocatest
  ksycoca_xdgdirstest
- ksycocadicttest
  ksycocathreadtest
  kservicetest
  kapplicationtradertest

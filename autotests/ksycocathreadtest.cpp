@@ -26,14 +26,9 @@
 
 #include "setupxdgdirs.h"
 
-static QString fakeTextPluginDesktopFile()
+static QString fakeAppDesktopFile()
 {
-    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/threadtextplugin.desktop"};
-}
-
-static QString fakeServiceDesktopFile()
-{
-    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/threadfakeservice.desktop"};
+    return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/applications/org.kde.testapp.desktop"};
 }
 
 static QSet<QThread *> s_threadsWhoSawFakeService; // clazy:exclude=non-pod-global-static
@@ -215,48 +210,23 @@ void KSycocaThreadTest::initTestCase()
     setupXdgDirs();
     QStandardPaths::setTestModeEnabled(true);
 
-    // This service is always there. Used in the trader queries from the thread.
-    const QString fakeTextPlugin = fakeTextPluginDesktopFile();
-    if (!QFile::exists(fakeTextPlugin)) {
-        KDesktopFile file(fakeTextPlugin);
-        KConfigGroup group = file.desktopGroup();
-        group.writeEntry("Name", "ThreadTextPlugin");
-        group.writeEntry("Type", "Service");
-        group.writeEntry("X-KDE-Library", "threadtextplugin");
-        group.writeEntry("X-KDE-Protocols", "http,ftp");
-        group.writeEntry("ServiceTypes", "KPluginInfo");
-        group.writeEntry("MimeType", "text/plain;");
-        file.sync();
-        qDebug() << "Created" << fakeTextPlugin << ", running kbuilsycoca";
-        runKBuildSycoca();
-        // Process the event
-        int count = 0;
-        while (!KService::serviceByDesktopPath(QStringLiteral("threadtextplugin.desktop"))) {
-            qApp->processEvents();
-            if (++count == 20) {
-                qFatal("sycoca doesn't have threadtextplugin.desktop");
-            }
-        }
-    }
+    createFakeService();
 
-    // Start clean
-    const QString servPath = fakeServiceDesktopFile();
-    if (QFile::exists(servPath)) {
-        QFile::remove(servPath);
-    }
-    if (KService::serviceByDesktopPath(QStringLiteral("threadfakeservice.desktop"))) {
-        deleteFakeService();
-    }
-    threads.resize(5);
-    for (int i = 0; i < threads.size(); i++) {
-        threads[i] = i < 3 ? new WorkerThread : new EventLoopThread;
-        threads[i]->start();
+    qDebug() << "Created org.kde.testapp, running kbuilsycoca";
+    runKBuildSycoca();
+    // Process the event
+    int count = 0;
+    while (!KService::serviceByDesktopName(QStringLiteral("org.kde.testapp"))) {
+        qApp->processEvents();
+        if (++count == 20) {
+            qFatal("sycoca doesn't have org.kde.testapp.desktop");
+        }
     }
 }
 
 void KSycocaThreadTest::cleanupTestCase()
 {
-    QFile::remove(fakeTextPluginDesktopFile());
+    QFile::remove(fakeAppDesktopFile());
 }
 
 // duplicated from kcoreaddons/autotests/kdirwatch_unittest.cpp
@@ -287,11 +257,11 @@ void KSycocaThreadTest::testCreateService()
     waitUntilAfter(QDateTime::currentDateTime());
 
     createFakeService();
-    QVERIFY(QFile::exists(fakeServiceDesktopFile()));
+    QVERIFY(QFile::exists(fakeAppDesktopFile()));
     qDebug() << "executing kbuildsycoca (1)";
     runKBuildSycoca();
 
-    QTRY_VERIFY(KService::serviceByDesktopPath(QStringLiteral("threadfakeservice.desktop")));
+    QTRY_VERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.testapp")));
 
     // Now wait to check that all threads saw that new service
     QTRY_COMPARE_WITH_TIMEOUT(threadsWhoSawFakeService(), threads.size(), 20000);
@@ -302,9 +272,9 @@ void KSycocaThreadTest::deleteFakeService()
     s_fakeServiceDeleted = 1;
 
     qDebug() << "now deleting the fake service";
-    KService::Ptr fakeService = KService::serviceByDesktopPath(QStringLiteral("threadfakeservice.desktop"));
+    KService::Ptr fakeService = KService::serviceByDesktopName(QStringLiteral("org.kde.testapp"));
     QVERIFY(fakeService);
-    const QString servPath = fakeServiceDesktopFile();
+    const QString servPath = fakeAppDesktopFile();
     QFile::remove(servPath);
 
     QSignalSpy spy(KSycoca::self(), &KSycoca::databaseChanged);
@@ -322,14 +292,11 @@ void KSycocaThreadTest::deleteFakeService()
 
 void KSycocaThreadTest::createFakeService()
 {
-    KDesktopFile file(fakeServiceDesktopFile());
+    KDesktopFile file(fakeAppDesktopFile());
     KConfigGroup group = file.desktopGroup();
-    group.writeEntry("Name", "ThreadFakeService");
-    group.writeEntry("Type", "Service");
-    group.writeEntry("X-KDE-Library", "threadfakeservice");
-    group.writeEntry("X-KDE-Protocols", "http,ftp");
-    group.writeEntry("ServiceTypes", "KPluginInfo");
-    group.writeEntry("MimeType", "text/plain;");
+    group.writeEntry("Name", "Foo");
+    group.writeEntry("Type", "Application");
+    group.writeEntry("Exec", "bla");
 }
 
 QTEST_MAIN(KSycocaThreadTest)
