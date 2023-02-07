@@ -60,6 +60,8 @@ int main(int argc, char **argv)
         QTextStream(stdout) << "Desktop name: \"" << service->desktopEntryName() << "\"\n";
         QTextStream(stdout) << "Menu ID: \"" << service->menuId() << "\"\n";
         QTextStream(stdout) << "Storage ID: \"" << service->storageId() << "\"\n";
+        QTextStream(stdout) << "MIME types: \"" << service->mimeTypes().join(QLatin1Char(' ')) << "\"\n";
+        QTextStream(stdout) << "Scheme handlers: \"" << service->schemeHandlers().join(QLatin1Char(' ')) << "\"\n";
     } else {
         QTextStream(stdout) << "Not found\n";
         return 2;

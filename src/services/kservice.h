@@ -232,6 +232,16 @@ public:
     bool hasMimeType(const QString &mimeType) const;
 
     /**
+     * Returns the list of URL schemes this service supports.
+     *
+     * For example for a browser this could be
+     * {"x-scheme-handler/http", "x-scheme-handler/https"}
+     *
+     * @since 6.0
+     */
+    QStringList schemeHandlers() const;
+
+    /**
      * Returns the actions defined in this desktop file
      */
     QList<KServiceAction> actions() const;

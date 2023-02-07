@@ -920,6 +920,22 @@ QStringList KService::mimeTypes() const
     return ret;
 }
 
+QStringList KService::schemeHandlers() const
+{
+    Q_D(const KService);
+
+    QMimeDatabase db;
+    QStringList ret;
+
+    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
+        const QString servType = s.serviceType;
+        if (servType.startsWith(QLatin1String("x-scheme-handler/"))) {
+            ret.append(servType);
+        }
+    }
+    return ret;
+}
+
 int KService::initialPreference() const
 {
     Q_D(const KService);
