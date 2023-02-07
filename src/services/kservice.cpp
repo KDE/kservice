@@ -925,10 +925,12 @@ QStringList KService::supportedProtocols() const
     Q_D(const KService);
 
     QStringList ret;
+
+    const QLatin1String schemeHandlerPrefix("x-scheme-handler/");
     for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
         const QString servType = s.serviceType;
-        if (servType.startsWith(QLatin1String("x-scheme-handler/"))) {
-            ret.append(servType.mid(17)); // remove x-scheme-handler/ prefix
+        if (servType.startsWith(schemeHandlerPrefix)) {
+            ret.append(servType.mid(schemeHandlerPrefix.size()));
         }
     }
 
