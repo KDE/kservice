@@ -224,6 +224,17 @@ void KServiceTest::initTestCase()
         mustUpdateKSycoca = true;
     }
 
+    // otherfakeapp.desktop
+    const QString otherTestApp = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.otherfakeapp.desktop");
+    if (!QFile::exists(otherTestApp)) {
+        QVERIFY(QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)));
+        const QString src = QFINDTESTDATA("org.kde.otherfakeapp.desktop");
+        QVERIFY(!src.isEmpty());
+        QVERIFY2(QFile::copy(src, otherTestApp), qPrintable(otherTestApp));
+        qDebug() << "Created" << otherTestApp;
+        mustUpdateKSycoca = true;
+    }
+
     if (mustUpdateKSycoca) {
         // Update ksycoca in ~/.qttest after creating the above
         runKBuildSycoca(true);
@@ -232,6 +243,7 @@ void KServiceTest::initTestCase()
     QVERIFY(KServiceType::serviceType(QStringLiteral("FakeBasePart")));
     QVERIFY(KServiceType::serviceType(QStringLiteral("FakeDerivedPart")));
     QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp")));
+    QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.otherfakeapp")));
 }
 
 void KServiceTest::runKBuildSycoca(bool noincremental)
@@ -964,4 +976,27 @@ void KServiceTest::testAliasFor()
     KService::Ptr testapp = KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp"));
     QVERIFY(testapp);
     QCOMPARE(testapp->aliasFor(), QStringLiteral("org.kde.okular"));
+}
+
+void KServiceTest::testMimeType()
+{
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
+
+    KService::Ptr testapp = KService::serviceByDesktopName(QStringLiteral("org.kde.otherfakeapp"));
+    QVERIFY(testapp);
+    QCOMPARE(testapp->mimeTypes(), {QStringLiteral("application/pdf")});
+}
+
+void KServiceTest::testProtocols()
+{
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
+
+    KService::Ptr testapp = KService::serviceByDesktopName(QStringLiteral("org.kde.otherfakeapp"));
+    QVERIFY(testapp);
+    QStringList expectedProtocols{QStringLiteral("http"), QStringLiteral("tel")};
+    QCOMPARE(testapp->supportedProtocols(), expectedProtocols);
 }

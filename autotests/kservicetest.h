@@ -66,6 +66,8 @@ private Q_SLOTS:
 #endif
     void testCompleteBaseName();
     void testEntryPathToName();
+    void testMimeType();
+    void testProtocols();
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(5, 90)
     void testTraderQueryMustRebuildSycoca();
