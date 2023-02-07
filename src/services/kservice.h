@@ -224,6 +224,18 @@ public:
     QStringList mimeTypes() const;
 
     /**
+     * Returns the list of protocols this service supports.
+     *
+     * This is taken from the x-scheme-handler MIME types
+     * listed in the .destkop file as well as the 'X-KDE-Protocols'
+     * entry
+     *
+     * For example a web browser could return {"http", "https"}.
+     * @since 6.0
+     */
+    QStringList supportedProtocols() const;
+
+    /**
      * Checks whether the service supports this MIME type
      * @param mimeType The name of the MIME type you are
      *        interested in determining whether this service supports.

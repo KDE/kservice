@@ -42,6 +42,8 @@ private Q_SLOTS:
     void testThreads();
     void testCompleteBaseName();
     void testEntryPathToName();
+    void testMimeType();
+    void testProtocols();
 
     void testAliasFor();
 

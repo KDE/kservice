@@ -920,6 +920,28 @@ QStringList KService::mimeTypes() const
     return ret;
 }
 
+QStringList KService::supportedProtocols() const
+{
+    Q_D(const KService);
+
+    QStringList ret;
+    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
+        const QString servType = s.serviceType;
+        if (servType.startsWith(QLatin1String("x-scheme-handler/"))) {
+            ret.append(servType.mid(17)); // remove x-scheme-handler/ prefix
+        }
+    }
+
+    const QStringList protocols = property(QStringLiteral("X-KDE-Protocols"), QMetaType::QStringList).toStringList();
+    for (const QString &protocol : protocols) {
+        if (!ret.contains(protocol)) {
+            ret.append(protocol);
+        }
+    }
+
+    return ret;
+}
+
 int KService::initialPreference() const
 {
     Q_D(const KService);
