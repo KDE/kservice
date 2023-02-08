@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-22 00:43+0000\n"
+"POT-Creation-Date: 2023-02-08 00:54+0000\n"
 "PO-Revision-Date: 2021-05-29 15:31+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -219,12 +219,12 @@ msgstr "Не удалось запустить эмулятор терминал
 msgid "No service implementing %1"
 msgstr "Нет службы, реализующей %1"
 
-#: services/kservice.cpp:1120
+#: services/kservice.cpp:1142
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Указана недопустимая служба"
 
-#: services/kservice.cpp:1124
+#: services/kservice.cpp:1146
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr "Служба «%1» не предоставляет библиотеку или нет записи «Library»"
