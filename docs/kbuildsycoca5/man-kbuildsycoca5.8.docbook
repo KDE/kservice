@@ -94,13 +94,6 @@ it if necessary, when any of the files whose data is cached are changed.
 </varlistentry>
 
 <varlistentry>
-<term><option>--nosignal</option></term>
-<listitem>
-<para>Ordinarily, <command>kbuildsycoca5</command> sends a signal over &DBus; once the cache is updated to all the applications that use KService so that they are always working with the latest information. This option suppresses that behaviour.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
 <term><option>--menutest</option></term>
 <listitem>
 <para>Test the generation of the application menu database. Does not actually build the cache.</para>

@@ -99,14 +99,7 @@ int main(int argc, char **argv)
     QCommandLineParser parser;
     about.setupCommandLine(&parser);
     parser.addOption(
-        QCommandLineOption(QStringLiteral("nosignal"),
-                           i18nc("@info:shell command-line option", "Do not signal applications to update (deprecated, no longer having any effect)")));
-    parser.addOption(
         QCommandLineOption(QStringLiteral("noincremental"), i18nc("@info:shell command-line option", "Disable incremental update, re-read everything")));
-    parser.addOption(QCommandLineOption(QStringLiteral("checkstamps"),
-                                        i18nc("@info:shell command-line option", "Check file timestamps (deprecated, no longer having any effect)")));
-    parser.addOption(QCommandLineOption(QStringLiteral("nocheckfiles"),
-                                        i18nc("@info:shell command-line option", "Disable checking files (deprecated, no longer having any effect)")));
     parser.addOption(QCommandLineOption(QStringLiteral("menutest"), i18nc("@info:shell command-line option", "Perform menu generation test run only")));
     parser.addOption(
         QCommandLineOption(QStringLiteral("track"), i18nc("@info:shell command-line option", "Track menu id for debug purposes"), QStringLiteral("menu-id")));
