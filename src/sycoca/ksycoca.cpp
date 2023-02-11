@@ -467,10 +467,6 @@ bool KSycocaPrivate::checkVersion()
     }
 }
 
-// This is now completely useless. KF6: remove
-extern KSERVICE_EXPORT bool kservice_require_kded;
-KSERVICE_EXPORT bool kservice_require_kded = true;
-
 // If it returns true, we have a valid database and the stream has rewinded to the beginning
 // and past the version number.
 bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
