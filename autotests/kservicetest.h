@@ -29,7 +29,6 @@ private Q_SLOTS:
     void testCopyConstructor();
     void testCopyInvalidService();
     void testProperty();
-    void testAllServiceTypes();
     void testAllServices();
     void testSubseqConstraints();
     void testByStorageId();

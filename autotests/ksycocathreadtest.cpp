@@ -54,9 +54,6 @@ public Q_SLOTS:
     {
         // qDebug() << QThread::currentThread() << "working...";
 
-        const KServiceType::List allServiceTypes = KServiceType::allServiceTypes();
-        Q_ASSERT(!allServiceTypes.isEmpty());
-
         QMimeDatabase db;
         const QList<QMimeType> allMimeTypes = db.allMimeTypes();
         Q_ASSERT(!allMimeTypes.isEmpty());

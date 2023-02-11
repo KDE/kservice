@@ -23,7 +23,6 @@
 
 #include <KPluginMetaData>
 #include <kservicegroup.h>
-#include <kservicetype.h>
 
 #include <QFile>
 #include <QSignalSpy>
@@ -220,22 +219,6 @@ void KServiceTest::testProperty()
 
     // Restore value
     ksycoca_ms_between_checks = 1500;
-}
-
-void KServiceTest::testAllServiceTypes()
-{
-    if (!KSycoca::isAvailable()) {
-        QSKIP("ksycoca not available");
-    }
-
-    const KServiceType::List allServiceTypes = KServiceType::allServiceTypes();
-
-    // A bit of checking on the allServiceTypes list itself
-    for (const KServiceType::Ptr &servtype : allServiceTypes) {
-        const QString name = servtype->name();
-        QVERIFY(!name.isEmpty());
-        QVERIFY(servtype->sycocaType() == KST_KServiceType);
-    }
 }
 
 void KServiceTest::testAllServices()
