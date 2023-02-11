@@ -122,8 +122,6 @@ private:
     friend class KSycocaFactory;
     friend class KBuildServiceFactory;
     friend class KServiceFactory;
-    friend class KMimeTypeTrader;
-    friend class KServiceTypeTrader;
     friend class KService;
     friend class KSycocaDict;
     friend class KSycocaDictTest;

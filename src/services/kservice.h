@@ -16,7 +16,6 @@
 #include <QVariant>
 #include <ksycocaentry.h>
 
-class KServiceType;
 class QDataStream;
 class KDesktopFile;
 class QWidget;
@@ -37,7 +36,6 @@ class KServicePrivate;
  * For a tutorial on how to build a plugin-loading mechanism and how to write plugins
  * in general, see http://techbase.kde.org/Development/Tutorials#Services:_Applications_and_Plugins
  *
- * @see KServiceType
  * @see KServiceGroup
  * @author Torben Weis
  */
@@ -307,7 +305,6 @@ public:
      * @param _name the name of the property
      * @param t the assumed type of the property
      * @return the property, or invalid if not found
-     * @see KServiceType
      *
      * @since 5.102
      */
