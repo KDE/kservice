@@ -26,12 +26,6 @@ public:
     ~KBuildServiceTypeFactory() override;
 
     /**
-     * Find a service type in the database file
-     * @return a pointer to the servicetype in the memory dict (don't free!)
-     */
-    KServiceType::Ptr findServiceTypeByName(const QString &_name) override;
-
-    /**
      * Construct a KServiceType from a config file.
      */
     KSycocaEntry *createEntry(const QString &file) const override;

@@ -29,14 +29,6 @@ KBuildServiceTypeFactory::~KBuildServiceTypeFactory()
 {
 }
 
-KServiceType::Ptr KBuildServiceTypeFactory::findServiceTypeByName(const QString &_name)
-{
-    assert(sycoca()->isBuilding());
-    // We're building a database - the service type must be in memory
-    KSycocaEntry::Ptr servType = m_entryDict->value(_name);
-    return KServiceType::Ptr(static_cast<KServiceType *>(servType.data()));
-}
-
 KSycocaEntry *KBuildServiceTypeFactory::createEntry(const QString &file) const
 {
     QString name = file;

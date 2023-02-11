@@ -7,13 +7,7 @@
 */
 
 #include "kservicetype.h"
-#include "kservice.h"
-#include "kservicefactory_p.h"
 #include "kservicetype_p.h"
-#include "kservicetypefactory_p.h"
-#include "ksycoca.h"
-#include "ksycoca_p.h"
-#include "servicesdebug.h"
 #include <KConfigGroup>
 #include <KDesktopFile>
 #include <assert.h>
@@ -94,31 +88,6 @@ KServiceType::~KServiceType()
 {
 }
 
-QString KServiceType::parentServiceType() const
-{
-    const QVariant v = property(QStringLiteral("X-KDE-Derived"));
-    return v.toString();
-}
-
-bool KServiceType::inherits(const QString &servTypeName) const
-{
-    if (name() == servTypeName) {
-        return true;
-    }
-    QString st = parentServiceType();
-    while (!st.isEmpty()) {
-        KServiceType::Ptr ptr = KServiceType::serviceType(st);
-        if (!ptr) {
-            return false; // error
-        }
-        if (ptr->name() == servTypeName) {
-            return true;
-        }
-        st = ptr->parentServiceType();
-    }
-    return false;
-}
-
 QVariant KServiceTypePrivate::property(const QString &_name) const
 {
     QVariant v;
@@ -140,77 +109,6 @@ QStringList KServiceTypePrivate::propertyNames() const
     res.append(QStringLiteral("Name"));
     res.append(QStringLiteral("Comment"));
     return res;
-}
-
-QMetaType::Type KServiceType::propertyDef(const QString &_name) const
-{
-    Q_D(const KServiceType);
-    return d->m_mapPropDefs.value(_name, QMetaType::UnknownType);
-}
-
-QStringList KServiceType::propertyDefNames() const
-{
-    Q_D(const KServiceType);
-    return d->m_mapPropDefs.keys();
-}
-
-KServiceType::Ptr KServiceType::serviceType(const QString &_name)
-{
-    KSycoca::self()->ensureCacheValid();
-    return KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(_name);
-}
-
-KServiceType::List KServiceType::allServiceTypes()
-{
-    KSycoca::self()->ensureCacheValid();
-    return KSycocaPrivate::self()->serviceTypeFactory()->allServiceTypes();
-}
-
-KServiceType::Ptr KServiceType::parentType()
-{
-    Q_D(KServiceType);
-    if (d->m_parentTypeLoaded) {
-        return d->parentType;
-    }
-
-    d->m_parentTypeLoaded = true;
-
-    const QString parentSt = parentServiceType();
-    if (parentSt.isEmpty()) {
-        return KServiceType::Ptr();
-    }
-
-    KSycoca::self()->ensureCacheValid();
-    d->parentType = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(parentSt);
-    if (!d->parentType) {
-        qCWarning(SERVICES) << entryPath() << "specifies undefined MIME type/servicetype" << parentSt;
-    }
-    return d->parentType;
-}
-
-void KServiceType::setServiceOffersOffset(int offset)
-{
-    Q_D(KServiceType);
-    Q_ASSERT(offset != -1);
-    d->m_serviceOffersOffset = offset;
-}
-
-int KServiceType::serviceOffersOffset() const
-{
-    Q_D(const KServiceType);
-    return d->serviceOffersOffset();
-}
-
-QString KServiceType::comment() const
-{
-    Q_D(const KServiceType);
-    return d->comment();
-}
-
-bool KServiceType::isDerived() const
-{
-    Q_D(const KServiceType);
-    return d->m_bDerived;
 }
 
 QMap<QString, QMetaType::Type> KServiceType::propertyDefs() const

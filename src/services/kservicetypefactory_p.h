@@ -47,21 +47,9 @@ public:
     }
 
     /**
-     * Find a service type in the database file (allocates it)
-     * Overloaded by KBuildServiceTypeFactory to return a memory one.
-     */
-    virtual KServiceType::Ptr findServiceTypeByName(const QString &_name);
-
-    /**
      * Find a the property type of a named property.
      */
     QMetaType::Type findPropertyTypeByName(const QString &_name);
-
-    /**
-     * @return all servicetypes
-     * Slow and memory consuming, avoid using
-     */
-    KServiceType::List allServiceTypes();
 
     /**
      * Returns the directories to watch for this factory.

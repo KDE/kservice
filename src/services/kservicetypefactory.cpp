@@ -43,26 +43,6 @@ KServiceTypeFactory::~KServiceTypeFactory()
 {
 }
 
-KServiceType::Ptr KServiceTypeFactory::findServiceTypeByName(const QString &_name)
-{
-    if (!sycocaDict()) {
-        return KServiceType::Ptr(); // Error!
-    }
-    assert(!sycoca()->isBuilding());
-    int offset = sycocaDict()->find_string(_name);
-    if (!offset) {
-        return KServiceType::Ptr(); // Not found
-    }
-    KServiceType::Ptr newServiceType(createEntry(offset));
-
-    // Check whether the dictionary was right.
-    if (newServiceType && (newServiceType->name() != _name)) {
-        // No it wasn't...
-        newServiceType = nullptr; // Not found
-    }
-    return newServiceType;
-}
-
 QMetaType::Type KServiceTypeFactory::findPropertyTypeByName(const QString &_name)
 {
     if (!sycocaDict()) {
@@ -72,19 +52,6 @@ QMetaType::Type KServiceTypeFactory::findPropertyTypeByName(const QString &_name
     assert(!sycoca()->isBuilding());
 
     return static_cast<QMetaType::Type>(m_propertyTypeDict.value(_name, QMetaType::UnknownType));
-}
-
-KServiceType::List KServiceTypeFactory::allServiceTypes()
-{
-    KServiceType::List result;
-    const KSycocaEntry::List list = allEntries();
-    for (KSycocaEntry::List::ConstIterator it = list.begin(); it != list.end(); ++it) {
-        if ((*it)->isType(KST_KServiceType)) {
-            KServiceType::Ptr newServiceType(static_cast<KServiceType *>((*it).data()));
-            result.append(newServiceType);
-        }
-    }
-    return result;
 }
 
 QStringList KServiceTypeFactory::resourceDirs()
