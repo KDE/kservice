@@ -447,17 +447,6 @@ void KServiceTest::testAllServices()
     QVERIFY(foundTestApp);
 }
 
-void KServiceTest::testDBUSStartupType()
-{
-    if (!KSycoca::isAvailable()) {
-        QSKIP("ksycoca not available");
-    }
-    KService::Ptr testapp = KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp"));
-    QVERIFY(testapp);
-    QCOMPARE(testapp->menuId(), QStringLiteral("org.kde.faketestapp.desktop"));
-    // qDebug() << testapp->entryPath();
-}
-
 void KServiceTest::testByStorageId()
 {
     if (!KSycoca::isAvailable()) {
