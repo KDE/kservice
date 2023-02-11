@@ -9,7 +9,6 @@
 #include "kbuildmimetypefactory_p.h"
 #include "kbuildservicefactory_p.h"
 #include "kbuildservicegroupfactory_p.h"
-#include "kservicetype.h"
 #include "kservicetypefactory_p.h"
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
@@ -237,10 +236,6 @@ void KBuildServiceFactory::populateServiceTypes()
         KService::Ptr service(static_cast<KService *>(servIt.value().data()));
         const bool hidden = !service->showInCurrentDesktop();
 
-        if (service->isApplication()) {
-            m_offerHash.addServiceOffer(QStringLiteral("Application"), KServiceOffer(service, service->initialPreference(), 0));
-        }
-
         QVector<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
 
         // Add this service to all its MIME types
@@ -310,26 +305,21 @@ void KBuildServiceFactory::populateServiceTypes()
         const QString stName = it.key();
         const ServiceTypeOffersData offersData = it.value();
         const int numOffers = offersData.offers.count();
-        KServiceType::Ptr serviceType = m_serviceTypeFactory->findServiceTypeByName(stName);
-        if (serviceType) {
-            serviceType->setServiceOffersOffset(offersOffset);
+
+        KMimeTypeFactory::MimeTypeEntry::Ptr entry = m_mimeTypeFactory->findMimeTypeEntryByName(stName);
+        if (entry) {
+            entry->setServiceOffersOffset(offersOffset);
+            offersOffset += offerEntrySize * numOffers;
+        } else if (stName.startsWith(QLatin1String("x-scheme-handler/"))) {
+            // Create those on demand
+            entry = m_mimeTypeFactory->createFakeMimeType(stName);
+            entry->setServiceOffersOffset(offersOffset);
             offersOffset += offerEntrySize * numOffers;
         } else {
-            KMimeTypeFactory::MimeTypeEntry::Ptr entry = m_mimeTypeFactory->findMimeTypeEntryByName(stName);
-            if (entry) {
-                entry->setServiceOffersOffset(offersOffset);
-                offersOffset += offerEntrySize * numOffers;
-            } else if (stName.startsWith(QLatin1String("x-scheme-handler/"))) {
-                // Create those on demand
-                entry = m_mimeTypeFactory->createFakeMimeType(stName);
-                entry->setServiceOffersOffset(offersOffset);
-                offersOffset += offerEntrySize * numOffers;
+            if (stName.isEmpty()) {
+                qCDebug(SYCOCA) << "Empty service type";
             } else {
-                if (stName.isEmpty()) {
-                    qCDebug(SYCOCA) << "Empty service type";
-                } else {
-                    qCWarning(SYCOCA) << "Service type not found:" << stName;
-                }
+                qCWarning(SYCOCA) << "Service type not found:" << stName;
             }
         }
     }
@@ -350,15 +340,10 @@ void KBuildServiceFactory::saveOfferList(QDataStream &str)
         std::stable_sort(offers.begin(), offers.end()); // by initial preference
 
         int offset = -1;
-        KServiceType::Ptr serviceType = m_serviceTypeFactory->findServiceTypeByName(stName);
-        if (serviceType) {
-            offset = serviceType->offset();
-        } else {
-            KMimeTypeFactory::MimeTypeEntry::Ptr entry = m_mimeTypeFactory->findMimeTypeEntryByName(stName);
-            if (entry) {
-                offset = entry->offset();
-                // Q_ASSERT(str.device()->pos() == entry->serviceOffersOffset() + m_offerListOffset);
-            }
+        KMimeTypeFactory::MimeTypeEntry::Ptr entry = m_mimeTypeFactory->findMimeTypeEntryByName(stName);
+        if (entry) {
+            offset = entry->offset();
+            // Q_ASSERT(str.device()->pos() == entry->serviceOffersOffset() + m_offerListOffset);
         }
         if (offset == -1) {
             qCDebug(SYCOCA) << "Didn't find servicetype or MIME type" << stName;

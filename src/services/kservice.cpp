@@ -177,18 +177,8 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
                                " be removed at some point. Consider splitting it into two desktop files.";
     }
 
-    QStringList lstServiceTypes = desktopGroup.readEntry("ServiceTypes", QStringList());
-    entryMap.remove(QStringLiteral("ServiceTypes"));
-    lstServiceTypes += desktopGroup.readEntry("X-KDE-ServiceTypes", QStringList());
-    entryMap.remove(QStringLiteral("X-KDE-ServiceTypes"));
-    lstServiceTypes += desktopGroup.readXdgListEntry("MimeType");
+    const QStringList lstServiceTypes = desktopGroup.readXdgListEntry("MimeType");
     entryMap.remove(QStringLiteral("MimeType"));
-
-    if (m_strType == QLatin1String("Application") && !lstServiceTypes.contains(QLatin1String("Application")))
-    // Applications implement the service type "Application" ;-)
-    {
-        lstServiceTypes += QStringLiteral("Application");
-    }
 
     m_initialPreference = desktopGroup.readEntry("InitialPreference", 1);
     entryMap.remove(QStringLiteral("InitialPreference"));
