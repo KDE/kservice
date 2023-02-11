@@ -28,8 +28,8 @@ KServiceFactory::KServiceFactory(KSycoca *db)
     m_menuIdDictOffset = 0;
     if (!sycoca()->isBuilding()) {
         QDataStream *str = stream();
-        Q_ASSERT(str);
         if (!str) {
+            qWarning() << "Could not open sycoca database, you must run kbuildsycoca first!";
             return;
         }
         // Read Header
