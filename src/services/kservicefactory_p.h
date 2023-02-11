@@ -12,7 +12,6 @@
 #include <QStringList>
 
 #include "kserviceoffer.h"
-#include "kservicetype.h"
 #include "ksycocafactory_p.h"
 #include <assert.h>
 
@@ -80,7 +79,6 @@ public:
      * The @p serviceOffersOffset allows to jump to the right entries directly.
      */
     KService::List serviceOffers(int serviceTypeOffset, int serviceOffersOffset);
-    KService::List serviceOffers(const KServiceType::Ptr &serviceType);
 
     /**
      * Test if a specific service is associated with a specific servicetype
@@ -89,7 +87,6 @@ public:
      * @param testedServiceOffset the offset of the service being tested
      */
     bool hasOffer(int serviceTypeOffset, int serviceOffersOffset, int testedServiceOffset);
-    bool hasOffer(const KServiceType::Ptr &serviceType, const KService::Ptr &testedService);
 
     /**
      * @return all services. Very memory consuming, avoid using.
