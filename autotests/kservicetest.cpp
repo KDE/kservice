@@ -447,22 +447,6 @@ void KServiceTest::testAllServices()
     QVERIFY(foundTestApp);
 }
 
-// Helper method for all the trader tests
-static bool offerListHasService(const KService::List &offers, const QString &entryPath)
-{
-    bool found = false;
-    for (const auto &servicePtr : offers) {
-        if (servicePtr->entryPath() == entryPath) {
-            if (found) { // should be there only once
-                qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
-                return false; // make test fail
-            }
-            found = true;
-        }
-    }
-    return found;
-}
-
 void KServiceTest::testDBUSStartupType()
 {
     if (!KSycoca::isAvailable()) {

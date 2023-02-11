@@ -36,22 +36,6 @@ static QString fakeServiceDesktopFile()
     return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String{"/kservices5/threadfakeservice.desktop"};
 }
 
-// Helper method for all the trader tests
-static bool offerListHasService(const KService::List &offers, const QString &entryPath)
-{
-    bool found = false;
-    for (const auto &servicePtr : offers) {
-        if (servicePtr->entryPath() == entryPath) {
-            if (found) { // should be there only once
-                qWarning("ERROR: %s was found twice in the list", qPrintable(entryPath));
-                return false; // make test fail
-            }
-            found = true;
-        }
-    }
-    return found;
-}
-
 static QSet<QThread *> s_threadsWhoSawFakeService; // clazy:exclude=non-pod-global-static
 static QMutex s_setMutex; // clazy:exclude=non-pod-global-static
 static int threadsWhoSawFakeService()
