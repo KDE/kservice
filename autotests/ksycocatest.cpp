@@ -135,7 +135,6 @@ void KSycocaTest::ensureCacheValidShouldCreateDB() // this is what kded does on 
 
 void KSycocaTest::kBuildSycocaShouldEmitDatabaseChanged()
 {
-    // It used to be a DBus signal, now it's file watching
     QTest::qWait(s_waitDelay);
     // Ensure kbuildsycoca has something to do
     QVERIFY(QFile::remove(serviceTypesDir() + QLatin1String{"/fakeGlobalServiceType.desktop"}));
