@@ -46,22 +46,6 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     return lst;
 }
 
-// Filter the offers for the requested MIME type in order to keep only applications.
-static void filterMimeTypeOffers(KService::List &list) // static, internal
-{
-    KServiceType::Ptr genericServiceTypePtr = KServiceType::serviceType(QStringLiteral("Application"));
-    Q_ASSERT(genericServiceTypePtr);
-
-    KSycoca::self()->ensureCacheValid();
-    KServiceFactory *serviceFactory = KSycocaPrivate::self()->serviceFactory();
-
-    // Remove non-Applications (TODO KF6: kill plugin desktop files, then kill this code)
-    auto removeFunc = [&](const KService::Ptr &serv) {
-        return !serviceFactory->hasOffer(genericServiceTypePtr, serv);
-    };
-    list.erase(std::remove_if(list.begin(), list.end(), removeFunc), list.end());
-}
-
 static void applyFilter(KService::List &list, KApplicationTrader::FilterFunc filterFunc, bool mustShowInCurrentDesktop)
 {
     if (list.isEmpty()) {
@@ -80,13 +64,7 @@ KService::List KApplicationTrader::query(FilterFunc filterFunc)
 {
     // Get all applications
     KSycoca::self()->ensureCacheValid();
-    KServiceType::Ptr servTypePtr = KSycocaPrivate::self()->serviceTypeFactory()->findServiceTypeByName(QStringLiteral("Application"));
-    Q_ASSERT(servTypePtr);
-    if (servTypePtr->serviceOffersOffset() == -1) {
-        return KService::List();
-    }
-
-    KService::List lst = KSycocaPrivate::self()->serviceFactory()->serviceOffers(servTypePtr);
+    KService::List lst = KSycocaPrivate::self()->serviceFactory()->allServices();
 
     applyFilter(lst, filterFunc, true); // true = filter out service with NotShowIn=KDE or equivalent
 
@@ -98,7 +76,6 @@ KService::List KApplicationTrader::queryByMimeType(const QString &mimeType, Filt
 {
     // Get all services of this MIME type.
     KService::List lst = mimeTypeSycocaServiceOffers(mimeType);
-    filterMimeTypeOffers(lst);
 
     applyFilter(lst, filterFunc, false); // false = allow NotShowIn=KDE services listed in mimeapps.list
 
