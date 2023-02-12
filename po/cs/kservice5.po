@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-08 00:54+0000\n"
+"POT-Creation-Date: 2023-02-12 00:55+0000\n"
 "PO-Revision-Date: 2021-05-20 17:51+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -199,12 +199,12 @@ msgstr "Nelze spustit terminálovou aplikaci"
 msgid "No service implementing %1"
 msgstr "Neexistuje služba implementující '%1'."
 
-#: services/kservice.cpp:1142
+#: services/kservice.cpp:1147
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Poskytovaná služba je neplatná"
 
-#: services/kservice.cpp:1146
+#: services/kservice.cpp:1151
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr "Služba '%1' neposkytuje žádnou knihovnu nebo klíč 'Library' chybí"

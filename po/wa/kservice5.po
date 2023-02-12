@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-08 00:54+0000\n"
+"POT-Creation-Date: 2023-02-12 00:55+0000\n"
 "PO-Revision-Date: 2012-07-04 17:33+0200\n"
 "Last-Translator: Jean Cayron <jean.cayron@base.be>\n"
 "Language-Team: Walloon <linux-wa@walon.org>\n"
@@ -209,12 +209,12 @@ msgstr "Dji n' a sepou tcherdjî l' cliyint d' terminå"
 msgid "No service implementing %1"
 msgstr ""
 
-#: services/kservice.cpp:1142
+#: services/kservice.cpp:1147
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Li siervice di dné n' est nén valåbe"
 
-#: services/kservice.cpp:1146
+#: services/kservice.cpp:1151
 #, fuzzy, kde-format
 #| msgid ""
 #| "The service '%1' provides no library or the Library key is missing in "

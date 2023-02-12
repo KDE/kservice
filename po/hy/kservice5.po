@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-08 00:54+0000\n"
+"POT-Creation-Date: 2023-02-12 00:55+0000\n"
 "PO-Revision-Date: 2013-01-31 01:08+0400\n"
 "Last-Translator: Davit <nikdavnik@mail.ru>\n"
 "Language-Team: Armenian Language: hy\n"
@@ -208,12 +208,12 @@ msgstr "Հնարավոր չէ թողարկել տերմինալի վահանակ
 msgid "No service implementing %1"
 msgstr ""
 
-#: services/kservice.cpp:1142
+#: services/kservice.cpp:1147
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Նշված է անթույլատրելի ծառայություն"
 
-#: services/kservice.cpp:1146
+#: services/kservice.cpp:1151
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr ""
