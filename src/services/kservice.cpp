@@ -22,7 +22,6 @@
 #include <KAuthorized>
 #include <KConfigGroup>
 #include <KDesktopFile>
-#include <KLocalizedString>
 #include <KShell>
 
 #include <QDebug>

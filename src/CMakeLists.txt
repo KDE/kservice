@@ -86,7 +86,6 @@ PRIVATE
     Qt6::Xml  # (for vfolder menu) QDomDocument
     KF6::ConfigCore   # KConfig and friends
     KF6::CoreAddons   # KShell
-    KF6::I18n
 )
 
 ecm_generate_headers(KService_HEADERS
