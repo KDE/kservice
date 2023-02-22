@@ -23,7 +23,6 @@ class QFile;
 class QDataStream;
 class KSycocaAbstractDevice;
 class KMimeTypeFactory;
-class KServiceTypeFactory;
 class KServiceFactory;
 class KServiceGroupFactory;
 
@@ -94,7 +93,6 @@ public:
     void slotDatabaseChanged();
 
     KMimeTypeFactory *mimeTypeFactory();
-    KServiceTypeFactory *serviceTypeFactory();
     KServiceFactory *serviceFactory();
     KServiceGroupFactory *serviceGroupFactory();
 
@@ -147,7 +145,6 @@ private:
 
 public:
     KMimeTypeFactory *m_mimeTypeFactory;
-    KServiceTypeFactory *m_serviceTypeFactory;
     KServiceFactory *m_serviceFactory;
     KServiceGroupFactory *m_serviceGroupFactory;
 };

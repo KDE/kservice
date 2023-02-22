@@ -9,8 +9,8 @@
 #include "kbuildmimetypefactory_p.h"
 #include "kbuildservicefactory_p.h"
 #include "kbuildservicegroupfactory_p.h"
-#include "kservicetypefactory_p.h"
 #include "ksycoca.h"
+
 #include "ksycocadict_p.h"
 #include "ksycocaresourcelist_p.h"
 #include "sycocadebug.h"
@@ -24,15 +24,12 @@
 #include <assert.h>
 #include <kmimetypefactory_p.h>
 
-KBuildServiceFactory::KBuildServiceFactory(KServiceTypeFactory *serviceTypeFactory,
-                                           KBuildMimeTypeFactory *mimeTypeFactory,
-                                           KBuildServiceGroupFactory *serviceGroupFactory)
-    : KServiceFactory(serviceTypeFactory->sycoca())
+KBuildServiceFactory::KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactory, KBuildServiceGroupFactory *serviceGroupFactory)
+    : KServiceFactory(mimeTypeFactory->sycoca())
     , m_nameMemoryHash()
     , m_relNameMemoryHash()
     , m_menuIdMemoryHash()
     , m_dupeDict()
-    , m_serviceTypeFactory(serviceTypeFactory)
     , m_mimeTypeFactory(mimeTypeFactory)
     , m_serviceGroupFactory(serviceGroupFactory)
 {

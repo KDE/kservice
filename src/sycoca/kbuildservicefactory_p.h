@@ -16,7 +16,6 @@
 // We export the services to the service group factory!
 class KBuildServiceGroupFactory;
 class KBuildMimeTypeFactory;
-class KServiceTypeFactory;
 
 /**
  * Service factory for building ksycoca
@@ -28,7 +27,7 @@ public:
     /**
      * Create factory
      */
-    KBuildServiceFactory(KServiceTypeFactory *serviceTypeFactory, KBuildMimeTypeFactory *mimeTypeFactory, KBuildServiceGroupFactory *serviceGroupFactory);
+    KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactory, KBuildServiceGroupFactory *serviceGroupFactory);
 
     ~KBuildServiceFactory() override;
 
@@ -83,7 +82,6 @@ private:
 
     KOfferHash m_offerHash;
 
-    KServiceTypeFactory *m_serviceTypeFactory;
     KBuildMimeTypeFactory *m_mimeTypeFactory;
     KBuildServiceGroupFactory *m_serviceGroupFactory;
 };

@@ -32,7 +32,6 @@
 #include <kmimetypefactory_p.h>
 #include <kservicefactory_p.h>
 #include <kservicegroupfactory_p.h>
-#include <kservicetypefactory_p.h>
 #include <stdlib.h>
 
 #include "kbuildsycoca_p.h"
@@ -90,7 +89,6 @@ KSycocaPrivate::KSycocaPrivate(KSycoca *qq)
     , m_mmapFile(nullptr)
     , m_device(nullptr)
     , m_mimeTypeFactory(nullptr)
-    , m_serviceTypeFactory(nullptr)
     , m_serviceFactory(nullptr)
     , m_serviceGroupFactory(nullptr)
 {
@@ -335,14 +333,6 @@ KMimeTypeFactory *KSycocaPrivate::mimeTypeFactory()
     return m_mimeTypeFactory;
 }
 
-KServiceTypeFactory *KSycocaPrivate::serviceTypeFactory()
-{
-    if (!m_serviceTypeFactory) {
-        m_serviceTypeFactory = new KServiceTypeFactory(q);
-    }
-    return m_serviceTypeFactory;
-}
-
 KServiceFactory *KSycocaPrivate::serviceFactory()
 {
     if (!m_serviceFactory) {
@@ -407,7 +397,6 @@ void KSycocaPrivate::closeDatabase()
 
     m_mimeTypeFactory = nullptr;
     m_serviceFactory = nullptr;
-    m_serviceTypeFactory = nullptr;
     m_serviceGroupFactory = nullptr;
 
 #if HAVE_MMAP

@@ -23,7 +23,6 @@ target_sources(KF6Service PRIVATE
    services/kservicegroupfactory.cpp
    services/kserviceoffer.cpp
    services/kservicetype.cpp
-   services/kservicetypefactory.cpp
    sycoca/ksycoca.cpp
    sycoca/ksycocadevices.cpp
    sycoca/ksycocadict.cpp
@@ -31,15 +30,12 @@ target_sources(KF6Service PRIVATE
    sycoca/ksycocafactory.cpp
    sycoca/kmemfile.cpp
    sycoca/kbuildmimetypefactory.cpp
-   sycoca/kbuildservicetypefactory.cpp
    sycoca/kbuildservicefactory.cpp
    sycoca/kbuildservicegroupfactory.cpp
    sycoca/kbuildsycoca.cpp
    sycoca/kctimefactory.cpp
    sycoca/kmimeassociations.cpp
    sycoca/vfolder_menu.cpp
-
-   kservice.qrc
 )
 
 ecm_qt_declare_logging_category(KF6Service
@@ -105,9 +101,6 @@ ecm_generate_headers(KService_HEADERS
 
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
-
-# Local copy for the unittests
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/kservicetypes5)
 
 if (WIN32)
 install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_DATAROOTDIR}/xdg/menus  RENAME ${APPLICATIONS_MENU_NAME} )

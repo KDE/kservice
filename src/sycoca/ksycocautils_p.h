@@ -47,8 +47,7 @@ bool visitResourceDirectory(const QString &dirname, Visitor visitor)
     }
 
     // Recurse only for services and menus.
-    // Apps and servicetypes don't need recursion, so save the directory listing.
-    if (!dirname.contains(QLatin1String("/applications")) && !dirname.contains(QLatin1String("/kservicetypes5"))) {
+    if (!dirname.contains(QLatin1String("/applications"))) {
         return visitResourceDirectoryHelper(dirname, visitor);
     }
 

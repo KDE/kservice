@@ -16,7 +16,6 @@
 #include "kbuildmimetypefactory_p.h"
 #include "kbuildservicefactory_p.h"
 #include "kbuildservicegroupfactory_p.h"
-#include "kbuildservicetypefactory_p.h"
 #include "kctimefactory_p.h"
 #include <QDataStream>
 #include <QDateTime>
@@ -127,15 +126,6 @@ KService::Ptr KBuildSycoca::createService(const QString &path)
     return KService::Ptr(static_cast<KService *>(entry.data()));
 }
 
-static QStringList locateDirInResource(const QString &resourceSubdir)
-{
-    const QString dir = QStringLiteral(":/") + resourceSubdir; // e.g. :/kservicetypes5
-    if (QDir(dir).exists()) {
-        return {dir};
-    }
-    return {};
-}
-
 // returns false if the database is up to date, true if it needs to be saved
 bool KBuildSycoca::build()
 {
@@ -202,8 +192,7 @@ bool KBuildSycoca::build()
         m_resource = it1.value();
 
         QSet<QString> relFiles;
-        const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_resourceSubdir, QStandardPaths::LocateDirectory)
-            + locateDirInResource(m_resourceSubdir);
+        const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_resourceSubdir, QStandardPaths::LocateDirectory);
         qCDebug(SYCOCA) << "Looking for subdir" << m_resourceSubdir << "=>" << dirs;
         for (const QString &dir : dirs) {
             QDirIterator it(dir, QDirIterator::Subdirectories);
@@ -385,7 +374,6 @@ bool KBuildSycoca::recreate(bool incremental)
         m_ctimeDict = new KCTimeDict;
 
         // Must be in same order as in KBuildSycoca::recreate()!
-        m_allEntries->append(KSycocaPrivate::self()->serviceTypeFactory()->allEntries());
         m_allEntries->append(KSycocaPrivate::self()->mimeTypeFactory()->allEntries());
         m_allEntries->append(KSycocaPrivate::self()->serviceGroupFactory()->allEntries());
         m_allEntries->append(KSycocaPrivate::self()->serviceFactory()->allEntries());
@@ -413,14 +401,11 @@ bool KBuildSycoca::recreate(bool incremental)
     m_newTimestamp = QDateTime::currentMSecsSinceEpoch();
     qCDebug(SYCOCA).nospace() << "Recreating ksycoca file (" << path << ", version " << KSycoca::version() << ")";
 
-    // It is very important to build the servicetype one first
-    KBuildServiceTypeFactory *buildServiceTypeFactory = new KBuildServiceTypeFactory(this);
-    d->m_serviceTypeFactory = buildServiceTypeFactory;
     KBuildMimeTypeFactory *buildMimeTypeFactory = new KBuildMimeTypeFactory(this);
     d->m_mimeTypeFactory = buildMimeTypeFactory;
     m_buildServiceGroupFactory = new KBuildServiceGroupFactory(this);
     d->m_serviceGroupFactory = m_buildServiceGroupFactory;
-    d->m_serviceFactory = new KBuildServiceFactory(buildServiceTypeFactory, buildMimeTypeFactory, m_buildServiceGroupFactory);
+    d->m_serviceFactory = new KBuildServiceFactory(buildMimeTypeFactory, m_buildServiceGroupFactory);
 
     if (build()) { // Parse dirs
         save(str); // Save database
@@ -567,7 +552,6 @@ QStringList KBuildSycoca::factoryResourceDirs()
     }
     dirs = new QStringList;
     // these are all resource dirs cached by ksycoca
-    *dirs += KServiceTypeFactory::resourceDirs();
     *dirs += KMimeTypeFactory::resourceDirs();
     *dirs += KServiceFactory::resourceDirs();
 

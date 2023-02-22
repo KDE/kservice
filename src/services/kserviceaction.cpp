@@ -6,7 +6,6 @@
 */
 
 #include "kserviceaction.h"
-#include "kbuildservicetypefactory_p.h"
 #include "kservice.h"
 #include "kservice_p.h"
 #include "ksycoca.h"

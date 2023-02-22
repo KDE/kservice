@@ -10,7 +10,6 @@
 
 #include "kmimetypefactory_p.h"
 #include "kservicefactory_p.h"
-#include "kservicetypefactory_p.h"
 #include "ksycoca.h"
 #include "ksycoca_p.h"
 #include "servicesdebug.h"
