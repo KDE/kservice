@@ -13,7 +13,6 @@
 #include <QTest>
 #include <kservice.h>
 #include <kservicefactory_p.h>
-#include <kservicetype.h>
 #include <ksycoca.h>
 #include <ksycoca_p.h>
 

@@ -493,8 +493,6 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
         return makeStringVariant(m_strComment);
     } else if (_name == QLatin1String("GenericName")) {
         return makeStringVariant(m_strGenName);
-    } else if (_name == QLatin1String("ServiceTypes")) {
-        return QVariant(serviceTypes());
     } else if (_name == QLatin1String("AllowAsDefault")) {
         return QVariant(m_bAllowAsDefault);
     } else if (_name == QLatin1String("InitialPreference")) {
@@ -555,7 +553,6 @@ QStringList KServicePrivate::propertyNames() const
         QStringLiteral("Terminal"),
         QStringLiteral("TerminalOptions"),
         QStringLiteral("Path"),
-        QStringLiteral("ServiceTypes"),
         QStringLiteral("AllowAsDefault"),
         QStringLiteral("InitialPreference"),
         QStringLiteral("Library"),

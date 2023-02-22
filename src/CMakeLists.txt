@@ -22,7 +22,6 @@ target_sources(KF6Service PRIVATE
    services/kservicegroup.cpp
    services/kservicegroupfactory.cpp
    services/kserviceoffer.cpp
-   services/kservicetype.cpp
    sycoca/ksycoca.cpp
    sycoca/ksycocadevices.cpp
    sycoca/ksycocadict.cpp

@@ -21,7 +21,6 @@
 #include <KDesktopFile>
 #include <QMutex>
 #include <kservicegroup.h>
-#include <kservicetype.h>
 #include <ksycoca.h>
 
 #include "setupxdgdirs.h"

@@ -18,7 +18,6 @@
 
 #include <kapplicationtrader.h>
 #include <kservicegroup.h>
-#include <kservicetype.h>
 
 #include <QFile>
 #include <QSignalSpy>
