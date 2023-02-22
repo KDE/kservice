@@ -64,6 +64,8 @@ public:
 
     QStringList serviceTypes() const;
 
+    static QMetaType::Type typeForProperty(const QString &name);
+
     QStringList categories;
     QString menuId;
     QString m_strType;

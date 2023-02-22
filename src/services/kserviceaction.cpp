@@ -8,6 +8,7 @@
 #include "kserviceaction.h"
 #include "kbuildservicetypefactory_p.h"
 #include "kservice.h"
+#include "kservice_p.h"
 #include "ksycoca.h"
 #include "ksycoca_p.h"
 
@@ -141,7 +142,7 @@ QVariant KServiceAction::property(const QString &_name, QMetaType::Type type) co
 {
     if (type == QMetaType::UnknownType) {
         KSycoca::self()->ensureCacheValid();
-        type = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(_name);
+        type = KServicePrivate::typeForProperty(_name);
         if (type == QMetaType::UnknownType) {
             return QVariant(); // Unknown property: Invalid variant.
         }

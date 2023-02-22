@@ -28,7 +28,6 @@
 #include <QStandardPaths>
 
 #include "kservicefactory_p.h"
-#include "kservicetypefactory_p.h"
 #include "kserviceutil_p.h"
 #include "servicesdebug.h"
 
@@ -443,6 +442,37 @@ QVariant KService::property(const QString &_name, QMetaType::Type t) const
     return d->property(_name, t);
 }
 
+QMetaType::Type KServicePrivate::typeForProperty(const QString &name)
+{
+    static const QMap<QString, QMetaType::Type> propertyTypeMap = {
+        {QStringLiteral("NoDisplay"), QMetaType::Bool},
+        {QStringLiteral("DocPath"), QMetaType::QString},
+        {QStringLiteral("X-DocPath"), QMetaType::QString},
+        {QStringLiteral("X-KDE-SubstituteUID"), QMetaType::Bool},
+        {QStringLiteral("X-KDE-Username"), QMetaType::QString},
+        {QStringLiteral("StartupWMClass"), QMetaType::QString},
+        {QStringLiteral("StartupNotify"), QMetaType::Bool},
+        {QStringLiteral("X-KDE-WMClass"), QMetaType::QString},
+        {QStringLiteral("X-KDE-StartupNotify"), QMetaType::Bool},
+        {QStringLiteral("X-DBUS-ServiceName"), QMetaType::QString},
+        {QStringLiteral("X-DBUS-StartupType"), QMetaType::QString},
+        {QStringLiteral("X-KDE-ParentApp"), QMetaType::QString},
+        {QStringLiteral("X-KDE-HasTempFileOption"), QMetaType::Bool},
+        {QStringLiteral("X-KDE-Protocols"), QMetaType::QStringList},
+        {QStringLiteral("X-GNOME-UsesNotifications"), QMetaType::Bool},
+        {QStringLiteral("X-Flatpak"), QMetaType::QString},
+        {QStringLiteral("X-Flatpak-RenamedFrom"), QMetaType::QStringList},
+        {QStringLiteral("X-KDE-Wayland-Interfaces"), QMetaType::QStringList},
+        {QStringLiteral("X-KDE-Wayland-VirtualKeyboard"), QMetaType::Bool},
+        {QStringLiteral("X-KDE-DBUS-Restricted-Interfaces"), QMetaType::QStringList},
+        {QStringLiteral("X-KDE-AliasFor"), QMetaType::QString},
+        {QStringLiteral("X-KDE-Shortcuts"), QMetaType::QStringList},
+        {QStringLiteral("X-SnapInstanceName"), QMetaType::QString},
+    };
+
+    return propertyTypeMap[name];
+}
+
 QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) const
 {
     if (_name == QLatin1String("Type")) {
@@ -490,7 +520,7 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
         // is supposed to be.
         // ######### this looks in all servicetypes, not just the ones this service supports!
         KSycoca::self()->ensureCacheValid();
-        t = KSycocaPrivate::self()->serviceTypeFactory()->findPropertyTypeByName(_name);
+        t = typeForProperty(_name);
         if (t == QMetaType::UnknownType) {
             qCDebug(SERVICES) << "Request for unknown property" << _name;
             return QVariant(); // Unknown property: Invalid variant.
