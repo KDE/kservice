@@ -697,9 +697,8 @@ bool KSycocaPrivate::buildSycoca()
     return true;
 }
 
-QString KSycoca::absoluteFilePath(DatabaseType type)
+QString KSycoca::absoluteFilePath()
 {
-    Q_UNUSED(type); // GlobalDatabase concept removed in 5.61
     const QStringList paths = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation);
     QString suffix = QLatin1Char('_') + QLocale().bcp47Name();
 

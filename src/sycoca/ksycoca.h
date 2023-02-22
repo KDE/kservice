@@ -44,12 +44,6 @@ protected:
 
 public:
     /**
-     * type of database
-     * @see absoluteFilePath()
-     */
-    typedef enum { LocalDatabase, GlobalDatabase } DatabaseType; // TODO KF6: remove
-
-    /**
      * Read-only database
      */
     KSycoca();
@@ -98,7 +92,7 @@ public:
      * This allows to have one database per setup, when using different install prefixes
      * or when switching languages.
      */
-    static QString absoluteFilePath(DatabaseType type = LocalDatabase);
+    static QString absoluteFilePath();
 
     /**
      * @internal - returns all directories with information
