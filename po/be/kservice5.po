@@ -1,6 +1,3 @@
-# translation of kdelibs4.po to Belarusian
-# translation of kdelibs4.po to
-#
 # Eugene Zelenko <greendeath@mail.ru>, 2002-2004.
 # Ihar Hrachyshka <ihar.hrachyshka@gmail.com>, 2006.
 # Darafei Praliaskouski <komzpa@licei2.com>, 2007.
@@ -12,12 +9,12 @@
 # kom <me@komzpa.net>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: kdelibs4\n"
+"Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-12 00:55+0000\n"
-"PO-Revision-Date: 2009-09-06 15:21+0300\n"
+"PO-Revision-Date: 2023-02-19 19:20\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@gmail.com>\n"
-"Language-Team: Belarusian <i18n@mova.org>\n"
+"Language-Team: Belarusian\n"
 "Language: be\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,112 +23,109 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || n%10>=5 && n%10<=9 || n"
 "%100>=11 && n%100<=14 ? 2 : 3);\n"
+"X-Crowdin-Project: 86ff119b1606fcaa910d6b44fc14b611\n"
+"X-Crowdin-Project-ID: 127\n"
+"X-Crowdin-Language: be\n"
+"X-Crowdin-File: /main/be/kservice/kservice5.po\n"
+"X-Crowdin-File-ID: 8261\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Дарафей Праляскоўскі"
+msgstr "Дарафей Праляскоўскі, Antikruk"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "komzpa@gmail.com"
+msgstr "komzpa@licei2.com, nashtlumach@gmail.com"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:90
-#, fuzzy, kde-format
-#| msgid "KBuildSycoca"
+#, kde-format
 msgctxt "application name"
 msgid "KBuildSycoca"
 msgstr "KBuildSycoca"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:92
-#, fuzzy, kde-format
-#| msgid "Rebuilds the system configuration cache."
+#, kde-format
 msgctxt "application description"
 msgid "Rebuilds the system configuration cache."
-msgstr "Наноў стварае кэш сістэмных настаўленняў."
+msgstr "Аднаўляе кэш канфігурацыі сістэмы."
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:94
-#, fuzzy, kde-format
-#| msgid "(c) 1999-2002 KDE Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Copyright 1999-2014 KDE Developers"
-msgstr "(c) 1999-2002 Распрацоўшчыкі KDE"
+msgstr "Аўтарскія правы 1999-2014 распрацоўнікі KDE"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95
-#, fuzzy, kde-format
-#| msgid "David Faure"
+#, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
-msgstr "Дэвід Фор"
+msgstr "David Faure"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
-#| msgid "Author"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Author"
 msgstr "Стваральнік"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
-#| msgid "Waldo Bastian"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Waldo Bastian"
-msgstr "Вальдо Басціян"
+msgstr "Waldo Bastian"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, fuzzy, kde-format
-#| msgid "Disable checking files (dangerous)"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid ""
 "Do not signal applications to update (deprecated, no longer having any "
 "effect)"
-msgstr "Выключыць праверку файлаў (небяспечна)"
+msgstr ""
+"Не адпраўляць праграмам сігнал пра абнаўленне (састарэла, больш не мае "
+"ніякага эфекту)"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:105
-#, fuzzy, kde-format
-#| msgid "Disable incremental update, re-read everything"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
-msgstr "Выключыць паступовае абнаўленне, перачытваць базу данняў цалкам"
+msgstr "Адключыць паступовае абнаўленне, перачытаць усё"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Check file timestamps (deprecated, no longer having any effect)"
-msgstr ""
+msgstr "Праверыць адзнакі часу файлаў (састарэла, больш не дзейнічае)"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:109
-#, fuzzy, kde-format
-#| msgid "Disable checking files (dangerous)"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable checking files (deprecated, no longer having any effect)"
-msgstr "Выключыць праверку файлаў (небяспечна)"
+msgstr "Адключыць правяранне файлаў (састарэла, больш не дзейнічае)"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:110
-#, fuzzy, kde-format
-#| msgid "Perform menu generation test run only"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
-msgstr "Праверыць генерацыю меню толькі аднойчы"
+msgstr "Выканаць толькі тэставы запуск стварэння меню"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:112
-#, fuzzy, kde-format
-#| msgid "Track menu id for debug purposes"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
-msgstr "Назіраць за азначальнікам меню (для наладкі)"
+msgstr "Ідэнтыфікатар меню адсочвання для адладжвання"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:114
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
+"Пераключыць QStandardPaths у тэставы рэжым, толькі для тэставання модуляў"
 
 #: kdeinit/ktoolinvocation.cpp:60
 #, kde-format
 msgid "Function must be called from the main thread."
-msgstr "Функцыя павінна выклікацца з галоўнага патоку."
+msgstr "Функцыя павінна выклікацца з галоўнага канала."
 
 #: kdeinit/ktoolinvocation.cpp:101
 #, kde-format
@@ -139,18 +133,17 @@ msgid ""
 "Error launching %1. Either KLauncher is not running anymore, or it failed to "
 "start the application."
 msgstr ""
+"Не ўдалося запусціць %1. Або KLauncher больш не працуе, або не ўдалося "
+"запусціць праграму."
 
 #: kdeinit/ktoolinvocation.cpp:104
-#, fuzzy, kde-format
-#| msgid ""
-#| "KLauncher could not be reached via D-Bus, error when calling %1:\n"
-#| "%2\n"
+#, kde-format
 msgid ""
 "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
 "%2\n"
 msgstr ""
-"KLauncher недасягальны праз D-Bus, памылка пры выкліку %1:\n"
-"%2\n"
+"Не ўдалося звязацца з KLauncher праз D-Bus. Памылка падчас выкліку %1:\n"
+" %2\n"
 
 #: kdeinit/ktoolinvocation_x11.cpp:234
 #, kde-format
@@ -159,15 +152,14 @@ msgid ""
 "\n"
 "%1"
 msgstr ""
-"Немагчыма стартаваць паштовага кліента:\n"
+"Не ўдалося запусціць паштовы кліент:\n"
 "\n"
 "%1"
 
 #: kdeinit/ktoolinvocation_x11.cpp:235
-#, fuzzy, kde-format
-#| msgid "Could not Launch Mail Client"
+#, kde-format
 msgid "Could not launch Mail Client"
-msgstr "Немагчыма стартаваць паштовага кліента"
+msgstr "Не ўдалося запусціць паштовы кліент"
 
 #. i18n("Could not launch %1:\n\n%2", exe, error),
 #. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
@@ -180,62 +172,51 @@ msgid ""
 "\n"
 "%1"
 msgstr ""
-"Немагчыма стартаваць сеціўнага вандроўніка:\n"
+"Не ўдалося запусціць браўзер:\n"
 "\n"
 "%1"
 
 #: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
 #: kdeinit/ktoolinvocation_x11.cpp:329
-#, fuzzy, kde-format
-#| msgid "Could not Launch Browser"
+#, kde-format
 msgid "Could not launch Browser"
-msgstr "Немагчыма стартаваць сеціўнага вандроўніка"
+msgstr "Не ўдалося запусціць браўзер"
 
 #: kdeinit/ktoolinvocation_x11.cpp:342
 #, kde-format
 msgid "Unable to determine the default terminal"
-msgstr ""
+msgstr "Не ўдалося вызначыць прадвызначаны тэрмінал"
 
 #: kdeinit/ktoolinvocation_x11.cpp:354
-#, fuzzy, kde-format
-#| msgid ""
-#| "Could not launch the mail client:\n"
-#| "\n"
-#| "%1"
+#, kde-format
 msgid ""
 "Could not launch the terminal client:\n"
 "\n"
 "%1"
 msgstr ""
-"Немагчыма стартаваць паштовага кліента:\n"
+"Не ўдалося запусціць кліент тэрмінала:\n"
 "\n"
 "%1"
 
 #: kdeinit/ktoolinvocation_x11.cpp:355
-#, fuzzy, kde-format
-#| msgid "Could not Launch Mail Client"
+#, kde-format
 msgid "Could not launch Terminal Client"
-msgstr "Немагчыма стартаваць паштовага кліента"
+msgstr "Не ўдалося запусціць кліент тэрмінала"
 
 #: plugin/kdbusservicestarter.cpp:68
 #, kde-format
 msgid "No service implementing %1"
-msgstr ""
+msgstr "Няма службы, якая рэалізуе %1"
 
 #: services/kservice.cpp:1147
 #, kde-format
 msgid "The provided service is not valid"
-msgstr ""
+msgstr "Пададзеная служба несапраўдная"
 
 #: services/kservice.cpp:1151
-#, fuzzy, kde-format
-#| msgid ""
-#| "The service '%1' provides no library or the Library key is missing in "
-#| "the .desktop file."
+#, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
-msgstr ""
-"Сервіс '%1' не прапаноўвае бібліятэкі ці ключ Library адсутнічае ў файлу ."
-"desktop."
+msgstr "Служба \"%1\" не падае бібліятэку або няма ключа для бібліятэкі"
 
 #, fuzzy
 #~| msgid "Create global database"
