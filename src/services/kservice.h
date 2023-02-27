@@ -264,7 +264,6 @@ public:
      */
     QStringList mimeTypes() const;
 
-#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 104)
     /**
      * Returns the list of protocols this service supports.
      *
@@ -277,6 +276,7 @@ public:
      */
     QStringList supportedProtocols() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(5, 104)
     /**
      * Returns the service types that this service supports.
      * @return the list of service types that are supported
