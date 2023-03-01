@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kservice5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-22 00:43+0000\n"
+"POT-Creation-Date: 2023-03-01 21:29+0000\n"
 "PO-Revision-Date: 2021-05-20 08:38+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -69,147 +69,112 @@ msgctxt "@info:credit"
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid ""
-"Do not signal applications to update (deprecated, no longer having any "
-"effect)"
-msgstr "Не надсилати програмам сигнал оновлення (застаріле, більше не працює)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#: kbuildsycoca/kbuildsycoca_main.cpp:102
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
 msgstr "Вимкнути поступове поновлення, перечитувати все"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:107
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid "Check file timestamps (deprecated, no longer having any effect)"
-msgstr "Перевірити часові позначки файлів (застаріле, більше не працює)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:109
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid "Disable checking files (deprecated, no longer having any effect)"
-msgstr "Вимкнути перевірку файлів (застаріле, більше не працює)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
 msgstr "Виконати лише перевірку можливості створення меню"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
 msgstr "Відстежувати ідентифікатор меню для діагностики"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
 "Перемкнути QStandardPaths у режим тестування. Лише для тестування модулів."
 
-#: kdeinit/ktoolinvocation.cpp:60
-#, kde-format
-msgid "Function must be called from the main thread."
-msgstr "Функцію можна викликати лише з головної нитки."
+#~ msgctxt "@info:shell command-line option"
+#~ msgid ""
+#~ "Do not signal applications to update (deprecated, no longer having any "
+#~ "effect)"
+#~ msgstr ""
+#~ "Не надсилати програмам сигнал оновлення (застаріле, більше не працює)"
 
-#: kdeinit/ktoolinvocation.cpp:101
-#, kde-format
-msgid ""
-"Error launching %1. Either KLauncher is not running anymore, or it failed to "
-"start the application."
-msgstr ""
-"Помилка під час запуску %1. Або KLauncher не запущено, або цій програмі не "
-"вдалося запустити вказану програму."
+#~ msgctxt "@info:shell command-line option"
+#~ msgid "Check file timestamps (deprecated, no longer having any effect)"
+#~ msgstr "Перевірити часові позначки файлів (застаріле, більше не працює)"
 
-#: kdeinit/ktoolinvocation.cpp:104
-#, kde-format
-msgid ""
-"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
-"%2\n"
-msgstr ""
-"Не вдалося дістатися до KLauncher через D-Bus; помилка виклику %1:\n"
-"%2\n"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid "Disable checking files (deprecated, no longer having any effect)"
+#~ msgstr "Вимкнути перевірку файлів (застаріле, більше не працює)"
 
-#: kdeinit/ktoolinvocation_x11.cpp:234
-#, kde-format
-msgid ""
-"Could not launch the mail client:\n"
-"\n"
-"%1"
-msgstr ""
-"Не вдається запустити програму поштар:\n"
-"\n"
-"%1"
+#~ msgid "Function must be called from the main thread."
+#~ msgstr "Функцію можна викликати лише з головної нитки."
 
-#: kdeinit/ktoolinvocation_x11.cpp:235
-#, kde-format
-msgid "Could not launch Mail Client"
-msgstr "Не вдалося запустити клієнт електронної пошти"
+#~ msgid ""
+#~ "Error launching %1. Either KLauncher is not running anymore, or it failed "
+#~ "to start the application."
+#~ msgstr ""
+#~ "Помилка під час запуску %1. Або KLauncher не запущено, або цій програмі "
+#~ "не вдалося запустити вказану програму."
 
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
-#: kdeinit/ktoolinvocation_x11.cpp:328
-#, kde-format
-msgid ""
-"Could not launch the browser:\n"
-"\n"
-"%1"
-msgstr ""
-"Не вдається запустити навігатор:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+#~ "%2\n"
+#~ msgstr ""
+#~ "Не вдалося дістатися до KLauncher через D-Bus; помилка виклику %1:\n"
+#~ "%2\n"
 
-#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
-#: kdeinit/ktoolinvocation_x11.cpp:329
-#, kde-format
-msgid "Could not launch Browser"
-msgstr "Не вдалося запустити переглядач інтернету"
+#~ msgid ""
+#~ "Could not launch the mail client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Не вдається запустити програму поштар:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:342
-#, kde-format
-msgid "Unable to determine the default terminal"
-msgstr "Не вдалося визначити типовий термінал"
+#~ msgid "Could not launch Mail Client"
+#~ msgstr "Не вдалося запустити клієнт електронної пошти"
 
-#: kdeinit/ktoolinvocation_x11.cpp:354
-#, kde-format
-msgid ""
-"Could not launch the terminal client:\n"
-"\n"
-"%1"
-msgstr ""
-"Не вдалося запустити програму клієнта термінала:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "Could not launch the browser:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Не вдається запустити навігатор:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:355
-#, kde-format
-msgid "Could not launch Terminal Client"
-msgstr "Не вдалося запустити програму клієнта термінала"
+#~ msgid "Could not launch Browser"
+#~ msgstr "Не вдалося запустити переглядач інтернету"
 
-#: plugin/kdbusservicestarter.cpp:68
-#, kde-format
-msgid "No service implementing %1"
-msgstr "Немає служби, що реалізує роботу з %1"
+#~ msgid "Unable to determine the default terminal"
+#~ msgstr "Не вдалося визначити типовий термінал"
 
-#: services/kservice.cpp:1120
-#, kde-format
-msgid "The provided service is not valid"
-msgstr "Вказано некоректну службу"
+#~ msgid ""
+#~ "Could not launch the terminal client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Не вдалося запустити програму клієнта термінала:\n"
+#~ "\n"
+#~ "%1"
 
-#: services/kservice.cpp:1124
-#, kde-format
-msgid "The service '%1' provides no library or the Library key is missing"
-msgstr ""
-"Служба «%1» не надає жодної бібліотеки, або не знайдено жодного ключа Library"
+#~ msgid "Could not launch Terminal Client"
+#~ msgstr "Не вдалося запустити програму клієнта термінала"
+
+#~ msgid "No service implementing %1"
+#~ msgstr "Немає служби, що реалізує роботу з %1"
+
+#~ msgid "The provided service is not valid"
+#~ msgstr "Вказано некоректну службу"
+
+#~ msgid "The service '%1' provides no library or the Library key is missing"
+#~ msgstr ""
+#~ "Служба «%1» не надає жодної бібліотеки, або не знайдено жодного ключа "
+#~ "Library"
 
 #~ msgctxt "@info:shell command-line option"
 #~ msgid "Create global database"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-22 00:43+0000\n"
+"POT-Creation-Date: 2023-03-01 21:29+0000\n"
 "PO-Revision-Date: 2010-12-31 22:47+0700\n"
 "Last-Translator: Phuwanat Sakornsakolpat <narachai@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -73,152 +73,108 @@ msgctxt "@info:credit"
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, fuzzy, kde-format
-#| msgid "Disable checking files (dangerous)"
-msgctxt "@info:shell command-line option"
-msgid ""
-"Do not signal applications to update (deprecated, no longer having any "
-"effect)"
-msgstr "ปิดการตรวจสอบแฟ้ม (อันตราย)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#: kbuildsycoca/kbuildsycoca_main.cpp:102
 #, fuzzy, kde-format
 #| msgid "Disable incremental update, re-read everything"
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
 msgstr "ปิดการปรับปรุงแบบเพิ่มเติม โดยอ่านค่าทุกอย่างใหม่ทั้งหมด"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:107
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid "Check file timestamps (deprecated, no longer having any effect)"
-msgstr ""
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:109
-#, fuzzy, kde-format
-#| msgid "Disable checking files (dangerous)"
-msgctxt "@info:shell command-line option"
-msgid "Disable checking files (deprecated, no longer having any effect)"
-msgstr "ปิดการตรวจสอบแฟ้ม (อันตราย)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
 #, fuzzy, kde-format
 #| msgid "Perform menu generation test run only"
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
 msgstr "ทำการสร้างเมนูเพื่อทดสอบการทำงานเท่านั้น"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
 #, fuzzy, kde-format
 #| msgid "Track menu id for debug purposes"
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
 msgstr "ติดตามดูตัวระบุเมนูเพื่อใช้ในการดีบั๊ก"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
 
-#: kdeinit/ktoolinvocation.cpp:60
-#, kde-format
-msgid "Function must be called from the main thread."
-msgstr "ฟังก์ชันจะต้องถูกเรียกใช้จากเธรดหลัก"
+#, fuzzy
+#~| msgid "Disable checking files (dangerous)"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid ""
+#~ "Do not signal applications to update (deprecated, no longer having any "
+#~ "effect)"
+#~ msgstr "ปิดการตรวจสอบแฟ้ม (อันตราย)"
 
-#: kdeinit/ktoolinvocation.cpp:101
-#, kde-format
-msgid ""
-"Error launching %1. Either KLauncher is not running anymore, or it failed to "
-"start the application."
-msgstr ""
-"เกิดข้อผิดพลาดในการเรียก %1 อาจจะเนื่องจาก KLauncher ยังไม่ทำงาน "
-"หรืออาจจะเกิดจากความล้มเหลวจากการเริ่มการทำงานของโปรแกรม"
+#, fuzzy
+#~| msgid "Disable checking files (dangerous)"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid "Disable checking files (deprecated, no longer having any effect)"
+#~ msgstr "ปิดการตรวจสอบแฟ้ม (อันตราย)"
 
-#: kdeinit/ktoolinvocation.cpp:104
-#, kde-format
-msgid ""
-"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
-"%2\n"
-msgstr ""
-"ไม่สามารถค้นพบ KLauncher ผ่านทาง D-Bus ได้ เกิดข้อผิดพลาดขณะกำลังเรียก %1:\n"
-"%2\n"
+#~ msgid "Function must be called from the main thread."
+#~ msgstr "ฟังก์ชันจะต้องถูกเรียกใช้จากเธรดหลัก"
 
-#: kdeinit/ktoolinvocation_x11.cpp:234
-#, kde-format
-msgid ""
-"Could not launch the mail client:\n"
-"\n"
-"%1"
-msgstr ""
-"ไม่สามารถเรียกโปรแกรมรับ/ส่งเมลได้:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "Error launching %1. Either KLauncher is not running anymore, or it failed "
+#~ "to start the application."
+#~ msgstr ""
+#~ "เกิดข้อผิดพลาดในการเรียก %1 อาจจะเนื่องจาก KLauncher ยังไม่ทำงาน "
+#~ "หรืออาจจะเกิดจากความล้มเหลวจากการเริ่มการทำงานของโปรแกรม"
 
-#: kdeinit/ktoolinvocation_x11.cpp:235
-#, kde-format
-msgid "Could not launch Mail Client"
-msgstr "ไม่สามารถเรียกโปรแกรมรับ/ส่งเมลได้"
+#~ msgid ""
+#~ "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+#~ "%2\n"
+#~ msgstr ""
+#~ "ไม่สามารถค้นพบ KLauncher ผ่านทาง D-Bus ได้ เกิดข้อผิดพลาดขณะกำลังเรียก %1:\n"
+#~ "%2\n"
 
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
-#: kdeinit/ktoolinvocation_x11.cpp:328
-#, kde-format
-msgid ""
-"Could not launch the browser:\n"
-"\n"
-"%1"
-msgstr ""
-"ไม่สามารถเรียกเบราว์เซอร์ได้:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "Could not launch the mail client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "ไม่สามารถเรียกโปรแกรมรับ/ส่งเมลได้:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
-#: kdeinit/ktoolinvocation_x11.cpp:329
-#, kde-format
-msgid "Could not launch Browser"
-msgstr "ไม่สามารถเรียกเบราว์เซอร์ได้"
+#~ msgid "Could not launch Mail Client"
+#~ msgstr "ไม่สามารถเรียกโปรแกรมรับ/ส่งเมลได้"
 
-#: kdeinit/ktoolinvocation_x11.cpp:342
-#, kde-format
-msgid "Unable to determine the default terminal"
-msgstr ""
+#~ msgid ""
+#~ "Could not launch the browser:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "ไม่สามารถเรียกเบราว์เซอร์ได้:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:354
-#, kde-format
-msgid ""
-"Could not launch the terminal client:\n"
-"\n"
-"%1"
-msgstr ""
-"ไม่สามารถเรียกโปรแกรมเทอร์มินัลได้:\n"
-"\n"
-"%1"
+#~ msgid "Could not launch Browser"
+#~ msgstr "ไม่สามารถเรียกเบราว์เซอร์ได้"
 
-#: kdeinit/ktoolinvocation_x11.cpp:355
-#, kde-format
-msgid "Could not launch Terminal Client"
-msgstr "ไม่สามารถเรียกโปรแกรมเทอร์มินัลได้"
+#~ msgid ""
+#~ "Could not launch the terminal client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "ไม่สามารถเรียกโปรแกรมเทอร์มินัลได้:\n"
+#~ "\n"
+#~ "%1"
 
-#: plugin/kdbusservicestarter.cpp:68
-#, kde-format
-msgid "No service implementing %1"
-msgstr ""
+#~ msgid "Could not launch Terminal Client"
+#~ msgstr "ไม่สามารถเรียกโปรแกรมเทอร์มินัลได้"
 
-#: services/kservice.cpp:1120
-#, kde-format
-msgid "The provided service is not valid"
-msgstr "บริการที่จัดให้มาใช้งานไม่ได้หรือไม่ถูกต้อง"
+#~ msgid "The provided service is not valid"
+#~ msgstr "บริการที่จัดให้มาใช้งานไม่ได้หรือไม่ถูกต้อง"
 
-#: services/kservice.cpp:1124
-#, fuzzy, kde-format
-#| msgid ""
-#| "The service '%1' provides no library or the Library key is missing in "
-msgid "The service '%1' provides no library or the Library key is missing"
-msgstr "บริการ '%1' ไม่มีไลบรารีให้ หรือกุญแจของไลบรารีอาจจะสูญหายไปใน "
+#, fuzzy
+#~| msgid ""
+#~| "The service '%1' provides no library or the Library key is missing in "
+#~ msgid "The service '%1' provides no library or the Library key is missing"
+#~ msgstr "บริการ '%1' ไม่มีไลบรารีให้ หรือกุญแจของไลบรารีอาจจะสูญหายไปใน "
 
 #, fuzzy
 #~| msgid "Create global database"

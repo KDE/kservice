@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-22 00:43+0000\n"
+"POT-Creation-Date: 2023-03-01 21:29+0000\n"
 "PO-Revision-Date: 2013-09-08 07:05+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
@@ -70,150 +70,106 @@ msgctxt "@info:credit"
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, fuzzy, kde-format
-#| msgid "Disable checking files (dangerous)"
-msgctxt "@info:shell command-line option"
-msgid ""
-"Do not signal applications to update (deprecated, no longer having any "
-"effect)"
-msgstr "ھۆججەت تەكشۈرمە (خەتەرلىك)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#: kbuildsycoca/kbuildsycoca_main.cpp:102
 #, fuzzy, kde-format
 #| msgid "Disable incremental update, re-read everything"
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
 msgstr "يېڭىلانغان بۆلەكنى يېڭىلاشنى ئىناۋەتسىز قىلىپ، ھەممىنى قايتا ئوقۇ"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:107
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid "Check file timestamps (deprecated, no longer having any effect)"
-msgstr ""
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:109
-#, fuzzy, kde-format
-#| msgid "Disable checking files (dangerous)"
-msgctxt "@info:shell command-line option"
-msgid "Disable checking files (deprecated, no longer having any effect)"
-msgstr "ھۆججەت تەكشۈرمە (خەتەرلىك)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
 #, fuzzy, kde-format
 #| msgid "Perform menu generation test run only"
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
 msgstr "پەقەت تىزىملىك ھاسىل قىلىش سىنىقىنىلا ئېلىپ بېرىش"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
 #, fuzzy, kde-format
 #| msgid "Track menu id for debug purposes"
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
 msgstr "سازلاشتا ئىشلىتىلىدىغان تىزىملىك ID سىغا ئەگەش"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
 
-#: kdeinit/ktoolinvocation.cpp:60
-#, kde-format
-msgid "Function must be called from the main thread."
-msgstr "فۇنكسىيە چوقۇم ئاساسىي جەرياندىن چاقىرىلىدۇ."
+#, fuzzy
+#~| msgid "Disable checking files (dangerous)"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid ""
+#~ "Do not signal applications to update (deprecated, no longer having any "
+#~ "effect)"
+#~ msgstr "ھۆججەت تەكشۈرمە (خەتەرلىك)"
 
-#: kdeinit/ktoolinvocation.cpp:101
-#, kde-format
-msgid ""
-"Error launching %1. Either KLauncher is not running anymore, or it failed to "
-"start the application."
-msgstr ""
-"%1 قوزغاتقاندا خاتالىق كۆرۈلدى. بەلكىم KLauncher جەريانى ئىجرا قىلىنمىغان "
-"بولۇشى مۇمكىن، پروگرامما قوزغىلالمىغان بولۇشىمۇ مۇمكىن."
+#, fuzzy
+#~| msgid "Disable checking files (dangerous)"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid "Disable checking files (deprecated, no longer having any effect)"
+#~ msgstr "ھۆججەت تەكشۈرمە (خەتەرلىك)"
 
-#: kdeinit/ktoolinvocation.cpp:104
-#, kde-format
-msgid ""
-"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
-"%2\n"
-msgstr ""
-"D-Bus ئارقىلىق KLauncher نى ئىشلىتەلمىدى. %1 نى چاقىرغاندا خاتالىق كۆرۈلدى:\n"
-"%2\n"
+#~ msgid "Function must be called from the main thread."
+#~ msgstr "فۇنكسىيە چوقۇم ئاساسىي جەرياندىن چاقىرىلىدۇ."
 
-#: kdeinit/ktoolinvocation_x11.cpp:234
-#, kde-format
-msgid ""
-"Could not launch the mail client:\n"
-"\n"
-"%1"
-msgstr ""
-"ئېلخەت خېرىدار پروگراممىسىنى ئىجرا قىلالمايدۇ:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "Error launching %1. Either KLauncher is not running anymore, or it failed "
+#~ "to start the application."
+#~ msgstr ""
+#~ "%1 قوزغاتقاندا خاتالىق كۆرۈلدى. بەلكىم KLauncher جەريانى ئىجرا قىلىنمىغان "
+#~ "بولۇشى مۇمكىن، پروگرامما قوزغىلالمىغان بولۇشىمۇ مۇمكىن."
 
-#: kdeinit/ktoolinvocation_x11.cpp:235
-#, kde-format
-msgid "Could not launch Mail Client"
-msgstr "ئېلخەت خېرىدار پروگراممىسىنى ئىجرا قىلالمايدۇ"
+#~ msgid ""
+#~ "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+#~ "%2\n"
+#~ msgstr ""
+#~ "D-Bus ئارقىلىق KLauncher نى ئىشلىتەلمىدى. %1 نى چاقىرغاندا خاتالىق "
+#~ "كۆرۈلدى:\n"
+#~ "%2\n"
 
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
-#: kdeinit/ktoolinvocation_x11.cpp:328
-#, kde-format
-msgid ""
-"Could not launch the browser:\n"
-"\n"
-"%1"
-msgstr ""
-"توركۆرگۈنى ئىجرا قىلالمايدۇ:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "Could not launch the mail client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "ئېلخەت خېرىدار پروگراممىسىنى ئىجرا قىلالمايدۇ:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
-#: kdeinit/ktoolinvocation_x11.cpp:329
-#, kde-format
-msgid "Could not launch Browser"
-msgstr "توركۆرگۈنى ئىجرا قىلالمايدۇ"
+#~ msgid "Could not launch Mail Client"
+#~ msgstr "ئېلخەت خېرىدار پروگراممىسىنى ئىجرا قىلالمايدۇ"
 
-#: kdeinit/ktoolinvocation_x11.cpp:342
-#, kde-format
-msgid "Unable to determine the default terminal"
-msgstr ""
+#~ msgid ""
+#~ "Could not launch the browser:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "توركۆرگۈنى ئىجرا قىلالمايدۇ:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:354
-#, kde-format
-msgid ""
-"Could not launch the terminal client:\n"
-"\n"
-"%1"
-msgstr ""
-"تېرمىنال خېرىدار پروگراممىسىنى ئىجرا قىلالمايدۇ:\n"
-"\n"
-"%1"
+#~ msgid "Could not launch Browser"
+#~ msgstr "توركۆرگۈنى ئىجرا قىلالمايدۇ"
 
-#: kdeinit/ktoolinvocation_x11.cpp:355
-#, kde-format
-msgid "Could not launch Terminal Client"
-msgstr "تېرمىنال خېرىدار پروگراممىسىنى ئىجرا قىلالمايدۇ"
+#~ msgid ""
+#~ "Could not launch the terminal client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "تېرمىنال خېرىدار پروگراممىسىنى ئىجرا قىلالمايدۇ:\n"
+#~ "\n"
+#~ "%1"
 
-#: plugin/kdbusservicestarter.cpp:68
-#, kde-format
-msgid "No service implementing %1"
-msgstr ""
+#~ msgid "Could not launch Terminal Client"
+#~ msgstr "تېرمىنال خېرىدار پروگراممىسىنى ئىجرا قىلالمايدۇ"
 
-#: services/kservice.cpp:1120
-#, kde-format
-msgid "The provided service is not valid"
-msgstr "تەمىنلەنگەن مۇلازىمەت ئىناۋەتسىز"
+#~ msgid "The provided service is not valid"
+#~ msgstr "تەمىنلەنگەن مۇلازىمەت ئىناۋەتسىز"
 
-#: services/kservice.cpp:1124
-#, kde-format
-msgid "The service '%1' provides no library or the Library key is missing"
-msgstr "بۇ '%1' مۇلازىمەت ئامبار تەمىنلىمىگەن ياكى ئامبار ئاچقۇچى كەم"
+#~ msgid "The service '%1' provides no library or the Library key is missing"
+#~ msgstr "بۇ '%1' مۇلازىمەت ئامبار تەمىنلىمىگەن ياكى ئامبار ئاچقۇچى كەم"
 
 #, fuzzy
 #~| msgid "Create global database"

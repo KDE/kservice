@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-22 00:43+0000\n"
+"POT-Creation-Date: 2023-03-01 21:29+0000\n"
 "PO-Revision-Date: 2021-05-22 09:41+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -77,145 +77,108 @@ msgctxt "@info:credit"
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid ""
-"Do not signal applications to update (deprecated, no longer having any "
-"effect)"
-msgstr "Ne opomni programov na posodobitev (opuščeno, nima več učinka)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#: kbuildsycoca/kbuildsycoca_main.cpp:102
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
 msgstr "Onemogoči postopno posodabljanje, znova preberi vse"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:107
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid "Check file timestamps (deprecated, no longer having any effect)"
-msgstr "Preveri časovne žige datotek (opuščeno, nima več učinka)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:109
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid "Disable checking files (deprecated, no longer having any effect)"
-msgstr "Onemogoči preverjanje datotek (opuščeno, nima več učinka)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
 msgstr "Naredi le preizkus ustvaritve menija"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
 msgstr "Sledi ID-ju menija za namene razhroščevanja"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr "Preklopi QStandardPaths v preizkusni način (le za preizkuse enot)"
 
-#: kdeinit/ktoolinvocation.cpp:60
-#, kde-format
-msgid "Function must be called from the main thread."
-msgstr "Funkcijo je potrebno klicati iz glavne niti."
+#~ msgctxt "@info:shell command-line option"
+#~ msgid ""
+#~ "Do not signal applications to update (deprecated, no longer having any "
+#~ "effect)"
+#~ msgstr "Ne opomni programov na posodobitev (opuščeno, nima več učinka)"
 
-#: kdeinit/ktoolinvocation.cpp:101
-#, kde-format
-msgid ""
-"Error launching %1. Either KLauncher is not running anymore, or it failed to "
-"start the application."
-msgstr ""
-"Napaka med zaganjanjem %1. KLauncher ne teče več, ali pa ni uspel zagnati "
-"programa."
+#~ msgctxt "@info:shell command-line option"
+#~ msgid "Check file timestamps (deprecated, no longer having any effect)"
+#~ msgstr "Preveri časovne žige datotek (opuščeno, nima več učinka)"
 
-#: kdeinit/ktoolinvocation.cpp:104
-#, kde-format
-msgid ""
-"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
-"%2\n"
-msgstr ""
-"Do KLauncherja ni mogoče dostopati prek D-Bus. Napaka med klicanjem %1:\n"
-"%2\n"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid "Disable checking files (deprecated, no longer having any effect)"
+#~ msgstr "Onemogoči preverjanje datotek (opuščeno, nima več učinka)"
 
-#: kdeinit/ktoolinvocation_x11.cpp:234
-#, kde-format
-msgid ""
-"Could not launch the mail client:\n"
-"\n"
-"%1"
-msgstr ""
-"Ni bilo mogoče zagnati odjemalca e-pošte:\n"
-"\n"
-"%1"
+#~ msgid "Function must be called from the main thread."
+#~ msgstr "Funkcijo je potrebno klicati iz glavne niti."
 
-#: kdeinit/ktoolinvocation_x11.cpp:235
-#, kde-format
-msgid "Could not launch Mail Client"
-msgstr "Ni bilo mogoče zagnati odjemalca e-pošte"
+#~ msgid ""
+#~ "Error launching %1. Either KLauncher is not running anymore, or it failed "
+#~ "to start the application."
+#~ msgstr ""
+#~ "Napaka med zaganjanjem %1. KLauncher ne teče več, ali pa ni uspel zagnati "
+#~ "programa."
 
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
-#: kdeinit/ktoolinvocation_x11.cpp:328
-#, kde-format
-msgid ""
-"Could not launch the browser:\n"
-"\n"
-"%1"
-msgstr ""
-"Ni bilo mogoče zagnati brskalnika:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+#~ "%2\n"
+#~ msgstr ""
+#~ "Do KLauncherja ni mogoče dostopati prek D-Bus. Napaka med klicanjem %1:\n"
+#~ "%2\n"
 
-#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
-#: kdeinit/ktoolinvocation_x11.cpp:329
-#, kde-format
-msgid "Could not launch Browser"
-msgstr "Ni bilo mogoče zagnati brskalnika"
+#~ msgid ""
+#~ "Could not launch the mail client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Ni bilo mogoče zagnati odjemalca e-pošte:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:342
-#, kde-format
-msgid "Unable to determine the default terminal"
-msgstr "Ni mogoče določiti privzetega terminala"
+#~ msgid "Could not launch Mail Client"
+#~ msgstr "Ni bilo mogoče zagnati odjemalca e-pošte"
 
-#: kdeinit/ktoolinvocation_x11.cpp:354
-#, kde-format
-msgid ""
-"Could not launch the terminal client:\n"
-"\n"
-"%1"
-msgstr ""
-"Ni bilo mogoče zagnati terminalskega odjemalca:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "Could not launch the browser:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Ni bilo mogoče zagnati brskalnika:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:355
-#, kde-format
-msgid "Could not launch Terminal Client"
-msgstr "Ni bilo mogoče zagnati terminalskega odjemalca"
+#~ msgid "Could not launch Browser"
+#~ msgstr "Ni bilo mogoče zagnati brskalnika"
 
-#: plugin/kdbusservicestarter.cpp:68
-#, kde-format
-msgid "No service implementing %1"
-msgstr "Ni storitve, ki podpira %1"
+#~ msgid "Unable to determine the default terminal"
+#~ msgstr "Ni mogoče določiti privzetega terminala"
 
-#: services/kservice.cpp:1120
-#, kde-format
-msgid "The provided service is not valid"
-msgstr "Podana storitev ni veljavna"
+#~ msgid ""
+#~ "Could not launch the terminal client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "Ni bilo mogoče zagnati terminalskega odjemalca:\n"
+#~ "\n"
+#~ "%1"
 
-#: services/kservice.cpp:1124
-#, kde-format
-msgid "The service '%1' provides no library or the Library key is missing"
-msgstr "Storitev »%1« ne ponuja knjižnice, ali pa manjka ključ »Library«"
+#~ msgid "Could not launch Terminal Client"
+#~ msgstr "Ni bilo mogoče zagnati terminalskega odjemalca"
+
+#~ msgid "No service implementing %1"
+#~ msgstr "Ni storitve, ki podpira %1"
+
+#~ msgid "The provided service is not valid"
+#~ msgstr "Podana storitev ni veljavna"
+
+#~ msgid "The service '%1' provides no library or the Library key is missing"
+#~ msgstr "Storitev »%1« ne ponuja knjižnice, ali pa manjka ključ »Library«"
 
 #~ msgctxt "@info:shell command-line option"
 #~ msgid "Create global database"

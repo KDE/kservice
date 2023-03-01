@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-22 00:43+0000\n"
+"POT-Creation-Date: 2023-03-01 21:29+0000\n"
 "PO-Revision-Date: 2009-11-22 00:01+0530\n"
 "Last-Translator: Kartik Mistry <kartik.mistry@gmail.com>\n"
 "Language-Team: Gujarati <team@utkarsh.org>\n"
@@ -70,157 +70,117 @@ msgctxt "@info:credit"
 msgid "Waldo Bastian"
 msgstr "વાલ્ડો બાસ્ટિઅન"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, fuzzy, kde-format
-#| msgid "Disable checking files (dangerous)"
-msgctxt "@info:shell command-line option"
-msgid ""
-"Do not signal applications to update (deprecated, no longer having any "
-"effect)"
-msgstr "ફાઈલો ચકાસવાનું નિષ્ક્રિય કરો (જોખમી)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#: kbuildsycoca/kbuildsycoca_main.cpp:102
 #, fuzzy, kde-format
 #| msgid "Disable incremental update, re-read everything"
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
 msgstr "વધતો સુધારો નિષ્ક્રિય કરો, બધું ફરી-વાંચો"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:107
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid "Check file timestamps (deprecated, no longer having any effect)"
-msgstr ""
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:109
-#, fuzzy, kde-format
-#| msgid "Disable checking files (dangerous)"
-msgctxt "@info:shell command-line option"
-msgid "Disable checking files (deprecated, no longer having any effect)"
-msgstr "ફાઈલો ચકાસવાનું નિષ્ક્રિય કરો (જોખમી)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
 #, fuzzy, kde-format
 #| msgid "Perform menu generation test run only"
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
 msgstr "મેનુ બનાવટ માત્ર ચકાસણી જ કરો"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
 #, fuzzy, kde-format
 #| msgid "Track menu id for debug purposes"
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
 msgstr "ડિબગ પ્રક્રિયાઓ માટે મેનુ ઓળખની દેખરેખ રાખો"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
 
-#: kdeinit/ktoolinvocation.cpp:60
-#, kde-format
-msgid "Function must be called from the main thread."
-msgstr "વિધેય મુખ્ય થ્રેડમાંથી જ બોલાવવું જોઇએ."
+#, fuzzy
+#~| msgid "Disable checking files (dangerous)"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid ""
+#~ "Do not signal applications to update (deprecated, no longer having any "
+#~ "effect)"
+#~ msgstr "ફાઈલો ચકાસવાનું નિષ્ક્રિય કરો (જોખમી)"
 
-#: kdeinit/ktoolinvocation.cpp:101
-#, kde-format
-msgid ""
-"Error launching %1. Either KLauncher is not running anymore, or it failed to "
-"start the application."
-msgstr ""
-"%1 શરૂ કરવામાં ક્ષતિ. કદાચ KLauncher હવે ચાલતું નથી, અથવા તે કાર્યક્રમ શરૂ કરવામાં "
-"નિષ્ફળ ગયું છે."
+#, fuzzy
+#~| msgid "Disable checking files (dangerous)"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid "Disable checking files (deprecated, no longer having any effect)"
+#~ msgstr "ફાઈલો ચકાસવાનું નિષ્ક્રિય કરો (જોખમી)"
 
-#: kdeinit/ktoolinvocation.cpp:104
-#, kde-format
-msgid ""
-"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
-"%2\n"
-msgstr ""
-"KLauncher એ D-Bus વડે પહોંચી શકાતું નથી. %1 ને બોલાવતી વખતે ક્ષતિ:\n"
-"%2\n"
+#~ msgid "Function must be called from the main thread."
+#~ msgstr "વિધેય મુખ્ય થ્રેડમાંથી જ બોલાવવું જોઇએ."
 
-#: kdeinit/ktoolinvocation_x11.cpp:234
-#, kde-format
-msgid ""
-"Could not launch the mail client:\n"
-"\n"
-"%1"
-msgstr ""
-"મેઈલ ક્લાયન્ટ ચલાવી શક્યા નહી:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "Error launching %1. Either KLauncher is not running anymore, or it failed "
+#~ "to start the application."
+#~ msgstr ""
+#~ "%1 શરૂ કરવામાં ક્ષતિ. કદાચ KLauncher હવે ચાલતું નથી, અથવા તે કાર્યક્રમ શરૂ કરવામાં "
+#~ "નિષ્ફળ ગયું છે."
 
-#: kdeinit/ktoolinvocation_x11.cpp:235
-#, fuzzy, kde-format
-#| msgid "Could not Launch Mail Client"
-msgid "Could not launch Mail Client"
-msgstr "મેઈલ ક્લાયન્ટ ચલાવી શક્યા નહી"
+#~ msgid ""
+#~ "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+#~ "%2\n"
+#~ msgstr ""
+#~ "KLauncher એ D-Bus વડે પહોંચી શકાતું નથી. %1 ને બોલાવતી વખતે ક્ષતિ:\n"
+#~ "%2\n"
 
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
-#: kdeinit/ktoolinvocation_x11.cpp:328
-#, kde-format
-msgid ""
-"Could not launch the browser:\n"
-"\n"
-"%1"
-msgstr ""
-"બ્રાઉઝર ચલાવી શક્યા નહી:\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "Could not launch the mail client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "મેઈલ ક્લાયન્ટ ચલાવી શક્યા નહી:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
-#: kdeinit/ktoolinvocation_x11.cpp:329
-#, fuzzy, kde-format
-#| msgid "Could not Launch Browser"
-msgid "Could not launch Browser"
-msgstr "બ્રાઉઝર ચલાવી શક્યા નહી"
+#, fuzzy
+#~| msgid "Could not Launch Mail Client"
+#~ msgid "Could not launch Mail Client"
+#~ msgstr "મેઈલ ક્લાયન્ટ ચલાવી શક્યા નહી"
 
-#: kdeinit/ktoolinvocation_x11.cpp:342
-#, kde-format
-msgid "Unable to determine the default terminal"
-msgstr ""
+#~ msgid ""
+#~ "Could not launch the browser:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "બ્રાઉઝર ચલાવી શક્યા નહી:\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:354
-#, kde-format
-msgid ""
-"Could not launch the terminal client:\n"
-"\n"
-"%1"
-msgstr ""
-"ટર્મિનલ ક્લાયન્ટ શરૂ કરી શકાયું નહી:\n"
-"\n"
-"%1"
+#, fuzzy
+#~| msgid "Could not Launch Browser"
+#~ msgid "Could not launch Browser"
+#~ msgstr "બ્રાઉઝર ચલાવી શક્યા નહી"
 
-#: kdeinit/ktoolinvocation_x11.cpp:355
-#, fuzzy, kde-format
-#| msgid "Could not Launch Terminal Client"
-msgid "Could not launch Terminal Client"
-msgstr "ટર્મિનલ ક્લાયન્ટ શરૂ કરી શકાયું નહી"
+#~ msgid ""
+#~ "Could not launch the terminal client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "ટર્મિનલ ક્લાયન્ટ શરૂ કરી શકાયું નહી:\n"
+#~ "\n"
+#~ "%1"
 
-#: plugin/kdbusservicestarter.cpp:68
-#, kde-format
-msgid "No service implementing %1"
-msgstr ""
+#, fuzzy
+#~| msgid "Could not Launch Terminal Client"
+#~ msgid "Could not launch Terminal Client"
+#~ msgstr "ટર્મિનલ ક્લાયન્ટ શરૂ કરી શકાયું નહી"
 
-#: services/kservice.cpp:1120
-#, kde-format
-msgid "The provided service is not valid"
-msgstr "આપેલ સેવા યોગ્ય નથી"
+#~ msgid "The provided service is not valid"
+#~ msgstr "આપેલ સેવા યોગ્ય નથી"
 
-#: services/kservice.cpp:1124
-#, fuzzy, kde-format
-#| msgid ""
-#| "The service '%1' provides no library or the Library key is missing in "
-#| "the .desktop file."
-msgid "The service '%1' provides no library or the Library key is missing"
-msgstr ""
-"સેવા '%1' કોઇ લાઇબ્રેરી પૂરી પાડતી નથી અથવા લાઇબ્રેરી કળ ડેસ્કટોપ ફાઇલમાં .હાજર નથી."
+#, fuzzy
+#~| msgid ""
+#~| "The service '%1' provides no library or the Library key is missing in "
+#~| "the .desktop file."
+#~ msgid "The service '%1' provides no library or the Library key is missing"
+#~ msgstr ""
+#~ "સેવા '%1' કોઇ લાઇબ્રેરી પૂરી પાડતી નથી અથવા લાઇબ્રેરી કળ ડેસ્કટોપ ફાઇલમાં .હાજર "
+#~ "નથી."
 
 #, fuzzy
 #~| msgid "Create global database"

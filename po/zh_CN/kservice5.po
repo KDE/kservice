@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-22 00:43+0000\n"
-"PO-Revision-Date: 2023-01-02 07:11\n"
+"POT-Creation-Date: 2023-03-01 21:29+0000\n"
+"PO-Revision-Date: 2023-02-24 12:43\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -65,141 +65,104 @@ msgctxt "@info:credit"
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid ""
-"Do not signal applications to update (deprecated, no longer having any "
-"effect)"
-msgstr "不请求应用程序进行更新 (已废弃，不再生效)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:105
+#: kbuildsycoca/kbuildsycoca_main.cpp:102
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
 msgstr "禁用增量更新，重新读取全部数据"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:107
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid "Check file timestamps (deprecated, no longer having any effect)"
-msgstr "检查文件时间戳 (已废弃，不再生效)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:109
-#, kde-format
-msgctxt "@info:shell command-line option"
-msgid "Disable checking files (deprecated, no longer having any effect)"
-msgstr "禁用文件检查 (已废弃，不再生效)"
-
-#: kbuildsycoca/kbuildsycoca_main.cpp:110
+#: kbuildsycoca/kbuildsycoca_main.cpp:103
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
 msgstr "只执行菜单创建测试"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:112
+#: kbuildsycoca/kbuildsycoca_main.cpp:105
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
 msgstr "跟踪菜单 ID 以进行调试"
 
-#: kbuildsycoca/kbuildsycoca_main.cpp:114
+#: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr "切换 QStandardPaths 到测试模式，仅用于单元测试"
 
-#: kdeinit/ktoolinvocation.cpp:60
-#, kde-format
-msgid "Function must be called from the main thread."
-msgstr "函数必须从主线程调用。"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid ""
+#~ "Do not signal applications to update (deprecated, no longer having any "
+#~ "effect)"
+#~ msgstr "不请求应用程序进行更新 (已废弃，不再生效)"
 
-#: kdeinit/ktoolinvocation.cpp:101
-#, kde-format
-msgid ""
-"Error launching %1. Either KLauncher is not running anymore, or it failed to "
-"start the application."
-msgstr ""
-"启动 %1 时出错。可能是 KLauncher 进程尚未运行，也可能是应用程序启动失败。"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid "Check file timestamps (deprecated, no longer having any effect)"
+#~ msgstr "检查文件时间戳 (已废弃，不再生效)"
 
-#: kdeinit/ktoolinvocation.cpp:104
-#, kde-format
-msgid ""
-"KLauncher could not be reached via D-Bus. Error when calling %1:\n"
-"%2\n"
-msgstr ""
-"无法通过 D-Bus 使用 KLauncher。在调用 %1 时发生错误：\n"
-"%2\n"
+#~ msgctxt "@info:shell command-line option"
+#~ msgid "Disable checking files (deprecated, no longer having any effect)"
+#~ msgstr "禁用文件检查 (已废弃，不再生效)"
 
-#: kdeinit/ktoolinvocation_x11.cpp:234
-#, kde-format
-msgid ""
-"Could not launch the mail client:\n"
-"\n"
-"%1"
-msgstr ""
-"无法调用邮件客户端程序：\n"
-"\n"
-"%1"
+#~ msgid "Function must be called from the main thread."
+#~ msgstr "函数必须从主线程调用。"
 
-#: kdeinit/ktoolinvocation_x11.cpp:235
-#, kde-format
-msgid "Could not launch Mail Client"
-msgstr "无法调用邮件客户端"
+#~ msgid ""
+#~ "Error launching %1. Either KLauncher is not running anymore, or it failed "
+#~ "to start the application."
+#~ msgstr ""
+#~ "启动 %1 时出错。可能是 KLauncher 进程尚未运行，也可能是应用程序启动失败。"
 
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
-#. i18n("Could not launch %1:\n\n%2", exe, error),
-#: kdeinit/ktoolinvocation_x11.cpp:284 kdeinit/ktoolinvocation_x11.cpp:309
-#: kdeinit/ktoolinvocation_x11.cpp:328
-#, kde-format
-msgid ""
-"Could not launch the browser:\n"
-"\n"
-"%1"
-msgstr ""
-"无法调用网页浏览器：\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
+#~ "%2\n"
+#~ msgstr ""
+#~ "无法通过 D-Bus 使用 KLauncher。在调用 %1 时发生错误：\n"
+#~ "%2\n"
 
-#: kdeinit/ktoolinvocation_x11.cpp:285 kdeinit/ktoolinvocation_x11.cpp:310
-#: kdeinit/ktoolinvocation_x11.cpp:329
-#, kde-format
-msgid "Could not launch Browser"
-msgstr "无法启动网页浏览器。"
+#~ msgid ""
+#~ "Could not launch the mail client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "无法调用邮件客户端程序：\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:342
-#, kde-format
-msgid "Unable to determine the default terminal"
-msgstr "无法确定默认终端程序"
+#~ msgid "Could not launch Mail Client"
+#~ msgstr "无法调用邮件客户端"
 
-#: kdeinit/ktoolinvocation_x11.cpp:354
-#, kde-format
-msgid ""
-"Could not launch the terminal client:\n"
-"\n"
-"%1"
-msgstr ""
-"无法调用命令行终端程序：\n"
-"\n"
-"%1"
+#~ msgid ""
+#~ "Could not launch the browser:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "无法调用网页浏览器：\n"
+#~ "\n"
+#~ "%1"
 
-#: kdeinit/ktoolinvocation_x11.cpp:355
-#, kde-format
-msgid "Could not launch Terminal Client"
-msgstr "无法调用命令行终端"
+#~ msgid "Could not launch Browser"
+#~ msgstr "无法启动网页浏览器。"
 
-#: plugin/kdbusservicestarter.cpp:68
-#, kde-format
-msgid "No service implementing %1"
-msgstr "没有实现 %1 的服务"
+#~ msgid "Unable to determine the default terminal"
+#~ msgstr "无法确定默认终端程序"
 
-#: services/kservice.cpp:1120
-#, kde-format
-msgid "The provided service is not valid"
-msgstr "提供的服务无效"
+#~ msgid ""
+#~ "Could not launch the terminal client:\n"
+#~ "\n"
+#~ "%1"
+#~ msgstr ""
+#~ "无法调用命令行终端程序：\n"
+#~ "\n"
+#~ "%1"
 
-#: services/kservice.cpp:1124
-#, kde-format
-msgid "The service '%1' provides no library or the Library key is missing"
-msgstr "服务“%1”没有提供程序库，或者该程序库项不存在"
+#~ msgid "Could not launch Terminal Client"
+#~ msgstr "无法调用命令行终端"
+
+#~ msgid "No service implementing %1"
+#~ msgstr "没有实现 %1 的服务"
+
+#~ msgid "The provided service is not valid"
+#~ msgstr "提供的服务无效"
+
+#~ msgid "The service '%1' provides no library or the Library key is missing"
+#~ msgstr "服务“%1”没有提供程序库，或者该程序库项不存在"
