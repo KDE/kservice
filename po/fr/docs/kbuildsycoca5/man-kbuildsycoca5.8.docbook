@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-  <!ENTITY % French "INCLUDE"
+  <!ENTITY % English "INCLUDE"
 ><!-- change language only here -->
 ]>
 
@@ -142,9 +142,9 @@
 ></term>
 <listitem>
 <para
->Normalement, <command
->kbuildsyscoca5</command
-> envoie un signal sur le &DBus;, une fois que le cache est mis à jour pour toutes les applications utilisant « KService ». Ainsi, elles fonctionnent en utilisant la dernière information. Cette option supprime ce comportement.</para>
+>Ordinarily, <command
+>kbuildsycoca5</command
+> sends a signal over &DBus; once the cache is updated to all the applications that use KService so that they are always working with the latest information. This option suppresses that behaviour.</para>
 </listitem>
 </varlistentry>
 
