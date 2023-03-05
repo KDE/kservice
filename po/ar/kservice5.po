@@ -60,7 +60,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:credit"
 msgid "Copyright 1999-2014 KDE Developers"
-msgstr "حقوق النسخ محفوظة ©1999-2014، مطوري كدي"
+msgstr "حقوق النسخ محفوظة ©1999-2014، مطوري كِيدِي"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95
 #, kde-format

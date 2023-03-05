@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-  <!ENTITY % English "INCLUDE"
+  <!ENTITY % French "INCLUDE"
 ><!-- change language only here -->
 ]>
 
@@ -132,19 +132,6 @@
 >Plutôt que d'utiliser le cache existant et uniquement réaliser une mise à jour des informations modifiées ou ajoutées, démarrez avec un cache vide. Ignoré si l'option <option
 >--global</option
 > est définie.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><option
->--nosignal</option
-></term>
-<listitem>
-<para
->Ordinarily, <command
->kbuildsycoca5</command
-> sends a signal over &DBus; once the cache is updated to all the applications that use KService so that they are always working with the latest information. This option suppresses that behaviour.</para>
 </listitem>
 </varlistentry>
 

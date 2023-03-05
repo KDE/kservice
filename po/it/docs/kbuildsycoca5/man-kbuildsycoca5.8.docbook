@@ -138,19 +138,6 @@
 <varlistentry>
 <term
 ><option
->--nosignal</option
-></term>
-<listitem>
-<para
->Normalmente, <command
->kbuildsycoca5</command
-> invia un segnale via &DBus; una volta che la cache è stata modificata a tutte le applicazioni che usano KService, in modo che lavorino sempre con le informazioni più recenti. Questa opzione sopprime questo comportamento.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><option
 >--menutest</option
 ></term>
 <listitem>
