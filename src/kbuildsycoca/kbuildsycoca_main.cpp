@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
 
-    KLocalizedString::setApplicationDomain("kservice5");
+    KLocalizedString::setApplicationDomain("kservice6");
 
     KAboutData about(QStringLiteral(KBUILDSYCOCA_EXENAME),
                      i18nc("application name", "KBuildSycoca"),

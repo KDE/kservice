@@ -51,7 +51,7 @@ find_package(KF6CoreAddons ${KF_DEP_VERSION} CONFIG REQUIRED)
 find_package(KF6I18n ${KF_DEP_VERSION} CONFIG REQUIRED)
 find_package(KF6DocTools ${KF_DEP_VERSION} CONFIG)
 
-add_definitions(-DTRANSLATION_DOMAIN=\"kservice5\")
+add_definitions(-DTRANSLATION_DOMAIN=\"kservice6\")
 
 ecm_set_disabled_deprecation_versions(
     QT 6.4
