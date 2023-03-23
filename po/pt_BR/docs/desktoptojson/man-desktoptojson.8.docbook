@@ -8,7 +8,7 @@
 
 <refentryinfo>
 <title
->&kde; Frameworks: KService</title>
+>KService do &kde-frameworks;</title>
 <author
 ><firstname
 >Scarlett</firstname
@@ -109,20 +109,20 @@
 <para
 >A plataforma KService usa as informações contidas nos arquivos <filename class="extension"
 >.desktop</filename
-> para localizar os serviços, incluindo os plugins para os aplicativos e bibliotecas baseados em Qt5. O sistema de plugins do Qt5, contudo, usa dados em JSON incorporados no próprio plugin. O <command
+> para localizar os serviços, incluindo os plugins para os aplicativos e bibliotecas baseados em Qt5. O sistema de plugins do Qt5, contudo, usa dados em &JSON; incorporados no próprio plugin. O <command
 >desktoptojson</command
 > permite que as informações existentes em um arquivo <filename class="extension"
 >.desktop</filename
 > também sejam usadas como dados incorporados para um plugin do Qt5, convertendo os elementos do arquivo <filename class="extension"
 >.desktop</filename
-> para dados em JSON.</para>
+> para dados em &JSON;.</para>
 
 <para
->Os dados gerados em JSON são um objeto JSON que interpreta os elementos do grupo <literal
+>Os dados gerados em &JSON; são um objeto &JSON; que interpreta os elementos do grupo <literal
 >[Desktop Entry]</literal
 > do arquivo <filename class="extension"
 >.desktop</filename
->. Todos os outros grupos serão ignorados. A maioria dos elementos são apenas convertidos para strings em JSON, mas alguns deles (como o <literal
+>. Todos os outros grupos serão ignorados. A maioria dos elementos são apenas convertidos para strings em &JSON;, mas alguns deles (como o <literal
 >Hidden</literal
 > e o <literal
 >X-KDE-PluginInfo-EnabledByDefault</literal
@@ -164,7 +164,7 @@
 ></term>
 <listitem>
 <para
->Arquivo para onde gravar os dados gerados em JSON.</para>
+>Arquivo para onde gravar os dados gerados em &JSON;.</para>
 </listitem>
 </varlistentry>
 
@@ -199,7 +199,7 @@
 <title
 >Uso</title>
 <para
->Muitos usuários deste utilitário usarão a macro do CMake <function
+>Muitos usuários deste utilitário usarão a macro do &cmake; <function
 >kservice_desktop_to_json</function
 > como parte do processo de compilação de um plugin. <programlisting language="cmake">
 <![CDATA[
@@ -207,7 +207,7 @@ add_library(meuplugin MODULE ${meuplugin_SRCS})
 kservice_desktop_to_json(meuplugin meuplugin.desktop)
 ]]>
 </programlisting
-> Isto irá criar o arquivo JSON <filename
+> Isto irá criar o arquivo &JSON; <filename
 >meuplugin.json</filename
 >, que poderá ser usado nas macros <function
 >K_PLUGIN_FACTORY_WITH_JSON</function
@@ -222,8 +222,8 @@ kservice_desktop_to_json(meuplugin meuplugin.desktop)
 <title
 >Problemas</title>
 <para
->Use o <ulink url="http://bugs.kde.org"
->sistema de gerenciamento de erros do KDE</ulink
+>Use o <ulink url="https://bugs.kde.org"
+>sistema de gerenciamento de erros do &kde;</ulink
 > para relatar erros.</para>
 </refsect1>
 

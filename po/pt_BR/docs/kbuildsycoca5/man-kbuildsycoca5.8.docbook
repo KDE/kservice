@@ -8,7 +8,7 @@
 
 <refentryinfo>
 <title
->&kde; Frameworks: KService</title>
+>KService do &kde-frameworks;</title>
 <author
 ><firstname
 >Darian</firstname
@@ -29,7 +29,7 @@
 > <surname
 >Merry</surname
 > <contrib
->Atualizou a documentação para o &kde; Frameworks 5.</contrib>
+>Atualizou a documentação para o &kf5-full;.</contrib>
 <affiliation>
 <address
 ><email
@@ -62,7 +62,7 @@
 >kbuildsycoca5</command
 ></refname>
 <refpurpose
->Reconstrói o cache de configurações do sistema de arquivos desktop do KService.</refpurpose>
+>Reconstrói o cache de configurações do sistema de arquivos desktop do KService</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
@@ -91,7 +91,7 @@
 >kbuildsycoca5</command
 > constrói um cache binário dos dados armazenados nos arquivos <literal role="extension"
 >.desktop</literal
-> e tipo MIME <literal role="extension"
+> e tipo &MIME; <literal role="extension"
 >.xml</literal
 > que a plataforma KService usa para encontrar os plugins, aplicativos e outros serviços. </para>
 
@@ -118,7 +118,7 @@
 <para
 >Ignora todos os arquivos definidos pelo usuário (em <varname
 >XDG_DATA_HOME</varname
->). No momento, há suporte apenas em sistemas Unix.</para>
+>). No momento, há suporte apenas em sistemas &UNIX;.</para>
 </listitem>
 </varlistentry>
 
@@ -143,8 +143,8 @@
 <listitem>
 <para
 >Normalmente, o <command
->kbuildsyscoca5</command
-> envia um sinal por D-Bus assim que o cache for atualizado para todos os aplicativos que usem o KService, de modo que estejam sempre trabalhando com as últimas informações. Esta opção anula esse comportamento.</para>
+>kbuildsycoca5</command
+>  envia um sinal por &DBus; assim que o cache for atualizado para todos os aplicativos que usem o KService, de modo que estejam sempre trabalhando com as últimas informações. Esta opção anula esse comportamento.</para>
 </listitem>
 </varlistentry>
 
@@ -247,13 +247,13 @@
 <para
 >O cache do KService é gerado pelo <command
 >kbuildsycoca5</command
->. Em sistemas Unix, o <varname
+>. Em sistemas &UNIX;, o <varname
 >cachedir</varname
 > é normalmente o <filename class="directory"
 ><envar
->XDG_CONFIG_HOME</envar
+>XDG_CACHE_HOME</envar
 ></filename
-></para>
+>.</para>
 </listitem>
 </varlistentry>
 </variablelist>
@@ -286,8 +286,8 @@
 <title
 >Problemas</title>
 <para
->Use o <ulink url="http://bugs.kde.org"
->sistema de gerenciamento de erros do KDE</ulink
+>Use o <ulink url="https://bugs.kde.org"
+>sistema de gerenciamento de erros do &kde;</ulink
 > para relatar erros.</para>
 </refsect1>
 
