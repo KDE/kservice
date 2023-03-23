@@ -14,7 +14,6 @@
 #include <KMessage>
 
 #include <QCoreApplication>
-#include <QDBusConnection>
 #include <QHash>
 #include <QProcess>
 #include <QStandardPaths>
