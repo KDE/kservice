@@ -699,7 +699,7 @@ QString KSycoca::absoluteFilePath()
 #ifdef Q_OS_WIN
         suffix.replace(QLatin1Char(':'), QLatin1Char('_'));
 #endif
-        const QString fileName = QLatin1String("ksycoca5") + suffix;
+        const QString fileName = QLatin1String("ksycoca6") + suffix;
         return QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1Char('/') + fileName;
     } else {
         return QFile::decodeName(ksycoca_env);
