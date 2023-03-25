@@ -431,19 +431,6 @@ bool KBuildSycoca::recreate(bool incremental)
             qCWarning(SYCOCA) << "ERROR writing database" << database.fileName() << database.errorString();
             return false;
         }
-
-        // Compatibility code for KF < 5.15: provide a ksycoca5 symlink after the filename change, for old apps to keep working during the upgrade
-        const QString oldSycoca = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1String("/ksycoca5");
-        if (QFile::exists(oldSycoca)) {
-            QFile::remove(oldSycoca);
-#ifdef Q_OS_UNIX
-            if (::link(QFile::encodeName(path).constData(), QFile::encodeName(oldSycoca).constData()) != 0) {
-                QFile::copy(path, oldSycoca);
-            }
-#else
-            QFile::copy(path, oldSycoca);
-#endif
-        }
     } else {
         delete str;
         str = nullptr;
