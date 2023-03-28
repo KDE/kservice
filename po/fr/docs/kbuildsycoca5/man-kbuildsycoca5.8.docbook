@@ -234,7 +234,7 @@
 <para
 >Le cache de « KService » est généré par <command
 >kbuildsycoca5</command
->. Sur des systèmes  &UNIX;, <varname
+>. Sur des systèmes &UNIX;, <varname
 >cachedir</varname
 > est généralement <filename class="directory"
 ><envar
