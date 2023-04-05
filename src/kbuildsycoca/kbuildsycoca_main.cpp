@@ -8,7 +8,7 @@
 
 #include <kbuildsycoca_p.h>
 
-#include "../../kservice_version.h"
+#include <kservice_version.h>
 
 #include <KAboutData>
 #include <KLocalizedString>
