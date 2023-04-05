@@ -58,10 +58,12 @@ ecm_generate_export_header(KF6Service
     BASE_NAME KService
     GROUP_BASE_NAME KF
     VERSION ${KF_VERSION}
+    USE_VERSION_HEADER
     DEPRECATED_BASE_VERSION 0
     DEPRECATION_VERSIONS 5.90
     EXCLUDE_DEPRECATED_BEFORE_AND_AT ${EXCLUDE_DEPRECATED_BEFORE_AND_AT}
 )
+
 set(kservice_includes
    ${CMAKE_CURRENT_BINARY_DIR}/.. # Since we publicly include kservice_version.h
    ${CMAKE_CURRENT_SOURCE_DIR}/services
