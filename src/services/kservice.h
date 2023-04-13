@@ -492,6 +492,6 @@ private:
      * Construct a service from a stream.
      * The stream must already be positioned at the correct offset.
      */
-    KService(QDataStream &str, int offset);
+    KSERVICE_NO_EXPORT KService(QDataStream &str, int offset);
 };
 #endif

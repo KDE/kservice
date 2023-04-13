@@ -271,7 +271,7 @@ private:
      * @internal construct a service from a stream.
      * The stream must already be positioned at the correct offset
      */
-    KServiceGroup(QDataStream &_str, int offset, bool deep);
+    KSERVICE_NO_EXPORT KServiceGroup(QDataStream &_str, int offset, bool deep);
 
     Q_DECLARE_PRIVATE(KServiceGroup)
 };
