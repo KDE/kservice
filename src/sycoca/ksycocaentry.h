@@ -114,7 +114,7 @@ public:
     bool isSeparator() const;
 
 protected:
-    KSycocaEntry(KSycocaEntryPrivate &d);
+    KSERVICE_NO_EXPORT explicit KSycocaEntry(KSycocaEntryPrivate &d);
     std::unique_ptr<KSycocaEntryPrivate> const d_ptr;
 
 private:
