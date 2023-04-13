@@ -700,7 +700,7 @@ private:
     friend class KBuildServiceFactory;
 
     /// @internal for KBuildSycoca only
-    struct ServiceTypeAndPreference {
+    struct KSERVICE_NO_EXPORT ServiceTypeAndPreference {
         ServiceTypeAndPreference()
             : preference(-1)
             , serviceType()
