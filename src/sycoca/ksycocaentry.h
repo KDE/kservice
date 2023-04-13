@@ -130,7 +130,7 @@ private:
      * @internal
      * @return the position of the entry in the sycoca file
      */
-    int offset() const;
+    KSERVICE_NO_EXPORT int offset() const;
 
     Q_DISABLE_COPY(KSycocaEntry)
 

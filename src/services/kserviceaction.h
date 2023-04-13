@@ -122,7 +122,7 @@ private:
     friend KSERVICE_EXPORT QDataStream &operator>>(QDataStream &str, KServiceAction &act);
     friend KSERVICE_EXPORT QDataStream &operator<<(QDataStream &str, const KServiceAction &act);
     friend class KService;
-    void setService(const KServicePtr &service);
+    KSERVICE_NO_EXPORT void setService(const KServicePtr &service);
 };
 
 KSERVICE_EXPORT QDataStream &operator>>(QDataStream &str, KServiceAction &act);

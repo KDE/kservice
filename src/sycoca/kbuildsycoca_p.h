@@ -75,7 +75,7 @@ private:
      * Add single entry to the sycoca database.
      * Either from a previous database or regenerated from file.
      */
-    KSycocaEntry::Ptr createEntry(KSycocaFactory *currentFactory, const QString &file);
+    KSERVICE_NO_EXPORT KSycocaEntry::Ptr createEntry(KSycocaFactory *currentFactory, const QString &file);
 
     /**
      * Implementation of KBuildSycocaInterface
@@ -86,22 +86,22 @@ private:
     /**
      * Convert a VFolderMenu::SubMenu to KServiceGroups.
      */
-    void createMenu(const QString &caption, const QString &name, VFolderMenu::SubMenu *menu);
+    KSERVICE_NO_EXPORT void createMenu(const QString &caption, const QString &name, VFolderMenu::SubMenu *menu);
 
     /**
      * Build the whole system cache, from .desktop files
      */
-    bool build();
+    KSERVICE_NO_EXPORT bool build();
 
     /**
      * Save the ksycoca file
      */
-    void save(QDataStream *str);
+    KSERVICE_NO_EXPORT void save(QDataStream *str);
 
     /**
      * Clear the factories
      */
-    void clear();
+    KSERVICE_NO_EXPORT void clear();
 
     /**
      * @internal
