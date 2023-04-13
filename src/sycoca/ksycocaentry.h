@@ -133,6 +133,7 @@ private:
      * @return the position of the entry in the sycoca file
      */
     int offset() const;
+    // exported for KSycocaDictTest
 
     Q_DISABLE_COPY(KSycocaEntry)
 

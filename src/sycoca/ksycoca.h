@@ -244,7 +244,7 @@ private:
      */
     static void clearCaches();
 
-    bool needsRebuild();
+    KSERVICE_NO_EXPORT bool needsRebuild();
 
     friend class KBuildSycoca;
     friend class Kded;
