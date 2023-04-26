@@ -329,6 +329,8 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
             qCWarning(SERVICES) << "The desktop file" << q->entryPath() << "references the action" << group << "but doesn't define it";
         }
     }
+
+    serviceClone->setActions(m_actions);
 }
 
 void KServicePrivate::load(QDataStream &s)
@@ -1167,4 +1169,10 @@ KService::operator KPluginName() const
 QString KService::aliasFor() const
 {
     return KServiceUtilPrivate::completeBaseName(property(QStringLiteral("X-KDE-AliasFor"), QMetaType::QString).toString());
+}
+
+void KService::setActions(const QList<KServiceAction> &actions)
+{
+    Q_D(KService);
+    d->m_actions = actions;
 }
