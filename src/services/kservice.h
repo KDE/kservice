@@ -480,6 +480,8 @@ private:
     /// @internal for KBuildSycoca only
     QVector<ServiceTypeAndPreference> _k_accessServiceTypes();
 
+    void setActions(const QList<KServiceAction> &actions);
+
     friend QDataStream &operator>>(QDataStream &, ServiceTypeAndPreference &);
     friend QDataStream &operator<<(QDataStream &, const ServiceTypeAndPreference &);
 
