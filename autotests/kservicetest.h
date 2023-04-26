@@ -76,6 +76,7 @@ private Q_SLOTS:
 #endif
 
     void testAliasFor();
+    void testServiceActionService();
 
 private:
     void createFakeService(const QString &filenameSuffix, const QString &serviceType);
