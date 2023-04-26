@@ -205,10 +205,6 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
     }
 
-    if (entryMap.contains(QLatin1String("Actions"))) {
-        parseActions(config, q);
-    }
-
     m_strDesktopEntryName = _name;
 
     m_bAllowAsDefault = desktopGroup.readEntry("AllowDefault", true);
@@ -230,6 +226,12 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     auto it = entryMap.constBegin();
     for (; it != entryMap.constEnd(); ++it) {
         const QString key = it.key();
+
+        // Ignore Actions, we parse that below
+        if (key == QLatin1String("Actions")) {
+            continue;
+        }
+
         // do not store other translations like Name[fr]; kbuildsycoca will rerun if we change languages anyway
         if (!key.contains(QLatin1Char('['))) {
             // qCDebug(SERVICES) << "  Key =" << key << " Data =" << it.value();
@@ -239,6 +241,12 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
                 m_mapProps.insert(key, QVariant(it.value()));
             }
         }
+    }
+
+    // parse actions last since that may clone the service
+    // we want all other information parsed by then
+    if (entryMap.contains(QLatin1String("Actions"))) {
+        parseActions(config, q);
     }
 }
 

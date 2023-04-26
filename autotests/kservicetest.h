@@ -43,6 +43,7 @@ private Q_SLOTS:
     void testProtocols();
 
     void testAliasFor();
+    void testServiceActionService();
 
 private:
     void runKBuildSycoca(bool noincremental = false);

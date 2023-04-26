@@ -455,3 +455,18 @@ void KServiceTest::testProtocols()
     QStringList expectedProtocols{QStringLiteral("http"), QStringLiteral("tel")};
     QCOMPARE(testapp->supportedProtocols(), expectedProtocols);
 }
+
+void KServiceTest::testServiceActionService()
+{
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
+
+    const QString filePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("applications/org.kde.faketestapp.desktop"));
+    QVERIFY(QFile::exists(filePath));
+    KService service(filePath);
+    QVERIFY(service.isValid());
+
+    const KServiceAction action = service.actions().first();
+    QCOMPARE(action.service()->property(QStringLiteral("DBusActivatable"), QMetaType::Bool).toBool(), true);
+}
