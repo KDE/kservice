@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-12 00:55+0000\n"
+"POT-Creation-Date: 2023-04-28 00:45+0000\n"
 "PO-Revision-Date: 2008-08-30 01:10+0300\n"
 "Last-Translator: Ihar Hrachyshka <ihar.hrachyshka@gmail.com>\n"
 "Language-Team: Belarusian Latin <i18n@mova.org>\n"
@@ -213,14 +213,14 @@ msgstr "Nie ŭdałosia ŭklučyć terminał"
 msgid "No service implementing %1"
 msgstr ""
 
-#: services/kservice.cpp:1147
+#: services/kservice.cpp:1157
 #, fuzzy, kde-format
 #| msgctxt "SSL error"
 #| msgid "The certificate is invalid"
 msgid "The provided service is not valid"
 msgstr "Niasłušny sertyfikat."
 
-#: services/kservice.cpp:1151
+#: services/kservice.cpp:1161
 #, fuzzy, kde-format
 #| msgid ""
 #| "The service '%1' provides no library or the Library key is missing in "

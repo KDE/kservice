@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-12 00:55+0000\n"
+"POT-Creation-Date: 2023-04-28 00:45+0000\n"
 "PO-Revision-Date: 2023-01-18 22:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -213,12 +213,12 @@ msgstr "Uçbirim İstemcisi başlatılamadı"
 msgid "No service implementing %1"
 msgstr "%1 kullanan hizmet yok"
 
-#: services/kservice.cpp:1147
+#: services/kservice.cpp:1157
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Sağlanan hizmet geçerli değil"
 
-#: services/kservice.cpp:1151
+#: services/kservice.cpp:1161
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr "'%1' hizmeti hiçbir kitaplık sağlamıyor veya kitaplık anahtarı eksik"

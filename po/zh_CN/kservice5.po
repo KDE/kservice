@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-12 00:55+0000\n"
+"POT-Creation-Date: 2023-04-28 00:45+0000\n"
 "PO-Revision-Date: 2023-04-16 12:31\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -194,12 +194,12 @@ msgstr "无法调用命令行终端"
 msgid "No service implementing %1"
 msgstr "没有实现 %1 的服务"
 
-#: services/kservice.cpp:1147
+#: services/kservice.cpp:1157
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "提供的服务无效"
 
-#: services/kservice.cpp:1151
+#: services/kservice.cpp:1161
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr "服务“%1”没有提供程序库，或者该程序库项不存在"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-02-12 00:55+0000\n"
+"POT-Creation-Date: 2023-04-28 00:45+0000\n"
 "PO-Revision-Date: 2012-03-25 21:39+0530\n"
 "Last-Translator: Sri Ramadoss M <amachu@yavarkkum.org>\n"
 "Language-Team: Tamil <podhu@madaladal.yavarkkum.org>\n"
@@ -205,12 +205,12 @@ msgstr "முனைய வாங்கியை ஏவ முடியவில
 msgid "No service implementing %1"
 msgstr ""
 
-#: services/kservice.cpp:1147
+#: services/kservice.cpp:1157
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "கொடுக்கப்பட்ட சேவை செல்லாதது"
 
-#: services/kservice.cpp:1151
+#: services/kservice.cpp:1161
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr "'%1' சேவை எந்தவொரு நிரலகத்தையும் கொடுக்கவில்லை அல்லது நிரலகத் தருப்பைக் காணும்"
