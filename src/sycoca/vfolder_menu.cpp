@@ -739,6 +739,11 @@ QString VFolderMenu::locateMenuFile(const QString &fileName)
     if (result.isEmpty()) {
         QString baseName = QDir::cleanPath(m_docInfo.baseDir + fileName);
         result = QStandardPaths::locate(QStandardPaths::GenericConfigLocation, QLatin1String("menus/") + baseName);
+        if (!result.isEmpty()) {
+            return result;
+        }
+        Q_INIT_RESOURCE(kservice);
+        result = QStringLiteral(":/kservice/applications.menu");
     }
 
     return result;

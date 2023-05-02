@@ -35,6 +35,7 @@ target_sources(KF6Service PRIVATE
    sycoca/kctimefactory.cpp
    sycoca/kmimeassociations.cpp
    sycoca/vfolder_menu.cpp
+   kservice.qrc
 )
 
 ecm_qt_declare_logging_category(KF6Service
