@@ -48,8 +48,6 @@ private Q_SLOTS:
 private:
     void runKBuildSycoca(bool noincremental = false);
 
-    QString m_firstOffer;
-    bool m_hasKde5Konsole;
     QAtomicInt m_sycocaUpdateDone;
     bool m_hasNonCLocale;
 };
