@@ -138,19 +138,6 @@
 <varlistentry>
 <term
 ><option
->--nosignal</option
-></term>
-<listitem>
-<para
->Типово, <command
->kbuildsyscoca5</command
-> надсилає за допомогою D-Bus сигнал усім програмам, які використовують KService, щойно кеш буде оновлено. Таким чином, усі програми одразу можуть працювати з найсвіжішими даними. За допомогою цього параметра можна придушити таке надсилання сигналу.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><option
 >--menutest</option
 ></term>
 <listitem>
