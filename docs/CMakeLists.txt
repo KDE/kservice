@@ -1,1 +1,1 @@
-add_subdirectory(kbuildsycoca5)
+add_subdirectory(kbuildsycoca6)
