@@ -33,10 +33,6 @@ KBuildServiceFactory::KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactor
     , m_mimeTypeFactory(mimeTypeFactory)
     , m_serviceGroupFactory(serviceGroupFactory)
 {
-    // We directly care about services desktop files.
-    // All the application desktop files are parsed on demand from the vfolder menu code.
-    m_resourceList.emplace_back("services", QStringLiteral("kservices5"), QStringLiteral("*.desktop"));
-
     m_nameDict = new KSycocaDict();
     m_relNameDict = new KSycocaDict();
     m_menuIdDict = new KSycocaDict();
@@ -63,24 +59,14 @@ KService::Ptr KBuildServiceFactory::findServiceByMenuId(const QString &menuId)
 
 KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
 {
-    Q_ASSERT(!file.startsWith(QLatin1String("kservices5/"))); // we add this ourselves, below
-
     const QStringView name = QStringView(file).mid(file.lastIndexOf(QLatin1Char('/')) + 1);
 
     // Is it a .desktop file?
     if (name.endsWith(QLatin1String(".desktop"))) {
         // qCDebug(SYCOCA) << file;
 
-        KService *serv;
-        if (QDir::isAbsolutePath(file)) { // vfolder sends us full paths for applications
-            serv = new KService(file);
-        } else { // we get relative paths for services
-            KDesktopFile desktopFile(QStandardPaths::GenericDataLocation, QStringLiteral("kservices5/") + file);
-            // Note that the second arg below MUST be 'file', unchanged.
-            // If the entry path doesn't match the 'file' parameter to createEntry, reusing old entries
-            // (via time dict, which uses the entry path as key) cannot work.
-            serv = new KService(&desktopFile, file);
-        }
+        Q_ASSERT(QDir::isAbsolutePath(file));
+        KService *serv = new KService(file);
 
         // qCDebug(SYCOCA) << "Creating KService from" << file << "entryPath=" << serv->entryPath();
         // Note that the menuId will be set by the vfolder_menu.cpp code just after

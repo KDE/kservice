@@ -117,7 +117,7 @@ private:
     QString m_trackId;
 
     QByteArray m_resource; // e.g. "services" (old resource name, now only used for the signal, see kctimefactory.cpp)
-    QString m_resourceSubdir; // e.g. "kservices5" (xdgdata subdir)
+    QString m_resourceSubdir; // e.g. "mime" (xdgdata subdir)
 
     KSycocaEntry::List m_tempStorage;
     typedef QList<KSycocaEntry::List> KSycocaEntryListList;

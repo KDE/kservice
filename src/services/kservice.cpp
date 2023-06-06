@@ -127,15 +127,8 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         return;
     }
 
-    if ((m_strType == QLatin1String("Service")) && (locationType != QStandardPaths::GenericDataLocation) && !absPath) {
-        qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but is located under \""
-                            << QStandardPaths::displayName(locationType) << "\" instead of \"Shared Data\"/kservices5";
-        m_bValid = false;
-        return;
-    }
-
     // entryPath To desktopEntryName
-    // (e.g. "/home/x/.qttest/share/kservices5/fakepart2.desktop" --> "fakepart2")
+    // (e.g. "/usr/share/applications/org.kde.kate" --> "org.kde.kate")
     QString _name = KServiceUtilPrivate::completeBaseName(entryPath);
 
     m_strIcon = config->readIcon();

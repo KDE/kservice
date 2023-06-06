@@ -410,9 +410,8 @@ void KServiceTest::testThreads()
 
 void KServiceTest::testCompleteBaseName()
 {
-    QCOMPARE(KServiceUtilPrivate::completeBaseName(QStringLiteral("/home/x/.qttest/share/kservices5/fakepart2.desktop")), QStringLiteral("fakepart2"));
     // dots in filename before .desktop extension:
-    QCOMPARE(KServiceUtilPrivate::completeBaseName(QStringLiteral("/home/x/.qttest/share/kservices5/org.kde.fakeapp.desktop")),
+    QCOMPARE(KServiceUtilPrivate::completeBaseName(QStringLiteral("/home/x/.local/share/applications/org.kde.fakeapp.desktop")),
              QStringLiteral("org.kde.fakeapp"));
 }
 

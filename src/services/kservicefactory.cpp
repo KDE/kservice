@@ -226,7 +226,7 @@ KService::List KServiceFactory::allServices()
 
 QStringList KServiceFactory::resourceDirs()
 {
-    return KSycocaFactory::allDirectories(QStringLiteral("kservices5")) + KSycocaFactory::allDirectories(QStringLiteral("applications"));
+    return KSycocaFactory::allDirectories(QStringLiteral("applications"));
 }
 
 QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceOffersOffset)

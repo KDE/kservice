@@ -13,7 +13,7 @@
 
 struct KSycocaResource {
     // resource is just used in the databaseChanged signal
-    // subdir is always under QStandardPaths::GenericDataLocation. E.g. mime, kservices5, etc.
+    // subdir is always under QStandardPaths::GenericDataLocation. E.g. mime, etc.
     KSycocaResource(const QByteArray &resource, const QString &subdir, const QString &filter)
         : resource(resource)
         , subdir(subdir)
