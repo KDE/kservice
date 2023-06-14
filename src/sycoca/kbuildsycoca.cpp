@@ -483,7 +483,7 @@ void KBuildSycoca::save(QDataStream *str)
     (*str) << m_newTimestamp;
     (*str) << QLocale().bcp47Name();
     // This makes it possible to trigger a ksycoca update for all users (KIOSK feature)
-    (*str) << calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
+    (*str) << calcResourceHash(QStringLiteral("kservices6"), QStringLiteral("update_ksycoca"));
     (*str) << m_allResourceDirs.keys();
     for (auto it = m_allResourceDirs.constBegin(); it != m_allResourceDirs.constEnd(); ++it) {
         (*str) << it.value();
@@ -622,7 +622,7 @@ bool KBuildSycoca::checkGlobalHeader()
 {
     // Since it's part of the filename, we are 99% sure that the locale and prefixes will match.
     const QString current_language = QLocale().bcp47Name();
-    const quint32 current_update_sig = KBuildSycoca::calcResourceHash(QStringLiteral("kservices5"), QStringLiteral("update_ksycoca"));
+    const quint32 current_update_sig = KBuildSycoca::calcResourceHash(QStringLiteral("kservices6"), QStringLiteral("update_ksycoca"));
     const QString current_prefixes = QStandardPaths::standardLocations(QStandardPaths::GenericDataLocation).join(QString(QLatin1Char(':')));
 
     const KSycocaHeader header = KSycocaPrivate::self()->readSycocaHeader();
