@@ -584,7 +584,7 @@ void VFolderMenu::mergeMenus(QDomElement &docElem, QString &name)
             docElem.removeChild(last); // Remove the MergeFile node
             continue;
         } else if (e.tagName() == QLatin1String("MergeDir")) {
-            QString dir = absoluteDir(e.text(), e.attribute(QStringLiteral("__BaseDir")), true);
+            const QString dir = absoluteDir(e.text(), e.attribute(QStringLiteral("__BaseDir")), true);
             Q_ASSERT(dir.endsWith(QLatin1Char('/')));
 
             const bool relative = QDir::isRelativePath(dir);
