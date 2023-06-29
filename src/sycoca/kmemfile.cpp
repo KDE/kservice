@@ -246,3 +246,5 @@ void KMemFile::fileContentsChanged(const QString &filename)
 }
 
 #endif // QT_NO_SHAREDMEMORY
+
+#include "moc_kmemfile_p.cpp"

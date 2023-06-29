@@ -11,6 +11,7 @@
 #include "klauncher_iface.h"
 #include <KDEInitInterface>
 #endif
+#include "kservice.h"
 #include <KLocalizedString>
 
 #include <QCoreApplication>
@@ -318,3 +319,5 @@ void KToolInvocation::ensureKdeinitRunning()
     KDEInitInterface::ensureKdeinitRunning();
 #endif
 }
+
+#include "moc_ktoolinvocation.cpp"

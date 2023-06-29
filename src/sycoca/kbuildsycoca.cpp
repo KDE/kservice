@@ -667,3 +667,5 @@ const char *KBuildSycoca::sycocaPath()
 {
     return s_cSycocaPath;
 }
+
+#include "moc_kbuildsycoca_p.cpp"

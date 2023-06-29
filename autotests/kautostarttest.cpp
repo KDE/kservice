@@ -169,3 +169,5 @@ void KAutostartTest::testRemovalOfNewServiceFile()
 {
     QVERIFY(QFile::remove(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String{"/autostart/doesnotexist.desktop"}));
 }
+
+#include "moc_kautostarttest.cpp"

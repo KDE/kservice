@@ -853,3 +853,5 @@ void KSycoca::ensureCacheValid()
     // everything that's needed.
     d->closeDatabase();
 }
+
+#include "moc_ksycoca.cpp"

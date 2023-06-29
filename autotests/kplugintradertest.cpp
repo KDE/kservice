@@ -70,3 +70,5 @@ void PluginTraderTest::loadPlugin()
     QVERIFY(plugin != nullptr);
     QCOMPARE(plugin->objectName(), QStringLiteral("Test Plugin Spy"));
 }
+
+#include "moc_kplugintradertest.cpp"

@@ -1022,3 +1022,5 @@ void KServiceTest::testServiceActionService()
     QCOMPARE(action.service()->property(QStringLiteral("DBusActivatable"), QMetaType::Bool).toBool(), true);
     QCOMPARE(action.service()->actions().size(), 2);
 }
+
+#include "moc_kservicetest.cpp"
