@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-02 00:43+0000\n"
 "PO-Revision-Date: 2016-09-09 02:56+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-i18n-doc@kde.org>\n"
@@ -112,12 +112,12 @@ msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr "QStandardPaths'i lülitamine testirežiimi (ainult ühiktestide tarbeks)"
 
-#: kdeinit/ktoolinvocation.cpp:60
+#: kdeinit/ktoolinvocation.cpp:61
 #, kde-format
 msgid "Function must be called from the main thread."
 msgstr "Funktsioon tuleb välja kutsuda pealõimest."
 
-#: kdeinit/ktoolinvocation.cpp:101
+#: kdeinit/ktoolinvocation.cpp:102
 #, kde-format
 msgid ""
 "Error launching %1. Either KLauncher is not running anymore, or it failed to "
@@ -126,7 +126,7 @@ msgstr ""
 "Viga rakenduse %1 käivitamisel. KLauncher ei tööta enam või ei suutnud see "
 "rakendust käivitada."
 
-#: kdeinit/ktoolinvocation.cpp:104
+#: kdeinit/ktoolinvocation.cpp:105
 #, kde-format
 msgid ""
 "KLauncher could not be reached via D-Bus. Error when calling %1:\n"

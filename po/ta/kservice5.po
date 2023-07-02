@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-02 00:43+0000\n"
 "PO-Revision-Date: 2012-03-25 21:39+0530\n"
 "Last-Translator: Sri Ramadoss M <amachu@yavarkkum.org>\n"
 "Language-Team: Tamil <podhu@madaladal.yavarkkum.org>\n"
@@ -120,12 +120,12 @@ msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
 
-#: kdeinit/ktoolinvocation.cpp:60
+#: kdeinit/ktoolinvocation.cpp:61
 #, kde-format
 msgid "Function must be called from the main thread."
 msgstr "முதன்மைத் தறியிலிருந்து செயற்பாட்டினை அழைத்தல் வேண்டும்."
 
-#: kdeinit/ktoolinvocation.cpp:101
+#: kdeinit/ktoolinvocation.cpp:102
 #, kde-format
 msgid ""
 "Error launching %1. Either KLauncher is not running anymore, or it failed to "
@@ -133,7 +133,7 @@ msgid ""
 msgstr ""
 "%1 தொடங்குவதில் வழு. KLauncher ஒன்று இயங்கவில்லை, அல்லது பயன்பாட்டை தொடங்கத் தவறியது."
 
-#: kdeinit/ktoolinvocation.cpp:104
+#: kdeinit/ktoolinvocation.cpp:105
 #, kde-format
 msgid ""
 "KLauncher could not be reached via D-Bus. Error when calling %1:\n"

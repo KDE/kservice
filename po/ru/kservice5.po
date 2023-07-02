@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-02 00:43+0000\n"
 "PO-Revision-Date: 2021-05-29 15:31+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -133,12 +133,12 @@ msgstr ""
 "Ввести QStandardPaths в тестовый режим, используется только для модульного "
 "тестирования"
 
-#: kdeinit/ktoolinvocation.cpp:60
+#: kdeinit/ktoolinvocation.cpp:61
 #, kde-format
 msgid "Function must be called from the main thread."
 msgstr "Функция должна быть вызвана из основного потока процесса."
 
-#: kdeinit/ktoolinvocation.cpp:101
+#: kdeinit/ktoolinvocation.cpp:102
 #, kde-format
 msgid ""
 "Error launching %1. Either KLauncher is not running anymore, or it failed to "
@@ -147,7 +147,7 @@ msgstr ""
 "Не удалось запустить «%1». KLauncher либо не запущен, либо не смог запустить "
 "приложение."
 
-#: kdeinit/ktoolinvocation.cpp:104
+#: kdeinit/ktoolinvocation.cpp:105
 #, kde-format
 msgid ""
 "KLauncher could not be reached via D-Bus. Error when calling %1:\n"

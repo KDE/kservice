@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-02 00:43+0000\n"
 "PO-Revision-Date: 2019-08-16 15:19+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -115,12 +115,12 @@ msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
 "Гузаронидани QStandardPaths ба реҷаи санҷишӣ, танҳо барои санҷишҳои воҳидӣ"
 
-#: kdeinit/ktoolinvocation.cpp:60
+#: kdeinit/ktoolinvocation.cpp:61
 #, kde-format
 msgid "Function must be called from the main thread."
 msgstr "Фаъолият бояд аз риштаи асосӣ дархост карда шавад."
 
-#: kdeinit/ktoolinvocation.cpp:101
+#: kdeinit/ktoolinvocation.cpp:102
 #, kde-format
 msgid ""
 "Error launching %1. Either KLauncher is not running anymore, or it failed to "
@@ -129,7 +129,7 @@ msgstr ""
 "Хатои оғози %1. Эҳтимол аст, ки KLauncher дар ҳоли иҷро намедошад ё ин ки он "
 "барномаро оғоз карда натавонист."
 
-#: kdeinit/ktoolinvocation.cpp:104
+#: kdeinit/ktoolinvocation.cpp:105
 #, kde-format
 msgid ""
 "KLauncher could not be reached via D-Bus. Error when calling %1:\n"

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kservice5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-04-28 00:45+0000\n"
+"POT-Creation-Date: 2023-07-02 00:43+0000\n"
 "PO-Revision-Date: 2021-06-02 10:10-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -126,12 +126,12 @@ msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
 "Alterna o QStandardPaths para modo de teste, apenas para teste de unidade"
 
-#: kdeinit/ktoolinvocation.cpp:60
+#: kdeinit/ktoolinvocation.cpp:61
 #, kde-format
 msgid "Function must be called from the main thread."
 msgstr "A função deve ser chamada da tarefa principal."
 
-#: kdeinit/ktoolinvocation.cpp:101
+#: kdeinit/ktoolinvocation.cpp:102
 #, kde-format
 msgid ""
 "Error launching %1. Either KLauncher is not running anymore, or it failed to "
@@ -140,7 +140,7 @@ msgstr ""
 "Erro ao executar o %1. O KLauncher não está mais em execução ou não "
 "conseguiu iniciar o aplicativo."
 
-#: kdeinit/ktoolinvocation.cpp:104
+#: kdeinit/ktoolinvocation.cpp:105
 #, kde-format
 msgid ""
 "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
