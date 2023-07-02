@@ -897,19 +897,6 @@ QStringList KService::keywords() const
     return d->m_lstKeywords;
 }
 
-QStringList KServicePrivate::serviceTypes() const
-{
-    QStringList ret;
-    ret.reserve(m_serviceTypes.size());
-
-    std::transform(m_serviceTypes.cbegin(), m_serviceTypes.cend(), std::back_inserter(ret), [](const KService::ServiceTypeAndPreference &typePref) {
-        Q_ASSERT(!typePref.serviceType.isEmpty());
-        return typePref.serviceType;
-    });
-
-    return ret;
-}
-
 QStringList KService::mimeTypes() const
 {
     Q_D(const KService);

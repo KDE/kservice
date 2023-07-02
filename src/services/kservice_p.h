@@ -62,8 +62,6 @@ public:
 
     QVariant property(const QString &_name, QMetaType::Type t) const;
 
-    QStringList serviceTypes() const;
-
     static QMetaType::Type typeForProperty(const QString &name);
 
     QStringList categories;
