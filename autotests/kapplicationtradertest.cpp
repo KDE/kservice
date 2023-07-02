@@ -31,6 +31,7 @@
 enum class ExpectedResult {
     NoResults,
     FakeApplicationOnly,
+    FakeSchemeHandlerOnly,
     FakeApplicationAndOthers,
     NotFakeApplication,
 };
@@ -55,6 +56,7 @@ private:
     void checkResult(const KService::List &offers, ExpectedResult expectedResult);
 
     QString m_fakeApplication;
+    QString m_fakeSchemeHandler;
     QString m_fakeGnomeApplication;
     QStringList m_createdDesktopFiles;
 };
@@ -94,6 +96,11 @@ void KApplicationTraderTest::initTestCase()
     // fakeapplication
     m_fakeApplication = createFakeApplication(QStringLiteral("fakeapplication.desktop"), QStringLiteral("FakeApplication"));
     m_fakeApplication = QFileInfo(m_fakeApplication).canonicalFilePath();
+
+    m_fakeSchemeHandler = createFakeApplication(QStringLiteral("fakeschemehandler.desktop"),
+                                                QStringLiteral("FakeSchemeHandler"),
+                                                {{QStringLiteral("MimeType"), QStringLiteral("text/plain;x-scheme-handler/someprotocol")}});
+    m_fakeSchemeHandler = QFileInfo(m_fakeSchemeHandler).canonicalFilePath();
 
     // fakegnomeapplication (do not show in Plasma). Should never be returned. To test the filtering code in queryByMimeType.
     QMap<QString, QString> fields;
@@ -144,6 +151,15 @@ void KApplicationTraderTest::checkResult(const KService::List &offers, ExpectedR
         }
         QCOMPARE(offers.count(), 1);
         QCOMPARE(offers.at(0)->entryPath(), m_fakeApplication);
+        break;
+    case ExpectedResult::FakeSchemeHandlerOnly:
+        if (offers.count() != 1) {
+            for (const auto &service : offers) {
+                qWarning() << "    " << service->entryPath();
+            }
+        }
+        QCOMPARE(offers.count(), 1);
+        QCOMPARE(offers.at(0)->entryPath(), m_fakeSchemeHandler);
         break;
     case ExpectedResult::FakeApplicationAndOthers:
         QVERIFY(!offers.isEmpty());
@@ -270,6 +286,9 @@ void KApplicationTraderTest::testQueryByMimeType()
 
     offers = KApplicationTrader::queryByMimeType(QStringLiteral("image/png"));
     checkResult(offers, ExpectedResult::NotFakeApplication);
+
+    offers = KApplicationTrader::queryByMimeType(QStringLiteral("x-scheme-handler/someprotocol"));
+    checkResult(offers, ExpectedResult::FakeSchemeHandlerOnly);
 
     QTest::ignoreMessage(QtWarningMsg, "KApplicationTrader: mimeType \"no/such/mimetype\" not found");
     offers = KApplicationTrader::queryByMimeType(QStringLiteral("no/such/mimetype"));

@@ -992,17 +992,7 @@ QVector<KService::ServiceTypeAndPreference> KService::_k_accessServiceTypes()
 {
     Q_D(KService);
 
-    QVector<KService::ServiceTypeAndPreference> ret;
-    QMimeDatabase db;
-
-    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
-        const QString servType = s.serviceType;
-        if (db.mimeTypeForName(servType).isValid()) { // keep only mimetypes, filter out servicetypes
-            ret.append(s);
-        }
-    }
-
-    return ret;
+    return d->m_serviceTypes;
 }
 
 QList<KServiceAction> KService::actions() const
