@@ -157,17 +157,6 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     entryMap.remove(QStringLiteral("X-KDE-Keywords"));
     categories = desktopGroup.readXdgListEntry("Categories");
     entryMap.remove(QStringLiteral("Categories"));
-    // TODO KDE5: only care for X-KDE-Library in Type=Service desktop files
-    // This will prevent people defining a part and an app in the same desktop file
-    // which makes user-preference handling difficult.
-    m_strLibrary = desktopGroup.readEntry("X-KDE-Library");
-    entryMap.remove(QStringLiteral("X-KDE-Library"));
-    if (!m_strLibrary.isEmpty() && m_strType == QLatin1String("Application")) {
-        qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType
-                            << "but also has a X-KDE-Library key. This works for now,"
-                               " but makes user-preference handling difficult, so support for this might"
-                               " be removed at some point. Consider splitting it into two desktop files.";
-    }
 
     const QStringList lstServiceTypes = desktopGroup.readXdgListEntry("MimeType");
     entryMap.remove(QStringLiteral("MimeType"));
@@ -500,8 +489,6 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
         return QVariant(m_bAllowAsDefault);
     } else if (_name == QLatin1String("InitialPreference")) {
         return QVariant(m_initialPreference);
-    } else if (_name == QLatin1String("Library")) {
-        return makeStringVariant(m_strLibrary);
     } else if (_name == QLatin1String("DesktopEntryPath")) { // can't be null
         return QVariant(path);
     } else if (_name == QLatin1String("DesktopEntryName")) {
@@ -558,7 +545,6 @@ QStringList KServicePrivate::propertyNames() const
         QStringLiteral("Path"),
         QStringLiteral("AllowAsDefault"),
         QStringLiteral("InitialPreference"),
-        QStringLiteral("Library"),
         QStringLiteral("DesktopEntryPath"),
         QStringLiteral("DesktopEntryName"),
         QStringLiteral("Keywords"),
@@ -830,12 +816,6 @@ QString KService::exec() const
         qCWarning(SERVICES) << "The desktop entry file" << entryPath() << "has Type=" << d->m_strType << "but has no Exec field.";
     }
     return d->m_strExec;
-}
-
-QString KService::library() const
-{
-    Q_D(const KService);
-    return d->m_strLibrary;
 }
 
 QString KService::icon() const

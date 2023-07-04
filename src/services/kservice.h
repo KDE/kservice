@@ -88,12 +88,6 @@ public:
      *         or QString() if not set
      */
     QString exec() const;
-    /**
-     * Returns the name of the service's library.
-     * @return the name of the library that contains the service's
-     *         implementation, or QString() if not set
-     */
-    QString library() const;
 
     /**
      * Returns the name of the icon.
