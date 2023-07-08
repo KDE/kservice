@@ -83,11 +83,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     m_strType = config->readType();
     entryMap.remove(QStringLiteral("Type"));
     if (m_strType.isEmpty()) {
-        /*kWarning(servicesDebugArea()) << "The desktop entry file " << entryPath
-          << " has no Type=... entry."
-          << " It should be \"Application\" or \"Service\"";
-          m_bValid = false;
-          return;*/
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath << "does not have a \"Type=Application\" set.";
         m_strType = QStringLiteral("Application");
     } else if (m_strType != QLatin1String("Application")) {
         qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "instead of \"Application\"";
