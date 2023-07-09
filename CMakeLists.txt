@@ -40,9 +40,6 @@ ecm_setup_version(PROJECT
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/KF6ServiceConfigVersion.cmake"
                   SOVERSION 6)
 
-set(APPLICATIONS_MENU_NAME applications.menu
-    CACHE STRING "Name to install the applications.menu file as.")
-
 # Dependencies
 set(REQUIRED_QT_VERSION 6.5.0)
 find_package(Qt6 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Xml)

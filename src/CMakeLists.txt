@@ -103,19 +103,6 @@ ecm_generate_headers(KService_HEADERS
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
 
-if (WIN32)
-install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_DATAROOTDIR}/xdg/menus  RENAME ${APPLICATIONS_MENU_NAME} )
-else ()
-install( FILES applications.menu  DESTINATION  ${KDE_INSTALL_SYSCONFDIR}/xdg/menus  RENAME ${APPLICATIONS_MENU_NAME} )
-endif ()
-
-# Local copy for the unittests
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data/menus)
-add_custom_command(TARGET KF6Service PRE_BUILD COMMAND
-    ${CMAKE_COMMAND} -E copy
-    ${CMAKE_CURRENT_SOURCE_DIR}/applications.menu
-    ${CMAKE_BINARY_DIR}/bin/data/menus/${APPLICATIONS_MENU_NAME})
-
 install(TARGETS KF6Service EXPORT KF6ServiceTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES

@@ -49,7 +49,7 @@ private Q_SLOTS:
 
         QDir(menusDir()).removeRecursively();
         QDir().mkpath(menusDir() + QLatin1String{"/fakeSubserviceDirectory"});
-        QFile::copy(QFINDTESTDATA("data/menus/applications.menu"), menusDir() + QLatin1String("/applications.menu"));
+        QFile::copy(QFINDTESTDATA("test-applications.menu"), menusDir() + QLatin1String("/applications.menu"));
 
 #ifdef Q_XDG_PLATFORM
         qputenv("XDG_DATA_DIRS", QFile::encodeName(m_tempDir.path()));

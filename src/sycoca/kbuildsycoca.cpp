@@ -243,7 +243,7 @@ bool KBuildSycoca::build()
             m_vfolder->setTrackId(m_trackId);
         }
 
-        VFolderMenu::SubMenu *kdeMenu = m_vfolder->parseMenu(QStringLiteral(APPLICATIONS_MENU_NAME));
+        VFolderMenu::SubMenu *kdeMenu = m_vfolder->parseMenu(QStringLiteral("applications.menu"));
 
         KServiceGroup::Ptr entry = m_buildServiceGroupFactory->addNew(QStringLiteral("/"), kdeMenu->directoryFile, KServiceGroup::Ptr(), false);
         entry->setLayoutInfo(kdeMenu->layoutList);

@@ -61,6 +61,11 @@ private:
     QMap<QString, KService::Ptr> m_cache;
 };
 
+static QString menusDir()
+{
+    return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String{"/menus"};
+}
+
 // Helper method for all the trader tests, comes from kmimetypetest.cpp
 static bool offerListHasService(const KService::List &offers, const QString &entryPath, bool expected /* if set, show error if not found */)
 {
@@ -134,6 +139,10 @@ private Q_SLOTS:
         QVERIFY(QDir().mkpath(m_localApps));
         QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + QLatin1Char('/');
         QDir(cacheDir).removeRecursively();
+
+        QDir(menusDir()).removeRecursively();
+        QDir(menusDir()).mkpath(QStringLiteral("."));
+        QFile::copy(QFINDTESTDATA("test-applications.menu"), menusDir() + QLatin1String("/applications.menu"));
 
         // Create fake application (associated with text/plain in mimeapps.list)
         fakeTextApplication = m_localApps + QLatin1String{"faketextapplication.desktop"};
