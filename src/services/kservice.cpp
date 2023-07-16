@@ -19,7 +19,6 @@
 #include <QMap>
 #include <QMimeDatabase>
 
-#include <KAuthorized>
 #include <KConfigGroup>
 #include <KDesktopFile>
 #include <KShell>
@@ -683,11 +682,6 @@ bool KService::noDisplay() const
     if (!showOnCurrentPlatform()) {
         return true;
     }
-
-    if (!KAuthorized::authorizeControlModule(storageId())) {
-        return true;
-    }
-
     return false;
 }
 
