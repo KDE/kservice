@@ -70,7 +70,7 @@ msgctxt "@info:shell command-line option"
 msgid ""
 "Do not signal applications to update (deprecated, no longer having any "
 "effect)"
-msgstr "프로그램에 업데이트 신호 보내지 않기(더 이상 사용하지 않음)"
+msgstr "앱에 업데이트 신호 보내지 않기(더 이상 사용하지 않음)"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:105
 #, kde-format
@@ -119,8 +119,8 @@ msgid ""
 "Error launching %1. Either KLauncher is not running anymore, or it failed to "
 "start the application."
 msgstr ""
-"%1을(를) 실행하는 중 오류가 발생했습니다. KLauncher가 실행 중이지 않거나, 프"
-"로그램을 시작하는 데 실패했습니다."
+"%1을(를) 실행하는 중 오류가 발생했습니다. KLauncher가 실행 중이지 않거나, 앱"
+"을 시작하는 데 실패했습니다."
 
 #: kdeinit/ktoolinvocation.cpp:105
 #, kde-format
