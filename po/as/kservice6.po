@@ -3959,7 +3959,7 @@ msgstr ""
 #~ msgstr "প্ৰতিস্থাপন"
 
 #, fuzzy
-#~| msgctxt "@action:button Replace all occurences"
+#~| msgctxt "@action:button Replace all occurrences"
 #~| msgid "&All"
 #~ msgctxt "@action:button Replace all occurrences"
 #~ msgid "&All"
