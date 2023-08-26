@@ -51,12 +51,6 @@ public:
         return !name().isEmpty();
     }
 
-    virtual QVariant property(const QString &name) const
-    {
-        Q_UNUSED(name)
-        return QVariant();
-    }
-
     virtual QStringList propertyNames() const
     {
         return QStringList();

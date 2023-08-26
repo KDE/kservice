@@ -14,6 +14,7 @@
 #include <QCoreApplication>
 #include <QStringList>
 #include <QVariant>
+#include <kserviceconversioncheck_p.h>
 #include <ksycocaentry.h>
 
 #include <optional>
@@ -313,7 +314,21 @@ public:
      */
     QVariant property(const QString &_name, QMetaType::Type t) const;
 
-    using KSycocaEntry::property;
+    /**
+     * Returns the requested property.
+     *
+     * @tparam T the type of the requested property.
+     *
+     * @param name the name of the property.
+     *
+     * @since 6.0
+     */
+    template<typename T>
+    T property(const QString &name) const
+    {
+        KServiceConversionCheck::to_QVariant<T>();
+        return property(name, static_cast<QMetaType::Type>(qMetaTypeId<T>())).value<T>();
+    }
 
     /**
      * Returns a path that can be used for saving changes to this

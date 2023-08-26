@@ -98,9 +98,3 @@ QStringList KSycocaEntry::propertyNames() const
     Q_D(const KSycocaEntry);
     return d->propertyNames();
 }
-
-QVariant KSycocaEntry::property(const QString &name) const
-{
-    Q_D(const KSycocaEntry);
-    return d->property(name);
-}

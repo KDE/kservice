@@ -222,9 +222,9 @@ void KServiceTest::testProperty()
 
     KService::Ptr fakeApp = KService::serviceByDesktopName(QStringLiteral("org.kde.foo"));
     QVERIFY(fakeApp);
-    QCOMPARE(fakeApp->property(QStringLiteral("X-Flatpak-RenamedFrom")).toString(), QStringLiteral("foo"));
-    QCOMPARE(fakeApp->property(QStringLiteral("X-GNOME-UsesNotifications"), QMetaType::Bool).toBool(), true);
-    QVERIFY(!fakeApp->property(QStringLiteral("Name")).toString().isEmpty());
+    QCOMPARE(fakeApp->property<QString>(QStringLiteral("X-Flatpak-RenamedFrom")), QStringLiteral("foo"));
+    QCOMPARE(fakeApp->property<bool>(QStringLiteral("X-GNOME-UsesNotifications")), true);
+    QVERIFY(!fakeApp->property<QString>(QStringLiteral("Name")).isEmpty());
     QVERIFY(!fakeApp->property(QStringLiteral("Name[fr]"), QMetaType::QString).isValid());
 
     // Restore value
@@ -495,8 +495,8 @@ void KServiceTest::testUntranslatedNames()
     QCOMPARE(app->name(), name + translationPostfix);
     QCOMPARE(app->genericName(), genericName + translationPostfix);
     // Property access
-    QCOMPARE(app->property(QStringLiteral("UntranslatedName")), name);
-    QCOMPARE(app->property(QStringLiteral("UntranslatedGenericName")), genericName);
+    QCOMPARE(app->property<QString>(QStringLiteral("UntranslatedName")), name);
+    QCOMPARE(app->property<QString>(QStringLiteral("UntranslatedGenericName")), genericName);
 }
 
 void KServiceTest::testStartupNotify()

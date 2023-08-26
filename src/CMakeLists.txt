@@ -121,6 +121,7 @@ install(TARGETS KF6Service EXPORT KF6ServiceTargets ${KF_INSTALL_TARGETS_DEFAULT
 install(FILES
    "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
    ${KService_HEADERS}
+   ${CMAKE_CURRENT_SOURCE_DIR}/services/kserviceconversioncheck_p.h # helper header included by kservice.h
    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KService COMPONENT Devel
 )
 

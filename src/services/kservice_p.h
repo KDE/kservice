@@ -56,7 +56,7 @@ public:
         return m_bValid;
     }
 
-    QVariant property(const QString &name) const override;
+    QVariant property(const QString &name) const;
 
     QStringList propertyNames() const override;
 

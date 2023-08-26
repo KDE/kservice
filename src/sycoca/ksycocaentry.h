@@ -87,16 +87,6 @@ public:
     bool isDeleted() const;
 
     /**
-     * Returns the requested property. Some often used properties
-     * have convenience access functions like exec(),
-     * serviceTypes etc.
-     *
-     * @param name the name of the property
-     * @return the property, or invalid if not found
-     */
-    QVariant property(const QString &name) const;
-
-    /**
      * Returns the list of all properties that this service can have.
      * That means, that some of these properties may be empty.
      * @return the list of supported properties
