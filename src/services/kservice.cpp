@@ -84,8 +84,8 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     if (m_strType.isEmpty()) {
         qCWarning(SERVICES) << "The desktop entry file" << entryPath << "does not have a \"Type=Application\" set.";
         m_strType = QStringLiteral("Application");
-    } else if (m_strType != QLatin1String("Application")) {
-        qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "instead of \"Application\"";
+    } else if (m_strType != QLatin1String("Application") && m_strType != QLatin1String("Service")) {
+        qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "instead of \"Application\" or \"Service\"";
         m_bValid = false;
         return;
     }
