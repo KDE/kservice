@@ -97,9 +97,9 @@ public:
     QString icon() const;
     /**
      * Checks whether the application should be run in a terminal.
-     * 
+     *
      * This corresponds to `Terminal=true` in the .desktop file.
-     * 
+     *
      * @return @c true if the application should be run in a terminal.
      */
     bool terminal() const;
@@ -196,6 +196,12 @@ public:
      */
     QString untranslatedGenericName() const;
 
+    /**
+     * @return untranslated name for the given service
+     *
+     * @since 6.0
+     */
+    QString untranslatedName() const;
     /**
      * Returns a list of descriptive keywords for the application, if there are any.
      * @return the list of keywords

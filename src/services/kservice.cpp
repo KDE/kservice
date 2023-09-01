@@ -138,10 +138,9 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     entryMap.remove(QStringLiteral("Comment"));
     m_strGenName = config->readGenericName();
     entryMap.remove(QStringLiteral("GenericName"));
-    QString _untranslatedGenericName = desktopGroup.readEntryUntranslated("GenericName");
-    if (!_untranslatedGenericName.isEmpty()) {
-        entryMap.insert(QStringLiteral("UntranslatedGenericName"), _untranslatedGenericName);
-    }
+    // Store these as member variables too, because the lookup will be significanly faster
+    m_untranslatedGenericName = desktopGroup.readEntryUntranslated("GenericName");
+    m_untranslatedName = desktopGroup.readEntryUntranslated("Name");
 
     m_lstFormFactors = desktopGroup.readEntry("X-KDE-FormFactors", QStringList());
     entryMap.remove(QStringLiteral("X-KDE-FormFactors"));
@@ -294,7 +293,8 @@ void KServicePrivate::load(QDataStream &s)
       >> initpref
       >> m_lstKeywords >> m_strGenName
       >> categories >> menuId >> m_actions >> m_serviceTypes
-      >> m_lstFormFactors;
+      >> m_lstFormFactors
+      >> m_untranslatedName >> m_untranslatedGenericName;
     // clang-format on
 
     m_bAllowAsDefault = bool(def);
@@ -318,7 +318,7 @@ void KServicePrivate::save(QDataStream &s)
     // number in ksycoca.cpp
     s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment << def << m_mapProps
       << m_strLibrary << dst << m_strDesktopEntryName << initpref << m_lstKeywords << m_strGenName << categories << menuId << m_actions << m_serviceTypes
-      << m_lstFormFactors;
+      << m_lstFormFactors << m_untranslatedName << m_untranslatedGenericName;
 }
 
 ////
@@ -494,6 +494,10 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
         return QVariant(m_lstKeywords);
     } else if (_name == QLatin1String("FormFactors")) {
         return QVariant(m_lstFormFactors);
+    } else if (_name == QLatin1String("UntranslatedName")) {
+        return QVariant(m_untranslatedName);
+    } else if (_name == QLatin1String("UntranslatedGenericName")) {
+        return QVariant(m_untranslatedGenericName);
     }
 
     // Ok we need to convert the property from a QString to its real type.
@@ -687,8 +691,14 @@ bool KService::noDisplay() const
 
 QString KService::untranslatedGenericName() const
 {
-    QVariant v = property(QStringLiteral("UntranslatedGenericName"), QMetaType::QString);
-    return v.isValid() ? v.toString() : QString();
+    Q_D(const KService);
+    return d->m_untranslatedGenericName;
+}
+
+QString KService::untranslatedName() const
+{
+    Q_D(const KService);
+    return d->m_untranslatedName;
 }
 
 QString KService::docPath() const

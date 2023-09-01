@@ -56,13 +56,12 @@ void KServiceTest::initTestCase()
     setupXdgDirs();
     QStandardPaths::setTestModeEnabled(true);
 
-    QLoggingCategory::setFilterRules(QStringLiteral("*.debug=true"));
-
     // A non-C locale is necessary for some tests.
     // This locale must have the following properties:
     //   - some character other than dot as decimal separator
     // If it cannot be set, locale-dependent tests are skipped.
     setlocale(LC_ALL, "fr_FR.utf8");
+    QLocale::setDefault(QLocale(QStringLiteral("fr_FR")));
     m_hasNonCLocale = (setlocale(LC_ALL, nullptr) == QByteArray("fr_FR.utf8"));
     if (!m_hasNonCLocale) {
         qDebug() << "Setting locale to fr_FR.utf8 failed";
@@ -110,6 +109,16 @@ void KServiceTest::initTestCase()
         qDebug() << "Created" << otherTestApp;
         mustUpdateKSycoca = true;
     }
+    // testnames.desktop
+    const QString namesTestApp = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.testnames.desktop");
+    if (!QFile::exists(namesTestApp)) {
+        QVERIFY(QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)));
+        const QString src = QFINDTESTDATA("org.kde.testnames.desktop");
+        QVERIFY(!src.isEmpty());
+        QVERIFY2(QFile::copy(src, namesTestApp), qPrintable(namesTestApp));
+        qDebug() << "Created" << namesTestApp;
+        mustUpdateKSycoca = true;
+    }
 
     if (mustUpdateKSycoca) {
         // Update ksycoca in ~/.qttest after creating the above
@@ -117,6 +126,7 @@ void KServiceTest::initTestCase()
     }
     QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp")));
     QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.otherfakeapp")));
+    QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.testnames")));
 }
 
 void KServiceTest::runKBuildSycoca(bool noincremental)
@@ -469,6 +479,24 @@ void KServiceTest::testServiceActionService()
     const KServiceAction action = service.actions().first();
     QCOMPARE(action.service()->property(QStringLiteral("DBusActivatable"), QMetaType::Bool).toBool(), true);
     QCOMPARE(action.service()->actions().size(), 2);
+}
+
+void KServiceTest::testUntranslatedNames()
+{
+    const QString name = QStringLiteral("Name");
+    const QString genericName = QStringLiteral("GenericName");
+    QLatin1String translationPostfix(" trans");
+
+    KService::Ptr app = KService::serviceByDesktopName(QStringLiteral("org.kde.testnames"));
+    QVERIFY(app);
+    QVERIFY(app->isValid());
+    QCOMPARE(app->untranslatedName(), name);
+    QCOMPARE(app->untranslatedGenericName(), genericName);
+    QCOMPARE(app->name(), name + translationPostfix);
+    QCOMPARE(app->genericName(), genericName + translationPostfix);
+    // Property access
+    QCOMPARE(app->property(QStringLiteral("UntranslatedName")), name);
+    QCOMPARE(app->property(QStringLiteral("UntranslatedGenericName")), genericName);
 }
 
 #include "moc_kservicetest.cpp"

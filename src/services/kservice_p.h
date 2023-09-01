@@ -84,6 +84,8 @@ public:
     QStringList m_lstFormFactors;
     QStringList m_lstKeywords;
     QString m_strGenName;
+    QString m_untranslatedGenericName;
+    QString m_untranslatedName;
     QList<KServiceAction> m_actions;
     bool m_bAllowAsDefault : 1;
     bool m_bTerminal : 1;
