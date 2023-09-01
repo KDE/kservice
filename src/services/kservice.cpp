@@ -52,8 +52,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
 
     bool absPath = !QDir::isRelativePath(entryPath);
 
-    // TODO: it makes sense to have a KConstConfigGroup I guess
-    const KConfigGroup desktopGroup = const_cast<KDesktopFile *>(config)->desktopGroup();
+    const KConfigGroup desktopGroup = config->desktopGroup();
     QMap<QString, QString> entryMap = desktopGroup.entryMap();
 
     entryMap.remove(QStringLiteral("Encoding")); // reserved as part of Desktop Entry Standard
