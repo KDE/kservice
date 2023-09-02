@@ -78,8 +78,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         }
     }
 
-    m_strType = config->readType();
-    entryMap.remove(QStringLiteral("Type"));
+    m_strType = entryMap.take(QStringLiteral("Type"));
     if (m_strType.isEmpty()) {
         qCWarning(SERVICES) << "The desktop entry file" << entryPath << "does not have a \"Type=Application\" set.";
         m_strType = QStringLiteral("Application");
@@ -93,8 +92,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     // various expansions, like $HOME.  Note that the expansion
     // behaviour still happens if the "e" flag is set, maintaining
     // backwards compatibility.
-    m_strExec = desktopGroup.readEntry("Exec", QString());
-    entryMap.remove(QStringLiteral("Exec"));
+    m_strExec = entryMap.take(QStringLiteral("Exec"));
 
     // In case Try Exec is set, check if the application is available
     if (!config->tryExec()) {
@@ -116,18 +114,14 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     // (e.g. "/usr/share/applications/org.kde.kate" --> "org.kde.kate")
     QString _name = KServiceUtilPrivate::completeBaseName(entryPath);
 
-    m_strIcon = config->readIcon();
-    entryMap.remove(QStringLiteral("Icon"));
-    m_bTerminal = desktopGroup.readEntry("Terminal", false); // should be a property IMHO
+    m_strIcon = entryMap.take(QStringLiteral("Icon"));
+    m_bTerminal = desktopGroup.readEntry("Terminal", false);
     entryMap.remove(QStringLiteral("Terminal"));
-    m_strTerminalOptions = desktopGroup.readEntry("TerminalOptions"); // should be a property IMHO
-    entryMap.remove(QStringLiteral("TerminalOptions"));
-    m_strWorkingDirectory = KShell::tildeExpand(config->readPath());
-    entryMap.remove(QStringLiteral("Path"));
-    m_strComment = config->readComment();
-    entryMap.remove(QStringLiteral("Comment"));
-    m_strGenName = config->readGenericName();
-    entryMap.remove(QStringLiteral("GenericName"));
+    m_strTerminalOptions = entryMap.take(QStringLiteral("TerminalOptions"));
+    m_strWorkingDirectory = KShell::tildeExpand(entryMap.take(QStringLiteral("Path")));
+    m_strComment = entryMap.take(QStringLiteral("Comment"));
+    m_strGenName = entryMap.take(QStringLiteral("GenericName"));
+
     // Store these as member variables too, because the lookup will be significanly faster
     m_untranslatedGenericName = desktopGroup.readEntryUntranslated("GenericName");
     m_untranslatedName = desktopGroup.readEntryUntranslated("Name");
