@@ -97,15 +97,6 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     m_strExec = desktopGroup.readEntry("Exec", QString());
     entryMap.remove(QStringLiteral("Exec"));
 
-    if (m_strType == QLatin1String("Application")) {
-        // It's an application? Should have an Exec line then, otherwise we can't run it
-        if (m_strExec.isEmpty()) {
-            qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has Type=" << m_strType << "but no Exec line";
-            m_bValid = false;
-            return;
-        }
-    }
-
     // In case Try Exec is set, check if the application is available
     if (!config->tryExec()) {
         q->setDeleted(true);
