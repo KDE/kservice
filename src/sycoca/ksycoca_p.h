@@ -96,8 +96,6 @@ public:
     KServiceFactory *serviceFactory();
     KServiceGroupFactory *serviceGroupFactory();
 
-    void addLocalResourceDir(const QString &path);
-
     enum {
         DatabaseNotOpen, // openDatabase must be called
         BadVersion, // it's opened, but it's not usable

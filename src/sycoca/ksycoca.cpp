@@ -349,13 +349,6 @@ KServiceGroupFactory *KSycocaPrivate::serviceGroupFactory()
     return m_serviceGroupFactory;
 }
 
-// Add local paths to the list of dirs we got from the global database
-void KSycocaPrivate::addLocalResourceDir(const QString &path)
-{
-    // If any local path is more recent than the time the global sycoca was created, build a local sycoca.
-    allResourceDirs.insert(path, timeStamp);
-}
-
 // Read-write constructor - only for KBuildSycoca
 KSycoca::KSycoca(bool /* dummy */)
     : d(new KSycocaPrivate(this))
