@@ -213,9 +213,7 @@ void KBuildServiceFactory::populateServiceTypes()
 {
     QMimeDatabase db;
     // For every service...
-    auto servIt = m_entryDict->cbegin();
-    const auto endIt = m_entryDict->cend();
-    for (; servIt != endIt; ++servIt) {
+    for (auto servIt = m_entryDict->cbegin(), endIt = m_entryDict->cend(); servIt != endIt; ++servIt) {
         KService::Ptr service(static_cast<KService *>(servIt.value().data()));
         const bool hidden = !service->showInCurrentDesktop();
 

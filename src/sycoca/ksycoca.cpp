@@ -311,15 +311,18 @@ QDataStream *&KSycocaPrivate::stream()
 void KSycocaPrivate::slotDatabaseChanged()
 {
     qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal";
-    // KDirWatch tells us the database file changed
-    // We would have found out in the next call to ensureCacheValid(), but for
-    // now keep the call to closeDatabase, to help refcounting to 0 the old mmapped file earlier.
-    closeDatabase();
-    // Start monitoring the new file right away
-    m_databasePath = findDatabase();
+    // In case we have changed the database outselves, we have already notified the application
+    if (!m_dbLastModified.isValid() || m_dbLastModified != QFileInfo(m_databasePath).lastModified()) {
+        // KDirWatch tells us the database file changed
+        // We would have found out in the next call to ensureCacheValid(), but for
+        // now keep the call to closeDatabase, to help refcounting to 0 the old mmapped file earlier.
+        closeDatabase();
+        // Start monitoring the new file right away
+        m_databasePath = findDatabase();
 
-    // Now notify applications
-    Q_EMIT q->databaseChanged();
+        // Now notify applications
+        Q_EMIT q->databaseChanged();
+    }
 }
 
 KMimeTypeFactory *KSycocaPrivate::mimeTypeFactory()
@@ -680,6 +683,7 @@ bool KSycocaPrivate::buildSycoca()
         qCDebug(SYCOCA) << "Still no database...";
         return false;
     }
+    Q_EMIT q->databaseChanged();
     return true;
 }
 
