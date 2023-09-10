@@ -147,7 +147,6 @@ public:
      */
     void ensureCacheValid(); // Warning for kservice code: this can delete all the factories.
 
-Q_SIGNALS:
     /**
      * Connect to this to get notified when the database changes.
      *
@@ -157,7 +156,7 @@ Q_SIGNALS:
      * and which is always visible (otherwise querying sycoca before showing
      * could be enough).
      */
-    void databaseChanged(); // clazy:exclude=overloaded-signal
+    Q_SIGNAL void databaseChanged();
 
 protected:
     // @internal used by kbuildsycoca
