@@ -310,9 +310,6 @@ QDataStream *&KSycocaPrivate::stream()
 
 void KSycocaPrivate::slotDatabaseChanged()
 {
-    // We don't have information anymore on what resources changed, so emit them all
-    changeList = QStringList() << QStringLiteral("services") << QStringLiteral("servicetypes") << QStringLiteral("xdgdata-mime") << QStringLiteral("apps");
-
     qCDebug(SYCOCA) << QThread::currentThread() << "got a notifyDatabaseChanged signal";
     // KDirWatch tells us the database file changed
     // We would have found out in the next call to ensureCacheValid(), but for

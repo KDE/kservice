@@ -108,7 +108,6 @@ public:
     qint64 timeStamp; // in ms since epoch
     enum { StrategyMmap, StrategyMemFile, StrategyFile } m_sycocaStrategy;
     QString m_databasePath;
-    QStringList changeList;
     QString language;
     quint32 updateSig;
     QMap<QString, qint64> allResourceDirs; // path, modification time in "ms since epoch"
