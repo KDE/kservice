@@ -643,7 +643,8 @@ void KSycocaPrivate::checkDirectories()
 
 bool KSycocaPrivate::needsRebuild()
 {
-    if (!timeStamp && databaseStatus == DatabaseOK) {
+    // In case it is not open, it might be due to another process/thread having rebuild it. Thus we read the header for both the not open and ok state
+    if (!timeStamp && databaseStatus != BadVersion) {
         (void)readSycocaHeader();
     }
     // these days timeStamp is really a "bool headerFound", the value itself doesn't matter...
