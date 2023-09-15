@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-02 00:43+0000\n"
+"POT-Creation-Date: 2023-09-15 00:42+0000\n"
 "PO-Revision-Date: 2015-11-04 15:15+0000\n"
 "Last-Translator: Michael Bauer <fios@akerbeltz.org>\n"
 "Language-Team: Fòram na Gàidhlig\n"
@@ -202,12 +202,12 @@ msgstr "Cha deach leinn cliant an tèirmineil a thòiseachadh"
 msgid "No service implementing %1"
 msgstr "Chan eil seirbheis sam bith a' toirt %1 gu buil"
 
-#: services/kservice.cpp:1157
+#: services/kservice.cpp:1148
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Chan eil an t-seirbheis a chaidh a shònrachadh dligheach"
 
-#: services/kservice.cpp:1161
+#: services/kservice.cpp:1152
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr ""

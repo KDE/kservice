@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kde4libs\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-02 00:43+0000\n"
+"POT-Creation-Date: 2023-09-15 00:42+0000\n"
 "PO-Revision-Date: 2012-01-19 00:20-0500\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: Albanian <sq@li.org>\n"
@@ -220,12 +220,12 @@ msgstr ""
 msgid "No service implementing %1"
 msgstr ""
 
-#: services/kservice.cpp:1157
+#: services/kservice.cpp:1148
 #, kde-format
 msgid "The provided service is not valid"
 msgstr ""
 
-#: services/kservice.cpp:1161
+#: services/kservice.cpp:1152
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr ""

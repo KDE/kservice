@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-02 00:43+0000\n"
+"POT-Creation-Date: 2023-09-15 00:42+0000\n"
 "PO-Revision-Date: 2021-10-06 15:37+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -217,12 +217,12 @@ msgstr "Il est impossible de lancer le client de terminal"
 msgid "No service implementing %1"
 msgstr "Aucun service n'implémente %1"
 
-#: services/kservice.cpp:1157
+#: services/kservice.cpp:1148
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Le service fourni n'est pas valable"
 
-#: services/kservice.cpp:1161
+#: services/kservice.cpp:1152
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr ""

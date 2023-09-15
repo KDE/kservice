@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-02 00:43+0000\n"
+"POT-Creation-Date: 2023-09-15 00:42+0000\n"
 "PO-Revision-Date: 2016-09-09 02:56+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-i18n-doc@kde.org>\n"
@@ -198,12 +198,12 @@ msgstr "Terminalikliendi käivitamine nurjus"
 msgid "No service implementing %1"
 msgstr "%1 rakendamiseks puudub teenus"
 
-#: services/kservice.cpp:1157
+#: services/kservice.cpp:1148
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "Määratud teenus ei ole korrektne"
 
-#: services/kservice.cpp:1161
+#: services/kservice.cpp:1152
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr "Teenus '%1' ei paku teeki või puudub võti Library "
