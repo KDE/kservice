@@ -52,7 +52,7 @@ static void eraseProfiles()
 
 void KServiceTest::initTestCase()
 {
-    // Set up a layer in the bin dir so ksycoca finds the KPluginInfo and Application servicetypes
+    // Set up a layer in the bin dir so ksycoca finds the Application servicetypes
     setupXdgDirs();
     QStandardPaths::setTestModeEnabled(true);
 

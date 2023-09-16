@@ -170,15 +170,6 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     m_bAllowAsDefault = desktopGroup.readEntry("AllowDefault", true);
     entryMap.remove(QStringLiteral("AllowDefault"));
 
-    // allow plugin users to translate categories without needing a separate key
-    auto entryIt = entryMap.find(QStringLiteral("X-KDE-PluginInfo-Category"));
-    if (entryIt != entryMap.end()) {
-        const QString &key = entryIt.key();
-        m_mapProps.insert(key, QVariant(desktopGroup.readEntryUntranslated(key)));
-        m_mapProps.insert(key + QLatin1String("-Translated"), QVariant(entryIt.value()));
-        entryMap.erase(entryIt);
-    }
-
     // Store all additional entries in the property map.
     // A QMap<QString,QString> would be easier for this but we can't
     // break BC, so we have to store it in m_mapProps.
