@@ -126,13 +126,11 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     m_untranslatedGenericName = desktopGroup.readEntryUntranslated("GenericName");
     m_untranslatedName = desktopGroup.readEntryUntranslated("Name");
 
-    m_lstFormFactors = desktopGroup.readEntry("X-KDE-FormFactors", QStringList());
-    entryMap.remove(QStringLiteral("X-KDE-FormFactors"));
+    m_lstFormFactors = entryMap.take(QStringLiteral("X-KDE-FormFactors")).split(QLatin1Char(' '), Qt::SkipEmptyParts);
 
     m_lstKeywords = desktopGroup.readXdgListEntry("Keywords", QStringList());
     entryMap.remove(QStringLiteral("Keywords"));
-    m_lstKeywords += desktopGroup.readEntry("X-KDE-Keywords", QStringList());
-    entryMap.remove(QStringLiteral("X-KDE-Keywords"));
+    m_lstKeywords += entryMap.take(QStringLiteral("X-KDE-Keywords")).split(QLatin1Char(' '), Qt::SkipEmptyParts);
     categories = desktopGroup.readXdgListEntry("Categories");
     entryMap.remove(QStringLiteral("Categories"));
 
