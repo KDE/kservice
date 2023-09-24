@@ -69,7 +69,7 @@ public:
     QString m_strComment;
     QString m_strLibrary;
 
-    int m_initialPreference; // deprecated
+    int m_initialPreference = 1; // deprecated
     // the initial preference is per-servicetype now.
     QList<KService::ServiceTypeAndPreference> m_serviceTypes;
 

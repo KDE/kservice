@@ -128,45 +128,48 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
 
     m_lstFormFactors = entryMap.take(QStringLiteral("X-KDE-FormFactors")).split(QLatin1Char(' '), Qt::SkipEmptyParts);
 
-    m_lstKeywords = desktopGroup.readXdgListEntry("Keywords", QStringList());
-    entryMap.remove(QStringLiteral("Keywords"));
+    if (entryMap.remove(QStringLiteral("Keywords"))) {
+        m_lstKeywords = desktopGroup.readXdgListEntry("Keywords");
+    }
     m_lstKeywords += entryMap.take(QStringLiteral("X-KDE-Keywords")).split(QLatin1Char(' '), Qt::SkipEmptyParts);
-    categories = desktopGroup.readXdgListEntry("Categories");
-    entryMap.remove(QStringLiteral("Categories"));
+    if (entryMap.remove(QStringLiteral("Categories"))) {
+        categories = desktopGroup.readXdgListEntry("Categories");
+    }
 
-    const QStringList lstServiceTypes = desktopGroup.readXdgListEntry("MimeType");
-    entryMap.remove(QStringLiteral("MimeType"));
-
-    m_initialPreference = desktopGroup.readEntry("InitialPreference", 1);
-    entryMap.remove(QStringLiteral("InitialPreference"));
-
-    // Assign the "initial preference" to each mimetype/servicetype
-    // (and to set such preferences in memory from kbuildsycoca)
-    m_serviceTypes.reserve(lstServiceTypes.size());
-    QListIterator<QString> st_it(lstServiceTypes);
-    while (st_it.hasNext()) {
-        const QString st = st_it.next();
-        if (st.isEmpty()) {
-            qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has an empty MimeType!";
-            continue;
-        }
-        int initialPreference = m_initialPreference;
-        if (st_it.hasNext()) {
-            // TODO better syntax - separate group with mimetype=number entries?
-            bool isNumber;
-            const int val = st_it.peekNext().toInt(&isNumber);
-            if (isNumber) {
-                initialPreference = val;
-                st_it.next();
+    if (entryMap.remove(QStringLiteral("MimeType"))) {
+        const QStringList lstServiceTypes = desktopGroup.readXdgListEntry("MimeType");
+        // Assign the "initial preference" to each mimetype/servicetype
+        // (and to set such preferences in memory from kbuildsycoca)
+        m_serviceTypes.reserve(lstServiceTypes.size());
+        QListIterator<QString> st_it(lstServiceTypes);
+        while (st_it.hasNext()) {
+            const QString st = st_it.next();
+            if (st.isEmpty()) {
+                qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has an empty MimeType!";
+                continue;
             }
+            int initialPreference = m_initialPreference;
+            if (st_it.hasNext()) {
+                // TODO better syntax - separate group with mimetype=number entries?
+                bool isNumber;
+                const int val = st_it.peekNext().toInt(&isNumber);
+                if (isNumber) {
+                    initialPreference = val;
+                    st_it.next();
+                }
+            }
+            m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
         }
-        m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
+    }
+    if (entryMap.remove(QStringLiteral("InitialPreference"))) {
+        m_initialPreference = desktopGroup.readEntry("InitialPreference", 1);
     }
 
     m_strDesktopEntryName = _name;
 
-    m_bAllowAsDefault = desktopGroup.readEntry("AllowDefault", true);
-    entryMap.remove(QStringLiteral("AllowDefault"));
+    if (entryMap.remove(QStringLiteral("AllowDefault"))) {
+        m_bAllowAsDefault = desktopGroup.readEntry("AllowDefault", true);
+    }
 
     // Store all additional entries in the property map.
     // A QMap<QString,QString> would be easier for this but we can't
