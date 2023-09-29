@@ -10,6 +10,7 @@
 #define KSERVICEPRIVATE_H
 
 #include "kservice.h"
+#include <KDesktopFileAction>
 #include <QVector>
 
 #include <ksycocaentry_p.h>
@@ -86,7 +87,7 @@ public:
     QString m_strGenName;
     QString m_untranslatedGenericName;
     QString m_untranslatedName;
-    QList<KServiceAction> m_actions;
+    QList<KDesktopFileAction> m_actions;
     bool m_bAllowAsDefault : 1;
     bool m_bTerminal : 1;
     bool m_bValid : 1;

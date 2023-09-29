@@ -10,7 +10,6 @@
 #ifndef KSERVICE_H
 #define KSERVICE_H
 
-#include "kserviceaction.h"
 #include <QCoreApplication>
 #include <QStringList>
 #include <QVariant>
@@ -18,8 +17,7 @@
 
 class QDataStream;
 class KDesktopFile;
-class QWidget;
-
+class KDesktopFileAction;
 class KServicePrivate;
 
 /**
@@ -245,7 +243,7 @@ public:
     /**
      * Returns the actions defined in this desktop file
      */
-    QList<KServiceAction> actions() const;
+    QList<KDesktopFileAction> actions() const;
 
     /**
      * Checks whether this application can handle several files as
@@ -480,7 +478,7 @@ private:
     /// @internal for KBuildSycoca only
     QVector<ServiceTypeAndPreference> _k_accessServiceTypes();
 
-    void setActions(const QList<KServiceAction> &actions);
+    void setActions(const QList<KDesktopFileAction> &actions);
 
     friend QDataStream &operator>>(QDataStream &, ServiceTypeAndPreference &);
     friend QDataStream &operator<<(QDataStream &, const ServiceTypeAndPreference &);

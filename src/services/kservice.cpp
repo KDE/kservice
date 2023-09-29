@@ -212,7 +212,7 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
 
     for (const QString &group : keys) {
         if (group == QLatin1String("_SEPARATOR_")) {
-            m_actions.append(KServiceAction(group, QString(), QString(), QString(), false, serviceClone));
+            m_actions.append(KDesktopFileAction(group, QString(), QString(), QString(), q->entryPath()));
             continue;
         }
 
@@ -221,22 +221,7 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
             if (!cg.hasKey("Name") || !cg.hasKey("Exec")) {
                 qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Name or no Exec key";
             } else {
-                const QMap<QString, QString> entries = cg.entryMap();
-
-                QVariantMap entriesVariants;
-
-                for (auto it = entries.constKeyValueBegin(); it != entries.constKeyValueEnd(); ++it) {
-                    // Those are stored separately
-                    if (it->first == QLatin1String("Name") || it->first == QLatin1String("Icon") || it->first == QLatin1String("Exec")
-                        || it->first == QLatin1String("NoDisplay")) {
-                        continue;
-                    }
-
-                    entriesVariants.insert(it->first, it->second);
-                }
-
-                KServiceAction action(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), cg.readEntry("NoDisplay", false), serviceClone);
-                action.setData(QVariant::fromValue(entriesVariants));
+                KDesktopFileAction action(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), q->entryPath());
                 m_actions.append(action);
             }
         } else {
@@ -245,6 +230,31 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
     }
 
     serviceClone->setActions(m_actions);
+}
+
+QDataStream &operator>>(QDataStream &in, KDesktopFileAction &action)
+{
+    QString actionsKey, desktopFilePath, name, icon, exec;
+
+    in >> actionsKey;
+    in >> desktopFilePath;
+    in >> name;
+    in >> icon;
+    in >> exec;
+
+    // Create a new KDesktopFileAction instance with the deserialized data
+    action = KDesktopFileAction(actionsKey, name, icon, exec, desktopFilePath);
+
+    return in;
+}
+QDataStream &operator<<(QDataStream &out, const KDesktopFileAction &action)
+{
+    out << action.actionsKey();
+    out << action.desktopFilePath();
+    out << action.name();
+    out << action.icon();
+    out << action.exec();
+    return out;
 }
 
 void KServicePrivate::load(QDataStream &s)
@@ -331,11 +341,6 @@ KService::KService(const KDesktopFile *config, const QString &entryPath)
 KService::KService(QDataStream &_str, int _offset)
     : KSycocaEntry(*new KServicePrivate(_str, _offset))
 {
-    Q_D(KService);
-    KService::Ptr serviceClone(new KService(*this));
-    for (KServiceAction &action : d->m_actions) {
-        action.setService(serviceClone);
-    }
 }
 
 KService::KService(const KService &other)
@@ -937,7 +942,7 @@ QVector<KService::ServiceTypeAndPreference> KService::_k_accessServiceTypes()
     return d->m_serviceTypes;
 }
 
-QList<KServiceAction> KService::actions() const
+QList<KDesktopFileAction> KService::actions() const
 {
     Q_D(const KService);
     return d->m_actions;
@@ -948,7 +953,7 @@ QString KService::aliasFor() const
     return KServiceUtilPrivate::completeBaseName(property(QStringLiteral("X-KDE-AliasFor"), QMetaType::QString).toString());
 }
 
-void KService::setActions(const QList<KServiceAction> &actions)
+void KService::setActions(const QList<KDesktopFileAction> &actions)
 {
     Q_D(KService);
     d->m_actions = actions;

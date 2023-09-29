@@ -17,6 +17,7 @@
 #include <KConfig>
 #include <KConfigGroup>
 #include <KDesktopFile>
+#include <KDesktopFileAction>
 #include <kapplicationtrader.h>
 #include <kbuildsycoca_p.h>
 #include <ksycoca.h>
@@ -315,16 +316,14 @@ void KServiceTest::testActionsAndDataStream()
 {
     KService::Ptr service = KService::serviceByStorageId(QStringLiteral("org.kde.faketestapp.desktop"));
     QVERIFY(service);
-    QVERIFY(!service->property(QStringLiteral("Name[fr]"), QMetaType::QString).isValid());
-    const QList<KServiceAction> actions = service->actions();
+    const QList<KDesktopFileAction> actions = service->actions();
     QCOMPARE(actions.count(), 2); // NewWindow, NewTab
-    const KServiceAction newTabAction = actions.at(1);
-    QCOMPARE(newTabAction.name(), QStringLiteral("NewTab"));
+    const KDesktopFileAction newTabAction = actions.at(1);
+    QCOMPARE(newTabAction.actionsKey(), QStringLiteral("NewTab"));
     QCOMPARE(newTabAction.exec(), QStringLiteral("konsole --new-tab"));
     QCOMPARE(newTabAction.icon(), QStringLiteral("tab-new"));
-    QCOMPARE(newTabAction.noDisplay(), false);
     QVERIFY(!newTabAction.isSeparator());
-    QCOMPARE(newTabAction.service()->name(), service->name());
+    QCOMPARE(newTabAction.desktopFilePath(), service->entryPath());
 }
 
 void KServiceTest::testServiceGroups()
@@ -476,9 +475,8 @@ void KServiceTest::testServiceActionService()
     KService service(filePath);
     QVERIFY(service.isValid());
 
-    const KServiceAction action = service.actions().first();
-    QCOMPARE(action.service()->property(QStringLiteral("DBusActivatable"), QMetaType::Bool).toBool(), true);
-    QCOMPARE(action.service()->actions().size(), 2);
+    const KDesktopFileAction action = service.actions().first();
+    QCOMPARE(KService::serviceByDesktopPath(action.desktopFilePath())->actions().size(), 2);
 }
 
 void KServiceTest::testUntranslatedNames()
