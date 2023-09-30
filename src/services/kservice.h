@@ -16,6 +16,8 @@
 #include <QVariant>
 #include <ksycocaentry.h>
 
+#include <optional>
+
 class QDataStream;
 class KDesktopFile;
 class QWidget;
@@ -458,6 +460,17 @@ public:
      * @return QString desktopName of the aliased application (excluding .desktop suffix)
      */
     QString aliasFor() const;
+
+    /**
+     * Returns the value of StartupNotify for this service.
+     *
+     * If the service doesn't define a value nullopt is returned.
+     *
+     * See StartupNotify in the <a href="https://specifications.freedesktop.org/desktop-entry-spec/latest/">Desktop Entry Specification</a>.
+     *
+     * @since 6.0
+     */
+    std::optional<bool> startupNotify() const;
 
 private:
     friend class KBuildServiceFactory;

@@ -953,3 +953,18 @@ void KService::setActions(const QList<KServiceAction> &actions)
     Q_D(KService);
     d->m_actions = actions;
 }
+
+std::optional<bool> KService::startupNotify() const
+{
+    Q_D(const KService);
+
+    if (QVariant value = d->m_mapProps.value(QStringLiteral("StartupNotify")); value.isValid()) {
+        return value.toBool();
+    }
+
+    if (QVariant value = d->m_mapProps.value(QStringLiteral("X-KDE-StartupNotify")); value.isValid()) {
+        return value.toBool();
+    }
+
+    return {};
+}

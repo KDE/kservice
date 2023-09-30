@@ -499,4 +499,76 @@ void KServiceTest::testUntranslatedNames()
     QCOMPARE(app->property(QStringLiteral("UntranslatedGenericName")), genericName);
 }
 
+void KServiceTest::testStartupNotify()
+{
+    {
+        QString fakeAppPath = KService::newServicePath(false, QStringLiteral("org.kde.startupnotify1"));
+        KDesktopFile file(fakeAppPath);
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Name", "Foo");
+        group.writeEntry("Type", "Application");
+        group.writeEntry("StartupNotify", true);
+        group.sync();
+
+        KService fakeApp(fakeAppPath);
+        QVERIFY(fakeApp.isValid());
+        QVERIFY(fakeApp.startupNotify().value());
+    }
+
+    {
+        QString fakeAppPath = KService::newServicePath(false, QStringLiteral("org.kde.startupnotify2"));
+        KDesktopFile file(fakeAppPath);
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Name", "Foo");
+        group.writeEntry("Type", "Application");
+        group.writeEntry("StartupNotify", false);
+        group.sync();
+
+        KService fakeApp(fakeAppPath);
+        QVERIFY(fakeApp.isValid());
+        QVERIFY(!fakeApp.startupNotify().value());
+    }
+
+    {
+        QString fakeAppPath = KService::newServicePath(false, QStringLiteral("org.kde.startupnotify1"));
+        KDesktopFile file(fakeAppPath);
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Name", "Foo");
+        group.writeEntry("Type", "Application");
+        group.writeEntry("X-KDE-StartupNotify", true);
+        group.sync();
+
+        KService fakeApp(fakeAppPath);
+        QVERIFY(fakeApp.isValid());
+        QVERIFY(fakeApp.startupNotify().value());
+    }
+
+    {
+        QString fakeAppPath = KService::newServicePath(false, QStringLiteral("org.kde.startupnotify2"));
+        KDesktopFile file(fakeAppPath);
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Name", "Foo");
+        group.writeEntry("Type", "Application");
+        group.writeEntry("X-KDE-StartupNotify", false);
+        group.sync();
+
+        KService fakeApp(fakeAppPath);
+        QVERIFY(fakeApp.isValid());
+        QVERIFY(!fakeApp.startupNotify().value());
+    }
+
+    {
+        QString fakeAppPath = KService::newServicePath(false, QStringLiteral("org.kde.startupnotify3"));
+        KDesktopFile file(fakeAppPath);
+        KConfigGroup group = file.desktopGroup();
+        group.writeEntry("Name", "Foo");
+        group.writeEntry("Type", "Application");
+        group.sync();
+
+        KService fakeApp(fakeAppPath);
+        QVERIFY(fakeApp.isValid());
+        QVERIFY(!fakeApp.startupNotify().has_value());
+    }
+}
+
 #include "moc_kservicetest.cpp"
