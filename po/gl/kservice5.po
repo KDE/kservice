@@ -138,7 +138,7 @@ msgid ""
 "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
 "%2\n"
 msgstr ""
-"Non se puido acadar KLauncher mediante D-Bus. Ocorreu un erro ao chamar a "
+"Non foi posíbel acadar KLauncher mediante D-Bus. Ocorreu un erro ao chamar a "
 "%1:\n"
 "%2\n"
 
@@ -149,14 +149,14 @@ msgid ""
 "\n"
 "%1"
 msgstr ""
-"Non se puido iniciar o cliente de correo:\n"
+"Non foi posíbel iniciar o cliente de correo:\n"
 "\n"
 "%1"
 
 #: kdeinit/ktoolinvocation_x11.cpp:235
 #, kde-format
 msgid "Could not launch Mail Client"
-msgstr "Non se puido iniciar o cliente de correo"
+msgstr "Non foi posíbel iniciar o cliente de correo"
 
 #. i18n("Could not launch %1:\n\n%2", exe, error),
 #. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
@@ -169,7 +169,7 @@ msgid ""
 "\n"
 "%1"
 msgstr ""
-"Non se puido iniciar o navegador:\n"
+"Non foi posíbel iniciar o navegador:\n"
 "\n"
 "%1"
 
@@ -177,12 +177,12 @@ msgstr ""
 #: kdeinit/ktoolinvocation_x11.cpp:329
 #, kde-format
 msgid "Could not launch Browser"
-msgstr "Non se puido iniciar o navegador"
+msgstr "Non foi posíbel iniciar o navegador"
 
 #: kdeinit/ktoolinvocation_x11.cpp:342
 #, kde-format
 msgid "Unable to determine the default terminal"
-msgstr "Non se pode determinar o terminal predeterminado"
+msgstr "Non é posíbel determinar o terminal predeterminado"
 
 #: kdeinit/ktoolinvocation_x11.cpp:354
 #, kde-format
@@ -191,14 +191,14 @@ msgid ""
 "\n"
 "%1"
 msgstr ""
-"Non se puido iniciar o cliente de terminal:\n"
+"Non foi posíbel iniciar o cliente de terminal:\n"
 "\n"
 "%1"
 
 #: kdeinit/ktoolinvocation_x11.cpp:355
 #, kde-format
 msgid "Could not launch Terminal Client"
-msgstr "Non se puido iniciar o cliente de terminal"
+msgstr "Non foi posíbel iniciar o cliente de terminal"
 
 #: plugin/kdbusservicestarter.cpp:68
 #, kde-format
