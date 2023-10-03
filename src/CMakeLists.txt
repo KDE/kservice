@@ -160,6 +160,3 @@ endif()
 
 add_subdirectory(kbuildsycoca)
 
-include(ECMGeneratePriFile)
-ecm_generate_pri_file(BASE_NAME KService LIB_NAME KF6Service DEPS "KConfigCore" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF}/KService)
-install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})

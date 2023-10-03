@@ -12,8 +12,7 @@ portingAid: false
 deprecated: false
 release: true
 libraries:
- - qmake: KService
-   cmake: "KF6::Service"
+ - cmake: "KF6::Service"
 cmakename: KF6Service
 
 public_lib: true
