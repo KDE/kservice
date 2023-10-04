@@ -17,19 +17,20 @@
 # Meni Livne <livne@kde.org>, 2007.
 # tahmar1900 <tahmar1900@gmail.com>, 2008, 2009.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
+# SPDX-FileCopyrightText: 2023 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kservice5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-01 21:29+0000\n"
-"PO-Revision-Date: 2017-05-16 06:50-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2023-10-02 11:20+0300\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Lokalize 23.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -43,64 +44,64 @@ msgid "Your emails"
 msgstr "kde-l10n-he@kde.org"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:90
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "application name"
 msgid "KBuildSycoca"
 msgstr "KBuildSycoca"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:92
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "application description"
 msgid "Rebuilds the system configuration cache."
-msgstr "בונה מחדש את מטמון הגדרות המערכת."
+msgstr "בונה את מטמון הגדרות המערכת מחדש."
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:94
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:credit"
 msgid "Copyright 1999-2014 KDE Developers"
-msgstr "המפתחים של KDE,‏ 1999-2002 כל הזכויות שמורות"
+msgstr "כל הזכויות שמורות 1999‏-2014 למפתחי KDE"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
-msgstr "David Faure"
+msgstr "דוד פור"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:credit"
 msgid "Author"
-msgstr "עורך"
+msgstr "יוצר"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:credit"
 msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
+msgstr "ולדו בסטיאן"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:102
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
-msgstr "אל תאפשר עדכון חלקי, קרא מחדש הכל"
+msgstr "השבתת עדכון מצטבר, לקרוא הכול מחדש"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
-msgstr "בצע בדיקת יצירת תפריטים בלבד"
+msgstr "ביצוע ריצת בדיקת יצירת תפריט בלבד"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:105
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
-msgstr "עקוב אחר זיהוי תפריטים לצורכי ניפוי באגים"
+msgstr "מעקב אחר מזהה תפריט למטרות ניפוי תקלות"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
-msgstr ""
+msgstr "העברת QStandardPaths למצב בדיקה, למטרות בדיקת יחידה בלבד"
 
 #, fuzzy
 #~ msgctxt "@info:shell command-line option"
