@@ -6,20 +6,20 @@
 # Richard Allen <ra@ra.is>, 1998-2004.
 # Pjetur G. Hjaltason <pjetur@pjetur.net>, 2003.
 # Arnar Leósson <leosson@frisurf.no>, 2003, 2005.
-# Sveinn í Felli <sveinki@nett.is>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2016, 2022.
+# Sveinn í Felli <sveinki@nett.is>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2016, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-15 00:42+0000\n"
-"PO-Revision-Date: 2022-06-22 10:00+0000\n"
+"PO-Revision-Date: 2023-10-05 09:41+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.12.3\n"
+"X-Generator: Lokalize 22.04.3\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=n != 1;\n"
 "\n"
 "\n"
@@ -123,6 +123,7 @@ msgstr "Fylgjast með valmyndanúmeri vegna villuleitar"
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
+"Skipta QStandardPaths yfir í prófunarham, aðeins fyrir 'unit test' prófanir"
 
 #: kdeinit/ktoolinvocation.cpp:61
 #, kde-format
