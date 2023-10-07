@@ -517,16 +517,13 @@ KService::Ptr KService::serviceByStorageId(const QString &_storageId)
 
 bool KService::substituteUid() const
 {
-    QVariant v = property(QStringLiteral("X-KDE-SubstituteUID"), QMetaType::Bool);
-    return v.isValid() && v.toBool();
+    return property<bool>(QStringLiteral("X-KDE-SubstituteUID"));
 }
 
 QString KService::username() const
 {
     // See also KDesktopFile::tryExec()
-    QString user;
-    QVariant v = property(QStringLiteral("X-KDE-Username"), QMetaType::QString);
-    user = v.isValid() ? v.toString() : QString();
+    QString user = property<QString>(QStringLiteral("X-KDE-Username"));
     if (user.isEmpty()) {
         user = QString::fromLocal8Bit(qgetenv("ADMIN_ACCOUNT"));
     }
@@ -606,7 +603,7 @@ bool KService::showOnCurrentPlatform() const
 
 bool KService::noDisplay() const
 {
-    if (qvariant_cast<bool>(property(QStringLiteral("NoDisplay"), QMetaType::Bool))) {
+    if (property<bool>(QStringLiteral("NoDisplay"))) {
         return true;
     }
 
@@ -766,10 +763,10 @@ bool KService::terminal() const
 
 bool KService::runOnDiscreteGpu() const
 {
-    QVariant prop = property(QStringLiteral("PrefersNonDefaultGPU"), QMetaType::Bool);
+    QVariant prop = property<bool>(QStringLiteral("PrefersNonDefaultGPU"));
     if (!prop.isValid()) {
         // For backwards compatibility
-        prop = property(QStringLiteral("X-KDE-RunOnDiscreteGpu"), QMetaType::Bool);
+        prop = property<bool>(QStringLiteral("X-KDE-RunOnDiscreteGpu"));
     }
 
     return prop.isValid() && prop.toBool();
@@ -835,7 +832,7 @@ QStringList KService::supportedProtocols() const
         }
     }
 
-    const QStringList protocols = property(QStringLiteral("X-KDE-Protocols"), QMetaType::QStringList).toStringList();
+    const QStringList protocols = property<QStringList>(QStringLiteral("X-KDE-Protocols"));
     for (const QString &protocol : protocols) {
         if (!ret.contains(protocol)) {
             ret.append(protocol);
@@ -898,7 +895,7 @@ QList<KServiceAction> KService::actions() const
 
 QString KService::aliasFor() const
 {
-    return KServiceUtilPrivate::completeBaseName(property(QStringLiteral("X-KDE-AliasFor"), QMetaType::QString).toString());
+    return KServiceUtilPrivate::completeBaseName(property<QString>(QStringLiteral("X-KDE-AliasFor")));
 }
 
 void KService::setActions(const QList<KServiceAction> &actions)
