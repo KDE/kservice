@@ -11,6 +11,7 @@
 #include <QSharedDataPointer>
 #include <QVariant>
 #include <kservice_export.h>
+#include <kserviceconversioncheck_p.h>
 class QVariant;
 class KServiceActionPrivate;
 class KService;
@@ -110,12 +111,17 @@ public:
     /**
      * Returns the requested property.
      *
-     * @param name the name of the property
-     * @param type the assumed type of the property
-     * @return the property, or an invalid QVariant if not found
-     * @since 5.102
+     * @tparam T the type of the requested property
+     * @param name the name of the requested property
+     * @return the property
+     * @since 6.0
      */
-    QVariant property(const QString &name, QMetaType::Type type) const;
+    template<typename T>
+    T property(const QString &name) const
+    {
+        KServiceConversionCheck::to_QVariant<T>();
+        return property(name, static_cast<QMetaType::Type>(qMetaTypeId<T>())).value<T>();
+    }
 
 private:
     QSharedDataPointer<KServiceActionPrivate> d;
@@ -123,6 +129,8 @@ private:
     friend KSERVICE_EXPORT QDataStream &operator<<(QDataStream &str, const KServiceAction &act);
     friend class KService;
     KSERVICE_NO_EXPORT void setService(const KServicePtr &service);
+
+    QVariant property(const QString &_name, QMetaType::Type type) const;
 };
 
 KSERVICE_EXPORT QDataStream &operator>>(QDataStream &str, KServiceAction &act);
