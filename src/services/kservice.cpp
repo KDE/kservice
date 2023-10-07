@@ -389,37 +389,6 @@ QVariant KService::property(const QString &_name, QMetaType::Type t) const
     return d->property(_name, t);
 }
 
-QMetaType::Type KServicePrivate::typeForProperty(const QString &name)
-{
-    static const QMap<QString, QMetaType::Type> propertyTypeMap = {
-        {QStringLiteral("NoDisplay"), QMetaType::Bool},
-        {QStringLiteral("DocPath"), QMetaType::QString},
-        {QStringLiteral("X-DocPath"), QMetaType::QString},
-        {QStringLiteral("X-KDE-SubstituteUID"), QMetaType::Bool},
-        {QStringLiteral("X-KDE-Username"), QMetaType::QString},
-        {QStringLiteral("StartupWMClass"), QMetaType::QString},
-        {QStringLiteral("StartupNotify"), QMetaType::Bool},
-        {QStringLiteral("X-KDE-WMClass"), QMetaType::QString},
-        {QStringLiteral("X-KDE-StartupNotify"), QMetaType::Bool},
-        {QStringLiteral("X-DBUS-ServiceName"), QMetaType::QString},
-        {QStringLiteral("X-DBUS-StartupType"), QMetaType::QString},
-        {QStringLiteral("X-KDE-ParentApp"), QMetaType::QString},
-        {QStringLiteral("X-KDE-HasTempFileOption"), QMetaType::Bool},
-        {QStringLiteral("X-KDE-Protocols"), QMetaType::QStringList},
-        {QStringLiteral("X-GNOME-UsesNotifications"), QMetaType::Bool},
-        {QStringLiteral("X-Flatpak"), QMetaType::QString},
-        {QStringLiteral("X-Flatpak-RenamedFrom"), QMetaType::QStringList},
-        {QStringLiteral("X-KDE-Wayland-Interfaces"), QMetaType::QStringList},
-        {QStringLiteral("X-KDE-Wayland-VirtualKeyboard"), QMetaType::Bool},
-        {QStringLiteral("X-KDE-DBUS-Restricted-Interfaces"), QMetaType::QStringList},
-        {QStringLiteral("X-KDE-AliasFor"), QMetaType::QString},
-        {QStringLiteral("X-KDE-Shortcuts"), QMetaType::QStringList},
-        {QStringLiteral("X-SnapInstanceName"), QMetaType::QString},
-    };
-
-    return propertyTypeMap[name];
-}
-
 template<>
 QString KService::property<QString>(const QString &_name) const
 {
