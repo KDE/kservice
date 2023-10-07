@@ -481,16 +481,6 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
         return QVariant(m_lstFormFactors);
     }
 
-    // Ok we need to convert the property from a QString to its real type.
-    // Maybe the caller helped us.
-    if (t == QMetaType::UnknownType) {
-        t = typeForProperty(_name);
-        if (t == QMetaType::UnknownType) {
-            qCDebug(SERVICES) << "Request for unknown property" << _name;
-            return QVariant(); // Unknown property: Invalid variant.
-        }
-    }
-
     auto it = m_mapProps.constFind(_name);
     if (it == m_mapProps.cend() || !it.value().isValid()) {
         // qCDebug(SERVICES) << "Property not found " << _name;
