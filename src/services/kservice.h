@@ -306,17 +306,6 @@ public:
     /**
      * Returns the requested property.
      *
-     * @param _name the name of the property
-     * @param t the assumed type of the property
-     * @return the property, or invalid if not found
-     *
-     * @since 5.102
-     */
-    QVariant property(const QString &_name, QMetaType::Type t) const;
-
-    /**
-     * Returns the requested property.
-     *
      * @tparam T the type of the requested property.
      *
      * @param name the name of the property.
@@ -489,6 +478,8 @@ public:
 
 private:
     friend class KBuildServiceFactory;
+
+    QVariant property(const QString &_name, QMetaType::Type t) const;
 
     /// @internal for KBuildSycoca only
     struct KSERVICE_NO_EXPORT ServiceTypeAndPreference {

@@ -260,7 +260,7 @@ void KApplicationTraderTest::testTraderConstraints_data()
 
     // Test another property, parsed as a double
     FF testVersion = [](const KService::Ptr &serv) {
-        double d = serv->property(QStringLiteral("X-KDE-Version"), QMetaType::Double).toDouble();
+        double d = serv->property<double>(QStringLiteral("X-KDE-Version"));
         return d > 5.559 && d < 5.561;
     };
     QTest::newRow("float_parsing") << testVersion << ExpectedResult::FakeApplicationAndOthers;

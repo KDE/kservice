@@ -226,7 +226,7 @@ void KServiceTest::testProperty()
     QCOMPARE(fakeApp->property<QStringList>(QStringLiteral("X-Flatpak-RenamedFrom")), expectedRename);
     QCOMPARE(fakeApp->property<bool>(QStringLiteral("X-GNOME-UsesNotifications")), true);
     QVERIFY(!fakeApp->property<QString>(QStringLiteral("Name")).isEmpty());
-    QVERIFY(!fakeApp->property(QStringLiteral("Name[fr]"), QMetaType::QString).isValid());
+    QVERIFY(fakeApp->property<QString>(QStringLiteral("Name[fr]")).isEmpty());
 
     // Restore value
     ksycoca_ms_between_checks = 1500;
@@ -316,7 +316,7 @@ void KServiceTest::testActionsAndDataStream()
 {
     KService::Ptr service = KService::serviceByStorageId(QStringLiteral("org.kde.faketestapp.desktop"));
     QVERIFY(service);
-    QVERIFY(!service->property(QStringLiteral("Name[fr]"), QMetaType::QString).isValid());
+    QVERIFY(service->property<QString>(QStringLiteral("Name[fr]")).isEmpty());
     const QList<KServiceAction> actions = service->actions();
     QCOMPARE(actions.count(), 2); // NewWindow, NewTab
     const KServiceAction newTabAction = actions.at(1);
@@ -478,7 +478,7 @@ void KServiceTest::testServiceActionService()
     QVERIFY(service.isValid());
 
     const KServiceAction action = service.actions().first();
-    QCOMPARE(action.service()->property(QStringLiteral("DBusActivatable"), QMetaType::Bool).toBool(), true);
+    QCOMPARE(action.service()->property<bool>(QStringLiteral("DBusActivatable")), true);
     QCOMPARE(action.service()->actions().size(), 2);
 }
 
