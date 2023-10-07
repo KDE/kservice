@@ -383,11 +383,6 @@ bool KService::hasMimeType(const QString &mimeType) const
     return std::any_of(d->m_serviceTypes.cbegin(), d->m_serviceTypes.cend(), matchFunc);
 }
 
-QVariant KServicePrivate::property(const QString &_name) const
-{
-    return property(_name, QMetaType::UnknownType);
-}
-
 QVariant KService::property(const QString &_name, QMetaType::Type t) const
 {
     Q_D(const KService);
