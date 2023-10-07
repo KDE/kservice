@@ -484,10 +484,6 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
     // Ok we need to convert the property from a QString to its real type.
     // Maybe the caller helped us.
     if (t == QMetaType::UnknownType) {
-        // No luck, let's ask KServiceTypeFactory what the type of this property
-        // is supposed to be.
-        // ######### this looks in all servicetypes, not just the ones this service supports!
-        KSycoca::self()->ensureCacheValid();
         t = typeForProperty(_name);
         if (t == QMetaType::UnknownType) {
             qCDebug(SERVICES) << "Request for unknown property" << _name;
