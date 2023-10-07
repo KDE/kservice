@@ -515,4 +515,8 @@ private:
      */
     KSERVICE_NO_EXPORT KService(QDataStream &str, int offset);
 };
+
+template<>
+KSERVICE_EXPORT QString KService::property<QString>(const QString &name) const;
+
 #endif

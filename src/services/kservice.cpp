@@ -388,16 +388,6 @@ QVariant KServicePrivate::property(const QString &_name) const
     return property(_name, QMetaType::UnknownType);
 }
 
-// Return a string QVariant if string isn't null, and invalid variant otherwise
-// (the variant must be invalid if the field isn't in the .desktop file)
-// This allows trader queries like "exist Library" to work.
-static QVariant makeStringVariant(const QString &string)
-{
-    // Using isEmpty here would be wrong.
-    // Empty is "specified but empty", null is "not specified" (in the .desktop file)
-    return string.isNull() ? QVariant() : QVariant(string);
-}
-
 QVariant KService::property(const QString &_name, QMetaType::Type t) const
 {
     Q_D(const KService);
@@ -435,44 +425,60 @@ QMetaType::Type KServicePrivate::typeForProperty(const QString &name)
     return propertyTypeMap[name];
 }
 
+template<>
+QString KService::property<QString>(const QString &_name) const
+{
+    Q_D(const KService);
+
+    if (_name == QLatin1String("Type")) {
+        return d->m_strType;
+    } else if (_name == QLatin1String("Name")) {
+        return d->m_strName;
+    } else if (_name == QLatin1String("Exec")) {
+        return d->m_strExec;
+    } else if (_name == QLatin1String("Icon")) {
+        return d->m_strIcon;
+    } else if (_name == QLatin1String("TerminalOptions")) {
+        return d->m_strTerminalOptions;
+    } else if (_name == QLatin1String("Path")) {
+        return d->m_strWorkingDirectory;
+    } else if (_name == QLatin1String("Comment")) {
+        return d->m_strComment;
+    } else if (_name == QLatin1String("GenericName")) {
+        return d->m_strGenName;
+    } else if (_name == QLatin1String("DesktopEntryPath")) {
+        return d->path;
+    } else if (_name == QLatin1String("DesktopEntryName")) {
+        return d->m_strDesktopEntryName;
+    } else if (_name == QLatin1String("UntranslatedName")) {
+        return d->m_untranslatedName;
+    } else if (_name == QLatin1String("UntranslatedGenericName")) {
+        return d->m_untranslatedGenericName;
+    }
+
+    auto it = d->m_mapProps.constFind(_name);
+
+    if (it != d->m_mapProps.cend()) {
+        return it.value().toString();
+    }
+
+    return QString();
+}
+
 QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) const
 {
-    if (_name == QLatin1String("Type")) {
-        return QVariant(m_strType); // can't be null
-    } else if (_name == QLatin1String("Name")) {
-        return QVariant(m_strName); // can't be null
-    } else if (_name == QLatin1String("Exec")) {
-        return makeStringVariant(m_strExec);
-    } else if (_name == QLatin1String("Icon")) {
-        return makeStringVariant(m_strIcon);
-    } else if (_name == QLatin1String("Terminal")) {
+    if (_name == QLatin1String("Terminal")) {
         return QVariant(m_bTerminal);
-    } else if (_name == QLatin1String("TerminalOptions")) {
-        return makeStringVariant(m_strTerminalOptions);
-    } else if (_name == QLatin1String("Path")) {
-        return makeStringVariant(m_strWorkingDirectory);
-    } else if (_name == QLatin1String("Comment")) {
-        return makeStringVariant(m_strComment);
-    } else if (_name == QLatin1String("GenericName")) {
-        return makeStringVariant(m_strGenName);
     } else if (_name == QLatin1String("AllowAsDefault")) {
         return QVariant(m_bAllowAsDefault);
     } else if (_name == QLatin1String("InitialPreference")) {
         return QVariant(m_initialPreference);
-    } else if (_name == QLatin1String("DesktopEntryPath")) { // can't be null
-        return QVariant(path);
-    } else if (_name == QLatin1String("DesktopEntryName")) {
-        return QVariant(m_strDesktopEntryName); // can't be null
     } else if (_name == QLatin1String("Categories")) {
         return QVariant(categories);
     } else if (_name == QLatin1String("Keywords")) {
         return QVariant(m_lstKeywords);
     } else if (_name == QLatin1String("FormFactors")) {
         return QVariant(m_lstFormFactors);
-    } else if (_name == QLatin1String("UntranslatedName")) {
-        return QVariant(m_untranslatedName);
-    } else if (_name == QLatin1String("UntranslatedGenericName")) {
-        return QVariant(m_untranslatedGenericName);
     }
 
     // Ok we need to convert the property from a QString to its real type.
@@ -495,9 +501,7 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
         return QVariant(); // No property set.
     }
 
-    if (t == QMetaType::QString) {
-        return it.value(); // no conversion necessary
-    } else if (it->typeId() == t) {
+    if (it->typeId() == t) {
         return it.value(); // no conversion necessary
     } else {
         // All others
