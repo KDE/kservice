@@ -87,13 +87,6 @@ public:
     bool isDeleted() const;
 
     /**
-     * Returns the list of all properties that this service can have.
-     * That means, that some of these properties may be empty.
-     * @return the list of supported properties
-     */
-    QStringList propertyNames() const;
-
-    /**
      * Sets whether or not this service is deleted
      */
     void setDeleted(bool deleted);

@@ -56,8 +56,6 @@ public:
         return m_bValid;
     }
 
-    QStringList propertyNames() const override;
-
     QVariant property(const QString &_name, QMetaType::Type t) const;
 
     QStringList categories;

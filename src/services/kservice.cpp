@@ -461,30 +461,6 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
     }
 }
 
-QStringList KServicePrivate::propertyNames() const
-{
-    static const QStringList defaultKeys = {
-        QStringLiteral("Type"),
-        QStringLiteral("Name"),
-        QStringLiteral("Comment"),
-        QStringLiteral("GenericName"),
-        QStringLiteral("Icon"),
-        QStringLiteral("Exec"),
-        QStringLiteral("Terminal"),
-        QStringLiteral("TerminalOptions"),
-        QStringLiteral("Path"),
-        QStringLiteral("AllowAsDefault"),
-        QStringLiteral("InitialPreference"),
-        QStringLiteral("DesktopEntryPath"),
-        QStringLiteral("DesktopEntryName"),
-        QStringLiteral("Keywords"),
-        QStringLiteral("FormFactors"),
-        QStringLiteral("Categories"),
-    };
-
-    return m_mapProps.keys() + defaultKeys;
-}
-
 KService::List KService::allServices()
 {
     KSycoca::self()->ensureCacheValid();

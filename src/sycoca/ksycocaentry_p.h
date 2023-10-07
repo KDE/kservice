@@ -51,11 +51,6 @@ public:
         return !name().isEmpty();
     }
 
-    virtual QStringList propertyNames() const
-    {
-        return QStringList();
-    }
-
     virtual QString name() const = 0;
 
     virtual QString storageId() const
