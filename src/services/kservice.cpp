@@ -497,6 +497,8 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
 
     if (t == QMetaType::QString) {
         return it.value(); // no conversion necessary
+    } else if (it->typeId() == t) {
+        return it.value(); // no conversion necessary
     } else {
         // All others
         // For instance properties defined as StringList, like MimeTypes.

@@ -214,7 +214,7 @@ void KServiceTest::testProperty()
         KConfigGroup group = file.desktopGroup();
         group.writeEntry("Name", "Foo");
         group.writeEntry("Type", "Application");
-        group.writeEntry("X-Flatpak-RenamedFrom", "foo");
+        group.writeEntry("X-Flatpak-RenamedFrom", "foo;bar;");
         group.writeEntry("Exec", "bla");
         group.writeEntry("X-GNOME-UsesNotifications", true);
         qDebug() << "created" << fakeAppPath;
@@ -222,7 +222,8 @@ void KServiceTest::testProperty()
 
     KService::Ptr fakeApp = KService::serviceByDesktopName(QStringLiteral("org.kde.foo"));
     QVERIFY(fakeApp);
-    QCOMPARE(fakeApp->property<QString>(QStringLiteral("X-Flatpak-RenamedFrom")), QStringLiteral("foo"));
+    QStringList expectedRename{QStringLiteral("foo"), QStringLiteral("bar")};
+    QCOMPARE(fakeApp->property<QStringList>(QStringLiteral("X-Flatpak-RenamedFrom")), expectedRename);
     QCOMPARE(fakeApp->property<bool>(QStringLiteral("X-GNOME-UsesNotifications")), true);
     QVERIFY(!fakeApp->property<QString>(QStringLiteral("Name")).isEmpty());
     QVERIFY(!fakeApp->property(QStringLiteral("Name[fr]"), QMetaType::QString).isValid());
