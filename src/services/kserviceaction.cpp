@@ -139,14 +139,6 @@ QDataStream &operator<<(QDataStream &str, const KServiceAction &act)
 
 QVariant KServiceAction::property(const QString &_name, QMetaType::Type type) const
 {
-    if (type == QMetaType::UnknownType) {
-        KSycoca::self()->ensureCacheValid();
-        type = KServicePrivate::typeForProperty(_name);
-        if (type == QMetaType::UnknownType) {
-            return QVariant(); // Unknown property: Invalid variant.
-        }
-    }
-
     const auto dataMap = d->m_data.toMap();
     auto it = dataMap.constFind(_name);
     if (it == dataMap.cend() || !it.value().isValid()) {
