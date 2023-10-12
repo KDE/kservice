@@ -138,8 +138,8 @@ msgid ""
 "KLauncher could not be reached via D-Bus. Error when calling %1:\n"
 "%2\n"
 msgstr ""
-"Non foi posíbel acadar KLauncher mediante D-Bus. Ocorreu un erro ao chamar a "
-"%1:\n"
+"Non foi posíbel acadar KLauncher mediante D-Bus. Produciuse un erro ao "
+"chamar a %1:\n"
 "%2\n"
 
 #: kdeinit/ktoolinvocation_x11.cpp:234
