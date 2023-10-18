@@ -129,11 +129,11 @@ void KBuildServiceFactory::collectInheritedServices()
     QSet<QString> visitedMimes;
     const auto lst = m_mimeTypeFactory->allMimeTypes();
     for (const QString &mimeType : lst) {
-        collectInheritedServices(mimeType, visitedMimes, 0);
+        collectInheritedServices(mimeType, visitedMimes);
     }
 }
 
-void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName, QSet<QString> &visitedMimes, int mimeTypeInheritanceLevel)
+void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName, QSet<QString> &visitedMimes)
 {
     if (visitedMimes.contains(mimeTypeName)) {
         return;
@@ -147,13 +147,13 @@ void KBuildServiceFactory::collectInheritedServices(const QString &mimeTypeName,
         // Workaround issue in shared-mime-info and/or Qt, which sometimes return an alias as parent
         parentMimeType = db.mimeTypeForName(parentMimeType).name();
 
-        collectInheritedServices(parentMimeType, visitedMimes, mimeTypeInheritanceLevel + 1);
+        collectInheritedServices(parentMimeType, visitedMimes);
 
         const QList<KServiceOffer> &offers = m_offerHash.offersFor(parentMimeType);
         for (const auto &serviceOffer : offers) {
             if (!m_offerHash.hasRemovedOffer(mimeTypeName, serviceOffer.service())) {
                 KServiceOffer offer(serviceOffer);
-                offer.setMimeTypeInheritanceLevel(mimeTypeInheritanceLevel + 1);
+                offer.setMimeTypeInheritanceLevel(offer.mimeTypeInheritanceLevel() + 1);
                 // qCDebug(SYCOCA) << "INHERITANCE: Adding service" << (*itserv).service()->entryPath() << "to" << mimeTypeName << "mimeTypeInheritanceLevel="
                 // << mimeTypeInheritanceLevel;
                 m_offerHash.addServiceOffer(mimeTypeName, offer);

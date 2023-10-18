@@ -23,6 +23,8 @@
 #include <kservicefactory_p.h>
 #include <ksycoca.h>
 
+using namespace Qt::StringLiterals;
+
 // We need a factory that returns the same KService::Ptr every time it's asked for a given service.
 // Otherwise the changes to the service's serviceTypes by KMimeAssociationsTest have no effect
 class FakeServiceFactory : public KServiceFactory
@@ -492,6 +494,28 @@ private Q_SLOTS:
 
         offers = KApplicationTrader::queryByMimeType(QStringLiteral("application/x-theme"));
         QVERIFY(!offerListHasService(offers, fakeTextApplication, false));
+    }
+
+    void testCorrectFallbackOrder()
+    {
+        // Verify that a "more specific type" is used before a "less-specifc"
+        // application/ecmascript inherits from both application/x-executable and text/plain
+        // In this example we should use both of these first which has an app set compared to the less
+        // specifc application/octet-stream via application/x-executable
+        auto queryOnlyDirect = [](const QString &mimeType) {
+            return KApplicationTrader::queryByMimeType(mimeType, [&mimeType](const KService::Ptr &service) {
+                return service->mimeTypes().contains(mimeType);
+            });
+        };
+        const auto offers = assembleServices(KApplicationTrader::queryByMimeType(u"text/javascript"_s));
+        const auto textOffers = assembleServices(queryOnlyDirect(u"text/plain"_s));
+        const auto appOffers = assembleServices(queryOnlyDirect(u"application/x-executable"_s));
+        auto octetOffers = assembleServices(KApplicationTrader::queryByMimeType(u"application/octet-stream"_s));
+        // Apps that only support octet-stream but not text/plain nor application/x-executable
+        octetOffers.removeIf([&textOffers, &appOffers](const QString &app) {
+            return textOffers.contains(app) || appOffers.contains(app);
+        });
+        QCOMPARE(offers.mid(offers.count() - octetOffers.size(), octetOffers.size()), octetOffers);
     }
 
 private:
