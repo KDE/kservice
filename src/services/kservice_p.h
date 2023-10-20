@@ -10,7 +10,7 @@
 #define KSERVICEPRIVATE_H
 
 #include "kservice.h"
-#include <QVector>
+#include <QList>
 
 #include <ksycocaentry_p.h>
 
@@ -77,7 +77,7 @@ public:
 
     int m_initialPreference; // deprecated
     // the initial preference is per-servicetype now.
-    QVector<KService::ServiceTypeAndPreference> m_serviceTypes;
+    QList<KService::ServiceTypeAndPreference> m_serviceTypes;
 
     QString m_strDesktopEntryName;
     QMap<QString, QVariant> m_mapProps;

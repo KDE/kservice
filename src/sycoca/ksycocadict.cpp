@@ -13,7 +13,7 @@
 
 #include <QBitArray>
 #include <QIODevice>
-#include <QVector>
+#include <QList>
 
 namespace
 {
@@ -361,7 +361,7 @@ void KSycocaDict::save(QDataStream &str)
 
     // try to limit diversity scan by "predicting" positions
     // with high diversity
-    QVector<int> oldvec(maxLength * 2 + 1);
+    QList<int> oldvec(maxLength * 2 + 1);
     oldvec.fill(0);
     int mindiv = 0;
     int lastDiv = 0;

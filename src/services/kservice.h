@@ -506,7 +506,7 @@ private:
         QString serviceType; // or MIME type
     };
     /// @internal for KBuildSycoca only
-    QVector<ServiceTypeAndPreference> _k_accessServiceTypes();
+    QList<ServiceTypeAndPreference> _k_accessServiceTypes();
 
     void setActions(const QList<KServiceAction> &actions);
 

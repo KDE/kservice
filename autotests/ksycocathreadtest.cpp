@@ -186,7 +186,7 @@ private Q_SLOTS:
 private:
     void createFakeService();
     void deleteFakeService();
-    QVector<WorkerThread *> threads;
+    QList<WorkerThread *> threads;
 };
 
 static void runKBuildSycoca()

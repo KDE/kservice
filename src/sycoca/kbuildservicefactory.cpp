@@ -217,7 +217,7 @@ void KBuildServiceFactory::populateServiceTypes()
         KService::Ptr service(static_cast<KService *>(servIt.value().data()));
         const bool hidden = !service->showInCurrentDesktop();
 
-        QVector<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
+        QList<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
 
         // Add this service to all its MIME types
         // Don't cache count(), it can change during iteration! (we can't use an iterator-based loop

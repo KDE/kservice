@@ -588,7 +588,7 @@ bool KService::showInCurrentDesktop() const
 
     const QString envVar = QString::fromLatin1(qgetenv("XDG_CURRENT_DESKTOP"));
 
-    QVector<QStringView> currentDesktops = QStringView(envVar).split(QLatin1Char(':'), Qt::SkipEmptyParts);
+    QList<QStringView> currentDesktops = QStringView(envVar).split(QLatin1Char(':'), Qt::SkipEmptyParts);
 
     const QString kde = QStringLiteral("KDE");
     if (currentDesktops.isEmpty()) {
@@ -929,7 +929,7 @@ void KService::setWorkingDirectory(const QString &workingDir)
     }
 }
 
-QVector<KService::ServiceTypeAndPreference> KService::_k_accessServiceTypes()
+QList<KService::ServiceTypeAndPreference> KService::_k_accessServiceTypes()
 {
     Q_D(KService);
 
