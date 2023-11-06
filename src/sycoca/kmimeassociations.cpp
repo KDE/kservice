@@ -87,19 +87,19 @@ void KMimeAssociations::parseMimeAppsList(const QString &file, int basePreferenc
 {
     KConfig profile(file, KConfig::SimpleConfig);
     if (file.endsWith(QLatin1String("/mimeapps.list"))) { // not for $desktop-mimeapps.list
-        parseAddedAssociations(KConfigGroup(&profile, "Added Associations"), file, basePreference);
-        parseRemovedAssociations(KConfigGroup(&profile, "Removed Associations"), file);
+        parseAddedAssociations(KConfigGroup(&profile, QStringLiteral("Added Associations")), file, basePreference);
+        parseRemovedAssociations(KConfigGroup(&profile, QStringLiteral("Removed Associations")), file);
 
         // KDE extension for parts and plugins, see settings/filetypes/mimetypedata.cpp
-        parseAddedAssociations(KConfigGroup(&profile, "Added KDE Service Associations"), file, basePreference);
-        parseRemovedAssociations(KConfigGroup(&profile, "Removed KDE Service Associations"), file);
+        parseAddedAssociations(KConfigGroup(&profile, QStringLiteral("Added KDE Service Associations")), file, basePreference);
+        parseRemovedAssociations(KConfigGroup(&profile, QStringLiteral("Removed KDE Service Associations")), file);
     }
 
     // Default Applications is preferred over Added Associations.
     // Other than that, they work the same...
     // add 25 to the basePreference to make sure those service offers will have higher preferences
     // 25 is arbitrary half of the allocated preference indices for the current parsed mimeapps.list file, defined line 86
-    parseAddedAssociations(KConfigGroup(&profile, "Default Applications"), file, basePreference + 25);
+    parseAddedAssociations(KConfigGroup(&profile, QStringLiteral("Default Applications")), file, basePreference + 25);
 }
 
 void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const QString &file, int basePreference)

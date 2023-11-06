@@ -99,10 +99,10 @@ void KApplicationTrader::setPreferredService(const QString &mimeType, const KSer
     KSharedConfig::Ptr profile = KSharedConfig::openConfig(QStringLiteral("mimeapps.list"), KConfig::NoGlobals, QStandardPaths::GenericConfigLocation);
 
     // Save the default application according to mime-apps-spec 1.0
-    KConfigGroup defaultApp(profile, "Default Applications");
+    KConfigGroup defaultApp(profile, QStringLiteral("Default Applications"));
     defaultApp.writeXdgListEntry(mimeType, QStringList(service->storageId()));
 
-    KConfigGroup addedApps(profile, "Added Associations");
+    KConfigGroup addedApps(profile, QStringLiteral("Added Associations"));
     QStringList apps = addedApps.readXdgListEntry(mimeType);
     apps.removeAll(service->storageId());
     apps.prepend(service->storageId()); // make it the preferred app
@@ -112,7 +112,7 @@ void KApplicationTrader::setPreferredService(const QString &mimeType, const KSer
 
     // Also make sure the "auto embed" setting for this MIME type is off
     KSharedConfig::Ptr fileTypesConfig = KSharedConfig::openConfig(QStringLiteral("filetypesrc"), KConfig::NoGlobals);
-    fileTypesConfig->group("EmbedSettings").writeEntry(QStringLiteral("embed-") + mimeType, false);
+    fileTypesConfig->group(QStringLiteral("EmbedSettings")).writeEntry(QStringLiteral("embed-") + mimeType, false);
     fileTypesConfig->sync();
 }
 
