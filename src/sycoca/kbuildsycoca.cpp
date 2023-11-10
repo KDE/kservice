@@ -441,9 +441,11 @@ bool KBuildSycoca::recreate(bool incremental)
         qCDebug(SYCOCA) << "Database is up to date";
     }
 
+#ifndef QT_NO_SHAREDMEMORY
     if (d->m_sycocaStrategy == KSycocaPrivate::StrategyMemFile) {
         KMemFile::fileContentsChanged(path);
     }
+#endif
 
     delete m_ctimeDict;
     delete m_allEntries;
