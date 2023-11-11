@@ -792,4 +792,31 @@ void KSycoca::ensureCacheValid()
     d->closeDatabase();
 }
 
+void KSycoca::setupTestMenu()
+{
+    const QByteArray content = R"(<?xml version="1.0"?>
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN" "http://www.freedesktop.org/standards/menu-spec/menu-1.0.dtd">
+<Menu>
+  <Name>Applications</Name>
+  <Directory>Applications.directory</Directory>
+  <DefaultAppDirs/>
+  <DefaultDirectoryDirs/>
+  <MergeDir>applications-merged</MergeDir>
+  <LegacyDir>/usr/share/applnk</LegacyDir>
+  <DefaultLayout>
+    <Merge type="menus"/>
+    <Merge type="files"/>
+    <Separator/>
+    <Menuname>More</Menuname>
+  </DefaultLayout>
+</Menu>
+)";
+
+    const QString destDir = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + QLatin1String("/menus");
+    QDir(destDir).mkpath(QStringLiteral("."));
+    QFile output(destDir + QLatin1String("/applications.menu"));
+    output.open(QIODevice::ReadWrite | QIODevice::Truncate);
+    output.write(content);
+}
+
 #include "moc_ksycoca.cpp"

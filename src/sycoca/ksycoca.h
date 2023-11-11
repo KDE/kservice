@@ -148,6 +148,16 @@ public:
     void ensureCacheValid(); // Warning for kservice code: this can delete all the factories.
 
     /**
+     * Sets up a minimal applications.menu file in the appropriate location.
+     * This is useful when writing unit tests that interact with KService.
+     *
+     * You should call QStandardPaths::setTestModeEnabled(true) before calling this.
+     *
+     * @since 6.0
+     */
+    static void setupTestMenu();
+
+    /**
      * Connect to this to get notified when the database changes.
      *
      * Example: after creating a .desktop file in KOpenWithDialog, it
