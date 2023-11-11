@@ -8,11 +8,11 @@
 #ifndef KMEMFILE_H
 #define KMEMFILE_H
 
-#ifndef QT_NO_SHAREDMEMORY
-
 #include <QIODevice>
 #include <kservice_export.h>
 #include <memory>
+
+#ifndef QT_NO_SHAREDMEMORY
 
 /**
  * @internal
