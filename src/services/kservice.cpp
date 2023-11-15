@@ -935,9 +935,6 @@ bool KService::isApplication() const
 QString KService::exec() const
 {
     Q_D(const KService);
-    if (d->m_strType == QLatin1String("Application") && d->m_strExec.isEmpty()) {
-        qCWarning(SERVICES) << "The desktop entry file" << entryPath() << "has Type=" << d->m_strType << "but has no Exec field.";
-    }
     return d->m_strExec;
 }
 
