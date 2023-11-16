@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:25+0000\n"
+"POT-Creation-Date: 2023-11-16 00:40+0000\n"
 "PO-Revision-Date: 2023-05-11 09:56+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -208,12 +208,12 @@ msgstr "تعذّر إطلاق عميل الطرفية"
 msgid "No service implementing %1"
 msgstr "لا يوجد خدمة تطبق %1"
 
-#: services/kservice.cpp:1148
+#: services/kservice.cpp:1145
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "الخدمة المزودة غير صالحة"
 
-#: services/kservice.cpp:1152
+#: services/kservice.cpp:1149
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr "لا تقدم الخدمة '%1' أي مكتبة أو أن مفتاح Library مفقود"

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kservice\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:25+0000\n"
+"POT-Creation-Date: 2023-11-16 00:40+0000\n"
 "PO-Revision-Date: 2022-03-26 13:26+0100\n"
 "Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -209,12 +209,12 @@ msgstr "No s'ha pogut iniciar el client de terminal"
 msgid "No service implementing %1"
 msgstr "Cap servei implementa %1"
 
-#: services/kservice.cpp:1148
+#: services/kservice.cpp:1145
 #, kde-format
 msgid "The provided service is not valid"
 msgstr "El servei proporcionat no és vàlid"
 
-#: services/kservice.cpp:1152
+#: services/kservice.cpp:1149
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
 msgstr ""
