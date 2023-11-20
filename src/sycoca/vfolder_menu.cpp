@@ -446,11 +446,10 @@ QDomDocument VFolderMenu::loadDoc()
     if (file.size() == 0) {
         return doc;
     }
-    QString errorMsg;
-    int errorRow;
-    int errorCol;
-    if (!doc.setContent(&file, &errorMsg, &errorRow, &errorCol)) {
-        qCWarning(SYCOCA) << "Parse error in " << m_docInfo.path << ", line " << errorRow << ", col " << errorCol << ": " << errorMsg;
+    const auto result = doc.setContent(&file);
+    if (!result) {
+        qCWarning(SYCOCA) << "Parse error in " << m_docInfo.path << ", line " << result.errorLine << ", col " << result.errorColumn << ": "
+                          << result.errorMessage;
         file.close();
         return doc;
     }
