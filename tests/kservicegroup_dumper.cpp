@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
     KServiceGroup::Ptr first;
 
-    qDebug("Found %d entries", list.count());
+    qDebug("Found %" PRIdQSIZETYPE " entries", list.count());
     for (const KSycocaEntry::Ptr &p : std::as_const(list)) {
         if (p->isType(KST_KService)) {
             KService::Ptr service(static_cast<KService *>(p.data()));
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
     if (first) {
         list = first->entries();
-        qDebug("Found %d entries", list.count());
+        qDebug("Found %" PRIdQSIZETYPE " entries", list.count());
         for (const KSycocaEntry::Ptr &p : std::as_const(list)) {
             if (p->isType(KST_KService)) {
                 KService::Ptr service(static_cast<KService *>(p.data()));
