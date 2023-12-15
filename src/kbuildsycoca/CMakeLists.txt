@@ -14,6 +14,7 @@ target_link_libraries(kbuildsycoca6
    KF6::Service
    KF6::CoreAddons # KAboutData
    KF6::I18n
+   KF6::ConfigCore
    Qt6::Xml
 )
 install(TARGETS kbuildsycoca6 ${KF_INSTALL_TARGETS_DEFAULT_ARGS} )

@@ -23,6 +23,12 @@
 #include <QFileInfo>
 #include <QStandardPaths>
 
+#include <QMimeDatabase>
+#include <KApplicationTrader>
+#include <KConfigGroup>
+#include <KSharedConfig>
+using namespace Qt::StringLiterals;
+
 #include <qplatformdefs.h> // for unlink
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -80,6 +86,45 @@ void setCrashHandler()
 #endif
 }
 
+QStringList allMimeTypes()
+{
+    const auto services = KService::allServices();
+    QStringList types;
+    for (const auto &service : services) {
+        types += service->mimeTypes();
+    }
+    std::ranges::sort(types);
+    const auto &[first, last] = std::ranges::unique(types);
+    types.erase(first, last);
+    return types;
+}
+
+void updateMimeapps()
+{
+    auto mimeapps = KSharedConfig::openConfig(u"kde-mimeapps.list"_s, KConfig::NoGlobals, QStandardPaths::GenericConfigLocation);
+    if (!mimeapps->isConfigWritable(true)) {
+        return;
+    }
+    KConfigGroup defaultApps(mimeapps, u"Default Applications"_s);
+    defaultApps.deleteGroup();
+
+    const auto types = allMimeTypes();
+    for (const auto &mime : types) {
+        const auto services = KApplicationTrader::queryByMimeType(mime);
+        if (services.isEmpty()) {
+            continue;
+        }
+        QStringList serviceIds;
+        serviceIds.reserve(services.size());
+        for (const auto &service : services) {
+            serviceIds.push_back(service->storageId());
+        }
+        defaultApps.writeXdgListEntry(mime, serviceIds);
+    }
+
+    // TODO: what about scheme-handlers?
+}
+
 int main(int argc, char **argv)
 {
     QCoreApplication app(argc, argv);
@@ -128,6 +173,8 @@ int main(int argc, char **argv)
     if (!sycoca.recreate(incremental)) {
         return -1;
     }
+
+    updateMimeapps();
 
     return 0;
 }
