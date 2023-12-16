@@ -17,19 +17,20 @@
 # Meni Livne <livne@kde.org>, 2007.
 # tahmar1900 <tahmar1900@gmail.com>, 2008, 2009.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
+# SPDX-FileCopyrightText: 2023 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kservice5\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-16 00:40+0000\n"
-"PO-Revision-Date: 2017-05-16 06:50-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2023-12-15 23:12+0200\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Lokalize 23.08.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -43,89 +44,89 @@ msgid "Your emails"
 msgstr "kde-l10n-he@kde.org"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:90
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "application name"
 msgid "KBuildSycoca"
 msgstr "KBuildSycoca"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:92
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "application description"
 msgid "Rebuilds the system configuration cache."
-msgstr "בונה מחדש את מטמון הגדרות המערכת."
+msgstr "בונה את מטמון הגדרות המערכת מחדש."
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:94
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:credit"
 msgid "Copyright 1999-2014 KDE Developers"
-msgstr "המפתחים של KDE,‏ 1999-2002 כל הזכויות שמורות"
+msgstr "כל הזכויות שמורות 1999‏-2014 למפתחי KDE"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
-msgstr "David Faure"
+msgstr "דוד פור"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:credit"
 msgid "Author"
-msgstr "עורך"
+msgstr "יוצר"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:credit"
 msgid "Waldo Bastian"
-msgstr "Waldo Bastian"
+msgstr "ולדו בסטיאן"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid ""
 "Do not signal applications to update (deprecated, no longer having any "
 "effect)"
-msgstr "בטל בדיקת קבצים (מסוכן)"
+msgstr "לא לאותת ליישומים להתעדכן (לא בשימוש, אין לזה שום השפעה)"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:105
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
-msgstr "אל תאפשר עדכון חלקי, קרא מחדש הכל"
+msgstr "השבתת עדכון מצטבר, לקרוא הכול מחדש"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Check file timestamps (deprecated, no longer having any effect)"
-msgstr ""
+msgstr "לבדוק את חותמות הזמן של הקבצים (השימוש הופסק, אין לזה שום השפעה)"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:109
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable checking files (deprecated, no longer having any effect)"
-msgstr "בטל בדיקת קבצים (מסוכן)"
+msgstr "השבתת בדיקת קבצים (השימוש הופסק, אין לזה שום השפעה)"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:110
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
-msgstr "בצע בדיקת יצירת תפריטים בלבד"
+msgstr "ביצוע ריצת בדיקת יצירת תפריטים בלבד"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:112
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
-msgstr "עקוב אחר זיהוי תפריטים לצורכי ניפוי באגים"
+msgstr "מעקב אחר מזהה תפריט למטרות ניפוי תקלות"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:114
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
-msgstr ""
+msgstr "העברת QStandardPaths למצב בדיקה, למטרות בדיקות יחידה בלבד"
 
 #: kdeinit/ktoolinvocation.cpp:61
 #, kde-format
 msgid "Function must be called from the main thread."
-msgstr "יש לקרוא לפונקציה מתוך המטלה הראשית."
+msgstr "יש לקרוא לפונקציה מתוך התהליך הראשי."
 
 #: kdeinit/ktoolinvocation.cpp:102
 #, kde-format
@@ -133,8 +134,8 @@ msgid ""
 "Error launching %1. Either KLauncher is not running anymore, or it failed to "
 "start the application."
 msgstr ""
-"ארעה שגיאה בעת הפעלה של \"%1. או ש־KLauncher לא פעילה יותר, או שהיא נכשלה "
-"בהפעלת היישום."
+"אירעה שגיאה בהפעלת %1. או ש־KLauncher לא פעילה יותר, או שהיא נכשלה בהפעלת "
+"היישום."
 
 #: kdeinit/ktoolinvocation.cpp:105
 #, kde-format
@@ -152,14 +153,14 @@ msgid ""
 "\n"
 "%1"
 msgstr ""
-"אין אפשרות להפעיל את תכנית הדוא\"ל:\n"
+"לא ניתן להפעיל את תוכנית הדוא״ל:\n"
 "\n"
 "%1"
 
 #: kdeinit/ktoolinvocation_x11.cpp:235
 #, kde-format
 msgid "Could not launch Mail Client"
-msgstr "אין אפשרות להפעיל את תכנית הדוא\"ל"
+msgstr "אי אפשר להפעיל את תוכנית הדוא״ל"
 
 #. i18n("Could not launch %1:\n\n%2", exe, error),
 #. i18n("Could not launch %1:\n\n%2", htmlApp->exec(), error),
@@ -172,7 +173,7 @@ msgid ""
 "\n"
 "%1"
 msgstr ""
-"אין אפשרות להפעיל את הדפדפן:\n"
+"לא ניתן להפעיל את הדפדפן:\n"
 "\n"
 "%1"
 
@@ -180,12 +181,12 @@ msgstr ""
 #: kdeinit/ktoolinvocation_x11.cpp:329
 #, kde-format
 msgid "Could not launch Browser"
-msgstr "אין אפשרות להפעיל את הדפדפן"
+msgstr "לא ניתן להפעיל את הדפדפן"
 
 #: kdeinit/ktoolinvocation_x11.cpp:342
 #, kde-format
 msgid "Unable to determine the default terminal"
-msgstr ""
+msgstr "לא ניתן לאתר את מסוף ברירת המחדל"
 
 #: kdeinit/ktoolinvocation_x11.cpp:354
 #, kde-format
@@ -194,19 +195,19 @@ msgid ""
 "\n"
 "%1"
 msgstr ""
-"אין אפשרות להפעיל את יישום המסוף:\n"
+"אי אפשר להפעיל את לקוח המסוף:\n"
 "\n"
 "%1"
 
 #: kdeinit/ktoolinvocation_x11.cpp:355
 #, kde-format
 msgid "Could not launch Terminal Client"
-msgstr "אין אפשרות להפעיל את לקוח המסוף"
+msgstr "אי אפשר להפעיל את לקוח המסוף"
 
 #: plugin/kdbusservicestarter.cpp:68
 #, kde-format
 msgid "No service implementing %1"
-msgstr ""
+msgstr "אין שירות שמממש את %1"
 
 #: services/kservice.cpp:1145
 #, kde-format
@@ -216,7 +217,7 @@ msgstr "השירות המסופק אינו תקף"
 #: services/kservice.cpp:1149
 #, kde-format
 msgid "The service '%1' provides no library or the Library key is missing"
-msgstr "השירות \"%1\" לא מספק ספרייה או מפתח הספרייה חסר"
+msgstr "השירות ‚%1’ לא מספק ספרייה או שמפתח הספרייה חסר"
 
 #, fuzzy
 #~ msgctxt "@info:shell command-line option"
