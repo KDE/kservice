@@ -62,7 +62,7 @@
 >kbuildsycoca5</command
 ></refname>
 <refpurpose
->Refà el cau de la Configuració del sistema per als fitxers d'escriptori a KService</refpurpose>
+>Refà el cau de la Configuració del sistema per als fitxers d'escriptori en KService</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
@@ -89,7 +89,7 @@
 <para
 ><command
 >kbuildsycoca5</command
-> construïx el cau binari de les dades emmagatzemades als fitxers <literal role="extension"
+> construïx el cau binari de les dades emmagatzemades en els fitxers <literal role="extension"
 >.desktop</literal
 >, <literal role="extension"
 >.xml</literal
