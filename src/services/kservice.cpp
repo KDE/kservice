@@ -795,7 +795,7 @@ QStringList KService::mimeTypes() const
     return ret;
 }
 
-QStringList KService::supportedProtocols() const
+QStringList KService::schemeHandlers() const
 {
     Q_D(const KService);
 
@@ -808,6 +808,17 @@ QStringList KService::supportedProtocols() const
             ret.append(servType.mid(schemeHandlerPrefix.size()));
         }
     }
+
+    return ret;
+}
+
+QStringList KService::supportedProtocols() const
+{
+    Q_D(const KService);
+
+    QStringList ret;
+
+    ret << schemeHandlers();
 
     const QStringList protocols = property<QStringList>(QStringLiteral("X-KDE-Protocols"));
     for (const QString &protocol : protocols) {

@@ -226,10 +226,23 @@ public:
     QStringList mimeTypes() const;
 
     /**
+     * Returns the list of scheme handlers this application supports.
+     *
+     * For example a web browser could return {"http", "https"}.
+     *
+     * This is taken from the x-scheme-handler MIME types
+     * listed in the .desktop file.
+     *
+     * @since 6.0
+     *
+     */
+    QStringList schemeHandlers() const;
+
+    /**
      * Returns the list of protocols this application supports.
      *
      * This is taken from the x-scheme-handler MIME types
-     * listed in the .destkop file as well as the 'X-KDE-Protocols'
+     * listed in the .desktop file as well as the 'X-KDE-Protocols'
      * entry
      *
      * For example a web browser could return {"http", "https"}.
