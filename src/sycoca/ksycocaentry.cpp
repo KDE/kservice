@@ -7,8 +7,7 @@
 
 #include "ksycocaentry.h"
 #include "ksycocaentry_p.h"
-#include "ksycocautils_p.h"
-
+#include <QIODevice>
 #include <ksycoca.h>
 
 KSycocaEntryPrivate::KSycocaEntryPrivate(QDataStream &_str, int iOffset)

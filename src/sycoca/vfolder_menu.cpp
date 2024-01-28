@@ -5,8 +5,8 @@
     SPDX-License-Identifier: LGPL-2.0-only
 */
 
-#include "kbuildservicefactory_p.h"
 #include "kbuildsycocainterface_p.h"
+#include "kservicefactory_p.h"
 #include "sycocadebug.h"
 #include "vfolder_menu_p.h"
 

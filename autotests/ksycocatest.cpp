@@ -19,7 +19,6 @@
 #include <ksycoca_p.h>
 
 // ## use QFile::setFileTime when it lands in Qt
-#include <time.h>
 #ifdef Q_OS_UNIX
 #include <sys/time.h>
 #include <utime.h>

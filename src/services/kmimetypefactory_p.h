@@ -13,7 +13,6 @@
 
 #include <QStringList>
 
-#include "ksycocaentry_p.h"
 #include "ksycocafactory_p.h"
 
 class KSycoca;

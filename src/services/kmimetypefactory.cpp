@@ -7,6 +7,7 @@
 */
 
 #include "kmimetypefactory_p.h"
+#include "ksycocaentry_p.h"
 #include "servicesdebug.h"
 #include <QDataStream>
 #include <ksycoca.h>

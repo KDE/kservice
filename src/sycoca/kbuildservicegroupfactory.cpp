@@ -8,7 +8,6 @@
 #include "kbuildservicegroupfactory_p.h"
 #include "ksycoca.h"
 #include "ksycocadict_p.h"
-#include "ksycocaresourcelist_p.h"
 #include "sycocadebug.h"
 #include <kservicegroup_p.h>
 

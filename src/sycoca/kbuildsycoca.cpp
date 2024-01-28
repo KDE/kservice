@@ -35,9 +35,7 @@
 
 #include <QLockFile>
 #include <QStandardPaths>
-#include <memory> // auto_ptr
 #include <qplatformdefs.h>
-#include <time.h>
 
 static const char *s_cSycocaPath = nullptr;
 

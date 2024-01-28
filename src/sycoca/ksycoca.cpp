@@ -32,7 +32,6 @@
 #include <kmimetypefactory_p.h>
 #include <kservicefactory_p.h>
 #include <kservicegroupfactory_p.h>
-#include <stdlib.h>
 
 #include "kbuildsycoca_p.h"
 #include "ksycocadevices_p.h"

@@ -7,7 +7,6 @@
 
 #include "kserviceaction.h"
 #include "kservice.h"
-#include "kservice_p.h"
 #include "ksycoca.h"
 #include "ksycoca_p.h"
 

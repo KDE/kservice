@@ -12,7 +12,6 @@
 #include "ksycoca.h"
 
 #include "ksycocadict_p.h"
-#include "ksycocaresourcelist_p.h"
 #include "sycocadebug.h"
 #include <KDesktopFile>
 
@@ -21,7 +20,6 @@
 #include <QMimeDatabase>
 
 #include <QStandardPaths>
-#include <assert.h>
 #include <kmimetypefactory_p.h>
 
 KBuildServiceFactory::KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactory, KBuildServiceGroupFactory *serviceGroupFactory)
