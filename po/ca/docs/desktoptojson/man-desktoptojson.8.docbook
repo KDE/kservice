@@ -126,7 +126,7 @@
 >Hidden</literal
 > i <literal
 >X-KDE-PluginInfo-EnabledByDefault</literal
->) són conegudes per ser valors booleans i per tant es converteixen, i algunes similars (com <literal
+>) són conegudes per ser valors booleans i, per tant, es converteixen, i algunes similars (com <literal
 >X-KDE-ServiceTypes</literal
 > i <literal
 >X-KDE-PluginInfo-Depends</literal
