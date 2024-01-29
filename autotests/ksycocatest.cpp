@@ -18,7 +18,6 @@
 #include <ksycoca.h>
 #include <ksycoca_p.h>
 
-// ## use QFile::setFileTime when it lands in Qt
 #ifdef Q_OS_UNIX
 #include <sys/time.h>
 #include <utime.h>
@@ -134,7 +133,6 @@ void KSycocaTest::dirInFutureShouldRebuildSycocaOnce()
 {
     const QDateTime oldTimestamp = QFileInfo(KSycoca::absoluteFilePath()).lastModified();
 
-    // ### use QFile::setFileTime when it lands in Qt...
 #ifdef Q_OS_UNIX
     const QString path = appsDir();
     struct timeval tp;
@@ -180,7 +178,6 @@ void KSycocaTest::dirTimestampShouldBeCheckedRecursively()
 
     const QString path = menusDir() + QLatin1String("/fakeSubserviceDirectory");
 
-    // ### use QFile::setFileTime when it lands in Qt...
 #ifdef Q_OS_UNIX
     struct timeval tp;
     gettimeofday(&tp, nullptr);
@@ -230,7 +227,6 @@ void KSycocaTest::recursiveCheckShouldIgnoreLinksGoingUp()
 
     const QString path = QFileInfo(menusDir()).absolutePath(); // the parent of the menus dir
 
-    // ### use QFile::setFileTime when it lands in Qt...
 #ifdef Q_OS_UNIX
     struct timeval tp;
     gettimeofday(&tp, nullptr);
