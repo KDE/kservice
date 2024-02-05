@@ -136,6 +136,10 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         categories = desktopGroup.readXdgListEntry("Categories");
     }
 
+    if (entryMap.remove(QStringLiteral("InitialPreference"))) {
+        m_initialPreference = desktopGroup.readEntry("InitialPreference", 1);
+    }
+
     if (entryMap.remove(QStringLiteral("MimeType"))) {
         const QStringList lstServiceTypes = desktopGroup.readXdgListEntry("MimeType");
         // Assign the "initial preference" to each mimetype/servicetype
@@ -160,9 +164,6 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
             }
             m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
         }
-    }
-    if (entryMap.remove(QStringLiteral("InitialPreference"))) {
-        m_initialPreference = desktopGroup.readEntry("InitialPreference", 1);
     }
 
     m_strDesktopEntryName = _name;

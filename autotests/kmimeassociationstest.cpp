@@ -258,6 +258,12 @@ private Q_SLOTS:
         runKBuildSycoca();
     }
 
+    void testDefaultInitialPreference()
+    {
+        KService::Ptr service = KApplicationTrader::preferredService(QStringLiteral("text/plain"));
+        QCOMPARE(service->entryPath(), fakeDefaultTextApplication);
+    }
+
     void testParseSingleFile()
     {
         KOfferHash offerHash;
