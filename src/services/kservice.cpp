@@ -141,11 +141,11 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     }
 
     if (entryMap.remove(QStringLiteral("MimeType"))) {
-        const QStringList lstServiceTypes = desktopGroup.readXdgListEntry("MimeType");
+        const QStringList mimeTypes = desktopGroup.readXdgListEntry("MimeType");
         // Assign the "initial preference" to each mimetype/servicetype
         // (and to set such preferences in memory from kbuildsycoca)
-        m_serviceTypes.reserve(lstServiceTypes.size());
-        QListIterator<QString> st_it(lstServiceTypes);
+        m_mimeTypes.reserve(mimeTypes.size());
+        QListIterator<QString> st_it(mimeTypes);
         while (st_it.hasNext()) {
             const QString st = st_it.next();
             if (st.isEmpty()) {
@@ -162,7 +162,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
                     st_it.next();
                 }
             }
-            m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
+            m_mimeTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
         }
     }
 
@@ -269,7 +269,7 @@ void KServicePrivate::load(QDataStream &s)
       >> m_strDesktopEntryName
       >> initpref
       >> m_lstKeywords >> m_strGenName
-      >> categories >> menuId >> m_actions >> m_serviceTypes
+      >> categories >> menuId >> m_actions >> m_mimeTypes
       >> m_lstFormFactors
       >> m_untranslatedName >> m_untranslatedGenericName;
     // clang-format on
@@ -294,7 +294,7 @@ void KServicePrivate::save(QDataStream &s)
     // You may add new fields at the end. Make sure to update KSYCOCA_VERSION
     // number in ksycoca.cpp
     s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment << def << m_mapProps
-      << m_strLibrary << dst << m_strDesktopEntryName << initpref << m_lstKeywords << m_strGenName << categories << menuId << m_actions << m_serviceTypes
+      << m_strLibrary << dst << m_strDesktopEntryName << initpref << m_lstKeywords << m_strGenName << categories << menuId << m_actions << m_mimeTypes
       << m_lstFormFactors << m_untranslatedName << m_untranslatedGenericName;
 }
 
@@ -382,7 +382,7 @@ bool KService::hasMimeType(const QString &mimeType) const
     };
 
     // fall-back code for services that are NOT from ksycoca
-    return std::any_of(d->m_serviceTypes.cbegin(), d->m_serviceTypes.cend(), matchFunc);
+    return std::any_of(d->m_mimeTypes.cbegin(), d->m_mimeTypes.cend(), matchFunc);
 }
 
 QVariant KService::property(const QString &_name, QMetaType::Type t) const
@@ -787,7 +787,7 @@ QStringList KService::mimeTypes() const
     QMimeDatabase db;
     QStringList ret;
 
-    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
+    for (const KService::ServiceTypeAndPreference &s : d->m_mimeTypes) {
         const QString servType = s.serviceType;
         if (db.mimeTypeForName(servType).isValid()) { // keep only mimetypes, filter out servicetypes
             ret.append(servType);
@@ -803,7 +803,7 @@ QStringList KService::schemeHandlers() const
     QStringList ret;
 
     const QLatin1String schemeHandlerPrefix("x-scheme-handler/");
-    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
+    for (const KService::ServiceTypeAndPreference &s : d->m_mimeTypes) {
         const QString servType = s.serviceType;
         if (servType.startsWith(schemeHandlerPrefix)) {
             ret.append(servType.mid(schemeHandlerPrefix.size()));
@@ -873,7 +873,7 @@ QList<KService::ServiceTypeAndPreference> KService::_k_accessServiceTypes()
 {
     Q_D(KService);
 
-    return d->m_serviceTypes;
+    return d->m_mimeTypes;
 }
 
 QList<KServiceAction> KService::actions() const

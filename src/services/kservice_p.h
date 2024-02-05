@@ -71,7 +71,7 @@ public:
 
     int m_initialPreference = 1; // deprecated
     // the initial preference is per-servicetype now.
-    QList<KService::ServiceTypeAndPreference> m_serviceTypes;
+    QList<KService::ServiceTypeAndPreference> m_mimeTypes;
 
     QString m_strDesktopEntryName;
     QMap<QString, QVariant> m_mapProps;
