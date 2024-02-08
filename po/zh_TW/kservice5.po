@@ -12,19 +12,20 @@
 # Franklin Weng <franklin@mail.everfocus.com.tw>, 2010, 2011, 2012.
 # Franklin Weng <franklin@goodhorse.idv.tw>, 2010, 2011, 2012, 2013, 2014.
 # Jeff Huang <s8321414@gmail.com>, 2016.
+# SPDX-FileCopyrightText: 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-16 00:40+0000\n"
-"PO-Revision-Date: 2016-06-28 17:34+0800\n"
-"Last-Translator: Jeff Huang <s8321414@gmail.com>\n"
-"Language-Team: Chinese <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2024-02-07 23:41+0900\n"
+"Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
+"Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 24.01.95\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -179,7 +180,7 @@ msgstr "無法執行網頁瀏覽器"
 #: kdeinit/ktoolinvocation_x11.cpp:342
 #, kde-format
 msgid "Unable to determine the default terminal"
-msgstr ""
+msgstr "無法得知預設終端機"
 
 #: kdeinit/ktoolinvocation_x11.cpp:354
 #, kde-format
