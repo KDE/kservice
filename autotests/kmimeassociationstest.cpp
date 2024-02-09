@@ -92,7 +92,7 @@ static bool offerListHasService(const KService::List &offers, const QString &ent
     return found;
 }
 
-static void writeAppDesktopFile(const QString &path, const QStringList &mimeTypes, int initialPreference = 1)
+static void writeAppDesktopFile(const QString &path, const QStringList &mimeTypes)
 {
     KDesktopFile file(path);
     KConfigGroup group = file.desktopGroup();
@@ -101,7 +101,6 @@ static void writeAppDesktopFile(const QString &path, const QStringList &mimeType
     group.writeEntry("Exec", "ls");
     group.writeEntry("OnlyShowIn", "KDE;UDE");
     group.writeEntry("NotShowIn", "GNOME");
-    group.writeEntry("InitialPreference", initialPreference);
     group.writeXdgListEntry("MimeType", mimeTypes);
 }
 
@@ -154,7 +153,7 @@ private Q_SLOTS:
 
         // A fake "default" application for text/plain (high initial preference, but not in mimeapps.list)
         fakeDefaultTextApplication = m_localApps + QLatin1String{"fakedefaulttextapplication.desktop"};
-        writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << QStringLiteral("text/plain"), 9);
+        writeAppDesktopFile(fakeDefaultTextApplication, QStringList() << QStringLiteral("text/plain"));
 
         // An app (like emacs) listing explicitly the derived mimetype (c-src); not in mimeapps.list
         // This interacted badly with mimeapps.list listing another app for text/plain, but the
@@ -165,8 +164,7 @@ private Q_SLOTS:
         fakeCSrcApplication = m_localApps + QLatin1String{"fakecsrcmswordapplication.desktop"};
         writeAppDesktopFile(fakeCSrcApplication,
                             QStringList() << QStringLiteral("text/plain") << QStringLiteral("text/c-src") << QStringLiteral("application/vnd.ms-word")
-                                          << QStringLiteral("application/msword"),
-                            8);
+                                          << QStringLiteral("application/msword"));
 
         fakeJpegApplication = m_localApps + QLatin1String{"fakejpegapplication.desktop"};
         writeAppDesktopFile(fakeJpegApplication, QStringList() << QStringLiteral("image/jpeg"));
@@ -215,7 +213,7 @@ private Q_SLOTS:
             "[Added Associations]\n"
             "image/jpeg=fakejpegapplication.desktop;\n"
             "text/html=fakehtmlapplication.desktop;fakehtmlapplicationpfx.desktop;\n"
-            "text/plain=fakepfx-faketextapplicationpfx.desktop;gvim.desktop;wine.desktop;idontexist.desktop;\n"
+            "text/plain=fakepfx-faketextapplicationpfx.desktop;fakedefaulttextapplication.desktop;gvim.desktop;wine.desktop;idontexist.desktop;\n"
             // test alias resolution
             "application/x-pdf=fakejpegapplication.desktop;\n"
             // test x-scheme-handler (#358159) (missing trailing ';' as per xdg-mime bug...)
@@ -224,6 +222,7 @@ private Q_SLOTS:
             "application/octet-stream=fakeoktetaapplication.desktop\n"
             // test a non-kde app (#427469)
             "application/x-7z-compressed=fake.org.gnome.FileRoller.desktop;\n"
+            "application/msword=fakecsrcmswordapplication.desktop\n"
             "[Added KParts/ReadOnlyPart Associations]\n"
             "text/plain=katepart.desktop;\n"
             "[Removed Associations]\n"
@@ -256,12 +255,6 @@ private Q_SLOTS:
     {
         QFile::remove(m_localConfig + QLatin1String{"/mimeapps.list"});
         runKBuildSycoca();
-    }
-
-    void testDefaultInitialPreference()
-    {
-        KService::Ptr service = KApplicationTrader::preferredService(QStringLiteral("text/plain"));
-        QCOMPARE(service->entryPath(), fakeDefaultTextApplication);
     }
 
     void testParseSingleFile()

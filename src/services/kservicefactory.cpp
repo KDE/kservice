@@ -239,13 +239,13 @@ QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceO
 
     qint32 aServiceTypeOffset;
     qint32 aServiceOffset;
-    qint32 initialPreference;
+    qint32 offerPreference;
     qint32 mimeTypeInheritanceLevel;
     while (true) {
         (*str) >> aServiceTypeOffset;
         if (aServiceTypeOffset) {
             (*str) >> aServiceOffset;
-            (*str) >> initialPreference;
+            (*str) >> offerPreference;
             (*str) >> mimeTypeInheritanceLevel;
             if (aServiceTypeOffset == serviceTypeOffset) {
                 // Save stream position !
@@ -254,7 +254,7 @@ QList<KServiceOffer> KServiceFactory::offers(int serviceTypeOffset, int serviceO
                 KService *serv = createEntry(aServiceOffset);
                 if (serv) {
                     KService::Ptr servPtr(serv);
-                    list.append(KServiceOffer(servPtr, initialPreference, mimeTypeInheritanceLevel));
+                    list.append(KServiceOffer(servPtr, 1, mimeTypeInheritanceLevel));
                 }
                 // Restore position
                 str->device()->seek(savedPos);
@@ -278,13 +278,13 @@ KService::List KServiceFactory::serviceOffers(int serviceTypeOffset, int service
 
     qint32 aServiceTypeOffset;
     qint32 aServiceOffset;
-    qint32 initialPreference;
+    qint32 offerPreference;
     qint32 mimeTypeInheritanceLevel;
     while (true) {
         (*str) >> aServiceTypeOffset;
         if (aServiceTypeOffset) {
             (*str) >> aServiceOffset;
-            (*str) >> initialPreference; // unused (remove once KMimeTypeTrader/KServiceTypeTrader are gone)
+            (*str) >> offerPreference; // unused (remove once KMimeTypeTrader/KServiceTypeTrader are gone)
             (*str) >> mimeTypeInheritanceLevel; // unused (remove once KMimeTypeTrader/KServiceTypeTrader are gone)
             if (aServiceTypeOffset == serviceTypeOffset) {
                 // Save stream position !
@@ -317,13 +317,13 @@ bool KServiceFactory::hasOffer(int serviceTypeOffset, int serviceOffersOffset, i
     bool found = false;
     qint32 aServiceTypeOffset;
     qint32 aServiceOffset;
-    qint32 initialPreference;
+    qint32 offerPreference;
     qint32 mimeTypeInheritanceLevel;
     while (!found) {
         (*str) >> aServiceTypeOffset;
         if (aServiceTypeOffset) {
             (*str) >> aServiceOffset;
-            (*str) >> initialPreference;
+            (*str) >> offerPreference;
             (*str) >> mimeTypeInheritanceLevel;
             if (aServiceTypeOffset == serviceTypeOffset) {
                 if (aServiceOffset == testedServiceOffset) {

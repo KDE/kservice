@@ -30,17 +30,6 @@
 #include "kserviceutil_p.h"
 #include "servicesdebug.h"
 
-QDataStream &operator<<(QDataStream &s, const KService::ServiceTypeAndPreference &st)
-{
-    s << st.preference << st.serviceType;
-    return s;
-}
-QDataStream &operator>>(QDataStream &s, KService::ServiceTypeAndPreference &st)
-{
-    s >> st.preference >> st.serviceType;
-    return s;
-}
-
 void KServicePrivate::init(const KDesktopFile *config, KService *q)
 {
     const QString entryPath = q->entryPath();
@@ -136,34 +125,8 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         categories = desktopGroup.readXdgListEntry("Categories");
     }
 
-    if (entryMap.remove(QStringLiteral("InitialPreference"))) {
-        m_initialPreference = desktopGroup.readEntry("InitialPreference", 1);
-    }
-
     if (entryMap.remove(QStringLiteral("MimeType"))) {
-        const QStringList lstServiceTypes = desktopGroup.readXdgListEntry("MimeType");
-        // Assign the "initial preference" to each mimetype/servicetype
-        // (and to set such preferences in memory from kbuildsycoca)
-        m_serviceTypes.reserve(lstServiceTypes.size());
-        QListIterator<QString> st_it(lstServiceTypes);
-        while (st_it.hasNext()) {
-            const QString st = st_it.next();
-            if (st.isEmpty()) {
-                qCWarning(SERVICES) << "The desktop entry file" << entryPath << "has an empty MimeType!";
-                continue;
-            }
-            int initialPreference = m_initialPreference;
-            if (st_it.hasNext()) {
-                // TODO better syntax - separate group with mimetype=number entries?
-                bool isNumber;
-                const int val = st_it.peekNext().toInt(&isNumber);
-                if (isNumber) {
-                    initialPreference = val;
-                    st_it.next();
-                }
-            }
-            m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
-        }
+        m_mimeTypes = desktopGroup.readXdgListEntry("MimeType");
     }
 
     m_strDesktopEntryName = _name;
@@ -254,9 +217,8 @@ void KServicePrivate::load(QDataStream &s)
     qint8 def;
     qint8 term;
     qint8 dst;
-    qint8 initpref;
 
-    // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KService 5.x VERSIONS!
+    // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KService 6.x VERSIONS!
     // !! This data structure should remain binary compatible at all times !!
     // You may add new fields at the end. Make sure to update KSYCOCA_VERSION
     // number in ksycoca.cpp
@@ -267,16 +229,14 @@ void KServicePrivate::load(QDataStream &s)
       >> m_strLibrary
       >> dst
       >> m_strDesktopEntryName
-      >> initpref
       >> m_lstKeywords >> m_strGenName
-      >> categories >> menuId >> m_actions >> m_serviceTypes
+      >> categories >> menuId >> m_actions
       >> m_lstFormFactors
-      >> m_untranslatedName >> m_untranslatedGenericName;
+      >> m_untranslatedName >> m_untranslatedGenericName >> m_mimeTypes;
     // clang-format on
 
     m_bAllowAsDefault = bool(def);
     m_bTerminal = bool(term);
-    m_initialPreference = initpref;
 
     m_bValid = true;
 }
@@ -285,17 +245,16 @@ void KServicePrivate::save(QDataStream &s)
 {
     KSycocaEntryPrivate::save(s);
     qint8 def = m_bAllowAsDefault;
-    qint8 initpref = m_initialPreference;
     qint8 term = m_bTerminal;
     qint8 dst = 0;
 
-    // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KService 5.x VERSIONS!
+    // WARNING: THIS NEEDS TO REMAIN COMPATIBLE WITH PREVIOUS KService 6.x VERSIONS!
     // !! This data structure should remain binary compatible at all times !!
     // You may add new fields at the end. Make sure to update KSYCOCA_VERSION
     // number in ksycoca.cpp
     s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment << def << m_mapProps
-      << m_strLibrary << dst << m_strDesktopEntryName << initpref << m_lstKeywords << m_strGenName << categories << menuId << m_actions << m_serviceTypes
-      << m_lstFormFactors << m_untranslatedName << m_untranslatedGenericName;
+      << m_strLibrary << dst << m_strDesktopEntryName << m_lstKeywords << m_strGenName << categories << menuId << m_actions << m_lstFormFactors
+      << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes;
 }
 
 ////
@@ -310,7 +269,6 @@ KService::KService(const QString &_name, const QString &_exec, const QString &_i
     d->m_strIcon = _icon;
     d->m_bTerminal = false;
     d->m_bAllowAsDefault = true;
-    d->m_initialPreference = 10;
 }
 
 KService::KService(const QString &_fullpath)
@@ -369,20 +327,7 @@ bool KService::hasMimeType(const QString &mimeType) const
         return KSycocaPrivate::self()->serviceFactory()->hasOffer(mimeOffset, serviceOffersOffset, serviceOffset);
     }
 
-    auto matchFunc = [&mime](const ServiceTypeAndPreference &typePref) {
-        // qCDebug(SERVICES) << "    has " << typePref;
-        if (typePref.serviceType == mime) {
-            return true;
-        }
-        // TODO: should we handle inherited MIME types here?
-        // KMimeType was in kio when this code was written, this is the only reason it's not done.
-        // But this should matter only in a very rare case, since most code gets KServices from ksycoca.
-        // Warning, change hasServiceType if you implement this here (and check kbuildservicefactory).
-        return false;
-    };
-
-    // fall-back code for services that are NOT from ksycoca
-    return std::any_of(d->m_serviceTypes.cbegin(), d->m_serviceTypes.cend(), matchFunc);
+    return d->m_mimeTypes.contains(mime);
 }
 
 QVariant KService::property(const QString &_name, QMetaType::Type t) const
@@ -437,8 +382,6 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
         return QVariant(m_bTerminal);
     } else if (_name == QLatin1String("AllowAsDefault")) {
         return QVariant(m_bAllowAsDefault);
-    } else if (_name == QLatin1String("InitialPreference")) {
-        return QVariant(m_initialPreference);
     } else if (_name == QLatin1String("Categories")) {
         return QVariant(categories);
     } else if (_name == QLatin1String("Keywords")) {
@@ -783,12 +726,10 @@ QStringList KService::keywords() const
 QStringList KService::mimeTypes() const
 {
     Q_D(const KService);
-
     QMimeDatabase db;
     QStringList ret;
 
-    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
-        const QString servType = s.serviceType;
+    for (const auto &servType : d->m_mimeTypes) {
         if (db.mimeTypeForName(servType).isValid()) { // keep only mimetypes, filter out servicetypes
             ret.append(servType);
         }
@@ -803,8 +744,7 @@ QStringList KService::schemeHandlers() const
     QStringList ret;
 
     const QLatin1String schemeHandlerPrefix("x-scheme-handler/");
-    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
-        const QString servType = s.serviceType;
+    for (const auto &servType : d->m_mimeTypes) {
         if (servType.startsWith(schemeHandlerPrefix)) {
             ret.append(servType.mid(schemeHandlerPrefix.size()));
         }
@@ -829,12 +769,6 @@ QStringList KService::supportedProtocols() const
     }
 
     return ret;
-}
-
-int KService::initialPreference() const
-{
-    Q_D(const KService);
-    return d->m_initialPreference;
 }
 
 void KService::setTerminal(bool b)
@@ -867,13 +801,6 @@ void KService::setWorkingDirectory(const QString &workingDir)
         d->m_strWorkingDirectory = workingDir;
         d->path.clear();
     }
-}
-
-QList<KService::ServiceTypeAndPreference> KService::_k_accessServiceTypes()
-{
-    Q_D(KService);
-
-    return d->m_serviceTypes;
 }
 
 QList<KServiceAction> KService::actions() const

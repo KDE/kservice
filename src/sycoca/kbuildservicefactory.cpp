@@ -21,6 +21,7 @@
 
 #include <QStandardPaths>
 #include <kmimetypefactory_p.h>
+#include <kservice_p.h>
 
 KBuildServiceFactory::KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactory, KBuildServiceGroupFactory *serviceGroupFactory)
     : KServiceFactory(mimeTypeFactory->sycoca())
@@ -215,21 +216,19 @@ void KBuildServiceFactory::populateServiceTypes()
         KService::Ptr service(static_cast<KService *>(servIt.value().data()));
         const bool hidden = !service->showInCurrentDesktop();
 
-        QList<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
+        const auto serviceTypeList = service->d_func()->m_mimeTypes;
 
         // Add this service to all its MIME types
         // Don't cache count(), it can change during iteration! (we can't use an iterator-based loop
         // here the container could get reallocated which would invalidate iterators)
         for (int i = 0; i < serviceTypeList.count(); ++i) {
-            const KService::ServiceTypeAndPreference &typeAndPref = serviceTypeList.at(i);
-            const QString stName = typeAndPref.serviceType;
+            const QString stName = serviceTypeList.at(i);
 
             if (hidden) {
                 continue;
             }
-            const int preference = typeAndPref.preference;
 
-            KServiceOffer offer(service, preference, 0);
+            KServiceOffer offer(service, 1 /* preference; always 1 here, may be higher based on KMimeAssociations */, 0);
             QMimeType mime = db.mimeTypeForName(stName);
             if (!mime.isValid()) {
                 if (stName.startsWith(QLatin1String("x-scheme-handler/"))) {
