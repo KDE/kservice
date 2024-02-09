@@ -68,11 +68,7 @@ public:
     QString m_strWorkingDirectory;
     QString m_strComment;
     QString m_strLibrary;
-
-    int m_initialPreference = 1; // deprecated
-    // the initial preference is per-servicetype now.
-    QList<KService::ServiceTypeAndPreference> m_serviceTypes;
-
+    QStringList m_mimeTypes;
     QString m_strDesktopEntryName;
     QMap<QString, QVariant> m_mapProps;
     QStringList m_lstFormFactors;

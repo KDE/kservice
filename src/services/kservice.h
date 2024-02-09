@@ -271,13 +271,17 @@ public:
      */
     bool allowMultipleFiles() const;
 
+#if KSERVICE_ENABLE_DEPRECATED_SINCE(6, 0)
     /**
      * What preference to associate with this application initially (before
      * the user has had any chance to define a profile for it).
      * The bigger the value, the stronger the preference for the application.
+     * @deprecated since 5.249
      * @return the service preference level of the application
      */
+    KSERVICE_DEPRECATED_VERSION(6, 0, "See API docs")
     int initialPreference() const;
+#endif
 
     /**
      * Whether the entry should be hidden from the menu.
@@ -494,28 +498,7 @@ private:
 
     QVariant property(const QString &_name, QMetaType::Type t) const;
 
-    /// @internal for KBuildSycoca only
-    struct KSERVICE_NO_EXPORT ServiceTypeAndPreference {
-        ServiceTypeAndPreference()
-            : preference(-1)
-            , serviceType()
-        {
-        }
-        ServiceTypeAndPreference(int pref, const QString &servType)
-            : preference(pref)
-            , serviceType(servType)
-        {
-        }
-        int preference;
-        QString serviceType; // or MIME type
-    };
-    /// @internal for KBuildSycoca only
-    QList<ServiceTypeAndPreference> _k_accessServiceTypes();
-
     void setActions(const QList<KServiceAction> &actions);
-
-    friend QDataStream &operator>>(QDataStream &, ServiceTypeAndPreference &);
-    friend QDataStream &operator<<(QDataStream &, const ServiceTypeAndPreference &);
 
     Q_DECLARE_PRIVATE(KService)
 

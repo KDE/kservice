@@ -75,7 +75,7 @@ public:
     KServiceOfferList offers(int serviceTypeOffset, int serviceOffersOffset);
 
     /**
-     * @return the services supporting the given service type; without information about initialPreference
+     * @return the services supporting the given service type
      * The @p serviceOffersOffset allows to jump to the right entries directly.
      */
     KService::List serviceOffers(int serviceTypeOffset, int serviceOffersOffset);

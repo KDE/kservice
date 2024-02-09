@@ -214,53 +214,45 @@ void KBuildServiceFactory::populateServiceTypes()
     for (auto servIt = m_entryDict->cbegin(), endIt = m_entryDict->cend(); servIt != endIt; ++servIt) {
         KService::Ptr service(static_cast<KService *>(servIt.value().data()));
         const bool hidden = !service->showInCurrentDesktop();
+        if (hidden) {
+            continue;
+        }
 
-        QList<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
-
-        // Add this service to all its MIME types
-        // Don't cache count(), it can change during iteration! (we can't use an iterator-based loop
-        // here the container could get reallocated which would invalidate iterators)
-        for (int i = 0; i < serviceTypeList.count(); ++i) {
-            const KService::ServiceTypeAndPreference &typeAndPref = serviceTypeList.at(i);
-            const QString stName = typeAndPref.serviceType;
-
-            if (hidden) {
-                continue;
-            }
-            const int preference = typeAndPref.preference;
-
-            KServiceOffer offer(service, preference, 0);
-            QMimeType mime = db.mimeTypeForName(stName);
+        const auto mimeTypes = service->mimeTypes();
+        for (const auto &mimeType : mimeTypes) {
+            KServiceOffer offer(service, 1 /* preference; always 1 here, may be higher based on KMimeAssociations */, 0);
+            QMimeType mime = db.mimeTypeForName(mimeType);
             if (!mime.isValid()) {
-                if (stName.startsWith(QLatin1String("x-scheme-handler/"))) {
+                if (mimeType.startsWith(QLatin1String("x-scheme-handler/"))) {
                     // Create those on demand
-                    m_mimeTypeFactory->createFakeMimeType(stName);
-                    m_offerHash.addServiceOffer(stName, offer);
+                    m_mimeTypeFactory->createFakeMimeType(mimeType);
+                    m_offerHash.addServiceOffer(mimeType, offer);
                 } else {
-                    qCDebug(SYCOCA) << service->entryPath() << "specifies undefined MIME type/servicetype" << stName;
+                    qCDebug(SYCOCA) << service->entryPath() << "specifies undefined MIME type/servicetype" << mimeType;
                     // technically we could call addServiceOffer here, 'mime' isn't used. But it
                     // would be useless, since we have no MIME type entry where to write the offers offset.
                     continue;
                 }
-            } else {
-                bool shouldAdd = true;
-                const auto lst = service->mimeTypes();
+                continue;
+            }
 
-                for (const QString &otherType : lst) {
-                    // Skip derived types if the base class is listed (#321706)
-                    if (stName != otherType && mime.inherits(otherType)) {
-                        // But don't skip aliases (they got resolved into mime.name() already, but don't let two aliases cancel out)
-                        if (db.mimeTypeForName(otherType).name() != mime.name()) {
-                            // qCDebug(SYCOCA) << "Skipping" << mime.name() << "because of" << otherType << "(canonical" << db.mimeTypeForName(otherType) <<
-                            // ") while parsing" << service->entryPath();
-                            shouldAdd = false;
-                        }
+            bool shouldAdd = true;
+            const auto lst = service->mimeTypes();
+
+            for (const QString &otherType : lst) {
+                // Skip derived types if the base class is listed (#321706)
+                if (mimeType != otherType && mime.inherits(otherType)) {
+                    // But don't skip aliases (they got resolved into mime.name() already, but don't let two aliases cancel out)
+                    if (db.mimeTypeForName(otherType).name() != mime.name()) {
+                        // qCDebug(SYCOCA) << "Skipping" << mime.name() << "because of" << otherType << "(canonical" << db.mimeTypeForName(otherType) <<
+                        // ") while parsing" << service->entryPath();
+                        shouldAdd = false;
                     }
                 }
-                if (shouldAdd) {
-                    // qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << mime.name();
-                    m_offerHash.addServiceOffer(mime.name(), offer); // mime.name() so that we resolve aliases
-                }
+            }
+            if (shouldAdd) {
+                // qCDebug(SYCOCA) << "Adding service" << service->entryPath() << "to" << mime.name();
+                m_offerHash.addServiceOffer(mime.name(), offer); // mime.name() so that we resolve aliases
             }
         }
     }
