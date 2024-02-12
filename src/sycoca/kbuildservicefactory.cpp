@@ -9,6 +9,7 @@
 #include "kbuildmimetypefactory_p.h"
 #include "kbuildservicefactory_p.h"
 #include "kbuildservicegroupfactory_p.h"
+#include "kservice_p.h"
 #include "ksycoca.h"
 
 #include "ksycocadict_p.h"
@@ -215,13 +216,13 @@ void KBuildServiceFactory::populateServiceTypes()
         KService::Ptr service(static_cast<KService *>(servIt.value().data()));
         const bool hidden = !service->showInCurrentDesktop();
 
-        QList<KService::ServiceTypeAndPreference> serviceTypeList = service->_k_accessServiceTypes();
+        QList<KServicePrivate::ServiceTypeAndPreference> serviceTypeList = service->d_func()->m_serviceTypes;
 
         // Add this service to all its MIME types
         // Don't cache count(), it can change during iteration! (we can't use an iterator-based loop
         // here the container could get reallocated which would invalidate iterators)
         for (int i = 0; i < serviceTypeList.count(); ++i) {
-            const KService::ServiceTypeAndPreference &typeAndPref = serviceTypeList.at(i);
+            const KServicePrivate::ServiceTypeAndPreference &typeAndPref = serviceTypeList.at(i);
             const QString stName = typeAndPref.serviceType;
 
             if (hidden) {

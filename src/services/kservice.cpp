@@ -30,12 +30,12 @@
 #include "kserviceutil_p.h"
 #include "servicesdebug.h"
 
-QDataStream &operator<<(QDataStream &s, const KService::ServiceTypeAndPreference &st)
+QDataStream &operator<<(QDataStream &s, const KServicePrivate::ServiceTypeAndPreference &st)
 {
     s << st.preference << st.serviceType;
     return s;
 }
-QDataStream &operator>>(QDataStream &s, KService::ServiceTypeAndPreference &st)
+QDataStream &operator>>(QDataStream &s, KServicePrivate::ServiceTypeAndPreference &st)
 {
     s >> st.preference >> st.serviceType;
     return s;
@@ -162,7 +162,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
                     st_it.next();
                 }
             }
-            m_serviceTypes.push_back(KService::ServiceTypeAndPreference(initialPreference, st));
+            m_serviceTypes.push_back(KServicePrivate::ServiceTypeAndPreference(initialPreference, st));
         }
     }
 
@@ -369,7 +369,7 @@ bool KService::hasMimeType(const QString &mimeType) const
         return KSycocaPrivate::self()->serviceFactory()->hasOffer(mimeOffset, serviceOffersOffset, serviceOffset);
     }
 
-    auto matchFunc = [&mime](const ServiceTypeAndPreference &typePref) {
+    auto matchFunc = [&mime](const KServicePrivate::ServiceTypeAndPreference &typePref) {
         // qCDebug(SERVICES) << "    has " << typePref;
         if (typePref.serviceType == mime) {
             return true;
@@ -787,7 +787,7 @@ QStringList KService::mimeTypes() const
     QMimeDatabase db;
     QStringList ret;
 
-    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
+    for (const KServicePrivate::ServiceTypeAndPreference &s : d->m_serviceTypes) {
         const QString servType = s.serviceType;
         if (db.mimeTypeForName(servType).isValid()) { // keep only mimetypes, filter out servicetypes
             ret.append(servType);
@@ -803,7 +803,8 @@ QStringList KService::schemeHandlers() const
     QStringList ret;
 
     const QLatin1String schemeHandlerPrefix("x-scheme-handler/");
-    for (const KService::ServiceTypeAndPreference &s : d->m_serviceTypes) {
+
+    for (const KServicePrivate::ServiceTypeAndPreference &s : d->m_serviceTypes) {
         const QString servType = s.serviceType;
         if (servType.startsWith(schemeHandlerPrefix)) {
             ret.append(servType.mid(schemeHandlerPrefix.size()));
@@ -867,13 +868,6 @@ void KService::setWorkingDirectory(const QString &workingDir)
         d->m_strWorkingDirectory = workingDir;
         d->path.clear();
     }
-}
-
-QList<KService::ServiceTypeAndPreference> KService::_k_accessServiceTypes()
-{
-    Q_D(KService);
-
-    return d->m_serviceTypes;
 }
 
 QList<KServiceAction> KService::actions() const

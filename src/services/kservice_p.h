@@ -58,6 +58,22 @@ public:
 
     QVariant property(const QString &_name, QMetaType::Type t) const;
 
+    /// @internal for KBuildSycoca only
+    struct KSERVICE_NO_EXPORT ServiceTypeAndPreference {
+        ServiceTypeAndPreference()
+            : preference(-1)
+            , serviceType()
+        {
+        }
+        ServiceTypeAndPreference(int pref, const QString &servType)
+            : preference(pref)
+            , serviceType(servType)
+        {
+        }
+        int preference;
+        QString serviceType; // or MIME type
+    };
+
     QStringList categories;
     QString menuId;
     QString m_strType;
@@ -71,7 +87,7 @@ public:
 
     int m_initialPreference = 1; // deprecated
     // the initial preference is per-servicetype now.
-    QList<KService::ServiceTypeAndPreference> m_serviceTypes;
+    QList<KServicePrivate::ServiceTypeAndPreference> m_serviceTypes;
 
     QString m_strDesktopEntryName;
     QMap<QString, QVariant> m_mapProps;
@@ -84,5 +100,8 @@ public:
     bool m_bAllowAsDefault : 1;
     bool m_bTerminal : 1;
     bool m_bValid : 1;
+
+    friend QDataStream &operator>>(QDataStream &, ServiceTypeAndPreference &);
+    friend QDataStream &operator<<(QDataStream &, const ServiceTypeAndPreference &);
 };
 #endif
