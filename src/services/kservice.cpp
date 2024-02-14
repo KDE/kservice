@@ -729,9 +729,9 @@ QStringList KService::mimeTypes() const
     QMimeDatabase db;
     QStringList ret;
 
-    for (const auto &servType : d->m_mimeTypes) {
-        if (db.mimeTypeForName(servType).isValid()) { // keep only mimetypes, filter out servicetypes
-            ret.append(servType);
+    for (const auto &mimeName : d->m_mimeTypes) {
+        if (db.mimeTypeForName(mimeName).isValid()) { // keep only mimetypes, filter out servicetypes
+            ret.append(mimeName);
         }
     }
     return ret;
@@ -744,9 +744,9 @@ QStringList KService::schemeHandlers() const
     QStringList ret;
 
     const QLatin1String schemeHandlerPrefix("x-scheme-handler/");
-    for (const auto &servType : d->m_mimeTypes) {
-        if (servType.startsWith(schemeHandlerPrefix)) {
-            ret.append(servType.mid(schemeHandlerPrefix.size()));
+    for (const auto &mimeName : d->m_mimeTypes) {
+        if (mimeName.startsWith(schemeHandlerPrefix)) {
+            ret.append(mimeName.mid(schemeHandlerPrefix.size()));
         }
     }
 

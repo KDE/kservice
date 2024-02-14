@@ -216,27 +216,27 @@ void KBuildServiceFactory::populateServiceTypes()
         KService::Ptr service(static_cast<KService *>(servIt.value().data()));
         const bool hidden = !service->showInCurrentDesktop();
 
-        const auto serviceTypeList = service->d_func()->m_mimeTypes;
+        const auto mimeTypes = service->d_func()->m_mimeTypes;
 
         // Add this service to all its MIME types
         // Don't cache count(), it can change during iteration! (we can't use an iterator-based loop
         // here the container could get reallocated which would invalidate iterators)
-        for (int i = 0; i < serviceTypeList.count(); ++i) {
-            const QString stName = serviceTypeList.at(i);
+        for (int i = 0; i < mimeTypes.count(); ++i) {
+            const QString &mimeName = mimeTypes.at(i);
 
             if (hidden) {
                 continue;
             }
 
             KServiceOffer offer(service, 1 /* preference; always 1 here, may be higher based on KMimeAssociations */, 0);
-            QMimeType mime = db.mimeTypeForName(stName);
+            QMimeType mime = db.mimeTypeForName(mimeName);
             if (!mime.isValid()) {
-                if (stName.startsWith(QLatin1String("x-scheme-handler/"))) {
+                if (mimeName.startsWith(QLatin1String("x-scheme-handler/"))) {
                     // Create those on demand
-                    m_mimeTypeFactory->createFakeMimeType(stName);
-                    m_offerHash.addServiceOffer(stName, offer);
+                    m_mimeTypeFactory->createFakeMimeType(mimeName);
+                    m_offerHash.addServiceOffer(mimeName, offer);
                 } else {
-                    qCDebug(SYCOCA) << service->entryPath() << "specifies undefined MIME type/servicetype" << stName;
+                    qCDebug(SYCOCA) << service->entryPath() << "specifies undefined MIME type/servicetype" << mimeName;
                     // technically we could call addServiceOffer here, 'mime' isn't used. But it
                     // would be useless, since we have no MIME type entry where to write the offers offset.
                     continue;
@@ -247,7 +247,7 @@ void KBuildServiceFactory::populateServiceTypes()
 
                 for (const QString &otherType : lst) {
                     // Skip derived types if the base class is listed (#321706)
-                    if (stName != otherType && mime.inherits(otherType)) {
+                    if (mimeName != otherType && mime.inherits(otherType)) {
                         // But don't skip aliases (they got resolved into mime.name() already, but don't let two aliases cancel out)
                         if (db.mimeTypeForName(otherType).name() != mime.name()) {
                             // qCDebug(SYCOCA) << "Skipping" << mime.name() << "because of" << otherType << "(canonical" << db.mimeTypeForName(otherType) <<
