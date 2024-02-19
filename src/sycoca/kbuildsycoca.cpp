@@ -403,7 +403,7 @@ bool KBuildSycoca::recreate(bool incremental)
     d->m_mimeTypeFactory = buildMimeTypeFactory;
     m_buildServiceGroupFactory = new KBuildServiceGroupFactory(this);
     d->m_serviceGroupFactory = m_buildServiceGroupFactory;
-    d->m_serviceFactory = new KBuildServiceFactory(buildMimeTypeFactory, m_buildServiceGroupFactory);
+    d->m_serviceFactory = new KBuildServiceFactory(buildMimeTypeFactory);
 
     if (build()) { // Parse dirs
         save(str); // Save database

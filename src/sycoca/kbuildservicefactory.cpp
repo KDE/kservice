@@ -23,14 +23,13 @@
 #include <kmimetypefactory_p.h>
 #include <kservice_p.h>
 
-KBuildServiceFactory::KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactory, KBuildServiceGroupFactory *serviceGroupFactory)
+KBuildServiceFactory::KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactory)
     : KServiceFactory(mimeTypeFactory->sycoca())
     , m_nameMemoryHash()
     , m_relNameMemoryHash()
     , m_menuIdMemoryHash()
     , m_dupeDict()
     , m_mimeTypeFactory(mimeTypeFactory)
-    , m_serviceGroupFactory(serviceGroupFactory)
 {
     m_nameDict = new KSycocaDict();
     m_relNameDict = new KSycocaDict();

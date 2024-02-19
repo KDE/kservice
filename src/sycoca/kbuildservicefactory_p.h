@@ -27,7 +27,7 @@ public:
     /**
      * Create factory
      */
-    KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactory, KBuildServiceGroupFactory *serviceGroupFactory);
+    KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactory);
 
     ~KBuildServiceFactory() override;
 
@@ -83,7 +83,6 @@ private:
     KOfferHash m_offerHash;
 
     KBuildMimeTypeFactory *m_mimeTypeFactory;
-    KBuildServiceGroupFactory *m_serviceGroupFactory;
 };
 
 #endif
