@@ -8,14 +8,15 @@
 # Viesturs Zarins <viesturs.zarins@mii.lu.lv>, 2007, 2008, 2010.
 # Viesturs Zariņš <viesturs.zarins@mii.lu.lv>, 2009.
 # Einars Sprugis <einars8@gmail.com>, 2009.
+# SPDX-FileCopyrightText: 2024 Toms Trasuns <toms.trasuns@posteo.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-01 21:29+0000\n"
-"PO-Revision-Date: 2011-07-06 12:57+0300\n"
-"Last-Translator: Maris Nartiss <maris.kde@gmail.com>\n"
-"Language-Team: Latvian\n"
+"PO-Revision-Date: 2024-02-26 18:27+0200\n"
+"Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
+"Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,86 +24,77 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 "X-Launchpad-Export-Date: 2007-11-22 17:44+0000\n"
-"X-Generator: KBabel 1.11.4\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Viesturs Zariņš, Māris Nartišs"
+msgstr "Viesturs Zariņš, Māris Nartišs, Toms Trasūns"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "viesturs.zarins@mi.lu.lv, maris.kde@gmail.com"
+msgstr "viesturs.zarins@mi.lu.lv, maris.kde@gmail.com, toms.trasuns@posteo.net"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:90
-#, fuzzy, kde-format
-#| msgid "KBuildSycoca"
+#, kde-format
 msgctxt "application name"
 msgid "KBuildSycoca"
 msgstr "KBuildSycoca"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:92
-#, fuzzy, kde-format
-#| msgid "Rebuilds the system configuration cache."
+#, kde-format
 msgctxt "application description"
 msgid "Rebuilds the system configuration cache."
 msgstr "Atjauno sistēmas konfigurācijas kešatmiņu."
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:94
-#, fuzzy, kde-format
-#| msgid "(c) 1999-2002 KDE Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Copyright 1999-2014 KDE Developers"
-msgstr "(c) 1999-2002 KDE izstrādātāji"
+msgstr "(c) 1999–2014 KDE izstrādātāji"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95
-#, fuzzy, kde-format
-#| msgid "David Faure"
+#, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
-#| msgid "Author"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Author"
 msgstr "Autors"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
-#| msgid "Waldo Bastian"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:102
-#, fuzzy, kde-format
-#| msgid "Disable incremental update, re-read everything"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
-msgstr "Atslēgt inkrementālo atjaunošanu, nolasīt visu no jauna "
+msgstr "Izslēgt pakāpenisku atjaunošanu, nolasīt visu no jauna"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, fuzzy, kde-format
-#| msgid "Perform menu generation test run only"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
 msgstr "Veikt tikai izvēlnes ģenerācijas testu"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:105
-#, fuzzy, kde-format
-#| msgid "Track menu id for debug purposes"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
-msgstr "Atkļūdošanas nolūkos izsekot izvēlnes id"
+msgstr "Atkļūdošanas nolūkos izsekot izvēlnes ID"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
-msgstr ""
+msgstr "Pārslēgt „QStandardPaths“ uz testa režīmu, tikai vienības testiem"
 
 #, fuzzy
 #~| msgid "Disable checking files (dangerous)"
