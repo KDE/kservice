@@ -35,7 +35,9 @@ static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
     KMimeTypeFactory *factory = KSycocaPrivate::self()->mimeTypeFactory();
     const int offset = factory->entryOffset(mime);
     if (!offset) {
-        qCWarning(SERVICES) << "KApplicationTrader: mimeType" << mimeType << "not found";
+        if (!mimeType.startsWith(QLatin1String("x-scheme-handler/"))) { // don't warn for unknown scheme handler mimetypes
+            qCWarning(SERVICES) << "KApplicationTrader: mimeType" << mimeType << "not found";
+        }
         return lst; // empty
     }
     const int serviceOffersOffset = factory->serviceOffersOffset(mime);
