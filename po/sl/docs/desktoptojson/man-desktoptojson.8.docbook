@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Slovenian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<refentry lang="&language;">
+
+<refentryinfo>
+<title
+>&kde-frameworks;: KService</title>
+<author
+><firstname
+>Scarlett</firstname
+> <surname
+>Clark</surname
+> <contrib
+>Je napisal izvirno dokumentacijo.</contrib>
+<affiliation>
+<address
+><email
+>scarlett@scarlettgatelyclark.com</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alex</firstname
+> <surname
+>Merry</surname
+> <contrib
+>Je uredil dokumentacijo.</contrib>
+<affiliation>
+<address
+><email
+>alexmerry@kde.org</email
+></address>
+</affiliation>
+</author>
+
+<date
+>02.04.2014</date>
+<releaseinfo
+>Frameworks 5.0</releaseinfo>
+<productname
+>KDE Frameworks</productname>
+
+</refentryinfo>
+
+
+<refmeta>
+<refentrytitle
+><command
+>desktoptojson</command
+></refentrytitle>
+<manvolnum
+>8</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>desktoptojson</command
+></refname>
+<refpurpose
+>Pretvori datoteko <filename class="extension"
+>.desktop</filename
+> v datoteko <filename class="extension"
+>.json</filename
+>.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<title
+>Povzetek</title>
+
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <arg choice="plain"
+>--input <replaceable
+>DESKTOP-FILE</replaceable
+></arg
+> <arg choice="plain"
+>--output <replaceable
+>JSON-FILE</replaceable
+></arg
+> </cmdsynopsis>
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <group choice="req"
+> <arg choice="plain"
+>--version</arg
+> <arg choice="plain"
+>--help</arg
+> </group
+> </cmdsynopsis>
+
+</refsynopsisdiv>
+
+
+
+
+<refsect1>
+<title
+>Opis</title>
+
+<para
+>Ogrodje KService uporablja informacije v datotekah <filename class="extension"
+>.desktop</filename
+> za iskanje storitev, vključno z vtičniki za aplikacije in knjižnice, ki temeljijo na Qt5. Sistem vtičnikov Qt5 pa uporablja &JSON; podatke, vdelane v sam vtičnik. <command
+>desktoptojson</command
+> omogoča, da se informacije v datoteki <filename class="extension"
+>.desktop</filename
+> uporabijo tudi kot vdelani podatki za vtičnik Qt5 s pretvorbo <filename class="extension"
+>.desktop</filename
+> vnosov datoteke v &JSON; podatke.</para>
+
+<para
+>Ustvarjeni &JSON; podatki so &JSON; objekt, ki preslika vnose iz skupine <literal
+>[Desktop Entry]</literal
+> datoteke <filename class="extension"
+>.desktop</filename
+>. Vse druge skupine so prezrte. Večina vnosov je pravkar pretvorjenih v &JSON; nizov, vendar je znano, da so določeni vnosi (kot sta <literal
+>Hidden</literal
+> in <literal
+>X-KDE-PluginInfo-EnabledByDefault</literal
+>) logične vrednosti in kot taki pretvorjeni, in podobno nekateri (kot je <literal
+>X-KDE-ServiceTypes</literal
+> in <literal
+>X-KDE-PluginInfo-Depends</literal
+>) se vedno pretvorijo v nize nizov.</para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Možnosti</title>
+<variablelist>
+
+<varlistentry>
+  <term
+><option
+>--input <replaceable
+>DESKTOP-FILE</replaceable
+></option
+></term>
+<listitem>
+<para
+><filename class="extension"
+>.desktop</filename
+> datoteka za pretvorbo.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--output <replaceable
+>JSON-FILE</replaceable
+></option
+></term>
+<listitem>
+<para
+>Datoteka za pisanje ustvarjenih podatkov &JSON;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help</option
+></term>
+<listitem>
+<para
+>Pokaže kratko besedilo pomoči.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--version</option
+></term>
+<listitem>
+<para
+>Prikaže informacije o različici.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Uporaba</title>
+<para
+>Večina uporabnikov tega pripomočka bo uporabljala &cmake; makro <function
+>kservice_desktop_to_json</function
+> kot del postopka izdelave vtičnika. <programlisting language="cmake">
+<![CDATA[
+add_library(myplugin MODULE ${myplugin_SRCS})
+kservice_desktop_to_json(myplugin myplugin.desktop)
+]]>
+</programlisting
+> To bo ustvarilo &JSON; datoteko <filename
+>myplugin.json</filename
+>, na katero se lahko sklicujete iz makrov <function
+>K_PLUGIN_FACTORY_WITH_JSON</function
+> ali <function
+>Q_PLUGIN_METADATA</function
+>. </para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>Napake</title>
+<para
+>Uporabite <ulink url="https://bugs.kde.org"
+>&kde; sledilnik napak</ulink
+> za poročanje o napakah.</para>
+</refsect1>
+
+</refentry>
+
+
+
