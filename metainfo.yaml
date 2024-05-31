@@ -1,5 +1,5 @@
 maintainer:
-description: Advanced plugin and service introspection
+description: Library for querying installed applications and their associated file types
 tier: 2
 type: solution
 platforms:
