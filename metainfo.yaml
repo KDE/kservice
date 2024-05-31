@@ -1,6 +1,6 @@
 maintainer:
 description: Advanced plugin and service introspection
-tier: 3
+tier: 2
 type: solution
 platforms:
     - name: Linux
@@ -17,4 +17,4 @@ cmakename: KF6Service
 
 public_lib: true
 group: Frameworks
-subgroup: Tier 3
+subgroup: Tier 2
