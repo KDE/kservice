@@ -11,6 +11,7 @@
 #include <KConfigGroup>
 #include <QDebug>
 #include <QFile>
+#include <QFileInfo>
 #include <QMimeDatabase>
 #include <QStandardPaths>
 #include <kservice.h>
@@ -55,8 +56,9 @@ QStringList KMimeAssociations::mimeAppsFiles()
     for (const QString &dir : mimeappsDirs) {
         for (const QString &file : std::as_const(mimeappsFileNames)) {
             const QString filePath = dir + QLatin1Char('/') + file;
-            if (QFile::exists(filePath) && !mimeappsFiles.contains(filePath)) {
-                mimeappsFiles.append(filePath);
+            const QFileInfo fileInfo(filePath);
+            if (fileInfo.exists(filePath) && !mimeappsFiles.contains(fileInfo.absoluteFilePath())) {
+                mimeappsFiles.append(fileInfo.absoluteFilePath());
             }
         }
     }
