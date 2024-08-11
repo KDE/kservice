@@ -57,16 +57,16 @@ public:
     VFolderMenu(KServiceFactory *serviceFactory, KBuildSycocaInterface *kbuildsycocaInterface);
     ~VFolderMenu() override;
 
-    /**
+    /*!
      * Parses VFolder menu definition and generates a menu layout.
      * The newService signals is used as callback to load
      * a specific service description.
      *
-     * @param file Menu file to load
+     * \a file Menu file to load
      */
     SubMenu *parseMenu(const QString &file);
 
-    /**
+    /*!
      * Returns a list of all directories involved in the last call to
      * parseMenu().
      *
@@ -75,7 +75,7 @@ public:
      */
     QStringList allDirectories();
 
-    /**
+    /*!
      * Debug function to enable tracking of what happens with a specific
      * menu item id
      */
@@ -142,37 +142,37 @@ public:
     QString m_trackId;
 
 private:
-    /**
+    /*!
      * Lookup application by relative path
      */
     KService::Ptr findApplication(const QString &relPath);
 
-    /**
+    /*!
      * Lookup applications by category
      */
     QList<KService::List *> findCategory(const QString &category);
 
-    /**
+    /*!
      * Add new application
      */
     void addApplication(const QString &id, KService::Ptr service);
 
-    /**
+    /*!
      * Build application indices
      */
     void buildApplicationIndex(bool unusedOnly);
 
-    /**
+    /*!
      * Create a AppsInfo frame for current menu
      */
     void createAppsInfo();
 
-    /**
+    /*!
      * Load additional AppsInfo frame for current menu
      */
     void loadAppsInfo();
 
-    /**
+    /*!
      * Unload additional AppsInfo frame for current menu
      */
     void unloadAppsInfo();
@@ -182,31 +182,31 @@ private:
     void mergeFile(QDomElement &docElem, const QDomNode &mergeHere);
     void loadMenu(const QString &filename);
 
-    /**
+    /*!
      * Merge the items2 set into the items1 set
      */
     void includeItems(QHash<QString, KService::Ptr> &items1, const QHash<QString, KService::Ptr> &items2);
 
-    /**
+    /*!
      * Remove all items from the items1 set that aren't also in the items2 set
      */
     void matchItems(QHash<QString, KService::Ptr> &items1, const QHash<QString, KService::Ptr> &items2);
 
-    /**
+    /*!
      * Remove all items in the items2 set from the items1 set
      */
     void excludeItems(QHash<QString, KService::Ptr> &items1, const QHash<QString, KService::Ptr> &items2);
 
-    /**
+    /*!
      * Search the parentMenu tree for the menu menuName and takes it
      * out.
      *
      * This function returns a pointer to the menu if it was found
-     * or @c nullptr if it was not found.
+     * or \c nullptr if it was not found.
      */
     SubMenu *takeSubMenu(SubMenu *parentMenu, const QString &menuName);
 
-    /**
+    /*!
      * Insert the menu newMenu with name menuName into the parentMenu.
      * If such menu already exist the result is merged, if any additional
      * submenus are required they are created.
@@ -217,33 +217,33 @@ private:
      */
     void insertSubMenu(VFolderMenu::SubMenu *parentMenu, const QString &menuName, VFolderMenu::SubMenu *newMenu, bool reversePriority = false);
 
-    /**
+    /*!
      * Merge menu2 and its submenus into menu1 and its submenus
      * If reversePriority is false, menu2 has priority over menu1
      * If reversePriority is true, menu1 has priority over menu2
      */
     void mergeMenu(SubMenu *menu1, SubMenu *menu2, bool reversePriority = false);
 
-    /**
+    /*!
      * Inserts service into the menu using name relative to parentMenu
      * Any missing sub-menus are created.
      */
     void insertService(SubMenu *parentMenu, const QString &name, KService::Ptr newService);
 
-    /**
-     * Register the directory that @p file is in.
-     * @see allDirectories()
+    /*!
+     * Register the directory that \a file is in.
+     * \sa allDirectories()
      */
     void registerFile(const QString &file);
 
-    /**
-     * Fill m_usedAppsDict with all applications from @p items
+    /*!
+     * Fill m_usedAppsDict with all applications from \a items
      */
     void markUsedApplications(const QHash<QString, KService::Ptr> &items);
 
-    /**
-     * Register @p directory
-     * @see allDirectories()
+    /*!
+     * Register \a directory
+     * \sa allDirectories()
      */
     void registerDirectory(const QString &directory);
 

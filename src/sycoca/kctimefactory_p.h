@@ -11,8 +11,10 @@
 #include <QHash>
 #include <ksycocafactory_p.h>
 
-/**
+/*!
  * Simple dict for associating a timestamp with each file in ksycoca
+ *
+ * \internal
  */
 class KCTimeDict
 {
@@ -34,27 +36,27 @@ private:
     Hash m_hash;
 };
 
-/**
+/*!
  * Internal factory for storing the timestamp of each file in ksycoca
- * @internal
+ * \internal
  */
 class KCTimeFactory : public KSycocaFactory
 {
     K_SYCOCAFACTORY(KST_CTimeInfo)
 public:
-    /**
+    /*!
      * Create factory
      */
     explicit KCTimeFactory(KSycoca *db);
 
     ~KCTimeFactory() override;
 
-    /**
+    /*!
      * Write out header information
      */
     void saveHeader(QDataStream &str) override;
 
-    /**
+    /*!
      * Write out data
      */
     void save(QDataStream &str) override;

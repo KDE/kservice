@@ -13,7 +13,7 @@
 class KServiceUtilPrivate
 {
 public:
-    /**
+    /*!
      * Lightweight implementation of QFileInfo::completeBaseName.
      *
      * Returns the complete base name of the file without the path.

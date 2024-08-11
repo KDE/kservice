@@ -17,25 +17,25 @@
 
 class KSycoca;
 
-/**
- * @internal  - this header is not installed
+/*!
+ * \internal
  *
  * A sycoca factory for MIME type entries
  * This is only used to point to the "service offers" in ksycoca for each MIME type.
- * @see KMimeType
+ * See KMimeType
  */
 class KMimeTypeFactory : public KSycocaFactory
 {
     K_SYCOCAFACTORY(KST_KMimeTypeFactory)
 public:
-    /**
+    /*!
      * Create factory
      */
     explicit KMimeTypeFactory(KSycoca *db);
 
     ~KMimeTypeFactory() override;
 
-    /**
+    /*!
      * Not meant to be called at this level
      */
     KSycocaEntry *createEntry(const QString &) const override
@@ -44,30 +44,30 @@ public:
         return nullptr;
     }
 
-    /**
+    /*!
      * Returns the possible offset for a given MIME type entry.
      */
     int entryOffset(const QString &mimeTypeName);
 
-    /**
+    /*!
      * Returns the offset into the service offers for a given MIME type.
      */
     int serviceOffersOffset(const QString &mimeTypeName);
 
-    /**
+    /*!
      * Returns the directories to watch for this factory.
      */
     static QStringList resourceDirs();
 
 public:
-    /**
-     * @return all MIME types
+    /*!
+     * Returns all MIME types
      * Slow and memory consuming, avoid using
      */
     QStringList allMimeTypes();
 
-    /**
-     * @return the unique MIME type factory, creating it if necessary
+    /*!
+     * Returns the unique MIME type factory, creating it if necessary
      */
     static KMimeTypeFactory *self();
 

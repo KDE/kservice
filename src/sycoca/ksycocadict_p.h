@@ -20,8 +20,8 @@ class KSycocaDictPrivate;
 class QString;
 class QDataStream;
 
-/**
- * @internal
+/*!
+ * \internal
  * Hash table implementation for the sycoca database file
  *
  * Only exported for the unit test
@@ -29,18 +29,18 @@ class QDataStream;
 class KSERVICE_EXPORT KSycocaDict // krazy:exclude=dpointer (not const because it gets deleted by clear())
 {
 public:
-    /**
+    /*!
      * Create an empty dict, for building the database
      */
     KSycocaDict();
-    /**
+    /*!
      * Create a dict from an existing database
      */
     KSycocaDict(QDataStream *str, int offset);
 
     ~KSycocaDict();
 
-    /**
+    /*!
      * Adds a 'payload' to the dictionary with key 'key'.
      *
      * 'payload' should have a valid offset by the time
@@ -48,14 +48,14 @@ public:
      **/
     void add(const QString &key, const KSycocaEntry::Ptr &payload);
 
-    /**
+    /*!
      * Removes the 'payload' from the dictionary with key 'key'.
      *
      * Not very fast, use with care O(N)
      **/
     void remove(const QString &key);
 
-    /**
+    /*!
      * Looks up an entry identified by 'key'.
      *
      * If 0 is returned, no matching entry exists.
@@ -69,7 +69,7 @@ public:
      */
     int find_string(const QString &key) const;
 
-    /**
+    /*!
      * Looks up all entries identified by 'key'.
      * This is useful when the dict is used as a multi-hash.
      *
@@ -83,21 +83,21 @@ public:
      */
     QList<int> findMultiString(const QString &key) const;
 
-    /**
+    /*!
      * The number of entries in the dictionary.
      *
      * Only valid when building the database.
      */
     uint count() const;
 
-    /**
+    /*!
      * Reset the dictionary.
      *
      * Only valid when building the database.
      */
     void clear();
 
-    /**
+    /*!
      * Save the dictionary to the stream
      * A reasonable fast hash algorithm will be created.
      *

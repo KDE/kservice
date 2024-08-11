@@ -115,7 +115,7 @@ static void writeNonKDEAppDesktopFile(const QString &path, const QStringList &mi
     group.writeXdgListEntry("MimeType", mimeTypes);
 }
 
-/**
+/*!
  * This unit test verifies the parsing of mimeapps.list files, both directly
  * and via kbuildsycoca (and making trader queries).
  */

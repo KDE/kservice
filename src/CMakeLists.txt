@@ -76,6 +76,8 @@ target_include_directories(KF6Service
         "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KService>"
 )
 
+target_include_directories(KF6Service PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_link_libraries(KF6Service
 PUBLIC
     Qt6::Core
@@ -103,6 +105,8 @@ ecm_generate_headers(KService_HEADERS
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
 
+ecm_generate_qdoc(KF6Service kservice.qdocconf)
+
 install(TARGETS KF6Service EXPORT KF6ServiceTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES
@@ -118,33 +122,4 @@ ecm_qt_install_logging_categories(
     DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
 )
 
-if(BUILD_QCH)
-    ecm_add_qch(
-        KF6Service_QCH
-        NAME KService
-        BASE_NAME KF6Service
-        VERSION ${KF_VERSION}
-        ORG_DOMAIN org.kde
-        SOURCES # using only public headers, to cover only public API
-            ${KService_HEADERS}
-        MD_MAINPAGE "${CMAKE_SOURCE_DIR}/README.md"
-        LINK_QCHS
-            KF6Config_QCH
-            KF6CoreAddons_QCH
-        INCLUDE_DIRS
-            ${CMAKE_CURRENT_BINARY_DIR}
-            ${kservice_includes}
-        BLANK_MACROS
-            KSERVICE_EXPORT
-            KSERVICE_DEPRECATED
-            KSERVICE_DEPRECATED_EXPORT
-            "KSERVICE_DEPRECATED_VERSION(x, y, t)"
-            "KSERVICE_DEPRECATED_VERSION_BELATED(x, y, xt, yt, t)"
-        TAGFILE_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
-        QCH_INSTALL_DESTINATION ${KDE_INSTALL_QTQCHDIR}
-        COMPONENT Devel
-    )
-endif()
-
 add_subdirectory(kbuildsycoca)
-

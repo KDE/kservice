@@ -11,14 +11,14 @@
 #include <QStringList>
 #include <kmimetypefactory_p.h>
 
-/**
+/*!
  * Mime-type factory for building ksycoca
- * @internal
+ * \internal
  */
 class KBuildMimeTypeFactory : public KMimeTypeFactory
 {
 public:
-    /**
+    /*!
      * Create factory
      */
     explicit KBuildMimeTypeFactory(KSycoca *db);
@@ -27,7 +27,7 @@ public:
 
     KSycocaEntry::List allEntries() const override;
 
-    /**
+    /*!
      * Construct a KMimeType from a config file.
      */
     KSycocaEntry *createEntry(const QString &file) const override;
@@ -40,12 +40,12 @@ public:
 
     KMimeTypeFactory::MimeTypeEntry::Ptr createFakeMimeType(const QString &name);
 
-    /**
+    /*!
      * Write out MIME type specific index files.
      */
     void save(QDataStream &str) override;
 
-    /**
+    /*!
      * Write out header information
      *
      * Don't forget to call the parent first when you override
