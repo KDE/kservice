@@ -1,0 +1,17 @@
+include($KDE_DOCS/global/qt-module-defaults-online.qdocconf)
+
+project = KService
+description = KService allows to query information about installed applications and their associated file types
+
+documentationinheaders = true
+
+headerdirs += .
+sourcedirs += .
+
+outputformats = HTML
+
+depends += \
+    kde \
+    qtcore \
+    kconfigcore \
+    kiowidgets

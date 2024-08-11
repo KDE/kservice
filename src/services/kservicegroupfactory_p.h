@@ -15,8 +15,8 @@
 class KSycoca;
 class KSycocaDict;
 
-/**
- * @internal
+/*!
+ * \internal
  * A sycoca factory for service groups (e.g. list of applications)
  * It loads the services from parsing directories (e.g. share/applications/)
  *
@@ -26,13 +26,13 @@ class KServiceGroupFactory : public KSycocaFactory
 {
     K_SYCOCAFACTORY(KST_KServiceGroupFactory)
 public:
-    /**
+    /*!
      * Create factory
      */
     explicit KServiceGroupFactory(KSycoca *db);
     ~KServiceGroupFactory() override;
 
-    /**
+    /*!
      * Construct a KServiceGroup from a config file.
      */
     KSycocaEntry *createEntry(const QString &) const override
@@ -41,17 +41,17 @@ public:
         return nullptr;
     }
 
-    /**
+    /*!
      * Find a group ( by desktop path, e.g. "Applications/Editors")
      */
     virtual KServiceGroup::Ptr findGroupByDesktopPath(const QString &_name, bool deep = true);
 
-    /**
+    /*!
      * Find a base group by name, e.g. "settings"
      */
     KServiceGroup::Ptr findBaseGroup(const QString &_baseGroupName, bool deep = true);
 
-    /**
+    /*!
      * @return the unique service group factory, creating it if necessary
      */
     static KServiceGroupFactory *self();

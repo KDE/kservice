@@ -41,7 +41,7 @@
 #include <utime.h>
 #endif
 
-/**
+/*
  * Sycoca file version number.
  * If the existing file is outdated, it will not get read
  * but instead we'll regenerate a new one.

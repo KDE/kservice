@@ -9,8 +9,7 @@
 #ifndef KSYCOCATYPE_H
 #define KSYCOCATYPE_H
 
-/**
- * \relates KSycocaEntry
+/*
  * A KSycocaType is a code (out of the KSycocaType enum) assigned to each
  * class type derived from KSycocaEntry .
  * To use it, call the macro K_SYCOCATYPE( your_typecode, parent_class )
@@ -29,8 +28,7 @@ enum KSycocaType {
     KST_KCustom = 1000,
 };
 
-/**
- * \relates KSycocaFactory
+/*
  * A KSycocaFactoryId is a code (out of the KSycocaFactoryId enum)
  * assigned to each class type derived from KSycocaFactory.
  * To use it, call the macro K_SYCOCAFACTORY( your_factory_id )
