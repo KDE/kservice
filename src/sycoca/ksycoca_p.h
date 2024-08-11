@@ -42,7 +42,7 @@ struct KSycocaHeader {
 
 QDataStream &operator>>(QDataStream &in, KSycocaHeader &h);
 
-/**
+/*!
  * \internal
  * Exported for unittests
  */
@@ -69,17 +69,17 @@ public:
     void setStrategyFromString(const QString &strategy);
     bool tryMmap();
 
-    /**
+    /*!
      * Check if the on-disk cache needs to be rebuilt, and do it then.
      */
     void checkDirectories();
 
-    /**
+    /*!
      * Check if the on-disk cache needs to be rebuilt, and return true
      */
     bool needsRebuild();
 
-    /**
+    /*!
      * Recreate the cache and reopen the database
      */
     bool buildSycoca();

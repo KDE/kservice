@@ -20,8 +20,8 @@ class QDataStream;
 class KCTimeFactory;
 class KCTimeDict;
 
-/**
- * @internal
+/*!
+ * \internal
  * Exported for kbuildsycoca, but not installed.
  */
 class KSERVICE_EXPORT KBuildSycoca : public KSycoca, public KBuildSycocaInterface
@@ -31,7 +31,7 @@ public:
     explicit KBuildSycoca();
     ~KBuildSycoca() override;
 
-    /**
+    /*!
      * Recreate the database file.
      * @return true if it was indeed recreated (by us or possibly by someone else), false on error
      */
@@ -51,7 +51,7 @@ public:
     static QStringList factoryExtraFiles();
     static QStringList existingResourceDirs();
 
-    /**
+    /*!
      * Returns a number that identifies the current version of the file @p filename,
      * which is located under GenericDataLocation (including local overrides).
      *
@@ -59,52 +59,52 @@ public:
      */
     static quint32 calcResourceHash(const QString &subdir, const QString &filename);
 
-    /**
+    /*!
      * Compare our current settings (language, prefixes...) with the ones from the existing ksycoca global header.
      * @return true if they match (= we can reuse this ksycoca), false otherwise (full build)
      */
     bool checkGlobalHeader();
 
-    /**
+    /*!
      * @brief path to the sycoca file, for the crash handler in kbuildsycoca
      */
     static const char *sycocaPath();
 
 private:
-    /**
+    /*!
      * Add single entry to the sycoca database.
      * Either from a previous database or regenerated from file.
      */
     KSERVICE_NO_EXPORT KSycocaEntry::Ptr createEntry(KSycocaFactory *currentFactory, const QString &file);
 
-    /**
+    /*!
      * Implementation of KBuildSycocaInterface
      * Create service and return it. The caller must add it to the servicefactory.
      */
     KService::Ptr createService(const QString &path) override;
 
-    /**
+    /*!
      * Convert a VFolderMenu::SubMenu to KServiceGroups.
      */
     KSERVICE_NO_EXPORT void createMenu(const QString &caption, const QString &name, VFolderMenu::SubMenu *menu);
 
-    /**
+    /*!
      * Build the whole system cache, from .desktop files
      */
     KSERVICE_NO_EXPORT bool build();
 
-    /**
+    /*!
      * Save the ksycoca file
      */
     KSERVICE_NO_EXPORT void save(QDataStream *str);
 
-    /**
+    /*!
      * Clear the factories
      */
     KSERVICE_NO_EXPORT void clear();
 
-    /**
-     * @internal
+    /*!
+     * \internal
      * @return true if building (i.e. if a KBuildSycoca);
      */
     bool isBuilding() override

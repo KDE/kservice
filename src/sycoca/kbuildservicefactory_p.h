@@ -17,14 +17,14 @@
 class KBuildServiceGroupFactory;
 class KBuildMimeTypeFactory;
 
-/**
+/*!
  * Service factory for building ksycoca
- * @internal
+ * \internal
  */
 class KBuildServiceFactory : public KServiceFactory
 {
 public:
-    /**
+    /*!
      * Create factory
      */
     KBuildServiceFactory(KBuildMimeTypeFactory *mimeTypeFactory);
@@ -38,7 +38,7 @@ public:
     /// Reimplemented from KServiceFactory
     KService::Ptr findServiceByMenuId(const QString &menuId) override;
 
-    /**
+    /*!
      * Construct a KService from a config file.
      */
     KSycocaEntry *createEntry(const QString &file) const override;
@@ -49,17 +49,17 @@ public:
         return nullptr;
     }
 
-    /**
+    /*!
      * Add a new entry.
      */
     void addEntry(const KSycocaEntry::Ptr &newEntry) override;
 
-    /**
+    /*!
      * Write out service specific index files.
      */
     void save(QDataStream &str) override;
 
-    /**
+    /*!
      * Write out header information
      *
      * Don't forget to call the parent first when you override

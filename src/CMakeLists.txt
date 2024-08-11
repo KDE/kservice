@@ -76,6 +76,8 @@ target_include_directories(KF6Service
         "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF}/KService>"
 )
 
+target_include_directories(KF6Service PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+
 target_link_libraries(KF6Service
 PUBLIC
     Qt6::Core
@@ -102,6 +104,8 @@ ecm_generate_headers(KService_HEADERS
 
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
+
+ecm_generate_qdoc(KF6Service kservice.qdocconf)
 
 install(TARGETS KF6Service EXPORT KF6ServiceTargets ${KF_INSTALL_TARGETS_DEFAULT_ARGS})
 
