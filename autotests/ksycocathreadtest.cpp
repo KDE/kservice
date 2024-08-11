@@ -131,7 +131,7 @@ private:
     QAtomicInt m_stop; // bool
 };
 
-/**
+/*!
  * Threads with an event loop will be able to process "database changed" signals.
  * Threads without an event loop (like WorkerThread) cannot, so they will keep using
  * the old data.
