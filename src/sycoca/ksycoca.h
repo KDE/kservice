@@ -21,13 +21,13 @@ class KSycocaFactory;
 class KSycocaFactoryList;
 class KSycocaPrivate;
 
-/**
+/*!
  * Executable name of the kbuildsycoca program
  */
 #define KBUILDSYCOCA_EXENAME "kbuildsycoca6"
 
-/**
- * @internal
+/*!
+ * \internal
  * Read-only SYstem COnfiguration CAche
  */
 class KSERVICE_EXPORT KSycoca : public QObject
@@ -36,50 +36,50 @@ class KSERVICE_EXPORT KSycoca : public QObject
     // Q_CLASSINFO("D-Bus Interface", "org.kde.KSycoca")
 
 protected:
-    /**
-     * @internal
+    /*!
+     * \internal
      * Building database
      */
     explicit KSycoca(bool /* buildDatabase */);
 
 public:
-    /**
+    /*!
      * Read-only database
      */
     KSycoca();
 
-    /**
+    /*!
      * Get or create the only instance of KSycoca (read-only)
      */
     static KSycoca *self();
 
     ~KSycoca() override;
 
-    /**
+    /*!
      * @return the compiled-in version, i.e. the one used when writing a new ksycoca
      */
     static int version();
 
-    /**
+    /*!
      * @return true if the ksycoca database is available
      * This is usually the case, except if KDE isn't installed yet,
      * or before kded is started.
      */
     static bool isAvailable();
 
-    /**
-     * @internal - called by factories in read-only mode
+    /*!
+     * \internal - called by factories in read-only mode
      * This is how factories get a stream to an entry
      */
     QDataStream *findEntry(int offset, KSycocaType &type); // KF6: make it private
-    /**
-     * @internal - called by factories in read-only mode
+    /*!
+     * \internal - called by factories in read-only mode
      * Returns stream(), but positioned for reading this factory, 0 on error.
      */
     QDataStream *findFactory(KSycocaFactoryId id); // KF6: make it private
 
-    /**
-     * @internal - returns absolute file path of the database
+    /*!
+     * \internal - returns absolute file path of the database
      *
      * For the global database type, the database is searched under
      * the 'share/ksycoca' install path.
@@ -94,24 +94,24 @@ public:
      */
     static QString absoluteFilePath();
 
-    /**
-     * @internal - returns all directories with information
+    /*!
+     * \internal - returns all directories with information
      * stored inside sycoca.
      */
     QStringList allResourceDirs(); // KF6: make it private
 
-    /**
-     * @internal - add a factory
+    /*!
+     * \internal - add a factory
      */
     void addFactory(KSycocaFactory *); // KF6: make it private
 
-    /**
-     * @internal
+    /*!
+     * \internal
      * @return true if building (i.e. if a KBuildSycoca);
      */
     virtual bool isBuilding();
 
-    /**
+    /*!
      * Disables automatic rebuilding of the cache on service file changes.
      * Be extremely careful when using this. Only threads that definitely have no use for
      * automatic reloading should use this. Specifically shared runner threads (as seen in
@@ -120,13 +120,13 @@ public:
      */
     static void disableAutoRebuild();
 
-    /**
+    /*!
      * A read error occurs.
-     * @internal
+     * \internal
      */
     static void flagError();
 
-    /**
+    /*!
      * Ensures the ksycoca database is up to date.
      * If the database was modified by another process, close it, so the next use reopens it.
      * If the desktop files have been modified more recently than the database, update it.
@@ -147,7 +147,7 @@ public:
      */
     void ensureCacheValid(); // Warning for kservice code: this can delete all the factories.
 
-    /**
+    /*!
      * Sets up a minimal applications.menu file in the appropriate location.
      * This is useful when writing unit tests that interact with KService.
      *
@@ -157,7 +157,7 @@ public:
      */
     static void setupTestMenu();
 
-    /**
+    /*!
      * Connect to this to get notified when the database changes.
      *
      * Example: after creating a .desktop file in KOpenWithDialog, it
@@ -169,10 +169,10 @@ public:
     Q_SIGNAL void databaseChanged();
 
 protected:
-    // @internal used by kbuildsycoca
+    // \internal used by kbuildsycoca
     KSycocaFactoryList *factories();
 
-    // @internal used by factories and kbuildsycoca
+    // \internal used by factories and kbuildsycoca
     QDataStream *&stream();
     friend class KSycocaFactory;
     friend class KSycocaDict;
@@ -180,9 +180,9 @@ protected:
     void connectNotify(const QMetaMethod &signal) override;
 
 private:
-    /**
+    /*!
      * Clear all caches related to ksycoca contents.
-     * @internal only used by kded and kbuildsycoca.
+     * \internal only used by kded and kbuildsycoca.
      */
     static void clearCaches();
 

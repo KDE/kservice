@@ -12,8 +12,9 @@
 #include <functional>
 #include <kservice.h>
 
-/**
- * @namespace KApplicationTrader
+/*!
+ * \namespace KApplicationTrader
+ * \inmodule KService
  *
  * The application trader is a convenient way to find installed applications
  * based on specific criteria (association with a MIME type, name contains Foo, etc.)
@@ -25,20 +26,20 @@
  * \endcode
  *
  * If you want to get the preferred application for image/png you would use:
- * @code
+ * \code
  * KService::Ptr service = KApplicationTrader::preferredService("image/png");
- * @endcode
+ * \endcode
  *
- * @see KService
+ * \sa KService
  */
 namespace KApplicationTrader
 {
-/**
+/*!
  * Filter function, used for filtering results of query and queryByMimeType.
  */
 using FilterFunc = std::function<bool(const KService::Ptr &)>;
 
-/**
+/*!
  * This method returns a list of services (applications) that match a given filter.
  *
  * @param filter a callback function that returns @c true if the application
@@ -49,7 +50,7 @@ using FilterFunc = std::function<bool(const KService::Ptr &)>;
  */
 KSERVICE_EXPORT KService::List query(FilterFunc filterFunc);
 
-/**
+/*!
  * This method returns a list of services (applications) which are associated with a given MIME type.
  *
  * @param mimeType a MIME type like 'text/plain' or 'text/html'
@@ -64,7 +65,7 @@ KSERVICE_EXPORT KService::List query(FilterFunc filterFunc);
  */
 KSERVICE_EXPORT KService::List queryByMimeType(const QString &mimeType, FilterFunc filterFunc = {});
 
-/**
+/*!
  * Returns the preferred service for @p mimeType
  *
  * This a convenience method for queryByMimeType(mimeType).at(0), with a check for empty.
@@ -75,7 +76,7 @@ KSERVICE_EXPORT KService::List queryByMimeType(const QString &mimeType, FilterFu
  */
 KSERVICE_EXPORT KService::Ptr preferredService(const QString &mimeType);
 
-/**
+/*!
  * Changes the preferred service for @p mimeType to @p service
  *
  * You may need to rebuild KSyCoca for the change to be reflected
@@ -86,7 +87,7 @@ KSERVICE_EXPORT KService::Ptr preferredService(const QString &mimeType);
  */
 KSERVICE_EXPORT void setPreferredService(const QString &mimeType, const KService::Ptr service);
 
-/**
+/*!
  * Returns true if @p pattern matches a subsequence of the string @p text.
  * For instance the pattern "libremath" matches the text "LibreOffice Math", assuming
  * @p cs is Qt::CaseInsensitive.
