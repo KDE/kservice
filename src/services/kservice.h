@@ -55,23 +55,28 @@ public:
 
     /*!
      * Construct a temporary service with a given name, exec-line and icon.
-     * @param name the name of the service
-     * @param exec the executable
-     * @param icon the name of the icon
+     *
+     * \a name the name of the service
+     *
+     * \a exec the executable
+     *
+     * \a icon the name of the icon
      */
     KService(const QString &name, const QString &exec, const QString &icon);
 
     /*!
      * Construct a service and take all information from a .desktop file.
      *
-     * @param fullpath Full path to the .desktop file.
+     * \a fullpath Full path to the .desktop file.
      */
     explicit KService(const QString &fullpath);
 
     /*!
      * Construct a service and take all information from a desktop file.
-     * @param config the desktop file to read
-     * @param optional relative path to store for findByName
+     *
+     * \a config the desktop file to read
+     *
+     * \a optional relative path to store for findByName
      */
     explicit KService(const KDesktopFile *config, const QString &entryPath = QString());
 
@@ -81,21 +86,22 @@ public:
 
     /*!
      * Whether this service is an application
-     * @return true if this service is an application, i.e. it has Type=Application in its
+     *
+     * Returns \c true if this service is an application, i.e. it has \c Type=Application in its
      * .desktop file and exec() will not be empty.
      */
     bool isApplication() const;
 
     /*!
      * Returns the executable.
-     * @return the command that the service executes,
+     *
+     * Returns the command that the service executes,
      *         or QString() if not set
      */
     QString exec() const;
 
     /*!
-     * Returns the name of the icon.
-     * @return the icon associated with the service,
+     * Returns the name of the icon associated with the service,
      *         or QString() if not set
      */
     QString icon() const;
@@ -104,7 +110,7 @@ public:
      *
      * This corresponds to `Terminal=true` in the .desktop file.
      *
-     * @return @c true if the application should be run in a terminal.
+     * Returns \c true if the application should be run in a terminal.
      */
     bool terminal() const;
 
@@ -113,21 +119,19 @@ public:
      * runs in, if it requires a terminal.
      *
      * The application must be a TTY-oriented program.
-     * @return the terminal options,
-     *         or QString() if not set
      */
     QString terminalOptions() const;
 
     /*!
-     * Returns @c true if the application indicates that it's preferred to run
-     * on a discrete graphics card, otherwise return @c false.
+     * Returns \c true if the application indicates that it's preferred to run
+     * on a discrete graphics card, otherwise return \c false.
      *
-     * In releases older than 5.86, this method checked for the @c X-KDE-RunOnDiscreteGpu
+     * In releases older than 5.86, this method checked for the \c X-KDE-RunOnDiscreteGpu
      * key in the .desktop file represented by this service; starting from 5.86 this method
-     * now also checks for @c PrefersNonDefaultGPU key (added to the Freedesktop.org desktop
+     * now also checks for \c PrefersNonDefaultGPU key (added to the Freedesktop.org desktop
      * entry spec in version 1.4 of the spec).
      *
-     * @since 5.30
+     * \since KService 5.30
      */
     bool runOnDiscreteGpu() const;
 

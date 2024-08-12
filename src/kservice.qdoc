@@ -1,8 +1,9 @@
 /*!
     \module KService
-    \title KService
+    \title KService C++ Classes
     \ingroup modules
-    \qtcmakepackage Service
+    \cmakepackage KF6
+    \cmakecomponent Service
 
     \brief IO
 

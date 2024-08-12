@@ -53,6 +53,8 @@ private:
  * Parse mimeapps.list files and:
  * - modify MIME type associations in the relevant services (using KServiceFactory)
  * - remember preference order specified by user
+ *
+ * \internal
  */
 class KMimeAssociations
 {
