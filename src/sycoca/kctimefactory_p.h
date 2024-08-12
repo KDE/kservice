@@ -13,6 +13,8 @@
 
 /*!
  * Simple dict for associating a timestamp with each file in ksycoca
+ *
+ * \internal
  */
 class KCTimeDict
 {

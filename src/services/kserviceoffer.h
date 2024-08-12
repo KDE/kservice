@@ -23,9 +23,6 @@ class KServiceOfferPrivate;
  * for this offer, ...). Basically it is a reference to a
  * KService, a number that represents the user's preference (bigger
  * is better) and a flag whether the KService can be used as default.
- *
- * @see KService
- * @short Holds the user's preference of a service.
  */
 class KSERVICE_EXPORT KServiceOffer // exported for kbuildsycoca
 {
@@ -43,13 +40,17 @@ public:
 
     /*!
      * Creates a new KServiceOffer.
-     * @param service a pointer to the KService
-     * @param pref the user's preference value, must be positive,
+     *
+     * \a service a pointer to the KService
+     *
+     * \a pref the user's preference value, must be positive,
      *              bigger is better
-     * @param mimeTypeInheritanceLevel level of MIME type inheritance
+     *
+     * \a mimeTypeInheritanceLevel level of MIME type inheritance
      *       which allows this service to handling the MIME type.
      *       0 if no inheritance involved, 1 for parent MIME type, etc.
-     * @since 5.71
+     *
+     * \since 5.71
      */
     KServiceOffer(const KService::Ptr &service, int pref, int mimeTypeInheritanceLevel);
 
@@ -68,7 +69,8 @@ public:
 
     /*!
      * The bigger this number is, the better is this service.
-     * @return the preference number (negative numbers will be
+     *
+     * Returns the preference number (negative numbers will be
      *         returned by invalid service offers)
      */
     int preference() const;
@@ -82,7 +84,7 @@ public:
 
     /*!
      * The service which this offer is about.
-     * @return the service this offer is about, can be @c nullptr
+     * Returns the service this offer is about, can be \c nullptr
      *         in valid offers or when not set
      */
     KService::Ptr service() const;
@@ -90,7 +92,8 @@ public:
     /*!
      * Check whether the entry is valid. A service is valid if
      * its preference value is positive.
-     * @return true if the service offer is valid
+     *
+     * Returns true if the service offer is valid
      */
     bool isValid() const;
 
@@ -110,9 +113,6 @@ private:
     std::unique_ptr<KServiceOfferPrivate> const d;
 };
 
-/*!
- * A list of weighted offers.
- */
 typedef QList<KServiceOffer> KServiceOfferList;
 
 QDebug operator<<(QDebug dbg, const KServiceOffer &offer);

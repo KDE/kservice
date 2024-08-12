@@ -62,7 +62,7 @@ public:
      * The newService signals is used as callback to load
      * a specific service description.
      *
-     * @param file Menu file to load
+     * \a file Menu file to load
      */
     SubMenu *parseMenu(const QString &file);
 
@@ -202,7 +202,7 @@ private:
      * out.
      *
      * This function returns a pointer to the menu if it was found
-     * or @c nullptr if it was not found.
+     * or \c nullptr if it was not found.
      */
     SubMenu *takeSubMenu(SubMenu *parentMenu, const QString &menuName);
 
@@ -231,19 +231,19 @@ private:
     void insertService(SubMenu *parentMenu, const QString &name, KService::Ptr newService);
 
     /*!
-     * Register the directory that @p file is in.
-     * @see allDirectories()
+     * Register the directory that \a file is in.
+     * \sa allDirectories()
      */
     void registerFile(const QString &file);
 
     /*!
-     * Fill m_usedAppsDict with all applications from @p items
+     * Fill m_usedAppsDict with all applications from \a items
      */
     void markUsedApplications(const QHash<QString, KService::Ptr> &items);
 
     /*!
-     * Register @p directory
-     * @see allDirectories()
+     * Register \a directory
+     * \sa allDirectories()
      */
     void registerDirectory(const QString &directory);
 

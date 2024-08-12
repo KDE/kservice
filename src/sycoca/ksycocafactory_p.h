@@ -47,12 +47,12 @@ public:
     virtual ~KSycocaFactory();
 
     /*!
-     * @return the position of the factory in the sycoca file
+     * Returns the position of the factory in the sycoca file
      */
     int offset() const;
 
     /*!
-     * @return the dict, for special use by KBuildSycoca
+     * Returns the dict, for special use by KBuildSycoca
      */
     KSycocaEntryDict *entryDict()
     {
@@ -109,18 +109,18 @@ public:
     virtual void saveHeader(QDataStream &str);
 
     /*!
-     * @return the resources for which this factory is responsible.
+     * Returns the resources for which this factory is responsible.
      * \internal to kbuildsycoca
      */
     const KSycocaResourceList &resourceList() const;
 
     /*!
-     * @return the sycoca dict, for factories to find entries by name.
+     * Returns the sycoca dict, for factories to find entries by name.
      */
     const KSycocaDict *sycocaDict() const;
 
     /*!
-     * @return true if the factory is completely empty - no entries defined
+     * Returns true if the factory is completely empty - no entries defined
      */
     bool isEmpty() const;
 
@@ -136,7 +136,7 @@ protected:
     KSycocaEntryDict *m_entryDict = nullptr;
 
     /*!
-     * Returns all directories for the given @p subdir of GenericDataLocation.
+     * Returns all directories for the given subdir of GenericDataLocation.
      * Helper function for AnyFactory::resourceDirs().
      */
     static QStringList allDirectories(const QString &subdir);

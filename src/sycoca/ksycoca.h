@@ -22,13 +22,18 @@ class KSycocaFactoryList;
 class KSycocaPrivate;
 
 /*!
+ * \macro KBUILDSYCOCA_EXENAME
+ * \relates KSycoca
+ *
  * Executable name of the kbuildsycoca program
  */
 #define KBUILDSYCOCA_EXENAME "kbuildsycoca6"
 
 /*!
- * \internal
- * Read-only SYstem COnfiguration CAche
+ * \class KSycoca
+ * \inmodule KService
+ *
+ * \brief Read-only SYstem COnfiguration CAche.
  */
 class KSERVICE_EXPORT KSycoca : public QObject
 {
@@ -43,9 +48,6 @@ protected:
     explicit KSycoca(bool /* buildDatabase */);
 
 public:
-    /*!
-     * Read-only database
-     */
     KSycoca();
 
     /*!
@@ -56,12 +58,13 @@ public:
     ~KSycoca() override;
 
     /*!
-     * @return the compiled-in version, i.e. the one used when writing a new ksycoca
+     * Returns the compiled-in version, i.e. the one used when writing a new ksycoca
      */
     static int version();
 
     /*!
-     * @return true if the ksycoca database is available
+     * Returns \c true if the ksycoca database is available
+     *
      * This is usually the case, except if KDE isn't installed yet,
      * or before kded is started.
      */
@@ -113,6 +116,7 @@ public:
 
     /*!
      * Disables automatic rebuilding of the cache on service file changes.
+     *
      * Be extremely careful when using this. Only threads that definitely have no use for
      * automatic reloading should use this. Specifically shared runner threads (as seen in
      * the threadweaver framework) can avoid claiming persistent resources this way
@@ -128,6 +132,7 @@ public:
 
     /*!
      * Ensures the ksycoca database is up to date.
+     *
      * If the database was modified by another process, close it, so the next use reopens it.
      * If the desktop files have been modified more recently than the database, update it.
      *
@@ -143,17 +148,18 @@ public:
      *
      * KBuildSycocaProgressDialog can also be used instead of this method, in GUI apps.
      *
-     * @since 5.15
+     * \since 5.15
      */
     void ensureCacheValid(); // Warning for kservice code: this can delete all the factories.
 
     /*!
      * Sets up a minimal applications.menu file in the appropriate location.
+     *
      * This is useful when writing unit tests that interact with KService.
      *
      * You should call QStandardPaths::setTestModeEnabled(true) before calling this.
      *
-     * @since 6.0
+     * \since 6.0
      */
     static void setupTestMenu();
 

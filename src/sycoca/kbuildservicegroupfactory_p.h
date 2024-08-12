@@ -38,12 +38,12 @@ public:
     }
 
     /*!
-     * Adds the entry @p newEntry to the menu @p menuName
+     * Adds the entry \a newEntry to the menu \a menuName
      */
     void addNewEntryTo(const QString &menuName, const KService::Ptr &newEntry);
 
     /*!
-     * Adds the entry @p newEntry to the "parent group" @p parent, creating
+     * Adds the entry \a newEntry to the "parent group" \a parent, creating
      * the group if necessary.
      * A "parent group" is a group of services that all have the same
      * "X-KDE-ParentApp".
@@ -51,8 +51,8 @@ public:
     void addNewChild(const QString &parent, const KSycocaEntry::Ptr &newEntry);
 
     /*!
-     * Add new menu @p menuName defined by @p file
-     * When @p entry is non-null it is re-used, otherwise a new group is created.
+     * Add new menu \a menuName defined by \a file
+     * When \a entry is non-null it is re-used, otherwise a new group is created.
      * A pointer to the group is returned.
      */
     KServiceGroup::Ptr addNew(const QString &menuName, const QString &file, KServiceGroup::Ptr entry, bool isDeleted);

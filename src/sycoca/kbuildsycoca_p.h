@@ -33,7 +33,7 @@ public:
 
     /*!
      * Recreate the database file.
-     * @return true if it was indeed recreated (by us or possibly by someone else), false on error
+     * Returns true if it was indeed recreated (by us or possibly by someone else), false on error
      */
     bool recreate(bool incremental = true);
 
@@ -52,7 +52,7 @@ public:
     static QStringList existingResourceDirs();
 
     /*!
-     * Returns a number that identifies the current version of the file @p filename,
+     * Returns a number that identifies the current version of the file \a filename,
      * which is located under GenericDataLocation (including local overrides).
      *
      * When a change is made to the file this number will change.
@@ -61,12 +61,12 @@ public:
 
     /*!
      * Compare our current settings (language, prefixes...) with the ones from the existing ksycoca global header.
-     * @return true if they match (= we can reuse this ksycoca), false otherwise (full build)
+     * Returns true if they match (= we can reuse this ksycoca), false otherwise (full build)
      */
     bool checkGlobalHeader();
 
     /*!
-     * @brief path to the sycoca file, for the crash handler in kbuildsycoca
+     * path to the sycoca file, for the crash handler in kbuildsycoca
      */
     static const char *sycocaPath();
 
@@ -105,7 +105,7 @@ private:
 
     /*!
      * \internal
-     * @return true if building (i.e. if a KBuildSycoca);
+     * Returns true if building (i.e. if a KBuildSycoca);
      */
     bool isBuilding() override
     {
