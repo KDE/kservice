@@ -88,7 +88,10 @@ KService::Ptr KApplicationTrader::preferredService(const QString &mimeType)
 {
     const KService::List offers = queryByMimeType(mimeType);
     if (!offers.isEmpty()) {
-        return offers.at(0);
+        const QStringList disallowedServices = {QStringLiteral("xdg-open"), QStringLiteral("kde-open")};
+        if (!disallowedServices.contains(offers.at(0).constData()->exec())) {
+            return offers.at(0);
+        }
     }
     return KService::Ptr();
 }
