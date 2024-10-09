@@ -82,7 +82,7 @@ KService::List KApplicationTrader::queryByMimeType(const QString &mimeType, Filt
 
     // Avoid endless loops by disallowing setting xdg-open or kde-open as service for mimetype
     // BUG:494335
-    lst.removeIf([](const auto service) {
+    lst.removeIf([](const auto &service) {
         return QStringList{QStringLiteral("xdg-open"), QStringLiteral("kde-open")}.contains(service->exec());
     });
 
