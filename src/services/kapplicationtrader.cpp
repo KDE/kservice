@@ -80,6 +80,12 @@ KService::List KApplicationTrader::queryByMimeType(const QString &mimeType, Filt
 
     applyFilter(lst, filterFunc, false); // false = allow NotShowIn=KDE services listed in mimeapps.list
 
+    const QStringList disallowedServices = {QStringLiteral("xdg-open"), QStringLiteral("kde-open")};
+
+    lst.removeIf([disallowedServices](const auto service) {
+        return disallowedServices.contains(service->exec());
+    });
+
     qCDebug(SERVICES) << "query for mimeType" << mimeType << "returning" << lst.count() << "offers";
     return lst;
 }
@@ -88,10 +94,7 @@ KService::Ptr KApplicationTrader::preferredService(const QString &mimeType)
 {
     const KService::List offers = queryByMimeType(mimeType);
     if (!offers.isEmpty()) {
-        const QStringList disallowedServices = {QStringLiteral("xdg-open"), QStringLiteral("kde-open")};
-        if (!disallowedServices.contains(offers.at(0).constData()->exec())) {
-            return offers.at(0);
-        }
+        return offers.at(0);
     }
     return KService::Ptr();
 }
