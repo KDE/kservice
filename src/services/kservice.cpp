@@ -159,6 +159,33 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
         }
     }
 
+    const auto groups = config->groupList();
+
+    for (const QString &groupName : groups) {
+        if (groupName == u"Desktop Entry") {
+            continue;
+        }
+
+        if (groupName.startsWith(u"Desktop Action")) {
+            continue;
+        }
+
+        qWarning() << "found" << m_strName << groupName;
+
+        KConfigGroup group = config->group(groupName);
+
+        auto map = group.entryMap();
+
+        // QVariantMap props;
+        //
+        // for (auto[key, value]:map.asKeyValueRange()) {
+        //     props.insert(key, value);
+        //     qWarning() << key <<value;
+        // }
+
+        m_groupProps[groupName] = map;
+    }
+
     // parse actions last since that may clone the service
     // we want all other information parsed by then
     if (entryMap.contains(QLatin1String("Actions"))) {
@@ -232,7 +259,7 @@ void KServicePrivate::load(QDataStream &s)
       >> m_lstKeywords >> m_strGenName
       >> categories >> menuId >> m_actions
       >> m_lstFormFactors
-      >> m_untranslatedName >> m_untranslatedGenericName >> m_mimeTypes;
+      >> m_untranslatedName >> m_untranslatedGenericName >> m_mimeTypes >> m_groupProps;
     // clang-format on
 
     m_bAllowAsDefault = bool(def);
@@ -254,7 +281,7 @@ void KServicePrivate::save(QDataStream &s)
     // number in ksycoca.cpp
     s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment << def << m_mapProps
       << m_strLibrary << dst << m_strDesktopEntryName << m_lstKeywords << m_strGenName << categories << menuId << m_actions << m_lstFormFactors
-      << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes;
+      << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes << m_groupProps;
 }
 
 ////
@@ -334,6 +361,17 @@ QVariant KService::property(const QString &_name, QMetaType::Type t) const
 {
     Q_D(const KService);
     return d->property(_name, t);
+}
+
+QVariant KService::property(const QString &group, const QString &_name, QMetaType::Type t) const
+{
+    Q_D(const KService);
+    return d->property(group, _name, t);
+}
+
+QVariant KServicePrivate::property(const QString &group, const QString &_name, QMetaType::Type t) const
+{
+    return KConfigGroup::convertToQVariant(_name.toUtf8().constData(), m_groupProps[group][_name].toUtf8(), QVariant(QMetaType(t)));
 }
 
 template<>

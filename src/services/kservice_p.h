@@ -57,6 +57,7 @@ public:
     }
 
     QVariant property(const QString &_name, QMetaType::Type t) const;
+    QVariant property(const QString &group, const QString &_name, QMetaType::Type t) const;
 
     QStringList categories;
     QString menuId;
@@ -71,6 +72,7 @@ public:
     QStringList m_mimeTypes;
     QString m_strDesktopEntryName;
     QMap<QString, QVariant> m_mapProps;
+    QMap<QString, QMap<QString, QString>> m_groupProps;
     QStringList m_lstFormFactors;
     QStringList m_lstKeywords;
     QString m_strGenName;

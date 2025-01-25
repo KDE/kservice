@@ -324,6 +324,13 @@ public:
         return property(name, static_cast<QMetaType::Type>(qMetaTypeId<T>())).value<T>();
     }
 
+    template<typename T>
+    T property(const QString &group, const QString &name) const
+    {
+        KServiceConversionCheck::to_QVariant<T>();
+        return property(group, name, static_cast<QMetaType::Type>(qMetaTypeId<T>())).value<T>();
+    }
+
     /**
      * Returns a path that can be used for saving changes to this
      * application
@@ -485,6 +492,7 @@ private:
     friend class KBuildServiceFactory;
 
     QVariant property(const QString &_name, QMetaType::Type t) const;
+    QVariant property(const QString &group, const QString &_name, QMetaType::Type t) const;
 
     void setActions(const QList<KServiceAction> &actions);
 
