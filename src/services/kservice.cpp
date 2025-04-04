@@ -183,8 +183,10 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
 
         if (config->hasActionGroup(group)) {
             const KConfigGroup cg = config->actionGroup(group);
-            if (!cg.hasKey("Name") || !cg.hasKey("Exec")) {
-                qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Name or no Exec key";
+            if (!cg.hasKey("Name")) {
+                qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Name key";
+            } else if (!cg.hasKey("Exec") && !config->desktopGroup().readEntry("DBusActivatable", false)) {
+                qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Exec key and not D-Bus activatable";
             } else {
                 const QMap<QString, QString> entries = cg.entryMap();
 
