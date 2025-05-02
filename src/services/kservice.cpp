@@ -181,34 +181,36 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
             continue;
         }
 
-        if (config->hasActionGroup(group)) {
-            const KConfigGroup cg = config->actionGroup(group);
-            if (!cg.hasKey("Name")) {
-                qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Name key";
-            } else if (!cg.hasKey("Exec") && !config->desktopGroup().readEntry("DBusActivatable", false)) {
-                qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Exec key and not D-Bus activatable";
-            } else {
-                const QMap<QString, QString> entries = cg.entryMap();
-
-                QVariantMap entriesVariants;
-
-                for (auto it = entries.constKeyValueBegin(); it != entries.constKeyValueEnd(); ++it) {
-                    // Those are stored separately
-                    if (it->first == QLatin1String("Name") || it->first == QLatin1String("Icon") || it->first == QLatin1String("Exec")
-                        || it->first == QLatin1String("NoDisplay")) {
-                        continue;
-                    }
-
-                    entriesVariants.insert(it->first, it->second);
-                }
-
-                KServiceAction action(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), cg.readEntry("NoDisplay", false), serviceClone);
-                action.setData(QVariant::fromValue(entriesVariants));
-                m_actions.append(action);
-            }
-        } else {
+        if (!config->hasActionGroup(group)) {
             qCWarning(SERVICES) << "The desktop file" << q->entryPath() << "references the action" << group << "but doesn't define it";
+            continue;
         }
+
+        const KConfigGroup cg = config->actionGroup(group);
+        if (!cg.hasKey("Name")) {
+            qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Name key";
+            continue;
+        }
+
+        if (!cg.hasKey("Exec") && !config->desktopGroup().readEntry("DBusActivatable", false)) {
+            qCWarning(SERVICES) << "The action" << group << "in the desktop file" << q->entryPath() << "has no Exec key and not D-Bus activatable";
+            continue;
+        }
+
+        const QMap<QString, QString> entries = cg.entryMap();
+        QVariantMap entriesVariants;
+        for (const auto &[key, value] : entries.asKeyValueRange()) {
+            // Those are stored separately
+            if (key == QLatin1String("Name") || key == QLatin1String("Icon") || key == QLatin1String("Exec") || key == QLatin1String("NoDisplay")) {
+                continue;
+            }
+
+            entriesVariants.insert(key, value);
+        }
+
+        KServiceAction action(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), cg.readEntry("NoDisplay", false), serviceClone);
+        action.setData(QVariant::fromValue(entriesVariants));
+        m_actions.append(action);
     }
 
     serviceClone->setActions(m_actions);
