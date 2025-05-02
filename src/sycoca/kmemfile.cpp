@@ -19,13 +19,10 @@ class KMemFile::Private
 {
 public:
     struct sharedInfoData {
-        int shmCounter;
-        qint64 shmDataSize;
+        int shmCounter = 0;
+        qint64 shmDataSize = 0;
 
-        sharedInfoData()
-        {
-            memset(this, 0, sizeof(*this));
-        }
+        sharedInfoData() = default;
     };
     Private(KMemFile *_parent)
         : readWritePos(0)
@@ -165,7 +162,7 @@ bool KMemFile::open(OpenMode mode)
         d->shmInfo.lock();
         // no -> create it
         infoPtr = static_cast<Private::sharedInfoData *>(d->shmInfo.data());
-        memset(infoPtr, 0, sizeof(Private::sharedInfoData));
+        new (infoPtr) Private::sharedInfoData;
         infoPtr->shmCounter = 1;
         if (!d->loadContentsFromFile()) {
             d->shmInfo.unlock();
