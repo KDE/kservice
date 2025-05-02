@@ -255,6 +255,8 @@ public:
 
     /*!
      * Returns the actions defined in this desktop file
+     *
+     * Only valid actions according to specification are included.
      */
     QList<KServiceAction> actions() const;
 
