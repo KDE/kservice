@@ -420,7 +420,12 @@ bool KBuildSycoca::recreate(bool incremental)
             const int uid = qEnvironmentVariableIntValue("SUDO_UID");
             const int gid = qEnvironmentVariableIntValue("SUDO_GID");
             if (uid && gid) {
-                fchown(database.handle(), uid, gid);
+                int ret;
+                ret = fchown(database.handle(), uid, gid);
+                if (ret < 0) {
+                    qCWarning(SYCOCA) << "ERROR changing ownership of database" << database.fileName() << strerror(errno);
+                    return false;
+                }
             }
         }
 #endif
