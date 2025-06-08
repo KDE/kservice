@@ -193,7 +193,7 @@ bool KBuildSycoca::build()
         const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, m_resourceSubdir, QStandardPaths::LocateDirectory);
         qCDebug(SYCOCA) << "Looking for subdir" << m_resourceSubdir << "=>" << dirs;
         for (const QString &dir : dirs) {
-            QDirIterator it(dir, QDirIterator::Subdirectories);
+            QDirIterator it(dir, QDirIterator::Subdirectories | QDirIterator::FollowSymlinks);
             while (it.hasNext()) {
                 const QString filePath = it.next();
                 Q_ASSERT(filePath.startsWith(dir)); // due to the line below...
