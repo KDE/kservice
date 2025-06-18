@@ -42,6 +42,7 @@ private Q_SLOTS:
     void testMimeType();
     void testProtocols();
     void testUntranslatedNames();
+    void testAppropriateCaption();
 
     void testAliasFor();
     void testServiceActionService();

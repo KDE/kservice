@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=fakeapp
+Icon=utilities-terminal
+Categories=Qt;KDE;System
+Name=Fake App
+GenericName=Fake app
+Comment=Test that your code works properly

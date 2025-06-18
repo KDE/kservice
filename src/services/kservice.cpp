@@ -727,6 +727,15 @@ QStringList KService::keywords() const
     return d->m_lstKeywords;
 }
 
+QString KService::appropriateCaption() const
+{
+    if (!genericName().isEmpty() && genericName() != name()) {
+        return genericName();
+    }
+
+    return comment();
+}
+
 QStringList KService::mimeTypes() const
 {
     Q_D(const KService);
