@@ -120,6 +120,30 @@ void KServiceTest::initTestCase()
         mustUpdateKSycoca = true;
     }
 
+    // first test app for appropriateCaption() test
+    const QString appropriateCaption1TestApp =
+        QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.fakeapp-generic-and-comment.desktop");
+    if (!QFile::exists(appropriateCaption1TestApp)) {
+        QVERIFY(QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)));
+        const QString src = QFINDTESTDATA("org.kde.fakeapp-generic-and-comment.desktop");
+        QVERIFY(!src.isEmpty());
+        QVERIFY2(QFile::copy(src, appropriateCaption1TestApp), qPrintable(appropriateCaption1TestApp));
+        qDebug() << "Created" << appropriateCaption1TestApp;
+        mustUpdateKSycoca = true;
+    }
+
+    // second test app for appropriateCaption() test
+    const QString appropriateCaption2TestApp =
+        QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + QLatin1String("/org.kde.fakeapp-identical-generic-and-unique-comment.desktop");
+    if (!QFile::exists(appropriateCaption2TestApp)) {
+        QVERIFY(QDir().mkpath(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation)));
+        const QString src = QFINDTESTDATA("org.kde.fakeapp-generic-and-comment.desktop");
+        QVERIFY(!src.isEmpty());
+        QVERIFY2(QFile::copy(src, appropriateCaption2TestApp), qPrintable(appropriateCaption2TestApp));
+        qDebug() << "Created" << appropriateCaption2TestApp;
+        mustUpdateKSycoca = true;
+    }
+
     if (mustUpdateKSycoca) {
         // Update ksycoca in ~/.qttest after creating the above
         runKBuildSycoca(true);
@@ -498,6 +522,23 @@ void KServiceTest::testUntranslatedNames()
     // Property access
     QCOMPARE(app->property<QString>(QStringLiteral("UntranslatedName")), name);
     QCOMPARE(app->property<QString>(QStringLiteral("UntranslatedGenericName")), genericName);
+}
+
+void KServiceTest::testAppropriateCaption()
+{
+    const QString expectedCaptionWhenUnique = QStringLiteral("Test app");
+    KService::Ptr app = KService::serviceByDesktopName(QStringLiteral("org.kde.fakeapp-generic-and-comment.desktop"));
+    QVERIFY(app);
+    QVERIFY(app->isValid());
+    QCOMPARE(app->appropriateCaption(), expectedCaptionWhenUnique);
+    QCOMPARE(app->property<QString>(QStringLiteral("AppropriateCaption")), expectedCaptionWhenUnique);
+
+    const QString expectedCaptionWhenIdentical = QStringLiteral("Test that your code works properly");
+    app = app = KService::serviceByDesktopName(QStringLiteral("org.kde.fakeapp-identical-generic-and-unique-comment.desktop"));
+    QVERIFY(app);
+    QVERIFY(app->isValid());
+    QCOMPARE(app->appropriateCaption(), expectedCaptionWhenIdentical);
+    QCOMPARE(app->property<QString>(QStringLiteral("AppropriateCaption")), expectedCaptionWhenIdentical);
 }
 
 void KServiceTest::testStartupNotify()
