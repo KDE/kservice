@@ -102,6 +102,7 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     // entryPath To desktopEntryName
     // (e.g. "/usr/share/applications/org.kde.kate" --> "org.kde.kate")
     QString _name = KServiceUtilPrivate::completeBaseName(entryPath);
+    menuId = _name + QStringLiteral(".desktop");
 
     m_strIcon = entryMap.take(QStringLiteral("Icon"));
     m_bTerminal = desktopGroup.readEntry("Terminal", false);
