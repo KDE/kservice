@@ -147,7 +147,7 @@ msgstr "QStandardPaths-ის სატესტო რეჟიში გად
 #~ msgstr "ბრაუზერის გაშვება შეუძლებელია"
 
 #~ msgid "Unable to determine the default terminal"
-#~ msgstr "ნაგულისხმები ტერმინალის დადგენის შეცდომა"
+#~ msgstr "ნაგულისხმევი ტერმინალის დადგენის შეცდომა"
 
 #~ msgid ""
 #~ "Could not launch the terminal client:\n"
