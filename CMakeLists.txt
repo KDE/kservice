@@ -49,7 +49,7 @@ find_package(KF6DocTools ${KF_DEP_VERSION} CONFIG)
 add_definitions(-DTRANSLATION_DOMAIN=\"kservice6\")
 
 ecm_set_disabled_deprecation_versions(
-    QT 6.9.0
+    QT 6.10.0
     KF 6.13.0
 )
 
