@@ -35,37 +35,51 @@ int main(int argc, char **argv)
     QCommandLineOption storageId(QStringList() << QStringLiteral("s") << QStringLiteral("storage-id"), QStringLiteral("Find the service by its storage id"));
     parser.addOption(storageId);
 
+    QCommandLineOption all(QStringLiteral("all"), QStringLiteral("List all services"));
+    parser.addOption(all);
+
     parser.process(app);
 
-    if (parser.positionalArguments().count() != 1) {
+    if (parser.positionalArguments().count() != 1 && !parser.isSet(all)) {
         QTextStream(stderr) << "Exactly one identifier required\n";
         parser.showHelp(1);
     }
 
-    const QString id = parser.positionalArguments().at(0);
-
-    KService::Ptr service;
-    if (parser.isSet(menuId)) {
-        service = KService::serviceByMenuId(id);
-    } else if (parser.isSet(storageId)) {
-        service = KService::serviceByStorageId(id);
-    } else if (parser.isSet(desktopPath)) {
-        service = KService::serviceByDesktopPath(id);
-    } else {
-        service = KService::serviceByDesktopName(id);
-    }
-
-    if (service) {
+    auto printService = [](const KService::Ptr &service) {
         QTextStream(stdout) << "Found \"" << service->entryPath() << "\"\n";
         QTextStream(stdout) << "Desktop name: \"" << service->desktopEntryName() << "\"\n";
         QTextStream(stdout) << "Menu ID: \"" << service->menuId() << "\"\n";
         QTextStream(stdout) << "Storage ID: \"" << service->storageId() << "\"\n";
         QTextStream(stdout) << "MIME types: \"" << service->mimeTypes().join(QLatin1Char(' ')) << "\"\n";
         QTextStream(stdout) << "Supported protocols: \"" << service->supportedProtocols().join(QLatin1Char(' ')) << "\"\n";
+    };
 
+    if (parser.isSet(all)) {
+        const auto services = KService::allServices();
+        for (const auto &service : services) {
+            printService(service);
+            QTextStream(stdout) << "\n";
+        }
     } else {
-        QTextStream(stdout) << "Not found\n";
-        return 2;
+        const QString id = parser.positionalArguments().at(0);
+
+        KService::Ptr service;
+        if (parser.isSet(menuId)) {
+            service = KService::serviceByMenuId(id);
+        } else if (parser.isSet(storageId)) {
+            service = KService::serviceByStorageId(id);
+        } else if (parser.isSet(desktopPath)) {
+            service = KService::serviceByDesktopPath(id);
+        } else {
+            service = KService::serviceByDesktopName(id);
+        }
+
+        if (service) {
+            printService(service);
+        } else {
+            QTextStream(stdout) << "Not found\n";
+            return 2;
+        }
     }
 
     return 0;
