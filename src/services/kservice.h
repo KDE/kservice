@@ -203,7 +203,7 @@ public:
      */
     QStringList keywords() const;
 
-    /*
+    /*!
      * Returns a string appropriate for being displayed as a caption for this
      * service, preferring the GenericName but falling back to the Comment if
      * GenericName is missing or identical to Name.
