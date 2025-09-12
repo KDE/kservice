@@ -106,9 +106,8 @@ void KMimeAssociations::parseMimeAppsList(const QString &file, int basePreferenc
 
 void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const QString &file, int basePreference)
 {
-    Q_UNUSED(file) // except in debug statements
     QMimeDatabase db;
-    const auto keyList = group.keyList();
+    const QStringList keyList = group.keyList();
     for (const QString &mimeName : keyList) {
         const QStringList services = group.readXdgListEntry(mimeName);
         const QString resolvedMimeName = mimeName.startsWith(QLatin1String("x-scheme-handler/")) ? mimeName : db.mimeTypeForName(mimeName).name();
@@ -132,14 +131,13 @@ void KMimeAssociations::parseAddedAssociations(const KConfigGroup &group, const 
 
 void KMimeAssociations::parseRemovedAssociations(const KConfigGroup &group, const QString &file)
 {
-    Q_UNUSED(file) // except in debug statements
-    const auto keyList = group.keyList();
+    const QStringList keyList = group.keyList();
     for (const QString &mime : keyList) {
         const QStringList services = group.readXdgListEntry(mime);
         for (const QString &service : services) {
             KService::Ptr pService = m_serviceFactory->findServiceByStorageId(service);
             if (!pService) {
-                // qDebug() << file << "specifies unknown service" << service << "in" << group.name();
+                qDebug(SYCOCA) << file << "specifies unknown service" << service << "in" << group.name();
             } else {
                 // qDebug() << "removing mime" << mime << "from service" << pService.data() << pService->entryPath();
                 m_offerHash.removeServiceOffer(mime, pService);
