@@ -659,7 +659,7 @@ bool KSycocaPrivate::needsRebuild()
     // ensure files are ordered so next comparison works
     files.sort();
     // to cover cases when extra files were added
-    return extraFiles.keys() != files;
+    return extraFiles.keys() != files; // clazy:exclude=container-anti-pattern
 }
 
 bool KSycocaPrivate::buildSycoca()
