@@ -359,7 +359,9 @@ void KApplicationTraderTest::testTraderQueryMustRebuildSycoca()
 void KApplicationTraderTest::testSetPreferredService()
 {
     const KService::Ptr oldPref = KApplicationTrader::preferredService(QLatin1String("text/plain"));
+    QVERIFY(oldPref);
     const KService::Ptr newPref = KService::serviceByDesktopPath(m_fakeApplication);
+    QVERIFY(newPref);
     KApplicationTrader::setPreferredService(QLatin1String("text/plain"), newPref);
     QCOMPARE(KApplicationTrader::preferredService(QLatin1String("text/plain"))->entryPath(), m_fakeApplication);
     KApplicationTrader::setPreferredService(QLatin1String("text/plain"), oldPref);
