@@ -759,12 +759,7 @@ QStringList KService::schemeHandlers() const
 
 QStringList KService::supportedProtocols() const
 {
-    Q_D(const KService);
-
-    QStringList ret;
-
-    ret << schemeHandlers();
-
+    QStringList ret = schemeHandlers();
     const QStringList protocols = property<QStringList>(QStringLiteral("X-KDE-Protocols"));
     for (const QString &protocol : protocols) {
         if (!ret.contains(protocol)) {
