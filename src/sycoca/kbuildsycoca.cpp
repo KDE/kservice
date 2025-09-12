@@ -588,7 +588,7 @@ static quint32 updateHash(const QString &file, quint32 hash)
         // modified timestamp of 0 (UNIX Epoch). In this case, always assume
         // the file as been changed.
         if (timestamp == 0) {
-            static qint64 now = QDateTime::currentDateTimeUtc().toSecsSinceEpoch();
+            static qint64 now = QDateTime::currentSecsSinceEpoch();
             timestamp = now;
         }
         hash += timestamp;
