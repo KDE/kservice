@@ -154,7 +154,7 @@ void KServiceTest::testByName()
         QSKIP("ksycoca not available");
     }
 
-    const QString filePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("applications/org.kde.faketestapp.desktop"));
+    const QString filePath = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.faketestapp.desktop"));
     KService::Ptr myService = KService::serviceByDesktopPath(filePath);
     QVERIFY(myService);
     QCOMPARE(myService->name(), QStringLiteral("Konsole"));
@@ -162,7 +162,7 @@ void KServiceTest::testByName()
 
 void KServiceTest::testConstructorFullPath()
 {
-    const QString filePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("applications/org.kde.faketestapp.desktop"));
+    const QString filePath = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.faketestapp.desktop"));
     QVERIFY(QFile::exists(filePath));
     KService service(filePath);
     QVERIFY(service.isValid());
@@ -171,14 +171,14 @@ void KServiceTest::testConstructorFullPath()
 
 void KServiceTest::testConstructorKDesktopFile() // as happens inside kbuildsycoca.cpp
 {
-    const QString filePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("applications/org.kde.faketestapp.desktop"));
+    const QString filePath = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.faketestapp.desktop"));
     KDesktopFile desktopFile(filePath);
     QCOMPARE(KService(&desktopFile, filePath).name(), QStringLiteral("Konsole"));
 }
 
 void KServiceTest::testCopyConstructor()
 {
-    const QString filePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("applications/org.kde.faketestapp.desktop"));
+    const QString filePath = QStandardPaths::locate(QStandardPaths::ApplicationsLocation, QStringLiteral("org.kde.faketestapp.desktop"));
     QVERIFY(QFile::exists(filePath));
     KDesktopFile desktopFile(filePath);
     // Test making a copy of a KService that will go out of scope
