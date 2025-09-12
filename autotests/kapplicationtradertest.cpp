@@ -93,7 +93,7 @@ void KApplicationTraderTest::initTestCase()
     // fakeservice_deleteme: deleted and recreated by testDeletingService, don't use in other tests
     createFakeApplication(QStringLiteral("fakeservice_deleteme.desktop"), QStringLiteral("DeleteMe"));
 
-    // fakeapplication
+    // fakeapplications
     m_fakeApplication = createFakeApplication(QStringLiteral("fakeapplication.desktop"), QStringLiteral("FakeApplication"));
     m_fakeApplication = QFileInfo(m_fakeApplication).canonicalFilePath();
 
@@ -358,8 +358,16 @@ void KApplicationTraderTest::testTraderQueryMustRebuildSycoca()
 
 void KApplicationTraderTest::testSetPreferredService()
 {
-    const KService::Ptr oldPref = KApplicationTrader::preferredService(QLatin1String("text/plain"));
-    QVERIFY(oldPref);
+    // handle missing handler for text/plain, can happen e.g. on Windows
+    KService::Ptr oldPref = KApplicationTrader::preferredService(QLatin1String("text/plain"));
+    if (!oldPref) {
+        oldPref = KService::serviceByDesktopPath(m_fakeSchemeHandler);
+        QVERIFY(oldPref);
+        KApplicationTrader::setPreferredService(QLatin1String("text/plain"), oldPref);
+        oldPref = KApplicationTrader::preferredService(QLatin1String("text/plain"));
+        QVERIFY(oldPref);
+    }
+
     const KService::Ptr newPref = KService::serviceByDesktopPath(m_fakeApplication);
     QVERIFY(newPref);
     KApplicationTrader::setPreferredService(QLatin1String("text/plain"), newPref);
