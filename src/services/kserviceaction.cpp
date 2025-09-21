@@ -11,7 +11,6 @@
 #include "ksycoca_p.h"
 
 #include <QDataStream>
-#include <QVariant>
 
 #include <KConfigGroup>
 
