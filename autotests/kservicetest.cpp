@@ -151,6 +151,7 @@ void KServiceTest::initTestCase()
     QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.faketestapp")));
     QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.otherfakeapp")));
     QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.testnames")));
+    QVERIFY(KService::serviceByDesktopName(QStringLiteral("org.kde.fakeapp-generic-and-comment")));
 }
 
 void KServiceTest::runKBuildSycoca(bool noincremental)
