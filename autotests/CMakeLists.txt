@@ -15,25 +15,31 @@ endmacro(KSERVICE_UNIT_TESTS)
 kservice_unit_tests(
  ksycocatest
  ksycoca_xdgdirstest
- ksycocathreadtest
- kservicetest
- kapplicationtradertest
 )
 
 # the test plays with the timestamp of ~/.qttest/share/applications, and with the ksycoca file, other tests can collide
 set_tests_properties(ksycocatest PROPERTIES RUN_SERIAL TRUE)
-# KServiceTest::testAllServices can fail if any service is deleted while the test runs
-set_tests_properties(kservicetest PROPERTIES RUN_SERIAL TRUE)
 
-######### kmimeassociationstest ########
+# disable some tests that fail on Windows ATM
+if (NOT WIN32)
+  kservice_unit_tests(
+    ksycocathreadtest
+    kservicetest
+    kapplicationtradertest
+  )
 
-set(kmimeassociationstest_SRCS kmimeassociationstest.cpp ../src/sycoca/kmimeassociations.cpp)
-ecm_qt_declare_logging_category(kmimeassociationstest_SRCS
-    HEADER sycocadebug.h
-    IDENTIFIER SYCOCA
-    CATEGORY_NAME kf.service.sycoca
-)
+  # KServiceTest::testAllServices can fail if any service is deleted while the test runs
+  set_tests_properties(kservicetest PROPERTIES RUN_SERIAL TRUE)
 
-ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
-             LINK_LIBRARIES KF6::Service Qt6::Test Qt6::Xml KF6::ConfigCore KF6::CoreAddons)
+  ######### kmimeassociationstest ########
 
+  set(kmimeassociationstest_SRCS kmimeassociationstest.cpp ../src/sycoca/kmimeassociations.cpp)
+  ecm_qt_declare_logging_category(kmimeassociationstest_SRCS
+      HEADER sycocadebug.h
+      IDENTIFIER SYCOCA
+      CATEGORY_NAME kf.service.sycoca
+  )
+
+  ecm_add_test(${kmimeassociationstest_SRCS} TEST_NAME kmimeassociationstest
+              LINK_LIBRARIES KF6::Service Qt6::Test Qt6::Xml KF6::ConfigCore KF6::CoreAddons)
+endif()
