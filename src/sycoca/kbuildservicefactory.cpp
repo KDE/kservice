@@ -61,26 +61,29 @@ KSycocaEntry *KBuildServiceFactory::createEntry(const QString &file) const
 
     // Is it a .desktop file?
     if (name.endsWith(QLatin1String(".desktop"))) {
-        // qCDebug(SYCOCA) << file;
+        qCDebug(SYCOCA) << file;
 
         Q_ASSERT(QDir::isAbsolutePath(file));
         KService *serv = new KService(file);
 
-        // qCDebug(SYCOCA) << "Creating KService from" << file << "entryPath=" << serv->entryPath();
+        qCDebug(SYCOCA) << "Creating KService from" << file << "entryPath=" << serv->entryPath();
         // Note that the menuId will be set by the vfolder_menu.cpp code just after
         // createEntry returns.
 
         if (serv->isValid() && !serv->isDeleted()) {
-            // qCDebug(SYCOCA) << "Creating KService from" << file << "entryPath=" << serv->entryPath() << "storageId=" << serv->storageId();
+            qCDebug(SYCOCA) << "Creating KService from" << file << "entryPath=" << serv->entryPath() << "storageId=" << serv->storageId();
             return serv;
         } else {
             if (!serv->isDeleted()) {
                 qCWarning(SYCOCA) << "Invalid Service : " << file;
+            } else {
+                qCDebug(SYCOCA) << "Deleted/Hidden Service:" << file;
             }
             delete serv;
             return nullptr;
         }
     } // TODO else if a Windows application,  new KService(name, exec, icon)
+    qCDebug(SYCOCA) << "Unsupported file type" << file;
     return nullptr;
 }
 

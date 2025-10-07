@@ -70,6 +70,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(KSycocaFactory *currentFactory, cons
     if (!timeStamp) {
         timeStamp = calcResourceHash(m_resourceSubdir, file);
         if (!timeStamp) { // file disappeared meanwhile
+            qCDebug(SYCOCA) << "Couldn't generate timeStamp. Has the file disappeared?";
             return {};
         }
     }
@@ -112,6 +113,7 @@ KSycocaEntry::Ptr KBuildSycoca::createEntry(KSycocaFactory *currentFactory, cons
     if (entry && entry->isValid()) {
         return entry;
     }
+    qCDebug(SYCOCA) << "No valid entry created for" << file;
     return KSycocaEntry::Ptr();
 }
 
