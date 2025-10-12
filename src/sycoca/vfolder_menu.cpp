@@ -1321,10 +1321,13 @@ QStringList VFolderMenu::parseLayoutNode(const QDomElement &docElem) const
     }
 
     if (!mergeTagExists) {
+        if (!layout.isEmpty()) {
+            qCWarning(SYCOCA) << "The menu spec file (" << m_docInfo.path
+                              << ") contains a Layout or DefaultLayout tag without the mandatory Merge tag inside. Please fix it.";
+        }
+
         layout.append(QStringLiteral(":M"));
         layout.append(QStringLiteral(":F"));
-        qCWarning(SYCOCA) << "The menu spec file (" << m_docInfo.path
-                          << ") contains a Layout or DefaultLayout tag without the mandatory Merge tag inside. Please fix it.";
     }
     return layout;
 }
