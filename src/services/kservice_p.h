@@ -70,7 +70,6 @@ public:
     QStringList m_mimeTypes;
     QString m_strDesktopEntryName;
     QMap<QString, QVariant> m_mapProps;
-    QStringList m_lstFormFactors;
     QStringList m_lstKeywords;
     QString m_strGenName;
     QString m_untranslatedGenericName;

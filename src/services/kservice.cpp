@@ -115,8 +115,6 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     m_untranslatedGenericName = desktopGroup.readEntryUntranslated("GenericName");
     m_untranslatedName = desktopGroup.readEntryUntranslated("Name");
 
-    m_lstFormFactors = entryMap.take(QStringLiteral("X-KDE-FormFactors")).split(QLatin1Char(','), Qt::SkipEmptyParts);
-
     if (entryMap.remove(QStringLiteral("Keywords"))) {
         m_lstKeywords = desktopGroup.readXdgListEntry("Keywords");
     }
@@ -216,6 +214,7 @@ void KServicePrivate::load(QDataStream &s)
 {
     qint8 unused;
     QString unused2;
+    QStringList unused3;
     qint8 term;
     qint8 dst;
 
@@ -232,7 +231,7 @@ void KServicePrivate::load(QDataStream &s)
       >> m_strDesktopEntryName
       >> m_lstKeywords >> m_strGenName
       >> categories >> menuId >> m_actions
-      >> m_lstFormFactors
+      >> unused3
       >> m_untranslatedName >> m_untranslatedGenericName >> m_mimeTypes;
     // clang-format on
 
@@ -253,7 +252,7 @@ void KServicePrivate::save(QDataStream &s)
     // number in ksycoca.cpp
     s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment
       << false /* unused */ << m_mapProps << QString() /* unused */ << dst << m_strDesktopEntryName << m_lstKeywords << m_strGenName << categories << menuId
-      << m_actions << m_lstFormFactors << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes;
+      << m_actions << QStringList() /* unused */ << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes;
 }
 
 ////
@@ -382,8 +381,6 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
         return QVariant(categories);
     } else if (_name == QLatin1String("Keywords")) {
         return QVariant(m_lstKeywords);
-    } else if (_name == QLatin1String("FormFactors")) {
-        return QVariant(m_lstFormFactors);
     }
 
     auto it = m_mapProps.constFind(_name);
