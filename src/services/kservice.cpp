@@ -215,6 +215,7 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
 void KServicePrivate::load(QDataStream &s)
 {
     qint8 unused;
+    QString unused2;
     qint8 term;
     qint8 dst;
 
@@ -226,7 +227,7 @@ void KServicePrivate::load(QDataStream &s)
     s >> m_strType >> m_strName >> m_strExec >> m_strIcon
       >> term >> m_strTerminalOptions
       >> m_strWorkingDirectory >> m_strComment >> unused >> m_mapProps
-      >> m_strLibrary
+      >> unused2
       >> dst
       >> m_strDesktopEntryName
       >> m_lstKeywords >> m_strGenName
@@ -251,8 +252,8 @@ void KServicePrivate::save(QDataStream &s)
     // You may add new fields at the end. Make sure to update KSYCOCA_VERSION
     // number in ksycoca.cpp
     s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment
-      << false /* unused */ << m_mapProps << m_strLibrary << dst << m_strDesktopEntryName << m_lstKeywords << m_strGenName << categories << menuId << m_actions
-      << m_lstFormFactors << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes;
+      << false /* unused */ << m_mapProps << QString() /* unused */ << dst << m_strDesktopEntryName << m_lstKeywords << m_strGenName << categories << menuId
+      << m_actions << m_lstFormFactors << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes;
 }
 
 ////
