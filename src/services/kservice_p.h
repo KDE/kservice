@@ -77,7 +77,6 @@ public:
     QString m_untranslatedGenericName;
     QString m_untranslatedName;
     QList<KServiceAction> m_actions;
-    bool m_bAllowAsDefault : 1;
     bool m_bTerminal : 1;
     bool m_bValid : 1;
 };

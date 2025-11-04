@@ -131,10 +131,6 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
 
     m_strDesktopEntryName = _name;
 
-    if (entryMap.remove(QStringLiteral("AllowDefault"))) {
-        m_bAllowAsDefault = desktopGroup.readEntry("AllowDefault", true);
-    }
-
     // Store all additional entries in the property map.
     // A QMap<QString,QString> would be easier for this but we can't
     // break BC, so we have to store it in m_mapProps.
@@ -218,7 +214,7 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
 
 void KServicePrivate::load(QDataStream &s)
 {
-    qint8 def;
+    qint8 unused;
     qint8 term;
     qint8 dst;
 
@@ -229,7 +225,7 @@ void KServicePrivate::load(QDataStream &s)
     // clang-format off
     s >> m_strType >> m_strName >> m_strExec >> m_strIcon
       >> term >> m_strTerminalOptions
-      >> m_strWorkingDirectory >> m_strComment >> def >> m_mapProps
+      >> m_strWorkingDirectory >> m_strComment >> unused >> m_mapProps
       >> m_strLibrary
       >> dst
       >> m_strDesktopEntryName
@@ -239,7 +235,6 @@ void KServicePrivate::load(QDataStream &s)
       >> m_untranslatedName >> m_untranslatedGenericName >> m_mimeTypes;
     // clang-format on
 
-    m_bAllowAsDefault = bool(def);
     m_bTerminal = bool(term);
 
     m_bValid = true;
@@ -248,7 +243,6 @@ void KServicePrivate::load(QDataStream &s)
 void KServicePrivate::save(QDataStream &s)
 {
     KSycocaEntryPrivate::save(s);
-    qint8 def = m_bAllowAsDefault;
     qint8 term = m_bTerminal;
     qint8 dst = 0;
 
@@ -256,9 +250,9 @@ void KServicePrivate::save(QDataStream &s)
     // !! This data structure should remain binary compatible at all times !!
     // You may add new fields at the end. Make sure to update KSYCOCA_VERSION
     // number in ksycoca.cpp
-    s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment << def << m_mapProps
-      << m_strLibrary << dst << m_strDesktopEntryName << m_lstKeywords << m_strGenName << categories << menuId << m_actions << m_lstFormFactors
-      << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes;
+    s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment
+      << false /* unused */ << m_mapProps << m_strLibrary << dst << m_strDesktopEntryName << m_lstKeywords << m_strGenName << categories << menuId << m_actions
+      << m_lstFormFactors << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes;
 }
 
 ////
@@ -272,7 +266,6 @@ KService::KService(const QString &_name, const QString &_exec, const QString &_i
     d->m_strExec = _exec;
     d->m_strIcon = _icon;
     d->m_bTerminal = false;
-    d->m_bAllowAsDefault = true;
 }
 
 KService::KService(const QString &_fullpath)
@@ -384,8 +377,6 @@ QVariant KServicePrivate::property(const QString &_name, QMetaType::Type t) cons
 {
     if (_name == QLatin1String("Terminal")) {
         return QVariant(m_bTerminal);
-    } else if (_name == QLatin1String("AllowAsDefault")) {
-        return QVariant(m_bAllowAsDefault);
     } else if (_name == QLatin1String("Categories")) {
         return QVariant(categories);
     } else if (_name == QLatin1String("Keywords")) {
