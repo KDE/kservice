@@ -67,7 +67,6 @@ public:
     QString m_strTerminalOptions;
     QString m_strWorkingDirectory;
     QString m_strComment;
-    QString m_strLibrary;
     QStringList m_mimeTypes;
     QString m_strDesktopEntryName;
     QMap<QString, QVariant> m_mapProps;
