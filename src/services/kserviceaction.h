@@ -105,6 +105,9 @@ public:
     /*!
      * Returns the service that this action comes from
      * \since 5.69
+     *
+     * TODO KF7: Remove it or downgrade it to a weak pointer. Both KService and KServiceAction
+     * have strong references to each other, the current API is prone to memory leaks.
      */
     KServicePtr service() const;
 
