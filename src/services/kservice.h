@@ -257,6 +257,8 @@ public:
      * Returns the actions defined in this desktop file
      *
      * Only valid actions according to specification are included.
+     *
+     * \note This function copies the action list.
      */
     QList<KServiceAction> actions() const;
 

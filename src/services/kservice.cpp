@@ -167,11 +167,9 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
         return;
     }
 
-    KService::Ptr serviceClone(new KService(*q));
-
     for (const QString &group : keys) {
         if (group == QLatin1String("_SEPARATOR_")) {
-            m_actions.append(KServiceAction(group, QString(), QString(), QString(), false, serviceClone));
+            m_actions.append(KServiceAction(group, QString(), QString(), QString(), false, KService::Ptr()));
             continue;
         }
 
@@ -202,12 +200,10 @@ void KServicePrivate::parseActions(const KDesktopFile *config, KService *q)
             entriesVariants.insert(key, value);
         }
 
-        KServiceAction action(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), cg.readEntry("NoDisplay", false), serviceClone);
+        KServiceAction action(group, cg.readEntry("Name"), cg.readEntry("Icon"), cg.readEntry("Exec"), cg.readEntry("NoDisplay", false), KService::Ptr());
         action.setData(QVariant::fromValue(entriesVariants));
         m_actions.append(action);
     }
-
-    serviceClone->setActions(m_actions);
 }
 
 void KServicePrivate::load(QDataStream &s)
@@ -288,11 +284,6 @@ KService::KService(const KDesktopFile *config, const QString &entryPath)
 KService::KService(QDataStream &_str, int _offset)
     : KSycocaEntry(*new KServicePrivate(_str, _offset))
 {
-    Q_D(KService);
-    KService::Ptr serviceClone(new KService(*this));
-    for (KServiceAction &action : d->m_actions) {
-        action.setService(serviceClone);
-    }
 }
 
 KService::KService(const KService &other)
@@ -794,7 +785,20 @@ void KService::setWorkingDirectory(const QString &workingDir)
 QList<KServiceAction> KService::actions() const
 {
     Q_D(const KService);
-    return d->m_actions;
+
+    // Both KService and KServiceAction have strong references to each other in the public API.
+    // The main purpose of the serviceClone is to break the cycle to prevent a memory leak.
+    //
+    // TODO KF7: Remove KServiceAction::service() or downgrade it to a weak pointer, the current
+    // API is prone to memory leaks.
+    KService::Ptr serviceClone(new KService(*this));
+
+    QList<KServiceAction> actions = d->m_actions;
+    for (KServiceAction &action : actions) {
+        action.setService(serviceClone);
+    }
+
+    return actions;
 }
 
 QString KService::aliasFor() const
