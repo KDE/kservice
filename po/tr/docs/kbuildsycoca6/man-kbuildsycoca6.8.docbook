@@ -39,7 +39,7 @@
 </author>
 
 <date
->2015-09-17</date>
+>2015‒09‒17</date>
 <releaseinfo
 >Frameworks 5.15</releaseinfo>
 <productname
@@ -274,7 +274,7 @@
 >Hatalar</title>
 <para
 >Hataları bildirmek için <ulink url="https://bugs.kde.org"
->&kde;'nin hata izleyicisini</ulink
+>&kde;’nin hata izleyicisini</ulink
 > kullanın.</para>
 </refsect1>
 
