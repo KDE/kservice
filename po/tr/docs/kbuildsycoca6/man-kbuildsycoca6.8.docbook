@@ -96,7 +96,7 @@
 > &MIME; türüne sahip dosyalarında depolanan verinin ikili önbelleğini yapar. </para>
 
 <para
->KService kitaplığı, kendisinden istenilen bilgiyi tez sağlamak için bu veritabanını kullanır. </para>
+>KService kitaplığı, kendisinden istenilen bilgiyi tez sağlamak için bu veri tabanını kullanır. </para>
 
 <para
 >Kullanıcıların normalde bu uygulamayı doğrudan çalıştırmaları gerekmez; KService, verileri önbelleğe alınan dosyalardan herhangi biri değiştirildiğinde gerekirse çalıştıracaktır. </para>
@@ -142,7 +142,7 @@
 ></term>
 <listitem>
 <para
->Uygulama menüsü veritabanı üretilmesini sınayın. Aslında önbelleği yapmaz.</para>
+>Uygulama menüsü veri tabanı üretilmesini sınayın. Aslında önbelleği yapmaz.</para>
 </listitem>
 </varlistentry>
 
