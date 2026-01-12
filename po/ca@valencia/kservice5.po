@@ -30,8 +30,7 @@ msgstr ""
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
-"SPDX-FileCopyrightText: 2019 Empar Montoro Martín,Sebastià Pla,Antoni Bella,"
-"Albert Astals,Josep M. Ferrer"
+"Empar Montoro Martín,Sebastià Pla,Antoni Bella,Albert Astals,Josep M. Ferrer"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -135,8 +134,8 @@ msgid ""
 "Error launching %1. Either KLauncher is not running anymore, or it failed to "
 "start the application."
 msgstr ""
-"S'ha produït un error en iniciar %1. O KLauncher no s'està executant, o ha "
-"fallat en iniciar l'aplicació."
+"S'ha produït un error mentre es llançava %1. O KLauncher no s'està "
+"executant, o ha fallat mentre s'iniciava l'aplicació."
 
 #: kdeinit/ktoolinvocation.cpp:105
 #, kde-format
