@@ -50,7 +50,7 @@ add_definitions(-DTRANSLATION_DOMAIN=\"kservice6\")
 
 ecm_set_disabled_deprecation_versions(
     QT 6.11.0
-    KF 6.21.0
+    KF 6.23.0
 )
 
 ki18n_install(po)
