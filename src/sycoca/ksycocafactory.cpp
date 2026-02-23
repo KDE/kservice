@@ -186,8 +186,8 @@ KSycocaEntry::List KSycocaFactory::allEntries() const
     qint32 entryCount;
     (*str) >> entryCount;
 
-    if (entryCount > 8192) {
-        qCWarning(SYCOCA) << QThread::currentThread() << "error detected in factory" << this;
+    if (entryCount < 0 || entryCount > 8192) { // mind that new accepts a size_t (unsigned) but we are dealing with an int here
+        qCWarning(SYCOCA) << QThread::currentThread() << "error detected in factory" << this << entryCount;
         KSycoca::flagError();
         return list;
     }
