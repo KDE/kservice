@@ -34,27 +34,42 @@ public:
     int m_beginEntryOffset = 0;
     int m_endEntryOffset = 0;
     KSycocaDict *m_sycocaDict = nullptr;
+    // Used to avoid crashes when the factory failed to locate an actual data stream.
+    // Mind that we need a backing buffer since callers also tap into the stream's QIODevice.
+    QByteArray m_fallbackBuffer;
+    QDataStream m_fallbackStream{m_fallbackBuffer};
 };
 
 KSycocaFactory::KSycocaFactory(KSycocaFactoryId factory_id, KSycoca *sycoca)
     : m_sycoca(sycoca)
     , d(new KSycocaFactoryPrivate)
 {
-    if (!m_sycoca->isBuilding() && (m_str = m_sycoca->findFactory(factory_id))) {
-        // Read position of index tables....
-        qint32 i;
-        (*m_str) >> i;
-        d->m_sycocaDictOffset = i;
-        (*m_str) >> i;
-        d->m_beginEntryOffset = i;
-        (*m_str) >> i;
-        d->m_endEntryOffset = i;
+    if (!m_sycoca->isBuilding()) {
+        m_str = m_sycoca->findFactory(factory_id);
+        if (m_str) {
+            // Read position of index tables....
+            qint32 i;
+            (*m_str) >> i;
+            d->m_sycocaDictOffset = i;
+            (*m_str) >> i;
+            d->m_beginEntryOffset = i;
+            (*m_str) >> i;
+            d->m_endEntryOffset = i;
 
-        QDataStream *str = stream();
-        qint64 saveOffset = str->device()->pos();
-        // Init index tables
-        d->m_sycocaDict = new KSycocaDict(str, d->m_sycocaDictOffset);
-        saveOffset = str->device()->seek(saveOffset);
+            QDataStream *str = stream();
+            qint64 saveOffset = str->device()->pos();
+            // Init index tables
+            d->m_sycocaDict = new KSycocaDict(str, d->m_sycocaDictOffset);
+            saveOffset = str->device()->seek(saveOffset);
+        } else {
+            qWarning() << "Could not find factory with id" << int(factory_id)
+                       << "in sycoca database, you must run kbuildsycoca first! Creating a fake stream to not crash.";
+            m_str = &d->m_fallbackStream;
+            m_entryDict = new KSycocaEntryDict;
+            d->m_sycocaDict = new KSycocaDict;
+            d->m_beginEntryOffset = 0;
+            d->m_endEntryOffset = 0;
+        }
     } else {
         // We are in kbuildsycoca -- build new database!
         m_entryDict = new KSycocaEntryDict;
