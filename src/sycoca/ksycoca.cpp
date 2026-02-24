@@ -121,15 +121,16 @@ bool KSycocaPrivate::tryMmap()
 {
 #if HAVE_MMAP
     Q_ASSERT(!m_databasePath.isEmpty());
-    m_mmapFile = new QFile(m_databasePath);
-    const bool canRead = m_mmapFile->open(QIODevice::ReadOnly);
+    std::unique_ptr<QFile> mmapFile = std::make_unique<QFile>(m_databasePath);
+    const bool canRead = mmapFile->open(QIODevice::ReadOnly);
     Q_ASSERT(canRead);
     if (!canRead) {
+        qCWarning(SYCOCA) << "Could not open database file" << m_databasePath << "for reading:" << mmapFile->errorString();
         return false;
     }
-    fcntl(m_mmapFile->handle(), F_SETFD, FD_CLOEXEC);
-    sycoca_size = m_mmapFile->size();
-    void *mmapRet = mmap(nullptr, sycoca_size, PROT_READ, MAP_SHARED, m_mmapFile->handle(), 0);
+    fcntl(mmapFile->handle(), F_SETFD, FD_CLOEXEC);
+    sycoca_size = mmapFile->size();
+    void *mmapRet = mmap(nullptr, sycoca_size, PROT_READ, MAP_SHARED, mmapFile->handle(), 0);
     /* POSIX mandates only MAP_FAILED, but we are paranoid so check for
        null pointer too.  */
     if (mmapRet == MAP_FAILED || mmapRet == nullptr) {
@@ -141,6 +142,7 @@ bool KSycocaPrivate::tryMmap()
 #if HAVE_MADVISE
         (void)posix_madvise(mmapRet, sycoca_size, POSIX_MADV_WILLNEED);
 #endif // HAVE_MADVISE
+        m_mmapFile = mmapFile.release();
         return true;
     }
 #else
