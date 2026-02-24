@@ -22,6 +22,7 @@
 #include <QDataStream>
 #include <QFile>
 #include <QFileInfo>
+#include <QLockFile>
 #include <QMetaMethod>
 #include <QStandardPaths>
 #include <QThread>
@@ -40,6 +41,9 @@
 #include <sys/time.h>
 #include <utime.h>
 #endif
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 /*
  * Sycoca file version number.
@@ -452,6 +456,20 @@ bool KSycocaPrivate::checkVersion()
 // and past the version number.
 bool KSycocaPrivate::checkDatabase(BehaviorsIfNotFound ifNotFound)
 {
+    // Ensure no lock file exists or wait until the lock file is released to avoid races
+    QLockFile lockFile(m_databasePath + QLatin1String(".lock"));
+    if (lockFile.tryLock(10s)) {
+        lockFile.unlock();
+    } else {
+        qint64 pid;
+        QString hostname;
+        QString appname;
+        lockFile.getLockInfo(&pid, &hostname, &appname);
+        qCWarning(SYCOCA) << "Database" << m_databasePath << "is still being created by process" << pid << "on host" << hostname << "with appname" << appname
+                          << ". Can't access the database at the moment.";
+        return false;
+    }
+
     if (databaseStatus == DatabaseOK) {
         if (checkVersion()) { // we know the version is ok, but we must rewind the stream anyway
             return true;
