@@ -15,11 +15,11 @@
 #include <KDirWatch>
 #include <QDateTime>
 #include <QElapsedTimer>
+#include <QFile>
 #include <QStringList>
 
 #include <memory>
 
-class QFile;
 class QDataStream;
 class KSycocaAbstractDevice;
 class KMimeTypeFactory;
@@ -67,7 +67,7 @@ public:
     bool checkDatabase(BehaviorsIfNotFound ifNotFound);
     void closeDatabase();
     void setStrategyFromString(const QString &strategy);
-    bool tryMmap();
+    std::unique_ptr<QFile> tryMmap();
 
     /*!
      * Check if the on-disk cache needs to be rebuilt, and do it then.
@@ -137,7 +137,7 @@ private:
     KSycocaFactoryList m_factories;
     size_t sycoca_size;
     const char *sycoca_mmap;
-    QFile *m_mmapFile;
+    std::unique_ptr<QFile> m_mmapFile;
     KSycocaAbstractDevice *m_device;
 
 public:

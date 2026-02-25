@@ -20,7 +20,6 @@
 
 #include <QCoreApplication>
 #include <QDataStream>
-#include <QFile>
 #include <QFileInfo>
 #include <QMetaMethod>
 #include <QStandardPaths>
@@ -117,7 +116,7 @@ void KSycocaPrivate::setStrategyFromString(const QString &strategy)
     }
 }
 
-bool KSycocaPrivate::tryMmap()
+std::unique_ptr<QFile> KSycocaPrivate::tryMmap()
 {
 #if HAVE_MMAP
     Q_ASSERT(!m_databasePath.isEmpty());
@@ -126,7 +125,7 @@ bool KSycocaPrivate::tryMmap()
     Q_ASSERT(canRead);
     if (!canRead) {
         qCWarning(SYCOCA) << "Could not open database file" << m_databasePath << "for reading:" << mmapFile->errorString();
-        return false;
+        return nullptr;
     }
     fcntl(mmapFile->handle(), F_SETFD, FD_CLOEXEC);
     sycoca_size = mmapFile->size();
@@ -136,17 +135,16 @@ bool KSycocaPrivate::tryMmap()
     if (mmapRet == MAP_FAILED || mmapRet == nullptr) {
         qCDebug(SYCOCA).nospace() << "mmap failed. (length = " << sycoca_size << ")";
         sycoca_mmap = nullptr;
-        return false;
+        return nullptr;
     } else {
         sycoca_mmap = static_cast<const char *>(mmapRet);
 #if HAVE_MADVISE
         (void)posix_madvise(mmapRet, sycoca_size, POSIX_MADV_WILLNEED);
 #endif // HAVE_MADVISE
-        m_mmapFile = mmapFile.release();
-        return true;
+        return mmapFile;
     }
 #else
-    return false;
+    return nullptr;
 #endif // HAVE_MMAP
 }
 
@@ -266,11 +264,15 @@ KSycocaAbstractDevice *KSycocaPrivate::device()
     KSycocaAbstractDevice *device = m_device;
     Q_ASSERT(!m_databasePath.isEmpty());
 #if HAVE_MMAP
-    if (m_sycocaStrategy == StrategyMmap && tryMmap()) {
-        device = new KSycocaMmapDevice(sycoca_mmap, sycoca_size);
-        if (!device->device()->open(QIODevice::ReadOnly)) {
-            delete device;
-            device = nullptr;
+    if (m_sycocaStrategy == StrategyMmap) {
+        m_mmapFile = tryMmap();
+
+        if (m_mmapFile) {
+            device = new KSycocaMmapDevice(sycoca_mmap, sycoca_size);
+            if (!device->device()->open(QIODevice::ReadOnly)) {
+                delete device;
+                device = nullptr;
+            }
         }
     }
 #endif
@@ -400,8 +402,7 @@ void KSycocaPrivate::closeDatabase()
         munmap(const_cast<char *>(sycoca_mmap), sycoca_size);
         sycoca_mmap = nullptr;
     }
-    delete m_mmapFile;
-    m_mmapFile = nullptr;
+    m_mmapFile.reset();
 #endif
 
     databaseStatus = DatabaseNotOpen;
