@@ -13,6 +13,7 @@
 #include "servicesdebug.h"
 #include <QDir>
 #include <QFile>
+#include <QScopedValueRollback>
 
 extern int servicesDebugArea();
 
@@ -22,6 +23,18 @@ KServiceFactory::KServiceFactory(KSycoca *db)
     , m_relNameDict(nullptr)
     , m_menuIdDict(nullptr)
 {
+    // Safety net against recursive calls. Because KSycocaFactory calls findFactory and that issues a checkDatabase
+    // and that may end up repairing the database and thus closing and reopening it, we must absolutely never find
+    // ourselves in a recursive call chain.
+    // The inner call would thrash the state of the outer call causing impossibly difficult to debug state corruption.
+    thread_local bool inside = false;
+    if (inside) {
+        qFatal(
+            "Recursive call detected in KServiceFactory. This is not allowed and indicates a bug in KSycoca/KServiceFactory. Please report this on "
+            "bugs.kde.org.");
+    }
+    QScopedValueRollback guard(inside, true);
+
     m_offerListOffset = 0;
     m_nameDictOffset = 0;
     m_relNameDictOffset = 0;
