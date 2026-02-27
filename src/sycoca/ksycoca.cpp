@@ -320,7 +320,12 @@ void KSycocaPrivate::slotDatabaseChanged()
         m_databasePath = findDatabase();
 
         // Now notify applications
-        Q_EMIT q->databaseChanged();
+        QMetaObject::invokeMethod(q,
+                                  &KSycoca::databaseChanged,
+                                  // Guard against recursive call chains caused by database updates.
+                                  // Because of the self-healing nature of KSycoca we must absolutely never find ourselves in a recursive call chain
+                                  // where one database change causes another database change (for example because there was an intermediate file change).
+                                  Qt::QueuedConnection);
     }
 }
 
@@ -676,7 +681,12 @@ bool KSycocaPrivate::buildSycoca()
         qCDebug(SYCOCA) << "Still no database...";
         return false;
     }
-    Q_EMIT q->databaseChanged();
+    QMetaObject::invokeMethod(q,
+                              &KSycoca::databaseChanged,
+                              // Guard against recursive call chains caused by database updates.
+                              // Because of the self-healing nature of KSycoca we must absolutely never find ourselves in a recursive call chain
+                              // where one database change causes another database change (for example because there was an intermediate file change).
+                              Qt::QueuedConnection);
     return true;
 }
 

@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2006 David Faure <faure@kde.org>
-    SPDX-FileCopyrightText: 2022 Harald Sitter <sitter@kde.org>
+    SPDX-FileCopyrightText: 2022-2026 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-only
 */
@@ -25,6 +25,7 @@
 #include <kservicegroup.h>
 
 #include <QFile>
+#include <QScopedValueRollback>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QThread>
@@ -32,6 +33,9 @@
 #include <QDebug>
 #include <QLoggingCategory>
 #include <QMimeDatabase>
+
+using namespace std::chrono_literals;
+using namespace Qt::StringLiterals;
 
 QTEST_MAIN(KServiceTest)
 
@@ -570,6 +574,33 @@ void KServiceTest::testStartupNotify()
         QVERIFY(fakeApp.isValid());
         QVERIFY(!fakeApp.startupNotify().has_value());
     }
+}
+
+void KServiceTest::testRecursiveUpdate()
+{
+    if (!KSycoca::isAvailable()) {
+        QSKIP("ksycoca not available");
+    }
+
+    // Make sure updates trigger immediately.
+    QScopedValueRollback rollback(ksycoca_ms_between_checks, 0);
+
+    const QString filePath = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + "/org.kde.testRecursiveUpdate.desktop"_L1;
+    {
+        QFile f(filePath);
+        QVERIFY(f.open(QIODevice::WriteOnly | QIODevice::Truncate));
+    }
+    QVERIFY(QFile::exists(filePath));
+
+    QSignalSpy spy(KSycoca::self(), &KSycoca::databaseChanged);
+
+    auto service = KService::serviceByDesktopPath(filePath);
+    // The signal must not have fired already. If it had we'd be able to recursively update and break the singleton.
+    QCOMPARE(spy.count(), 0);
+
+    // If we event loop it should fire though.
+    spy.wait(4s);
+    QCOMPARE(spy.count(), 1);
 }
 
 #include "moc_kservicetest.cpp"

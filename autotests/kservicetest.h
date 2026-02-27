@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2006 David Faure <faure@kde.org>
-    SPDX-FileCopyrightText: 2022 Harald Sitter <sitter@kde.org>
+    SPDX-FileCopyrightText: 2022-2026 Harald Sitter <sitter@kde.org>
 
     SPDX-License-Identifier: LGPL-2.0-only
 */
@@ -46,6 +46,7 @@ private Q_SLOTS:
     void testAliasFor();
     void testServiceActionService();
     void testStartupNotify();
+    void testRecursiveUpdate();
 
 private:
     void runKBuildSycoca(bool noincremental = false);
