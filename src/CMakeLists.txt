@@ -17,6 +17,7 @@ target_sources(KF6Service PRIVATE
    services/kapplicationtrader.cpp
    services/kmimetypefactory.cpp
    services/kservice.cpp
+   services/kdesktopfilefactory.cpp
    services/kserviceaction.cpp
    services/kservicefactory.cpp
    services/kservicegroup.cpp
@@ -101,6 +102,7 @@ ecm_generate_headers(KService_HEADERS
   KService
   KServiceAction
   KServiceGroup
+  KDesktopFileFactory
 
   RELATIVE services REQUIRED_HEADERS KService_HEADERS
 )
