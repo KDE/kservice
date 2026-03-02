@@ -219,12 +219,12 @@ uint KSycocaDictPrivate::hashKey(const QString &key) const
         } else if (pos < 0) {
             pos = -pos;
             if (pos < len) {
-                h = ((h * 13) + (key[len - pos].cell() % 29)) & 0x3ffffff;
+                h = ((h * 13) + (key[len - pos].cell() % 29)) & 0x3fffffff;
             }
         } else {
             pos = pos - 1;
             if (pos < len) {
-                h = ((h * 13) + (key[pos].cell() % 29)) & 0x3ffffff;
+                h = ((h * 13) + (key[pos].cell() % 29)) & 0x3fffffff;
             }
         }
     }
@@ -262,7 +262,7 @@ static int calcDiversity(std::vector<std::unique_ptr<string_entry>> *stringlist,
         for (const auto &entryPtr : *stringlist) {
             const int rpos = entryPtr->length - pos;
             if (rpos > 0) {
-                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[rpos].cell() % 29)) & 0x3ffffff;
+                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[rpos].cell() % 29)) & 0x3fffffff;
                 matrix.setBit(hash % sz, true);
             }
             // if (++numItem == s_maxItems)
@@ -272,7 +272,7 @@ static int calcDiversity(std::vector<std::unique_ptr<string_entry>> *stringlist,
         pos = inPos - 1;
         for (const auto &entryPtr : *stringlist) {
             if (pos < entryPtr->length) {
-                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[pos].cell() % 29)) & 0x3ffffff;
+                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[pos].cell() % 29)) & 0x3fffffff;
                 matrix.setBit(hash % sz, true);
             }
             // if (++numItem == s_maxItems)
