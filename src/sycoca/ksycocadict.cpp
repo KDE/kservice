@@ -17,6 +17,8 @@
 
 namespace
 {
+static const uint s_hashBitMask = 0x3fffffff;
+
 struct string_entry {
     string_entry(const QString &_key, const KSycocaEntry::Ptr &_payload)
         : hash(0)
@@ -219,12 +221,12 @@ uint KSycocaDictPrivate::hashKey(const QString &key) const
         } else if (pos < 0) {
             pos = -pos;
             if (pos < len) {
-                h = ((h * 13) + (key[len - pos].cell() % 29)) & 0x3fffffff;
+                h = ((h * 13) + (key[len - pos].cell() % 29)) & s_hashBitMask;
             }
         } else {
             pos = pos - 1;
             if (pos < len) {
-                h = ((h * 13) + (key[pos].cell() % 29)) & 0x3fffffff;
+                h = ((h * 13) + (key[pos].cell() % 29)) & s_hashBitMask;
             }
         }
     }
@@ -262,7 +264,7 @@ static int calcDiversity(std::vector<std::unique_ptr<string_entry>> *stringlist,
         for (const auto &entryPtr : *stringlist) {
             const int rpos = entryPtr->length - pos;
             if (rpos > 0) {
-                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[rpos].cell() % 29)) & 0x3fffffff;
+                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[rpos].cell() % 29)) & s_hashBitMask;
                 matrix.setBit(hash % sz, true);
             }
             // if (++numItem == s_maxItems)
@@ -272,7 +274,7 @@ static int calcDiversity(std::vector<std::unique_ptr<string_entry>> *stringlist,
         pos = inPos - 1;
         for (const auto &entryPtr : *stringlist) {
             if (pos < entryPtr->length) {
-                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[pos].cell() % 29)) & 0x3fffffff;
+                const uint hash = ((entryPtr->hash * 13) + (entryPtr->key[pos].cell() % 29)) & s_hashBitMask;
                 matrix.setBit(hash % sz, true);
             }
             // if (++numItem == s_maxItems)
@@ -295,14 +297,14 @@ static void addDiversity(std::vector<std::unique_ptr<string_entry>> *stringlist,
         for (auto &entryPtr : *stringlist) {
             const int rpos = entryPtr->length - pos;
             if (rpos > 0) {
-                entryPtr->hash = ((entryPtr->hash * 13) + (entryPtr->key[rpos].cell() % 29)) & 0x3fffffff;
+                entryPtr->hash = ((entryPtr->hash * 13) + (entryPtr->key[rpos].cell() % 29)) & s_hashBitMask;
             }
         }
     } else {
         pos = pos - 1;
         for (auto &entryPtr : *stringlist) {
             if (pos < entryPtr->length) {
-                entryPtr->hash = ((entryPtr->hash * 13) + (entryPtr->key[pos].cell() % 29)) & 0x3fffffff;
+                entryPtr->hash = ((entryPtr->hash * 13) + (entryPtr->key[pos].cell() % 29)) & s_hashBitMask;
             }
         }
     }
