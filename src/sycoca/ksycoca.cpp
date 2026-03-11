@@ -48,7 +48,7 @@
  * However running apps should still be able to read it, so
  * only add to the data, never remove/modify.
  */
-#define KSYCOCA_VERSION 306
+#define KSYCOCA_VERSION 307
 
 #if HAVE_MADVISE || HAVE_MMAP
 #include <sys/mman.h> // This #include was checked when looking for posix_madvise
