@@ -19,6 +19,8 @@
 #include <QMap>
 #include <QStandardPaths>
 
+using namespace Qt::Literals;
+
 static void foldNode(QDomElement &docElem, QDomElement &e, QMap<QString, QDomElement> &dupeList, QString s = QString()) // krazy:exclude=passbyvalue
 {
     if (s.isEmpty()) {
@@ -664,9 +666,8 @@ void VFolderMenu::pushDocInfo(const QString &fileName, const QString &baseDir)
 
     m_docInfo.path = locateMenuFile(fileName);
     if (m_docInfo.path.isEmpty()) {
-        m_docInfo.baseDir.clear();
-        m_docInfo.baseName.clear();
-        qCDebug(SYCOCA) << "Menu" << fileName << "not found.";
+        qCDebug(SYCOCA) << fileName << "not found in" << m_allDirectories << "falling back to built-in file";
+        m_docInfo.path = u":/org.kde.kservice/fallback-applications.menu"_s;
         return;
     }
     qCDebug(SYCOCA) << "Found menu file" << m_docInfo.path;
@@ -782,17 +783,15 @@ void VFolderMenu::loadMenu(const QString &fileName)
         return;
     }
 
+    Q_ASSERT(m_docInfo.path.isEmpty());
+
     pushDocInfo(fileName);
     m_defaultMergeDirs << QStringLiteral("applications-merged/");
     m_doc = loadDoc();
     popDocInfo();
 
     if (m_doc.isNull()) {
-        if (m_docInfo.path.isEmpty()) {
-            qCritical() << fileName << " not found in " << m_allDirectories;
-        } else {
-            qCWarning(SYCOCA) << "Load error (" << m_docInfo.path << ")";
-        }
+        qCWarning(SYCOCA) << "Load error (" << m_docInfo.path << ")";
         return;
     }
 
