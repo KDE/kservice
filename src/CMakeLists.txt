@@ -87,6 +87,8 @@ PRIVATE
     KF6::CoreAddons   # KShell
 )
 
+qt_add_resources(KF6Service "fallback-menu" PREFIX "/org.kde.kservice" FILES fallback-applications.menu)
+
 ecm_generate_headers(KService_HEADERS
   HEADER_NAMES
   KSycoca
