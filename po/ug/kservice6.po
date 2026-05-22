@@ -8,96 +8,87 @@ msgstr ""
 "Project-Id-Version: kdelibs4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:49+0000\n"
-"PO-Revision-Date: 2013-09-08 07:05+0900\n"
-"Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
+"PO-Revision-Date: 2026-05-11 20:34-0400\n"
+"Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "ئابدۇقادىر ئابلىز, غەيرەت كەنجى"
+msgstr "ئابدۇقادىر ئابلىز، غەيرەت كەنجى"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "sahran.ug@gmail.com,  gheyret@gmail.com"
+msgstr "sahranbay@gmail.com, gheyret@gmail.com"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:90
-#, fuzzy, kde-format
-#| msgid "KBuildSycoca"
+#, kde-format
 msgctxt "application name"
 msgid "KBuildSycoca"
 msgstr "KBuildSycoca"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:92
-#, fuzzy, kde-format
-#| msgid "Rebuilds the system configuration cache."
+#, kde-format
 msgctxt "application description"
 msgid "Rebuilds the system configuration cache."
 msgstr "سىستېما سەپلىمە غەملەكنى قايتا قۇرىدۇ."
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:94
-#, fuzzy, kde-format
-#| msgid "(c) 1999-2002 KDE Developers"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Copyright 1999-2014 KDE Developers"
-msgstr "(c) 1999-2002 KDE ئىجادىيەت گۇرۇپپىسى"
+msgstr "نەشر ھوقۇقى 1999-2014 KDE ئىجادكارلىرى"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95
-#, fuzzy, kde-format
-#| msgid "David Faure"
+#, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95 kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
-#| msgid "Author"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Author"
-msgstr "ئاپتور"
+msgstr "يازغۇچى"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:96
-#, fuzzy, kde-format
-#| msgid "Waldo Bastian"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Waldo Bastian"
 msgstr "Waldo Bastian"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:102
-#, fuzzy, kde-format
-#| msgid "Disable incremental update, re-read everything"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
-msgstr "يېڭىلانغان بۆلەكنى يېڭىلاشنى ئىناۋەتسىز قىلىپ، ھەممىنى قايتا ئوقۇ"
+msgstr "تەدرىجىي يېڭىلاشنى چەكلەپ، ھەممىنى قايتا ئوقۇيدۇ"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:103
-#, fuzzy, kde-format
-#| msgid "Perform menu generation test run only"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Perform menu generation test run only"
-msgstr "پەقەت تىزىملىك ھاسىل قىلىش سىنىقىنىلا ئېلىپ بېرىش"
+msgstr "پەقەت تىزىملىك ھاسىل قىلىش سىنىقىنىلا ئىجرا قىلىدۇ"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:105
-#, fuzzy, kde-format
-#| msgid "Track menu id for debug purposes"
+#, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Track menu id for debug purposes"
-msgstr "سازلاشتا ئىشلىتىلىدىغان تىزىملىك ID سىغا ئەگەش"
+msgstr "سازلاشتا ئىشلىتىلىدىغان تىزىملىك كىملىكىگە ئەگىشىدۇ"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:107
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Switch QStandardPaths to test mode, for unit tests only"
 msgstr ""
+"QStandardPaths نى سىناق ھالىتىگە ئالماشتۇرىدۇ، پەقەت بۆلەك سىنىقى ئۈچۈن"
 
-#, fuzzy
 #~| msgid "Disable checking files (dangerous)"
 #~ msgctxt "@info:shell command-line option"
 #~ msgid ""
@@ -105,7 +96,6 @@ msgstr ""
 #~ "effect)"
 #~ msgstr "ھۆججەت تەكشۈرمە (خەتەرلىك)"
 
-#, fuzzy
 #~| msgid "Disable checking files (dangerous)"
 #~ msgctxt "@info:shell command-line option"
 #~ msgid "Disable checking files (deprecated, no longer having any effect)"
@@ -171,19 +161,16 @@ msgstr ""
 #~ msgid "The service '%1' provides no library or the Library key is missing"
 #~ msgstr "بۇ '%1' مۇلازىمەت ئامبار تەمىنلىمىگەن ياكى ئامبار ئاچقۇچى كەم"
 
-#, fuzzy
 #~| msgid "Create global database"
 #~ msgctxt "@info:shell command-line option"
 #~ msgid "Create global database"
 #~ msgstr "ئومۇمىيەت ساندان قۇر"
 
-#, fuzzy
 #~| msgid "Do not signal applications to update"
 #~ msgctxt "@info:shell command-line option"
 #~ msgid "Do not signal applications to update"
 #~ msgstr "پروگراممىنى يېڭىلاش ھەققىدە سىگنال يوق"
 
-#, fuzzy
 #~| msgid "Check file timestamps"
 #~ msgctxt "@info:shell command-line option"
 #~ msgid "Check file timestamps"
@@ -192,7 +179,6 @@ msgstr ""
 #~ msgid "Could not find plugin '%1' for application '%2'"
 #~ msgstr "'%2' پروگراممىنىڭ '%1' قىستۇرمىسىنى تاپالمىدى"
 
-#, fuzzy
 #~| msgid "The library %1 does not offer a KDE 4 compatible factory."
 #~ msgid "The library %1 does not offer a KPluginFactory."
 #~ msgstr "%1 ئامبار KDE 4 بىلەن ماسلىشىدىغان زاۋۇت تەمىنلىمىگەن."
@@ -3760,7 +3746,6 @@ msgstr ""
 #~ msgid "Supply a username and password below."
 #~ msgstr "تۆۋەندە ئىشلەتكۈچى ئاتى ۋە ئىم تەمىنلەيدۇ."
 
-#, fuzzy
 #~| msgid "&Keep password"
 #~ msgid "Use this password:"
 #~ msgstr "ئىمنى ساقلا(&K)"
