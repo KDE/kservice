@@ -374,9 +374,9 @@ KServiceGroup::List KServiceGroupPrivate::entries(KServiceGroup *group, bool sor
         if (p->isType(KST_KServiceGroup)) {
             name = static_cast<KServiceGroup *>(p.data())->caption();
         } else if (sortByGenericName) {
-            name = static_cast<KService *>(p.data())->genericName() + QLatin1Char(' ') + p->name();
+            name = static_cast<KService *>(p.data())->genericName() + QLatin1Char(' ') + p->name() + p->storageId();
         } else {
-            name = p->name() + QLatin1Char(' ') + static_cast<KService *>(p.data())->genericName();
+            name = p->name() + QLatin1Char(' ') + static_cast<KService *>(p.data())->genericName() + p->storageId();
         }
 
         const QByteArray nameStr = name.toLocal8Bit();
