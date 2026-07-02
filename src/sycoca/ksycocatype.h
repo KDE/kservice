@@ -9,6 +9,11 @@
 #ifndef KSYCOCATYPE_H
 #define KSYCOCATYPE_H
 
+// All KF6 public headers should provide the version macros.
+// Include version header explicitly because the export header
+// (which usually takes care of that) isn't used here
+#include <kservice_version.h> // IWYU pragma: export
+
 /*
  * A KSycocaType is a code (out of the KSycocaType enum) assigned to each
  * class type derived from KSycocaEntry .
