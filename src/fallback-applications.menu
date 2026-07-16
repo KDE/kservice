@@ -6,7 +6,6 @@
   <DefaultAppDirs/>
   <DefaultDirectoryDirs/>
   <MergeDir>applications-merged</MergeDir>
-  <LegacyDir>/usr/share/applnk</LegacyDir>
   <DefaultLayout>
     <Merge type="menus"/>
     <Merge type="files"/>

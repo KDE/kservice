@@ -73,6 +73,7 @@ private Q_SLOTS:
     void testDeletingSycoca();
     void testNonReadableSycoca();
     void extraFileInFutureShouldRebuildSycocaOnce();
+    void testNoMenuFile();
 
 private:
     void createTestApp()
@@ -319,6 +320,17 @@ void KSycocaTest::extraFileInFutureShouldRebuildSycocaOnce()
 
     // Ensure we don't pollute the other tests, with our extra file in the future.
     QVERIFY(QFile::remove(path));
+}
+
+void KSycocaTest::testNoMenuFile()
+{
+    // remove the menu file to force using the fallback
+    qunsetenv("XDG_MENU_PREFIX");
+    const QString file = menusDir() + QLatin1String("/applications.menu");
+    QFile::remove(file);
+
+    KBuildSycoca builder;
+    QVERIFY(builder.recreate());
 }
 
 #include "ksycocatest.moc"
