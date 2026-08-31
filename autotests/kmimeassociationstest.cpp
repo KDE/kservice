@@ -25,6 +25,14 @@
 
 using namespace Qt::StringLiterals;
 
+// Until https://codereview.qt-project.org/c/qt/qtbase/+/765860, QMimeDatabase applied the implicit
+// "text/* is a subclass of text/plain" rule from the spec only to mimetypes without any other parent.
+static bool derivesDirectlyFromTextPlain(const QString &mimeName)
+{
+    QMimeDatabase db;
+    return db.mimeTypeForName(mimeName).parentMimeTypes().contains(u"text/plain"_s);
+}
+
 // We need a factory that returns the same KService::Ptr every time it's asked for a given service.
 // Otherwise the changes to the service's serviceTypes by KMimeAssociationsTest have no effect
 class FakeServiceFactory : public KServiceFactory
@@ -246,6 +254,16 @@ private Q_SLOTS:
         removedApps[QStringLiteral("image/jpeg")] << QStringLiteral("firefox.desktop");
         removedApps[QStringLiteral("text/html")] << QStringLiteral("gvim.desktop") << QStringLiteral("abiword.desktop");
 
+        // shared-mime-info >= 2.5 no longer spells out that text/* types inherit text/plain, it
+        // relies on the implicit rule from the spec. Without that rule these two only reach the
+        // text/plain offers through a longer parent chain, which ranks those offers too low.
+        if (!derivesDirectlyFromTextPlain(u"text/x-csrc"_s)) {
+            preferredApps.remove(QStringLiteral("text/x-csrc"));
+        }
+        if (!derivesDirectlyFromTextPlain(u"text/x-python"_s)) {
+            preferredApps.remove(QStringLiteral("text/x-python"));
+        }
+
         // Clean-up non-existing apps
         removeNonExisting(preferredApps);
         removeNonExisting(removedApps);
@@ -402,6 +420,11 @@ private Q_SLOTS:
 
     void testMultipleInheritance()
     {
+        // See the comment in initTestCase(). With shared-mime-info >= 2.5, application/x-shellscript
+        // only declares application/x-executable, so QMimeDatabase doesn't let it reach text/plain.
+        if (!derivesDirectlyFromTextPlain(u"application/x-shellscript"_s)) {
+            QSKIP("QMimeDatabase doesn't apply the implicit text/plain inheritance rule");
+        }
         // application/x-shellscript inherits from both text/plain and application/x-executable
         KService::List offers = KApplicationTrader::queryByMimeType(QStringLiteral("application/x-shellscript"));
         QVERIFY(offerListHasService(offers, fakeTextApplication, true));

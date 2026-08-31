@@ -158,12 +158,15 @@ void KOfferHash::addServiceOffer(const QString &serviceType, const KServiceOffer
         offerSet.insert(service);
     } else {
         const int initPref = offer.preference();
+        const int level = offer.mimeTypeInheritanceLevel();
         // qDebug() << service->entryPath() << "already in" << serviceType;
-        // This happens when mimeapps.list mentions a service (to make it preferred)
-        // Update initialPreference to std::max(existing offer, new offer)
+        // This happens when mimeapps.list mentions a service (to make it preferred),
+        // and when the service is reachable via several parent MIME types.
+        // Keep the highest preference and the shortest inheritance distance.
         for (KServiceOffer &servOffer : data.offers) {
             if (servOffer.service() == service) { // we can compare KService::Ptrs because they are from the memory hash
                 servOffer.setPreference(std::max(servOffer.preference(), initPref));
+                servOffer.setMimeTypeInheritanceLevel(std::min(servOffer.mimeTypeInheritanceLevel(), level));
             }
         }
     }
