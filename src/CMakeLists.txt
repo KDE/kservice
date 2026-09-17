@@ -89,7 +89,7 @@ PRIVATE
 
 qt_add_resources(KF6Service "fallback-menu" PREFIX "/org.kde.kservice" FILES fallback-applications.menu OUTPUT_TARGETS KService_RESOURCE_TARGETS)
 
-ecm_generate_headers(KService_HEADERS
+ecm_generate_headers(KService_CamelCase_HEADERS
   HEADER_NAMES
   KSycoca
   KSycocaEntry
@@ -97,7 +97,7 @@ ecm_generate_headers(KService_HEADERS
 
   RELATIVE sycoca REQUIRED_HEADERS KService_HEADERS
 )
-ecm_generate_headers(KService_HEADERS
+ecm_generate_headers(KService_CamelCase_HEADERS
   HEADER_NAMES
   KApplicationTrader
   KService
@@ -114,6 +114,7 @@ install(TARGETS KF6Service ${KService_RESOURCE_TARGETS} EXPORT KF6ServiceTargets
 install(FILES
    "${CMAKE_CURRENT_BINARY_DIR}/kservice_export.h"
    ${KService_HEADERS}
+   ${KService_CamelCase_HEADERS}
    ${CMAKE_CURRENT_SOURCE_DIR}/services/kserviceconversioncheck_p.h # helper header included by kservice.h
    DESTINATION ${KDE_INSTALL_INCLUDEDIR_KF}/KService COMPONENT Devel
 )
@@ -122,6 +123,19 @@ ecm_qt_install_logging_categories(
     EXPORT KSERVICE
     FILE kservice.categories
     DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
+)
+
+ecm_add_installed_library_check(KF6Service
+    PACKAGE_NAME "KF6Service"
+    PACKAGE_TARGET_NAMESPACE "KF6::"
+)
+
+ecm_installed_library_check_include_strings(KF6Service
+    HEADERS ${KService_CamelCase_HEADERS}
+)
+
+ecm_installed_library_check_version_preprocessor_macros(KF6Service
+    PREFIX KSERVICE
 )
 
 add_subdirectory(kbuildsycoca)
