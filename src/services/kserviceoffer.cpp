@@ -65,9 +65,14 @@ bool KServiceOffer::operator<(const KServiceOffer &_o) const
         return d->mimeTypeInheritanceLevel < _o.d->mimeTypeInheritanceLevel;
     }
 
-    // Finally, use preference to sort them
+    // use preference to sort them
     // The bigger the better, but we want the better FIRST
-    return _o.d->preference < d->preference;
+    if (_o.d->preference != d->preference) {
+        return _o.d->preference < d->preference;
+    }
+
+    // if the above is all equal, use storageId as last sorting
+    return service()->storageId() < _o.service()->storageId();
 }
 
 int KServiceOffer::preference() const
