@@ -13,6 +13,7 @@ endmacro()
 kservice_executable_tests(
   kservicegroup_dumper
   findservice
+  ktraderclient
 )
 
 add_executable(kmimeassociations_dumper)
