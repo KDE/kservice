@@ -14,6 +14,7 @@ kservice_executable_tests(
   kservicegroup_dumper
   findservice
   ktraderclient
+  findintent
 )
 
 add_executable(kmimeassociations_dumper)
