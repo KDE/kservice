@@ -17,7 +17,10 @@
 #include <QMimeDatabase>
 
 #include <KConfigGroup>
+#include <KDesktopFile>
 #include <KSharedConfig>
+
+using namespace Qt::Literals;
 
 static KService::List mimeTypeSycocaServiceOffers(const QString &mimeType)
 {
@@ -133,4 +136,97 @@ bool KApplicationTrader::isSubsequence(const QString &pattern, const QString &te
         }
     }
     return patternIt == pattern.cend();
+}
+
+KService::List KApplicationTrader::queryByIntent(const QString &intent, const QString &scope)
+{
+    KService::List result;
+
+    const auto intentCacheFiles = QStandardPaths::locateAll(QStandardPaths::ApplicationsLocation, u"intent.cache"_s);
+    for (const auto &intentCacheFile : intentCacheFiles) {
+        QStringList services;
+        KDesktopFile cache(intentCacheFile);
+        if (scope.isEmpty()) {
+            const auto grp = cache.group(u"Intent Cache"_s);
+            services = grp.readXdgListEntry(intent);
+        } else {
+            const auto grp = cache.group(intent);
+            services = grp.readXdgListEntry(scope);
+        }
+
+        for (const auto &serviceName : services) {
+            if (std::ranges::any_of(result, [serviceName](const auto &s) {
+                    return s->desktopEntryName() == serviceName;
+                })) {
+                continue;
+            }
+            auto s = KService::serviceByDesktopName(serviceName);
+            if (s) {
+                result.push_back(std::move(s));
+            }
+        }
+    }
+
+    return result;
+}
+
+KService::Ptr KApplicationTrader::preferredServiceForIntent(const QString &intent, const QString &scope)
+{
+    const QString desktops = QString::fromLocal8Bit(qgetenv("XDG_CURRENT_DESKTOP")).toLower();
+    const auto list = QStringView(desktops).split(':'_L1, Qt::SkipEmptyParts);
+    QStringList fileNames;
+    fileNames.reserve(list.size() + 1);
+    for (const auto &desktop : list) {
+        fileNames.push_back(desktop + "-intentapps.list"_L1);
+    }
+    fileNames.push_back(u"intentapp.list"_s);
+
+    const auto dirs =
+        QStandardPaths::standardLocations(QStandardPaths::GenericConfigLocation) + QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
+    for (const auto &dir : dirs) {
+        for (const auto &fileName : fileNames) {
+            KDesktopFile f(dir + '/'_L1 + fileName);
+            QStringList services;
+            if (scope.isEmpty()) {
+                const auto grp = f.group(u"Default Applications"_s);
+                services = grp.readXdgListEntry(intent);
+            } else {
+                const auto grp = f.group(intent);
+                services = grp.readXdgListEntry(scope);
+            }
+
+            for (const auto &serviceName : services) {
+                auto s = KService::serviceByDesktopName(serviceName);
+                if (s) {
+                    if (!s->supportedIntents().contains(intent)) {
+                        continue;
+                    }
+                    if (!scope.isEmpty() && !s->supportedScopesForIntent(intent).contains(scope)) {
+                        continue;
+                    }
+                    return s;
+                }
+            }
+        }
+    }
+
+    // no preferred service defined, pick any
+    const auto l = KApplicationTrader::queryByIntent(intent, scope);
+    return l.isEmpty() ? KService::Ptr() : l.front();
+}
+
+void KApplicationTrader::setPreferredServiceForIntent(const QString &intent, const KService::Ptr &service, const QString &scope)
+{
+    if (!service) {
+        return;
+    }
+
+    KDesktopFile f(QStandardPaths::GenericConfigLocation, u"intentapp.list"_s);
+    if (scope.isEmpty()) {
+        auto grp = f.group(u"Default Applications"_s);
+        grp.writeEntry(intent, service->desktopEntryName());
+    } else {
+        auto grp = f.group(intent);
+        grp.writeEntry(scope, service->desktopEntryName());
+    }
 }

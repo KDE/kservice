@@ -19,6 +19,7 @@
 #include <kapplicationtrader.h>
 #include <kservicegroup.h>
 
+#include <QDirIterator>
 #include <QFile>
 #include <QSignalSpy>
 #include <QStandardPaths>
@@ -37,6 +38,8 @@ enum class ExpectedResult {
 };
 Q_DECLARE_METATYPE(ExpectedResult)
 
+using namespace Qt::Literals;
+
 class KApplicationTraderTest : public QObject
 {
     Q_OBJECT
@@ -46,6 +49,7 @@ private Q_SLOTS:
     void testTraderConstraints_data();
     void testTraderConstraints();
     void testQueryByMimeType();
+    void testIntentQuery();
     void testThreads();
     void testTraderQueryMustRebuildSycoca();
     void testSetPreferredService();
@@ -323,9 +327,117 @@ QString KApplicationTraderTest::createFakeApplication(const QString &filename, c
     group.writeEntry("X-KDE-Version", "5.56");
     group.writeEntry("MimeType", "text/plain;");
     for (auto it = extraFields.begin(); it != extraFields.end(); ++it) {
-        group.writeEntry(it.key(), it.value());
+        const auto splitKey = it.key().split('/'_L1);
+        if (splitKey.size() > 1) {
+            auto g = file.group(splitKey.at(0));
+            g.writeEntry(splitKey.at(1), it.value());
+        } else {
+            group.writeEntry(it.key(), it.value());
+        }
     }
     return fakeService;
+}
+
+static void generateIntentCache()
+{
+    QHash<QString, QStringList> intentCache;
+    QHash<QString, QHash<QString, QStringList>> scopeCache;
+
+    QDirIterator it(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation), {u"*.desktop"_s}, QDir::Files);
+    while (it.hasNext()) {
+        it.next();
+        KService s(it.filePath());
+        const auto intents = s.supportedIntents();
+        for (const auto &intent : intents) {
+            intentCache[intent] += s.desktopEntryName();
+
+            const auto scopes = s.supportedScopesForIntent(intent);
+            for (const auto &scope : scopes) {
+                scopeCache[intent][scope] += s.desktopEntryName();
+            }
+        }
+    }
+
+    KDesktopFile cache(QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation) + "/intent.cache"_L1);
+    auto grp = cache.group(u"Intent Cache"_s);
+    for (const auto &[intent, services] : intentCache.asKeyValueRange()) {
+        grp.writeXdgListEntry(intent, services);
+    }
+    for (const auto &[intent, scopes] : scopeCache.asKeyValueRange()) {
+        grp = cache.group(intent);
+        for (const auto &[scope, services] : scopes.asKeyValueRange()) {
+            grp.writeXdgListEntry(scope, services);
+        }
+    }
+}
+
+void KApplicationTraderTest::testIntentQuery()
+{
+    // non-existant Intent
+    QVERIFY(KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s).isEmpty());
+    QVERIFY(KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s, u"MyScope"_s).isEmpty());
+    QCOMPARE(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s), nullptr);
+    QCOMPARE(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s, u"MyScope"_s), nullptr);
+
+    createFakeApplication(u"org.kde.fakeIntentHandler1.desktop"_s, u"FakeIntentHandler1"_s, {{u"Implements"_s, u"org.kde.ImaginaryTestIntent"_s}});
+    createFakeApplication(u"org.kde.fakeIntentHandler2.desktop"_s, u"FakeIntentHandler2"_s, {{u"Implements"_s, u"org.kde.ImaginaryTestIntent"_s}});
+    generateIntentCache();
+
+    auto l = KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s);
+    QCOMPARE(l.size(), 2);
+    QStringList services;
+    std::ranges::transform(l, std::back_inserter(services), [](const KService::Ptr &s) {
+        return s->desktopEntryName();
+    });
+    std::ranges::sort(services);
+    QCOMPARE(services, QStringList({u"org.kde.fakeIntentHandler1"_s, u"org.kde.fakeIntentHandler2"_s}));
+    QVERIFY(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s));
+
+    KApplicationTrader::setPreferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s, KService::serviceByDesktopName(u"org.kde.fakeIntentHandler1"_s));
+    QCOMPARE(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s)->desktopEntryName(), "org.kde.fakeIntentHandler1"_L1);
+    KApplicationTrader::setPreferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s, KService::serviceByDesktopName(u"org.kde.fakeIntentHandler2"_s));
+    QCOMPARE(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s)->desktopEntryName(), "org.kde.fakeIntentHandler2"_L1);
+
+    // same again with scoped intents
+    createFakeApplication(u"org.kde.fakeIntentHandler3.desktop"_s,
+                          u"FakeIntentHandler3"_s,
+                          {{u"Implements"_s, u"org.kde.ImaginaryTestIntent"_s}, {u"org.kde.ImaginaryTestIntent/Supports"_s, u"scope1;scope2;"_s}});
+    createFakeApplication(u"org.kde.fakeIntentHandler4.desktop"_s,
+                          u"FakeIntentHandler4"_s,
+                          {{u"Implements"_s, u"org.kde.ImaginaryTestIntent"_s}, {u"org.kde.ImaginaryTestIntent/Supports"_s, u"scope2;scope3;"_s}});
+    generateIntentCache();
+
+    l = KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s);
+    QCOMPARE(l.size(), 4);
+    l = KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s, u"scope1"_s);
+    QCOMPARE(l.size(), 1);
+    QCOMPARE(l.at(0)->desktopEntryName(), "org.kde.fakeIntentHandler3"_L1);
+    l = KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s, u"scope3"_s);
+    QCOMPARE(l.size(), 1);
+    QCOMPARE(l.at(0)->desktopEntryName(), "org.kde.fakeIntentHandler4"_L1);
+    l = KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s, u"scope4"_s);
+    QCOMPARE(l.size(), 0);
+    l = KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s, u"scope2"_s);
+    QCOMPARE(l.size(), 2);
+    services.clear();
+    std::ranges::transform(l, std::back_inserter(services), [](const KService::Ptr &s) {
+        return s->desktopEntryName();
+    });
+    std::ranges::sort(services);
+    QCOMPARE(services, QStringList({u"org.kde.fakeIntentHandler3"_s, u"org.kde.fakeIntentHandler4"_s}));
+
+    QVERIFY(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s, u"scope2"_s));
+    QVERIFY(!KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s, u"scope4"_s));
+    QCOMPARE(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s, u"scope1"_s)->desktopEntryName(), "org.kde.fakeIntentHandler3"_L1);
+
+    KApplicationTrader::setPreferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s,
+                                                     KService::serviceByDesktopName(u"org.kde.FakeIntentHandler3"_s),
+                                                     u"scope2"_s);
+    QCOMPARE(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s, u"scope2"_s)->desktopEntryName(), "org.kde.fakeIntentHandler3"_L1);
+    KApplicationTrader::setPreferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s,
+                                                     KService::serviceByDesktopName(u"org.kde.fakeIntentHandler4"_s),
+                                                     u"scope2"_s);
+    QCOMPARE(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s, u"scope2"_s)->desktopEntryName(), "org.kde.fakeIntentHandler4"_L1);
 }
 
 #include <QFutureSynchronizer>
