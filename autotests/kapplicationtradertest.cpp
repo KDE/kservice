@@ -37,6 +37,8 @@ enum class ExpectedResult {
 };
 Q_DECLARE_METATYPE(ExpectedResult)
 
+using namespace Qt::Literals;
+
 class KApplicationTraderTest : public QObject
 {
     Q_OBJECT
@@ -46,6 +48,7 @@ private Q_SLOTS:
     void testTraderConstraints_data();
     void testTraderConstraints();
     void testQueryByMimeType();
+    void testIntentQuery();
     void testThreads();
     void testTraderQueryMustRebuildSycoca();
     void testSetPreferredService();
@@ -326,6 +329,20 @@ QString KApplicationTraderTest::createFakeApplication(const QString &filename, c
         group.writeEntry(it.key(), it.value());
     }
     return fakeService;
+}
+
+void KApplicationTraderTest::testIntentQuery()
+{
+    // non-existant Intent
+    QVERIFY(KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s).isEmpty());
+    QVERIFY(KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s, u"MyScope"_s).isEmpty());
+    QCOMPARE(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s), nullptr);
+    QCOMPARE(KApplicationTrader::preferredServiceForIntent(u"org.kde.ImaginaryTestIntent"_s, u"MyScope"_s), nullptr);
+
+    createFakeApplication(u"org.kde.fakeIntentHandler.desktop"_s, u"FakeIntentHandler"_s, {{u"Implements"_s, u"org.kde.ImaginaryTestIntent"_s}});
+    auto l = KApplicationTrader::queryByIntent(u"org.kde.ImaginaryTestIntent"_s);
+    // TODO we need to generate an intent cache for this to work...
+    QCOMPARE(l.size(), 1);
 }
 
 #include <QFutureSynchronizer>

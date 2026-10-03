@@ -91,7 +91,7 @@ KSERVICE_EXPORT KService::Ptr preferredService(const QString &mimeType);
  *
  * \since 5.101
  */
-KSERVICE_EXPORT void setPreferredService(const QString &mimeType, const KService::Ptr service);
+KSERVICE_EXPORT void setPreferredService(const QString &mimeType, const KService::Ptr service); // TODO KF7 make service a const ref
 
 /*!
  * Returns true if \a pattern matches a subsequence of the string \a text.
@@ -102,6 +102,39 @@ KSERVICE_EXPORT void setPreferredService(const QString &mimeType, const KService
  * \since 5.68
  */
 KSERVICE_EXPORT bool isSubsequence(const QString &pattern, const QString &text, Qt::CaseSensitivity cs = Qt::CaseSensitive);
+
+/*!
+ * Returns a list of services implementing the given XDG Intent.
+ *
+ * \a intent Name of the XDG Intent.
+ * \a scope Optional scope of the intent, if used/supported by the specific intent.
+ *
+ * \since 6.32
+ */
+KSERVICE_EXPORT KService::List queryByIntent(const QString &intent, const QString &scope = {});
+
+/*!
+ * Returns the preferred/default service for the given XDG Intent.
+ *
+ * If no suitable service is found, \c nullptr is returned.
+ *
+ * \a intent Name of the XDG Intent.
+ * \a scope Optional scope of the intent, if used/supported by the specific intent.
+ *
+ * \since 6.32
+ */
+KSERVICE_EXPORT KService::Ptr preferredServiceForIntent(const QString &intent, const QString &scope = {});
+
+/*!
+ * Sets the preferred service for a given XDG Intent.
+ *
+ * \a intent Name of the XDG Intent.
+ * \a service The service that should be preferred to handle this intent.
+ * \a scope Optional scope of the intent, if used/supported by the specific intent.
+ *
+ * \since 6.32
+ */
+KSERVICE_EXPORT void setPreferredServiceForIntent(const QString &intent, const KService::Ptr &service, const QString &scope = {});
 }
 
 #endif
