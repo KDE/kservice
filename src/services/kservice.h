@@ -486,6 +486,24 @@ public:
      */
     std::optional<bool> startupNotify() const;
 
+    /*!
+     * Returns a list of XDG Intents this service can handle.
+     *
+     * \sa https://specifications.freedesktop.org/intent-apps/
+     *
+     * \since 6.32
+     */
+    [[nodiscard]] QStringList supportedIntents() const;
+
+    /*!
+     * Returns a list of intent scopes supported by this service for a given XDG Intent.
+     *
+     * \a intent Name of the XDG Intent for which to list the supported scopes.
+     *
+     * \since 6.32
+     */
+    [[nodiscard]] QStringList supportedScopesForIntent(const QString &intent) const;
+
 private:
     friend class KBuildServiceFactory;
 

@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: none
+# SPDX-License-Identifier: CC0-1.0
+
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Exec=foo %U
+Name=Some Tool
+Implements=com.example.SchemeHandler;org.freedesktop.Terminal1;
+
+[com.example.SchemeHandler]
+Supports=https;http;

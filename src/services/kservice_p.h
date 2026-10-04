@@ -75,6 +75,8 @@ public:
     QString m_untranslatedGenericName;
     QString m_untranslatedName;
     QList<KServiceAction> m_actions;
+    QStringList m_intents;
+    QHash<QString, QStringList> m_intentScopes;
     bool m_bTerminal : 1;
     bool m_bValid : 1;
 };

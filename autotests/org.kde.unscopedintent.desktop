@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: none
+# SPDX-License-Identifier: CC0-1.0
+
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=SuperTerm
+Comment=The best terminal available!
+Exec=xdg-super-term
+Icon=org.freedesktop.SuperTerm
+Implements=org.freedesktop.Terminal1;
