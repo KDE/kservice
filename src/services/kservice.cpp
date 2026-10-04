@@ -30,6 +30,8 @@
 #include "kserviceutil_p.h"
 #include "servicesdebug.h"
 
+using namespace Qt::Literals;
+
 void KServicePrivate::init(const KDesktopFile *config, KService *q)
 {
     const QString entryPath = q->entryPath();
@@ -128,6 +130,18 @@ void KServicePrivate::init(const KDesktopFile *config, KService *q)
     }
 
     m_strDesktopEntryName = _name;
+
+    // read intent scopes
+    if (entryMap.remove(u"Implements"_s)) {
+        m_intents = desktopGroup.readXdgListEntry("Implements");
+        for (const auto &intent : m_intents) {
+            const auto grp = config->group(intent);
+            auto scopes = grp.readXdgListEntry("Supports");
+            if (!scopes.isEmpty()) {
+                m_intentScopes[intent] = std::move(scopes);
+            }
+        }
+    }
 
     // Store all additional entries in the property map.
     // A QMap<QString,QString> would be easier for this but we can't
@@ -228,7 +242,8 @@ void KServicePrivate::load(QDataStream &s)
       >> m_lstKeywords >> m_strGenName
       >> categories >> menuId >> m_actions
       >> unused3
-      >> m_untranslatedName >> m_untranslatedGenericName >> m_mimeTypes;
+      >> m_untranslatedName >> m_untranslatedGenericName >> m_mimeTypes
+      >> m_intents >> m_intentScopes;
     // clang-format on
 
     m_bTerminal = bool(term);
@@ -248,7 +263,7 @@ void KServicePrivate::save(QDataStream &s)
     // number in ksycoca.cpp
     s << m_strType << m_strName << m_strExec << m_strIcon << term << m_strTerminalOptions << m_strWorkingDirectory << m_strComment
       << qint8(false) /* unused */ << m_mapProps << QString() /* unused */ << dst << m_strDesktopEntryName << m_lstKeywords << m_strGenName << categories
-      << menuId << m_actions << QStringList() /* unused */ << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes;
+      << menuId << m_actions << QStringList() /* unused */ << m_untranslatedName << m_untranslatedGenericName << m_mimeTypes << m_intents << m_intentScopes;
 }
 
 ////
@@ -825,4 +840,16 @@ std::optional<bool> KService::startupNotify() const
     }
 
     return {};
+}
+
+QStringList KService::supportedIntents() const
+{
+    Q_D(const KService);
+    return d->m_intents;
+}
+
+QStringList KService::supportedScopesForIntent(const QString &intent) const
+{
+    Q_D(const KService);
+    return d->m_intentScopes.value(intent);
 }

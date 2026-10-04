@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: none
+# SPDX-License-Identifier: CC0-1.0
+
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Exec=website-archiver %U
+Name=My Website Archiver
+Implements=com.example.SchemeHandler;
+
+[com.example.SchemeHandler]
+Supports=https;http;

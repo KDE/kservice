@@ -48,6 +48,8 @@ private Q_SLOTS:
     void testStartupNotify();
     void testRecursiveUpdate();
 
+    void testIntents();
+
 private:
     void runKBuildSycoca(bool noincremental = false);
 

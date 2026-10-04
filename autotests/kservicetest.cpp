@@ -603,4 +603,21 @@ void KServiceTest::testRecursiveUpdate()
     QCOMPARE(spy.count(), 1);
 }
 
+void KServiceTest::testIntents()
+{
+    KService s1(QFINDTESTDATA("org.kde.unscopedintent.desktop"));
+    QCOMPARE(s1.supportedIntents(), QStringList(u"org.freedesktop.Terminal1"_s));
+    QVERIFY(s1.supportedScopesForIntent(u"org.freedesktop.Terminal1"_s).isEmpty());
+
+    KService s2(QFINDTESTDATA("org.kde.scopedintent.desktop"));
+    QCOMPARE(s2.supportedIntents(), QStringList(u"com.example.SchemeHandler"_s));
+    QVERIFY(s2.supportedScopesForIntent(u"org.freedesktop.Terminal1"_s).isEmpty());
+    QCOMPARE(s2.supportedScopesForIntent(u"com.example.SchemeHandler"_s), QStringList({u"https"_s, u"http"_s}));
+
+    KService s3(QFINDTESTDATA("org.kde.multiintent.desktop"));
+    QCOMPARE(s3.supportedIntents(), QStringList({u"com.example.SchemeHandler"_s, u"org.freedesktop.Terminal1"_s}));
+    QVERIFY(s3.supportedScopesForIntent(u"org.freedesktop.Terminal1"_s).isEmpty());
+    QCOMPARE(s3.supportedScopesForIntent(u"com.example.SchemeHandler"_s), QStringList({u"https"_s, u"http"_s}));
+}
+
 #include "moc_kservicetest.cpp"
