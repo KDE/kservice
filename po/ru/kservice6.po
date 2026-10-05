@@ -64,7 +64,7 @@ msgstr "Повторное создание кэша системной конф
 #, kde-format
 msgctxt "@info:credit"
 msgid "Copyright 1999-2014 KDE Developers"
-msgstr "© Разработчики KDE, 1999-2014"
+msgstr "© Разработчики KDE, 1999–2014"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:95
 #, kde-format
@@ -88,7 +88,7 @@ msgstr "Waldo Bastian"
 #, kde-format
 msgctxt "@info:shell command-line option"
 msgid "Disable incremental update, re-read everything"
-msgstr "Отключить инкрементное обновление, перечитать все"
+msgstr "Отключить инкрементное обновление, перечитать всё"
 
 #: kbuildsycoca/kbuildsycoca_main.cpp:103
 #, kde-format
