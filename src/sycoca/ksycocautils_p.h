@@ -11,10 +11,20 @@
 
 #include <QDir>
 #include <QFileInfo>
+#include <QMimeDatabase>
 #include <QString>
 
 namespace KSycocaUtilsPrivate
 {
+// QMimeDatabase checks its files for changes at most every few seconds. A new database of KSycoca
+// can come with new MIME types, which a build reads and the lookups that follow resolve.
+inline void reloadMimeDatabase()
+{
+#if QT_VERSION >= QT_VERSION_CHECK(6, 13, 0)
+    QMimeDatabase::reload();
+#endif
+}
+
 // helper function for visitResourceDirectory
 template<typename Visitor>
 bool visitResourceDirectoryHelper(const QString &dirname, Visitor visitor)

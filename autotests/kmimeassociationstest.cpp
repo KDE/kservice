@@ -14,6 +14,7 @@
 #include <QDir>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QProcess>
 #include <QSignalSpy>
 #include <QTemporaryDir>
 #include <QTemporaryFile>
@@ -547,6 +548,49 @@ private Q_SLOTS:
             return textOffers.contains(app) || appOffers.contains(app);
         });
         QCOMPARE(offers.mid(offers.count() - octetOffers.size(), octetOffers.size()), octetOffers);
+    }
+
+    void testNewMimeTypeIsFoundAtOnce()
+    {
+        // A MIME type installed after this process loaded its MIME types, as KIO's Open With dialog
+        // defines one for the extension of a file of no known type. The build of the sycoca makes
+        // QMimeDatabase read it again, so the association holds and the lookup finds the type.
+#if QT_VERSION < QT_VERSION_CHECK(6, 13, 0)
+        QSKIP("QMimeDatabase::reload() needs Qt 6.13");
+#else
+        const QString updateMimeDatabase = QStandardPaths::findExecutable(u"update-mime-database"_s);
+        if (updateMimeDatabase.isEmpty()) {
+            QSKIP("update-mime-database is not installed");
+        }
+        const QString mimeType = u"application/x-kservice-reload-test"_s;
+        QVERIFY(!QMimeDatabase().mimeTypeForName(mimeType).isValid());
+
+        const QString mimeDir = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + u"/mime"_s;
+        QVERIFY(QDir().mkpath(mimeDir + u"/packages"_s));
+        const QString definition = mimeDir + u"/packages/kservice-reload-test.xml"_s;
+        QFile file(definition);
+        QVERIFY(file.open(QIODevice::WriteOnly));
+        file.write(
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+            "<mime-info xmlns=\"http://www.freedesktop.org/standards/shared-mime-info\">\n"
+            "  <mime-type type=\"application/x-kservice-reload-test\">\n"
+            "    <glob pattern=\"*.kservicereloadtest\"/>\n"
+            "  </mime-type>\n"
+            "</mime-info>\n");
+        file.close();
+        QCOMPARE(QProcess::execute(updateMimeDatabase, {mimeDir}), 0);
+
+        writeToMimeApps(
+            QByteArray("[Added Associations]\n"
+                       "application/x-kservice-reload-test=fakejpegapplication.desktop;\n"));
+
+        const KService::List offers = KApplicationTrader::queryByMimeType(mimeType);
+        QVERIFY(offerListHasService(offers, fakeJpegApplication, true));
+
+        QFile::remove(definition);
+        QProcess::execute(updateMimeDatabase, {mimeDir});
+        writeToMimeApps(m_mimeAppsFileContents);
+#endif
     }
 
 private:

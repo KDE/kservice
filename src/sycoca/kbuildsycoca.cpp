@@ -365,6 +365,8 @@ bool KBuildSycoca::recreate(bool incremental)
     QByteArray qSycocaPath = QFile::encodeName(path);
     s_cSycocaPath = qSycocaPath.data();
 
+    KSycocaUtilsPrivate::reloadMimeDatabase();
+
     m_allEntries = nullptr;
     m_ctimeDict = nullptr;
     if (incremental && checkGlobalHeader()) {

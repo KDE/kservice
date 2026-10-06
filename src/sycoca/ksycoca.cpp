@@ -316,6 +316,7 @@ void KSycocaPrivate::slotDatabaseChanged()
         // We would have found out in the next call to ensureCacheValid(), but for
         // now keep the call to closeDatabase, to help refcounting to 0 the old mmapped file earlier.
         closeDatabase();
+        KSycocaUtilsPrivate::reloadMimeDatabase();
         // Start monitoring the new file right away
         m_databasePath = findDatabase();
 
@@ -799,6 +800,7 @@ void KSycoca::ensureCacheValid()
     // The next call to any public method will recreate
     // everything that's needed.
     d->closeDatabase();
+    KSycocaUtilsPrivate::reloadMimeDatabase();
 }
 
 #if KSERVICE_BUILD_DEPRECATED_SINCE(6, 29)
