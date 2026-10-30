@@ -148,11 +148,6 @@ private:
     KService::Ptr findApplication(const QString &relPath);
 
     /*!
-     * Lookup applications by category
-     */
-    QList<KService::List *> findCategory(const QString &category);
-
-    /*!
      * Add new application
      */
     void addApplication(const QString &id, KService::Ptr service);

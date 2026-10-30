@@ -66,11 +66,6 @@ public:
      */
     QStringList allMimeTypes();
 
-    /*!
-     * Returns the unique MIME type factory, creating it if necessary
-     */
-    static KMimeTypeFactory *self();
-
 public: // public for KBuildServiceFactory
     // A small entry for each MIME type with name and offset into the services-offer-list.
     class MimeTypeEntryPrivate;

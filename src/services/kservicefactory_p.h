@@ -98,11 +98,6 @@ public:
      */
     static QStringList resourceDirs();
 
-    /*!
-     * @return the unique service factory, creating it if necessary
-     */
-    static KServiceFactory *self();
-
 protected:
     KService *createEntry(int offset) const override;
 

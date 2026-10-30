@@ -51,11 +51,6 @@ public:
      */
     KServiceGroup::Ptr findBaseGroup(const QString &_baseGroupName, bool deep = true);
 
-    /*!
-     * @return the unique service group factory, creating it if necessary
-     */
-    static KServiceGroupFactory *self();
-
 protected:
     KServiceGroup *createGroup(int offset, bool deep) const;
     KServiceGroup *createEntry(int offset) const override;

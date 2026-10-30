@@ -99,11 +99,6 @@ private:
     KSERVICE_NO_EXPORT void save(QDataStream *str);
 
     /*!
-     * Clear the factories
-     */
-    KSERVICE_NO_EXPORT void clear();
-
-    /*!
      * \internal
      * Returns true if building (i.e. if a KBuildSycoca);
      */
