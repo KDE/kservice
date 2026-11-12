@@ -285,25 +285,6 @@ VFolderMenu::~VFolderMenu()
     qDeleteAll(m_appsInfoList);
     delete m_rootMenu;
 }
-// clang-format off
-#define FOR_ALL_APPLICATIONS(it) \
-    for (AppsInfo *info : std::as_const(m_appsInfoStack)) \
-    { \
-        QHashIterator<QString,KService::Ptr> it = info->applications; \
-        while (it.hasNext()) \
-        { \
-            it.next();
-#define FOR_ALL_APPLICATIONS_END } }
-
-#define FOR_CATEGORY(category, it) \
-    for (AppsInfo *info : std::as_const(m_appsInfoStack)) \
-    { \
-        const KService::List list = info->dictCategories.value(category); \
-        for(KService::List::ConstIterator it = list.constBegin(); \
-                it != list.constEnd(); ++it) \
-        {
-#define FOR_CATEGORY_END } }
-// clang-format on
 
 KService::Ptr VFolderMenu::findApplication(const QString &relPath)
 {
@@ -329,12 +310,12 @@ void VFolderMenu::buildApplicationIndex(bool unusedOnly)
 {
     for (AppsInfo *info : std::as_const(m_appsInfoList)) {
         info->dictCategories.clear();
-        QMutableHashIterator<QString, KService::Ptr> it = info->applications;
-        while (it.hasNext()) {
-            KService::Ptr s = it.next().value();
+        auto it = info->applications.begin();
+        while (it != info->applications.end()) {
+            KService::Ptr s = it.value();
             if (unusedOnly && m_usedAppsDict.contains(s->menuId())) {
                 // Remove and skip this one
-                it.remove();
+                it = info->applications.erase(it);
                 continue;
             }
 
@@ -342,6 +323,7 @@ void VFolderMenu::buildApplicationIndex(bool unusedOnly)
             for (const QString &cat : categories) {
                 info->dictCategories[cat].append(s); // find or insert entry in hash
             }
+            ++it;
         }
     }
 }
@@ -857,12 +839,11 @@ void VFolderMenu::processCondition(QDomElement &domElem, QHash<QString, KService
             n = n.nextSibling();
         }
     } else if (domElem.tagName() == QLatin1String("Not")) {
-        FOR_ALL_APPLICATIONS(it)
-        {
-            KService::Ptr s = it.value();
-            items.insert(s->menuId(), s);
+        for (AppsInfo *info : std::as_const(m_appsInfoStack)) {
+            for (const KService::Ptr &service : std::as_const(info->applications)) {
+                items.insert(service->menuId(), service);
+            }
         }
-        FOR_ALL_APPLICATIONS_END
 
         QHash<QString, KService::Ptr> notItems;
         QDomNode n = domElem.firstChild();
@@ -876,19 +857,17 @@ void VFolderMenu::processCondition(QDomElement &domElem, QHash<QString, KService
             n = n.nextSibling();
         }
     } else if (domElem.tagName() == QLatin1String("Category")) {
-        FOR_CATEGORY(domElem.text(), it)
-        {
-            KService::Ptr s = *it;
-            items.insert(s->menuId(), s);
+        for (AppsInfo *info : std::as_const(m_appsInfoStack)) {
+            for (const auto &service : info->dictCategories.value(domElem.text())) {
+                items.insert(service->menuId(), service);
+            }
         }
-        FOR_CATEGORY_END
     } else if (domElem.tagName() == QLatin1String("All")) {
-        FOR_ALL_APPLICATIONS(it)
-        {
-            KService::Ptr s = it.value();
-            items.insert(s->menuId(), s);
+        for (AppsInfo *info : std::as_const(m_appsInfoStack)) {
+            for (const KService::Ptr &service : std::as_const(info->applications)) {
+                items.insert(service->menuId(), service);
+            }
         }
-        FOR_ALL_APPLICATIONS_END
     } else if (domElem.tagName() == QLatin1String("Filename")) {
         const QString filename = domElem.text();
         // qCDebug(SYCOCA) << "Adding file" << filename;

@@ -607,14 +607,10 @@ private:
 
     void removeNonExisting(ExpectedResultsMap &erm)
     {
-        for (auto it = erm.begin(), endIt = erm.end(); it != endIt; ++it) {
-            QMutableStringListIterator serv_it(it.value());
-            while (serv_it.hasNext()) {
-                if (!KService::serviceByStorageId(serv_it.next())) {
-                    // qDebug() << "removing non-existing entry" << serv_it.value();
-                    serv_it.remove();
-                }
-            }
+        for (auto &services : erm) {
+            services.removeIf([](const QString &id) {
+                return !KService::serviceByStorageId(id);
+            });
         }
     }
     QString m_localApps;
