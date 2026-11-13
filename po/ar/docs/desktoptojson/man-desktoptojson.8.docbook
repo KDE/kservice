@@ -1,0 +1,233 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Arabic "INCLUDE"
+><!-- change language only here -->
+]>
+
+<refentry lang="&language;">
+
+<refentryinfo>
+<title
+>&kde-frameworks;: خدمة كيدي</title>
+<author
+><firstname
+>Scarlett</firstname
+> <surname
+>Clark</surname
+> <contrib
+>كتب التوثيق الأصلي.</contrib>
+<affiliation>
+<address
+><email
+>scarlett@scarlettgatelyclark.com</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alex</firstname
+> <surname
+>Merry</surname
+> <contrib
+>حرر التوثيق.</contrib>
+<affiliation>
+<address
+><email
+>alexmerry@kde.org</email
+></address>
+</affiliation>
+</author>
+
+<date
+>2014-04-02</date>
+<releaseinfo
+>أُطر العمل 5.0</releaseinfo>
+<productname
+>إطار كِيدِي</productname>
+
+</refentryinfo>
+
+
+<refmeta>
+<refentrytitle
+><command
+>desktoptojson</command
+></refentrytitle>
+<manvolnum
+>8</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>desktoptojson</command
+></refname>
+<refpurpose
+>يحول ملف <filename class="extension"
+>.desktop</filename
+> إلى ملف <filename class="extension"
+>.json</filename
+>.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<title
+>الموجز</title>
+
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <arg choice="plain"
+>--input <replaceable
+>DESKTOP-FILE</replaceable
+></arg
+> <arg choice="plain"
+>--output <replaceable
+>JSON-FILE</replaceable
+></arg
+> </cmdsynopsis>
+<cmdsynopsis
+><command
+>desktoptojson</command
+> <group choice="req"
+> <arg choice="plain"
+>--version</arg
+> <arg choice="plain"
+>--help</arg
+> </group
+> </cmdsynopsis>
+
+</refsynopsisdiv>
+
+
+
+
+<refsect1>
+<title
+>الوصف</title>
+
+<para
+>يستخدم إطار خدمة كيدي المعلومات الواردة في ملفات <filename class="extension"
+>.desktop</filename
+> لتحديد مواقع الخدمات، بما في ذلك الملحقات للتطبيقات والمكتبات المبنية على كيوت5. ومع ذلك، يستخدم نظام ملحقات كيوت5 بيانات &JSON; المضمنة في الملحق نفسه. يسمح <command
+>desktoptojson</command
+> باستخدام المعلومات الواردة في ملف <filename class="extension"
+>.desktop</filename
+> كبيانات مضمنة لملحق كيوت5 عن طريق تحويل مدخلات ملف <filename class="extension"
+>.desktop</filename
+> إلى بيانات &JSON;.</para>
+
+<para
+>بيانات &JSON; المولدة هي كائن &JSON; يربط المدخلات من مجموعة <literal
+>[Desktop Entry]</literal
+> لملف <filename class="extension"
+>.desktop</filename
+>. تُتجاهل أي مجموعات أخرى. تُحول معظم المدخلات إلى سلاسل &JSON;، لكن بعض المدخلات (مثل <literal
+>Hidden</literal
+> و<literal
+>X-KDE-PluginInfo-EnabledByDefault</literal
+>) معروفة بأنها قيم منطقية وتُحول كذلك، وبالمثل بعضها (مثل <literal
+>X-KDE-ServiceTypes</literal
+> و<literal
+>X-KDE-PluginInfo-Depends</literal
+>) تُحول دائمًا إلى مصفوفات من السلاسل.</para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>خيارات</title>
+<variablelist>
+
+<varlistentry>
+  <term
+><option
+>--input <replaceable
+>ملف-سطح-المكتب</replaceable
+></option
+></term>
+<listitem>
+<para
+>ملف <filename class="extension"
+>.desktop</filename
+> المراد تحويله.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--output <replaceable
+>ملف-JSON</replaceable
+></option
+></term>
+<listitem>
+<para
+>الملف الذي ستُكتب إليه بيانات &JSON; المولدة.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help</option
+></term>
+<listitem>
+<para
+>أظهر نص مساعدة مختصر.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--version</option
+></term>
+<listitem>
+<para
+>أظهر معلومات الإصدار.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>الاستخدام</title>
+<para
+>سيستخدم معظم مستخدمي هذه الأداة الماكرو <function
+>kservice_desktop_to_json</function
+> الخاص بـ cmake كجزء من عملية بناء الملحق. <programlisting language="cmake">
+<![CDATA[
+add_library(myplugin MODULE ${myplugin_SRCS})
+kservice_desktop_to_json(myplugin myplugin.desktop)
+]]>
+</programlisting
+> سينتج عن ذلك ملف JSON <filename
+>myplugin.json</filename
+>، والذي يمكن الرجوع إليه من الماكرو <function
+>K_PLUGIN_FACTORY_WITH_JSON</function
+> أو <function
+>Q_PLUGIN_METADATA</function
+>. </para>
+</refsect1>
+
+
+
+<refsect1>
+<title
+>العلل</title>
+<para
+>يرجى استخدام <ulink url="https://bugs.kde.org"
+>متتبع علل كيدي</ulink
+> للإبلاغ عن العلل.</para>
+</refsect1>
+
+</refentry>
+
+
+
